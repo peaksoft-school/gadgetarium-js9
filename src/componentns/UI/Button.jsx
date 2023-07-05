@@ -1,7 +1,7 @@
 import React from "react";
 
-const Button = ({ children }) => {
-  return <div>{children}</div>;
+const Button = ({ children, width }) => {
+  return <div style={{ width }}>{children}</div>;
 };
 
 export default Button;
