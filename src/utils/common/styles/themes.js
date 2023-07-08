@@ -30,5 +30,6 @@ export const themes = createTheme({
    },
    typography: {
       fontFamily: 'Ubuntu sans-serif',
+      mainFontFamily: 'Inter sans-serif',
    },
 })
