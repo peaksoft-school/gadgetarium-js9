@@ -28,4 +28,7 @@ export const themes = createTheme({
          light: '#3CDE14',
       },
    },
+   typography: {
+      fontFamily: 'Ubuntu, sans-serif',
+   },
 })
