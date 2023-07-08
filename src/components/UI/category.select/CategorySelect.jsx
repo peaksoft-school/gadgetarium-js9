@@ -39,7 +39,6 @@ const CategorySelect = ({
       <>
          <StyledSelectButton onClick={handleClick} isMenuOpen={isMenuOpen}>
             <Component />
-
             <Container>
                {children}
                <Arrow />
