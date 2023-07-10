@@ -31,8 +31,8 @@ const Title = styled('p')(() => ({
    lineHeight: '140%',
    color: '#FFFFFF',
    marginLeft: '1.125rem',
-   marginTop: '1.25',
-   marginBottom: '1.25',
+   marginTop: '1.25rem',
+   marginBottom: '1.25rem',
 }))
 
 const StyledLink = styled('a')(() => ({
