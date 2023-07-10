@@ -23,9 +23,9 @@ const StyledButton = styled(ButtonMui)(({ variant, props }) => {
                display: 'flex',
                justifyContent: 'center',
                alignItems: 'center',
-               gap: '6px',
+               gap: '0.375rem',
                border: '1px solid #CB11AB',
-               borderRadius: '4px',
+               borderRadius: '0.25rem',
                lineHeight: 'normal',
 
                '&:hover': {
