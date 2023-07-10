@@ -21,24 +21,24 @@ const Box = styled('div')`
    display: flex;
    justify-content: space-between;
    align-items: center;
-   gap: 30px;
+   gap: 1.875rem;
 `
 
 const Title = styled('p')(() => ({
    width: 'auto',
    fontWeight: 400,
-   fontSize: '18px',
-   lineHeight: ' 140%',
+   fontSize: '1.125rem',
+   lineHeight: '140%',
    color: '#FFFFFF',
-   marginLeft: '18px',
-   marginTop: '20px',
-   marginBottom: '20px',
+   marginLeft: '1.125rem',
+   marginTop: '1.25',
+   marginBottom: '1.25',
 }))
 
 const StyledLink = styled('a')(() => ({
    textDecoration: 'none',
    fontWeight: 700,
-   fontSize: '18px',
+   fontSize: '1.125rem',
    lineHeight: '130%',
    color: '#3CDE14;',
    cursor: 'pointer',
