@@ -14,7 +14,7 @@ function CheckboxInput() {
          checked={isChecked}
          onChange={handleCheckboxChange}
          color="primary"
-      /> 
+      />
    )
 }
 
