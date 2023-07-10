@@ -1,18 +1,16 @@
 import React from 'react'
-import { Modal as ModalMui } from '@mui/material'
+import { Modal as ModalMui, styled } from '@mui/material'
 
 export const Modal = ({ children, open, onClose }) => {
    return (
-      <ModalMui sx={{ padding: '40px 32px' }} open={open} onClose={onClose}>
+      <ModalStyled open={open} onClose={onClose}>
          {children}
-      </ModalMui>
+      </ModalStyled>
    )
 }
 
-// const ModalStyled = styled(ModalMui)(() => {
-//    return {
-//       '&': {
-//          padding: '40px 32px',
-//       },
-//    }
-// })
+const ModalStyled = styled(ModalMui)(() => ({
+   '&': {
+      padding: '40px 32px',
+   },
+}))
