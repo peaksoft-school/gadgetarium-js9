@@ -1,16 +1,15 @@
-import React, { useState } from 'react'
+import React, { forwardRef, useState } from 'react'
 import TextField from '@mui/material/TextField'
 import {
    FormControl,
    IconButton,
    InputAdornment,
-   makeStyles,
    OutlinedInput,
    styled,
 } from '@mui/material'
 
-// import VisibilityIcon from '@mui/icons-material/Visibility'
-// import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
+import { ReactComponent as DontWatch } from '../../assets/icons/iconsInput/eye-slash-fill.svg'
+import { ReactComponent } from '../../assets/icons/iconsInput/Eye-Icon-wsj93.svg'
 
 const InputUi = ({ error, color, type, register, id, placeholder }) => {
    const [showPassword, setShowPassword] = useState(false)
@@ -21,19 +20,6 @@ const InputUi = ({ error, color, type, register, id, placeholder }) => {
       event.preventDefault()
    }
 
-   const useStyles = makeStyles((theme) => ({
-      root: {
-         '& > *': {
-            margin: theme.spacing(1),
-            width: '25ch',
-         },
-      },
-      textField: {
-         border: '1px solid blue',
-      },
-   }))
-
-   const clasesss = useStyles()
    return (
       <div>
          {type === 'password' ? (
@@ -53,19 +39,14 @@ const InputUi = ({ error, color, type, register, id, placeholder }) => {
                            onMouseDown={handleMouseDownPassword}
                            edge="end"
                         >
-                           {/* {showPassword ? (
-                              <VisibilityIcon />
-                           ) : (
-                              <VisibilityOffIcon />
-                           )} */}
+                           {showPassword ? <Watch /> : <DontWatch />}
                         </IconButton>
                      </InputAdornment>
                   }
                />
             </FormControl>
          ) : (
-            <TextField
-               className={clasesss.textField}
+            <Input
                id="outlined-basic"
                variant="outlined"
                error={error}
@@ -78,13 +59,14 @@ const InputUi = ({ error, color, type, register, id, placeholder }) => {
    )
 }
 
-export default InputUi
-
-// const Input = styled(TextField)(() => ({
-//    width: '459px',
-//    borderColor: 'red',
-// }))
+export default forwardRef(InputUi)
 
 const InputOutlained = styled(OutlinedInput)`
    width: 459px;
+`
+const Input = styled(TextField)`
+   width: 459px;
+`
+const Watch = styled(ReactComponent)`
+   width: 25px;
 `
