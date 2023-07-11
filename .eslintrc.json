@@ -25,6 +25,7 @@
       "import/no-extraneous-dependencies": "import/no-extraneous-dependencies",
       "react-hooks/exhaustive-deps": "off",
       "react/function-component-definition": "off",
+      "jsx-a11y/click-events-have-key-events": "off",
       "max-len": [
          "error",
          {
