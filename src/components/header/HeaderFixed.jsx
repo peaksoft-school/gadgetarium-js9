@@ -10,9 +10,10 @@ import { ReactComponent as Basket } from '../../assets/icons/headerIcons/basket.
 import { ReactComponent as ShopingCart } from '../../assets/icons/headerIcons/shopping-cart.svg'
 
 export const HeaderFixed = () => {
-   const [count1] = useState(0)
+   const [count1] = useState(1)
    const [count2] = useState(0)
-   const [count3] = useState(0)
+   const [count3] = useState(2)
+
    return (
       <Header>
          <Title>
@@ -34,40 +35,40 @@ export const HeaderFixed = () => {
             </Search>
          </form>
          <IconsForm>
-            <IconsShopingCart />
-            {count1 === 0 ? (
-               <OrderCount>{0}</OrderCount>
-            ) : (
-               <OrderCountClick1>{1}</OrderCountClick1>
-            )}
-            <IconsHeart />
-            {count2 === 0 ? (
-               <OrderCount2>{0}</OrderCount2>
-            ) : (
-               <OrderCountClick2>{11}</OrderCountClick2>
-            )}
-            <IconsBasket />
-            {count3 === 0 ? (
-               <OrderCount3> {0}</OrderCount3>
-            ) : (
-               <OrderCountClick3>{1}</OrderCountClick3>
-            )}
+            <div>
+               <OrderCount1 className={count1 === 0 ? 'gray' : 'red'}>
+                  {count1}
+               </OrderCount1>
+               <IconsShopingCart />
+            </div>
+            <div>
+               <OrderCount2 className={count2 === 0 ? 'gray2' : 'red2'}>
+                  {count2}
+               </OrderCount2>
+               <IconsHeart />
+            </div>
+            <div>
+               <OrderCount3 className={count3 === 0 ? 'gray3' : 'red3'}>
+                  {count3}
+               </OrderCount3>
+               <IconsBasket />
+            </div>
          </IconsForm>
       </Header>
    )
 }
+
 const Header = styled('header')`
-   width: 182vh;
+   width: 100%;
    height: 12vh;
    background-color: #1a1a25;
-   border: 1px solid #fff;
    position: fixed;
    display: flex;
    justify-content: space-around;
    padding-left: 1.875rem;
    padding-right: 3.125rem;
-   margin-left: -0.625rem;
 `
+
 const Title = styled('div')`
    display: flex;
    margin-top: 1.5625rem;
@@ -120,74 +121,66 @@ const Search = styled('div')`
    margin-left: 46.25rem;
    cursor: pointer;
 `
-
-const OrderCount = styled('span')`
+const OrderCount1 = styled('span')`
    position: absolute;
-   top: 1.375rem;
-   right: 9.375rem;
-   padding: 0.25rem 0.375rem;
+   top: 22px;
+   right: 152px;
    border-radius: 1.875rem;
-   background-color: #858fa4;
    color: #fff;
    font-size: 0.625rem;
 `
+
 const OrderCount2 = styled('span')`
    position: absolute;
-   top: 1.375rem;
-   right: 6.5625rem;
-   padding: 0.25rem 0.375rem;
+   top: 22px;
+   right: 105px;
    border-radius: 1.875rem;
-   background-color: #858fa4;
    color: #fff;
    font-size: 0.625rem;
 `
 
 const OrderCount3 = styled('span')`
    position: absolute;
-   top: 1.375rem;
-   right: 3.4375rem;
-   padding: 0.25rem 0.375rem;
+   top: 22px;
+   right: 53px;
    border-radius: 1.875rem;
-   background-color: #858fa4;
-   color: #fff;
-   font-size: 0.625rem;
-`
-
-const OrderCountClick1 = styled('span')`
-   position: absolute;
-   top: 1.375rem;
-   right: 9.375rem;
-   padding: 0.25rem 0.375rem;
-   border-radius: 1.875rem;
-   background-color: red;
-   color: #fff;
-   font-size: 0.625rem;
-`
-const OrderCountClick2 = styled('span')`
-   position: absolute;
-   top: 1.375rem;
-   right: 6.26rem;
-   padding: 0.25rem 0.375rem;
-   border-radius: 1.875rem;
-   background-color: red;
-   color: #fff;
-   font-size: 0.625rem;
-`
-const OrderCountClick3 = styled('span')`
-   position: absolute;
-   top: 1.375rem;
-   right: 3.4375rem;
-   padding: 0.25rem 0.375rem;
-   border-radius: 1.875rem;
-   background-color: red;
    color: #fff;
    font-size: 0.625rem;
 `
 const IconsForm = styled('div')`
    display: flex;
    width: 7.5rem;
+
    justify-content: space-between;
    margin-top: 2rem;
+
+   .gray {
+      padding: 4px 6px 4px 6px;
+      background-color: #858fa4;
+   }
+
+   .red {
+      padding: 4px 6px 4px 6px;
+      background-color: #ff0000;
+   }
+   .gray2 {
+      padding: 4px 6px 4px 6px;
+      background-color: #858fa4;
+   }
+
+   .red2 {
+      padding: 4px 6px 4px 6px;
+      background-color: #ff0000;
+   }
+   .gray3 {
+      padding: 4px 6px 4px 6px;
+      background-color: #858fa4;
+   }
+
+   .red3 {
+      padding: 4px 6px 4px 6px;
+      background-color: #ff0000;
+   }
 `
 const IconsHeart = styled(Heart)`
    margin-top: -0.3125rem;

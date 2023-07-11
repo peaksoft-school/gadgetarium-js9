@@ -34,7 +34,9 @@ export const Header = () => {
    return (
       <div>
          {fixed ? (
-            <HeaderFixed />
+            <Box>
+               <HeaderFixed />
+            </Box>
          ) : (
             <Headers>
                <Caption>
@@ -76,26 +78,32 @@ export const Header = () => {
                         <StyledInstagramIcon />
                         <StyledWhatsAppIcon />
                      </Massage>
-                     <Icons>
-                        <IconsShopingCart />
-                        {count1 === 0 ? (
-                           <OrderCount>{0}</OrderCount>
-                        ) : (
-                           <OrderCountClick1>{8}</OrderCountClick1>
-                        )}
-                        <IconsHeart />
-                        {count2 === 0 ? (
-                           <OrderCount2>{0}</OrderCount2>
-                        ) : (
-                           <OrderCountClick2>{1}</OrderCountClick2>
-                        )}
-                        <IconsBasket />
-                        {count3 === 0 ? (
-                           <OrderCount3> {0}</OrderCount3>
-                        ) : (
-                           <OrderCountClick3>{2}</OrderCountClick3>
-                        )}
-                     </Icons>
+                     <IconsForm>
+                        <div>
+                           <OrderCount1
+                              className={count1 === 0 ? 'gray' : 'red'}
+                           >
+                              {count1}
+                           </OrderCount1>
+                           <IconsShopingCart />
+                        </div>
+                        <div>
+                           <OrderCount2
+                              className={count2 === 0 ? 'gray2' : 'red2'}
+                           >
+                              {count2}
+                           </OrderCount2>
+                           <IconsHeart />
+                        </div>
+                        <div>
+                           <OrderCount3
+                              className={count3 === 0 ? 'gray3' : 'red3'}
+                           >
+                              {count3}
+                           </OrderCount3>
+                           <IconsBasket />
+                        </div>
+                     </IconsForm>
                   </ButtonContainer>
                </Line>
             </Headers>
@@ -122,6 +130,14 @@ const GIcons = styled(ReactComponent)`
    margin-top: 1.4375rem;
    margin-left: -1.75rem;
 `
+
+const Box = styled('div')`
+   margin: 0;
+   padding: 0;
+   width: 100%;
+   box-sizing: border-box;
+`
+
 const Title = styled('div')`
    display: flex;
    a {
@@ -198,14 +214,6 @@ const Massage = styled('div')`
    margin-top: 0.3rem;
    margin-left: 2rem;
 `
-const Icons = styled('div')`
-   display: flex;
-   width: 9.325rem;
-   justify-content: space-between;
-   padding-left: 2rem;
-   margin-top: 0.3rem;
-`
-
 const Btn = styled(Button)`
    width: 8.5rem;
    height: 3.0625rem;
@@ -235,68 +243,6 @@ const User = styled(UserIcons)`
    margin-left: 3.125rem;
    cursor: pointer;
 `
-const OrderCount = styled('span')`
-   position: absolute;
-   top: 6.1rem;
-   right: 9.625rem;
-   padding: 0.25rem 0.375rem;
-   border-radius: 1.875rem;
-   background-color: #858fa4;
-   color: #fff;
-   font-size: 0.625rem;
-`
-const OrderCount2 = styled('span')`
-   position: absolute;
-   top: 6.1rem;
-   right: 6.8rem;
-   padding: 0.25rem 0.375rem;
-   border-radius: 1.875rem;
-   background-color: #858fa4;
-   color: #fff;
-   font-size: 0.625rem;
-`
-const OrderCount3 = styled('span')`
-   position: absolute;
-   top: 6.1rem;
-   right: 3.8rem;
-   padding: 0.25rem 0.375rem;
-   border-radius: 1.875rem;
-   background-color: #858fa4;
-   color: #fff;
-   font-size: 0.625rem;
-`
-
-const OrderCountClick1 = styled('span')`
-   position: absolute;
-   top: 6.1rem;
-   right: 9.6rem;
-   padding: 0.25rem 0.375rem;
-   border-radius: 1.875rem;
-   background-color: red;
-   color: #fff;
-   font-size: 0.625rem;
-`
-const OrderCountClick2 = styled('span')`
-   position: absolute;
-   top: 6.1rem;
-   right: 6.75rem;
-   padding: 0.25rem 0.375rem;
-   border-radius: 1.875rem;
-   background-color: red;
-   color: #fff;
-   font-size: 0.625rem;
-`
-const OrderCountClick3 = styled('span')`
-   position: absolute;
-   top: 6.1rem;
-   right: 3.8rem;
-   padding: 0.25rem 0.375rem;
-   border-radius: 1.875rem;
-   background-color: red;
-   color: #fff;
-   font-size: 0.625rem;
-`
-
 const Border = styled('div')`
    border-right: 1px solid #858fa4;
    height: 4.5vh;
@@ -324,5 +270,66 @@ const StyledWhatsAppIcon = styled(WhatsApp)`
       &:hover {
          fill: #cb11ab;
       }
+   }
+`
+const OrderCount1 = styled('span')`
+   position: absolute;
+   top: 6.2rem;
+   right: 152px;
+   border-radius: 1.875rem;
+   color: #fff;
+   font-size: 0.625rem;
+`
+
+const OrderCount2 = styled('span')`
+   position: absolute;
+   top: 6.2rem;
+   right: 108px;
+   border-radius: 1.875rem;
+   color: #fff;
+   font-size: 0.625rem;
+`
+
+const OrderCount3 = styled('span')`
+   position: absolute;
+   top: 6.2rem;
+   right: 58px;
+   border-radius: 1.875rem;
+   color: #fff;
+   font-size: 0.625rem;
+`
+const IconsForm = styled('div')`
+   display: flex;
+   width: 9.325rem;
+   justify-content: space-between;
+   padding-left: 2rem;
+   margin-top: 0.3rem;
+
+   .gray {
+      padding: 4px 6px 4px 6px;
+      background-color: #858fa4;
+   }
+
+   .red {
+      padding: 4px 6px 4px 6px;
+      background-color: #ff0000;
+   }
+   .gray2 {
+      padding: 4px 6px 4px 6px;
+      background-color: #858fa4;
+   }
+
+   .red2 {
+      padding: 4px 6px 4px 6px;
+      background-color: #ff0000;
+   }
+   .gray3 {
+      padding: 4px 6px 4px 6px;
+      background-color: #858fa4;
+   }
+
+   .red3 {
+      padding: 4px 6px 4px 6px;
+      background-color: #ff0000;
    }
 `
