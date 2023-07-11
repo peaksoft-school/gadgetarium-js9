@@ -23,6 +23,7 @@
       "react/react-in-jsx-scope": "off",
       "import/prefer-default-export": "off",
       "no-shadow": "off",
+      "import/no-extraneous-dependencies": "import/no-extraneous-dependencies",
       "react-hooks/exhaustive-deps": "off",
       "react/function-component-definition": "off",
       "max-len": [
