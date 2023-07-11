@@ -11,14 +11,14 @@ import { ReactComponent as ShopingCart } from '../../assets/icons/headerIcons/sh
 
 export const HeaderFixed = () => {
    const [count1] = useState(0)
-   const [count2] = useState(11)
-   const [count3] = useState(2)
+   const [count2] = useState(0)
+   const [count3] = useState(0)
    return (
       <Header>
          <Title>
             <Icons />
             <Letter />
-            <h1>adgetarium</h1>
+            <a href="./">adgetarium</a>
          </Title>
          <Stack spacing={2} width={136} direction="row">
             <Btn variant="contained">
@@ -34,7 +34,7 @@ export const HeaderFixed = () => {
             </Search>
          </form>
          <IconsForm>
-            <ShopingCart />
+            <IconsShopingCart />
             {count1 === 0 ? (
                <OrderCount>{0}</OrderCount>
             ) : (
@@ -50,152 +50,158 @@ export const HeaderFixed = () => {
             {count3 === 0 ? (
                <OrderCount3> {0}</OrderCount3>
             ) : (
-               <OrderCountClick3>{2}</OrderCountClick3>
+               <OrderCountClick3>{1}</OrderCountClick3>
             )}
          </IconsForm>
       </Header>
    )
 }
 const Header = styled('header')`
-   width: 100%;
-   height: 96px;
+   width: 182vh;
+   height: 12vh;
    background-color: #1a1a25;
    border: 1px solid #fff;
    position: fixed;
    display: flex;
    justify-content: space-around;
-   padding-left: 30px;
-   padding-right: 30px;
+   padding-left: 1.875rem;
+   padding-right: 3.125rem;
+   margin-left: -0.625rem;
 `
 const Title = styled('div')`
    display: flex;
-   margin-top: 25px;
-   margin-left: -200px;
-   h1 {
-      margin-left: 10px;
+   margin-top: 1.5625rem;
+   margin-left: -12.5rem;
+   a {
+      margin-left: 0.625rem;
       color: #fff;
-      font-size: 28px;
+      font-size: 1.75rem;
+      text-decoration: none;
    }
 `
 const Icons = styled(ReactComponentIcons)`
-   margin-left: 195px;
+   margin-left: 12.1875rem;
 `
 const Letter = styled(ReactComponent)`
-   margin-top: 5px;
-   margin-left: -30px;
+   margin-top: 0.3125rem;
+   margin-left: -1.875rem;
 `
 const Btn = styled(Button)`
    position: absolute;
-   width: 136px;
-   height: 49px;
-   margin-top: 23px;
-   margin-left: -10px;
+   width: 8.5rem;
+   height: 3.0625rem;
+   margin-top: 1.4375rem;
    background-color: #cb11ab;
    &:hover {
       background-color: #cb11ab;
    }
    p {
-      font-size: 16px;
-      margin-left: 10px;
+      font-size: 1rem;
+      margin-left: 0.625rem;
+      color: #fff;
    }
 `
 const Input = styled('input')`
-   width: 784px;
-   height: 40px;
-   border-radius: 10px;
+   width: 49rem;
+   height: 2.5rem;
+   border-radius: 0.625rem;
    border: 1px solid #fff;
-   padding: 8px, 18px, 8px, 18px;
+   padding: 0.5rem, 1.125rem, 0.5rem, 1.125rem;
    background-color: #1a1a25;
    color: #fff;
-   margin-top: 27px;
+   margin-top: 1.6875rem;
+   padding-left: 1.125rem;
    ::-webkit-input-placeholder {
       color: #fff;
    }
 `
 const Search = styled('div')`
-   margin-top: -30px;
-   margin-left: 740px;
+   margin-top: -1.875rem;
+   margin-left: 46.25rem;
    cursor: pointer;
 `
 
 const OrderCount = styled('span')`
    position: absolute;
-   top: 22px;
-   right: 135px;
-   padding: 4px 6px;
-   border-radius: 30px;
+   top: 1.375rem;
+   right: 9.375rem;
+   padding: 0.25rem 0.375rem;
+   border-radius: 1.875rem;
    background-color: #858fa4;
    color: #fff;
-   font-size: 10px;
+   font-size: 0.625rem;
 `
 const OrderCount2 = styled('span')`
    position: absolute;
-   top: 22px;
-   right: 90px;
-   padding: 4px 6px;
-   border-radius: 30px;
+   top: 1.375rem;
+   right: 6.5625rem;
+   padding: 0.25rem 0.375rem;
+   border-radius: 1.875rem;
    background-color: #858fa4;
    color: #fff;
-   font-size: 10px;
+   font-size: 0.625rem;
 `
 
 const OrderCount3 = styled('span')`
    position: absolute;
-   top: 98px;
-   right: 70px;
-   padding: 4px 6px;
-   background: #8a2b06;
-   border-radius: 30px;
+   top: 1.375rem;
+   right: 3.4375rem;
+   padding: 0.25rem 0.375rem;
+   border-radius: 1.875rem;
    background-color: #858fa4;
    color: #fff;
-   font-size: 10px;
+   font-size: 0.625rem;
 `
 
 const OrderCountClick1 = styled('span')`
    position: absolute;
-   top: 98px;
-   right: 165px;
-   padding: 4px 6px;
-   border-radius: 30px;
+   top: 1.375rem;
+   right: 9.375rem;
+   padding: 0.25rem 0.375rem;
+   border-radius: 1.875rem;
    background-color: red;
    color: #fff;
-   font-size: 10px;
+   font-size: 0.625rem;
 `
 const OrderCountClick2 = styled('span')`
    position: absolute;
-   top: 22px;
-   right: 85px;
-   padding: 4px 6px;
-   border-radius: 30px;
+   top: 1.375rem;
+   right: 6.26rem;
+   padding: 0.25rem 0.375rem;
+   border-radius: 1.875rem;
    background-color: red;
    color: #fff;
-   font-size: 10px;
+   font-size: 0.625rem;
 `
 const OrderCountClick3 = styled('span')`
    position: absolute;
-   top: 22px;
-   right: 40px;
-   padding: 4px 6px;
-   border-radius: 30px;
+   top: 1.375rem;
+   right: 3.4375rem;
+   padding: 0.25rem 0.375rem;
+   border-radius: 1.875rem;
    background-color: red;
    color: #fff;
-   font-size: 10px;
+   font-size: 0.625rem;
 `
 const IconsForm = styled('div')`
    display: flex;
-   width: 120px;
+   width: 7.5rem;
    justify-content: space-between;
-   margin-top: 32px;
-   cursor: pointer;
+   margin-top: 2rem;
 `
 const IconsHeart = styled(Heart)`
-   margin-top: -5px;
+   margin-top: -0.3125rem;
+   cursor: pointer;
 `
 const IconsBasket = styled(Basket)`
-   margin-top: 3px;
+   margin-top: 0.1875rem;
+   cursor: pointer;
+`
+const IconsShopingCart = styled(ShopingCart)`
+   cursor: pointer;
 `
 const Border = styled('div')`
-   margin-top: 28px;
+   margin-top: 1.75rem;
    border-right: 1px solid #858fa4;
-   height: 40px;
+   height: 4.5vh;
 `

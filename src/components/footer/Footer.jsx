@@ -11,27 +11,27 @@ export const Footer = () => {
             <Filter>
                <span>Каталог</span>
                <Gadget>
-                  <p>Смартфоны</p>
-                  <p>Ноутбуки и планшеты</p>
-                  <p>Смарт-часы и браслеты</p>
-                  <p>Аксессуары </p>
+                  <a href="./cмартфоны">Смартфоны</a>
+                  <a href="./ноутбуки и планшеты">Ноутбуки и планшеты</a>
+                  <a href="./смарт-часы и браслеты">Смарт-часы и браслеты</a>
+                  <a href="./аксессуары">Аксессуары</a>
                </Gadget>
             </Filter>
             <Сategories>
                <span>Будь с нами</span>
                <Stock>
-                  <p>Акции</p>
-                  <p>Новинки</p>
-                  <p>Популярные категории </p>
+                  <a href="/акции">Акции</a>
+                  <a href="./новинки">Новинки</a>
+                  <a href="./популярные категории">Популярные категории </a>
                </Stock>
             </Сategories>
             <Service>
                <span>Помощь и сервисы</span>
                <Contact>
-                  <p>О магазине</p>
-                  <p>Доставка</p>
-                  <p>FAQ</p>
-                  <p>Контакты</p>
+                  <a href="./Омагазине">О магазине</a>
+                  <a href="./доставка">Доставка</a>
+                  <a href="./fag">FAG</a>
+                  <a href="./контакты">Контакты</a>
                </Contact>
             </Service>
             <PersonalInformation>
@@ -70,9 +70,9 @@ export const Footer = () => {
 }
 
 const Container = styled('div')`
-   margin-top: 2710px;
+   margin-top: 44.375rem;
    width: 100%;
-   height: 600px;
+   height: 37.5rem;
    background-color: #1a1a25;
 `
 
@@ -83,50 +83,54 @@ const Block1 = styled('div')`
 
 const Block2 = styled('div')`
    border-top: 1px solid#858FA4;
-   width: 1300px;
-   margin-top: 60px;
-   margin-left: 80px;
+   width: 81.25rem;
+   margin-top: 3.75rem;
+   margin-left: 5rem;
    text-align: center;
    p {
       color: #858fa4;
-      margin-top: 30px;
+      margin-top: 1.875rem;
    }
    span {
       color: #858fa4;
-      margin-left: 10px;
+      margin-left: 0.625rem;
    }
 `
 
 const Input = styled('input')`
-   width: 408px;
-   height: 39px;
-   border-radius: 4px;
-   margin-top: 12px;
+   width: 25.5rem;
+   height: 2.4375rem;
+   border-radius: 0.25rem;
+   margin-top: 0.75rem;
    border: none;
+   padding-left: 1rem;
 `
 const ButtonFooter = styled(Button)`
    margin-top: -1px;
-   margin-left: -162px;
+   margin-left: -10.125rem;
    background-color: #cb11ab;
-   width: 162px;
-   height: 39px;
-   font-size: 12px;
+   width: 10.125rem;
+   height: 2.4375rem;
+   font-size: 0.75rem;
    &:hover {
       background-color: #cb11ab;
    }
 `
 const Filter = styled('div')`
-   margin-top: 60px;
+   margin-top: 3.75rem;
    span {
       color: #fff;
       cursor: pointer;
    }
 `
 const Gadget = styled('div')`
-   margin-top: 30px;
-   p {
+   margin-top: 1.875rem;
+   display: flex;
+   flex-direction: column;
+   a {
+      text-decoration: none;
       color: #858fa4;
-      margin-top: 12px;
+      margin-top: 0.75rem;
       cursor: pointer;
       &:hover {
          color: #fff;
@@ -134,15 +138,15 @@ const Gadget = styled('div')`
    }
 `
 const Description = styled('p')`
-   margin-top: 12px;
-   width: 367px;
+   margin-top: 0.75rem;
+   width: 22.9375rem;
    color: #fff;
 `
 const Info = styled('div')`
-   margin-top: 30px;
+   margin-top: 1.875rem;
    p {
       color: #858fa4;
-      margin-top: 12px;
+      margin-top: 0.75rem;
       cursor: pointer;
       &:hover {
          color: #fff;
@@ -150,17 +154,20 @@ const Info = styled('div')`
    }
 `
 const Сategories = styled('div')`
-   margin-top: 60px;
+   margin-top: 3.75rem;
    span {
       color: #fff;
       cursor: pointer;
    }
 `
 const Stock = styled('div')`
-   margin-top: 30px;
-   p {
+   display: flex;
+   flex-direction: column;
+   margin-top: 1.875rem;
+   a {
+      text-decoration: none;
       color: #858fa4;
-      margin-top: 12px;
+      margin-top: 0.75rem;
       cursor: pointer;
       &:hover {
          color: #fff;
@@ -168,25 +175,28 @@ const Stock = styled('div')`
    }
 `
 const Service = styled('div')`
-   margin-top: 60px;
+   margin-top: 3.75rem;
    span {
       color: #fff;
       cursor: pointer;
    }
 `
 const Contact = styled('div')`
-   margin-top: 30px;
-   p {
+   margin-top: 1.875rem;
+   display: flex;
+   flex-direction: column;
+   a {
       color: #858fa4;
-      margin-top: 12px;
+      margin-top: 0.75rem;
       cursor: pointer;
+      text-decoration: none;
       &:hover {
          color: #fff;
       }
    }
 `
 const PersonalInformation = styled('div')`
-   margin-top: 60px;
+   margin-top: 3.75rem;
    span {
       color: #fff;
    }
@@ -194,13 +204,13 @@ const PersonalInformation = styled('div')`
 const Gadgetarium = styled('div')`
    display: flex;
    justify-content: center;
-   margin-top: 40px;
+   margin-top: 2.5rem;
    h1 {
-      margin-left: 10px;
+      margin-left: 0.625rem;
       color: #fff;
    }
 `
 const Letter = styled(ReactComponent)`
-   margin-top: 5px;
-   margin-left: -30px;
+   margin-top: 0.3125rem;
+   margin-left: -1.875rem;
 `
