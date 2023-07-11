@@ -1,15 +1,11 @@
-import { Footer } from './components/footer/Footer'
-import { Header } from './components/header/Header'
-// import { HeaderFixed } from './components/header/HeaderFixed'
+import { ThemeProvider } from '@mui/material'
+import { themes } from './utils/common/styles/themes'
 
 function App() {
    return (
-      <div>
-         {/* <HeaderFixed /> */}
-         <Header />
+      <ThemeProvider theme={themes}>
          <h1>Hello World</h1>
-         <Footer />
-      </div>
+      </ThemeProvider>
    )
 }
 
