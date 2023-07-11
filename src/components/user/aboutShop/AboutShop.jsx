@@ -58,7 +58,7 @@ const BoxInfo = styled('div')(() => ({
    paddingLeft: '12.1875rem',
 }))
 
-const Main = styled('div')(({ theme }) => ({
+const Main = styled('main')(({ theme }) => ({
    fontFamily: theme.typography.mainFontFamily,
 
    section: {
