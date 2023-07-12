@@ -2,17 +2,11 @@ import React, { useState } from 'react'
 import Checkbox from '@mui/material/Checkbox'
 import { styled } from '@mui/material'
 
-function CheckboxInput() {
-   const [isChecked, setIsChecked] = useState(false)
-   CheckboxInput
-   const handleCheckboxChange = () => {
-      setIsChecked(!isChecked)
-   }
-
+function CheckboxInput({isChecked, onChange}) {
    return (
       <StyledCheckbox
          checked={isChecked}
-         onChange={handleCheckboxChange}
+         onChange={onChange}
          color="primary"
       />
    )
