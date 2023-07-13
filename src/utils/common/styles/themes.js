@@ -13,7 +13,7 @@ export const themes = createTheme({
          light: '#909CB5',
          lightGray: '#91969E',
          tabsBg: '#E0E2E7',
-         contrastText: '91969E',
+         contrastText: '#91969E',
       },
       error: {
          main: '#ff0000',
@@ -29,7 +29,7 @@ export const themes = createTheme({
       },
    },
    typography: {
-      fontFamily: 'Ubuntu sans-serif',
-      mainFontFamily: 'Inter sans-serif',
+      fontFamily: 'Ubuntu',
+      mainFontFamily: 'Inter',
    },
 })
