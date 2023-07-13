@@ -24,6 +24,8 @@
       "no-shadow": "off",
       "react-hooks/exhaustive-deps": "off",
       "react/function-component-definition": "off",
+      "import/no-extraneous-dependencies": "import/no-extraneous-dependencies",
+      "jsx-a11y/click-events-have-key-events": "off",
       "max-len": [
          "error",
          {
