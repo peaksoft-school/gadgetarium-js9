@@ -8,7 +8,7 @@ function App() {
       <ThemeProvider theme={themes}>
          <h1>Hello World</h1>
          <CustomToast />
-         <Reviews />
+         <Reviews adminReviewState="hi" />
       </ThemeProvider>
    )
 }
