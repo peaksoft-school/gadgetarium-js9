@@ -1,17 +1,17 @@
 import React from 'react'
-import { styled } from '@mui/material'
-import { ReactComponent as StarIcon } from '../../assets/icons/star-icon.svg'
+import { Rating, styled } from '@mui/material'
 
 const ReviewStars = ({ stars }) => {
    return (
       <Container>
          <h5>Оценка</h5>
          <StarContainer>
-            <StarIconContainer stars={stars} filledStars={1} />
-            <StarIconContainer stars={stars} filledStars={2} />
-            <StarIconContainer stars={stars} filledStars={3} />
-            <StarIconContainer stars={stars} filledStars={4} />
-            <StarIconContainer stars={stars} filledStars={5} />
+            <StyledRating
+               name="read-only"
+               size="small"
+               readOnly
+               value={stars}
+            />
          </StarContainer>
       </Container>
    )
@@ -32,7 +32,8 @@ const StarContainer = styled('div')`
    margin-top: 0.0625rem;
    gap: 0.125rem;
 `
-
-const StarIconContainer = styled(StarIcon)`
-   fill: ${(props) => (props.stars >= props.filledStars ? '#F99808' : 'white')};
+const StyledRating = styled(Rating)`
+   && .MuiSvgIcon-root {
+      font-size: 15px;
+   }
 `

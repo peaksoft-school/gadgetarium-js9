@@ -25,7 +25,7 @@ const Reviews = ({
             </UserDescriptionContainer>
          </UserContainer>
          <UserReviewContainer canUserEdit={canUserEdit}>
-            <ReviewStars stars={3} />
+            <ReviewStars stars={2} />
             <UserText>
                {`- Размер (разумный - достаточно большой для чтения/просмотра контента, но не чрезмерный)
                     - Камера (первое время режимом "мультикадр" был приятно удивлён + мегапикселей не пожалели на основную камеру, зум работает увереннее, чем у конкурентов)
@@ -77,7 +77,8 @@ const Time = styled('p')`
    font-size: 0.875rem;
    line-height: 1.225rem;
    font-weight: 400;
-   color: #000000 50%;
+   color: #000000;
+   opacity: 0.5;
 `
 const StyledUserIcon = styled(UserIcon)`
    width: 2.5rem;
