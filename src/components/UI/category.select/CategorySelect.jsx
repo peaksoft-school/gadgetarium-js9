@@ -1,61 +1,103 @@
-import React, { useState } from 'react'
-import { Button, MenuItem, styled } from '@mui/material'
+import React from 'react'
+import { Button, styled } from '@mui/material'
 import { ReactComponent as Arrow } from '../../../assets/icons/arrows/right-icon.svg'
-import { ReactComponent as Headphone } from '../../../assets/icons/goods/headphones-icon.svg'
+import { themes } from '../../../utils/common/styles/themes'
+import CategoryMenuItem from './CategoryMenuItem'
+
 const smartphones = [
-   'Айфон 11',
-   'Айфон 11',
-   'Айфон 11',
-   'Айфон 11',
-   'Айфон 11',
-   'Айфон 11',
-   'Айфон 11',
-   'Айфон 11',
-   'Айфон 11',
-   'Айфон 11',
-   'Айфон 11',
-   'Айфон 11',
+   {
+      name: 'Айфон 11',
+      id: 1,
+   },
+   {
+      name: 'Айфон 11',
+      id: 2,
+   },
+   {
+      name: 'Айфон 11',
+      id: 3,
+   },
+   {
+      name: 'Айфон 11',
+      id: 4,
+   },
+   {
+      name: 'Айфон 11',
+      id: 5,
+   },
+   {
+      name: 'Айфон 11',
+      id: 6,
+   },
+   {
+      name: 'Айфон 11',
+      id: 7,
+   },
+   {
+      name: 'Айфон 12',
+      id: 8,
+   },
+   {
+      name: 'Айфон 11',
+      id: 9,
+   },
 ]
 const Category = ({
    children,
    componentIcon: Icon,
    products = smartphones,
+   handleCategoryOpen,
+   handleCategoryClose,
+   isMenuOpen,
+   index,
 }) => {
-   const [isMenuOpen, setIsMenuOpen] = useState(false)
-   const handleMouseEnter = () => {
-      setIsMenuOpen(true)
-   }
-   const handleMouseLeave = () => {
-      setIsMenuOpen(false)
-   }
+   console.log(isMenuOpen)
+   // const onBlurCategory = () => {
+   //    setOpen(false)
+   // }
+   // console.log('onBlurCategory: ', onBlurCategory)
+
+   const StyledIcon = Icon
+      ? styled(Icon)(({ isMenuOpen }) => ({
+           path: {
+              transition: 'fill 0.3s, stroke 0.3s',
+              fill: isMenuOpen ? 'white' : '#91969E',
+              stroke: isMenuOpen ? 'white' : '#91969E',
+              opacity: isMenuOpen ? 1 : 0.8,
+           },
+        }))
+      : null
 
    return (
       <div
-         onMouseEnter={handleMouseEnter}
-         onMouseLeave={handleMouseLeave}
+         onMouseEnter={handleCategoryOpen}
          style={{ position: 'relative', display: 'inline-block' }}
       >
          <StyledSelectButton
-            onClick={handleMouseEnter}
+            onClick={handleCategoryOpen}
+            themes={themes}
             isMenuOpen={isMenuOpen}
             aria-controls="category-menu"
             aria-haspopup="true"
          >
-            <StyledIcon isMenuOpen={isMenuOpen} />
+            {Icon && <StyledIcon isMenuOpen={isMenuOpen} />}
             <Container>
                {children}
                <StyledArrow isMenuOpen={isMenuOpen} />
             </Container>
          </StyledSelectButton>
          {isMenuOpen && (
-            <Menu>
+            <Menu index={index}>
                {children}
                {products.map((el) => {
                   return (
-<StyledMenuItem key={el} onClick={handleMouseLeave}>
-                        {el}
-                        <Icon />
-                     </StyledMenuItem>
+                     <CategoryMenuItem
+                        onClick={handleCategoryClose}
+                        id={el.id}
+                        key={el.id}
+                     >
+                        {el.name}
+                     </CategoryMenuItem>
                   )
                })}
             </Menu>
@@ -65,7 +107,7 @@ const Category = ({
 }
 
 export default Category
-const StyledSelectButton = styled(Button)(({ isMenuOpen }) => ({
+const StyledSelectButton = styled(Button)(({ isMenuOpen, themes }) => ({
    fontSize: '16px',
    fontFamily: 'Inter',
    width: '346px',
@@ -79,31 +121,24 @@ const StyledSelectButton = styled(Button)(({ isMenuOpen }) => ({
    display: 'flex',
    alignItems: 'center',
    justifyContent: 'space-between',
-   transition: 'color 0.2s, background-color 0.1s',
+   transition: 'color 0.3  s, background-color 0.3s',
    color: isMenuOpen ? 'white' : 'black',
-   backgroundColor: isMenuOpen ? '#CB11AB' : 'transparent',
+   backgroundColor: isMenuOpen ? themes.palette.primary.main : 'transparent',
 
    '&:hover': {
-      backgroundColor: '#CB11AB',
+      backgroundColor: themes.palette.primary.main,
       color: 'white',
    },
 }))
 const StyledArrow = styled(Arrow)(({ isMenuOpen }) => ({
    path: {
-      transition: 'fill 0.1s, stroke 0.1s',
-      fill: isMenuOpen ? 'white' : 'black',
-      stroke: isMenuOpen ? 'white' : 'black',
-   },
-}))
-const StyledIcon = styled(Headphone)(({ isMenuOpen }) => ({
-   path: {
-      transition: 'fill 0.1s, stroke 0.1s',
+      transition: 'fill 0.3s, stroke 0.3s',
       fill: isMenuOpen ? 'white' : 'black',
       stroke: isMenuOpen ? 'white' : 'black',
    },
 }))
 const Container = styled('div')({
-height: '1.5rem',
+   height: '1.5rem',
    width: '18.875rem',
    display: 'flex',
    alignItems: 'center',
@@ -111,25 +146,25 @@ height: '1.5rem',
    paddingRight: '0.9375rem',
 })
 const Menu = styled('div')`
-   font-size: 20px;
+   font-size: 1.25rem;
    font-weight: 500;
-   padding: 19px;
    position: absolute;
-   top: 100%;
    width: 18.3125rem;
-   left: 0;
+   left: 359px;
+   top: ${(props) => {
+      switch (props.index) {
+         case 2:
+            return '-53px'
+         case 3:
+            return '-93px'
+         case 4:
+            return '-133px'
+         default:
+            return '-13px'
+      }
+   }};
    background-color: white;
    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-   padding: 0.625rem;
+   padding: 1.125rem;
    z-index: 1000;
 `
-const StyledMenuItem = styled(MenuItem)({
-   color: 'gray',
-   fontFamily: 'Inter',
-   padding: '0',
-   marginTop: '1.1875rem',
-   '&:hover': {
-      color: 'black',
-      background: 'none',
-   },
-})
