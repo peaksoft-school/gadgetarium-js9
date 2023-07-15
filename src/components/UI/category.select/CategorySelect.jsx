@@ -51,12 +51,6 @@ const Category = ({
    isMenuOpen,
    index,
 }) => {
-   console.log(isMenuOpen)
-   // const onBlurCategory = () => {
-   //    setOpen(false)
-   // }
-   // console.log('onBlurCategory: ', onBlurCategory)
-
    const StyledIcon = Icon
       ? styled(Icon)(({ isMenuOpen }) => ({
            path: {
