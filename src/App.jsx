@@ -6,7 +6,6 @@ function App() {
    return (
       <ThemeProvider theme={themes}>
          <h1>Hello World</h1>
-
          <CustomToast />
       </ThemeProvider>
    )
