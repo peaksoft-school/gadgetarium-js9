@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { styled } from '@mui/material/styles'
 import { Button, Stack } from '@mui/material'
-import { ReactComponent } from '../../assets/icons/headerIcons/Letter.svg'
-import { ReactComponent as ReactComponentIcons } from '../../assets/icons/headerIcons/Background.svg'
-import { ReactComponent as Menu } from '../../assets/icons/headerIcons/menu (1) 1.svg'
-import { ReactComponent as Vector } from '../../assets/icons/headerIcons/Vector.svg'
-import { ReactComponent as Heart } from '../../assets/icons/headerIcons/heart.svg'
-import { ReactComponent as Basket } from '../../assets/icons/headerIcons/basket.svg'
-import { ReactComponent as ShopingCart } from '../../assets/icons/headerIcons/shopping-cart.svg'
+import { ReactComponent as Letter } from '../../../assets/icons/headerIcons/Letter.svg'
+import { ReactComponent as ReactComponentIcons } from '../../../assets/icons/headerIcons/Background.svg'
+import { ReactComponent as Menu } from '../../../assets/icons/headerIcons/menu (1) 1.svg'
+import { ReactComponent as Vector } from '../../../assets/icons/headerIcons/Vector.svg'
+import { ReactComponent as Heart } from '../../../assets/icons/headerIcons/heart.svg'
+import { ReactComponent as Basket } from '../../../assets/icons/headerIcons/basket.svg'
+import { ReactComponent as ShopingCart } from '../../../assets/icons/headerIcons/shopping-cart.svg'
 
 export const HeaderFixed = () => {
    const [count1] = useState(1)
@@ -18,7 +18,7 @@ export const HeaderFixed = () => {
       <Header>
          <Title>
             <Icons />
-            <Letter />
+            <LetterIcon />
             <a href="./">adgetarium</a>
          </Title>
          <Stack spacing={2} width={136} direction="row">
@@ -83,7 +83,7 @@ const Title = styled('div')`
 const Icons = styled(ReactComponentIcons)`
    margin-left: 12.1875rem;
 `
-const Letter = styled(ReactComponent)`
+const LetterIcon = styled(Letter)`
    margin-top: 0.3125rem;
    margin-left: -1.875rem;
 `

@@ -1,8 +1,8 @@
 import { Button } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import React from 'react'
-import { ReactComponent } from '../../assets/icons/headerIcons/Letter.svg'
-import { ReactComponent as ReactComponentIcons } from '../../assets/icons/headerIcons/Background.svg'
+import { ReactComponent as LetterIcon } from '../../../assets/icons/headerIcons/Letter.svg'
+import { ReactComponent as ReactComponentIcons } from '../../../assets/icons/headerIcons/Background.svg'
 
 export const Footer = () => {
    return (
@@ -17,14 +17,14 @@ export const Footer = () => {
                   <a href="./аксессуары">Аксессуары</a>
                </Gadget>
             </Filter>
-            <Сategories>
+            <Categories>
                <span>Будь с нами</span>
                <Stock>
                   <a href="/акции">Акции</a>
                   <a href="./новинки">Новинки</a>
                   <a href="./популярные категории">Популярные категории </a>
                </Stock>
-            </Сategories>
+            </Categories>
             <Service>
                <span>Помощь и сервисы</span>
                <Contact>
@@ -153,7 +153,7 @@ const Info = styled('div')`
       }
    }
 `
-const Сategories = styled('div')`
+const Categories = styled('div')`
    margin-top: 3.75rem;
    span {
       color: #fff;
@@ -164,11 +164,13 @@ const Stock = styled('div')`
    display: flex;
    flex-direction: column;
    margin-top: 1.875rem;
+
    a {
       text-decoration: none;
       color: #858fa4;
       margin-top: 0.75rem;
       cursor: pointer;
+
       &:hover {
          color: #fff;
       }
@@ -210,7 +212,7 @@ const Gadgetarium = styled('div')`
       color: #fff;
    }
 `
-const Letter = styled(ReactComponent)`
+const Letter = styled(LetterIcon)`
    margin-top: 0.3125rem;
    margin-left: -1.875rem;
 `

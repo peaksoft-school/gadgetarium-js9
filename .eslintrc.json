@@ -1,11 +1,7 @@
 {
-   "env": {
-      "browser": true,
-      "es2021": true
-   },
    "extends": [
-      "plugin:react/recommended",
       "airbnb",
+      "plugin:react/recommended",
       "plugin:prettier/recommended"
    ],
    "overrides": [],
@@ -16,11 +12,12 @@
    "plugins": ["react", "react-hooks"],
    "rules": {
       "react/prop-types": "off",
+      "react/display-name": "off",
       "react/button-has-type": "off",
       "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
       "react/jsx-props-no-spreading": "off",
       "react/react-in-jsx-scope": "off",
-      "import/prefer-default-export": "of",
+      "import/prefer-default-export": "off",
       "no-shadow": "off",
       "import/no-extraneous-dependencies": "off",
       "react-hooks/exhaustive-deps": "off",

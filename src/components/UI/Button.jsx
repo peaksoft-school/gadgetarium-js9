@@ -46,10 +46,12 @@ const StyledButton = styled(ButtonMui)(({ variant, props }) => {
                alignItems: 'center',
                border: '1px solid #CB11AB',
                color: '#CB11AB',
+
                '&:hover': {
                   background: props.backgroundHover,
                   color: 'white',
                },
+
                '&:active': {
                   background: props.backgroundActive,
                   color: 'white',

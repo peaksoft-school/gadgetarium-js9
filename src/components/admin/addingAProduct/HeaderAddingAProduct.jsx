@@ -38,22 +38,26 @@ export const HeaderAddingAProduct = ({ title, pathNumber }) => {
    )
 }
 
-const pathNumberTrueColorPinkBackgroundColor = (theme, pathNumber, num) => {
-   const result =
+const pathNumberTrueColorPinkBackgroundColorAndColor = (
+   theme,
+   pathNumber,
+   num,
+   bgColorAndColorNumber
+) => {
+   const resultBackgroundColor =
       pathNumber === num
          ? theme.palette.primary.main
          : theme.palette.secondary.contrastText
 
-   return result
-}
-
-const pathNumberTrueColorPinkColor = (theme, pathNumber, num) => {
-   const result =
+   const resultColor =
       pathNumber === num
          ? theme.palette.primary.main
          : theme.palette.primary.light
 
-   return result
+   const resultColorAndBackgroundColor =
+      bgColorAndColorNumber === 1 ? resultBackgroundColor : resultColor
+
+   return resultColorAndBackgroundColor
 }
 
 const Container = styled('div')`
@@ -85,17 +89,24 @@ const RoundNumber = styled('div')(({ theme, pathNumber, num }) => ({
    display: 'flex',
    justifyContent: 'center',
    alignItems: 'center',
-   backgroundColor: pathNumberTrueColorPinkBackgroundColor(
+   backgroundColor: pathNumberTrueColorPinkBackgroundColorAndColor(
       theme,
       pathNumber,
-      num
+      num,
+      1
    ),
 }))
 
 const PageText = styled('span')(({ theme, pathNumber, num }) => ({
    fontSize: '1.125rem',
    fontStyle: 'normal',
-   color: pathNumberTrueColorPinkColor(theme, pathNumber, num),
+   color: pathNumberTrueColorPinkBackgroundColorAndColor(
+      theme,
+      pathNumber,
+      num,
+      2
+   ),
+
    fontWeight: 500,
    lineHeight: 'normal',
    letterSpacing: '0.0125rem',
@@ -103,7 +114,7 @@ const PageText = styled('span')(({ theme, pathNumber, num }) => ({
 
 const Text = styled('p')(({ theme }) => ({
    fontFamily: theme.typography.fontFamily,
-   color: theme.palette.primary.contrastText,
+   color: theme.palette.primary.mainContrastText,
    fontSize: '1.875rem',
    fontWeight: 500,
    lineHeight: '110%',

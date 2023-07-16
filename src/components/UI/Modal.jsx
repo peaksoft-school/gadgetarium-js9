@@ -17,7 +17,7 @@ const ModalStyled = styled(ModalUi)(() => ({
 
 const BoxStyled = styled(Box)(() => ({
    '&': {
-      padding: '2.5rem 2rem',
+      // padding: '2.5rem 2rem',
       borderRadius: '0.25rem',
       backgroundColor: '#fff',
    },
