@@ -117,9 +117,6 @@ const BlockFlexChilde = styled('div')`
 
 const Images = styled('img')`
    margin-left: 33rem;
-   opacity: 1;
-   transition-duration: 1s;
-   transform: scale(1.08);
 `
 const Images2 = styled('img')`
    width: 4.75rem;
