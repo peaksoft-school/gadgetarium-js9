@@ -9,12 +9,15 @@ export const PopUpTestPage = () => {
    return (
       <div>
          <CarouselStyle
-            renderArrowPrev={(onClickHandler, hasPrev) =>
-               hasPrev && <Button onClick={onClickHandler} />
-            }
-            renderArrowNext={(onClickHandler, hasNext) =>
-               hasNext && <ArrowRight onClick={onClickHandler} />
-            }
+            renderArrowPrev={(onClickHandler) => (
+               <ArrowLeft
+                  style={{ display: 'flex' }}
+                  onClick={onClickHandler}
+               />
+            )}
+            renderArrowNext={(onClickHandler) => (
+               <ArrowRight onClick={onClickHandler} />
+            )}
          >
             <div>
                <img
@@ -93,6 +96,7 @@ const CarouselStyle = styled(Carousel)`
       border: 1px solid rgb(195, 46, 195);
    }
    & .carousel .slide img {
+      position: relative;
       width: 25rem;
       height: 30rem;
    }
@@ -123,11 +127,9 @@ const CarouselStyle = styled(Carousel)`
    & .carousel-status {
       display: none;
    }
-   & .slide .previous {
-      margin-top: 200px;
-      margin-left: 100px;
-   }
 `
-const Button = styled(ReactComponent)`
-   margin-left: -200px;
+
+const ArrowLeft = styled(ReactComponent)`
+   position: relative;
+   top: 200px;
 `
