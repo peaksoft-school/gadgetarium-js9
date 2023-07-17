@@ -18,13 +18,13 @@ const StyledButton = styled(ButtonMui)(({ variant, props }) => {
                backgroundColor: props.background,
                color: props.color || 'white',
                fontSize: props.fontSize,
-
                boxSizing: 'border-box',
+               textTransform: 'none',
+               fontFamily: 'Inter',
                display: 'flex',
                justifyContent: 'center',
                alignItems: 'center',
                gap: '6px',
-               border: '1px solid #CB11AB',
                borderRadius: '4px',
                lineHeight: 'normal',
 
@@ -41,10 +41,13 @@ const StyledButton = styled(ButtonMui)(({ variant, props }) => {
          return {
             '&.MuiButtonBase-root': {
                padding: props.padding,
+               fontSize: props.fontSize,
                display: 'flex',
                justifyContent: 'center',
                alignItems: 'center',
                border: '1px solid #CB11AB',
+               textTransform: 'none',
+               fontFamily: 'Inter',
                color: '#CB11AB',
                '&:hover': {
                   background: props.backgroundHover,

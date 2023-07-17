@@ -1,42 +1,39 @@
 import { styled } from '@mui/material'
 import React from 'react'
-import { ReactComponent as UserIcon } from '../../assets/icons/avatar/user-avatar-icon.svg'
-import { ReactComponent as EditIcon } from '../../assets/icons/tools-for-site/edit-icon.svg'
-import { ReactComponent as DeleteIcon } from '../../assets/icons/tools-for-site/delete-icon.svg'
+import { ReactComponent as EditIcon } from '../../../assets/icons/tools-for-site/edit-icon.svg'
+import { ReactComponent as DeleteIcon } from '../../../assets/icons/tools-for-site/delete-icon.svg'
 import ReviewStars from './ReviewStars'
 
 const Reviews = ({
-   // userName,
-   // userIcon = User
-   // userText,
-   // timePublication,
-   // stars,
+   userName,
+   userIcon: Icon,
+   userText,
+   timePublication,
+   stars,
    adminReviewState,
    canUserEdit,
-   // adminText,
+   adminText,
 }) => {
+   const StyledUserIcon = styled(Icon)`
+      width: 2.5rem;
+      height: 2.5rem;
+   `
    return (
       <Container>
          <UserContainer>
             <StyledUserIcon />
             <UserDescriptionContainer>
-               <Name>Адыл Бакытов</Name>
-               <Time>22.05.22 - 14:20</Time>
+               <Name>{userName}</Name>
+               <Time>{timePublication}</Time>
             </UserDescriptionContainer>
          </UserContainer>
          <UserReviewContainer canUserEdit={canUserEdit}>
-            <ReviewStars stars={2} />
-            <UserText>
-               {`- Размер (разумный - достаточно большой для чтения/просмотра контента, но не чрезмерный)
-                    - Камера (первое время режимом "мультикадр" был приятно удивлён + мегапикселей не пожалели на основную камеру, зум работает увереннее, чем у конкурентов)
-                    - Экран (приятная цветопередача, читать комфортно, повышенная герцовка в первые разы восхищала).`}
-            </UserText>
+            <ReviewStars stars={stars} />
+            <UserText>{userText}</UserText>
             {adminReviewState && (
                <AdminText>
                   <Name>Ответ от представителя</Name>
-                  <Text>
-                     {`Добрый день! Благодарим Вас за отзыв, рады быть полезными. Спасибо, что выбираете нас. Хорошего дня! `}
-                  </Text>
+                  <Text>{adminText}</Text>
                </AdminText>
             )}
          </UserReviewContainer>
@@ -79,10 +76,6 @@ const Time = styled('p')`
    font-weight: 400;
    color: #000000;
    opacity: 0.5;
-`
-const StyledUserIcon = styled(UserIcon)`
-   width: 2.5rem;
-   height: 2.5rem;
 `
 const UserReviewContainer = styled('div')`
    margin-bottom: ${(props) => (props.canUserEdit ? '0.625rem' : '2.5rem')};
