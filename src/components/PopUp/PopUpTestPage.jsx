@@ -1,37 +1,20 @@
 import React from 'react'
-import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { styled } from '@mui/material'
+import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { Carousel } from 'react-responsive-carousel'
-// import { ReactComponent as ArrowRight } from '../../assets/icons/arrowRight.svg'
+import { ReactComponent } from '../../assets/icons/arrowLeft.svg'
+import { ReactComponent as ArrowRight } from '../../assets/icons/arrowRight.svg'
 
 export const PopUpTestPage = () => {
-   const renderCustomPrevArrow = (onClickHandler, hasPrev) => {
-      return (
-         <div style={{ display: 'flex' }}>
-            <button
-               style={{ position: 'absolute' }}
-               onClick={onClickHandler}
-               disabled={!hasPrev}
-            >
-               Previous
-            </button>
-         </div>
-      )
-   }
-
-   const renderCustomNextArrow = (onClickHandler, hasNext) => {
-      return (
-         <button onClick={onClickHandler} disabled={!hasNext}>
-            Next
-         </button>
-      )
-   }
-
    return (
       <div>
          <CarouselStyle
-            renderArrowPrev={renderCustomPrevArrow}
-            renderArrowNext={renderCustomNextArrow}
+            renderArrowPrev={(onClickHandler, hasPrev) =>
+               hasPrev && <Button onClick={onClickHandler} />
+            }
+            renderArrowNext={(onClickHandler, hasNext) =>
+               hasNext && <ArrowRight onClick={onClickHandler} />
+            }
          >
             <div>
                <img
@@ -145,16 +128,6 @@ const CarouselStyle = styled(Carousel)`
       margin-left: 100px;
    }
 `
-// const LeftBlock = styled('div')`
-//    display: flex;
-// `
-// const RightBlock = styled('div')`
-//    display: flex;
-// `
-// const Right = styled(ArrowRight)`
-//    position: relative;
-//    top: -290px;
-//    left: 1150px;
-// `
-
-// const Left = styled('button')``
+const Button = styled(ReactComponent)`
+   margin-left: -200px;
+`
