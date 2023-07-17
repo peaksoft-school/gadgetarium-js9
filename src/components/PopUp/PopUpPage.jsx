@@ -1,152 +1,142 @@
-import { useState } from 'react'
+import React from 'react'
 import { styled } from '@mui/material'
-import CloseIcon from '@mui/icons-material/Close'
+import 'react-responsive-carousel/lib/styles/carousel.min.css'
+import { Carousel } from 'react-responsive-carousel'
 import { ReactComponent } from '../../assets/icons/arrowLeft.svg'
-import { ReactComponent as ArrowRight } from '../../assets/icons/arrowRight.svg'
+import { ReactComponent as ArrowRightIcons } from '../../assets/icons/arrowRight.svg'
 
 export const PopUpPage = () => {
-   const imgs = [
-      {
-         id: 0,
-         value: 'https://www.myphone.kg/files/media/17/17225.webp',
-      },
-      {
-         id: 1,
-         value: 'https://www.myphone.kg/files/media/17/17226.webp',
-      },
-      {
-         id: 2,
-         value: 'https://www.myphone.kg/files/media/17/17216.webp',
-      },
-      {
-         id: 3,
-         value: 'https://www.myphone.kg/files/media/17/17217.webp',
-      },
-      {
-         id: 4,
-         value: 'https://www.myphone.kg/files/media/17/17219.webp',
-      },
-      {
-         id: 5,
-         value: 'https://www.myphone.kg/files/media/17/17220.webp',
-      },
-      {
-         id: 6,
-         value: 'https://www.myphone.kg/files/media/17/17222.webp',
-      },
-   ]
-
-   const [close, setClose] = useState(true)
-   const [sliderData, setSliderData] = useState(imgs[0])
-   const [val, setVal] = useState(0)
-
-   const handleClosePage = () => {
-      setClose(false)
-   }
-
-   const handleClick = (index) => {
-      const slider = imgs[index]
-      setSliderData(slider)
-      setVal(index)
-   }
-   const handleNext = () => {
-      const index = val < imgs.length - 1 ? val + 1 : 0
-      setVal(index)
-      const slider = imgs[index]
-      setSliderData(slider)
-   }
-   const handlePrevious = () => {
-      const isFirstSlide = val === 0
-      const index = isFirstSlide ? imgs.length - 1 : val - 1
-      setVal(index)
-      const slider = imgs[index]
-      setSliderData(slider)
-   }
-
    return (
       <div>
-         {close ? (
+         <CarouselStyle
+            infiniteLoop
+            renderArrowPrev={(onClickHandler) => (
+               <ArrowBack onClick={onClickHandler} />
+            )}
+            renderArrowNext={(onClickHandler) => (
+               <ArrowNext onClick={onClickHandler} />
+            )}
+         >
             <div>
-               <ButtonIcons>
-                  <Back onClick={handlePrevious} />
-                  <Next onClick={handleNext} />
-               </ButtonIcons>
-               <MuiIcon onClick={handleClosePage} />
-               <Images
-                  style={{ width: '25rem', height: '30rem' }}
-                  src={sliderData.value}
-                  alt="gadjet"
+               <img
+                  className="img1"
+                  width="150px"
+                  height="100px"
+                  src="https://www.myphone.kg/files/media/17/17225.webp"
+                  alt=""
                />
-               <BlockFlex>
-                  {imgs.map((data, index) => (
-                     <BlockFlexChilde>
-                        <Images2
-                           onClick={() => handleClick(index)}
-                           key={data.id}
-                           className={sliderData.id === index ? 'clicked' : ''}
-                           src={data.value}
-                           alt="phone"
-                        />
-                     </BlockFlexChilde>
-                  ))}
-               </BlockFlex>
             </div>
-         ) : (
-            ''
-         )}
+            <div>
+               <img
+                  className="img2"
+                  width="150px"
+                  height="100px"
+                  src="https://www.myphone.kg/files/media/17/17226.webp"
+                  alt=""
+               />
+            </div>
+            <div>
+               <img
+                  className="img3"
+                  width="150px"
+                  height="100px"
+                  src="https://www.myphone.kg/files/media/17/17216.webp"
+                  alt=""
+               />
+            </div>
+            <div>
+               <img
+                  className="img4"
+                  width="150px"
+                  height="100px"
+                  src="https://www.myphone.kg/files/media/17/17217.webp"
+                  alt=""
+               />
+            </div>
+            <div>
+               <img
+                  className="img5"
+                  width="150px"
+                  height="100px"
+                  src="https://www.myphone.kg/files/media/17/17219.webp"
+                  alt=""
+               />
+            </div>
+            <div>
+               <img
+                  className="img6"
+                  width="150px"
+                  height="100px"
+                  src="https://www.myphone.kg/files/media/17/17220.webp"
+                  alt=""
+               />
+            </div>
+            <div>
+               <img
+                  className="img7"
+                  width="150px"
+                  height="100px"
+                  src="https://www.myphone.kg/files/media/17/17222.webp"
+                  alt=""
+               />
+            </div>
+         </CarouselStyle>
       </div>
    )
 }
 
-const BlockFlex = styled('div')`
-   display: flex;
-   padding: 20px;
-   justify-content: space-around;
-   width: 40rem;
-   margin-top: 5rem;
-   margin-left: 400px;
-`
-const BlockFlexChilde = styled('div')`
-   .clicked {
-      width: 4.75rem;
-      height: 4.75rem;
+const CarouselStyle = styled(Carousel)`
+   text-align: center;
+   & .thumb.selected {
+      border: 1px solid rgb(195, 46, 195);
+   }
+   & .thumb:hover {
+      border: 1px solid rgb(195, 46, 195);
+   }
+   & .carousel .slide img {
+      position: relative;
+      width: 25rem;
+      height: 30rem;
+   }
+   & .img1 {
       padding: 10px;
-      border: 1.443px solid #cb11ab;
+   }
+   & .img2 {
+      padding: 10px;
+   }
+   & .img3 {
+      padding: 10px;
+   }
+   & .img4 {
+      padding: 10px;
+   }
+   & .img5 {
+      padding: 10px;
+   }
+   & .img6 {
+      padding: 10px;
+   }
+   & .img7 {
+      padding: 10px;
+   }
+   & .control-dots {
+      display: none;
+   }
+   & .carousel-status {
+      display: none;
    }
 `
-
-const Images = styled('img')`
-   margin-left: 33rem;
-`
-const Images2 = styled('img')`
-   width: 4.75rem;
-   height: 4.75rem;
-   padding: 10px;
-   cursor: pointer;
-`
-
-const ButtonIcons = styled('div')`
-   display: flex;
-   justify-content: space-around;
-`
-const Back = styled(ReactComponent)`
-   cursor: pointer;
-   position: relative;
-   transition: 20s;
-   top: 300px;
-   right: 100px;
-`
-
-const Next = styled(ArrowRight)`
-   cursor: pointer;
-   position: relative;
-   transition: 20s;
-   top: 300px;
-   left: 100px;
-`
-const MuiIcon = styled(CloseIcon)`
+const ArrowBack = styled(ReactComponent)`
    position: absolute;
-   top: 2rem;
-   left: 86rem;
+   z-index: 2;
+   top: 190px;
+   left: 200px;
+   cursor: pointer;
+`
+const ArrowNext = styled(ArrowRightIcons)`
+   z-index: 2;
+   position: absolute;
+   top: 190px;
+   left: 1130px;
    cursor: pointer;
 `
