@@ -1,9 +1,10 @@
 import { styled } from '@mui/material'
 import React from 'react'
+import { themes } from '../../../../utils/common/styles/themes'
 
 const ForthButton = ({ onClick, bigButton }) => {
    return (
-      <StyledButton onClick={onClick} state={bigButton}>
+      <StyledButton onClick={onClick} themes={themes} state={bigButton}>
          <svg
             width="15"
             height="13"
@@ -26,17 +27,17 @@ const ForthButton = ({ onClick, bigButton }) => {
 export default ForthButton
 const StyledButton = styled('button')(({ state, themes }) => ({
    cursor: 'pointer',
-   width: state ? '3.5rem' : '3.125rem',
-   height: state ? '3.5rem' : '3.125rem',
+   width: state ? '3.75rem' : '3.125rem',
+   height: state ? '3.75rem' : '3.125rem',
    borderRadius: '100%',
-   border: state ? '1px solid #cb11ab' : 'none',
+   border: state ? `1px solid ${themes.palette.primary.main}` : 'none',
    backgroundColor: 'white',
    transition: 'background-color 0.3s',
    '&:hover': {
-      backgroundColor: '#cb11ab',
+      backgroundColor: themes.palette.primary.main,
    },
    '&:active': {
-      backgroundColor: '#cb11ab',
+      backgroundColor: themes.palette.primary.main,
    },
    svg: {
       path: {
