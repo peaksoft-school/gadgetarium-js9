@@ -8,7 +8,6 @@ function App() {
       <BrowserRouter>
         <ThemeProvider theme={themes}>
          <h1>Hello World</h1>
-
          <CustomToast />
       </ThemeProvider>
       </BrowserRouter>
