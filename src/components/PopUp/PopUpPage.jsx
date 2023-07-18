@@ -2,8 +2,18 @@ import React from 'react'
 import { styled } from '@mui/material'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { Carousel } from 'react-responsive-carousel'
-import { ReactComponent } from '../../assets/icons/arrowLeft.svg'
-import { ReactComponent as ArrowRightIcons } from '../../assets/icons/arrowRight.svg'
+import BackButton from '../UI/icon.button/back.forth.buttons/BackButton'
+import ForthButton from '../UI/icon.button/back.forth.buttons/ForthButton'
+
+const Image = [
+   { id: 1, link: 'https://www.myphone.kg/files/media/17/17225.webp' },
+   { id: 2, link: 'https://www.myphone.kg/files/media/17/17226.webp' },
+   { id: 3, link: 'https://www.myphone.kg/files/media/17/17216.webp' },
+   { id: 4, link: 'https://www.myphone.kg/files/media/17/17217.webp' },
+   { id: 5, link: 'https://www.myphone.kg/files/media/17/17219.webp' },
+   { id: 6, link: 'https://www.myphone.kg/files/media/17/17220.webp' },
+   { id: 7, link: 'https://www.myphone.kg/files/media/17/17222.webp' },
+]
 
 export const PopUpPage = () => {
    return (
@@ -11,132 +21,72 @@ export const PopUpPage = () => {
          <CarouselStyle
             infiniteLoop
             renderArrowPrev={(onClickHandler) => (
-               <ArrowBack onClick={onClickHandler} />
+               <ArrowBack>
+                  <BackButton bigButton onClick={onClickHandler} />
+               </ArrowBack>
             )}
             renderArrowNext={(onClickHandler) => (
-               <ArrowNext onClick={onClickHandler} />
+               <ArrowNext>
+                  <ForthButton bigButton onClick={onClickHandler} />
+               </ArrowNext>
             )}
          >
-            <div>
-               <img
-                  className="img1"
-                  width="150px"
-                  height="100px"
-                  src="https://www.myphone.kg/files/media/17/17225.webp"
-                  alt=""
-               />
-            </div>
-            <div>
-               <img
-                  className="img2"
-                  width="150px"
-                  height="100px"
-                  src="https://www.myphone.kg/files/media/17/17226.webp"
-                  alt=""
-               />
-            </div>
-            <div>
-               <img
-                  className="img3"
-                  width="150px"
-                  height="100px"
-                  src="https://www.myphone.kg/files/media/17/17216.webp"
-                  alt=""
-               />
-            </div>
-            <div>
-               <img
-                  className="img4"
-                  width="150px"
-                  height="100px"
-                  src="https://www.myphone.kg/files/media/17/17217.webp"
-                  alt=""
-               />
-            </div>
-            <div>
-               <img
-                  className="img5"
-                  width="150px"
-                  height="100px"
-                  src="https://www.myphone.kg/files/media/17/17219.webp"
-                  alt=""
-               />
-            </div>
-            <div>
-               <img
-                  className="img6"
-                  width="150px"
-                  height="100px"
-                  src="https://www.myphone.kg/files/media/17/17220.webp"
-                  alt=""
-               />
-            </div>
-            <div>
-               <img
-                  className="img7"
-                  width="150px"
-                  height="100px"
-                  src="https://www.myphone.kg/files/media/17/17222.webp"
-                  alt=""
-               />
-            </div>
+            {Image.map((el) => {
+               return (
+                  <div style={{ padding: '50px' }}>
+                     <img
+                        width="150px"
+                        height="90px"
+                        src={el.link}
+                        alt="gadget"
+                     />
+                  </div>
+               )
+            })}
          </CarouselStyle>
       </div>
    )
 }
+const CarouselStyle = styled(Carousel)(({ theme }) => ({
+   textAlign: 'center',
 
-const CarouselStyle = styled(Carousel)`
-   text-align: center;
-   & .thumb.selected {
-      border: 1px solid rgb(195, 46, 195);
-   }
-   & .thumb:hover {
-      border: 1px solid rgb(195, 46, 195);
-   }
-   & .carousel .slide img {
-      position: relative;
-      width: 25rem;
-      height: 30rem;
-   }
-   & .img1 {
-      padding: 10px;
-   }
-   & .img2 {
-      padding: 10px;
-   }
-   & .img3 {
-      padding: 10px;
-   }
-   & .img4 {
-      padding: 10px;
-   }
-   & .img5 {
-      padding: 10px;
-   }
-   & .img6 {
-      padding: 10px;
-   }
-   & .img7 {
-      padding: 10px;
-   }
-   & .control-dots {
-      display: none;
-   }
-   & .carousel-status {
-      display: none;
-   }
-`
-const ArrowBack = styled(ReactComponent)`
+   '& .thumb.selected': {
+      border: `1px solid ${theme.palette.primary.main}`,
+   },
+
+   '& .thumb:hover': {
+      border: `1px solid ${theme.palette.primary.main}`,
+   },
+
+   '& .carousel .slide img': {
+      position: 'relative',
+      width: '25rem',
+      height: '30rem',
+   },
+
+   img: {
+      padding: '10px',
+   },
+
+   '& .control-dots': {
+      display: 'none',
+   },
+
+   '& .carousel-status': {
+      display: 'none',
+   },
+}))
+
+const ArrowBack = styled('div')`
    position: absolute;
    z-index: 2;
    top: 190px;
    left: 200px;
    cursor: pointer;
 `
-const ArrowNext = styled(ArrowRightIcons)`
+const ArrowNext = styled('div')`
    z-index: 2;
    position: absolute;
    top: 190px;
    left: 1130px;
-   cursor: pointer;
 `
