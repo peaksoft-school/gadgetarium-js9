@@ -37,4 +37,10 @@ const StyledDatePicker = styled(DatePicker)`
          0ms;
       transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
    }
+
+   .css-cwhad8-MuiDateCalendar-root {
+      /* Your styles for the MuiDateCalendar component */
+      background-color: red;
+      margin-top: 100rem;
+   }
 `
