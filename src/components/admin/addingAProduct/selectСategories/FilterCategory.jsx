@@ -1,28 +1,48 @@
 import { styled } from '@mui/material'
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo'
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
-import dayjs from 'dayjs'
-import 'dayjs/locale/ru'
+import { useState } from 'react'
 import { CategoryFilterSelect } from './CategoryFilterSelect'
 import { InputUi } from '../../../UI/Input'
 import {
    brand,
    category,
-   subcategory,
+   subcategorySmartWatch,
+   subcategorySmartphones,
 } from '../../../../utils/common/constants/constants'
 import { ReactComponent as SelectLabelIcons } from '../../../../assets/icons/photo-add/add-photo-icon.svg'
 
-dayjs.locale('ru')
-
 export const FilterCategory = ({ onOpenModalAddNewBrand }) => {
+   const [value, setValue] = useState({
+      category: '',
+      subcategory: '',
+      brand: '',
+      guarantee: '',
+      nameProduct: '',
+      dateOfIssue: '',
+   })
+
+   const handleChange = (event) => {
+      const { name, value } = event.target
+      setValue((prevState) => ({
+         ...prevState,
+         [name]: value,
+      }))
+   }
+
+   const subcategorySelect =
+      value.category === 'Смартфоны'
+         ? subcategorySmartphones
+         : subcategorySmartWatch
+
    return (
       <Container>
          <div className="box">
             <CategoryFilterSelect
                label="Выбрать"
                title="Выберите категорию"
-               arr={category}
+               selectData={category}
+               value={value.category}
+               onChange={handleChange}
+               name="category"
             />
 
             <CategoryFilterSelect
@@ -32,30 +52,41 @@ export const FilterCategory = ({ onOpenModalAddNewBrand }) => {
                      <SelectLabelIconsStyle /> Выберите бренд товара
                   </BoxIconSelect>
                }
+               value={value.brand}
+               onChange={handleChange}
                newBrand
+               name="brand"
                title="Бренд"
-               arr={brand}
+               selectData={brand}
             />
 
-            <BoxLabel>
-               <p>
-                  Название товара <span>*</span>
-               </p>
-               <InputUi
-                  type="text"
-                  padding="0.5rem 0"
-                  placeholder="Введите название товара"
-                  width="24.75rem"
-                  height="2.6rem"
-               />
-            </BoxLabel>
+            {value.category === 'Смартфоны' ? (
+               <BoxLabel>
+                  <p>
+                     Название товара <span>*</span>
+                  </p>
+                  <InputUi
+                     type="text"
+                     padding="0.5rem 0"
+                     placeholder="Введите название товара"
+                     width="24.75rem"
+                     height="2.6rem"
+                     name="nameProduct"
+                     value={value.nameProduct}
+                     onChange={handleChange}
+                  />
+               </BoxLabel>
+            ) : null}
          </div>
 
          <div className="box">
             <CategoryFilterSelect
                title="Выберите подкатегорию"
                label="Выбрать"
-               arr={subcategory}
+               selectData={subcategorySelect}
+               value={value.subcategory}
+               name="subcategory"
+               onChange={handleChange}
             />
             <BoxLabel>
                <p>
@@ -65,25 +96,33 @@ export const FilterCategory = ({ onOpenModalAddNewBrand }) => {
                <InputUi
                   type="number"
                   padding="0.5rem 0"
-                  placeholder="Введите название товара"
+                  placeholder="Введите гарантию товара"
                   width="24.75rem"
                   height="2.6rem"
+                  value={value.guarantee}
+                  name="guarantee"
+                  onChange={handleChange}
                />
             </BoxLabel>
 
-            <BoxLabel>
-               <p>
-                  Дата выпуска <span>*</span>
-               </p>
+            {value.category === 'Смартфоны' ? (
+               <BoxLabel>
+                  <p>
+                     Дата выпуска <span>*</span>
+                  </p>
 
-               <DateInputContainer>
-                  <LocalizationProvider dateAdapter={AdapterDayjs} locale="ru">
-                     <DemoContainer components={['DesktopDatePicker']}>
-                        <DatePicker />
-                     </DemoContainer>
-                  </LocalizationProvider>
-               </DateInputContainer>
-            </BoxLabel>
+                  <InputUi
+                     type="date"
+                     padding="0.5rem 0"
+                     placeholder="Введите дату выпуска"
+                     width="24.75rem"
+                     height="2.6rem"
+                     value={value.dateOfIssue}
+                     name="dateOfIssue"
+                     onChange={handleChange}
+                  />
+               </BoxLabel>
+            ) : null}
          </div>
       </Container>
    )
@@ -99,28 +138,6 @@ const Container = styled('div')`
       display: flex;
       flex-direction: column;
       gap: 1rem;
-   }
-`
-
-const DateInputContainer = styled('div')`
-   & .MuiStack-root {
-      margin-top: -8px;
-
-      label {
-         margin-top: -6px;
-      }
-
-      :active {
-         label {
-            display: none;
-         }
-      }
-
-      input {
-         padding: 0.6rem;
-         font-size: 1rem;
-         width: 20.4rem;
-      }
    }
 `
 

@@ -11,21 +11,19 @@ export const CategoryFilterSelect = ({
    star = true,
    label,
    title,
-   arr,
+   selectData,
    newBrand,
    onOpenModalAddNewBrand,
+   onChange,
+   value,
+   name,
 }) => {
-   const [value, setValue] = useState('')
    const [isFocused, setIsFocused] = useState(false)
 
    const onSelectValue = () => {
       onOpenModalAddNewBrand()
 
       setIsFocused(false)
-   }
-
-   const handleChange = (event) => {
-      setValue(event.target.value)
    }
 
    const handleSelectFocus = () => {
@@ -49,14 +47,22 @@ export const CategoryFilterSelect = ({
          <div>
             <StyledFormControl size="small">
                {isFocused ? null : <InputLabel>{labelFocused}</InputLabel>}
-               <SelectStyle
+               <Select
+                  name={name}
                   value={value}
-                  onChange={handleChange}
+                  onChange={onChange}
                   onFocus={handleSelectFocus}
                   onBlur={handleSelectBlur}
                   renderValue={(selected) => selected || label}
+                  MenuProps={{
+                     PaperProps: {
+                        style: {
+                           maxHeight: '17.5rem',
+                        },
+                     },
+                  }}
                >
-                  {arr.map((item) => (
+                  {selectData.map((item) => (
                      <StyledMenuItem
                         key={item.id}
                         value={item.text}
@@ -73,7 +79,10 @@ export const CategoryFilterSelect = ({
                      </StyledMenuItem>
                   ))}
                   {newBrand && (
-                     <StyledMenuItem onClick={onSelectValue} value="">
+                     <StyledMenuItem
+                        onClick={onSelectValue}
+                        value="addNewBrand"
+                     >
                         <NewBrandContainer className={isFocused && 'hover'}>
                            <p>
                               <span>+</span> Создать новый бренд
@@ -81,7 +90,7 @@ export const CategoryFilterSelect = ({
                         </NewBrandContainer>
                      </StyledMenuItem>
                   )}
-               </SelectStyle>
+               </Select>
             </StyledFormControl>
          </div>
       </Container>
@@ -92,13 +101,6 @@ const StyledFormControl = styled(FormControl)(() => ({
    minWidth: '24.75rem',
    margin: 0,
 }))
-
-const SelectStyle = styled(Select)`
-   & .css-6hp17o-MuiList-root-MuiMenu-list {
-      max-height: 250px !important;
-      overflow: scroll;
-   }
-`
 
 const NewBrandContainer = styled('div')(({ theme }) => ({
    color: theme.palette.primary.main,

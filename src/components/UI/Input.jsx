@@ -22,7 +22,7 @@ export const InputUi = forwardRef(
          padding,
          width,
          height,
-         defaultValue = '',
+         name,
       },
       ref
    ) => {
@@ -44,8 +44,8 @@ export const InputUi = forwardRef(
                color={color}
                placeholder={placeholder}
                id={id}
-               defaultValue={defaultValue}
                ref={ref}
+               name={name}
                type={type === 'password' ? passwordType : type}
                endAdornment={
                   type === 'password' ? (

@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 import { HeaderAddingAProduct } from './HeaderAddingAProduct'
 import { FilterCategory } from './selectСategories/FilterCategory'
 import { AddNewBrandModal } from './selectСategories/AddNewBrandModal'
+import { QuantityOfProducts } from './QuantityOfProducts'
 
 export const AddingAProduct = () => {
    const [openModalAddNewBrand, setOpenModalAddNewBrand] = useSearchParams()
@@ -21,12 +22,6 @@ export const AddingAProduct = () => {
 
    return (
       <Container>
-         <HeaderAddingAProduct title="Добавление товара" pathNumber={1} />
-
-         <div>
-            <FilterCategory onOpenModalAddNewBrand={onOpenModalAddNewBrand} />
-         </div>
-
          {openModalAddNewBrand.has('AddingAProduct') && (
             <div>
                <AddNewBrandModal
@@ -35,6 +30,14 @@ export const AddingAProduct = () => {
                />
             </div>
          )}
+
+         <HeaderAddingAProduct title="Добавление товара" pathNumber={1} />
+
+         <div>
+            <FilterCategory onOpenModalAddNewBrand={onOpenModalAddNewBrand} />
+         </div>
+
+         <QuantityOfProducts />
       </Container>
    )
 }
