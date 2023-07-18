@@ -27,6 +27,9 @@ const ForthButton = ({ onClick, bigButton }) => {
 export default ForthButton
 const StyledButton = styled('button')(({ state, themes }) => ({
    cursor: 'pointer',
+   display: 'flex',
+   alignItems: 'center',
+   justifyContent: 'center',
    width: state ? '3.75rem' : '3.125rem',
    height: state ? '3.75rem' : '3.125rem',
    borderRadius: '100%',
