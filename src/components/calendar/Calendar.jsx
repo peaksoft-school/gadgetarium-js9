@@ -4,21 +4,12 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 
-import dayjs from 'dayjs'
-import 'dayjs/locale/ru'
-
-dayjs.locale('ru')
-
-export const Calendar = ({ dd, minDates = true }) => {
-   const today = dayjs()
-
-   const resultToday = minDates ? today : ''
-
+export const Calendar = ({ dd, value, onChange }) => {
    return (
       <div>
          <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={['DatePicker']}>
-               <StyledDatePicker minDate={resultToday} label={dd} />
+               <StyledDatePicker label={dd} value={value} onChange={onChange} />
             </DemoContainer>
          </LocalizationProvider>
       </div>
