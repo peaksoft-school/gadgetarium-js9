@@ -5,7 +5,7 @@ import { Carousel } from 'react-responsive-carousel'
 import BackButton from '../UI/icon.button/back.forth.buttons/BackButton'
 import ForthButton from '../UI/icon.button/back.forth.buttons/ForthButton'
 
-const Image = [
+const images = [
    { id: 1, link: 'https://www.myphone.kg/files/media/17/17225.webp' },
    { id: 2, link: 'https://www.myphone.kg/files/media/17/17226.webp' },
    { id: 3, link: 'https://www.myphone.kg/files/media/17/17216.webp' },
@@ -31,13 +31,13 @@ export const PopUpPage = () => {
                </ArrowNext>
             )}
          >
-            {Image.map((el) => {
+            {images.map((image) => {
                return (
                   <div style={{ padding: '50px' }}>
                      <img
-                        width="150px"
+                        width="10vw"
                         height="90px"
-                        src={el.link}
+                        src={image.link}
                         alt="gadget"
                      />
                   </div>
@@ -60,8 +60,8 @@ const CarouselStyle = styled(Carousel)(({ theme }) => ({
 
    '& .carousel .slide img': {
       position: 'relative',
-      width: '25rem',
-      height: '30rem',
+      width: '27vw',
+      height: '56vh',
    },
 
    img: {
@@ -80,13 +80,13 @@ const CarouselStyle = styled(Carousel)(({ theme }) => ({
 const ArrowBack = styled('div')`
    position: absolute;
    z-index: 2;
-   top: 190px;
-   left: 200px;
+   top: 15rem;
+   left: 12.5rem;
    cursor: pointer;
 `
 const ArrowNext = styled('div')`
    z-index: 2;
    position: absolute;
-   top: 190px;
-   left: 1130px;
+   top: 15rem;
+   left: 71.875rem;
 `
