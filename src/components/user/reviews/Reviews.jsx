@@ -3,25 +3,29 @@ import React from 'react'
 import { ReactComponent as EditIcon } from '../../../assets/icons/tools-for-site/edit-icon.svg'
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/tools-for-site/delete-icon.svg'
 import ReviewStars from './ReviewStars'
+import { ReactComponent as DefaultIcon } from '../../../assets/icons/avatar/default-avatar-icon.svg'
 
 const Reviews = ({
    userName,
-   userIcon: Icon,
+   userIcon: Icon = DefaultIcon,
    userText,
    timePublication,
    stars,
    adminReviewState,
    canUserEdit,
-   adminText,
+   adminText = '',
 }) => {
    const StyledUserIcon = styled(Icon)`
-      width: 2.5rem;
-      height: 2.5rem;
+      width: 4vw;
+      height: 5.309vh;
+      path {
+         fill: #dedede;
+      }
    `
    return (
       <Container>
          <UserContainer>
-            <StyledUserIcon />
+            {Icon && <StyledUserIcon />}
             <UserDescriptionContainer>
                <Name>{userName}</Name>
                <Time>{timePublication}</Time>
@@ -68,6 +72,7 @@ const UserContainer = styled('div')`
 `
 const UserDescriptionContainer = styled('div')``
 const Name = styled('h4')`
+   margin: 0;
    line-height: 1.5rem;
 `
 const Time = styled('p')`
@@ -76,6 +81,7 @@ const Time = styled('p')`
    font-weight: 400;
    color: #000000;
    opacity: 0.5;
+   margin: 0;
 `
 const UserReviewContainer = styled('div')`
    margin-bottom: ${(props) => (props.canUserEdit ? '0.625rem' : '2.5rem')};
@@ -85,6 +91,7 @@ const UserText = styled('p')`
    color: #384255;
    width: 51.5625rem;
    line-height: 1.5rem;
+   margin: 0;
 `
 const AdminText = styled('div')`
    margin-top: 1.25rem;

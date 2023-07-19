@@ -24,8 +24,11 @@ const Container = styled('div')`
    align-items: center;
    gap: 0.375rem;
    margin-bottom: 0.75rem;
+   margin-top: 0.75rem;
+   h5 {
+      margin: 0;
+   }
 `
-
 const StarContainer = styled('div')`
    display: flex;
    align-items: center;
