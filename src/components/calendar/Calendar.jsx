@@ -1,5 +1,4 @@
 import { styled } from '@mui/material/styles'
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
@@ -8,13 +7,11 @@ export const Calendar = ({ placeholder, value, onChange }) => {
    return (
       <div>
          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DemoContainer components={['DatePicker']}>
-               <StyledDatePicker
-                  label={placeholder}
-                  value={value}
-                  onChange={onChange}
-               />
-            </DemoContainer>
+            <StyledDatePicker
+               label={placeholder}
+               value={value}
+               onChange={onChange}
+            />
          </LocalizationProvider>
       </div>
    )
