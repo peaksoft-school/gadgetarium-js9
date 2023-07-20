@@ -4,13 +4,19 @@ import { Button } from '../UI/Button'
 import { InputUi } from '../UI/Input'
 
 export const UserInfo = () => {
-   const [valueEmail, setValueEmail] = useState('')
    const [isEmailValid, setIsEmailValid] = useState(true)
    const [messageValue, setMessageValue] = useState('')
+   const [all, setAll] = useState({
+      name: '',
+      surname: '',
+      tel: '',
+      email: '',
+      message: '',
+   })
 
    const validateEmail = (e) => {
       const email = e.target.value
-      setValueEmail(email)
+      setAll(email)
 
       if (email.includes('@')) {
          setIsEmailValid(true)
@@ -21,6 +27,7 @@ export const UserInfo = () => {
 
    const validateMessage = (e) => {
       const message = e.target.value
+      setAll(message)
       if (message.length < 5) {
          setMessageValue(true)
       } else {
@@ -28,12 +35,23 @@ export const UserInfo = () => {
       }
    }
 
+   const onChangeAllInput = (e) => {
+      setAll(e.target.value)
+   }
+
    const buttonСleaning = (e) => {
       e.preventDefault()
 
-      setValueEmail('')
       setMessageValue('')
+      setAll({
+         name: '',
+         surname: '',
+         tel: '',
+         email: '',
+         message: '',
+      })
    }
+
    return (
       <Container>
          <h3>Напишите нам</h3>
@@ -42,47 +60,56 @@ export const UserInfo = () => {
             <div>
                <label htmlFor="name">Имя </label>
                <InputUi
-                  width="21.125rem"
-                  height="3rem"
-                  padding="0.5rem 0.625rem"
                   id="name"
                   type="text"
+                  value={all.name}
+                  height="3rem"
+                  width="21.125rem"
+                  padding="0.5rem 0.625rem"
+                  onChange={onChangeAllInput}
                   placeholder="Напишите ваше имя"
                />
             </div>
+
             <div>
                <label htmlFor="surname">Фамилия </label>
                <InputUi
-                  width="21.125rem"
-                  height="3rem"
-                  padding="0.5rem 0.625rem"
-                  id="surname"
                   type="text"
+                  id="surname"
+                  height="3rem"
+                  width="21.125rem"
+                  value={all.surname}
+                  padding="0.5rem 0.625rem"
+                  onChange={onChangeAllInput}
                   placeholder="Напишите вашу фамилию"
                />
             </div>
+
             <div>
                <label htmlFor="email">E-mail </label>
                <InputUi
-                  width="21.125rem"
-                  height="3rem"
-                  padding="0.5rem 0.625rem"
-                  error={!isEmailValid}
-                  onChange={validateEmail}
-                  value={valueEmail}
                   id="email"
                   type="email"
+                  height="3rem"
+                  width="21.125rem"
+                  value={all.email}
+                  error={!isEmailValid}
+                  onChange={validateEmail}
+                  padding="0.5rem 0.625rem"
                   placeholder="Напишите ваш email"
                />
             </div>
+
             <div>
                <label htmlFor="phone">Телефон </label>
                <InputUi
-                  width="21.125rem"
-                  height="3rem"
-                  padding="0.5rem 0.625rem"
                   id="phone"
                   type="tel"
+                  value={all.tel}
+                  height="3rem"
+                  width="21.125rem"
+                  padding="0.5rem 0.625rem"
+                  onChange={onChangeAllInput}
                   placeholder="+996 (_ _ _) _ _  _ _  _ _"
                />
             </div>
@@ -91,21 +118,26 @@ export const UserInfo = () => {
          <div className="SmsContent">
             <label htmlFor="Sms">Сообщение</label>
             <InputUi
-               width="99%"
-               height="9.375rem"
-               onChange={validateMessage}
-               padding="-3.75rem 0.625rem 0  0"
                id="Sms"
                type="text"
+               width="99%"
+               height="9.375rem"
+               value={all.message}
+               onChange={validateMessage}
+               padding="-3.75rem 0.625rem 0  0"
                placeholder="Напишите сообщение"
+               multiline
+               rows={4}
             />
+
             {messageValue && <p>Напишите сообщение не менее 5 букв</p>}
 
             <Button
                className="button"
-               padding="0.88rem 0 1rem 0"
                variant="contained"
+               disabled={!isEmailValid}
                onClick={buttonСleaning}
+               padding="0.88rem 0 1rem 0"
             >
                Отправить
             </Button>
@@ -116,7 +148,7 @@ export const UserInfo = () => {
 
 const Container = styled('div')(({ theme }) => ({
    width: '43rem',
-   marginTop: '3.75rem',
+   margin: '3.75rem 0 7.5rem 0',
 
    '.InfoContent': {
       display: 'flex',
@@ -143,7 +175,6 @@ const Container = styled('div')(({ theme }) => ({
       display: 'flex',
       gap: '0.4rem',
 
-      // flexDirection: 'column',
       '&::after': {
          content: '"*"',
          color: 'red',
@@ -151,8 +182,6 @@ const Container = styled('div')(({ theme }) => ({
          fontStyle: 'normal',
          fontWeight: '400',
          lineHeight: '150%',
-
-         // display: 'inline',
       },
    },
 

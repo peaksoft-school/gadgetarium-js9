@@ -1,17 +1,19 @@
 import { styled } from '@mui/material'
 import React from 'react'
 import { CourseInfo } from './courseInfo'
+import { MapComponent } from './Map'
 import { UserInfo } from './userInfo'
 
 export const Contacts = () => {
    return (
-      <>
+      <Container>
          <TextHeader>Контакты</TextHeader>
-         <Container>
+         <ContentContainer>
             <CourseInfo />
             <UserInfo />
-         </Container>
-      </>
+         </ContentContainer>
+         <MapComponent />
+      </Container>
    )
 }
 
@@ -19,6 +21,9 @@ const Container = styled('div')`
    width: 79.6875vw;
    margin: 0 auto;
    padding: 0;
+`
+
+const ContentContainer = styled('div')`
    display: flex;
    justify-content: space-between;
 `
@@ -26,7 +31,7 @@ const Container = styled('div')`
 const TextHeader = styled('h1')(({ theme }) => ({
    borderBottom: `1px solid ${theme.palette.secondary.main}`,
    fontFamily: theme.typography.fontFamily,
-   width: '79.6875vw',
+   width: '100%',
    fontSize: '1.875rem',
    fontStyle: 'normal',
    fontWeight: '500',
