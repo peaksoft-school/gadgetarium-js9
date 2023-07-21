@@ -8,46 +8,46 @@ import TableItem from './TableItem'
 
 const tables = [
    [
-      { photoState: true, widthForPhoto: '6.625rem ' },
-      { name: 'Артикул', width: '8.6875rem' },
-      { name: 'Наименование товара', width: '15rem' },
-      { name: 'Дата создания', width: '10.875rem' },
-      { name: 'Кол-во', width: '9.0625rem' },
-      { name: 'Цена товара', width: '9.875rem' },
-      { name: 'Текущея цена', width: '11.375rem' },
-      { action: true, edit: true, widthForAction: '5.9375rem' },
+      { photoState: true, widthForPhoto: 106 },
+      { name: 'Артикул', width: 139 },
+      { name: 'Наименование товара', width: 240 },
+      { name: 'Дата создания', width: 174 },
+      { name: 'Кол-во', width: 145 },
+      { name: 'Цена товара', width: 158 },
+      { name: 'Текущея цена', width: 182 },
+      { action: true, edit: true, widthForAction: 95 },
    ],
    [
-      { photoState: true, widthForPhoto: '6.625rem ' },
-      { name: 'Наименование товара', width: '16.5625rem' },
-      { name: 'Цвет', width: '9,75rem' },
-      { name: 'Кол-во SIM-карт', width: '11.25rem' },
-      { name: 'ОЗУ', width: '7.125rem' },
-      { name: 'ПЗУ', width: '7.3125rem' },
-      { name: 'Количество', width: '9.75rem' },
-      { name: 'Цена', width: '9.0625rem' },
+      { photoState: true, widthForPhoto: 106 },
+      { name: 'Наименование товара', width: 265 },
+      { name: 'Цвет', width: 156 },
+      { name: 'Кол-во SIM-карт', width: 180 },
+      { name: 'ОЗУ', width: 114 },
+      { name: 'ПЗУ', width: 117 },
+      { name: 'Количество', width: 156 },
+      { name: 'Цена', width: 145 },
       { action: false },
    ],
    [
       { photoState: false },
-      { name: 'ФИО', width: '14.75rem' },
-      { name: 'Номер/Дата', width: '13.0625rem' },
-      { name: 'Кол-во', width: '8.625rem' },
-      { name: 'Общая сумма', width: '11.625rem' },
-      { name: 'Оформление заказа', width: '12.75rem' },
-      { name: 'Статус', width: '10.5625rem' },
-      { action: true, edit: false, widthForAction: '5.9375rem' },
+      { name: 'ФИО', width: 236 },
+      { name: 'Номер/Дата', width: 209 },
+      { name: 'Кол-во', width: 138 },
+      { name: 'Общая сумма', width: 186 },
+      { name: 'Оформление заказа', width: 204 },
+      { name: 'Статус', width: 169 },
+      { action: true, edit: false, widthForAction: 95 },
    ],
    [
       { photoState: false },
-      { name: 'Бренд', width: '12.3125rem', paddingLeft: '1.25rem' },
-      { name: 'Цвет', width: '10rem' },
-      { name: 'Объем памяти', width: '12.0625rem' },
-      { name: 'Оперативная память', width: '15.25rem' },
-      { name: 'Кол-во SIM-карт', width: '14.6875rem' },
-      { name: 'Дата выпуска', width: '22.25rem' },
-      { name: 'Кол-во товара', width: '10rem', paddingLeft: '1.25rem' },
-      { name: 'Цена', width: '10.3125rem', paddingLeft: '1.25rem' },
+      { name: 'Бренд', width: 197, paddingLeft: '20px' },
+      { name: 'Цвет', width: 160 },
+      { name: 'Объем памяти', width: 193 },
+      { name: 'Оперативная память', width: 244 },
+      { name: 'Кол-во SIM-карт', width: 235 },
+      { name: 'Дата выпуска', width: 366 },
+      { name: 'Кол-во товара', width: 160, paddingLeft: '20px' },
+      { name: 'Цена', width: 165, paddingLeft: '20px' },
       { action: false },
    ],
 ]
@@ -63,7 +63,7 @@ export default function AdminTable({ index }) {
                {index === 3 ? null : (
                   <StyledTableCell
                      align="left"
-                     sx={{ width: '4.125rem', paddingLeft: '1.25rem' }}
+                     sx={{ width: '66px', paddingLeft: '20px' }}
                   >
                      ID
                   </StyledTableCell>
@@ -73,7 +73,7 @@ export default function AdminTable({ index }) {
                   return (
                      <>
                         {el.photoState && (
-                           <StyledTableCell sx={{ width: '6.625rem' }}>
+                           <StyledTableCell sx={{ width: 106 }}>
                               Фото
                            </StyledTableCell>
                         )}
@@ -86,7 +86,7 @@ export default function AdminTable({ index }) {
                            {el.name}
                         </StyledTableCell>
                         {el.action && (
-                           <StyledTableCell sx={{ width: '5.9375rem' }}>
+                           <StyledTableCell sx={{ width: 95 }}>
                               Действия
                            </StyledTableCell>
                         )}

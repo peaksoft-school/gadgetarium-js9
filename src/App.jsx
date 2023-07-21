@@ -8,7 +8,7 @@ function App() {
       <ThemeProvider theme={themes}>
          <h1>Hello World</h1>
          <CustomToast />
-         <AdminTable />
+         <AdminTable index={0} />
       </ThemeProvider>
    )
 }
