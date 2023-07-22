@@ -12,8 +12,11 @@ import {
 const TableItem = ({ tables, textInCenter, index, ...item }) => {
    const time = item.purchaseTime.split(' ')[1]
    const date = item.purchaseTime.split(' ')[0]
-   const discountAmount = (item.productPrice * item.discount) / 100
-   const finalPrice = item.productPrice - discountAmount
+   const discountAmount =
+      item.discount && (item.productPrice * item.discount) / 100
+   const finalPrice = item.discount
+      ? item.productPrice - discountAmount
+      : item.productPrice
    const abbreviatedModelName = item.modelName && item.modelName.slice(0, 18)
    const [isHovered, setIsHovered] = useState(false)
    const toggleHoveredHandler = () => {
@@ -105,7 +108,8 @@ const TableItem = ({ tables, textInCenter, index, ...item }) => {
                      center={textInCenterString}
                      sx={{
                         width: el.width,
-                        marginTop: textInCenterString ? '0' : '0.3125rem',
+                        marginTop:
+                           textInCenterString === 'true' ? '0' : '0.3125rem',
                      }}
                      key={el.name}
                   >
@@ -135,7 +139,7 @@ const TableItem = ({ tables, textInCenter, index, ...item }) => {
                   >
                      {el.width === 240
                         ? `Кол-во товара ${item.quantityOfGoods}шт.`
-                        : `${abbreviatedModelName}`}
+                        : `${abbreviatedModelName}...`}
                      {el.width === 240 && (
                         <ModelName>{abbreviatedModelName}</ModelName>
                      )}
@@ -345,7 +349,7 @@ const TableItem = ({ tables, textInCenter, index, ...item }) => {
                      center={textInCenterString}
                      key={el.name}
                   >
-                     {finalPrice.toLocaleString()}с
+                     {finalPrice ? finalPrice.toLocaleString() : 0}с
                   </StyledTableCell>
                )
             }

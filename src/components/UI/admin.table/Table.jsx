@@ -16,7 +16,7 @@ const tables = [
       { name: 'Кол-во', width: '9.0625rem' },
       { name: 'Цена товара', width: '9.875rem' },
       { name: 'Текущея цена', width: '11.375rem' },
-      { name: 'Действие', edit: true, width: '5.9375rem' },
+      { name: 'Действия', edit: true, width: '5.9375rem' },
    ],
    [
       { name: 'ID', width: '4.125rem', paddingLeft: '1.25rem' },

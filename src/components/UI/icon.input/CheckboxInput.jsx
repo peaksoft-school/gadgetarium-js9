@@ -7,20 +7,20 @@ function CheckboxInput({ isChecked, onChange, bgColor }) {
       <StyledCheckbox
          checked={isChecked}
          onChange={onChange}
-         bgColor={bgColor}
+         bgcolor={bgColor}
          color="primary"
       />
    )
 }
 
 export default CheckboxInput
-const StyledCheckbox = styled(Checkbox)(({ bgColor }) => ({
+const StyledCheckbox = styled(Checkbox)(({ bgcolor }) => ({
    color: 'gray',
    '&:hover': {
       background: 'none',
-      color: bgColor,
+      color: bgcolor,
    },
    '&.Mui-checked': {
-      color: bgColor,
+      color: bgcolor,
    },
 }))
