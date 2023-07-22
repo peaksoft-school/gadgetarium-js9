@@ -1,9 +1,10 @@
 import { styled } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import { ReactComponent as EditIcon } from '../../../assets/icons/tools-for-site/edit-icon.svg'
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/tools-for-site/delete-icon.svg'
 import ReviewStars from './ReviewStars'
 import { ReactComponent as DefaultIcon } from '../../../assets/icons/avatar/default-avatar-icon.svg'
+import RewievModal from '../../admin/RewievModal'
 
 const Reviews = ({
    userName,
@@ -11,13 +12,37 @@ const Reviews = ({
    userText,
    timePublication,
    stars,
-   adminReviewState,
    canUserEdit,
-   adminText = '',
+   adminState = true,
 }) => {
+   const [openModal, setOpenModal] = useState(false)
+   const [adminText, setAdminText] = useState('')
+   const [modalText, setModalText] = useState('')
+   const [adminReviewState, setAdminReviewState] = useState(false)
+   const getAdminText = (e) => {
+      setModalText(e.target.value)
+   }
+   const saveTextHandler = () => {
+      if (modalText === '') {
+         if (adminReviewState === true) {
+            setAdminReviewState(false)
+            setModalText('')
+            setOpenModal(false)
+         }
+
+         return null
+      }
+      setAdminReviewState(true)
+      setOpenModal(false)
+      setAdminText(modalText)
+      return null
+   }
+   const toggleModalHandler = () => {
+      setOpenModal((prev) => !prev)
+   }
    const StyledUserIcon = styled(Icon)`
-      width: 4vw;
-      height: 5.309vh;
+      width: 2.5rem;
+      height: 2.5rem;
       path {
          fill: #dedede;
       }
@@ -47,6 +72,21 @@ const Reviews = ({
                <DeleteIcon />
             </ToolContainer>
          )}
+         {adminState && (
+            <AdminButtonContainer>
+               <AdminButton onClick={toggleModalHandler}>
+                  {adminReviewState ? 'Редактировать' : 'Ответить'}
+               </AdminButton>
+               <RewievModal
+                  modalText={modalText}
+                  getAdminText={getAdminText}
+                  saveTextHandler={saveTextHandler}
+                  open={openModal}
+                  adminReviewState={adminReviewState}
+                  handleClose={toggleModalHandler}
+               />
+            </AdminButtonContainer>
+         )}
       </Container>
    )
 }
@@ -69,6 +109,22 @@ const ToolContainer = styled('div')`
 const UserContainer = styled('div')`
    display: flex;
    gap: 0.75rem;
+`
+const AdminButton = styled('button')`
+   color: #cb11ab;
+   font-family: Inter;
+   font-size: 0.875rem;
+   font-style: normal;
+   font-weight: 600;
+   line-height: normal;
+   background-color: white;
+   border: none;
+   margin-bottom: 0.5rem;
+   cursor: pointer;
+`
+const AdminButtonContainer = styled('div')`
+   display: flex;
+   justify-content: flex-end;
 `
 const UserDescriptionContainer = styled('div')``
 const Name = styled('h4')`
@@ -104,3 +160,4 @@ const Text = styled('div')`
    line-height: 1.4rem;
    color: #384255;
 `
+
