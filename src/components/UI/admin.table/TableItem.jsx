@@ -1,11 +1,13 @@
-/* eslint-disable no-nested-ternary */
 import { TableCell, TableRow, styled } from '@mui/material'
 import React, { useState } from 'react'
 import { ReactComponent as EditIcon } from '../../../assets/icons/tools-for-site/edit-icon.svg'
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/tools-for-site/delete-icon.svg'
 import { ReactComponent as ArrowDown } from '../../../assets/icons/arrows/down-icon.svg'
-import CheckboxInput from '../icon.input/CheckboxInput'
 import { themes } from '../../../utils/common/styles/themes'
+import {
+   calculateBackgroundColor,
+   nestedContentFunction,
+} from '../../../utils/common/constants/functions'
 
 const TableItem = ({ tables, textInCenter, index, ...item }) => {
    const time = item.purchaseTime.split(' ')[1]
@@ -46,13 +48,7 @@ const TableItem = ({ tables, textInCenter, index, ...item }) => {
                   paddingLeft: isHovered ? '0.3125rem' : '1.25rem',
                }}
             >
-               {isHovered ? (
-                  index === 2 ? null : (
-                     <CheckboxInput bgColor="black" />
-                  )
-               ) : (
-                  '1'
-               )}
+               {nestedContentFunction(isHovered, index)}
             </StyledTableCell>
          )}
 
@@ -97,12 +93,12 @@ const TableItem = ({ tables, textInCenter, index, ...item }) => {
                   </StyledTableCell>
                )
             }
-            if (el.photoState === true) {
+            if (el.name === 'Фото') {
                return (
                   <StyledTableCell
                      textInCenter={textInCenter}
                      sx={{
-                        width: el.widthForPhoto,
+                        width: el.width,
                         marginTop: textInCenter ? '0' : '0.3125rem',
                      }}
                   >
@@ -328,11 +324,11 @@ const TableItem = ({ tables, textInCenter, index, ...item }) => {
                   </StyledTableCell>
                )
             }
-            if (el.action === true) {
+            if (el.name === 'Действия') {
                return (
                   <StyledTableCell
                      sx={{
-                        width: el.widthForAction,
+                        width: el.width,
                         display: el.edit === false && 'flex',
                         justifyContent: 'center',
                      }}
@@ -357,12 +353,7 @@ const StyledTableRow = styled(TableRow)(
    ({ isHovered, textInCenter, index }) => ({
       width: index === 3 ? '107.5rem' : '81.5625rem',
       height: '4.75rem',
-      background:
-         index === 3
-            ? 'white'
-            : isHovered
-            ? 'rgba(144, 156, 181, 0.20)'
-            : 'none',
+      background: calculateBackgroundColor(isHovered, index),
       borderRadius: '0.375rem',
       transition: 'background 0.3s',
       border: `1px solid ${themes.palette.secondary.main}`,

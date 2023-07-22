@@ -8,7 +8,7 @@ function App() {
       <ThemeProvider theme={themes}>
          <h1>Hello World</h1>
          <CustomToast />
-         <AdminTable index={0} itemTableArray={[]} />
+         <AdminTable index={1} itemTableArray={[]} />
       </ThemeProvider>
    )
 }
