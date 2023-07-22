@@ -96,15 +96,15 @@ export default function AdminTable({ index, itemTableArray }) {
             </StyledTableRow>
          </StyledTableHead>
          <TableBody>
-            {itemTableArray.map(() => {
-               return (
-                  <TableItem
-                     tables={tables[index]}
-                     textInCenter
-                     index={index}
-                  />
-               )
-            })}
+            {itemTableArray.map((item) => (
+               <TableItem
+                  key={item.id}
+                  tables={tables[index]}
+                  textInCenter
+                  index={index}
+                  {...item}
+               />
+            ))}
          </TableBody>
       </StyledTable>
    )

@@ -7,41 +7,18 @@ import { ReactComponent as ArrowDown } from '../../../assets/icons/arrows/down-i
 import CheckboxInput from '../icon.input/CheckboxInput'
 import { themes } from '../../../utils/common/styles/themes'
 
-const TableItem = ({
-   tables,
-   textInCenter,
-   index,
-   productPrice = 50000,
-   purchaseTime = '05:05:2222 12:10',
-   fullName = 'Джаркимбаев Баха',
-   brand = '154568844',
-   memory = 128,
-   RAM = 8,
-   vendorCode = 154665884,
-   quantityOfGoods = 105,
-   modelName = 'Samsung Galaxy S21 128gb синий 9(MLP3RU)',
-   photo: Photo,
-   color = 'Черный',
-   number = '000000-455272',
-   quantity = 100,
-   totalSum = 50000,
-   discount = 30,
-   status = 'В обработке',
-   quantityOfSIMCart = 2,
-   ordering = 'Самовызов',
-   ROM = 64,
-}) => {
-   const time = purchaseTime.split(' ')[1]
-   const date = purchaseTime.split(' ')[0]
-   const discountAmount = (productPrice * discount) / 100
-   const finalPrice = productPrice - discountAmount
-   const abbreviatedModelName = modelName.slice(0, 18)
+const TableItem = ({ tables, textInCenter, index, ...item }) => {
+   const time = item.purchaseTime.split(' ')[1]
+   const date = item.purchaseTime.split(' ')[0]
+   const discountAmount = (item.productPrice * item.discount) / 100
+   const finalPrice = item.productPrice - discountAmount
+   const abbreviatedModelName = item.modelName.slice(0, 18)
    const [isHovered, setIsHovered] = useState(false)
    const toggleHoveredHandler = () => {
       setIsHovered((prev) => !prev)
    }
-   const StyledPhoto = Photo
-      ? styled(Photo)`
+   const StyledPhoto = item.photo
+      ? styled(item.photo)`
            width: 4rem;
            height: 4rem;
         `
@@ -52,6 +29,7 @@ const TableItem = ({
         `
    return (
       <StyledTableRow
+         key={item.key}
          isHovered={isHovered}
          textInCenter={textInCenter}
          index={index}
@@ -85,7 +63,7 @@ const TableItem = ({
                      textInCenter={textInCenter}
                      sx={{ width: el.width }}
                   >
-                     {fullName}
+                     {item.fullName}
                   </StyledTableCell>
                )
             }
@@ -95,7 +73,7 @@ const TableItem = ({
                      sx={{ width: el.width, paddingLeft: '1.25rem' }}
                      textInCenter={textInCenter}
                   >
-                     {brand}
+                     {item.brand}
                   </StyledTableCell>
                )
             }
@@ -105,7 +83,7 @@ const TableItem = ({
                      sx={{ width: el.width }}
                      textInCenter={textInCenter}
                   >
-                     {memory} ГБ
+                     {item.memory} ГБ
                   </StyledTableCell>
                )
             }
@@ -115,7 +93,7 @@ const TableItem = ({
                      sx={{ width: el.width }}
                      textInCenter={textInCenter}
                   >
-                     RAM {RAM}ГБ
+                     RAM {item.RAM}ГБ
                   </StyledTableCell>
                )
             }
@@ -138,7 +116,7 @@ const TableItem = ({
                      sx={{ width: el.width }}
                      textInCenter={textInCenter}
                   >
-                     {vendorCode}
+                     {item.vendorCode}
                   </StyledTableCell>
                )
             }
@@ -151,7 +129,7 @@ const TableItem = ({
                      textInCenter={textInCenter}
                   >
                      {el.width === 240
-                        ? `Кол-во товара ${quantityOfGoods}шт.`
+                        ? `Кол-во товара ${item.quantityOfGoods}шт.`
                         : `${abbreviatedModelName}`}
                      {el.width === 240 && (
                         <ModelName>{abbreviatedModelName}</ModelName>
@@ -167,7 +145,7 @@ const TableItem = ({
                      }}
                      textInCenter={textInCenter}
                   >
-                     {color}
+                     {item.color}
                   </StyledTableCell>
                )
             }
@@ -191,7 +169,7 @@ const TableItem = ({
                      }}
                      textInCenter={textInCenter}
                   >
-                     {number}
+                     {item.number}
                      <ModelName>{time}</ModelName>
                   </StyledTableCell>
                )
@@ -202,7 +180,7 @@ const TableItem = ({
                      sx={{ width: el.width }}
                      textInCenter={textInCenter}
                   >
-                     {quantity} {el.width === 138 && 'шт.'}
+                     {item.quantity} {el.width === 138 && 'шт.'}
                   </StyledTableCell>
                )
             }
@@ -212,7 +190,7 @@ const TableItem = ({
                      sx={{ width: el.width }}
                      textInCenter={textInCenter}
                   >
-                     {totalSum}
+                     {item.totalSum}
                   </StyledTableCell>
                )
             }
@@ -222,7 +200,7 @@ const TableItem = ({
                      sx={{ width: el.width }}
                      textInCenter={textInCenter}
                   >
-                     {ordering}
+                     {item.ordering}
                   </StyledTableCell>
                )
             }
@@ -237,7 +215,7 @@ const TableItem = ({
                      }}
                      textInCenter={textInCenter}
                   >
-                     {status} <StyledArrowDown />
+                     {item.status} <StyledArrowDown />
                   </StyledTableCell>
                )
             }
@@ -247,7 +225,7 @@ const TableItem = ({
                      sx={{ width: el.width }}
                      textInCenter={textInCenter}
                   >
-                     {quantityOfSIMCart}
+                     {item.quantityOfSIMCart}
                   </StyledTableCell>
                )
             }
@@ -274,7 +252,7 @@ const TableItem = ({
                      }}
                      textInCenter={textInCenter}
                   >
-                     {quantityOfGoods}
+                     {item.quantityOfGoods}
                   </StyledTableCell>
                )
             }
@@ -284,7 +262,7 @@ const TableItem = ({
                      sx={{ width: el.width }}
                      textInCenter={textInCenter}
                   >
-                     {RAM}
+                     {item.RAM}
                   </StyledTableCell>
                )
             }
@@ -294,7 +272,7 @@ const TableItem = ({
                      sx={{ width: el.width }}
                      textInCenter={textInCenter}
                   >
-                     {ROM}
+                     {item.ROM}
                   </StyledTableCell>
                )
             }
@@ -304,7 +282,7 @@ const TableItem = ({
                      sx={{ width: el.width }}
                      textInCenter={textInCenter}
                   >
-                     {quantity}
+                     {item.quantity}
                   </StyledTableCell>
                )
             }
@@ -322,7 +300,7 @@ const TableItem = ({
                      }}
                      textInCenter={textInCenter}
                   >
-                     {productPrice.toLocaleString()}
+                     {item.productPrice.toLocaleString()}
                   </StyledTableCell>
                )
             }
@@ -335,8 +313,8 @@ const TableItem = ({
                      }}
                      textInCenter={textInCenter}
                   >
-                     {productPrice.toLocaleString()}с
-                     <PersentDiscount>{discount}%</PersentDiscount>
+                     {item.productPrice.toLocaleString()}с
+                     <PersentDiscount>{item.discount}%</PersentDiscount>
                   </StyledTableCell>
                )
             }
