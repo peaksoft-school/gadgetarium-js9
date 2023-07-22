@@ -4,7 +4,7 @@ export const calculateBackgroundColor = (isHovered, index) => {
    if (index === 3) {
       return 'white'
    }
-   return isHovered ? 'rgba(144, 156, 181, 0.20)' : 'none'
+   return isHovered === 'true' ? 'rgba(144, 156, 181, 0.20)' : 'none'
 }
 export const nestedContentFunction = (isHovered, index) => {
    if (isHovered === true) {

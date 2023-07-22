@@ -14,7 +14,7 @@ const TableItem = ({ tables, textInCenter, index, ...item }) => {
    const date = item.purchaseTime.split(' ')[0]
    const discountAmount = (item.productPrice * item.discount) / 100
    const finalPrice = item.productPrice - discountAmount
-   const abbreviatedModelName = item.modelName.slice(0, 18)
+   const abbreviatedModelName = item.modelName && item.modelName.slice(0, 18)
    const [isHovered, setIsHovered] = useState(false)
    const toggleHoveredHandler = () => {
       setIsHovered((prev) => !prev)
@@ -29,11 +29,13 @@ const TableItem = ({ tables, textInCenter, index, ...item }) => {
            height: 4rem;
            background-color: rgba(56, 58, 83, 0.9);
         `
+   const hoveredString = isHovered ? 'true' : 'false'
+   const textInCenterString = textInCenter ? 'true' : 'false'
    return (
       <StyledTableRow
          key={item.key}
-         isHovered={isHovered}
-         textInCenter={textInCenter}
+         hovered={hoveredString}
+         center={textInCenterString}
          index={index}
          sx={{ marginTop: '0.625rem' }}
          onMouseEnter={toggleHoveredHandler}
@@ -42,7 +44,7 @@ const TableItem = ({ tables, textInCenter, index, ...item }) => {
          {index === 3 ? null : (
             <StyledTableCell
                align="left"
-               textInCenter={textInCenter}
+               center={textInCenterString}
                sx={{
                   width: '4.125rem',
                   paddingLeft: isHovered ? '0.3125rem' : '1.25rem',
@@ -56,8 +58,9 @@ const TableItem = ({ tables, textInCenter, index, ...item }) => {
             if (el.name === 'ФИО') {
                return (
                   <StyledTableCell
-                     textInCenter={textInCenter}
+                     center={textInCenterString}
                      sx={{ width: el.width }}
+                     key={el.name}
                   >
                      {item.fullName}
                   </StyledTableCell>
@@ -67,7 +70,8 @@ const TableItem = ({ tables, textInCenter, index, ...item }) => {
                return (
                   <StyledTableCell
                      sx={{ width: el.width, paddingLeft: '1.25rem' }}
-                     textInCenter={textInCenter}
+                     center={textInCenterString}
+                     key={el.name}
                   >
                      {item.brand}
                   </StyledTableCell>
@@ -77,7 +81,8 @@ const TableItem = ({ tables, textInCenter, index, ...item }) => {
                return (
                   <StyledTableCell
                      sx={{ width: el.width }}
-                     textInCenter={textInCenter}
+                     center={textInCenterString}
+                     key={el.name}
                   >
                      {item.memory} ГБ
                   </StyledTableCell>
@@ -87,7 +92,8 @@ const TableItem = ({ tables, textInCenter, index, ...item }) => {
                return (
                   <StyledTableCell
                      sx={{ width: el.width }}
-                     textInCenter={textInCenter}
+                     center={textInCenterString}
+                     key={el.name}
                   >
                      RAM {item.RAM}ГБ
                   </StyledTableCell>
@@ -96,11 +102,12 @@ const TableItem = ({ tables, textInCenter, index, ...item }) => {
             if (el.name === 'Фото') {
                return (
                   <StyledTableCell
-                     textInCenter={textInCenter}
+                     center={textInCenterString}
                      sx={{
                         width: el.width,
-                        marginTop: textInCenter ? '0' : '0.3125rem',
+                        marginTop: textInCenterString ? '0' : '0.3125rem',
                      }}
+                     key={el.name}
                   >
                      <StyledPhoto />
                   </StyledTableCell>
@@ -110,7 +117,8 @@ const TableItem = ({ tables, textInCenter, index, ...item }) => {
                return (
                   <StyledTableCell
                      sx={{ width: el.width }}
-                     textInCenter={textInCenter}
+                     center={textInCenterString}
+                     key={el.name}
                   >
                      {item.vendorCode}
                   </StyledTableCell>
@@ -122,7 +130,8 @@ const TableItem = ({ tables, textInCenter, index, ...item }) => {
                      sx={{
                         width: el.width,
                      }}
-                     textInCenter={textInCenter}
+                     center={textInCenterString}
+                     key={el.name}
                   >
                      {el.width === 240
                         ? `Кол-во товара ${item.quantityOfGoods}шт.`
@@ -139,7 +148,8 @@ const TableItem = ({ tables, textInCenter, index, ...item }) => {
                      sx={{
                         width: el.width,
                      }}
-                     textInCenter={textInCenter}
+                     center={textInCenterString}
+                     key={el.name}
                   >
                      {item.color}
                   </StyledTableCell>
@@ -149,7 +159,8 @@ const TableItem = ({ tables, textInCenter, index, ...item }) => {
                return (
                   <StyledTableCell
                      sx={{ width: el.width }}
-                     textInCenter={textInCenter}
+                     center={textInCenterString}
+                     key={el.name}
                   >
                      {date}
                      <Time>{time}</Time>
@@ -163,7 +174,8 @@ const TableItem = ({ tables, textInCenter, index, ...item }) => {
                         width: el.width,
                         color: '#2C68F5',
                      }}
-                     textInCenter={textInCenter}
+                     center={textInCenterString}
+                     key={el.name}
                   >
                      {item.number}
                      <ModelName>{time}</ModelName>
@@ -174,7 +186,8 @@ const TableItem = ({ tables, textInCenter, index, ...item }) => {
                return (
                   <StyledTableCell
                      sx={{ width: el.width }}
-                     textInCenter={textInCenter}
+                     center={textInCenterString}
+                     key={el.name}
                   >
                      {item.quantity} {el.width === 138 && 'шт.'}
                   </StyledTableCell>
@@ -184,7 +197,8 @@ const TableItem = ({ tables, textInCenter, index, ...item }) => {
                return (
                   <StyledTableCell
                      sx={{ width: el.width }}
-                     textInCenter={textInCenter}
+                     center={textInCenterString}
+                     key={el.name}
                   >
                      {item.totalSum}
                   </StyledTableCell>
@@ -194,7 +208,8 @@ const TableItem = ({ tables, textInCenter, index, ...item }) => {
                return (
                   <StyledTableCell
                      sx={{ width: el.width }}
-                     textInCenter={textInCenter}
+                     center={textInCenterString}
+                     key={el.name}
                   >
                      {item.ordering}
                   </StyledTableCell>
@@ -209,7 +224,8 @@ const TableItem = ({ tables, textInCenter, index, ...item }) => {
                         display: 'flex',
                         alignItems: 'center',
                      }}
-                     textInCenter={textInCenter}
+                     center={textInCenterString}
+                     key={el.name}
                   >
                      {item.status} <StyledArrowDown />
                   </StyledTableCell>
@@ -219,7 +235,8 @@ const TableItem = ({ tables, textInCenter, index, ...item }) => {
                return (
                   <StyledTableCell
                      sx={{ width: el.width }}
-                     textInCenter={textInCenter}
+                     center={textInCenterString}
+                     key={el.name}
                   >
                      {item.quantityOfSIMCart}
                   </StyledTableCell>
@@ -229,7 +246,8 @@ const TableItem = ({ tables, textInCenter, index, ...item }) => {
                return (
                   <StyledTableCell
                      sx={{ width: el.width }}
-                     textInCenter={textInCenter}
+                     center={textInCenterString}
+                     key={el.name}
                   >
                      {date}
                   </StyledTableCell>
@@ -246,7 +264,8 @@ const TableItem = ({ tables, textInCenter, index, ...item }) => {
                         alignItems: 'center',
                         paddingLeft: index === 3 && '1.25rem',
                      }}
-                     textInCenter={textInCenter}
+                     center={textInCenterString}
+                     key={el.name}
                   >
                      {item.quantityOfGoods}
                   </StyledTableCell>
@@ -256,7 +275,8 @@ const TableItem = ({ tables, textInCenter, index, ...item }) => {
                return (
                   <StyledTableCell
                      sx={{ width: el.width }}
-                     textInCenter={textInCenter}
+                     center={textInCenterString}
+                     key={el.name}
                   >
                      {item.RAM}
                   </StyledTableCell>
@@ -266,7 +286,8 @@ const TableItem = ({ tables, textInCenter, index, ...item }) => {
                return (
                   <StyledTableCell
                      sx={{ width: el.width }}
-                     textInCenter={textInCenter}
+                     center={textInCenterString}
+                     key={el.name}
                   >
                      {item.ROM}
                   </StyledTableCell>
@@ -276,7 +297,8 @@ const TableItem = ({ tables, textInCenter, index, ...item }) => {
                return (
                   <StyledTableCell
                      sx={{ width: el.width }}
-                     textInCenter={textInCenter}
+                     center={textInCenterString}
+                     key={el.name}
                   >
                      {item.quantity}
                   </StyledTableCell>
@@ -294,9 +316,10 @@ const TableItem = ({ tables, textInCenter, index, ...item }) => {
                         alignItems: 'center',
                         paddingLeft: index === 3 && '1.25rem',
                      }}
-                     textInCenter={textInCenter}
+                     center={textInCenterString}
+                     key={el.name}
                   >
-                     {item.productPrice.toLocaleString()}
+                     {item.productPrice && item.productPrice.toLocaleString()}
                   </StyledTableCell>
                )
             }
@@ -307,9 +330,10 @@ const TableItem = ({ tables, textInCenter, index, ...item }) => {
                         width: el.width,
                         color: '#2C68F5',
                      }}
-                     textInCenter={textInCenter}
+                     center={textInCenterString}
+                     key={el.name}
                   >
-                     {item.productPrice.toLocaleString()}с
+                     {item.productPrice && item.productPrice.toLocaleString()}с
                      <PersentDiscount>{item.discount}%</PersentDiscount>
                   </StyledTableCell>
                )
@@ -318,7 +342,8 @@ const TableItem = ({ tables, textInCenter, index, ...item }) => {
                return (
                   <StyledTableCell
                      sx={{ width: el.width, color: '#2C68F5' }}
-                     textInCenter={textInCenter}
+                     center={textInCenterString}
+                     key={el.name}
                   >
                      {finalPrice.toLocaleString()}с
                   </StyledTableCell>
@@ -332,7 +357,8 @@ const TableItem = ({ tables, textInCenter, index, ...item }) => {
                         display: el.edit === false && 'flex',
                         justifyContent: 'center',
                      }}
-                     textInCenter={textInCenter}
+                     center={textInCenterString}
+                     key={el.name}
                   >
                      {el.edit && <StyledEditIcon />}
                      <StyledDeleteIcon
@@ -349,26 +375,24 @@ const TableItem = ({ tables, textInCenter, index, ...item }) => {
 
 export default TableItem
 
-const StyledTableRow = styled(TableRow)(
-   ({ isHovered, textInCenter, index }) => ({
-      width: index === 3 ? '107.5rem' : '81.5625rem',
-      height: '4.75rem',
-      background: calculateBackgroundColor(isHovered, index),
-      borderRadius: '0.375rem',
-      transition: 'background 0.3s',
-      border: `1px solid ${themes.palette.secondary.main}`,
-      boxSizing: 'border-box',
-      display: 'flex',
-      alignItems: textInCenter ? 'center' : 'flex-start',
-   })
-)
+const StyledTableRow = styled(TableRow)(({ hovered, center, index }) => ({
+   width: index === 3 ? '107.5rem' : '81.5625rem',
+   height: '4.75rem',
+   background: calculateBackgroundColor(hovered, index),
+   borderRadius: '0.375rem',
+   transition: 'background 0.3s',
+   border: `1px solid ${themes.palette.secondary.main}`,
+   boxSizing: 'border-box',
+   display: 'flex',
+   alignItems: center === 'true' ? 'center' : 'flex-start',
+}))
 
-const StyledTableCell = styled(TableCell)(({ textInCenter }) => ({
+const StyledTableCell = styled(TableCell)(({ center }) => ({
    fontFamily: 'Inter',
    fontStyle: 'normal',
    fontSize: '1rem',
    fontWeight: 500,
-   marginTop: textInCenter ? '0' : '18px',
+   marginTop: center === 'true' ? '0' : '18px',
    lineHeight: 'normal',
    borderBottom: 'none',
    letterSpacing: '0.0625rem',
