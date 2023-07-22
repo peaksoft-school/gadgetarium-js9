@@ -4,12 +4,12 @@ import { Button } from '../UI/Button'
 import { InputUi } from '../UI/Input'
 
 export const UserInfo = () => {
-   const [isEmailValid, setIsEmailValid] = useState(true)
+   const [isEmailValid, setIsEmailValid] = useState(false)
    const [messageValue, setMessageValue] = useState('')
    const [all, setAll] = useState({
       name: '',
       surname: '',
-      tel: '',
+      tel: '+996',
       email: '',
       message: '',
    })
@@ -117,17 +117,12 @@ export const UserInfo = () => {
 
          <div className="SmsContent">
             <label htmlFor="Sms">Сообщение</label>
-            <InputUi
+            <textarea
+               name="dsads"
                id="Sms"
-               type="text"
-               width="99%"
-               height="9.375rem"
                value={all.message}
                onChange={validateMessage}
-               padding="-3.75rem 0.625rem 0  0"
                placeholder="Напишите сообщение"
-               multiline
-               rows={4}
             />
 
             {messageValue && <p>Напишите сообщение не менее 5 букв</p>}
@@ -135,7 +130,7 @@ export const UserInfo = () => {
             <Button
                className="button"
                variant="contained"
-               disabled={!isEmailValid}
+               disabled={all.message || Boolean(messageValue) || !isEmailValid}
                onClick={buttonСleaning}
                padding="0.88rem 0 1rem 0"
             >
@@ -149,6 +144,7 @@ export const UserInfo = () => {
 const Container = styled('div')(({ theme }) => ({
    width: '43rem',
    margin: '3.75rem 0 7.5rem 0',
+   fontSize: '1rem',
 
    '.InfoContent': {
       display: 'flex',
@@ -190,12 +186,30 @@ const Container = styled('div')(({ theme }) => ({
       flexDirection: 'column',
       gap: '1.5rem',
       marginTop: '0.75rem',
+
       label: {
          marginBottom: '-1.2rem',
+
          '&::after': {
             content: "''",
          },
       },
+
+      textarea: {
+         width: '99%',
+         height: '9.375rem',
+         resize: 'none',
+         border: '1px solid #CDCDCD',
+         borderRadius: '0.375rem',
+         padding: '0.75rem 0.625rem',
+         fontSize: '1rem',
+
+         '&:focus': {
+            outline: 'none',
+            border: '2px solid #CB11AB',
+         },
+      },
+
       p: {
          color: 'red',
       },

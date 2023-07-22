@@ -1,9 +1,14 @@
 import React from 'react'
 import { Button as ButtonMui, styled } from '@mui/material'
 
-export const Button = ({ children, onClick, variant, ...props }) => {
+export const Button = ({ children, disabled, onClick, variant, ...props }) => {
    return (
-      <StyledButton onClick={onClick} props={props} variant={variant}>
+      <StyledButton
+         onClick={onClick}
+         disabled={disabled}
+         props={props}
+         variant={variant}
+      >
          {children}
       </StyledButton>
    )
