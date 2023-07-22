@@ -51,7 +51,7 @@ const tables = [
       { action: false },
    ],
 ]
-export default function AdminTable({ index }) {
+export default function AdminTable({ index, itemTableArray }) {
    return (
       <StyledTable
          index={index}
@@ -96,7 +96,15 @@ export default function AdminTable({ index }) {
             </StyledTableRow>
          </StyledTableHead>
          <TableBody>
-            <TableItem tables={tables[index]} textInCenter index={index} />
+            {itemTableArray.map(() => {
+               return (
+                  <TableItem
+                     tables={tables[index]}
+                     textInCenter
+                     index={index}
+                  />
+               )
+            })}
          </TableBody>
       </StyledTable>
    )
