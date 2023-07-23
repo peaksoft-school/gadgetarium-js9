@@ -50,16 +50,18 @@ const tables = [
       { name: 'Цена', width: '10.3125rem', paddingLeft: '1.25rem' },
    ],
 ]
-export default function AdminTable({ index, itemTableArray, textInCenter }) {
+export function AdminTable({ indexForTable, itemTableArray }) {
+   const textInCenter =
+      indexForTable === 1 || indexForTable === 3 ? 'true' : 'false'
    return (
       <StyledTable
-         index={index}
+         index={indexForTable}
          sx={{ minWidth: 400 }}
          aria-label="simple table"
       >
          <TableHead>
             <StyledTableRow>
-               {tables[index].map((el) => {
+               {tables[indexForTable].map((el) => {
                   return (
                      <StyledTableCell
                         key={el.name}
@@ -75,11 +77,12 @@ export default function AdminTable({ index, itemTableArray, textInCenter }) {
             </StyledTableRow>
          </TableHead>
          <TableBody>
-            {itemTableArray.map((item) => (
+            {itemTableArray.map((item, index) => (
                <TableItem
                   key={item.id}
-                  tables={tables[index]}
+                  tables={tables[indexForTable]}
                   textInCenter={textInCenter}
+                  indexForTable={indexForTable}
                   index={index}
                   {...item}
                />
