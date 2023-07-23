@@ -8,7 +8,13 @@ import {
    nestedContentFunction,
 } from '../../../utils/helpers/functions'
 
-const TableItem = ({ tables, textInCenter, indexForTable, index, ...item }) => {
+export const TableItem = ({
+   tables,
+   textInCenter,
+   indexForTable,
+   index,
+   ...item
+}) => {
    const time = item.purchaseTime.split(' ')[1]
    const date = item.purchaseTime.split(' ')[0]
    const discountAmount =
@@ -379,8 +385,6 @@ const TableItem = ({ tables, textInCenter, indexForTable, index, ...item }) => {
       </StyledTableRow>
    )
 }
-
-export default TableItem
 
 const StyledTableRow = styled(TableRow)(
    ({ theme, hovered, center, index }) => ({
