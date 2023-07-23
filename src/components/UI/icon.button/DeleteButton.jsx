@@ -1,9 +1,10 @@
 import { styled } from '@mui/material'
 import React from 'react'
+import { themes } from '../../../utils/common/styles/themes'
 
-const DeleteButton = () => {
+const DeleteButton = ({ onClick }) => {
    return (
-      <StyledButton>
+      <StyledButton onClick={onClick} themes={themes}>
          <svg
             width="10"
             height="10"
@@ -21,22 +22,27 @@ const DeleteButton = () => {
 }
 
 export default DeleteButton
-const StyledButton = styled('button')`
-   width: 18px;
-   height: 18px;
-   border: 1px solid #91969e;
-   border-radius: 100%;
-   &:hover {
-      border: 1px solid #cb11ab;
-   }
-   &:active {
-      border: 1px solid #cb11ab;
-   }
-   &:hover svg path {
-      fill: #cb11ab;
-   }
-
-   &:active svg path {
-      fill: #cb11ab;
-   }
-`
+const StyledButton = styled('button')(({ themes }) => ({
+   width: '1.125rem',
+   cursor: 'pointer',
+   height: '1.125rem',
+   borderRadius: '100%',
+   border: '1px solid #91969e',
+   padding: '0',
+   paddingTop: '1px',
+   transition: 'border 0.3s',
+   '&:hover': {
+      border: `1px solid ${themes.palette.primary.main}`,
+   },
+   '&:active': {
+      border: `1px solid ${themes.palette.primary.main}`,
+   },
+   '&:hover path': {
+      transition: 'fill 0.3s',
+      fill: themes.palette.primary.main,
+   },
+   '&:active path': {
+      transition: 'fill 0.3s',
+      fill: themes.palette.primary.main,
+   },
+}))

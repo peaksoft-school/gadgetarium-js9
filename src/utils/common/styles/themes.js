@@ -5,15 +5,17 @@ export const themes = createTheme({
       primary: {
          main: '#CB11AB',
          light: '#384255',
+         dark: '#CB11AB',
          headerFooter: '#1a1a25',
-         contrastText: '#292929',
+         contrastText: '#fff',
+         mainContrastText: '#292929',
       },
       secondary: {
          main: '#CDCDCD',
          light: '#909CB5',
          lightGray: '#91969E',
          tabsBg: '#E0E2E7',
-         contrastText: '91969E',
+         contrastText: '#91969E',
       },
       error: {
          main: '#ff0000',
@@ -29,7 +31,7 @@ export const themes = createTheme({
       },
    },
    typography: {
-      fontFamily: 'Ubuntu sans-serif',
-      mainFontFamily: 'Inter sans-serif',
+      fontFamily: 'Ubuntu',
+      mainFontFamily: 'Inter',
    },
 })
