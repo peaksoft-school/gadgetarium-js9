@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import CloseIcon from '@mui/icons-material/Close'
 import { InputUi } from '../UI/Input'
 
-export const SignIn = () => {
+export const SignInAdmin = () => {
    const {
       register,
       formState: { errors },
@@ -57,11 +57,6 @@ export const SignIn = () => {
                Войти
             </ButtonUi>
          </Form>
-         <Block>
-            <p>
-               Нет аккаунта? <a href="/signup">Зарегистрироваться</a>
-            </p>
-         </Block>
       </Container>
    )
 }
@@ -84,13 +79,6 @@ const ButtonUi = styled(Button)`
    height: 2.9375rem;
    color: #fff;
    margin-left: 3.75rem;
-`
-const Block = styled('div')`
-   display: flex;
-   margin-left: 9.75rem;
-   a {
-      text-decoration: none;
-   }
 `
 const Input = styled(InputUi)`
    margin-left: 3.78rem;

@@ -2,6 +2,7 @@ import { Button, styled } from '@mui/material'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import CloseIcon from '@mui/icons-material/Close'
+import { InputUi } from '../UI/Input'
 
 export const SignUp = () => {
    const {
@@ -26,7 +27,7 @@ export const SignUp = () => {
          <MuiCloseIcon />
          <h2>Войти</h2>
          <Form onSubmit={handleSubmit(onSubmit)}>
-            <InputEmail
+            <Input
                {...register('firstName', {
                   required: 'Имя обязательно для заполнения',
                   pattern: {
@@ -41,7 +42,7 @@ export const SignUp = () => {
                   Boolean(getValues('firstName'))
                )}
             />
-            <InputPassword
+            <Input
                {...register('lastName', {
                   required: 'Фамилия обязательна для заполнения',
                   pattern: {
@@ -56,7 +57,7 @@ export const SignUp = () => {
                   Boolean(getValues('lastName'))
                )}
             />
-            <InputEmail
+            <Input
                {...register('phone', {
                   required: 'Номер телефона обязателен для заполнения',
                   pattern: {
@@ -71,7 +72,7 @@ export const SignUp = () => {
                   Boolean(getValues('lastName'))
                )}
             />
-            <InputPassword
+            <Input
                {...register('email', {
                   required: 'Неправильно указан Email ',
                   pattern: {
@@ -83,7 +84,7 @@ export const SignUp = () => {
                type="email"
                style={getInputStyles(errors.email, Boolean(getValues('email')))}
             />
-            <InputEmail
+            <Input
                {...register('password', {
                   required: 'Пароль обязателен для заполнения',
                   pattern: {
@@ -100,7 +101,7 @@ export const SignUp = () => {
                )}
             />
 
-            <InputPassword
+            <Input
                {...register('confirmPassword', {
                   required: 'Подтверждение пароля обязательно для заполнения',
                   validate: (value) =>
@@ -145,7 +146,7 @@ export const SignUp = () => {
 
 const Container = styled('div')`
    width: 40.3vw;
-   height: 80vh;
+   height: 88vh;
    margin: 0 auto;
    border-radius: 0.25rem;
    background: #fff;
@@ -169,18 +170,10 @@ const Block = styled('div')`
       text-decoration: none;
    }
 `
-const InputEmail = styled('input')`
-   width: 28.6875rem;
-   height: 2.6875rem;
+const Input = styled(InputUi)`
    margin-left: 3.78rem;
-   padding-left: 1.12rem;
 `
-const InputPassword = styled('input')`
-   width: 28.6875rem;
-   height: 2.6875rem;
-   margin-left: 3.78rem;
-   padding-left: 1.12rem;
-`
+
 const ErrorTitle = styled('div')`
    display: flex;
    width: 21.875rem;
