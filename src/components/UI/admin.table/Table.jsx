@@ -4,7 +4,7 @@ import TableCell from '@mui/material/TableCell'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import { TableBody, styled } from '@mui/material'
-import TableItem from './TableItem'
+import { TableItem } from './TableItem'
 
 const tables = [
    [

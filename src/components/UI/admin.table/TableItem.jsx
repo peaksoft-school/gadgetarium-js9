@@ -60,6 +60,7 @@ export const TableItem = ({
                         width: '4.125rem',
                         paddingLeft: isHovered ? '0.3125rem' : '1.25rem',
                      }}
+                     key={el.name}
                   >
                      {nestedContentFunction(isHovered, indexForTable, index)}
                   </StyledTableCell>
