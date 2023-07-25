@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 export const category = [
    { id: '1', text: 'Смартфоны' },
    { id: '2', text: 'Ноутбуки и планшеты' },
@@ -161,4 +162,23 @@ export const bgColor = [
    '#D69DBC',
    '#CD6699',
    '#894465',
+=======
+import gadgetStorePhoto from '../../../assets/images/gadgetStorePhoto.jpg'
+import gadgetStoreFigmaPhoto from '../../../assets/images/gadgetStoreFigmaPhoto.png'
+import gadgetPhoto from '../../../assets/images/gadgetPhoto.jpg'
+
+export const slidePhotos = [
+   {
+      id: '1',
+      url: gadgetStoreFigmaPhoto,
+   },
+   {
+      id: '2',
+      url: gadgetPhoto,
+   },
+   {
+      id: '3',
+      url: gadgetStorePhoto,
+   },
+>>>>>>> 6d816e790283e082b1ce60bb9e1d9d7988bc47ba
 ]
