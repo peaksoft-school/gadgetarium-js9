@@ -1,5 +1,4 @@
 import { styled } from '@mui/material'
-import { useState } from 'react'
 import { CategoryFilterSelect } from './CategoryFilterSelect'
 import { InputUi } from '../../../UI/Input'
 import {
@@ -10,24 +9,11 @@ import {
 } from '../../../../utils/common/constants/constants'
 import { ReactComponent as SelectLabelIcons } from '../../../../assets/icons/photo-add/add-photo-icon.svg'
 
-export const FilterCategory = ({ onOpenModalAddNewBrand }) => {
-   const [value, setValue] = useState({
-      category: '',
-      subcategory: '',
-      brand: '',
-      guarantee: '',
-      nameProduct: '',
-      dateOfIssue: '',
-   })
-
-   const handleChange = (event) => {
-      const { name, value } = event.target
-      setValue((prevState) => ({
-         ...prevState,
-         [name]: value,
-      }))
-   }
-
+export const FilterCategory = ({
+   onOpenModalAddNewBrand,
+   value,
+   onHandleChange,
+}) => {
    const subcategorySelect =
       value.category === 'Смартфоны'
          ? subcategorySmartphones
@@ -41,7 +27,7 @@ export const FilterCategory = ({ onOpenModalAddNewBrand }) => {
                title="Выберите категорию"
                selectData={category}
                value={value.category}
-               onChange={handleChange}
+               onChange={onHandleChange}
                name="category"
             />
 
@@ -53,7 +39,7 @@ export const FilterCategory = ({ onOpenModalAddNewBrand }) => {
                   </BoxIconSelect>
                }
                value={value.brand}
-               onChange={handleChange}
+               onChange={onHandleChange}
                newBrand
                name="brand"
                title="Бренд"
@@ -62,9 +48,7 @@ export const FilterCategory = ({ onOpenModalAddNewBrand }) => {
 
             {value.category === 'Смартфоны' ? (
                <BoxLabel>
-                  <p>
-                     Название товара <span>*</span>
-                  </p>
+                  <p>Название товара</p>
                   <InputUi
                      type="text"
                      padding="0.5rem 0"
@@ -73,7 +57,7 @@ export const FilterCategory = ({ onOpenModalAddNewBrand }) => {
                      height="2.6rem"
                      name="nameProduct"
                      value={value.nameProduct}
-                     onChange={handleChange}
+                     onChange={onHandleChange}
                   />
                </BoxLabel>
             ) : null}
@@ -86,12 +70,10 @@ export const FilterCategory = ({ onOpenModalAddNewBrand }) => {
                selectData={subcategorySelect}
                value={value.subcategory}
                name="subcategory"
-               onChange={handleChange}
+               onChange={onHandleChange}
             />
             <BoxLabel>
-               <p>
-                  Гарантия (месяцев) <span>*</span>
-               </p>
+               <p>Гарантия (месяцев)</p>
 
                <InputUi
                   type="number"
@@ -101,15 +83,13 @@ export const FilterCategory = ({ onOpenModalAddNewBrand }) => {
                   height="2.6rem"
                   value={value.guarantee}
                   name="guarantee"
-                  onChange={handleChange}
+                  onChange={onHandleChange}
                />
             </BoxLabel>
 
             {value.category === 'Смартфоны' ? (
                <BoxLabel>
-                  <p>
-                     Дата выпуска <span>*</span>
-                  </p>
+                  <p>Дата выпуска</p>
 
                   <InputUi
                      type="date"
@@ -119,7 +99,7 @@ export const FilterCategory = ({ onOpenModalAddNewBrand }) => {
                      height="2.6rem"
                      value={value.dateOfIssue}
                      name="dateOfIssue"
-                     onChange={handleChange}
+                     onChange={onHandleChange}
                   />
                </BoxLabel>
             ) : null}
@@ -161,9 +141,10 @@ const BoxLabel = styled('div')`
    p {
       margin: 0;
       padding: 0;
-   }
 
-   span {
-      color: #ff0000;
+      ::after {
+         content: ' *';
+         color: red;
+      }
    }
 `

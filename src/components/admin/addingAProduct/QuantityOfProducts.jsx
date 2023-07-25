@@ -1,19 +1,22 @@
 import { Button, styled } from '@mui/material'
 import { ReactComponent as Plus } from '../../../assets/icons/plus.svg'
 
-export const QuantityOfProducts = () => {
-   const ProductNum = 1
-
+export const QuantityOfProducts = ({ onCreateNewProduct, newProduct }) => {
    return (
       <Container>
          <Box>
+            {newProduct[1].map((item) => (
+               <div key={item.id}>
+                  <ButtonStyleNumber variant="outlined">
+                     Продукт {item.numProduct}
+                  </ButtonStyleNumber>
+               </div>
+            ))}
             <div>
-               <ButtonStyleNumber variant="outlined">
-                  Продукт {ProductNum}
-               </ButtonStyleNumber>
-            </div>
-            <div>
-               <ButtonAddNewProduct variant="outlined">
+               <ButtonAddNewProduct
+                  onClick={onCreateNewProduct}
+                  variant="outlined"
+               >
                   <Plus /> <p>Добавить продукт</p>
                </ButtonAddNewProduct>
             </div>

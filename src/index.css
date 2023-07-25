@@ -73,3 +73,8 @@ textarea,
 select {
    font-family: 'Montserrat', sans-serif;
 }
+
+p {
+   margin: 0;
+   padding: 0;
+}

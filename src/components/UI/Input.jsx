@@ -6,8 +6,8 @@ import {
    styled,
 } from '@mui/material'
 
-import VisibilityIcon from '@mui/icons-material/Visibility'
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
+import { ReactComponent as VisibilityIcon } from '../../assets/icons/eye/eye-icon.svg'
+import { ReactComponent as VisibilityOffIcon } from '../../assets/icons/eye/eye-slashed-icon.svg'
 
 export const InputUi = forwardRef(
    (
