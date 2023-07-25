@@ -13,7 +13,6 @@ export const ReasonForSuccess = () => {
                   tincidunt vitae penatibus. Feugiat quis tincidunt volutpat
                   scelerisque elit fermentum nullam rhoncus adipiscing. Sem
                   tortor molestie odio.
-                  {/* <br /> */}
                </p>
 
                <p>
