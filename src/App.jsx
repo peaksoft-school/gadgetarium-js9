@@ -6,15 +6,10 @@ import { AddingAProduct } from './components/admin/addingAProduct/AddingAProduct
 
 function App() {
    return (
-      <BrowserRouter>
-         <ThemeProvider theme={themes}>
-            {/* <h1>Hello World</h1> */}
-
-            <AddingAProduct />
-
-            <CustomToast />
-         </ThemeProvider>
-      </BrowserRouter>
+      <ThemeProvider theme={themes}>
+         <h1>Hello World</h1>
+         <CustomToast />
+      </ThemeProvider>
    )
 }
 
