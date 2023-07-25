@@ -1,9 +1,10 @@
 import { styled } from '@mui/material'
 import React from 'react'
+import { themes } from '../../../utils/common/styles/themes'
 
-const PlayButton = () => {
+const PlayButton = ({ onClick }) => {
    return (
-      <StyledButton>
+      <StyledButton themes={themes} onClick={onClick}>
          <svg
             width="36"
             height="36"
@@ -21,16 +22,16 @@ const PlayButton = () => {
 }
 
 export default PlayButton
-const StyledButton = styled('button')`
-   width: 36px;
-   height: 36px;
-   border: none;
-   border-radius: 100%;
-   &:hover svg path {
-      fill: #e32a38;
-   }
-
-   &:active svg path {
-      fill: #f53b49;
-   }
-`
+const StyledButton = styled('button')(({ themes }) => ({
+   width: '2.25rem',
+   height: '2.25rem',
+   cursor: 'pointer',
+   border: 'none',
+   borderRadius: '100%',
+   '&:hover svg path': {
+      fill: '#e32a38',
+   },
+   '&:active svg path': {
+      fill: themes.palette.error.main,
+   },
+}))

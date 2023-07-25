@@ -1,9 +1,10 @@
 import { styled } from '@mui/material'
 import React from 'react'
+import { themes } from '../../../../utils/common/styles/themes'
 
-const BackButton = () => {
+const BackButton = ({ onClick, bigButton }) => {
    return (
-      <StyledButton>
+      <StyledButton onClick={onClick} state={bigButton} themes={themes}>
          <svg
             width="15"
             height="13"
@@ -22,30 +23,33 @@ const BackButton = () => {
       </StyledButton>
    )
 }
-
 export default BackButton
-const StyledButton = styled('button')`
-   width: 50px;
-   height: 50px;
-   border-radius: 100%;
-   border: none;
-   background-color: white;
-   transition: background-color 0.3s;
-   &:hover {
-      background-color: #cb11ab;
-   }
-   &:active {
-      background-color: #cb11ab;
-   }
-   svg path {
-      transition: stroke 0.3s;
-   }
-
-   &:hover svg path {
-      stroke: white;
-   }
-
-   &:active svg path {
-      stroke: white;
-   }
-`
+const StyledButton = styled('button')(({ state, themes }) => ({
+   cursor: 'pointer',
+   display: 'flex',
+   alignItems: 'center',
+   justifyContent: 'center',
+   width: state ? '3.75rem' : '3.125rem',
+   height: state ? '3.75rem' : '3.125rem',
+   borderRadius: '100%',
+   border: state ? `1px solid ${themes.palette.primary.main}` : 'none',
+   backgroundColor: 'white',
+   transition: 'background-color 0.3s',
+   '&:hover': {
+      backgroundColor: themes.palette.primary.main,
+   },
+   '&:active': {
+      backgroundColor: themes.palette.primary.main,
+   },
+   svg: {
+      path: {
+         transition: 'stroke 0.3s',
+      },
+   },
+   '&:hover svg path': {
+      stroke: 'white',
+   },
+   '&:active svg path': {
+      stroke: 'white',
+   },
+}))
