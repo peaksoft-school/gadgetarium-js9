@@ -7,11 +7,8 @@ import CloseIcon from '@mui/icons-material/Close'
 import { InputUi } from '../UI/Input'
 
 const schema = z.object({
-   email: z.string().email('Неправильно указан Email и/или пароль'),
-   password: z
-      .string()
-      .min(6)
-      .regex(/^(?=.*[a-zA-Z])(?=.*\d)/),
+   email: z.string().email('Incorrect E-Mail Address'),
+   password: z.string().min(6),
 })
 
 export const SignIn = () => {

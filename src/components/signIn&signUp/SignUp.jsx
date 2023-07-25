@@ -27,6 +27,7 @@ const schema = z
    })
    .refine((data) => data.password === data.confirmPassword, {
       message: 'Пароли не совпадают',
+      path: ['confirmPassword'],
    })
 
 export const SignUp = () => {
@@ -35,7 +36,6 @@ export const SignUp = () => {
       formState: { errors },
       handleSubmit,
       reset,
-      getValues,
    } = useForm({
       defaultValues: {
          firstName: '',
@@ -87,10 +87,7 @@ export const SignUp = () => {
                error={!!errors.password}
             />
             <Input
-               {...register('confirmPassword', {
-                  validate: (value) =>
-                     value === getValues('password') || 'Пароли не совпадают',
-               })}
+               {...register('confirmPassword')}
                placeholder="Напишите пароль"
                type="password"
                error={!!errors.confirmPassword}
