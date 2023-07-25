@@ -1,22 +1,34 @@
 import { Button, styled } from '@mui/material'
 import React from 'react'
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import CloseIcon from '@mui/icons-material/Close'
 import { InputUi } from '../UI/Input'
 
+const schema = z.object({
+   email: z.string().email('Неправильно указан Email и/или пароль'),
+   password: z
+      .string()
+      .min(6)
+      .regex(/^(?=.*[a-zA-Z])(?=.*\d)/),
+})
+
 export const SignIn = () => {
-   const {
-      register,
-      formState: { errors },
-      handleSubmit,
-      reset,
-   } = useForm()
+   const { register, handleSubmit, reset, formState } = useForm({
+      defaultValues: {
+         email: '',
+         password: '',
+      },
+      mode: 'onBlur',
+      resolver: zodResolver(schema),
+   })
 
    const onSubmit = () => {
       reset()
    }
 
-   const combinedError = errors.email || errors.password
+   const combinedError = formState.errors.email || formState.errors.password
 
    return (
       <Container>
@@ -24,25 +36,14 @@ export const SignIn = () => {
          <h2>Войти</h2>
          <Form onSubmit={handleSubmit(onSubmit)}>
             <Input
-               {...register('email', {
-                  required: 'Неправильно указан Email и/или пароль',
-                  pattern: {
-                     value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                     message: 'Неправильно указан Email и/или пароль',
-                  },
-               })}
+               {...register('email')}
                placeholder="Напишите email"
                type="email"
+               error={!!formState.errors.email}
             />
-
             <Input
-               {...register('password', {
-                  required: 'Неправильно указан Email и/или пароль',
-                  pattern: {
-                     value: /^(?=.*[0-9])(?=.*[!@#$%^&*.,])[a-zA-Z0-9!@#$%^&*.,]{6,16}$/,
-                     message: 'Неправильно указан Email и/или пароль',
-                  },
-               })}
+               error={!!formState.errors.password}
+               {...register('password')}
                placeholder="Напишите пароль"
                type="password"
             />

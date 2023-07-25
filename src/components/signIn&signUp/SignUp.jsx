@@ -1,8 +1,33 @@
 import { Button, styled } from '@mui/material'
 import React from 'react'
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import CloseIcon from '@mui/icons-material/Close'
 import { InputUi } from '../UI/Input'
+
+const schema = z
+   .object({
+      firstName: z.string().nonempty('Имя обязательно для заполнения'),
+      lastName: z.string().nonempty('Фамилия обязательна для заполнения'),
+      phone: z.string().regex(/^\+996[0-9]{9}$/, {
+         message: 'Введите корректный номер телефона, начинающийся с +996',
+      }),
+      email: z.string().email('Неправильно указан Email'),
+      password: z
+         .string()
+         .min(6, 'Пароль должен содержать минимум 6 символов')
+         .regex(
+            /^(?=.*[a-zA-Z])(?=.*\d)/,
+            'Пароль должен содержать буквы и цифры'
+         ),
+      confirmPassword: z
+         .string()
+         .nonempty('Подтверждение пароля обязательно для заполнения'),
+   })
+   .refine((data) => data.password === data.confirmPassword, {
+      message: 'Пароли не совпадают',
+   })
 
 export const SignUp = () => {
    const {
@@ -11,108 +36,64 @@ export const SignUp = () => {
       handleSubmit,
       reset,
       getValues,
-   } = useForm()
+   } = useForm({
+      defaultValues: {
+         firstName: '',
+         lastName: '',
+         phone: '',
+         email: '',
+      },
+      mode: 'onBlur',
+      resolver: zodResolver(schema),
+   })
 
    const onSubmit = () => {
       reset()
    }
 
-   const password = getValues('password', '')
-
-   const getInputStyles = (error, isFilled) => {
-      return error && !isFilled ? { border: '1px solid red' } : {}
-   }
    return (
       <Container>
          <MuiCloseIcon />
          <h2>Войти</h2>
          <Form onSubmit={handleSubmit(onSubmit)}>
             <Input
-               {...register('firstName', {
-                  required: 'Имя обязательно для заполнения',
-                  pattern: {
-                     value: /^[A-Za-zА-Яа-яЁё]+$/,
-                     message: 'Имя должно содержать только буквы',
-                  },
-               })}
+               {...register('firstName')}
                placeholder="Напишите ваше имя"
                type="text"
-               style={getInputStyles(
-                  errors.firstName,
-                  Boolean(getValues('firstName'))
-               )}
+               error={!!errors.firstName}
             />
             <Input
-               {...register('lastName', {
-                  required: 'Фамилия обязательна для заполнения',
-                  pattern: {
-                     value: /^[A-Za-zА-Яа-яЁё]+$/,
-                     message: 'Фамилия должна содержать только буквы',
-                  },
-               })}
+               {...register('lastName')}
                placeholder="Напишите вашу фамилию"
                type="text"
-               style={getInputStyles(
-                  errors.lastName,
-                  Boolean(getValues('lastName'))
-               )}
+               error={!!errors.lastName}
             />
             <Input
-               {...register('phone', {
-                  required: 'Номер телефона обязателен для заполнения',
-                  pattern: {
-                     value: /^[+]?[0-9]{10,14}$/,
-                     message: 'Введите корректный номер телефона',
-                  },
-               })}
+               {...register('phone')}
                placeholder="+996 (_ _ _) _ _  _ _  _ _"
                type="tel"
-               style={getInputStyles(
-                  errors.lastName,
-                  Boolean(getValues('lastName'))
-               )}
+               error={!!errors.phone}
             />
             <Input
-               {...register('email', {
-                  required: 'Неправильно указан Email ',
-                  pattern: {
-                     value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                     message: 'Неправильно указан Email',
-                  },
-               })}
+               {...register('email')}
                placeholder="Напишите email"
                type="email"
-               style={getInputStyles(errors.email, Boolean(getValues('email')))}
+               error={!!errors.email}
             />
             <Input
-               {...register('password', {
-                  required: 'Пароль обязателен для заполнения',
-                  pattern: {
-                     value: /^(?=.*[0-9])(?=.*[!@#$%^&*.,])[a-zA-Z0-9!@#$%^&*.,]{6,16}$/,
-                     message:
-                        'Пароль должен содержать от 6 до 16 символов, включая цифры и спецсимволы',
-                  },
+               {...register('password')}
+               placeholder="Напишите пароль"
+               type="password"
+               error={!!errors.password}
+            />
+            <Input
+               {...register('confirmPassword', {
+                  validate: (value) =>
+                     value === getValues('password') || 'Пароли не совпадают',
                })}
                placeholder="Напишите пароль"
                type="password"
-               style={getInputStyles(
-                  errors.password,
-                  Boolean(getValues('password'))
-               )}
-            />
-
-            <Input
-               {...register('confirmPassword', {
-                  required: 'Подтверждение пароля обязательно для заполнения',
-                  validate: (value) =>
-                     value === password || 'Пароли не совпадают',
-               })}
-               placeholder="Подтвердите пароль"
-               type="password"
-               style={getInputStyles(
-                  errors.confirmPassword,
-                  Boolean(getValues('confirmPassword'))
-               )}
+               error={!!errors.confirmPassword}
             />
             <ErrorTitle>
                {errors.firstName?.message ||
