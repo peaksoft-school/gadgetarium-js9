@@ -8,14 +8,7 @@ import { StateAfterAddingOnePhoto } from './StateAfterAddingOnePhoto'
 export const AddPhotoGadgets = () => {
    const [smartphonePhoto, setSmartphonePhoto] = useState(null)
    const { snackbarHandler } = useSnackbar()
-   const [containerImg, setContainerImg] = useState([
-      {
-         id: '1',
-         img: 'https://asiastore.kg/image/cache/catalog/iphone/iphone14/iphone14/purple/wwen_iphone14_q422_purple_pdp_image_position-1a-670x540.jpg',
-      },
-   ])
-
-   console.log('containerImg: ', containerImg)
+   const [containerImg, setContainerImg] = useState([])
 
    const imgUrl = smartphonePhoto && URL.createObjectURL(smartphonePhoto)
 
@@ -26,9 +19,7 @@ export const AddPhotoGadgets = () => {
             img: imgUrl,
          }
 
-         const result = [...containerImg, data]
-
-         setContainerImg(result)
+         setContainerImg((prevContainerImg) => [...prevContainerImg, data])
       }
    }, [smartphonePhoto])
 
@@ -42,8 +33,8 @@ export const AddPhotoGadgets = () => {
          const image = new Image()
          const reader = new FileReader()
 
-         reader.onload = function (e) {
-            image.onload = function () {
+         reader.onload = (e) => {
+            image.onload = () => {
                const { width } = image
                const { height } = image
 

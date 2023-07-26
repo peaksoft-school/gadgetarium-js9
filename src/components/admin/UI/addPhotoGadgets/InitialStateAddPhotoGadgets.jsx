@@ -6,14 +6,7 @@ export const InitialStateAddPhotoGadgets = ({
    handleDrop,
 }) => {
    return (
-      <label
-         className="label"
-         onDragOver={(e) => e.drag}
-         onDragLeave={(e) => e.preventDefault()}
-         onDragStart={(e) => e.preventDefault()}
-         // onDragEnter={(e) => e.preventDefault()}
-         onDrop={handleDrop}
-      >
+      <label className="label" onDragOver={(e) => e.drag} onDrop={handleDrop}>
          <input
             type="file"
             accept="image/*"

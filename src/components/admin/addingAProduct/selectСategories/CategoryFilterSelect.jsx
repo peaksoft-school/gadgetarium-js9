@@ -46,7 +46,9 @@ export const CategoryFilterSelect = ({
 
          <div>
             <StyledFormControl size="small">
-               {isFocused ? null : <InputLabel>{labelFocused}</InputLabel>}
+               {isFocused ? null : (
+                  <InputLabelStyle>{labelFocused}</InputLabelStyle>
+               )}
                <Select
                   name={name}
                   value={value}
@@ -96,6 +98,10 @@ export const CategoryFilterSelect = ({
       </Container>
    )
 }
+
+const InputLabelStyle = styled(InputLabel)(({ theme }) => ({
+   color: theme.palette.secondary.contrastText,
+}))
 
 const StyledFormControl = styled(FormControl)(() => ({
    minWidth: '24.75rem',

@@ -5,7 +5,7 @@ export const QuantityOfProducts = ({ onCreateNewProduct, newProduct }) => {
    return (
       <Container>
          <Box>
-            {newProduct[1].map((item) => (
+            {newProduct.productData.map((item) => (
                <div key={item.id}>
                   <ButtonStyleNumber variant="outlined">
                      Продукт {item.numProduct}

@@ -1,46 +1,82 @@
 import { styled } from '@mui/material'
 import { useSearchParams } from 'react-router-dom'
 import { useState } from 'react'
+import { format } from 'date-fns'
 import { HeaderAddingAProduct } from './HeaderAddingAProduct'
 import { FilterCategory } from './selectСategories/FilterCategory'
 import { AddNewBrandModal } from './selectСategories/AddNewBrandModal'
-import { SmartphoneAdvancedOptions } from './advancedOptions/SmartphoneAdvancedOptions'
+import { filterResComponent } from '../../../utils/helpers/AddFilterResComponent'
 
-const productData = [[], [{ id: '1', numProduct: 1 }], []]
+const productsData = {
+   category: '',
+   subcategory: '',
+   brand: '',
+   guarantee: '',
+   nameProduct: '',
+   dateOfIssue: null,
+   video: '',
+   PDF: '',
+   description: '',
+   productData: [
+      {
+         id: '1',
+         numProduct: 1,
+      },
+   ],
+}
 
 export const AddingAProduct = () => {
    const [openModalAddNewBrand, setOpenModalAddNewBrand] = useSearchParams()
-   const [newProduct, setNewProduct] = useState(productData)
-   const [value, setValue] = useState({
-      category: '',
-      subcategory: '',
-      brand: '',
-      guarantee: '',
-      nameProduct: '',
-      dateOfIssue: '',
-   })
+   const [newProduct, setNewProduct] = useState(productsData)
+   console.log('newProduct: ', newProduct)
+   // const [value, setValue] = useState({
+   //    category: '',
+   //    subcategory: '',
+   //    brand: '',
+   //    guarantee: '',
+   //    nameProduct: '',
+   //    dateOfIssue: null,
+   //    video: '',
+   //    PDF: '',
+   //    description: '',
+   // })
+
+   // console.log('value: ', value)
 
    const onHandleChange = (event) => {
       const { name, value } = event.target
 
-      setValue((prevState) => ({
+      setNewProduct((prevState) => ({
          ...prevState,
          [name]: value,
       }))
    }
 
+   const onChangeValueDateHandler = (event) => {
+      const date = new Date(event.$d)
+
+      const formattedDate = format(date, 'yyyy-MM-dd')
+
+      setNewProduct((prev) => ({
+         ...prev,
+         dateOfIssue: formattedDate,
+      }))
+   }
+
    const onCreateNewProduct = () => {
-      const resNumProduct = newProduct[1].length + 1
+      const resNumProduct = newProduct.productData.length + 1
 
       const data = {
          id: resNumProduct.toString(),
          numProduct: resNumProduct,
       }
 
-      newProduct[1].push(data)
+      newProduct.productData.push(data)
 
       setNewProduct([...newProduct])
    }
+
+   console.log('newProduct.productData: ', newProduct.productData)
 
    const onCloseModalAddNewBrand = () => {
       openModalAddNewBrand.delete('AddingAProduct')
@@ -70,18 +106,14 @@ export const AddingAProduct = () => {
          <div>
             <FilterCategory
                onOpenModalAddNewBrand={onOpenModalAddNewBrand}
-               value={value}
+               value={newProduct}
                onHandleChange={onHandleChange}
+               onChangeValueDateHandler={onChangeValueDateHandler}
             />
          </div>
 
          <div>
-            {/* {value.category === 'Смартфоны' && ( */}
-            <SmartphoneAdvancedOptions
-               newProduct={newProduct}
-               onCreateNewProduct={onCreateNewProduct}
-            />
-            {/* )} */}
+            {filterResComponent(newProduct, newProduct, onCreateNewProduct)}
          </div>
       </Container>
    )
@@ -92,24 +124,3 @@ const Container = styled('div')(({ theme }) => ({
    marginTop: '1.88rem',
    fontFamily: theme.typography.mainFontFamily,
 }))
-
-export const productsData = [
-   [
-      {
-         cmat: '',
-         num: 1,
-      },
-   ],
-   [{ id: '1', numProduct: 1 }],
-   [
-      // {
-      //    smartphoneAdvancedOptions: [],
-      // },
-      // {
-      //    watchAdvancedOptions: [],
-      // },
-      // {
-      //    macAdvancedOptions: [],
-      // },
-   ],
-]

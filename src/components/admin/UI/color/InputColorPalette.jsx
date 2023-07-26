@@ -1,7 +1,7 @@
 import { IconButton, InputAdornment, TextField, styled } from '@mui/material'
 import { useState } from 'react'
 import { ReactComponent as PaintIcon } from '../../../../assets/icons/paint.svg'
-import { bgColor } from '../../../../utils/common/constants/constants'
+import { bgColor } from '../../../../utils/common/constants/constantsAdminAddNewProduct'
 
 export const InputColorPalette = () => {
    const [showColor, setShowColor] = useState(false)
@@ -85,13 +85,14 @@ const InputUI = styled(TextField)`
       width: 21rem;
       padding-right: 0;
 
-      font-size: 0.9rem;
+      font-size: 1.1rem;
       font-style: normal;
       font-weight: 300;
       line-height: normal;
 
       ::placeholder {
-         color: #666666;
+         color: #91969e !important;
+         opacity: 1;
       }
    }
 `

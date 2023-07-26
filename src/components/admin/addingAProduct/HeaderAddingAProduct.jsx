@@ -1,5 +1,6 @@
 import { styled } from '@mui/material'
 import React from 'react'
+import { pathNumberTrueColorPinkBackgroundColorAndColor } from '../../../utils/helpers/AddFilterResComponent'
 
 export const HeaderAddingAProduct = ({ title, pathNumber }) => {
    return (
@@ -36,28 +37,6 @@ export const HeaderAddingAProduct = ({ title, pathNumber }) => {
          </Box>
       </Container>
    )
-}
-
-const pathNumberTrueColorPinkBackgroundColorAndColor = (
-   theme,
-   pathNumber,
-   num,
-   bgColorAndColorNumber
-) => {
-   const resultBackgroundColor =
-      pathNumber === num
-         ? theme.palette.primary.main
-         : theme.palette.secondary.contrastText
-
-   const resultColor =
-      pathNumber === num
-         ? theme.palette.primary.main
-         : theme.palette.primary.light
-
-   const resultColorAndBackgroundColor =
-      bgColorAndColorNumber === 1 ? resultBackgroundColor : resultColor
-
-   return resultColorAndBackgroundColor
 }
 
 const Container = styled('div')`

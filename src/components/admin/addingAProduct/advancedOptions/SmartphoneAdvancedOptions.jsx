@@ -2,11 +2,7 @@ import { useState } from 'react'
 import { styled } from '@mui/material'
 import { QuantityOfProducts } from '../QuantityOfProducts'
 import { CategoryFilterSelect } from '../selectСategories/CategoryFilterSelect'
-import {
-   memorySmartphones,
-   smartphonesRAM,
-   smartphonesSIMcards,
-} from '../../../../utils/common/constants/constants'
+import { dataProductSmartphones } from '../../../../utils/common/constants/constantsAdminAddNewProduct'
 import { AddPhotoGadgets } from '../../UI/addPhotoGadgets/AddPhotoGadgets'
 import { InputColorPalette } from '../../UI/color/InputColorPalette'
 
@@ -19,7 +15,8 @@ export const SmartphoneAdvancedOptions = ({
       memory: '',
       RAM: '',
       SIMcards: '',
-      photoIphone: [],
+      price: 0,
+      quantityOfGoods: 0,
    })
 
    const onHandleChange = (event) => {
@@ -44,7 +41,7 @@ export const SmartphoneAdvancedOptions = ({
             <CategoryFilterSelect
                title="Объем памяти"
                label="Выберите объем памяти"
-               selectData={memorySmartphones}
+               selectData={dataProductSmartphones.memorySmartphones}
                value={productSmartphone.memory}
                onChange={onHandleChange}
                name="memory"
@@ -54,7 +51,7 @@ export const SmartphoneAdvancedOptions = ({
             <CategoryFilterSelect
                title="Оперативная память"
                label="Выберите оперативную память"
-               selectData={smartphonesRAM}
+               selectData={dataProductSmartphones.smartphonesRAM}
                value={productSmartphone.RAM}
                onChange={onHandleChange}
                name="RAM"
@@ -64,7 +61,7 @@ export const SmartphoneAdvancedOptions = ({
             <CategoryFilterSelect
                title="Кол-во SIM-карт"
                label="Выберите SIM-карты"
-               selectData={smartphonesSIMcards}
+               selectData={dataProductSmartphones.smartphonesSIMcards}
                value={productSmartphone.SIMcards}
                onChange={onHandleChange}
                name="SIMcards"

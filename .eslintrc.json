@@ -33,6 +33,7 @@
             "ignoreRegExpLiterals": true
          }
       ],
+      "no-undef": "off",
       "no-console": ["warn", { "allow": ["warn", "error"] }],
       "jsx-a11y/label-has-associated-control": [
          "error",

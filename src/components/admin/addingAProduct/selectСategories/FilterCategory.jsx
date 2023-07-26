@@ -1,23 +1,20 @@
 import { styled } from '@mui/material'
 import { CategoryFilterSelect } from './CategoryFilterSelect'
 import { InputUi } from '../../../UI/Input'
-import {
-   brand,
-   category,
-   subcategorySmartWatch,
-   subcategorySmartphones,
-} from '../../../../utils/common/constants/constants'
+import { categoryProduct } from '../../../../utils/common/constants/constantsAdminAddNewProduct'
 import { ReactComponent as SelectLabelIcons } from '../../../../assets/icons/photo-add/add-photo-icon.svg'
+import { Calendar } from '../../../calendarFolder/Calendar'
 
 export const FilterCategory = ({
    onOpenModalAddNewBrand,
    value,
    onHandleChange,
+   onChangeValueDateHandler,
 }) => {
    const subcategorySelect =
       value.category === 'Смартфоны'
-         ? subcategorySmartphones
-         : subcategorySmartWatch
+         ? categoryProduct.subcategorySmartphones
+         : categoryProduct.subcategorySmartWatch
 
    return (
       <Container>
@@ -25,7 +22,7 @@ export const FilterCategory = ({
             <CategoryFilterSelect
                label="Выбрать"
                title="Выберите категорию"
-               selectData={category}
+               selectData={categoryProduct.category}
                value={value.category}
                onChange={onHandleChange}
                name="category"
@@ -43,7 +40,7 @@ export const FilterCategory = ({
                newBrand
                name="brand"
                title="Бренд"
-               selectData={brand}
+               selectData={categoryProduct.brand}
             />
 
             {value.category === 'Смартфоны' ? (
@@ -91,15 +88,15 @@ export const FilterCategory = ({
                <BoxLabel>
                   <p>Дата выпуска</p>
 
-                  <InputUi
-                     type="date"
-                     padding="0.5rem 0"
+                  <Calendar
                      placeholder="Введите дату выпуска"
-                     width="24.75rem"
-                     height="2.6rem"
                      value={value.dateOfIssue}
+                     onChange={onChangeValueDateHandler}
                      name="dateOfIssue"
-                     onChange={onHandleChange}
+                     width="24.7rem"
+                     padding="0.8rem 0.75rem 0.8rem 0rem"
+                     height="2.7rem"
+                     labelTop="-7px"
                   />
                </BoxLabel>
             ) : null}
