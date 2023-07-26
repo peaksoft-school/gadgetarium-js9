@@ -3,7 +3,7 @@ import React from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
-import CloseIcon from '@mui/icons-material/Close'
+import { ReactComponent as CloseIcon } from '../../assets/icons/cross/big-cross-icon.svg'
 import { InputUi } from '../UI/Input'
 import { BackgroundInForm } from './BackgroundInForm'
 
@@ -129,14 +129,12 @@ export const SignUp = () => {
 }
 
 const Container = styled('div')`
-   width: 40.3vw;
-   height: 88vh;
-   margin: 0 auto;
+   margin-top: 2rem;
+   padding-bottom: 2rem;
    border-radius: 0.25rem;
    background: #fff;
    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
    h2 {
-      padding-top: 2.66rem;
       text-align: center;
    }
 `
@@ -149,6 +147,7 @@ const ButtonUi = styled(Button)`
 `
 const Block = styled('div')`
    display: flex;
+   margin-top: 1rem;
    margin-left: 9.75rem;
    a {
       text-decoration: none;
@@ -164,8 +163,7 @@ const ErrorTitle = styled('div')`
    justify-content: center;
 `
 const MuiCloseIcon = styled(CloseIcon)`
-   position: absolute;
-   margin-top: 0.75rem;
+   margin-top: 1.5rem;
    margin-left: 33.5rem;
    cursor: pointer;
 `

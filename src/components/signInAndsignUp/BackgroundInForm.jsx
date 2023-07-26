@@ -20,7 +20,7 @@ const Container = styled('div')`
    background: linear-gradient(135deg, #6b0fa9, #4d0eb8);
    height: 100vh;
    display: flex;
-   justify-content: center;
+   flex-direction: column;
    align-items: center;
 `
 const GIcons = styled(ReactComponent)`
@@ -32,9 +32,8 @@ const BackgroundIcons = styled(ReactComponentIcons)`
 `
 const Title = styled('div')`
    display: flex;
-   position: absolute;
-   top: 1.5rem;
-   left: 3.12rem;
+   width: 100%;
+   margin-left: 3.51rem;
    h1 {
       margin-top: 1rem;
       margin-left: 0.3rem;

@@ -31,6 +31,7 @@ export const InputUi = forwardRef(
                placeholder={placeholder}
                id={id}
                ref={ref}
+               autoComplete="off"
                type={type === 'password' ? passwordType : type}
                endAdornment={
                   type === 'password' ? (
