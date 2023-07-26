@@ -6,6 +6,7 @@ import { ReactComponent as ArrowDown } from '../../../assets/icons/arrows/down-i
 import {
    calculateBackgroundColor,
    nestedContentFunction,
+   nestedStyledInput,
 } from '../../../utils/helpers/functions'
 
 export const TableItem = ({
@@ -15,8 +16,8 @@ export const TableItem = ({
    index,
    ...item
 }) => {
-   const time = item.purchaseTime.split(' ')[1]
-   const date = item.purchaseTime.split(' ')[0]
+   const time = item.purchaseTime ? item.purchaseTime.split(' ')[1] : null
+   const date = item.purchaseTime ? item.purchaseTime.split(' ')[0] : null
    const discountAmount =
       item.discount && (item.productPrice * item.discount) / 100
    const finalPrice = item.discount
@@ -27,10 +28,37 @@ export const TableItem = ({
    const toggleHoveredHandler = () => {
       setIsHovered((prev) => !prev)
    }
+   const [quantityOfGoodsInput, setQuantityOfGoodsInput] = useState(1)
+   const [productPriceInput, setProductPriceInput] = useState(item.productPrice)
+   const getProductPrice = (e) => {
+      if (Number(e.target.value) < 0) {
+         return null
+      }
+      return setProductPriceInput(e.target.value)
+   }
+   const getQuantityOfGoods = (e) => {
+      if (Number(e.target.value) < 0) {
+         return null
+      }
+      return setQuantityOfGoodsInput(e.target.value)
+   }
+   const deleteHandler = (id) => {
+      console.log(id, 'id')
+      return id
+   }
+   const editHandler = (id) => {
+      console.log(id, 'id')
+      return id
+   }
+   const checkboxHandler = (id) => {
+      console.log(id, 'id')
+      return id
+   }
    const StyledPhoto = item.photo
-      ? styled(item.photo)`
+      ? styled('img')`
            width: 4rem;
            height: 4rem;
+           object-fit: cover;
         `
       : styled('div')`
            width: 4rem;
@@ -62,7 +90,13 @@ export const TableItem = ({
                      }}
                      key={el.name}
                   >
-                     {nestedContentFunction(isHovered, indexForTable, index)}
+                     {nestedContentFunction(
+                        isHovered,
+                        indexForTable,
+                        index,
+                        checkboxHandler,
+                        item.id
+                     )}
                   </StyledTableCell>
                )
             }
@@ -76,7 +110,7 @@ export const TableItem = ({
                      }}
                      key={el.name}
                   >
-                     <StyledPhoto />
+                     <StyledPhoto src={item.photo} />
                   </StyledTableCell>
                )
             }
@@ -306,7 +340,11 @@ export const TableItem = ({
                      center={textInCenter}
                      key={el.name}
                   >
-                     {item.quantityOfGoods}
+                     <StyledInput
+                        value={quantityOfGoodsInput}
+                        onChange={getQuantityOfGoods}
+                        type="number"
+                     />
                   </StyledTableCell>
                )
             }
@@ -326,7 +364,12 @@ export const TableItem = ({
                      center={textInCenter}
                      key={el.name}
                   >
-                     {item.productPrice && item.productPrice.toLocaleString()}
+                     {nestedStyledInput(
+                        item.productPrice,
+                        productPriceInput,
+                        getProductPrice,
+                        el.width
+                     )}
                   </StyledTableCell>
                )
             }
@@ -374,8 +417,17 @@ export const TableItem = ({
                      center={textInCenter}
                      key={el.name}
                   >
-                     {el.edit && <StyledEditIcon />}
+                     {el.edit && (
+                        <StyledEditIcon
+                           onClick={() => {
+                              deleteHandler(item.id)
+                           }}
+                        />
+                     )}
                      <StyledDeleteIcon
+                        onClick={() => {
+                           editHandler(item.id)
+                        }}
                         style={{ marginLeft: el.edit === false && '0' }}
                      />
                   </StyledTableCell>
@@ -386,7 +438,6 @@ export const TableItem = ({
       </StyledTableRow>
    )
 }
-
 const StyledTableRow = styled(TableRow)(
    ({ theme, hovered, center, index }) => ({
       width: index === 3 ? '107.5rem' : '81.5625rem',
@@ -415,6 +466,19 @@ const StyledTableCell = styled(TableCell)(({ center }) => ({
    minWidth: 0,
    maxWidth: 'none',
 }))
+const StyledInput = styled('input')`
+   background: none;
+   border: none;
+   font-family: 'Inter';
+   font-size: 1rem;
+   font-weight: 500;
+   font-style: normal;
+   letter-spacing: 0.0625rem;
+   max-width: 140px;
+   :focus {
+      outline: none;
+   }
+`
 const PersentDiscount = styled('p')`
    color: #f10000;
    margin: 0;

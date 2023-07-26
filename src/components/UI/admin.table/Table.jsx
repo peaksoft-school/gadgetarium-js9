@@ -45,7 +45,7 @@ const tables = [
       { name: 'Объем памяти', width: '12.0625rem' },
       { name: 'Оперативная память', width: '15.25rem' },
       { name: 'Кол-во SIM-карт', width: '14.6875rem' },
-      { name: 'Дата выпуска', width: '22.25rem' },
+      { name: 'Дата выпуска', width: '22.875rem' },
       { name: 'Кол-во товара', width: '10rem', paddingLeft: '1.25rem' },
       { name: 'Цена', width: '10.3125rem', paddingLeft: '1.25rem' },
    ],
@@ -118,16 +118,16 @@ const StyledTableCell = styled(TableCell)`
 Table 0
 
 {
-  id: '1',
-  photo:
-     'https://www.stuff.tv/wp-content/uploads/sites/2/2022/11/Stuff-Best-Smartphone-Lead.png',
-  vendorCode: '14134242',
-  modelName: 'Samsung S21 UltraNanoBich',
-  purchaseTime: '07:21:2023 12:20',
-  quantity: 10,
-  productPrice: 50000,
-  discount: 10,
-}
+   id: '1',
+   photo: 'https://www.stuff.tv/wp-content/uploads/sites/2/2022/11/Stuff-Best-Smartphone-Lead.png',
+   vendorCode: '14134242',
+   modelName: 'Samsung S21 UltraNanoBich',
+   purchaseTime: '07:21:2023 12:20',
+   quantityOfGoods: 10,
+   quantity: 10,
+   productPrice: 50000,
+   discount: 10,
+   },
 */
 
 /* 
