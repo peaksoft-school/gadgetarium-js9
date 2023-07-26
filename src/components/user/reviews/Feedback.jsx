@@ -2,11 +2,11 @@ import { styled } from '@mui/material'
 import React, { useState } from 'react'
 import { ReactComponent as EditIcon } from '../../../assets/icons/tools-for-site/edit-icon.svg'
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/tools-for-site/delete-icon.svg'
-import ReviewStars from './ReviewStars'
+import FeedbackStars from './FeedbackStars'
 import { ReactComponent as DefaultIcon } from '../../../assets/icons/avatar/default-avatar-icon.svg'
-import RewievModal from '../../admin/RewievModal'
+import FeedbackModal from '../../admin/FeedbackModal'
 
-const Reviews = ({
+const Feedback = ({
    userName,
    userIcon: Icon = DefaultIcon,
    userText,
@@ -57,7 +57,7 @@ const Reviews = ({
             </UserDescriptionContainer>
          </UserContainer>
          <UserReviewContainer canUserEdit={canUserEdit}>
-            <ReviewStars stars={stars} />
+            <FeedbackStars stars={stars} />
             <UserText>{userText}</UserText>
             {adminReviewState && (
                <AdminText>
@@ -77,7 +77,7 @@ const Reviews = ({
                <AdminButton onClick={toggleModalHandler}>
                   {adminReviewState ? 'Редактировать' : 'Ответить'}
                </AdminButton>
-               <RewievModal
+               <FeedbackModal
                   modalText={modalText}
                   getAdminText={getAdminText}
                   saveTextHandler={saveTextHandler}
@@ -91,7 +91,7 @@ const Reviews = ({
    )
 }
 
-export default Reviews
+export default Feedback
 const Container = styled('div')`
    width: 54.8125rem;
    border-bottom: 0.0625rem solid #e8e8e8;

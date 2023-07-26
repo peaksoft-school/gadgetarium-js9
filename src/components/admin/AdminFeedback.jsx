@@ -33,7 +33,7 @@ const slideOut = keyframes`
   }
 `
 const imagesArray = [1, 2, 3, 4, 5]
-const AdminReview = ({
+const AdminFeedback = ({
    index,
    stars,
    // userText,
@@ -203,7 +203,7 @@ const AdminReview = ({
    )
 }
 
-export default AdminReview
+export default AdminFeedback
 const AdminReviewContainer = styled('div')`
    display: flex;
    width: 1285px;

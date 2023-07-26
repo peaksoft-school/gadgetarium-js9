@@ -1,7 +1,7 @@
 import React from 'react'
 import { Rating, styled } from '@mui/material'
 
-const ReviewStars = ({ stars }) => {
+const FeedbackStars = ({ stars }) => {
    return (
       <Container>
          <h5>Оценка</h5>
@@ -17,7 +17,7 @@ const ReviewStars = ({ stars }) => {
    )
 }
 
-export default ReviewStars
+export default FeedbackStars
 
 const Container = styled('div')`
    display: flex;

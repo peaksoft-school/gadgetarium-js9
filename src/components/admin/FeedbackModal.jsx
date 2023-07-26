@@ -2,7 +2,7 @@ import { Box, Modal, styled } from '@mui/material'
 import React from 'react'
 import { Button } from '../../UI/Button'
 
-const RewievModal = ({
+const FeedbackModal = ({
    open,
    handleClose,
    modalText,
@@ -62,7 +62,7 @@ const RewievModal = ({
    )
 }
 
-export default RewievModal
+export default FeedbackModal
 const StyledTextarea = styled('textarea')`
    width: 30rem;
    height: 8rem;
