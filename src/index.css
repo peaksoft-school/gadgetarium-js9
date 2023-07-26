@@ -8,8 +8,14 @@
 
 /* Убираем внутренние отступы */
 ul,
+<<<<<<< HEAD
 ol {
    list-style: none;
+=======
+ol,
+p,
+h1 {
+>>>>>>> 6d816e790283e082b1ce60bb9e1d9d7988bc47ba
    padding: 0;
    margin: 0;
 }
@@ -42,7 +48,10 @@ body {
       'Helvetica Neue', sans-serif;
    -webkit-font-smoothing: antialiased;
    -moz-osx-font-smoothing: grayscale;
+<<<<<<< HEAD
    margin: 0;
+=======
+>>>>>>> 6d816e790283e082b1ce60bb9e1d9d7988bc47ba
 }
 
 code {
