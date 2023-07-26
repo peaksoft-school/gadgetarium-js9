@@ -4,11 +4,12 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { ReactComponent as CloseIcon } from '../../assets/icons/cross/big-cross-icon.svg'
-import { InputUi } from '../UI/Input'
+import { InputUi } from '../../components/UI/Input'
 import { BackgroundInForm } from './BackgroundInForm'
 
 const schema = z.object({
    email: z.string().email('Неправильно указан Email'),
+
    password: z
       .string()
       .min(6, 'Пароль должен содержать минимум 6 символов')

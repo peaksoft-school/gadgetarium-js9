@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { ReactComponent as CloseIcon } from '../../assets/icons/cross/big-cross-icon.svg'
-import { InputUi } from '../UI/Input'
+import { InputUi } from '../../components/UI/Input'
 import { BackgroundInForm } from './BackgroundInForm'
 
 const schema = z

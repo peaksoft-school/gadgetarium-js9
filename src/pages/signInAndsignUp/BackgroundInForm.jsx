@@ -32,8 +32,7 @@ const BackgroundIcons = styled(ReactComponentIcons)`
 `
 const Title = styled('div')`
    display: flex;
-   width: 100%;
-   margin-left: 3.51rem;
+   width: 90%;
    h1 {
       margin-top: 1rem;
       margin-left: 0.3rem;
