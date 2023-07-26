@@ -7,11 +7,7 @@
       "@emotion/styled": "^11.11.0",
       "@hookform/resolvers": "^3.1.1",
       "@mui/icons-material": "^5.14.0",
-<<<<<<< HEAD
-      "@mui/material": "^5.13.7",
-=======
       "@mui/material": "^5.14.0",
->>>>>>> 6d816e790283e082b1ce60bb9e1d9d7988bc47ba
       "@mui/x-date-pickers": "^6.10.0",
       "@reduxjs/toolkit": "^1.9.5",
       "@testing-library/jest-dom": "^5.16.5",
@@ -31,13 +27,8 @@
       "react-scripts": "5.0.1",
       "react-slick": "^0.29.0",
       "react-toastify": "^9.1.3",
-<<<<<<< HEAD
       "web-vitals": "^2.1.4",
       "zod": "^3.21.4"
-=======
-      "slick-carousel": "^1.8.1",
-      "web-vitals": "^2.1.4"
->>>>>>> 6d816e790283e082b1ce60bb9e1d9d7988bc47ba
    },
    "scripts": {
       "start": "react-scripts start",
