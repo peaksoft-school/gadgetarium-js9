@@ -9,8 +9,11 @@ import { BackgroundInForm } from './BackgroundInForm'
 
 const schema = z
    .object({
-      firstName: z.string().nonempty('Имя обязательно для заполнения'),
-      lastName: z.string().nonempty('Фамилия обязательна для заполнения'),
+      firstName: z.string().nonempty('Имя обязательно для заполнения').min(3),
+      lastName: z
+         .string()
+         .nonempty('Фамилия обязательна для заполнения')
+         .min(3),
       phone: z.string().regex(/^\+996[0-9]{9}$/, {
          message: 'Введите корректный номер телефона, начинающийся с +996',
       }),
