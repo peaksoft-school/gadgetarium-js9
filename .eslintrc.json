@@ -19,6 +19,7 @@
       "react/button-has-type": "off",
       "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
       "react/jsx-props-no-spreading": "off",
+      "import/no-extraneous-dependencies": "off",
       "react/react-in-jsx-scope": "off",
       "import/prefer-default-export": "off",
       "no-shadow": "off",
