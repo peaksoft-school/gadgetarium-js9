@@ -23,7 +23,6 @@ const ForthButton = ({ onClick, bigButton }) => {
       </StyledButton>
    )
 }
-
 export default ForthButton
 const StyledButton = styled('button')(({ state, themes }) => ({
    cursor: 'pointer',

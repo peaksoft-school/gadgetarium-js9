@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { styled } from '@mui/material'
-import Category from '../components/UI/category.select/CategorySelect'
+import Category from '../UI/category.select/CategorySelect'
 import { ReactComponent as Smartphone } from '../assets/icons/goods/mobile-android-two-icon.svg'
 import { ReactComponent as Headphone } from '../assets/icons/goods/headphones-icon.svg'
 import { ReactComponent as Desktop } from '../assets/icons/goods/desktop-two-icon.svg'
@@ -12,6 +12,7 @@ const categories = [
    { id: 3, title: 'Смарт-часы и браслеты', icon: Watch },
    { id: 4, title: 'Аксессуары', icon: Headphone },
 ]
+
 const GeneralCategorySelectLayout = () => {
    const [categoryStates, setCategoryStates] = useState({
       smartphone: false,

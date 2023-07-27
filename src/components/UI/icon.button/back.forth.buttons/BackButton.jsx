@@ -23,7 +23,6 @@ const BackButton = ({ onClick, bigButton }) => {
       </StyledButton>
    )
 }
-
 export default BackButton
 const StyledButton = styled('button')(({ state, themes }) => ({
    cursor: 'pointer',
