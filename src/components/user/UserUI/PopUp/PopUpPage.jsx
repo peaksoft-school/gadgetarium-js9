@@ -2,8 +2,8 @@ import React from 'react'
 import { styled } from '@mui/material'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { Carousel } from 'react-responsive-carousel'
-import BackButton from '../UI/icon.button/back.forth.buttons/BackButton'
-import ForthButton from '../UI/icon.button/back.forth.buttons/ForthButton'
+import BackButton from '../../../UI/icon.button/back.forth.buttons/BackButton'
+import ForthButton from '../../../UI/icon.button/back.forth.buttons/ForthButton'
 
 const images = [
    { id: 1, link: 'https://www.myphone.kg/files/media/17/17225.webp' },
