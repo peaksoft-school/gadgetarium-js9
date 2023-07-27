@@ -1,17 +1,12 @@
-import { ThemeProvider } from '@mui/material'
-import { BrowserRouter } from 'react-router-dom'
-import { themes } from './utils/common/styles/themes'
 import { CustomToast } from './components/UI/snackbar/CustomToast'
 
 function App() {
    return (
-      <BrowserRouter>
-         <ThemeProvider theme={themes}>
-            <h1>Hello World</h1>
+      <div>
+         <h1>Hello World</h1>
 
-            <CustomToast />
-         </ThemeProvider>
-      </BrowserRouter>
+         <CustomToast />
+      </div>
    )
 }
 

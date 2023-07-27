@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { styled } from '@mui/material/styles'
 import { Button, Stack } from '@mui/material'
-import { ReactComponent } from '../../assets/icons/headerIcons/Letter.svg'
-import { ReactComponent as ReactComponentIcons } from '../../assets/icons/headerIcons/Background.svg'
-import { ReactComponent as Menu } from '../../assets/icons/headerIcons/menu (1) 1.svg'
-import { ReactComponent as Vector } from '../../assets/icons/headerIcons/Vector.svg'
-import { ReactComponent as Heart } from '../../assets/icons/headerIcons/heart.svg'
-import { ReactComponent as Basket } from '../../assets/icons/headerIcons/basket.svg'
-import { ReactComponent as ShopingCart } from '../../assets/icons/headerIcons/shopping-cart.svg'
+import { ReactComponent } from '../../../assets/icons/headerIcons/Letter.svg'
+import { ReactComponent as ReactComponentIcons } from '../../../assets/icons/headerIcons/Background.svg'
+import { ReactComponent as Menu } from '../../../assets/icons/headerIcons/menu (1) 1.svg'
+import { ReactComponent as Vector } from '../../../assets/icons/headerIcons/Vector.svg'
+import { ReactComponent as Heart } from '../../../assets/icons/headerIcons/heart.svg'
+import { ReactComponent as Basket } from '../../../assets/icons/headerIcons/basket.svg'
+import { ReactComponent as ShopingCart } from '../../../assets/icons/headerIcons/shopping-cart.svg'
 
 export const HeaderFixed = () => {
    const [count1] = useState(1)
