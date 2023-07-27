@@ -1,7 +1,7 @@
 import { styled } from '@mui/material'
 import React from 'react'
-import { ReactComponent } from '../../assets/icons/headerIcons/Letter.svg'
-import { ReactComponent as ReactComponentIcons } from '../../assets/icons/headerIcons/Background.svg'
+import { ReactComponent } from '../assets/icons/headerIcons/Letter.svg'
+import { ReactComponent as ReactComponentIcons } from '../assets/icons/headerIcons/Background.svg'
 
 export const BackgroundInForm = ({ children }) => {
    return (
@@ -33,6 +33,7 @@ const BackgroundIcons = styled(ReactComponentIcons)`
 const Title = styled('div')`
    display: flex;
    width: 90%;
+   margin-right: 5rem;
    h1 {
       margin-top: 1rem;
       margin-left: 0.3rem;

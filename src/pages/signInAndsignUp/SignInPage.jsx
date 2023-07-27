@@ -3,9 +3,10 @@ import React from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
+import { Link } from 'react-router-dom'
 import { ReactComponent as CloseIcon } from '../../assets/icons/cross/big-cross-icon.svg'
 import { InputUi } from '../../components/UI/Input'
-import { BackgroundInForm } from './BackgroundInForm'
+import { BackgroundInForm } from '../../layout/BackgroundInForm'
 
 const schema = z.object({
    email: z.string().email('Неправильно указан Email'),
@@ -66,7 +67,7 @@ export const SignIn = () => {
             </Form>
             <Block>
                <p>
-                  Нет аккаунта? <a href="/signup">Зарегистрироваться</a>
+                  Нет аккаунта? <Link to="/signup">Зарегистрироваться</Link>
                </p>
             </Block>
          </Container>
