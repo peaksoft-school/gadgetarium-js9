@@ -1,7 +1,11 @@
 import React, { useState } from 'react'
 import { styled } from '@mui/material/styles'
 import { Button, Stack } from '@mui/material'
+<<<<<<< HEAD
 import { ReactComponent as Letter } from '../../../assets/icons/headerIcons/Letter.svg'
+=======
+import { ReactComponent } from '../../../assets/icons/headerIcons/Letter.svg'
+>>>>>>> 60400a306719c7d53e8b530b774883d6a34cefde
 import { ReactComponent as ReactComponentIcons } from '../../../assets/icons/headerIcons/Background.svg'
 import { ReactComponent as Menu } from '../../../assets/icons/headerIcons/menu (1) 1.svg'
 import { ReactComponent as Vector } from '../../../assets/icons/headerIcons/Vector.svg'
