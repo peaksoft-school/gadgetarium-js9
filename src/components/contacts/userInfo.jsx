@@ -1,59 +1,46 @@
 import { styled } from '@mui/material'
-import React, { useState } from 'react'
+import React from 'react'
+import { useForm } from 'react-hook-form'
+import * as z from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '../UI/Button'
 import { InputUi } from '../UI/Input'
 
+const schema = z.object({
+   email: z
+      .string()
+      .regex(
+         /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+         'Неправильно указан Email'
+      ),
+   message: z.string().min(5, 'Напишите не менее 5 символов'),
+   phone: z
+      .string()
+      .nonempty('Заполните обязательные поля')
+      .regex(/^\+996[0-9]{9}$/, {
+         message: 'Введите корректный номер телефона, начинающийся с +996',
+      }),
+})
+
 export const UserInfo = () => {
-   const [isEmailValid, setIsEmailValid] = useState(false)
-   const [messageValue, setMessageValue] = useState('')
-   const [all, setAll] = useState({
-      name: '',
-      surname: '',
-      tel: '+996',
-      email: '',
-      message: '',
+   const { register, handleSubmit, reset, formState, trigger } = useForm({
+      defaultValues: {
+         email: '',
+         phone: '+996',
+         message: '',
+      },
+      mode: 'onBlur',
+      resolver: zodResolver(schema),
    })
 
-   const validateEmail = (e) => {
-      const email = e.target.value
-      setAll(email)
-
-      if (email.includes('@')) {
-         setIsEmailValid(true)
-      } else {
-         setIsEmailValid(false)
-      }
-   }
-
-   const validateMessage = (e) => {
-      const message = e.target.value
-      setAll(message)
-      if (message.length < 5) {
-         setMessageValue(true)
-      } else {
-         setMessageValue(false)
-      }
-   }
-
-   const onChangeAllInput = (e) => {
-      setAll(e.target.value)
-   }
-
-   const buttonСleaning = (e) => {
-      e.preventDefault()
-
-      setMessageValue('')
-      setAll({
-         name: '',
-         surname: '',
-         tel: '',
-         email: '',
-         message: '',
-      })
+   const onSubmit = (data) => {
+      console.log(data)
+      reset()
+      trigger()
    }
 
    return (
-      <Container>
+      <Container onSubmit={handleSubmit(onSubmit)}>
          <h3>Напишите нам</h3>
 
          <div className="InfoContent">
@@ -62,11 +49,9 @@ export const UserInfo = () => {
                <InputUi
                   id="name"
                   type="text"
-                  value={all.name}
                   height="3rem"
                   width="21.125rem"
                   padding="0.5rem 0.625rem"
-                  onChange={onChangeAllInput}
                   placeholder="Напишите ваше имя"
                />
             </div>
@@ -78,38 +63,34 @@ export const UserInfo = () => {
                   id="surname"
                   height="3rem"
                   width="21.125rem"
-                  value={all.surname}
                   padding="0.5rem 0.625rem"
-                  onChange={onChangeAllInput}
                   placeholder="Напишите вашу фамилию"
                />
             </div>
 
             <div>
                <label htmlFor="email">E-mail </label>
-               <InputUi
+               <InputUiStyled
+                  {...register('email')}
                   id="email"
                   type="email"
                   height="3rem"
                   width="21.125rem"
-                  value={all.email}
-                  error={!isEmailValid}
-                  onChange={validateEmail}
                   padding="0.5rem 0.625rem"
                   placeholder="Напишите ваш email"
+                  error={Boolean(!formState.errors?.email)}
                />
             </div>
 
             <div>
                <label htmlFor="phone">Телефон </label>
                <InputUi
-                  id="phone"
                   type="tel"
-                  value={all.tel}
                   height="3rem"
+                  {...register('phone')}
+                  format="+996 (###) ###-###"
                   width="21.125rem"
                   padding="0.5rem 0.625rem"
-                  onChange={onChangeAllInput}
                   placeholder="+996 (_ _ _) _ _  _ _  _ _"
                />
             </div>
@@ -118,21 +99,23 @@ export const UserInfo = () => {
          <div className="SmsContent">
             <label htmlFor="Sms">Сообщение</label>
             <textarea
-               name="dsads"
+               {...register('message')}
                id="Sms"
-               value={all.message}
-               onChange={validateMessage}
                placeholder="Напишите сообщение"
             />
-
-            {messageValue && <p>Напишите сообщение не менее 5 букв</p>}
+            {formState.errors.message && (
+               <p>{formState.errors.message.message}</p>
+            )}
+            {formState.errors.email && (
+               <p>{!formState.errors.email?.message}</p>
+            )}
 
             <Button
                className="button"
                variant="contained"
-               disabled={all.message || Boolean(messageValue) || !isEmailValid}
-               onClick={buttonСleaning}
+               type="submit"
                padding="0.88rem 0 1rem 0"
+               disabled={formState.errors?.email || formState.errors?.message}
             >
                Отправить
             </Button>
@@ -140,8 +123,8 @@ export const UserInfo = () => {
       </Container>
    )
 }
-
-const Container = styled('div')(({ theme }) => ({
+// const InputMuiStyled = styled(InputUi)``
+const Container = styled('form')(({ theme, formState }) => ({
    width: '43rem',
    margin: '3.75rem 0 7.5rem 0',
    fontSize: '1rem',
@@ -199,10 +182,10 @@ const Container = styled('div')(({ theme }) => ({
          width: '99%',
          height: '9.375rem',
          resize: 'none',
-         border: '1px solid #CDCDCD',
          borderRadius: '0.375rem',
          padding: '0.75rem 0.625rem',
          fontSize: '1rem',
+         border: formState?.message ? '2px solid red' : '1px solid #CDCDCD',
 
          '&:focus': {
             outline: 'none',
@@ -212,6 +195,14 @@ const Container = styled('div')(({ theme }) => ({
 
       p: {
          color: 'red',
+         margin: '0',
       },
    },
 }))
+
+const InputUiStyled = styled(InputUi)`
+   background-color: red;
+   &.error {
+      border: 2px solid red;
+   }
+`

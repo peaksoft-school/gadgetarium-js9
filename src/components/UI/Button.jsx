@@ -1,12 +1,20 @@
 import React from 'react'
 import { Button as ButtonMui, styled } from '@mui/material'
 
-export const Button = ({ children, disabled, onClick, variant, ...props }) => {
+export const Button = ({
+   children,
+   type,
+   disabled,
+   onClick,
+   variant,
+   ...props
+}) => {
    return (
       <StyledButton
          onClick={onClick}
          disabled={disabled}
          props={props}
+         type={type}
          variant={variant}
       >
          {children}
