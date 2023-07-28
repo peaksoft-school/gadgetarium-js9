@@ -1,46 +1,31 @@
 import { styled } from '@mui/material'
-import React from 'react'
-import { useForm } from 'react-hook-form'
-import * as z from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
+import React, { useState } from 'react'
 import { Button } from '../UI/Button'
 import { InputUi } from '../UI/Input'
 
-const schema = z.object({
-   email: z
-      .string()
-      .regex(
-         /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-         'Неправильно указан Email'
-      ),
-   message: z.string().min(5, 'Напишите не менее 5 символов'),
-   phone: z
-      .string()
-      .nonempty('Заполните обязательные поля')
-      .regex(/^\+996[0-9]{9}$/, {
-         message: 'Введите корректный номер телефона, начинающийся с +996',
-      }),
-})
-
 export const UserInfo = () => {
-   const { register, handleSubmit, reset, formState, trigger } = useForm({
-      defaultValues: {
-         email: '',
-         phone: '+996',
-         message: '',
-      },
-      mode: 'onBlur',
-      resolver: zodResolver(schema),
+   const [all, setAll] = useState({
+      name: '',
+      surname: '',
+      email: '',
+      tel: '',
+      message: '',
    })
 
-   const onSubmit = (data) => {
-      console.log(data)
-      reset()
-      trigger()
+   const onChangeAll = (event) => {
+      const { name, value } = event.target
+      setAll((prevData) => ({
+         ...prevData,
+         [name]: value,
+      }))
    }
 
+   const onAllResetHandler = (e) => {
+      e.preventDefault()
+      setAll({ name: '', surname: '', email: '', tel: '', message: '' })
+   }
    return (
-      <Container onSubmit={handleSubmit(onSubmit)}>
+      <Container onSubmit={onAllResetHandler}>
          <h3>Напишите нам</h3>
 
          <div className="InfoContent">
@@ -50,7 +35,10 @@ export const UserInfo = () => {
                   id="name"
                   type="text"
                   height="3rem"
+                  value={all.name}
                   width="21.125rem"
+                  name="name"
+                  onChange={onChangeAll}
                   padding="0.5rem 0.625rem"
                   placeholder="Напишите ваше имя"
                />
@@ -63,6 +51,9 @@ export const UserInfo = () => {
                   id="surname"
                   height="3rem"
                   width="21.125rem"
+                  value={all.surname}
+                  name="surname"
+                  onChange={onChangeAll}
                   padding="0.5rem 0.625rem"
                   placeholder="Напишите вашу фамилию"
                />
@@ -70,15 +61,16 @@ export const UserInfo = () => {
 
             <div>
                <label htmlFor="email">E-mail </label>
-               <InputUiStyled
-                  {...register('email')}
+               <InputUi
                   id="email"
                   type="email"
                   height="3rem"
+                  value={all.email}
                   width="21.125rem"
+                  name="email"
+                  onChange={onChangeAll}
                   padding="0.5rem 0.625rem"
                   placeholder="Напишите ваш email"
-                  error={Boolean(!formState.errors?.email)}
                />
             </div>
 
@@ -87,10 +79,11 @@ export const UserInfo = () => {
                <InputUi
                   type="tel"
                   height="3rem"
-                  {...register('phone')}
-                  format="+996 (###) ###-###"
+                  value={all.tel}
                   width="21.125rem"
                   padding="0.5rem 0.625rem"
+                  name="tel"
+                  onChange={onChangeAll}
                   placeholder="+996 (_ _ _) _ _  _ _  _ _"
                />
             </div>
@@ -99,23 +92,17 @@ export const UserInfo = () => {
          <div className="SmsContent">
             <label htmlFor="Sms">Сообщение</label>
             <textarea
-               {...register('message')}
                id="Sms"
+               value={all.message}
                placeholder="Напишите сообщение"
+               name="message"
+               onChange={onChangeAll}
             />
-            {formState.errors.message && (
-               <p>{formState.errors.message.message}</p>
-            )}
-            {formState.errors.email && (
-               <p>{!formState.errors.email?.message}</p>
-            )}
 
             <Button
-               className="button"
                variant="contained"
                type="submit"
                padding="0.88rem 0 1rem 0"
-               disabled={formState.errors?.email || formState.errors?.message}
             >
                Отправить
             </Button>
@@ -123,8 +110,7 @@ export const UserInfo = () => {
       </Container>
    )
 }
-// const InputMuiStyled = styled(InputUi)``
-const Container = styled('form')(({ theme, formState }) => ({
+const Container = styled('form')(({ theme }) => ({
    width: '43rem',
    margin: '3.75rem 0 7.5rem 0',
    fontSize: '1rem',
@@ -185,7 +171,6 @@ const Container = styled('form')(({ theme, formState }) => ({
          borderRadius: '0.375rem',
          padding: '0.75rem 0.625rem',
          fontSize: '1rem',
-         border: formState?.message ? '2px solid red' : '1px solid #CDCDCD',
 
          '&:focus': {
             outline: 'none',
@@ -199,10 +184,3 @@ const Container = styled('form')(({ theme, formState }) => ({
       },
    },
 }))
-
-const InputUiStyled = styled(InputUi)`
-   background-color: red;
-   &.error {
-      border: 2px solid red;
-   }
-`

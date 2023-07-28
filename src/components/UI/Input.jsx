@@ -22,6 +22,7 @@ export const InputUi = forwardRef(
          padding,
          width,
          height,
+         ...props
       },
       ref
    ) => {
@@ -45,6 +46,7 @@ export const InputUi = forwardRef(
                id={id}
                ref={ref}
                type={type === 'password' ? passwordType : type}
+               {...props}
                endAdornment={
                   type === 'password' ? (
                      <InputAdornment>
