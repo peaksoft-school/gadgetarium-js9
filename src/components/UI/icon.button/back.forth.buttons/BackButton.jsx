@@ -26,15 +26,15 @@ const BackButton = ({ onClick, bigButton }) => {
 export default BackButton
 const StyledButton = styled('button')(({ state, themes }) => ({
    cursor: 'pointer',
+   display: 'flex',
+   alignItems: 'center',
+   justifyContent: 'center',
    width: state ? '3.75rem' : '3.125rem',
    height: state ? '3.75rem' : '3.125rem',
    borderRadius: '100%',
    border: state ? `1px solid ${themes.palette.primary.main}` : 'none',
    backgroundColor: 'white',
    transition: 'background-color 0.3s',
-   display: 'flex',
-   alignItems: 'center',
-   justifyContent: 'center',
    '&:hover': {
       backgroundColor: themes.palette.primary.main,
    },
