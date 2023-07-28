@@ -1,6 +1,6 @@
 import { Box, Modal, styled } from '@mui/material'
 import React from 'react'
-import { Button } from '../../UI/Button'
+import { Button } from '../UI/Button'
 
 const FeedbackModal = ({
    open,
@@ -12,29 +12,12 @@ const FeedbackModal = ({
 }) => {
    return (
       <Modal
-         open={open}
+         open={open.has('openModal')}
          onClose={handleClose}
          aria-labelledby="modal-modal-title"
          aria-describedby="modal-modal-description"
       >
-         <Box
-            sx={{
-               width: '34rem',
-               height: '21.8125rem',
-               padding: '2rem',
-               display: 'flex',
-               flexDirection: 'column',
-               alignItems: 'center',
-               position: 'absolute',
-               top: '50%',
-               backgroundColor: 'white',
-               borderRadius: '0.25rem',
-               background: '#FFF',
-               boxShadow: '0px 4px 16px 0px rgba(0, 0, 0, 0.10)',
-               left: '50%',
-               transform: 'translate(-50%, -50%)',
-            }}
-         >
+         <StyledBox component="form" onSubmit={saveTextHandler}>
             <AnswerToComment>Ответ на комментарий</AnswerToComment>
             <StyledTextarea value={modalText} onChange={getAdminText} />
             <ButtonContainer>
@@ -43,7 +26,7 @@ const FeedbackModal = ({
                   textTransform="uppercase"
                   backgroundHover="#CB11AB"
                   backgroundActive="#CB11AB"
-                  padding="10px 75px"
+                  padding="0.625rem 4.6825rem"
                   onClick={handleClose}
                >
                   Отменить
@@ -51,21 +34,37 @@ const FeedbackModal = ({
                <Button
                   variant="contained"
                   textTransform="uppercase"
-                  padding="10px 75px"
-                  onClick={saveTextHandler}
+                  padding="0.625rem 4.6825rem"
+                  type="onSubmit"
                >
                   {adminReviewState ? 'Сохронить' : 'Добавить'}
                </Button>
             </ButtonContainer>
-         </Box>
+         </StyledBox>
       </Modal>
    )
 }
 
 export default FeedbackModal
+const StyledBox = styled(Box)(() => ({
+   width: '28%',
+   height: '32.5%',
+   padding: '2rem',
+   display: 'flex',
+   flexDirection: 'column',
+   alignItems: 'center',
+   position: 'absolute',
+   top: '50%',
+   backgroundColor: 'white',
+   borderRadius: '0.25rem',
+   background: '#FFF',
+   boxShadow: '0px 4px 16px 0px rgba(0, 0, 0, 0.10)',
+   left: '50%',
+   transform: 'translate(-50%, -50%)',
+}))
 const StyledTextarea = styled('textarea')`
-   width: 30rem;
-   height: 8rem;
+   width: 100%;
+   height: 45%;
    padding: 10px 12px;
    border-radius: 0.25rem;
    resize: none;

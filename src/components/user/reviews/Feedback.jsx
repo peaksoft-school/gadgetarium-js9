@@ -1,4 +1,5 @@
 import { styled } from '@mui/material'
+import { useSearchParams } from 'react-router-dom'
 import React, { useState } from 'react'
 import { ReactComponent as EditIcon } from '../../../assets/icons/tools-for-site/edit-icon.svg'
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/tools-for-site/delete-icon.svg'
@@ -8,14 +9,14 @@ import FeedbackModal from '../../admin/FeedbackModal'
 
 const Feedback = ({
    userName,
-   userIcon: Icon = DefaultIcon,
+   userIcon,
    userText,
    timePublication,
    stars,
    canUserEdit,
    adminState = true,
 }) => {
-   const [openModal, setOpenModal] = useState(false)
+   const [openModal, setOpenModal] = useSearchParams()
    const [adminText, setAdminText] = useState('')
    const [modalText, setModalText] = useState('')
    const [adminReviewState, setAdminReviewState] = useState(false)
@@ -37,20 +38,22 @@ const Feedback = ({
       setAdminText(modalText)
       return null
    }
-   const toggleModalHandler = () => {
-      setOpenModal((prev) => !prev)
+   const closeModalHandler = () => {
+      openModal.delete('openModal')
+      setOpenModal(openModal)
    }
-   const StyledUserIcon = styled(Icon)`
-      width: 2.5rem;
-      height: 2.5rem;
-      path {
-         fill: #dedede;
-      }
-   `
+   const openModalHandler = () => {
+      openModal.set('openModal', 'true')
+      setOpenModal(openModal)
+   }
    return (
       <Container>
          <UserContainer>
-            {Icon && <StyledUserIcon />}
+            {userIcon ? (
+               <StyledUserIcon icon={userIcon} />
+            ) : (
+               <StyledDefalutIcon />
+            )}
             <UserDescriptionContainer>
                <Name>{userName}</Name>
                <Time>{timePublication}</Time>
@@ -74,17 +77,19 @@ const Feedback = ({
          )}
          {adminState && (
             <AdminButtonContainer>
-               <AdminButton onClick={toggleModalHandler}>
+               <AdminButton onClick={openModalHandler}>
                   {adminReviewState ? 'Редактировать' : 'Ответить'}
                </AdminButton>
-               <FeedbackModal
-                  modalText={modalText}
-                  getAdminText={getAdminText}
-                  saveTextHandler={saveTextHandler}
-                  open={openModal}
-                  adminReviewState={adminReviewState}
-                  handleClose={toggleModalHandler}
-               />
+               {openModal.has('openModal') && (
+                  <FeedbackModal
+                     modalText={modalText}
+                     getAdminText={getAdminText}
+                     saveTextHandler={saveTextHandler}
+                     open={openModal}
+                     adminReviewState={adminReviewState}
+                     handleClose={closeModalHandler}
+                  />
+               )}
             </AdminButtonContainer>
          )}
       </Container>
@@ -93,7 +98,7 @@ const Feedback = ({
 
 export default Feedback
 const Container = styled('div')`
-   width: 54.8125rem;
+   width: 47%;
    border-bottom: 0.0625rem solid #e8e8e8;
 `
 const ToolContainer = styled('div')`
@@ -106,6 +111,21 @@ const ToolContainer = styled('div')`
       cursor: pointer;
    }
 `
+const StyledDefalutIcon = styled(DefaultIcon)`
+   width: 2.5rem;
+   height: 2.5rem;
+   path {
+      fill: #dedede;
+   }
+`
+const StyledUserIcon = styled('img')(({ icon }) => ({
+   backgroundImage: `url(${icon})`,
+   backgroundSize: 'cover',
+   width: '2.5rem',
+   height: '2.5rem',
+   borderRadius: '100%',
+   border: 'none',
+}))
 const UserContainer = styled('div')`
    display: flex;
    gap: 0.75rem;
@@ -151,13 +171,13 @@ const UserText = styled('p')`
 `
 const AdminText = styled('div')`
    margin-top: 1.25rem;
-   width: 51.5625rem;
+   width: 100%;
    padding: 1.25rem;
    background-color: #e8e8e8;
    border-radius: 0.375rem;
 `
 const Text = styled('div')`
    line-height: 1.4rem;
+   width: 100%;
    color: #384255;
 `
-
