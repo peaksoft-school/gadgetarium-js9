@@ -1,8 +1,7 @@
 import { Button } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import React from 'react'
-import { ReactComponent } from '../../assets/icons/headerIcons/Letter.svg'
-import { ReactComponent as ReactComponentIcons } from '../../assets/icons/headerIcons/Background.svg'
+import { ReactComponent as LetterIcons } from '../../../assets/icons/headerIcons/Letter.svg'
+import { ReactComponent as BackgroundIcons } from '../../../assets/icons/headerIcons/Background.svg'
 
 export const Footer = () => {
    return (
@@ -58,7 +57,7 @@ export const Footer = () => {
          </Block1>
          <Block2>
             <Gadgetarium>
-               <ReactComponentIcons />
+               <BackgroundIcons />
                <Letter />
                <h1>adgetarium</h1>
             </Gadgetarium>
@@ -70,7 +69,7 @@ export const Footer = () => {
 }
 
 const Container = styled('div')`
-   margin-top: 44.375rem;
+   margin: 0;
    width: 100%;
    height: 37.5rem;
    background-color: #1a1a25;
@@ -210,7 +209,7 @@ const Gadgetarium = styled('div')`
       color: #fff;
    }
 `
-const Letter = styled(ReactComponent)`
+const Letter = styled(LetterIcons)`
    margin-top: 0.3125rem;
    margin-left: -1.875rem;
 `

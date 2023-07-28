@@ -1,17 +1,17 @@
 import { styled } from '@mui/material/styles'
 import React, { useState } from 'react'
 import { Button } from '@mui/material'
-import { ReactComponent } from '../../assets/icons/headerIcons/Letter.svg'
-import { ReactComponent as ReactComponentIcons } from '../../assets/icons/headerIcons/Background.svg'
-import { ReactComponent as Vector } from '../../assets/icons/headerIcons/Vector.svg'
-import { ReactComponent as Instagram } from '../../assets/icons/headerIcons/Facebook.svg'
-import { ReactComponent as WhatsApp } from '../../assets/icons/headerIcons/instagram.svg'
-import { ReactComponent as FaceBook } from '../../assets/icons/headerIcons/watsapp.svg'
-import { ReactComponent as ShopingCart } from '../../assets/icons/headerIcons/shopping-cart.svg'
-import { ReactComponent as Heart } from '../../assets/icons/headerIcons/heart.svg'
-import { ReactComponent as Basket } from '../../assets/icons/headerIcons/basket.svg'
-import { ReactComponent as Menu } from '../../assets/icons/headerIcons/menu (1) 1.svg'
-import { ReactComponent as UserIcons } from '../../assets/icons/headerIcons/profile-user (2) 2.svg'
+import { ReactComponent as Letter } from '../../../assets/icons/headerIcons/Letter.svg'
+import { ReactComponent as ReactComponentIcons } from '../../../assets/icons/headerIcons/Background.svg'
+import { ReactComponent as Vector } from '../../../assets/icons/headerIcons/Vector.svg'
+import { ReactComponent as Instagram } from '../../../assets/icons/headerIcons/Facebook.svg'
+import { ReactComponent as WhatsApp } from '../../../assets/icons/headerIcons/instagram.svg'
+import { ReactComponent as FaceBook } from '../../../assets/icons/headerIcons/watsapp.svg'
+import { ReactComponent as ShopingCart } from '../../../assets/icons/headerIcons/shopping-cart.svg'
+import { ReactComponent as Heart } from '../../../assets/icons/headerIcons/heart.svg'
+import { ReactComponent as Basket } from '../../../assets/icons/headerIcons/basket.svg'
+import { ReactComponent as Menu } from '../../../assets/icons/headerIcons/menu (1) 1.svg'
+import { ReactComponent as UserIcons } from '../../../assets/icons/headerIcons/profile-user (2) 2.svg'
 import { HeaderFixed } from './HeaderFixed'
 
 export const Header = () => {
@@ -126,7 +126,7 @@ const BackgroundIcons = styled(ReactComponentIcons)`
    margin-top: 1rem;
 `
 
-const GIcons = styled(ReactComponent)`
+const GIcons = styled(Letter)`
    margin-top: 1.4375rem;
    margin-left: -1.75rem;
 `
