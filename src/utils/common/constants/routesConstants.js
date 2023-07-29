@@ -7,6 +7,15 @@ export const routes = {
    },
 
    USER: {
-      index: '/user',
+      index: '/',
+      home: 'home',
+      aboutShop: 'about-shop',
+      delivery: 'delivery',
    },
+}
+
+export const USER_ROLE = {
+   GUEST: 'GUEST',
+   USER: 'USER',
+   ADMIN: 'ADMIN',
 }

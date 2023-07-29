@@ -67,6 +67,9 @@ const Header = styled('header')`
    justify-content: space-around;
    padding-left: 1.875rem;
    padding-right: 3.125rem;
+   top: 0;
+
+   z-index: 999;
 `
 
 const Title = styled('div')`
@@ -193,6 +196,7 @@ const IconsBasket = styled(Basket)`
 const IconsShopingCart = styled(ShopingCart)`
    cursor: pointer;
 `
+
 const Border = styled('div')`
    margin-top: 1.75rem;
    border-right: 1px solid #858fa4;

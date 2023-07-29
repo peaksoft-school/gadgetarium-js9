@@ -1,10 +1,10 @@
+import React from 'react'
 import { Navigate } from 'react-router-dom'
-import { routes } from '../utils/common/constants/routesConstants'
 
-export const PrivateRoute = ({ component, isAuth }) => {
-   if (isAuth) {
-      return component
+export const PrivateRoute = ({ component, fallBacPath, isAllowed }) => {
+   if (!isAllowed) {
+      return <Navigate to={fallBacPath} />
    }
 
-   return <Navigate to={routes.LOGIN} />
+   return component
 }
