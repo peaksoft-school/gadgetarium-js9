@@ -1,11 +1,12 @@
-import { ThemeProvider } from '@mui/material'
-import { themes } from './utils/common/styles/themes'
+import { CustomToast } from './components/UI/snackbar/CustomToast'
 
 function App() {
    return (
-      <ThemeProvider theme={themes}>
+      <div>
          <h1>Hello World</h1>
-      </ThemeProvider>
+
+         <CustomToast />
+      </div>
    )
 }
 

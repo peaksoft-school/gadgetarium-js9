@@ -19,12 +19,14 @@
       "react/button-has-type": "off",
       "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
       "react/jsx-props-no-spreading": "off",
+      "import/no-extraneous-dependencies": "off",
       "react/react-in-jsx-scope": "off",
       "import/prefer-default-export": "off",
       "no-shadow": "off",
-      "import/no-extraneous-dependencies": "import/no-extraneous-dependencies",
       "react-hooks/exhaustive-deps": "off",
+      "import/no-unresolved": "off",
       "react/function-component-definition": "off",
+      "jsx-a11y/click-events-have-key-events": "off",
       "max-len": [
          "error",
          {
