@@ -2,6 +2,8 @@ import { Button, styled } from '@mui/material'
 import { ReactComponent as Plus } from '../../../assets/icons/plus.svg'
 
 export const QuantityOfProducts = ({ onCreateNewProduct, newProduct }) => {
+   console.log('newProduct: ', newProduct.productData)
+
    return (
       <Container>
          <Box>

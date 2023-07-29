@@ -7,7 +7,7 @@ import {
    calculateBackgroundColor,
    nestedContentFunction,
    nestedStyledInput,
-} from '../../../utils/helpers/functions'
+} from '../../../../utils/helpers/functions'
 
 export const TableItem = ({
    tables,

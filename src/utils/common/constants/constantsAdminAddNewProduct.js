@@ -126,9 +126,11 @@ export const radioData = {
    ],
 }
 
+//! #E1E1E1
+//! #732600
+
 export const bgColor = [
    '#FFFFFF',
-   '#E1E1E1',
    '#CCCCCC',
    '#B2B2B2',
    '#9C9C9C',
@@ -146,7 +148,6 @@ export const bgColor = [
    '#FFEBBE',
    '#FFA77F',
    '#FF5500',
-   '#732600',
    '#D7B09E',
    '#CD8966',
    '#895A44',

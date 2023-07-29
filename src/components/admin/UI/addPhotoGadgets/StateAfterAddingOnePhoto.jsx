@@ -1,7 +1,9 @@
 import { styled } from '@mui/material'
 import { ReactComponent as AddPhotoIcon } from '../../../../assets/icons/photo-add/add-photo-icon.svg'
+import { ReactComponent as DeleteItem } from '../../../../assets/icons/tools-for-site/delete-icon.svg'
 
 export const StateAfterAddingOnePhoto = ({
+   deleteHandler,
    handleFileChange,
    containerImg,
    handleDrop,
@@ -62,12 +64,16 @@ export const StateAfterAddingOnePhoto = ({
                                           : '6.90025rem',
                                  }}
                               >
-                                 <div className="img-wrapper">
-                                    <img
-                                       src={item.img}
-                                       alt="smartphone photos"
-                                    />
-                                 </div>
+                                 <ImageContainer
+                                    className="img-wrapper"
+                                    image={item.img}
+                                 >
+                                    <DeleteContainer
+                                       onClick={() => deleteHandler(item.id)}
+                                    >
+                                       <StyledDeleteIcon />
+                                    </DeleteContainer>
+                                 </ImageContainer>
                               </BoxPhoto>
                            )
                         }
@@ -115,9 +121,17 @@ export const StateAfterAddingOnePhoto = ({
                            index={index}
                            key={item.id}
                         >
-                           <div className="img-wrapper">
-                              <img src={item.img} alt="smartphone photos" />
-                           </div>
+                           <ImageContainer
+                              size
+                              className="img-wrapper"
+                              image={item.img}
+                           >
+                              <DeleteContainer
+                                 onClick={() => deleteHandler(item.id)}
+                              >
+                                 <StyledDeleteIcon />
+                              </DeleteContainer>
+                           </ImageContainer>
                         </BoxPhoto>
                      )
                   })}
@@ -126,6 +140,8 @@ export const StateAfterAddingOnePhoto = ({
       </ContainerPhotoAndAddNewPhoto>
    )
 }
+export default StateAfterAddingOnePhoto
+
 const widthNestForLabel = (containerImg) => {
    if ([3, 6].includes(containerImg)) {
       return '21.87rem'
@@ -167,9 +183,10 @@ const ContainerPhotoAndAddNewPhoto = styled('div')(({ containerImg }) => ({
    '.box-length-three-true': {
       display: 'flex',
       flexDirection: 'column',
-      gap: '0.82rem', // 1.04rem * 0.79 ≈ 0.82rem
+      gap: '0.82rem',
    },
 }))
+
 const Label = styled('label')(({ containerImg }) => ({
    width: widthNestForLabel(containerImg),
    transition: 'width 0.3s ease-in-out',
@@ -191,10 +208,11 @@ const BoxLabelContent = styled('div')(({ theme }) => ({
    fontSize: '0.8rem',
    color: theme.palette.secondary.contrastText,
    fontWeight: 500,
+
    span: {
       fontFamily: 'Inter',
       color: '#91969E',
-      fontSize: '0.59rem', // 0.75rem * 0.79 ≈ 0.59rem
+      fontSize: '0.59rem',
       fontStyle: 'normal',
       lineHeight: 'normal',
    },
@@ -205,24 +223,49 @@ const ContainerPhoto = styled('div')(() => ({
    gap: '0.98rem',
    justifyContent: 'space-between',
 }))
+
 const BoxPhoto = styled('div')(({ containerImg, index }) => ({
    width: widthNestForBoxPhoto(containerImg, index),
    height: '7.240rem',
+
    '.img-wrapper': {
       display: 'flex',
       width: '100%',
       height: '100%',
       overflow: 'hidden',
-      img: {
-         width: '100%',
-         height: '100%',
-         borderRadius: '0.2rem',
-         objectFit: 'cover',
-      },
    },
+
    transition: 'width 0.3s ease-in-out',
    transitionDelay: `${index * 0.1}s`,
 }))
+
+const ImageContainer = styled('div')(({ image, size }) => ({
+   backgroundImage: `url(${image})`,
+   display: 'flex',
+   justifyContent: 'flex-end',
+   backgroundPosition: 'center',
+   borderRadius: '0.2rem',
+   backgroundSize: size ? '100%' : '45%',
+   backgroundRepeat: 'no-repeat',
+   backgroundColor: 'white',
+}))
+
+const DeleteContainer = styled('div')`
+   cursor: pointer;
+   background-color: #909cb5;
+   width: 2rem;
+   height: 2rem;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   border-radius: 0.2rem;
+`
+
+const StyledDeleteIcon = styled(DeleteItem)`
+   path {
+      fill: white;
+   }
+`
 
 const SecondContainerForImg = styled('div')`
    display: flex;

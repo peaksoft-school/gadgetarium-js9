@@ -97,26 +97,43 @@ const InputUI = styled(TextField)`
    }
 `
 
-const ContainerColor = styled('div')`
-   position: absolute;
-   width: 24.75rem;
+const ContainerColor = styled('div')(({ theme }) => ({
+   position: 'absolute',
+   width: '24.75rem',
+   display: 'flex',
+   justifyContent: 'center',
+   flexDirection: 'column',
+   alignItems: 'center',
+   flexWrap: 'wrap',
+   height: '184px',
+   gap: '3px',
+   backgroundColor: '#fff',
+   marginTop: '4px',
+   zIndex: '999',
+   border: `1px solid ${theme.palette.primary.main}`,
+   borderRadius: '2px',
+}))
 
-   display: flex;
-   justify-content: revert;
-   flex-direction: column;
-   align-items: revert;
-   flex-wrap: wrap;
-   height: 221px;
-   gap: 3px;
-   background-color: #fff;
-   margin-top: 4px;
-   z-index: 999;
-`
+// const ContainerColor = styled('div')`
+//    position: absolute;
+//    width: 24.75rem;
+
+//    display: flex;
+//    justify-content: revert;
+//    flex-direction: column;
+//    align-items: revert;
+//    flex-wrap: wrap;
+//    height: 196px;
+//    gap: 3px;
+//    background-color: #fff;
+//    margin-top: 4px;
+//    z-index: 999;
+// `
 
 const BoxColor = styled('div')`
    background-color: ${(props) => props.backgroundColor};
-   width: 25px;
-   height: 25px;
+   width: 23px;
+   height: 23px;
    margin: 0;
    cursor: pointer;
 `

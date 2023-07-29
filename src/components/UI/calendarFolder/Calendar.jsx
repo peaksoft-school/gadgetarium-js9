@@ -2,7 +2,6 @@ import { styled } from '@mui/material/styles'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
-import dayjs from 'dayjs'
 
 export const Calendar = ({
    placeholder,
@@ -13,19 +12,16 @@ export const Calendar = ({
    labelTop,
    ...props
 }) => {
-   const formattedDate = dayjs(value).format('yyyy-MM-dd')
-
    return (
       <div>
          <LocalizationProvider dateAdapter={AdapterDayjs}>
             <StyledDatePicker
                label={placeholder}
-               value={formattedDate}
+               value={value}
                onChange={onChange}
                width={width}
                padding={padding}
                labelTop={labelTop}
-               // views={['year', 'month', 'day']}
                {...props}
             />
          </LocalizationProvider>

@@ -3,7 +3,7 @@ import { CategoryFilterSelect } from './CategoryFilterSelect'
 import { InputUi } from '../../../UI/Input'
 import { categoryProduct } from '../../../../utils/common/constants/constantsAdminAddNewProduct'
 import { ReactComponent as SelectLabelIcons } from '../../../../assets/icons/photo-add/add-photo-icon.svg'
-import { Calendar } from '../../../calendarFolder/Calendar'
+import { Calendar } from '../../../UI/calendarFolder/Calendar'
 
 export const FilterCategory = ({
    onOpenModalAddNewBrand,

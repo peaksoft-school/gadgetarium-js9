@@ -128,8 +128,15 @@ const StyledMenuItem = styled(MenuItem)(({ theme, selected }) => ({
       ? `${theme.palette.primary.main} !important`
       : 'inherit',
    color: selected ? '#fff' : 'inherit',
-   margin: '0rem 0.5rem',
    borderRadius: '0.6875rem',
+   margin: '0rem 0.5rem',
+
+   ':hover': {
+      background: selected
+         ? 'inherit'
+         : `${theme.palette.primary.main} !important`,
+      color: selected ? '#fff' : '#fff',
+   },
 
    '& .hover': {
       color: selected ? '#fff' : theme.palette.primary.main,

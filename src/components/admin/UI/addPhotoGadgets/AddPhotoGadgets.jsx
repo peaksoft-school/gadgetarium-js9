@@ -1,6 +1,5 @@
-/* eslint-disable no-undef */
 import { styled } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSnackbar } from '../../../../hooks/useSnackbar'
 import { InitialStateAddPhotoGadgets } from './InitialStateAddPhotoGadgets'
 import { StateAfterAddingOnePhoto } from './StateAfterAddingOnePhoto'
@@ -9,6 +8,11 @@ export const AddPhotoGadgets = () => {
    const [smartphonePhoto, setSmartphonePhoto] = useState(null)
    const { snackbarHandler } = useSnackbar()
    const [containerImg, setContainerImg] = useState([])
+
+   const deleteHandler = (id) => {
+      const filteredContainerImg = containerImg.filter((item) => item.id !== id)
+      setContainerImg(filteredContainerImg)
+   }
 
    const imgUrl = smartphonePhoto && URL.createObjectURL(smartphonePhoto)
 
@@ -83,6 +87,7 @@ export const AddPhotoGadgets = () => {
                />
             ) : (
                <StateAfterAddingOnePhoto
+                  deleteHandler={deleteHandler}
                   handleFileChange={handleFileChange}
                   containerImg={containerImg}
                   handleDrop={handleDrop}
@@ -112,7 +117,7 @@ const ContainerAddPhoto = styled('div')(({ theme }) => ({
       padding: '1.3rem 0',
 
       borderRadius: '0.20833rem',
-      border: `1px dashed ${theme.palette.primary.mainContrastText}`,
+      border: `1px dashed black`,
       backgroundColor: '#d2d4d87f',
    },
 

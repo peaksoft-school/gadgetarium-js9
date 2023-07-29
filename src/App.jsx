@@ -1,9 +1,12 @@
 import { CustomToast } from './components/UI/snackbar/CustomToast'
+import { AddingAProduct } from './components/admin/addingAProduct/AddingAProduct'
 
 function App() {
    return (
       <div>
-         <h1>Hello World</h1>
+         {/* <h1>Hello World</h1> */}
+
+         <AddingAProduct />
 
          <CustomToast />
       </div>

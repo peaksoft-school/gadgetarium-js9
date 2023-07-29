@@ -6,6 +6,7 @@ import { HeaderAddingAProduct } from './HeaderAddingAProduct'
 import { FilterCategory } from './selectСategories/FilterCategory'
 import { AddNewBrandModal } from './selectСategories/AddNewBrandModal'
 import { filterResComponent } from '../../../utils/helpers/AddFilterResComponent'
+import { Button } from '../../UI/Button'
 
 const productsData = {
    category: '',
@@ -21,6 +22,7 @@ const productsData = {
       {
          id: '1',
          numProduct: 1,
+         parameters: null,
       },
    ],
 }
@@ -29,19 +31,6 @@ export const AddingAProduct = () => {
    const [openModalAddNewBrand, setOpenModalAddNewBrand] = useSearchParams()
    const [newProduct, setNewProduct] = useState(productsData)
    console.log('newProduct: ', newProduct)
-   // const [value, setValue] = useState({
-   //    category: '',
-   //    subcategory: '',
-   //    brand: '',
-   //    guarantee: '',
-   //    nameProduct: '',
-   //    dateOfIssue: null,
-   //    video: '',
-   //    PDF: '',
-   //    description: '',
-   // })
-
-   // console.log('value: ', value)
 
    const onHandleChange = (event) => {
       const { name, value } = event.target
@@ -70,13 +59,16 @@ export const AddingAProduct = () => {
          id: resNumProduct.toString(),
          numProduct: resNumProduct,
       }
+      const updatedProductData = [...newProduct.productData, data]
 
-      newProduct.productData.push(data)
+      // Create a new object with the existing newProduct data and the updated productData
+      const updatedNewProduct = {
+         ...newProduct,
+         productData: updatedProductData,
+      }
 
-      setNewProduct([...newProduct])
+      setNewProduct(updatedNewProduct)
    }
-
-   console.log('newProduct.productData: ', newProduct.productData)
 
    const onCloseModalAddNewBrand = () => {
       openModalAddNewBrand.delete('AddingAProduct')
@@ -115,6 +107,18 @@ export const AddingAProduct = () => {
          <div>
             {filterResComponent(newProduct, newProduct, onCreateNewProduct)}
          </div>
+
+         {newProduct.category !== '' && (
+            <ContainerButton>
+               <Button
+                  onClick={() => {}}
+                  variant="contained"
+                  padding="0.62rem 1.5rem"
+               >
+                  Далее
+               </Button>
+            </ContainerButton>
+         )}
       </Container>
    )
 }
@@ -124,3 +128,11 @@ const Container = styled('div')(({ theme }) => ({
    marginTop: '1.88rem',
    fontFamily: theme.typography.mainFontFamily,
 }))
+
+const ContainerButton = styled('div')`
+   width: 39%;
+   display: flex;
+   justify-content: flex-end;
+
+   margin-bottom: 8.38rem;
+`
