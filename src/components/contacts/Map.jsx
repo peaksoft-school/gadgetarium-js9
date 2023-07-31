@@ -20,12 +20,11 @@ export const MapComponent = () => {
          document.body.removeChild(script)
       }
    }, [])
-
-   return <ContainerMap id="map" />
+   return <Container id="map" />
 }
 
-const ContainerMap = styled('div')`
+const Container = styled('div')`
    width: 100%;
-   height: 35.5625rem;
-   flex-shrink: 0;
+   height: 71.125vh;
+   margin-bottom: 7.5rem;
 `
