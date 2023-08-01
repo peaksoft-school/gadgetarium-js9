@@ -23,12 +23,12 @@ export const Delivery = () => {
 }
 
 const Container = styled('div')`
-   margin: 1.88rem 0 0 12.25rem;
+   margin: 1.88rem 0 7.87rem 12.25rem;
 `
 
 const Text = styled('p')(({ theme }) => ({
    fontFamily: theme.typography.fontFamily,
-   color: theme.palette.primary.contrastText,
+   color: theme.palette.primary.mainContrastText,
    fontSize: '1.875rem',
    fontWeight: 500,
    lineHeight: '110%',

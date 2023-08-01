@@ -27,7 +27,7 @@ export const Footer = () => {
             <Service>
                <span>Помощь и сервисы</span>
                <Contact>
-                  <a href="./Омагазине">О магазине</a>
+                  <a href="./Омагазине">O магазине</a>
                   <a href="./доставка">Доставка</a>
                   <a href="./fag">FAG</a>
                   <a href="./контакты">Контакты</a>
@@ -35,7 +35,7 @@ export const Footer = () => {
             </Service>
             <PersonalInformation>
                <div>
-                  <span>Расскажем об акциях и скидках</span>
+                  <span>Расскажем oб акциях и скидках</span>
                   <form onSubmit="submit">
                      <Input type="email" placeholder="Email" />
                      <ButtonFooter onSubmit="submit" variant="contained">
@@ -51,7 +51,7 @@ export const Footer = () => {
                   <p>+996 (400) 00 00 00</p>
                   <p>Gadgetarium.kg</p>
                   <p>г.Бишкек, ул. Гражданская 119</p>
-                  <p>С 10:00 до 21:00 (без выходных)</p>
+                  <p>C 10:00 до 21:00 (без выходных)</p>
                </Info>
             </PersonalInformation>
          </Block1>
@@ -62,7 +62,7 @@ export const Footer = () => {
                <h1>adgetarium</h1>
             </Gadgetarium>
             <p>© 2022 Gadgetarium. Интернет магазин </p>
-            <span>Все права защищены.</span>
+            <span>Bce права защищены.</span>
          </Block2>
       </Container>
    )
@@ -73,6 +73,9 @@ const Container = styled('div')`
    width: 100%;
    height: 37.5rem;
    background-color: #1a1a25;
+
+   /* position: absolute; */
+   /* bottom: 0; */
 `
 
 const Block1 = styled('div')`
