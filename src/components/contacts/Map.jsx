@@ -11,7 +11,6 @@ export const MapComponent = () => {
 
    const handleMouseUp = () => {
       setIsMouseDown(false)
-      console.log(isMouseDown)
    }
    const handleMapClick = (e) => {
       const clickedCoords = e.get('coords')
