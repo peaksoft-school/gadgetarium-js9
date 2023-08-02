@@ -33,10 +33,12 @@ export const ShopGadgetariumInfo = () => {
    )
 }
 
-const Container = styled('div')(() => ({
+const Container = styled('div')(({ theme }) => ({
    ul: {
       width: '53.125vw',
    },
+
+   color: theme.palette.primary.mainContrastText,
 
    li: {
       marginLeft: '1.125rem',

@@ -32,9 +32,8 @@ export const AboutShop = () => {
 }
 
 const Container = styled('div')`
-   margin: 0;
+   margin: 1.87rem 0 7.48rem 0;
    padding: 0;
-   margin-bottom: 7.48rem;
 
    h1 {
       margin: 0;
@@ -44,7 +43,7 @@ const Container = styled('div')`
 
 const Text = styled('p')(({ theme }) => ({
    fontFamily: theme.typography.fontFamily,
-   color: theme.palette.primary.contrastText,
+   color: theme.palette.primary.mainContrastText,
    fontSize: '1.875rem',
    fontWeight: 500,
    lineHeight: '110%',
@@ -73,7 +72,7 @@ const Main = styled('main')(({ theme }) => ({
       display: 'flex',
       flexDirection: 'column',
       gap: '1.5rem',
-      color: theme.palette.primary.contrastText,
+      color: theme.palette.primary.mainContrastText,
    },
 
    '& .title': {

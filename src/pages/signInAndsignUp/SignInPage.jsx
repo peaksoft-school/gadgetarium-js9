@@ -9,7 +9,7 @@ import { InputUi } from '../../components/UI/Input'
 import { BackgroundInForm } from '../../layout/BackgroundInForm'
 
 const schema = z.object({
-   email: z.string().email('Неправильно указан Email'),
+   email: z.string().email('Заполните обязательные поля'),
 
    password: z
       .string()

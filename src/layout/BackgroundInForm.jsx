@@ -1,15 +1,14 @@
 import { styled } from '@mui/material'
 import React from 'react'
-import { ReactComponent } from '../assets/icons/headerIcons/Letter.svg'
-import { ReactComponent as ReactComponentIcons } from '../assets/icons/headerIcons/Background.svg'
 
 export const BackgroundInForm = ({ children }) => {
    return (
       <Container>
          <Title>
-            <BackgroundIcons />
-            <GIcons />
-            <h1>adgetarium</h1>
+            <Block>
+               <h1>G</h1>
+               <h2>adgetarium</h2>
+            </Block>
          </Title>
          {children}
       </Container>
@@ -23,20 +22,23 @@ const Container = styled('div')`
    flex-direction: column;
    align-items: center;
 `
-const GIcons = styled(ReactComponent)`
-   margin-top: 1.4375rem;
-   margin-left: -1.75rem;
-`
-const BackgroundIcons = styled(ReactComponentIcons)`
-   margin-top: 1rem;
-`
+
 const Title = styled('div')`
    display: flex;
    width: 90%;
    margin-right: 5rem;
+`
+
+const Block = styled('div')`
+   display: flex;
    h1 {
-      margin-top: 1rem;
-      margin-left: 0.3rem;
       color: #fff;
+      font-size: 2.78763rem;
+      padding: 0 8px 0 8px;
+      background-color: #cb11ab;
+   }
+   h2 {
+      color: #fff;
+      font-size: 2.47788rem;
    }
 `
