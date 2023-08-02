@@ -1,11 +1,12 @@
-import { CustomToast } from './components/UI/snackbar/CustomToast'
+// import { UserLayout } from './layout/user/UserLayout'
+import { Contacts } from './components/contacts/Contacts'
 
 function App() {
    return (
       <div>
-         <h1>Hello World</h1>
+         <Contacts />
 
-         <CustomToast />
+         {/* <UserLayout /> */}
       </div>
    )
 }
