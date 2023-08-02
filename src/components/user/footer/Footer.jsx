@@ -1,13 +1,5 @@
 import { Button } from '@mui/material'
 import { styled } from '@mui/material/styles'
-<<<<<<< HEAD
-import React from 'react'
-import { ReactComponent as LetterIcon } from '../../../assets/icons/headerIcons/Letter.svg'
-import { ReactComponent as ReactComponentIcons } from '../../../assets/icons/headerIcons/Background.svg'
-=======
-import { ReactComponent as LetterIcons } from '../../../assets/icons/headerIcons/Letter.svg'
-import { ReactComponent as BackgroundIcons } from '../../../assets/icons/headerIcons/Background.svg'
->>>>>>> 60400a306719c7d53e8b530b774883d6a34cefde
 
 export const Footer = () => {
    return (
@@ -63,8 +55,10 @@ export const Footer = () => {
          </Block1>
          <Block2>
             <Gadgetarium>
-               <BackgroundIcons />
-               <Letter />
+               <GadgeteriumContainer>
+                  <GIcons>G</GIcons>
+               </GadgeteriumContainer>
+
                <h1>adgetarium</h1>
             </Gadgetarium>
             <p>© 2022 Gadgetarium. Интернет магазин </p>
@@ -79,9 +73,27 @@ const Container = styled('div')`
    width: 100%;
    height: 37.5rem;
    background-color: #1a1a25;
+`
 
-   /* position: absolute; */
-   /* bottom: 0; */
+const GadgeteriumContainer = styled('div')`
+   width: 35px;
+   height: 35px;
+   display: flex;
+   background-color: #cb11ab;
+   margin-right: 2.5px;
+   align-items: center;
+   justify-content: center;
+`
+
+const GIcons = styled('p')`
+   color: #fff !important;
+   display: flex;
+   align-items: center;
+   margin-top: 0px !important;
+   font-family: Outfit;
+   font-size: 32.053px;
+   font-style: normal;
+   font-weight: 600;
 `
 
 const Block1 = styled('div')`
@@ -215,16 +227,9 @@ const Gadgetarium = styled('div')`
    display: flex;
    justify-content: center;
    margin-top: 2.5rem;
+
    h1 {
-      margin-left: 0.625rem;
+      font-family: Orbitron;
       color: #fff;
    }
-`
-<<<<<<< HEAD
-const Letter = styled(LetterIcon)`
-=======
-const Letter = styled(LetterIcons)`
->>>>>>> 60400a306719c7d53e8b530b774883d6a34cefde
-   margin-top: 0.3125rem;
-   margin-left: -1.875rem;
 `
