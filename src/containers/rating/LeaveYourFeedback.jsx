@@ -1,15 +1,21 @@
-import React, { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { styled, Rating as RatingMui } from '@mui/material'
 import { RatingPhoto } from './RatingPhoto'
 import { Modal } from '../../components/UI/Modal'
 import { Button } from '../../components/UI/Button'
+import { SuccessModal } from './SuccessModal'
 
 export const LeaveYourFeedback = ({ rating, onClose }) => {
    const [myStar, setMyStar] = useState(0)
    const [comment, setComment] = useState('')
    const [img, setImg] = useState('')
+   const [successModal, setSuccessModal] = useState(false)
 
    const imgUrl = img && URL.createObjectURL(img)
+
+   const onOpenSuccessModal = () => {
+      setSuccessModal(true)
+   }
 
    const onCreateReview = () => {
       const data = {
@@ -21,6 +27,10 @@ export const LeaveYourFeedback = ({ rating, onClose }) => {
       console.log('data: ', data)
 
       onClose()
+      onOpenSuccessModal()
+      setMyStar(0)
+      setComment('')
+      setImg('')
    }
 
    const handleFileChange = (event) => {
@@ -40,54 +50,68 @@ export const LeaveYourFeedback = ({ rating, onClose }) => {
       setMyStar(newValue)
    }
 
+   useEffect(() => {
+      let time
+      if (successModal) {
+         time = setTimeout(() => {
+            setSuccessModal(false)
+         }, 3000)
+      }
+
+      return () => clearTimeout(time)
+   }, [successModal])
+
    return (
-      <Modal open={rating} onClose={onClose} padding="1.5rem 1.88rem">
-         <Container>
-            <ContainerGrade>
-               <p>Оставьте свой отзыв</p>
+      <>
+         {successModal && <SuccessModal successModal={successModal} />}
+         <Modal open={rating} onClose={onClose} padding="1.5rem 1.8rem">
+            <Container>
+               <ContainerGrade>
+                  <p>Оставьте свой отзыв</p>
 
-               <BoxGrade>
-                  <p>Оценка</p>
+                  <BoxGrade>
+                     <p>Оценка</p>
 
-                  <div>
-                     <RatingMui
-                        value={myStar}
-                        size="medium"
-                        onChange={handleRatingChange}
+                     <div>
+                        <RatingMui
+                           value={myStar}
+                           size="medium"
+                           onChange={handleRatingChange}
+                        />
+                     </div>
+                  </BoxGrade>
+               </ContainerGrade>
+
+               <div>
+                  <ContainerDescription className="box-description">
+                     <label htmlFor="comment">Ваш комментарий</label>
+                     <textarea
+                        id="comment"
+                        placeholder="Напишите комментарий"
+                        value={comment}
+                        onChange={(e) => setComment(e.target.value)}
                      />
-                  </div>
-               </BoxGrade>
-            </ContainerGrade>
+                  </ContainerDescription>
+               </div>
 
-            <div>
-               <ContainerDescription className="box-description">
-                  <label htmlFor="comment">Ваш комментарий</label>
-                  <textarea
-                     id="comment"
-                     placeholder="Напишите комментарий"
-                     value={comment}
-                     onChange={(e) => setComment(e.target.value)}
+               <div>
+                  <RatingPhoto
+                     handleDrop={handleDrop}
+                     handleFileChange={handleFileChange}
+                     img={imgUrl}
                   />
-               </ContainerDescription>
-            </div>
+               </div>
 
-            <div>
-               <RatingPhoto
-                  handleDrop={handleDrop}
-                  handleFileChange={handleFileChange}
-                  img={imgUrl}
-               />
-            </div>
-
-            <Button
-               variant="contained"
-               padding="0.75rem"
-               onClick={onCreateReview}
-            >
-               Отправить отзыв
-            </Button>
-         </Container>
-      </Modal>
+               <Button
+                  variant="contained"
+                  padding="0.75rem"
+                  onClick={onCreateReview}
+               >
+                  Отправить отзыв
+               </Button>
+            </Container>
+         </Modal>
+      </>
    )
 }
 
@@ -101,11 +125,11 @@ const Container = styled('div')(({ theme }) => ({
 const ContainerGrade = styled('div')(({ theme }) => ({
    display: 'flex',
    flexDirection: 'column',
-   gap: '1rem',
+   gap: '0.8rem',
 
    p: {
       margin: 0,
-      fontSize: '1.875rem',
+      fontSize: '1.8rem',
       fontFamily: theme.typography.fontFamily,
       color: theme.palette.primary.mainContrastText,
    },
@@ -121,7 +145,7 @@ const ContainerDescription = styled('div')`
    textarea {
       padding: 0.88rem 0.63rem;
       max-width: 35.5625rem;
-      min-height: 8rem;
+      min-height: 7rem;
       border-radius: 0.375rem;
       resize: none;
       border: 1px solid #cdcdcd;

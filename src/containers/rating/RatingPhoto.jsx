@@ -1,5 +1,5 @@
 import { styled } from '@mui/material'
-import AddAPhotoIcon from '@mui/icons-material/AddAPhoto'
+import { ReactComponent as AddAPhotoIcon } from '../../assets/icons/photo-add/add-photo-camera-icon.svg'
 
 export const RatingPhoto = ({ handleDrop, handleFileChange, img }) => {
    return (
@@ -60,9 +60,11 @@ const Container = styled('div')`
 
    .img-wrapper {
       width: 100%;
+      height: 15rem;
 
       img {
          width: 100%;
+         height: 100%;
       }
    }
 `
