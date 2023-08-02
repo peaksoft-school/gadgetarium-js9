@@ -22,14 +22,18 @@ export const CourseInfo = () => {
 }
 
 const Container = styled('div')(({ theme }) => ({
+   fontFamily: theme.typography.mainFontFamily,
+   color: theme.palette.primary.mainContrastText,
+
    h3: {
-      fontFamily: `${theme.typography.mainFontFamily}`,
       fontSize: '1.125rem',
       fontStyle: 'normal',
       fontWeight: '700',
       lineHeight: '110%',
+      margin: 0,
       marginTop: '1.5rem',
    },
+
    '& :first-child': {
       margin: '8.81rem 0 2.94rem 0',
       fontSize: '1.5rem',
@@ -37,12 +41,13 @@ const Container = styled('div')(({ theme }) => ({
       fontWeight: '500',
       lineHeight: '110%',
    },
+
    p: {
-      fontFamily: `${theme.typography.mainFontFamily}`,
       fontSize: '1.125rem',
       fontStyle: 'normal',
       fontWeight: '400',
       lineHeight: '110%',
+      margin: 0,
       marginTop: '0.62rem',
    },
 }))
