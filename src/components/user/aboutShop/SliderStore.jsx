@@ -111,6 +111,6 @@ const PrevButton = styled('div')`
    display: flex;
    align-items: center;
 
-   z-index: 999;
+   z-index: 100;
    cursor: pointer;
 `

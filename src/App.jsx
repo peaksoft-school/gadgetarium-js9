@@ -1,14 +1,9 @@
-import { CustomToast } from './components/UI/snackbar/CustomToast'
-import { AddingAProduct } from './components/admin/addingAProduct/AddingAProduct'
+import { UserLayout } from './layout/user/UserLayout'
 
 function App() {
    return (
       <div>
-         {/* <h1>Hello World</h1> */}
-
-         <AddingAProduct />
-
-         <CustomToast />
+         <UserLayout />
       </div>
    )
 }
