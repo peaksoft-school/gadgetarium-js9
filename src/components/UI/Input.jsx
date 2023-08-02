@@ -1,13 +1,8 @@
 import React, { forwardRef, useState } from 'react'
-import {
-   IconButton,
-   InputAdornment,
-   OutlinedInput,
-   styled,
-} from '@mui/material'
+import { IconButton, OutlinedInput, styled } from '@mui/material'
 
-import VisibilityIcon from '../../assets/icons/eye/eye-icon.svg'
-import VisibilityOffIcon from '../../assets/icons/eye/eye-slashed-icon.svg'
+import { ReactComponent as VisibilityIcon } from '../../assets/icons/eye/eye-icon.svg'
+import { ReactComponent as VisibilityOffIcon } from '../../assets/icons/eye/eye-slashed-icon.svg'
 
 export const InputUi = forwardRef(
    (
@@ -19,7 +14,6 @@ export const InputUi = forwardRef(
          placeholder,
          value,
          onChange,
-         padding,
          width,
          height,
          ...props
@@ -35,7 +29,7 @@ export const InputUi = forwardRef(
       return (
          <div>
             <InputOutlained
-               padding={padding}
+               {...props}
                value={value}
                onChange={onChange}
                error={error}
@@ -49,15 +43,13 @@ export const InputUi = forwardRef(
                {...props}
                endAdornment={
                   type === 'password' ? (
-                     <InputAdornment>
-                        <IconButton onClick={handleClickShowPassword}>
-                           {showPassword ? (
-                              <VisibilityIcon />
-                           ) : (
-                              <VisibilityOffIcon />
-                           )}
-                        </IconButton>
-                     </InputAdornment>
+                     <StyleIconButton onClick={handleClickShowPassword}>
+                        {showPassword ? (
+                           <VisibilityIcon />
+                        ) : (
+                           <VisibilityOffIcon />
+                        )}
+                     </StyleIconButton>
                   ) : (
                      ''
                   )
@@ -68,10 +60,12 @@ export const InputUi = forwardRef(
    }
 )
 
-InputUi.displayName = 'InputUi'
-
-const InputOutlained = styled(OutlinedInput)(({ padding, width, height }) => ({
-   width,
-   padding,
-   height,
-}))
+const InputOutlained = styled(OutlinedInput)`
+   width: 29.3125rem;
+   padding-right: 0;
+   position: relative;
+`
+const StyleIconButton = styled(IconButton)`
+   position: absolute;
+   left: 26.25rem;
+`

@@ -8,9 +8,8 @@
 
 /* Убираем внутренние отступы */
 ul,
-ol,
-p,
-h1 {
+ol {
+   list-style: none;
    padding: 0;
    margin: 0;
 }
