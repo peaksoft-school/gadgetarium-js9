@@ -169,6 +169,7 @@ const widthNestForBoxPhoto = (containerImg, index) => {
 const ContainerPhotoAndAddNewPhoto = styled('div')(({ containerImg }) => ({
    border: `1px dashed black`,
    backgroundColor: '#d2d4d87f',
+
    '.box': {
       padding: '0.98rem',
       width: (containerImg >= 4 || containerImg === 1) && '24.6875rem',
@@ -176,10 +177,12 @@ const ContainerPhotoAndAddNewPhoto = styled('div')(({ containerImg }) => ({
       flexDirection: containerImg > 2 ? 'column' : 'row',
       transition: 'width 0.3s ease-in-out',
    },
+
    '.box-length-three-false': {
       display: 'flex',
       gap: '0.98rem',
    },
+
    '.box-length-three-true': {
       display: 'flex',
       flexDirection: 'column',
@@ -192,6 +195,7 @@ const Label = styled('label')(({ containerImg }) => ({
    transition: 'width 0.3s ease-in-out',
    height: '7.17rem',
    backgroundColor: '#E8E9EB',
+
    input: {
       display: 'none',
    },
@@ -284,16 +288,3 @@ const StyledAddPhotoIcon = styled(AddPhotoIcon)`
    width: 2.37rem;
    height: 2.37rem;
 `
-
-/*
-
-<BoxPhoto>
-  <div className="img-wrapper">
-    <img
-			src=''
-      alt="smartphone photos"
-    />
-	</div>
-</BoxPhoto>
-
-*/

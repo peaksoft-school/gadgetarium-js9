@@ -1,25 +1,22 @@
 import { Button, styled } from '@mui/material'
 import { ReactComponent as Plus } from '../../../assets/icons/plus.svg'
+import { QuantityOfProductsButton } from './QuantityOfProductsButton'
 
 export const QuantityOfProducts = ({ onCreateNewProduct, newProduct }) => {
-   console.log('newProduct: ', newProduct.productData)
-
    return (
       <Container>
          <Box>
             {newProduct.productData.map((item) => (
-               <div key={item.id}>
-                  <ButtonStyleNumber variant="outlined">
-                     Продукт {item.numProduct}
-                  </ButtonStyleNumber>
-               </div>
+               <QuantityOfProductsButton key={item.id} item={item} />
             ))}
+
             <div>
                <ButtonAddNewProduct
                   onClick={onCreateNewProduct}
                   variant="outlined"
                >
-                  <Plus /> <p>Добавить продукт</p>
+                  <Plus />
+                  <p>Добавить продукт</p>
                </ButtonAddNewProduct>
             </div>
          </Box>
@@ -31,25 +28,12 @@ const Container = styled('div')`
    margin: 2.08rem 0;
 `
 
-const Box = styled('div')(({ theme }) => ({
+const Box = styled('div')(() => ({
    display: 'flex',
    gap: '1rem',
    alignItems: 'center',
-   fontFamily: theme.typography.mainFontFamily,
    fontStyle: 'normal',
    lineHeight: 'normal',
-}))
-
-const ButtonStyleNumber = styled(Button)(({ theme }) => ({
-   padding: '0.55rem 0.62rem',
-   color: theme.palette.secondary.contrastText,
-   border: `1px solid ${theme.palette.secondary.contrastText}`,
-   textTransform: 'capitalize',
-   fontSize: '1rem',
-
-   ':hover': {
-      border: `1px solid ${theme.palette.secondary.contrastText}`,
-   },
 }))
 
 const ButtonAddNewProduct = styled(Button)(({ theme }) => ({
@@ -68,9 +52,5 @@ const ButtonAddNewProduct = styled(Button)(({ theme }) => ({
    p: {
       padding: 0,
       margin: 0,
-   },
-
-   '.plus': {
-      fontSize: '1.5rem',
    },
 }))

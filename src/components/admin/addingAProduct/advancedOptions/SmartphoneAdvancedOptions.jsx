@@ -9,6 +9,7 @@ import { InputColorPalette } from '../../UI/color/InputColorPalette'
 export const SmartphoneAdvancedOptions = ({
    onCreateNewProduct,
    newProduct,
+   onCollectorParameters,
 }) => {
    const [productSmartphone, setProductSmartphone] = useState({
       color: '',
@@ -17,6 +18,7 @@ export const SmartphoneAdvancedOptions = ({
       SIMcards: '',
       price: 0,
       quantityOfGoods: 0,
+      photoSmartphone: null,
    })
 
    const onHandleChange = (event) => {
@@ -28,15 +30,28 @@ export const SmartphoneAdvancedOptions = ({
       }))
    }
 
+   const onAddPhotoSmartphone = (photoData) => {
+      console.log('photoData: ', photoData)
+
+      productSmartphone.photoSmartphone = photoData
+      setProductSmartphone(productSmartphone)
+   }
+
+   const onCollectorSmartphoneParameters = () => {
+      onCollectorParameters(productSmartphone)
+
+      onCreateNewProduct()
+   }
+
    return (
       <div>
          <QuantityOfProducts
-            onCreateNewProduct={onCreateNewProduct}
+            onCreateNewProduct={onCollectorSmartphoneParameters}
             newProduct={newProduct}
          />
 
          <Container>
-            <InputColorPalette />
+            <InputColorPalette productSmartphone={productSmartphone} />
 
             <CategoryFilterSelect
                title="Объем памяти"
@@ -68,7 +83,7 @@ export const SmartphoneAdvancedOptions = ({
                star={false}
             />
 
-            <AddPhotoGadgets />
+            <AddPhotoGadgets onPhotoCollector={onAddPhotoSmartphone} />
          </Container>
       </div>
    )

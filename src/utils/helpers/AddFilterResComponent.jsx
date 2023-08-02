@@ -1,7 +1,12 @@
 import { SmartphoneAdvancedOptions } from '../../components/admin/addingAProduct/advancedOptions/SmartphoneAdvancedOptions'
 import { WatchAdvancedOptions } from '../../components/admin/addingAProduct/advancedOptions/WatchAdvancedOptions'
 
-export const filterResComponent = (value, newProduct, onCreateNewProduct) => {
+export const filterResComponent = (
+   value,
+   newProduct,
+   onCreateNewProduct,
+   onCollectorParameters
+) => {
    let resComponent
 
    switch (value.category) {
@@ -10,6 +15,7 @@ export const filterResComponent = (value, newProduct, onCreateNewProduct) => {
             <SmartphoneAdvancedOptions
                newProduct={newProduct}
                onCreateNewProduct={onCreateNewProduct}
+               onCollectorParameters={onCollectorParameters}
             />
          )
 
@@ -19,6 +25,7 @@ export const filterResComponent = (value, newProduct, onCreateNewProduct) => {
             <WatchAdvancedOptions
                newProduct={newProduct}
                onCreateNewProduct={onCreateNewProduct}
+               onCollectorParameters={onCollectorParameters}
             />
          )
 

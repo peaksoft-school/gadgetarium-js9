@@ -4,10 +4,12 @@ import { useSnackbar } from '../../../../hooks/useSnackbar'
 import { InitialStateAddPhotoGadgets } from './InitialStateAddPhotoGadgets'
 import { StateAfterAddingOnePhoto } from './StateAfterAddingOnePhoto'
 
+// { onPhotoCollector }
 export const AddPhotoGadgets = () => {
    const [smartphonePhoto, setSmartphonePhoto] = useState(null)
    const { snackbarHandler } = useSnackbar()
    const [containerImg, setContainerImg] = useState([])
+   console.log('containerImg: ', containerImg)
 
    const deleteHandler = (id) => {
       const filteredContainerImg = containerImg.filter((item) => item.id !== id)

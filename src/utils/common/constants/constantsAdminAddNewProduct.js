@@ -87,7 +87,7 @@ export const dataProductSmartphones = {
       { id: '4', text: 64 },
       { id: '5', text: 128 },
       { id: '6', text: 256 },
-      { id: '7', text: 8512 },
+      { id: '7', text: 512 },
    ],
    smartphonesRAM: [
       { id: '1', text: 2 },

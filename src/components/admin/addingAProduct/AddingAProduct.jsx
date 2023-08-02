@@ -61,7 +61,6 @@ export const AddingAProduct = () => {
       }
       const updatedProductData = [...newProduct.productData, data]
 
-      // Create a new object with the existing newProduct data and the updated productData
       const updatedNewProduct = {
          ...newProduct,
          productData: updatedProductData,
@@ -80,6 +79,20 @@ export const AddingAProduct = () => {
       openModalAddNewBrand.set('AddingAProduct', 'AddNewBrand')
 
       setOpenModalAddNewBrand(openModalAddNewBrand)
+   }
+
+   const onCollectorParameters = (parametersData) => {
+      const res = newProduct.productData.map((item) => {
+         const data = { ...item, parameters: parametersData }
+
+         return data
+      })
+
+      setNewProduct(res)
+   }
+
+   const onFurtherHandler = () => {
+      console.log('finished result: ', newProduct)
    }
 
    return (
@@ -105,13 +118,18 @@ export const AddingAProduct = () => {
          </div>
 
          <div>
-            {filterResComponent(newProduct, newProduct, onCreateNewProduct)}
+            {filterResComponent(
+               newProduct,
+               newProduct,
+               onCreateNewProduct,
+               onCollectorParameters
+            )}
          </div>
 
          {newProduct.category !== '' && (
             <ContainerButton>
                <Button
-                  onClick={() => {}}
+                  onClick={onFurtherHandler}
                   variant="contained"
                   padding="0.62rem 1.5rem"
                >
@@ -130,9 +148,10 @@ const Container = styled('div')(({ theme }) => ({
 }))
 
 const ContainerButton = styled('div')`
-   width: 39%;
-   display: flex;
-   justify-content: flex-end;
+   /* width: 24%; */
+   /* display: flex; */
+   /* justify-content: flex-end; */
+   margin-left: 18.6rem;
 
    margin-bottom: 8.38rem;
 `
