@@ -5,6 +5,8 @@ import { adminRoutes } from './AdminRoutes'
 import { userRoutes } from './UserRoutes'
 import { USER_ROLE, routes } from '../utils/common/constants/routesConstants'
 import { PrivateRoute } from './PrivateRoutes'
+import { SignUp } from '../pages/signInAndsignUp/SignUpPage'
+import { SignIn } from '../pages/signInAndsignUp/SignInPage'
 
 const role = 'USER'
 
@@ -19,7 +21,7 @@ export const router = createBrowserRouter([
          <PrivateRoute
             isAllowed={isAllowed([USER_ROLE.GUEST, USER_ROLE.USER])}
             fallBacPath={role === USER_ROLE.ADMIN ? '/admin' : '/home'}
-            component={<h1>Sign In</h1>}
+            component={<SignIn />}
          />
       ),
    },
@@ -29,7 +31,7 @@ export const router = createBrowserRouter([
          <PrivateRoute
             isAllowed={isAllowed([USER_ROLE.GUEST, USER_ROLE.USER])}
             fallBacPath={role === USER_ROLE.ADMIN ? '/admin' : '/home'}
-            component={<h1>Sign Up</h1>}
+            component={<SignUp />}
          />
       ),
    },

@@ -4,9 +4,44 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import { ReactComponent as CloseIcon } from '../../assets/icons/cross/big-cross-icon.svg'
 import { InputUi } from '../../components/UI/Input'
 import { BackgroundInForm } from '../../layout/BackgroundInForm'
+import { signUpRequest } from '../../store/auth/authThunk'
+
+const signUpInputArray = [
+   {
+      key: 'firstName',
+      placeholder: 'Напишите ваше имя',
+      type: 'text',
+   },
+   {
+      key: 'lastName',
+      placeholder: 'Напишите вашу фамилию',
+      type: 'text',
+   },
+   {
+      key: 'phone',
+      placeholder: '+996 (_ _ _) _ _  _ _  _ _',
+      type: 'tel',
+   },
+   {
+      key: 'email',
+      placeholder: 'Напишите email',
+      type: 'email',
+   },
+   {
+      key: 'password',
+      placeholder: 'Напишите пароль',
+      type: 'password',
+   },
+   {
+      key: 'confirmPassword',
+      placeholder: 'Напишите ваше имя',
+      type: 'password',
+   },
+]
 
 const schema = z
    .object({
@@ -39,6 +74,7 @@ const schema = z
    })
 
 export const SignUp = () => {
+   const dispatch = useDispatch()
    const {
       register,
       formState: { errors },
@@ -56,42 +92,11 @@ export const SignUp = () => {
       resolver: zodResolver(schema),
    })
 
-   const onSubmit = () => {
+   const onSubmit = (data) => {
       reset()
+      dispatch(signUpRequest(data))
+      console.log(data)
    }
-
-   const signUpInputArray = [
-      {
-         key: 'firstName',
-         placeholder: 'Напишите ваше имя',
-         type: 'text',
-      },
-      {
-         key: 'lastName',
-         placeholder: 'Напишите вашу фамилию',
-         type: 'text',
-      },
-      {
-         key: 'phone',
-         placeholder: '+996 (_ _ _) _ _  _ _  _ _',
-         type: 'tel',
-      },
-      {
-         key: 'email',
-         placeholder: 'Напишите email',
-         type: 'email',
-      },
-      {
-         key: 'password',
-         placeholder: 'Напишите пароль',
-         type: 'password',
-      },
-      {
-         key: 'confirmPassword',
-         placeholder: 'Напишите ваше имя',
-         type: 'password',
-      },
-   ]
 
    const [focusedField, setFocusedField] = useState('')
 

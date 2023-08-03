@@ -4,9 +4,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import { ReactComponent as CloseIcon } from '../../assets/icons/cross/big-cross-icon.svg'
 import { InputUi } from '../../components/UI/Input'
 import { BackgroundInForm } from '../../layout/BackgroundInForm'
+import { signInRequest } from '../../store/auth/authThunk'
 
 const schema = z.object({
    email: z.string().email('Заполните обязательные поля'),
@@ -21,6 +23,7 @@ const schema = z.object({
 })
 
 export const SignIn = () => {
+   const dispatch = useDispatch()
    const { register, handleSubmit, reset, formState } = useForm({
       defaultValues: {
          email: '',
@@ -30,8 +33,10 @@ export const SignIn = () => {
       resolver: zodResolver(schema),
    })
 
-   const onSubmit = () => {
+   const onSubmit = (data) => {
       reset()
+      console.log(data)
+      dispatch(signInRequest(data))
    }
 
    const combinedError = formState.errors.email || formState.errors.password
