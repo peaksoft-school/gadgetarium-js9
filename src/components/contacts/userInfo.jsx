@@ -11,9 +11,19 @@ export const UserInfo = () => {
       tel: '',
       message: '',
    })
+   const onChangePhone = (event) => {
+      const { value } = event.target
 
+      const digitsOnlyValue = value.replace(/[^\d]/g, '')
+
+      setAll((prevData) => ({
+         ...prevData,
+         tel: digitsOnlyValue,
+      }))
+   }
    const onChangeAll = (event) => {
       const { name, value } = event.target
+
       setAll((prevData) => ({
          ...prevData,
          [name]: value,
@@ -24,8 +34,9 @@ export const UserInfo = () => {
       e.preventDefault()
       setAll({ name: '', surname: '', email: '', tel: '', message: '' })
    }
+
    return (
-      <Container onSubmit={onAllResetHandler}>
+      <Container>
          <h3>Напишите нам</h3>
 
          <div className="InfoContent">
@@ -39,7 +50,6 @@ export const UserInfo = () => {
                   width="21.125rem"
                   name="name"
                   onChange={onChangeAll}
-                  padding="0.5rem 0.625rem"
                   placeholder="Напишите ваше имя"
                />
             </div>
@@ -54,7 +64,6 @@ export const UserInfo = () => {
                   value={all.surname}
                   name="surname"
                   onChange={onChangeAll}
-                  padding="0.5rem 0.625rem"
                   placeholder="Напишите вашу фамилию"
                />
             </div>
@@ -69,7 +78,6 @@ export const UserInfo = () => {
                   width="21.125rem"
                   name="email"
                   onChange={onChangeAll}
-                  padding="0.5rem 0.625rem"
                   placeholder="Напишите ваш email"
                />
             </div>
@@ -81,9 +89,8 @@ export const UserInfo = () => {
                   height="3rem"
                   value={all.tel}
                   width="21.125rem"
-                  padding="0.5rem 0.625rem"
                   name="tel"
-                  onChange={onChangeAll}
+                  onChange={onChangePhone}
                   placeholder="+996 (_ _ _) _ _  _ _  _ _"
                />
             </div>
@@ -101,8 +108,8 @@ export const UserInfo = () => {
 
             <Button
                variant="contained"
-               type="submit"
                padding="0.88rem 0 1rem 0"
+               onClick={onAllResetHandler}
             >
                Отправить
             </Button>
@@ -110,7 +117,7 @@ export const UserInfo = () => {
       </Container>
    )
 }
-const Container = styled('form')(({ theme }) => ({
+const Container = styled('div')(({ theme }) => ({
    width: '43rem',
    margin: '3.75rem 0 7.5rem 0',
    fontSize: '1rem',

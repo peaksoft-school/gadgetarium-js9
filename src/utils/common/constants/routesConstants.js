@@ -11,6 +11,8 @@ export const routes = {
       home: 'home',
       aboutShop: 'about-shop',
       delivery: 'delivery',
+      faq: 'faq',
+      contacts: 'contacts',
    },
 }
 

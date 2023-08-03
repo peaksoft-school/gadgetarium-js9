@@ -22,17 +22,17 @@ export const FagChild = ({ item, isSelected, onIconClick }) => {
    )
 }
 
-const Container = styled('div')(() => ({
-   width: '52.60416666666667vw',
-   boxShadow: '0 0.125rem 0.625rem 0 rgba(48, 60, 51, 0.05)',
-   borderRadius: '0.125rem',
-   marginTop: '1.25rem',
-}))
+const Container = styled('div')`
+   width: 52.60416666666667vw;
+   box-shadow: 0 0.125rem 0.625rem 0 rgba(48, 60, 51, 0.05);
+   border-radius: 0.125rem;
+   margin-top: 1.25rem;
+`
 
-const ContentContainer = styled('div')(() => ({
-   display: 'flex',
-   alignItems: 'center',
-}))
+const ContentContainer = styled('div')`
+   display: flex;
+   align-items: center;
+`
 
 const IdContainer = styled('p')(({ theme, isSelected }) => ({
    display: 'flex',

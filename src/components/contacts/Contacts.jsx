@@ -20,7 +20,7 @@ export const Contacts = () => {
 const Container = styled('div')`
    width: 79.6875vw;
    margin: 0 auto;
-   padding: 0;
+   padding-top: 1.88rem;
 `
 
 const ContentContainer = styled('div')`
@@ -37,6 +37,5 @@ const TextHeader = styled('h1')(({ theme }) => ({
    fontWeight: '500',
    lineHeight: '110%',
    margin: '0 auto',
-   marginTop: '1.88rem',
    paddingBottom: '1.25rem',
 }))
