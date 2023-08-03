@@ -10,44 +10,38 @@ export const PaymentPage = () => {
          <h2>Оплата заказа 000000-455247</h2>
          <Info>
             <ContainerChild>
-               <Line>
-                  <Block>
-                     <div>
-                        <p style={{ marginTop: '0px' }}>
-                           <b>Наименование:</b>
-                        </p>
-                        <p>
-                           <b>Кол-во товара:</b>
-                        </p>
-                        <p>
-                           <b>Общая сумма заказа:</b>
-                        </p>
+               <Block>
+                  <div>
+                     <p style={{ marginTop: '0px' }}>
+                        <b>Наименование:</b>
+                     </p>
+                     <p>
+                        <b>Кол-во товара:</b>
+                     </p>
+                     <p>
+                        <b>Общая сумма заказа:</b>
+                     </p>
 
-                        <p style={{ color: 'red' }}>
-                           <b>Скидка:</b>
-                        </p>
-                        <p>
-                           <b>Сумма скидки:</b>
-                        </p>
-                     </div>
-                     <div>
-                        <p style={{ marginTop: '0px' }}>
-                           Samsung Galaxy S21 128gb синий 9(MLP3RU)
-                        </p>
-                        <p>1шт</p>
-                        <p>60 000 с</p>
-                        <p style={{ color: 'red', marginLeft: '-150px' }}>
-                           {15}%
-                        </p>
-                        <p>9 000 c</p>
-                     </div>
-                  </Block>
-               </Line>
-               <Total>
-                  <p>
-                     <b>Итого:</b> {total.toLocaleString()} с
-                  </p>
-               </Total>
+                     <p style={{ color: 'red' }}>
+                        <b>Скидка:</b>
+                     </p>
+                     <p>
+                        <b>Сумма скидки:</b>
+                     </p>
+                  </div>
+                  <div>
+                     <p style={{ marginTop: '0px' }}>
+                        Samsung Galaxy S21 128gb синий 9(MLP3RU)
+                     </p>
+                     <p>1шт</p>
+                     <p>60 000 с</p>
+                     <p style={{ color: 'red', marginLeft: '-150px' }}>{15}%</p>
+                     <p>9 000 c</p>
+                  </div>
+               </Block>
+               <p>
+                  <b>Итого:</b> {total.toLocaleString()} с
+               </p>
             </ContainerChild>
             <InformationOrder />
          </Info>
@@ -74,22 +68,11 @@ const Block = styled('div')`
    justify-content: flex-start;
    gap: 2.88rem;
    width: 40rem;
-   div {
-      height: 200px;
-   }
+   padding-bottom: 1.25rem;
+   border-bottom: 1px solid black;
 `
 const ContainerChild = styled('div')`
    display: flex;
    flex-direction: column;
    align-items: flex-end;
-`
-const Total = styled('div')`
-   p {
-      margin-top: 0.625rem;
-   }
-`
-
-const Line = styled('div')`
-   border-bottom: 1px solid black;
-   width: 550px;
 `
