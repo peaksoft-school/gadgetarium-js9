@@ -1,9 +1,9 @@
-import { Button, Tooltip, styled } from '@mui/material'
+import { Button as ButtonMui, Tooltip, styled } from '@mui/material'
 import { useState } from 'react'
+import { Button } from '../../UI/Button'
 
-export const QuantityOfProductsButton = ({ item }) => {
+export const QuantityOfProductsButton = ({ index }) => {
    const [openDeleteButton, setOpenDeleteButton] = useState(false)
-   console.log('openDeleteButton: ', openDeleteButton)
 
    const onContextMenuDeleteHandler = (event) => {
       event.preventDefault()
@@ -15,44 +15,62 @@ export const QuantityOfProductsButton = ({ item }) => {
       setOpenDeleteButton(false)
    }
 
+   const numProduct = index + 1
+
    return (
-      <ContainerButtonDelete
-         onClose={onBLurDeleteHandler}
-         open={openDeleteButton}
-         title={<button>d</button>}
-         arrow
-      >
-         <ContainerButtonNum key={item.id}>
-            <ButtonStyleNumber
-               variant="outlined"
-               onContextMenu={onContextMenuDeleteHandler}
-               onBlur={onBLurDeleteHandler}
-            >
-               Продукт {item.numProduct}
-            </ButtonStyleNumber>
-         </ContainerButtonNum>
-      </ContainerButtonDelete>
+      <Container>
+         <ButtonStyleNumber
+            variant="outlined"
+            onContextMenu={onContextMenuDeleteHandler}
+            onBlur={onBLurDeleteHandler}
+         >
+            Продукт {numProduct}
+         </ButtonStyleNumber>
+         <TooltipStyle
+            onClose={onBLurDeleteHandler}
+            open={openDeleteButton}
+            title={
+               <Button
+                  variant="outlined"
+                  backgroundColor="#fff"
+                  padding="0"
+                  backgroundHover="#CB11AB"
+               >
+                  Delete
+               </Button>
+            }
+         >
+            <Box />
+         </TooltipStyle>
+      </Container>
    )
 }
 
-const ContainerButtonNum = styled('div')`
+const Container = styled('div')`
+   display: flex;
+   flex-direction: column;
+   align-items: center;
    position: relative;
 `
 
-const ContainerButtonDelete = styled(Tooltip)`
-   .MuiTooltip-tooltip {
-      padding: 0;
-      margin: 0;
+const Box = styled('div')`
+   margin-top: 30px;
+   position: absolute;
 
-      background-color: red;
-   }
-
-   button {
-      margin: 0;
+   span {
+      display: none;
    }
 `
 
-const ButtonStyleNumber = styled(Button)(({ theme }) => ({
+const TooltipStyle = styled(({ className, ...props }) => (
+   <Tooltip {...props} classes={{ popper: className }} />
+))(() => ({
+   '& .MuiTooltip-tooltip': {
+      padding: 0,
+   },
+}))
+
+const ButtonStyleNumber = styled(ButtonMui)(({ theme }) => ({
    padding: '0.55rem 0.62rem',
    color: theme.palette.secondary.contrastText,
    fontFamily: theme.typography.mainFontFamily,

@@ -67,9 +67,11 @@ const AdminFeedback = ({
                <Time>20.06.22 - 14:15</Time>
                {expanded && (
                   <ImageContainer expanded={expanded}>
-                     {imagesArray.map((el) => {
-                        return <StyledImage themes={themes}>{el}</StyledImage>
-                     })}
+                     {imagesArray.map((el) => (
+                        <StyledImage key={el} themes={themes}>
+                           {el}
+                        </StyledImage>
+                     ))}
                   </ImageContainer>
                )}
             </UserReviewContainer>

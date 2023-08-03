@@ -122,7 +122,6 @@ export const StateAfterAddingOnePhoto = ({
                            key={item.id}
                         >
                            <ImageContainer
-                              size
                               className="img-wrapper"
                               image={item.img}
                            >
@@ -243,13 +242,13 @@ const BoxPhoto = styled('div')(({ containerImg, index }) => ({
    transitionDelay: `${index * 0.1}s`,
 }))
 
-const ImageContainer = styled('div')(({ image, size }) => ({
+const ImageContainer = styled('div')(({ image }) => ({
    backgroundImage: `url(${image})`,
    display: 'flex',
    justifyContent: 'flex-end',
    backgroundPosition: 'center',
    borderRadius: '0.2rem',
-   backgroundSize: size ? '100%' : '45%',
+   backgroundSize: '100%',
    backgroundRepeat: 'no-repeat',
    backgroundColor: 'white',
 }))

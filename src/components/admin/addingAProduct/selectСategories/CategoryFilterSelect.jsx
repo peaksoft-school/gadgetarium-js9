@@ -67,16 +67,19 @@ export const CategoryFilterSelect = ({
                   {selectData.map((item) => (
                      <StyledMenuItem
                         key={item.id}
-                        value={item.text}
-                        selected={value === item.text}
+                        value={item.value ? item.value : item.name}
+                        selected={value === item.name}
                      >
                         <MenuItemContent>
-                           {item.icon && (
+                           {item.image && (
                               <div className="box-img">
-                                 <img src={item.icon} alt="icon brand photos" />
+                                 <img
+                                    src={item.image}
+                                    alt="icon brand photos"
+                                 />
                               </div>
                            )}
-                           <span>{item.text}</span>
+                           <span>{item.name}</span>
                         </MenuItemContent>
                      </StyledMenuItem>
                   ))}
@@ -100,7 +103,7 @@ export const CategoryFilterSelect = ({
 }
 
 const InputLabelStyle = styled(InputLabel)(({ theme }) => ({
-   color: theme.palette.secondary.contrastText,
+   color: theme.palette.secondary.contrastname,
 }))
 
 const StyledFormControl = styled(FormControl)(() => ({

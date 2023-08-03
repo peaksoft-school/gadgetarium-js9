@@ -6,28 +6,27 @@ import {
    radioData,
 } from '../../../../utils/common/constants/constantsAdminAddNewProduct'
 import { QuantityOfProducts } from '../QuantityOfProducts'
-import { InputColorPalette } from '../../UI/color/InputColorPalette'
 import RadioInput from '../../../UI/icon.input/RadioInput'
 import { AddPhotoGadgets } from '../../UI/addPhotoGadgets/AddPhotoGadgets'
+import { InputColorPalette } from '../../UI/color/InputColorPalette'
 
 export const WatchAdvancedOptions = ({ onCreateNewProduct, newProduct }) => {
    const [productWatch, setProductWatch] = useState({
-      memory: '',
-      color: '',
-      bracelet: '',
+      rom: '',
+      codeColor: '',
+      materialBracelet: '',
       housingMaterial: '',
       display: '',
       gender: '',
       waterproof: '',
-      wirelessInterfaces: '',
+      anInterface: '',
       hullShape: '',
       price: 0,
       quantityOfGoods: 0,
-      video: '',
-      PDF: '',
-      description: '',
-      photoWatch: [],
+      images: [],
    })
+
+   console.log('productWatch: ', productWatch)
 
    const onHandleChange = (event) => {
       const { name, value } = event.target
@@ -45,6 +44,14 @@ export const WatchAdvancedOptions = ({ onCreateNewProduct, newProduct }) => {
       }))
    }
 
+   const addColorProductWatch = (color) => {
+      setProductWatch({ ...productWatch, codeColor: color })
+   }
+
+   const onAddPhotoWatch = (photoData) => {
+      setProductWatch({ ...productWatch, images: photoData })
+   }
+
    return (
       <div>
          <QuantityOfProducts
@@ -56,20 +63,20 @@ export const WatchAdvancedOptions = ({ onCreateNewProduct, newProduct }) => {
             <CategoryFilterSelect
                title="Объем памяти"
                label="Выберите объем памяти"
-               selectData={dataProductWatch.memoryWatch}
-               value={productWatch.memory}
+               selectData={dataProductWatch.rom}
+               value={productWatch.rom}
                onChange={onHandleChange}
-               name="memory"
+               name="rom"
                star={false}
             />
 
-            <InputColorPalette />
+            <InputColorPalette productColor={addColorProductWatch} />
 
             <CategoryFilterSelect
                title="Материал браслета/ремешка"
                label="Выберите материал браслета/ремешка"
                selectData={dataProductWatch.bracelet}
-               value={productWatch.bracelet}
+               value={productWatch.materialBracelet}
                onChange={onHandleChange}
                name="bracelet"
                star={false}
@@ -110,9 +117,9 @@ export const WatchAdvancedOptions = ({ onCreateNewProduct, newProduct }) => {
             />
 
             <RadioInput
-               radioData={radioData.wirelessInterfaces}
+               radioData={radioData.anInterface}
                onChangeProductWatchAndResRadio={onChangeProductWatchAndResRadio}
-               productRadioText="wirelessInterfaces"
+               productRadioText="anInterface"
                label="Беспроводные интерфейсы"
             />
 
@@ -123,7 +130,7 @@ export const WatchAdvancedOptions = ({ onCreateNewProduct, newProduct }) => {
                label="Форма корпуса"
             />
 
-            <AddPhotoGadgets />
+            <AddPhotoGadgets onPhotoCollector={onAddPhotoWatch} />
          </Container>
       </div>
    )

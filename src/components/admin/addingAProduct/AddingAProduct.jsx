@@ -9,20 +9,16 @@ import { filterResComponent } from '../../../utils/helpers/AddFilterResComponent
 import { Button } from '../../UI/Button'
 
 const productsData = {
+   categoryId: '',
    category: '',
    subcategory: '',
    brand: '',
    guarantee: '',
-   nameProduct: '',
+   name: '',
    dateOfIssue: null,
-   video: '',
-   PDF: '',
-   description: '',
-   productData: [
+   subProductRequests: [
       {
          id: '1',
-         numProduct: 1,
-         parameters: null,
       },
    ],
 }
@@ -30,7 +26,6 @@ const productsData = {
 export const AddingAProduct = () => {
    const [openModalAddNewBrand, setOpenModalAddNewBrand] = useSearchParams()
    const [newProduct, setNewProduct] = useState(productsData)
-   console.log('newProduct: ', newProduct)
 
    const onHandleChange = (event) => {
       const { name, value } = event.target
@@ -53,17 +48,17 @@ export const AddingAProduct = () => {
    }
 
    const onCreateNewProduct = () => {
-      const resNumProduct = newProduct.productData.length + 1
+      const resNumProduct = newProduct.subProductRequests.length + 1
 
       const data = {
          id: resNumProduct.toString(),
          numProduct: resNumProduct,
       }
-      const updatedProductData = [...newProduct.productData, data]
+      const updatedProductData = [...newProduct.subProductRequests, data]
 
       const updatedNewProduct = {
          ...newProduct,
-         productData: updatedProductData,
+         subProductRequests: updatedProductData,
       }
 
       setNewProduct(updatedNewProduct)
@@ -82,7 +77,7 @@ export const AddingAProduct = () => {
    }
 
    const onCollectorParameters = (parametersData) => {
-      const res = newProduct.productData.map((item) => {
+      const res = newProduct.subProductRequests.map((item) => {
          const data = { ...item, parameters: parametersData }
 
          return data
@@ -120,7 +115,6 @@ export const AddingAProduct = () => {
          <div>
             {filterResComponent(
                newProduct,
-               newProduct,
                onCreateNewProduct,
                onCollectorParameters
             )}
@@ -148,9 +142,6 @@ const Container = styled('div')(({ theme }) => ({
 }))
 
 const ContainerButton = styled('div')`
-   /* width: 24%; */
-   /* display: flex; */
-   /* justify-content: flex-end; */
    margin-left: 18.6rem;
 
    margin-bottom: 8.38rem;

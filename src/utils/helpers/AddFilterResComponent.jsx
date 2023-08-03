@@ -3,7 +3,6 @@ import { WatchAdvancedOptions } from '../../components/admin/addingAProduct/adva
 
 export const filterResComponent = (
    value,
-   newProduct,
    onCreateNewProduct,
    onCollectorParameters
 ) => {
@@ -13,7 +12,7 @@ export const filterResComponent = (
       case 'Смартфоны':
          resComponent = (
             <SmartphoneAdvancedOptions
-               newProduct={newProduct}
+               newProduct={value}
                onCreateNewProduct={onCreateNewProduct}
                onCollectorParameters={onCollectorParameters}
             />
@@ -23,7 +22,7 @@ export const filterResComponent = (
       case 'Смарт-часы и браслеты':
          resComponent = (
             <WatchAdvancedOptions
-               newProduct={newProduct}
+               newProduct={value}
                onCreateNewProduct={onCreateNewProduct}
                onCollectorParameters={onCollectorParameters}
             />

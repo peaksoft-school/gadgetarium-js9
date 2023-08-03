@@ -4,12 +4,10 @@ import { useSnackbar } from '../../../../hooks/useSnackbar'
 import { InitialStateAddPhotoGadgets } from './InitialStateAddPhotoGadgets'
 import { StateAfterAddingOnePhoto } from './StateAfterAddingOnePhoto'
 
-// { onPhotoCollector }
-export const AddPhotoGadgets = () => {
+export const AddPhotoGadgets = ({ onPhotoCollector }) => {
    const [smartphonePhoto, setSmartphonePhoto] = useState(null)
    const { snackbarHandler } = useSnackbar()
    const [containerImg, setContainerImg] = useState([])
-   console.log('containerImg: ', containerImg)
 
    const deleteHandler = (id) => {
       const filteredContainerImg = containerImg.filter((item) => item.id !== id)
@@ -17,6 +15,12 @@ export const AddPhotoGadgets = () => {
    }
 
    const imgUrl = smartphonePhoto && URL.createObjectURL(smartphonePhoto)
+
+   useEffect(() => {
+      const newEditedContainerImg = containerImg.map((item) => item.img)
+
+      onPhotoCollector(newEditedContainerImg)
+   }, [containerImg])
 
    useEffect(() => {
       if (smartphonePhoto && containerImg.length !== 10) {

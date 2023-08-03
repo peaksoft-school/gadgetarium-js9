@@ -54,6 +54,7 @@ const StyledButton = styled(ButtonMui)(({ variant, props }) => {
                textTransform: 'none',
                fontFamily: 'Inter',
                color: '#CB11AB',
+               backgroundColor: props.backgroundColor,
 
                '&:hover': {
                   background: props.backgroundHover,

@@ -52,8 +52,8 @@ export const FilterCategory = ({
                      placeholder="Введите название товара"
                      width="24.75rem"
                      height="2.6rem"
-                     name="nameProduct"
-                     value={value.nameProduct}
+                     name="name"
+                     value={value.name}
                      onChange={onHandleChange}
                   />
                </BoxLabel>

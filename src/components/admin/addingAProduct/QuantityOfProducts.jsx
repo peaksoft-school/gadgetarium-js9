@@ -6,9 +6,10 @@ export const QuantityOfProducts = ({ onCreateNewProduct, newProduct }) => {
    return (
       <Container>
          <Box>
-            {newProduct.productData.map((item) => (
-               <QuantityOfProductsButton key={item.id} item={item} />
-            ))}
+            {newProduct.subProductRequests.map((_, index) => {
+               const id = index + 1
+               return <QuantityOfProductsButton key={id} index={index} />
+            })}
 
             <div>
                <ButtonAddNewProduct

@@ -3,9 +3,9 @@ import { useState } from 'react'
 import { ReactComponent as PaintIcon } from '../../../../assets/icons/paint.svg'
 import { bgColor } from '../../../../utils/common/constants/constantsAdminAddNewProduct'
 
-export const InputColorPalette = ({ productSmartphone }) => {
+export const InputColorPalette = ({ productColor }) => {
    const [showColor, setShowColor] = useState(false)
-   const [color, setColor] = useState(productSmartphone.color)
+   const [color, setColor] = useState('')
 
    const onChangeColorHandler = (e) => {
       setColor(e.target.value)
@@ -17,6 +17,7 @@ export const InputColorPalette = ({ productSmartphone }) => {
 
    const onHandleColorClick = (color) => {
       setColor(color)
+      productColor(color)
       setShowColor((prev) => !prev)
    }
 

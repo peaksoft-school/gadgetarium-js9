@@ -12,14 +12,14 @@ export const SmartphoneAdvancedOptions = ({
    onCollectorParameters,
 }) => {
    const [productSmartphone, setProductSmartphone] = useState({
-      color: '',
-      memory: '',
-      RAM: '',
-      SIMcards: '',
-      price: 0,
-      quantityOfGoods: 0,
-      photoSmartphone: null,
+      codeColor: '',
+      rom: '',
+      ram: '',
+      sim: '',
+      images: null,
    })
+
+   console.log('productSmartphone: ', productSmartphone)
 
    const onHandleChange = (event) => {
       const { name, value } = event.target
@@ -31,16 +31,16 @@ export const SmartphoneAdvancedOptions = ({
    }
 
    const onAddPhotoSmartphone = (photoData) => {
-      console.log('photoData: ', photoData)
-
-      productSmartphone.photoSmartphone = photoData
-      setProductSmartphone(productSmartphone)
+      setProductSmartphone({ ...productSmartphone, images: photoData })
    }
 
    const onCollectorSmartphoneParameters = () => {
       onCollectorParameters(productSmartphone)
-
       onCreateNewProduct()
+   }
+
+   const addColorProductSmartphone = (color) => {
+      setProductSmartphone({ ...productSmartphone, codeColor: color })
    }
 
    return (
@@ -51,15 +51,15 @@ export const SmartphoneAdvancedOptions = ({
          />
 
          <Container>
-            <InputColorPalette productSmartphone={productSmartphone} />
+            <InputColorPalette productColor={addColorProductSmartphone} />
 
             <CategoryFilterSelect
                title="Объем памяти"
                label="Выберите объем памяти"
-               selectData={dataProductSmartphones.memorySmartphones}
-               value={productSmartphone.memory}
+               selectData={dataProductSmartphones.romSmartphones}
+               value={productSmartphone.rom}
                onChange={onHandleChange}
-               name="memory"
+               name="rom"
                star={false}
             />
 
@@ -67,9 +67,9 @@ export const SmartphoneAdvancedOptions = ({
                title="Оперативная память"
                label="Выберите оперативную память"
                selectData={dataProductSmartphones.smartphonesRAM}
-               value={productSmartphone.RAM}
+               value={productSmartphone.ram}
                onChange={onHandleChange}
-               name="RAM"
+               name="ram"
                star={false}
             />
 
@@ -77,9 +77,9 @@ export const SmartphoneAdvancedOptions = ({
                title="Кол-во SIM-карт"
                label="Выберите SIM-карты"
                selectData={dataProductSmartphones.smartphonesSIMcards}
-               value={productSmartphone.SIMcards}
+               value={productSmartphone.sim}
                onChange={onHandleChange}
-               name="SIMcards"
+               name="sim"
                star={false}
             />
 

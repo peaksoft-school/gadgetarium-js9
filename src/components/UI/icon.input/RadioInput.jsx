@@ -17,7 +17,11 @@ const RadioInput = ({
    const [value, setValue] = useState('')
 
    const onChange = (event) => {
-      const resValue = event.target.value
+      let resValue = event.target.value
+
+      if (resValue === 'true' || resValue === 'false') {
+         resValue = JSON.parse(resValue)
+      }
 
       onChangeProductWatchAndResRadio(productRadioText, resValue)
 
