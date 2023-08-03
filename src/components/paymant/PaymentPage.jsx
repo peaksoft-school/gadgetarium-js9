@@ -22,6 +22,7 @@ export const PaymentPage = () => {
                         <p>
                            <b>Общая сумма заказа:</b>
                         </p>
+
                         <p style={{ color: 'red' }}>
                            <b>Скидка:</b>
                         </p>
