@@ -6,7 +6,18 @@ import { ReactComponent as VisibilityOffIcon } from '../../assets/icons/eye/eye-
 
 export const InputUi = forwardRef(
    (
-      { error, color, type, id, placeholder, value, onChange, ...props },
+      {
+         error,
+         color,
+         type,
+         id,
+         placeholder,
+         value,
+         onChange,
+         width,
+         height,
+         ...props
+      },
       ref
    ) => {
       const [showPassword, setShowPassword] = useState(false)
@@ -22,11 +33,14 @@ export const InputUi = forwardRef(
                value={value}
                onChange={onChange}
                error={error}
+               width={width}
+               height={height}
                color={color}
                placeholder={placeholder}
                id={id}
                ref={ref}
                type={type === 'password' ? passwordType : type}
+               {...props}
                endAdornment={
                   type === 'password' ? (
                      <StyleIconButton onClick={handleClickShowPassword}>

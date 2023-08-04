@@ -1,7 +1,4 @@
-import React from 'react'
-import { styled } from '@mui/material/styles'
-import { Button, Stack } from '@mui/material'
-import Badge from '@mui/material/Badge'
+import { styled, Badge, Button, Stack } from '@mui/material'
 import { ReactComponent as SearchIcon } from '../../../assets/icons/search-icon.svg'
 import { ReactComponent as ShoppingCart } from '../../../assets/icons/comparison-icon.svg'
 import { ReactComponent as Heart } from '../../../assets/icons/favourites-icon.svg'
@@ -32,7 +29,7 @@ export const HeaderFixed = ({
                   </Btn>
                </Stack>
                <Border />
-               <FormInput onSubmit="submit">
+               <FormInput>
                   <Input
                      className={value ? 'hasText' : ''}
                      value={value}
@@ -60,12 +57,15 @@ export const HeaderFixed = ({
 }
 const Header = styled('header')`
    width: 100%;
-   height: 12vh;
+   height: 95px;
    background-color: #1a1a25;
    position: fixed;
+   z-index: 1;
    display: flex;
    justify-content: space-around;
    align-items: center;
+   z-index: 999;
+   top: 0;
 `
 const HeaderContainer = styled('div')`
    width: 85.35vw;
@@ -184,7 +184,7 @@ const IconsBasket = styled(Basket)`
    cursor: pointer;
    &:hover {
       path {
-         stroke: #ff00d4;
+         fill: #ff00d4;
       }
    }
 `
@@ -192,7 +192,7 @@ const IconsShopingCart = styled(ShoppingCart)`
    cursor: pointer;
    &:hover {
       path {
-         stroke: #ff00d4;
+         fill: #ff00d4;
       }
    }
 `
