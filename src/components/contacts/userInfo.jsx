@@ -110,6 +110,7 @@ export const UserInfo = () => {
                variant="contained"
                padding="0.88rem 0 1rem 0"
                onClick={onAllResetHandler}
+               textTransform="none"
             >
                Отправить
             </Button>
