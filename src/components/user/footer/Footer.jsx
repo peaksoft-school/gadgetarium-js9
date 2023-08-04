@@ -36,12 +36,12 @@ export const Footer = () => {
             <PersonalInformation>
                <div>
                   <span>Расскажем oб акциях и скидках</span>
-                  <form>
+                  <Form>
                      <Input type="email" placeholder="Email" />
                      <ButtonFooter variant="contained">
                         Подписаться
                      </ButtonFooter>
-                  </form>
+                  </Form>
                   <Description>
                      Нажимая на кнопку «подписаться» Вы соглашаетесь на
                      обработку персональных данных
@@ -72,7 +72,11 @@ export const Footer = () => {
       </Container>
    )
 }
-
+const Form = styled('form')`
+   display: flex;
+   align-items: center;
+   margin-top: 0.75rem;
+`
 const Container = styled('div')`
    margin: 0;
    width: 100%;
@@ -136,7 +140,6 @@ const Input = styled('input')`
    width: 25.5rem;
    height: 2.4375rem;
    border-radius: 0.35rem;
-   margin-top: 0.75rem;
    border: none;
    padding-left: 1rem;
 `

@@ -27,7 +27,7 @@ export const MailingModal = ({ open, handleClose }) => {
       setMealDescription(e.target.value)
    }
    const getFinishDate = (e) => {
-      setFinishDate(e.target.value)
+      setFinishDate(e.$d)
    }
    const getStartDate = (e) => {
       setStartDate(e.$d)
@@ -37,7 +37,8 @@ export const MailingModal = ({ open, handleClose }) => {
       setImage(e.target.files[0])
    }
    const urlImage = image && URL.createObjectURL(image)
-   const submitHandler = () => {
+   const submitHandler = (e) => {
+      e.preventDefault()
       const data = {
          title: mealName,
          description: mealDescription,
@@ -46,6 +47,7 @@ export const MailingModal = ({ open, handleClose }) => {
          finishDate,
       }
       console.log('data: ', data)
+      handleClose()
    }
    return (
       <Modal open={open.has('openModal')} onClose={handleClose}>
@@ -74,7 +76,7 @@ export const MailingModal = ({ open, handleClose }) => {
                   <InputUi
                      width="100%"
                      height="35px"
-                     value={getMealName}
+                     value={mealName}
                      onChange={getMealName}
                      placeholder="Введите название рассылки"
                   />
@@ -133,7 +135,7 @@ export const MailingModal = ({ open, handleClose }) => {
                   textTransform="uppercase"
                   padding="0.69vh 5vw"
                   fontSize="0.875rem"
-                  type="onSubmit"
+                  type="submit"
                >
                   Отправить
                </Button>
@@ -177,7 +179,7 @@ const ButtonContainer = styled('div')`
    display: flex;
    justify-content: space-between;
    gap: 1.25rem;
-   @media (max-height: 900px) {
+   @media (max-height: 960px) {
       margin-top: 0.5rem;
    }
 `
@@ -189,8 +191,7 @@ const AnswerToComment = styled('p')`
    font-style: normal;
    font-weight: 500;
    line-height: 2rem;
-   @media (max-height: 900px) {
-      font-size: 1rem;
+   @media (max-height: 960px) {
       margin-bottom: 1rem;
       margin-top: 0;
    }
@@ -209,7 +210,7 @@ const InputLabelContainer = styled('div')`
    flex-direction: column;
    gap: 0.375rem;
    margin-bottom: 1.25rem;
-   @media (max-height: 900px) {
+   @media (max-height: 960px) {
       margin-bottom: 0.5rem;
    }
 `
@@ -224,11 +225,6 @@ const FileInputLabel = styled('label')`
    background-color: #909cb533;
    margin-bottom: 2rem;
    border-radius: 4px;
-   @media (max-height: 900px) {
-      width: 38.86%;
-      height: 30.12%;
-      margin-bottom: 0.8rem;
-   }
 `
 const StyledAddPhotoIcon = styled(AddPhotoIcon)`
    width: 28px;
