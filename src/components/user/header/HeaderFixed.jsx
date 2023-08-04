@@ -60,6 +60,7 @@ const Header = styled('header')`
    height: 95px;
    background-color: #1a1a25;
    position: fixed;
+   z-index: 1;
    display: flex;
    justify-content: space-around;
    align-items: center;
