@@ -6,7 +6,7 @@ import { InputUi } from '../../UI/Input'
 import { ReactComponent as AddPhotoIcon } from '../../../assets/icons/photo-add/add-photo-icon.svg'
 import { Modal } from '../../UI/Modal'
 
-export const MealingModal = ({ open, handleClose }) => {
+export const MailingModal = ({ open, handleClose }) => {
    const currentDate = new Date(Date.now())
    const day = currentDate.getDate()
    const month = currentDate.getMonth() + 1
@@ -143,7 +143,7 @@ export const MealingModal = ({ open, handleClose }) => {
    )
 }
 
-export default MealingModal
+export default MailingModal
 const Form = styled('form')(() => ({
    width: '28.5%',
    height: '63.334%',

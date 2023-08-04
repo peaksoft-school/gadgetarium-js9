@@ -1,8 +1,8 @@
 import { useSearchParams } from 'react-router-dom'
 import { Button } from '../../UI/Button'
-import { MealingModal } from './MealingModal'
+import { MailingModal } from './MailingModal'
 
-export const MealingList = () => {
+export const MailingList = () => {
    const [openModal, setOpenModal] = useSearchParams()
    const closeModalHandler = () => {
       openModal.delete('openModal')
@@ -24,9 +24,9 @@ export const MealingList = () => {
             Создать рассылку
          </Button>
          {openModal.has('openModal') && (
-            <MealingModal open={openModal} handleClose={closeModalHandler} />
+            <MailingModal open={openModal} handleClose={closeModalHandler} />
          )}
       </>
    )
 }
-export default MealingList
+export default MailingList
