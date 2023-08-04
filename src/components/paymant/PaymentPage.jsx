@@ -67,7 +67,7 @@ const Block = styled('div')`
    display: flex;
    justify-content: flex-start;
    gap: 2.88rem;
-   width: 40rem;
+   width: 100%;
 `
 const ContainerChild = styled('div')`
    display: flex;
@@ -77,7 +77,7 @@ const ContainerChild = styled('div')`
 const Line = styled('div')`
    border-bottom: 1px solid black;
    padding-bottom: 0.5rem;
-   width: 560px;
+   width: 100%;
 `
 const BlockChilde = styled('div')`
    position: relative;
@@ -87,10 +87,10 @@ const BlockChilde = styled('div')`
 `
 const Paragraph = styled('p')`
    position: absolute;
-   right: 460px;
+   right: 28.75rem;
    color: red;
 `
 const Paragraph2 = styled('p')`
    position: absolute;
-   top: 140px;
+   top: 8.75rem;
 `

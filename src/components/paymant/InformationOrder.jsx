@@ -28,12 +28,12 @@ const Container = styled('div')`
    border: 1px solid gray;
    padding: 1.875rem;
    border-radius: 0.25rem;
-   margin-left: 12rem;
+   margin-left: 18rem;
 
    h3 {
       border-bottom: 1px solid black;
       width: 100%;
-      padding-bottom: 20px;
+      padding-bottom: 1.25rem;
    }
 `
 
@@ -42,7 +42,7 @@ const Block = styled('div')`
    flex-direction: column;
    justify-content: flex-start;
    gap: 1rem;
-   width: 30rem;
+   width: 100%;
    p {
       margin: 0px;
    }
