@@ -5,7 +5,7 @@ import { ReactComponent as EditIcon } from '../../../assets/icons/tools-for-site
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/tools-for-site/delete-icon.svg'
 import FeedbackStars from './FeedbackStars'
 import { ReactComponent as DefaultIcon } from '../../../assets/icons/avatar/default-avatar-icon.svg'
-import FeedbackModal from '../../admin/FeedbackModal'
+import FeedbackModal from '../../admin/admin.featureFeedbackModal'
 
 const Feedback = ({
    userName,

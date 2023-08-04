@@ -24,7 +24,7 @@ const StyledButton = styled(ButtonMui)(({ variant, props }) => {
                color: props.color || 'white',
                fontSize: props.fontSize,
                boxSizing: 'border-box',
-               textTransform: 'none',
+               textTransform: props.textTransform,
                fontFamily: 'Inter',
                display: 'flex',
                justifyContent: 'center',
@@ -51,7 +51,7 @@ const StyledButton = styled(ButtonMui)(({ variant, props }) => {
                justifyContent: 'center',
                alignItems: 'center',
                border: '1px solid #CB11AB',
-               textTransform: 'none',
+               textTransform: props.textTransform,
                fontFamily: 'Inter',
                color: '#CB11AB',
                '&:hover': {
