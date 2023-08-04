@@ -1,10 +1,6 @@
 import React, { forwardRef, useState } from 'react'
-import {
-   IconButton,
-   InputAdornment,
-   OutlinedInput,
-   styled,
-} from '@mui/material'
+import { IconButton, OutlinedInput, styled } from '@mui/material'
+
 import { ReactComponent as VisibilityIcon } from '../../assets/icons/eye/eye-icon.svg'
 import { ReactComponent as VisibilityOffIcon } from '../../assets/icons/eye/eye-slashed-icon.svg'
 
@@ -22,6 +18,7 @@ export const InputUi = forwardRef(
       return (
          <div>
             <InputOutlained
+               {...props}
                value={value}
                onChange={onChange}
                error={error}
@@ -33,15 +30,13 @@ export const InputUi = forwardRef(
                {...props}
                endAdornment={
                   type === 'password' ? (
-                     <InputAdornment>
-                        <IconButton onClick={handleClickShowPassword}>
-                           {showPassword ? (
-                              <VisibilityIcon />
-                           ) : (
-                              <VisibilityOffIcon />
-                           )}
-                        </IconButton>
-                     </InputAdornment>
+                     <StyleIconButton onClick={handleClickShowPassword}>
+                        {showPassword ? (
+                           <VisibilityIcon />
+                        ) : (
+                           <VisibilityOffIcon />
+                        )}
+                     </StyleIconButton>
                   ) : (
                      ''
                   )
@@ -52,7 +47,12 @@ export const InputUi = forwardRef(
    }
 )
 
-const InputOutlained = styled(OutlinedInput)`
-   width: ${(props) => (props.width ? props.width : '459px')};
-   height: ${(props) => (props.height ? props.height : 'auto')};
+const InputOutlained = styled(OutlinedInput)(({ width, height, padding }) => ({
+   width,
+   height,
+   padding,
+}))
+const StyleIconButton = styled(IconButton)`
+   position: absolute;
+   left: 26.25rem;
 `

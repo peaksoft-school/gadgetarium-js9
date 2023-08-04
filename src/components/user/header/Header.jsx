@@ -1,108 +1,108 @@
-import { styled } from '@mui/material/styles'
+import { styled, Button, Badge } from '@mui/material'
+import { NavLink } from 'react-router-dom'
 import React, { useState } from 'react'
-import { Button } from '@mui/material'
-import { ReactComponent as Letter } from '../../../assets/icons/headerIcons/Letter.svg'
-import { ReactComponent as ReactComponentIcons } from '../../../assets/icons/headerIcons/Background.svg'
-import { ReactComponent as Vector } from '../../../assets/icons/headerIcons/Vector.svg'
-import { ReactComponent as Instagram } from '../../../assets/icons/headerIcons/Facebook.svg'
-import { ReactComponent as WhatsApp } from '../../../assets/icons/headerIcons/instagram.svg'
-import { ReactComponent as FaceBook } from '../../../assets/icons/headerIcons/watsapp.svg'
-import { ReactComponent as ShopingCart } from '../../../assets/icons/headerIcons/shopping-cart.svg'
-import { ReactComponent as Heart } from '../../../assets/icons/headerIcons/heart.svg'
-import { ReactComponent as Basket } from '../../../assets/icons/headerIcons/basket.svg'
-import { ReactComponent as Menu } from '../../../assets/icons/headerIcons/menu (1) 1.svg'
-import { ReactComponent as UserIcons } from '../../../assets/icons/headerIcons/profile-user (2) 2.svg'
+import { ReactComponent as SearchIcon } from '../../../assets/icons/search-icon.svg'
+import { ReactComponent as Instagram } from '../../../assets/icons/messangers/instagram-icon.svg'
+import { ReactComponent as WhatsApp } from '../../../assets/icons/messangers/whatsapp-icon.svg'
+import { ReactComponent as FaceBook } from '../../../assets/icons/messangers/facebook-icon.svg'
+import { ReactComponent as ShopingCart } from '../../../assets/icons/comparison-icon.svg'
+import { ReactComponent as Heart } from '../../../assets/icons/favourites-icon.svg'
+import { ReactComponent as Basket } from '../../../assets/icons/basket-icon.svg'
+import { ReactComponent as Menu } from '../../../assets/icons/catalog-icon.svg'
+import { ReactComponent as UserIcons } from '../../../assets/icons/avatar/default-avatar-icon.svg'
 import { HeaderFixed } from './HeaderFixed'
+import { navBarForHeader } from '../../../utils/common/constants/header'
 
-export const Header = () => {
-   const [count1] = useState(1)
-   const [count2] = useState(0)
-   const [count3] = useState(2)
-
+export const Header = ({ favorite, comparison, basket }) => {
    const [fixed, setFixed] = useState(false)
-
    const changeHeader = () => {
-      if (window.scrollY >= 10) {
+      if (window.scrollY > 10) {
          setFixed(true)
       } else {
          setFixed(false)
       }
    }
-
    window.addEventListener('scroll', changeHeader)
+   const [inputValue, setInputValue] = useState('')
+   const handleChange = (event) => {
+      setInputValue(event.target.value)
+   }
 
    return (
       <div>
          {fixed ? (
             <Box>
-               <HeaderFixed />
+               <HeaderFixed
+                  value={inputValue}
+                  onChange={handleChange}
+                  basket={basket}
+                  comparison={comparison}
+                  favorite={favorite}
+               />
             </Box>
          ) : (
             <Headers>
-               <Caption>
-                  <Title>
-                     <BackgroundIcons />
-                     <GIcons />
-                     <a href="./">adgetarium</a>
-                  </Title>
-                  <NavBar>
-                     <a href="./главная">Главная</a>
-                     <a href="./Омагазине">О магазине</a>
-                     <a href="./доставка">Доставка</a>
-                     <a href="./fag">FAG</a>
-                     <a href="./контакты">Контакты</a>
-                  </NavBar>
-                  <UserNumber>
-                     <p>+996 (400) 00-00-00</p>
-                     <User />
-                  </UserNumber>
-               </Caption>
+               <CaptionContainer>
+                  <Caption>
+                     <Title>
+                        <GadgeteriumContainer>
+                           <GIcons>G</GIcons>
+                        </GadgeteriumContainer>
+                        <a href="./">adgetarium</a>
+                     </Title>
+                     <NavBar>
+                        {navBarForHeader.map((el) => (
+                           <Link
+                              key={el.title}
+                              to={el.path}
+                              className={({ isActive }) =>
+                                 isActive ? 'active' : ''
+                              }
+                           >
+                              {el.title}
+                           </Link>
+                        ))}
+                     </NavBar>
+                     <UserNumber>
+                        <p>+996 (400) 00-00-00</p>
+                        <User />
+                     </UserNumber>
+                  </Caption>
+               </CaptionContainer>
                <Line>
                   <ButtonContainer>
-                     <Btn variant="contained">
-                        <Menu />
-                        <p>Каталог</p>
-                     </Btn>
-                     <Border>.</Border>
-                     <form onSubmit="submit">
-                        <Input
-                           placeholder="Поиск по каталогу магазина  "
-                           type="text"
-                        />
-                        <Search>
-                           <Vector />
-                        </Search>
-                     </form>
+                     <ButtonInputContainer>
+                        <Btn variant="contained">
+                           <Menu />
+                           <p>Каталог</p>
+                        </Btn>
+                        <Border />
+                        <SearchForm>
+                           <Input
+                              className={inputValue ? 'hasText' : ''}
+                              value={inputValue}
+                              onChange={handleChange}
+                              placeholder="Поиск по каталогу магазина  "
+                              type="text"
+                           />
+                           <StyledVector />
+                        </SearchForm>
+                     </ButtonInputContainer>
                      <Massage>
                         <StyledFaceBookIcon />
                         <StyledInstagramIcon />
                         <StyledWhatsAppIcon />
                      </Massage>
                      <IconsForm>
-                        <div>
-                           <OrderCount1
-                              className={count1 === 0 ? 'gray' : 'red'}
-                           >
-                              {count1}
-                           </OrderCount1>
+                        <MuiBadg badgeContent={comparison} showZero>
                            <IconsShopingCart />
-                        </div>
-                        <div>
-                           <OrderCount2
-                              className={count2 === 0 ? 'gray2' : 'red2'}
-                           >
-                              {count2}
-                           </OrderCount2>
+                        </MuiBadg>
+                        <MuiBadg badgeContent={favorite} showZero>
                            <IconsHeart />
-                        </div>
-                        <div>
-                           <OrderCount3
-                              className={count3 === 0 ? 'gray3' : 'red3'}
-                           >
-                              {count3}
-                           </OrderCount3>
+                        </MuiBadg>
+                        <MuiBadg badgeContent={basket} showZero>
                            <IconsBasket />
-                        </div>
+                        </MuiBadg>
                      </IconsForm>
                   </ButtonContainer>
                </Line>
@@ -114,35 +114,98 @@ export const Header = () => {
 const Headers = styled('header')`
    width: 100%;
    background-color: #1a1a25;
-   height: 21vh;
-`
-
-const Caption = styled('div')`
+   height: 173px;
    display: flex;
-   justify-content: space-around;
+   flex-direction: column;
+   align-items: center;
+
+   z-index: 999;
 `
 
-const BackgroundIcons = styled(ReactComponentIcons)`
-   margin-top: 1rem;
+const Link = styled(NavLink)`
+   padding: 10px 14px 12px 14px;
+   cursor: pointer;
+   text-decoration: none;
+   color: #fff;
+
+   &:hover {
+      border-radius: 4px;
+      background: rgba(133, 143, 164, 0.15);
+   }
 `
 
-const GIcons = styled(Letter)`
-   margin-top: 1.4375rem;
-   margin-left: -1.75rem;
+const CaptionContainer = styled('div')`
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   width: 100%;
+   border-bottom: 1px solid #2b2f36;
 `
-
+const Caption = styled('div')`
+   width: 85.35vw;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   height: 75.5px;
+`
+const GadgeteriumContainer = styled('div')`
+   width: 35px;
+   height: 35px;
+   display: flex;
+   background-color: #cb11ab;
+   margin-right: 2.5px;
+   align-items: center;
+   justify-content: center;
+`
+const ButtonInputContainer = styled('div')`
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   width: 53.18vw;
+`
+const SearchForm = styled('form')`
+   display: flex;
+   position: relative;
+   align-items: center;
+   &.hasText {
+      input {
+         background-color: white;
+      }
+   }
+   :hover {
+      input {
+         transition: background-color 0.4s ease;
+         background-color: #fff;
+         ::placeholder {
+            color: gray;
+         }
+      }
+      svg {
+         path {
+            fill: gray;
+         }
+      }
+   }
+`
+const GIcons = styled('p')`
+   color: #fff;
+   font-family: Outfit;
+   font-size: 32.053px;
+   font-style: normal;
+   font-weight: 600;
+`
 const Box = styled('div')`
    margin: 0;
    padding: 0;
    width: 100%;
    box-sizing: border-box;
 `
-
 const Title = styled('div')`
    display: flex;
+   align-items: center;
+
    a {
-      margin-top: 1rem;
-      margin-left: 0.5rem;
+      font-family: Orbitron;
       color: #fff;
       font-size: 1.75rem;
       text-decoration: none;
@@ -150,74 +213,77 @@ const Title = styled('div')`
 `
 const NavBar = styled('div')`
    display: flex;
+   align-items: center;
+   gap: 0.5rem;
    color: #ffffff;
    width: 31.4375vw;
-   justify-content: space-between;
-   margin-left: 6rem;
-   a {
-      cursor: pointer;
-      text-decoration: none;
-      color: #fff;
-      margin-top: 1.625rem;
-      &:hover {
-         color: gray;
-      }
+
+   .active {
+      border-radius: 4px;
+      background: rgba(133, 143, 164, 0.15);
    }
 `
 const UserNumber = styled('div')`
    display: flex;
-   margin-left: 2.5rem;
+   align-items: center;
    color: #fff;
-   p {
-      margin-top: 1.75rem;
-   }
 `
-
 const Input = styled('input')`
-   width: 49rem;
+   width: 39.7vw;
    height: 2.5rem;
-   padding-left: 1.125rem;
    border-radius: 0.625rem;
    border: 1px solid #fff;
-   padding: 0.5rem, 1.125rem, 0.5rem, 1.125rem;
+   padding: 0.5rem 1.125rem 0.5rem 1.125rem;
    background-color: #1a1a25;
-   color: #fff;
-   ::-webkit-input-placeholder {
+   color: black;
+   outline: none;
+   ::placeholder {
       color: #fff;
    }
+   &.hasText {
+      background-color: white;
+      color: black;
+      svg {
+         path {
+            fill: gray;
+         }
+      }
+   }
 `
-const Search = styled('div')`
-   margin-top: -1.875rem;
-   margin-left: 46.25rem;
+const StyledVector = styled(SearchIcon)`
+   position: absolute;
+   right: 20px;
+   fill: red;
    cursor: pointer;
 `
 const ButtonContainer = styled('div')`
+   width: 85.35vw;
    display: flex;
-   justify-content: space-around;
-   margin-top: 1.875rem;
-   padding-left: 3.75rem;
-   padding-right: 3.75rem;
+   justify-content: space-between;
    p {
       color: #fff;
    }
 `
-
 const Line = styled('div')`
+   display: flex;
+   justify-content: center;
+   align-items: center;
    width: 100%;
-   margin-top: 1.25rem;
-   border-top: 1px solid #858fa4;
+   height: 96.5px;
 `
 const Massage = styled('div')`
    display: flex;
    width: 7.5rem;
    justify-content: space-between;
-   margin-top: 0.3rem;
-   margin-left: 2rem;
+   align-items: center;
 `
 const Btn = styled(Button)`
+   text-transform: none;
+   font-family: Inter;
+   font-weight: 600;
+   font-size: 16px;
    width: 8.5rem;
    height: 3.0625rem;
-   margin-top: -0.3125rem;
    background-color: #cb11ab;
    &:hover {
       background-color: #cb11ab;
@@ -228,108 +294,74 @@ const Btn = styled(Button)`
    }
 `
 const IconsHeart = styled(Heart)`
-   margin-top: -0.3125rem;
    cursor: pointer;
+   &:hover {
+      path {
+         stroke: #ff00d4;
+      }
+   }
 `
 const IconsBasket = styled(Basket)`
-   margin-top: 0.1875rem;
    cursor: pointer;
+   &:hover {
+      path {
+         fill: #cb11ab;
+      }
+   }
 `
 const IconsShopingCart = styled(ShopingCart)`
    cursor: pointer;
+   &:hover {
+      path {
+         fill: #cb11ab;
+      }
+   }
 `
 const User = styled(UserIcons)`
-   margin-top: 1.5625rem;
-   margin-left: 3.125rem;
+   width: 1.5rem;
+   height: 1.5rem;
+   margin-left: 1.875rem;
    cursor: pointer;
 `
 const Border = styled('div')`
-   border-right: 1px solid #858fa4;
-   height: 4.5vh;
+   border-right: 1px solid #2b2f36;
+   height: 2.5rem;
 `
 const StyledFaceBookIcon = styled(FaceBook)`
    cursor: pointer;
-   path {
-      &:hover {
-         fill: #cb11ab;
+   &:hover {
+      path {
+         fill: #ff00d4;
       }
    }
 `
 const StyledInstagramIcon = styled(Instagram)`
    cursor: pointer;
-   path {
-      &:hover {
-         fill: #cb11ab;
+   &:hover {
+      path {
+         fill: #ff00d4;
       }
    }
 `
-
 const StyledWhatsAppIcon = styled(WhatsApp)`
    cursor: pointer;
-   path {
-      &:hover {
-         fill: #cb11ab;
+   :hover {
+      path {
+         fill: #ff00d4;
       }
    }
 `
-const OrderCount1 = styled('span')`
-   position: absolute;
-   top: 6.2rem;
-   right: 152px;
-   border-radius: 1.875rem;
-   color: #fff;
-   font-size: 0.625rem;
-`
-
-const OrderCount2 = styled('span')`
-   position: absolute;
-   top: 6.2rem;
-   right: 108px;
-   border-radius: 1.875rem;
-   color: #fff;
-   font-size: 0.625rem;
-`
-
-const OrderCount3 = styled('span')`
-   position: absolute;
-   top: 6.2rem;
-   right: 58px;
-   border-radius: 1.875rem;
-   color: #fff;
-   font-size: 0.625rem;
+const MuiBadg = styled(Badge)`
+   .MuiBadge-badge {
+      background-color: ${(props) =>
+         props.badgeContent === 0 ? 'gray' : 'red'};
+      color: #fff;
+   }
 `
 const IconsForm = styled('div')`
    display: flex;
-   width: 9.325rem;
+   align-items: center;
+   width: 9rem;
    justify-content: space-between;
-   padding-left: 2rem;
-   margin-top: 0.3rem;
-
-   .gray {
-      padding: 4px 6px 4px 6px;
-      background-color: #858fa4;
-   }
-
-   .red {
-      padding: 4px 6px 4px 6px;
-      background-color: #ff0000;
-   }
-   .gray2 {
-      padding: 4px 6px 4px 6px;
-      background-color: #858fa4;
-   }
-
-   .red2 {
-      padding: 4px 6px 4px 6px;
-      background-color: #ff0000;
-   }
-   .gray3 {
-      padding: 4px 6px 4px 6px;
-      background-color: #858fa4;
-   }
-
-   .red3 {
-      padding: 4px 6px 4px 6px;
-      background-color: #ff0000;
-   }
+   margin-right: 10px;
 `

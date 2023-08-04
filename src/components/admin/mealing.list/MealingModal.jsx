@@ -1,9 +1,10 @@
-import { Box, Modal, styled } from '@mui/material'
+import { styled } from '@mui/material'
 import React, { useState } from 'react'
 import { Button } from '../../UI/Button'
 import { Calendar } from '../../UI/calendarFolder/Calendar'
 import { InputUi } from '../../UI/Input'
 import { ReactComponent as AddPhotoIcon } from '../../../assets/icons/photo-add/add-photo-icon.svg'
+import { Modal } from '../../UI/Modal'
 
 export const MealingModal = ({ open, handleClose }) => {
    const currentDate = new Date(Date.now())
@@ -13,31 +14,46 @@ export const MealingModal = ({ open, handleClose }) => {
    const formattedDate = `${day < 10 ? '0' : ''}${day}/${
       month < 10 ? '0' : ''
    }${month}/${year}`
-   const [calendarState, setCalendarState] = useState()
+   const [startDate, setStartDate] = useState()
    const [image, setImage] = useState()
-   console.log('calendarState: ', calendarState)
+   const [mealName, setMealName] = useState('')
+   const [mealDescription, setMealDescription] = useState('')
+   const [finishDate, setFinishDate] = useState()
 
-   const getCalendarState = (e) => {
-      setCalendarState(e.$d)
+   const getMealName = (e) => {
+      setMealName(e.target.value)
+   }
+   const getMealDescription = (e) => {
+      setMealDescription(e.target.value)
+   }
+   const getFinishDate = (e) => {
+      setFinishDate(e.target.value)
+   }
+   const getStartDate = (e) => {
+      setStartDate(e.$d)
    }
 
    const getImageValue = (e) => {
       setImage(e.target.files[0])
-      console.log(e.target.files[0])
    }
-
+   const urlImage = image && URL.createObjectURL(image)
+   const submitHandler = () => {
+      const data = {
+         title: mealName,
+         description: mealDescription,
+         image: urlImage,
+         startDate,
+         finishDate,
+      }
+      console.log('data: ', data)
+   }
    return (
-      <Modal
-         open={open.has('openModal')}
-         onClose={handleClose}
-         aria-labelledby="modal-modal-title"
-         aria-describedby="modal-modal-description"
-      >
-         <StyledBox component="form">
+      <Modal open={open.has('openModal')} onClose={handleClose}>
+         <Form onSubmit={submitHandler}>
             <AnswerToComment>Создать рассылку</AnswerToComment>
             <FileInputLabel>
                {image ? (
-                  <StyledImage src={image.name} alt="" />
+                  <StyledImage src={urlImage} alt="" />
                ) : (
                   <>
                      <StyledAddPhotoIcon />
@@ -58,6 +74,8 @@ export const MealingModal = ({ open, handleClose }) => {
                   <InputUi
                      width="100%"
                      height="35px"
+                     value={getMealName}
+                     onChange={getMealName}
                      placeholder="Введите название рассылки"
                   />
                </InputLabelContainer>
@@ -68,7 +86,9 @@ export const MealingModal = ({ open, handleClose }) => {
                   <InputUi
                      width="100%"
                      height="35px"
-                     placeholder="Введите название рассылки"
+                     value={mealDescription}
+                     onChange={getMealDescription}
+                     placeholder="Введите описание рассылки"
                   />
                </InputLabelContainer>
                <CalendarContainer>
@@ -77,7 +97,7 @@ export const MealingModal = ({ open, handleClose }) => {
                         Дата начала акции <span>*</span>
                      </Label>
                      <Calendar
-                        onChange={getCalendarState}
+                        onChange={getStartDate}
                         fontSize="1rem"
                         placeholder={formattedDate}
                         width="100%"
@@ -88,7 +108,7 @@ export const MealingModal = ({ open, handleClose }) => {
                         Дата окончания акции <span>*</span>
                      </Label>
                      <Calendar
-                        onChange={getCalendarState}
+                        onChange={getFinishDate}
                         fontSize="1em"
                         placeholder="Выберете дату"
                         width="100%"
@@ -118,14 +138,14 @@ export const MealingModal = ({ open, handleClose }) => {
                   Отправить
                </Button>
             </ButtonContainer>
-         </StyledBox>
+         </Form>
       </Modal>
    )
 }
 
 export default MealingModal
-const StyledBox = styled(Box)(() => ({
-   width: '28.3339%',
+const Form = styled('form')(() => ({
+   width: '28.5%',
    height: '63.334%',
    padding: '1.66666vw',
    display: 'flex',
@@ -156,7 +176,10 @@ const ButtonContainer = styled('div')`
    margin-top: 0.75rem;
    display: flex;
    justify-content: space-between;
-   gap: 20px;
+   gap: 1.25rem;
+   @media (max-height: 900px) {
+      margin-top: 0.5rem;
+   }
 `
 const AnswerToComment = styled('p')`
    margin-top: 0.5rem;
@@ -166,6 +189,11 @@ const AnswerToComment = styled('p')`
    font-style: normal;
    font-weight: 500;
    line-height: 2rem;
+   @media (max-height: 900px) {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      margin-top: 0;
+   }
 `
 const Label = styled('label')`
    font-family: Inter;
@@ -181,18 +209,26 @@ const InputLabelContainer = styled('div')`
    flex-direction: column;
    gap: 0.375rem;
    margin-bottom: 1.25rem;
+   @media (max-height: 900px) {
+      margin-bottom: 0.5rem;
+   }
 `
 const FileInputLabel = styled('label')`
    display: flex;
    flex-direction: column;
    align-items: center;
-   gap: 14px;
+   gap: 0.875rem;
    justify-content: center;
-   width: 217px;
-   height: 217px;
+   width: 43.86%;
+   height: 35.12%;
    background-color: #909cb533;
    margin-bottom: 2rem;
    border-radius: 4px;
+   @media (max-height: 900px) {
+      width: 38.86%;
+      height: 30.12%;
+      margin-bottom: 0.8rem;
+   }
 `
 const StyledAddPhotoIcon = styled(AddPhotoIcon)`
    width: 28px;
@@ -210,6 +246,8 @@ const InputText = styled('p')`
    margin: 0;
 `
 const StyledImage = styled('img')`
+   object-fit: cover;
    width: 100%;
    height: 100%;
+   border-radius: 4px;
 `

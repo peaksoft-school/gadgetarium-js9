@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom'
+import { Navigate, createBrowserRouter } from 'react-router-dom'
 import App from '../App'
 import { AdminLayout } from '../layout/admin/AdminLayout'
 import { adminRoutes } from './AdminRoutes'
@@ -54,5 +54,9 @@ export const router = createBrowserRouter([
          />
       ),
       children: adminRoutes,
+   },
+   {
+      path: '*',
+      element: <Navigate to="/" />,
    },
 ])
