@@ -1,7 +1,7 @@
 import { styled } from '@mui/material'
 import React, { useState } from 'react'
-import { Button } from '../UI/Button'
-import { InputUi } from '../UI/Input'
+import { Button } from '../../UI/Button'
+import { InputUi } from '../../UI/Input'
 
 export const UserInfo = () => {
    const [all, setAll] = useState({

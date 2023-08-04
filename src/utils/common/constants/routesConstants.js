@@ -8,7 +8,6 @@ export const routes = {
 
    USER: {
       index: '/',
-      home: 'home',
       aboutShop: 'aboutStore',
       delivery: 'delivery',
       faq: 'faq',

@@ -1,4 +1,5 @@
 import { styled, Button, Badge } from '@mui/material'
+import { NavLink } from 'react-router-dom'
 import React, { useState } from 'react'
 import { ReactComponent as SearchIcon } from '../../../assets/icons/search-icon.svg'
 import { ReactComponent as Instagram } from '../../../assets/icons/messangers/instagram-icon.svg'
@@ -51,9 +52,15 @@ export const Header = ({ favorite, comparison, basket }) => {
                      </Title>
                      <NavBar>
                         {navBarForHeader.map((el) => (
-                           <a key={el.title} href={el.path}>
+                           <Link
+                              key={el.title}
+                              to={el.path}
+                              className={({ isActive }) =>
+                                 isActive ? 'active' : ''
+                              }
+                           >
                               {el.title}
-                           </a>
+                           </Link>
                         ))}
                      </NavBar>
                      <UserNumber>
@@ -114,6 +121,19 @@ const Headers = styled('header')`
 
    z-index: 999;
 `
+
+const Link = styled(NavLink)`
+   padding: 10px 14px 12px 14px;
+   cursor: pointer;
+   text-decoration: none;
+   color: #fff;
+
+   &:hover {
+      border-radius: 4px;
+      background: rgba(133, 143, 164, 0.15);
+   }
+`
+
 const CaptionContainer = styled('div')`
    display: flex;
    align-items: center;
@@ -197,15 +217,10 @@ const NavBar = styled('div')`
    gap: 0.5rem;
    color: #ffffff;
    width: 31.4375vw;
-   a {
-      padding: 10px 14px 12px 14px;
-      cursor: pointer;
-      text-decoration: none;
-      color: #fff;
-      &:hover {
-         border-radius: 4px;
-         background: rgba(133, 143, 164, 0.15);
-      }
+
+   .active {
+      border-radius: 4px;
+      background: rgba(133, 143, 164, 0.15);
    }
 `
 const UserNumber = styled('div')`

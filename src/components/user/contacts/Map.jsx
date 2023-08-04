@@ -29,7 +29,7 @@ export const MapComponent = () => {
                   center: [42.875903, 74.628396],
                   zoom: 11,
                }}
-               width="100%"
+               width="99.9%"
                height="33.33vw"
                onClick={handleMapClick}
             >
@@ -52,6 +52,7 @@ export const MapComponent = () => {
 
 const Container = styled('div')`
    margin-bottom: 7.5rem;
+   border: 1px solid #cb11ab;
 
    .ymaps-2-1-79-events-pane {
       cursor: default !important;

@@ -1,6 +1,6 @@
 import React from 'react'
 import { styled } from '@mui/material'
-import { ReactComponent as Arrowsvg } from '../../assets/icons/fagArrow.svg'
+import { ReactComponent as Arrowsvg } from '../../../assets/icons/fagArrow.svg'
 
 export const FagChild = ({ item, isSelected, onIconClick }) => {
    const handleIconClick = () => {
@@ -11,7 +11,7 @@ export const FagChild = ({ item, isSelected, onIconClick }) => {
       <Container key={item.id}>
          <ContentContainer>
             <IdContainer isSelected={isSelected}>{item.id}</IdContainer>
-            <h5>{item.title}</h5>
+            <p className="title">{item.title}</p>
             <ArrowSvgStyled
                onClick={handleIconClick}
                className={isSelected ? 'rotated' : ''}
@@ -32,6 +32,13 @@ const Container = styled('div')`
 const ContentContainer = styled('div')`
    display: flex;
    align-items: center;
+
+   .title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      line-height: 120%;
+      color: #292929;
+   }
 `
 
 const IdContainer = styled('p')(({ theme, isSelected }) => ({

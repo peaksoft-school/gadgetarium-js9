@@ -8,9 +8,7 @@ export const UserLayout = () => {
       <div>
          <Header />
 
-         {/* <div style={{ height: '800px' }}> */}
          <Outlet />
-         {/* </div> */}
 
          <Footer />
       </div>
