@@ -13,7 +13,7 @@ export const PaymentPage = () => {
                <Line>
                   <Block>
                      <div>
-                        <p style={{ marginTop: '0px' }}>
+                        <p>
                            <b>Наименование:</b>
                         </p>
                         <p>
@@ -23,9 +23,9 @@ export const PaymentPage = () => {
                            <b>Общая сумма заказа:</b>
                         </p>
 
-                        <p style={{ color: 'red' }}>
+                        <BlockParagraph>
                            <b>Скидка:</b>
-                        </p>
+                        </BlockParagraph>
                         <p>
                            <b>Сумма скидки:</b>
                         </p>
@@ -68,6 +68,9 @@ const Block = styled('div')`
    justify-content: flex-start;
    gap: 2.88rem;
    width: 100%;
+   p {
+      margin-top: 0;
+   }
 `
 const ContainerChild = styled('div')`
    display: flex;
@@ -84,6 +87,9 @@ const BlockChilde = styled('div')`
    p {
       margin-top: 0;
    }
+`
+const BlockParagraph = styled('p')`
+   color: red;
 `
 const Paragraph = styled('p')`
    position: absolute;
