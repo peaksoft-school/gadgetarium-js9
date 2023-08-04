@@ -1,10 +1,10 @@
 import React from 'react'
 import { Modal as ModalUi, Box, styled } from '@mui/material'
 
-export const Modal = ({ children, open, onClose }) => {
+export const Modal = ({ children, open, onClose, padding = '2.5rem 2rem' }) => {
    return (
       <ModalStyled open={open} onClose={onClose}>
-         <BoxStyled>{children}</BoxStyled>
+         <BoxStyled padding={padding}>{children}</BoxStyled>
       </ModalStyled>
    )
 }
@@ -15,9 +15,9 @@ const ModalStyled = styled(ModalUi)(() => ({
    justifyContent: 'center',
 }))
 
-const BoxStyled = styled(Box)(() => ({
+const BoxStyled = styled(Box)(({ padding }) => ({
    '&': {
-      padding: '2.5rem 2rem',
+      padding,
       borderRadius: '0.25rem',
       backgroundColor: '#fff',
    },
