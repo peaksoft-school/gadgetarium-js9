@@ -15,7 +15,7 @@ import { navBarForHeader } from '../../../utils/common/constants/header'
 export const Header = ({ favorite, comparison, basket }) => {
    const [fixed, setFixed] = useState(false)
    const changeHeader = () => {
-      if (window.scrollY >= 10) {
+      if (window.scrollY > 10) {
          setFixed(true)
       } else {
          setFixed(false)
@@ -51,7 +51,9 @@ export const Header = ({ favorite, comparison, basket }) => {
                      </Title>
                      <NavBar>
                         {navBarForHeader.map((el) => (
-                           <a href={el.path}>{el.title}</a>
+                           <a key={el.title} href={el.path}>
+                              {el.title}
+                           </a>
                         ))}
                      </NavBar>
                      <UserNumber>
@@ -68,7 +70,7 @@ export const Header = ({ favorite, comparison, basket }) => {
                            <p>Каталог</p>
                         </Btn>
                         <Border />
-                        <SearchForm onSubmit="submit">
+                        <SearchForm>
                            <Input
                               className={inputValue ? 'hasText' : ''}
                               value={inputValue}
@@ -109,6 +111,8 @@ const Headers = styled('header')`
    display: flex;
    flex-direction: column;
    align-items: center;
+
+   z-index: 999;
 `
 const CaptionContainer = styled('div')`
    display: flex;

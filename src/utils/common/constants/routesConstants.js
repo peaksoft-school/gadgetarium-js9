@@ -9,7 +9,7 @@ export const routes = {
    USER: {
       index: '/',
       home: 'home',
-      aboutShop: 'about-shop',
+      aboutShop: 'aboutStore',
       delivery: 'delivery',
    },
 }

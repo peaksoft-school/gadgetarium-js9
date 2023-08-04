@@ -1,4 +1,4 @@
-import { styled } from '@mui/system'
+import { styled } from '@mui/material'
 import { ReactComponent as Truck } from '../../../assets/icons/truck.svg'
 import { ReactComponent as Wallet } from '../../../assets/icons/wallet.svg'
 
