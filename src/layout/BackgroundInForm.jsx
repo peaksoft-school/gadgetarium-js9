@@ -36,9 +36,11 @@ const Block = styled('div')`
       font-size: 2.78763rem;
       padding: 0 8px 0 8px;
       background-color: #cb11ab;
+      font-family: 'Outfit';
    }
    h2 {
       color: #fff;
       font-size: 2.47788rem;
+      font-family: 'Orbitron';
    }
 `

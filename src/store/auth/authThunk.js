@@ -9,6 +9,7 @@ export const signInRequest = createAsyncThunk(
          const response = await signIn(data)
          console.log(response)
          localStorage.setItem(STORAGE_KEY, JSON.stringify(response.data))
+
          return response.data
       } catch (error) {
          return rejectWithValue(error)
