@@ -153,7 +153,6 @@ const Form = styled('form')(() => ({
    top: '50%',
    backgroundColor: 'white',
    borderRadius: '0.25rem',
-   background: '#FFF',
    boxShadow: '0px 4px 16px 0px rgba(0, 0, 0, 0.10)',
    left: '50%',
    transform: 'translate(-50%, -50%)',
