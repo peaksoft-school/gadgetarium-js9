@@ -60,11 +60,7 @@ export const MailingModal = ({ open, handleClose }) => {
                   <>
                      <StyledAddPhotoIcon />
                      <InputText>Нажмите для добавления фотографии</InputText>
-                     <input
-                        type="file"
-                        onChange={getImageValue}
-                        style={{ display: 'none' }}
-                     />
+                     <Input type="file" onChange={getImageValue} />
                   </>
                )}
             </FileInputLabel>
@@ -75,7 +71,7 @@ export const MailingModal = ({ open, handleClose }) => {
                   </Label>
                   <InputUi
                      width="100%"
-                     height="35px"
+                     height="2.1875rem"
                      value={mealName}
                      onChange={getMealName}
                      placeholder="Введите название рассылки"
@@ -87,7 +83,7 @@ export const MailingModal = ({ open, handleClose }) => {
                   </Label>
                   <InputUi
                      width="100%"
-                     height="35px"
+                     height="2.1875rem"
                      value={mealDescription}
                      onChange={getMealDescription}
                      placeholder="Введите описание рассылки"
@@ -112,7 +108,7 @@ export const MailingModal = ({ open, handleClose }) => {
                      <Calendar
                         onChange={getFinishDate}
                         fontSize="1em"
-                        placeholder="Выберете дату"
+                        placeholder="Выберите дату"
                         width="100%"
                      />
                   </InputLabelContainer>
@@ -162,6 +158,9 @@ const Form = styled('form')(() => ({
    left: '50%',
    transform: 'translate(-50%, -50%)',
 }))
+const Input = styled('input')`
+   display: none;
+`
 const InputContainer = styled('div')`
    display: flex;
    width: 100%;
