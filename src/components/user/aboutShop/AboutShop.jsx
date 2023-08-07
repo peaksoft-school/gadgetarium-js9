@@ -7,39 +7,27 @@ import { SliderStore } from './SliderStore'
 
 export const AboutShop = () => {
    return (
-      <Container>
-         <Main>
-            <BoxInfo>
-               <Text>O магазине</Text>
-            </BoxInfo>
+      <Main>
+         <BoxInfo>
+            <Text>O магазине</Text>
+         </BoxInfo>
+         <div>
+            <SliderStore />
+         </div>
+         <section>
             <div>
-               <SliderStore />
+               <ShopGadgetariumInfo />
             </div>
-            <section>
-               <div>
-                  <ShopGadgetariumInfo />
-               </div>
-               <div>
-                  <ReasonForSuccess />
-               </div>
-               <div>
-                  <TodayWeAre />
-               </div>
-            </section>
-         </Main>
-      </Container>
+            <div>
+               <ReasonForSuccess />
+            </div>
+            <div>
+               <TodayWeAre />
+            </div>
+         </section>
+      </Main>
    )
 }
-
-const Container = styled('div')`
-   margin: 1.87rem 0 7.48rem 0;
-   padding: 0;
-
-   h1 {
-      margin: 0;
-      padding: 0;
-   }
-`
 
 const Text = styled('p')(({ theme }) => ({
    fontFamily: theme.typography.fontFamily,
@@ -49,23 +37,27 @@ const Text = styled('p')(({ theme }) => ({
    lineHeight: '110%',
    paddingBottom: '1.875rem',
    borderBottom: `1px solid ${theme.palette.secondary.main}`,
-   width: '79.6875vw',
+   width: '85.35vw',
    marginBottom: '2.5rem',
 }))
 
 const BoxInfo = styled('div')(() => ({
-   paddingLeft: '12.1875rem',
+   display: 'flex',
+   flexDirection: 'column',
+   alignItems: 'center',
 }))
 
 const Main = styled('main')(({ theme }) => ({
    fontFamily: theme.typography.mainFontFamily,
-
    section: {
       display: 'flex',
       flexDirection: 'column',
-      paddingLeft: '12.1875rem',
+      alignItems: 'center',
       marginTop: '1.875rem',
       gap: '3.75rem',
+      div: {
+         width: '85.35vw',
+      },
    },
 
    '& .box-text': {
