@@ -134,7 +134,8 @@ const Container = styled('div')(({ theme }) => ({
       fontStyle: 'normal',
       fontWeight: '700',
       lineHeight: '110%',
-      marginBottom: '2.5rem',
+      marginBottom: '2rem',
+      marginTop: '0.6rem',
    },
 
    label: {
@@ -146,6 +147,7 @@ const Container = styled('div')(({ theme }) => ({
       lineHeight: '150%',
       display: 'flex',
       gap: '0.4rem',
+      marginBottom: '0.625rem',
 
       '&::after': {
          content: '"*"',
