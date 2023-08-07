@@ -5,51 +5,35 @@ export const CardPhone = () => {
    return (
       <Container>
          <div className="header">
-            <Skeleton
-               variant="circular"
-               sx={{
-                  width: '3rem',
-                  height: '2.5rem',
-                  marginLeft: '-0.625rem',
-               }}
-            />
+            <SkeletonDiscount variant="circular" />
 
-            <Skeleton
-               variant="rounded"
-               sx={{ width: '4rem', height: '1.5rem' }}
-            />
+            <SkeletonNav variant="rounded" />
          </div>
 
-         <div className="ImageParent">
-            <Skeleton
-               variant="rounded"
-               sx={{ width: '11.25rem', height: '14.75rem' }}
-            />
+         <div className="Image">
+            <SkeletonImage variant="rounded" />
          </div>
 
-         <Skeleton
-            sx={{ width: '40%', height: '0.9375rem', marginTop: '1.75rem' }}
-         />
-         <Skeleton
-            variant="rounded"
-            sx={{ height: '2.8rem', margin: '0.5rem 0 0.5rem 0' }}
-         />
-         <Skeleton sx={{ width: '40%', height: '0.9375rem' }} />
-         <Skeleton sx={{ height: '2.8rem' }} />
+         <SkeletonInStock variant="rectangular" />
+
+         <SkeletonTitle variant="rounded" />
+
+         <SkeletonRating variant="rectangular" />
+
+         <SkeletonPrice variant="rounded" />
       </Container>
    )
 }
 
 const Container = styled('div')`
-   width: 18.75rem;
-   height: 30.9375rem;
-   padding: 1.25rem;
-
+   width: 15.625vw;
+   height: 45.84vh;
+   padding: 10px 14px 20.5px 10px;
    .header {
       width: 100%;
       display: flex;
       align-items: center;
-      gap: 11.12rem;
+      justify-content: space-between;
    }
 
    .ImageParent {
@@ -58,4 +42,42 @@ const Container = styled('div')`
       justify-content: center;
       margin-top: 0.75rem;
    }
+`
+
+const SkeletonDiscount = styled(Skeleton)`
+   width: 2.25rem;
+   height: 2.25rem;
+`
+const SkeletonImage = styled(Skeleton)`
+   width: 9.375vw;
+   height: 21.853vh;
+`
+const SkeletonInStock = styled(Skeleton)`
+   width: 4.636vw;
+   height: 0.9375rem;
+   margin-top: 1.75rem;
+   margin-left: 10px;
+`
+
+const SkeletonNav = styled(Skeleton)`
+   width: 3.3334vw;
+   height: 2.223vh;
+`
+const SkeletonTitle = styled(Skeleton)`
+   width: 13.542vw;
+   height: 4.167vh;
+   margin: 0.5rem 0 0.5rem 0.625rem;
+`
+
+const SkeletonRating = styled(Skeleton)`
+   width: 6.25vw;
+   height: 1.39vh;
+   margin-left: 0.625rem;
+`
+
+const SkeletonPrice = styled(Skeleton)`
+   width: 13.542vw;
+   height: 4.167vh;
+   margin-top: 1.03rem;
+   margin-left: 0.625rem;
 `
