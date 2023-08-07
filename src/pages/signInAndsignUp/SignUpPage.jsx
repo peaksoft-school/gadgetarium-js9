@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { ReactComponent as CloseIcon } from '../../assets/icons/cross/big-cross-icon.svg'
 import { InputUi } from '../../components/UI/Input'
@@ -22,7 +22,7 @@ const signUpInputArray = [
       type: 'text',
    },
    {
-      key: 'phone',
+      key: 'phoneNumber',
       placeholder: '+996 (_ _ _) _ _  _ _  _ _',
       type: 'tel',
    },
@@ -47,7 +47,7 @@ const schema = z
    .object({
       firstName: z.string().nonempty('Заполните обязательные поля').min(3),
       lastName: z.string().nonempty('Заполните обязательные поля').min(3),
-      phone: z
+      phoneNumber: z
          .string()
          .nonempty('Заполните обязательные поля')
          .regex(/^\+996[0-9]{9}$/, {
@@ -75,6 +75,9 @@ const schema = z
 
 export const SignUp = () => {
    const dispatch = useDispatch()
+   const navigate = useNavigate()
+   const [focusedField, setFocusedField] = useState('')
+
    const {
       register,
       formState: { errors },
@@ -84,7 +87,7 @@ export const SignUp = () => {
       defaultValues: {
          firstName: '',
          lastName: '',
-         phone: '',
+         phoneNumber: '',
          email: '',
          password: '',
       },
@@ -92,13 +95,17 @@ export const SignUp = () => {
       resolver: zodResolver(schema),
    })
 
-   const onSubmit = (data) => {
-      reset()
-      dispatch(signUpRequest(data))
+   const onSubmit = async (data) => {
+      try {
+         reset()
+         dispatch(signUpRequest(data)).unwrap()
+         navigate('/')
+      } catch (error) {
+         console.log('error', error)
+      }
+
       console.log(data)
    }
-
-   const [focusedField, setFocusedField] = useState('')
 
    const handleFieldBlur = (fieldName) => {
       setFocusedField(fieldName)
@@ -116,6 +123,7 @@ export const SignUp = () => {
             <Form onSubmit={handleSubmit(onSubmit)}>
                {signUpInputArray.map((el) => {
                   const error = errors[el.key]?.message
+
                   return (
                      <div key={el.key}>
                         <Input

@@ -1,9 +1,11 @@
-import { axiosInstance } from '../config/axiosFileInstance'
+import { axiosInstance } from '../config/axiosInstants'
 
 export const signIn = (data) => {
-   return axiosInstance.post('/register', data)
+   console.log('data', data)
+
+   return axiosInstance.post('/api/v1/auth/sign-in', data)
 }
 
 export const signUp = (data) => {
-   return axiosInstance.post('/register', data)
+   return axiosInstance.post('/api/v1/auth/sign-up', data)
 }

@@ -8,19 +8,13 @@ import { PrivateRoute } from './PrivateRoutes'
 import { SignUp } from '../pages/signInAndsignUp/SignUpPage'
 import { SignIn } from '../pages/signInAndsignUp/SignInPage'
 
-const role = 'USER'
-
-const isAllowed = (roles) => {
-   return roles.includes(role)
-}
-
 export const router = createBrowserRouter([
    {
       path: routes.SIGN_IN,
       element: (
          <PrivateRoute
-            isAllowed={isAllowed([USER_ROLE.GUEST, USER_ROLE.USER])}
-            fallBacPath={role === USER_ROLE.ADMIN ? '/admin' : '/home'}
+            roles={[USER_ROLE.GUEST, USER_ROLE.USER]}
+            fallBacPath="register"
             component={<SignIn />}
          />
       ),
@@ -29,8 +23,8 @@ export const router = createBrowserRouter([
       path: routes.SIGN_UP,
       element: (
          <PrivateRoute
-            isAllowed={isAllowed([USER_ROLE.GUEST, USER_ROLE.USER])}
-            fallBacPath={role === USER_ROLE.ADMIN ? '/admin' : '/home'}
+            roles={[USER_ROLE.GUEST, USER_ROLE.USER]}
+            fallBacPath="register"
             component={<SignUp />}
          />
       ),
@@ -39,7 +33,7 @@ export const router = createBrowserRouter([
       path: routes.USER.index,
       element: (
          <PrivateRoute
-            isAllowed={isAllowed([USER_ROLE.GUEST, USER_ROLE.USER])}
+            roles={[USER_ROLE.GUEST, USER_ROLE.USER]}
             fallBacPath="/admin"
             component={<App />}
          />
@@ -50,8 +44,8 @@ export const router = createBrowserRouter([
       path: routes.ADMIN.index,
       element: (
          <PrivateRoute
-            isAllowed={isAllowed([USER_ROLE.ADMIN])}
-            fallBacPath="/home"
+            roles={[USER_ROLE.ADMIN]}
+            fallBacPath="/"
             component={<AdminLayout />}
          />
       ),

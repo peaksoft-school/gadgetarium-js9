@@ -3,7 +3,7 @@ import React from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { ReactComponent as CloseIcon } from '../../assets/icons/cross/big-cross-icon.svg'
 import { InputUi } from '../../components/UI/Input'
@@ -24,6 +24,8 @@ const schema = z.object({
 
 export const SignIn = () => {
    const dispatch = useDispatch()
+   const navigate = useNavigate()
+
    const { register, handleSubmit, reset, formState } = useForm({
       defaultValues: {
          email: '',
@@ -33,10 +35,21 @@ export const SignIn = () => {
       resolver: zodResolver(schema),
    })
 
-   const onSubmit = (data) => {
-      reset()
-      console.log(data)
-      dispatch(signInRequest(data))
+   const onSubmit = async (data) => {
+      try {
+         const response = await dispatch(signInRequest(data)).unwrap()
+         reset()
+
+         console.log('response', response)
+
+         if (response.role === 'USER') {
+            navigate('/')
+         } else {
+            navigate('admin')
+         }
+      } catch (error) {
+         console.log('error', error)
+      }
    }
 
    const combinedError = formState.errors.email || formState.errors.password

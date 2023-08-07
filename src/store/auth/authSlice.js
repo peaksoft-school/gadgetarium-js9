@@ -1,39 +1,26 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { signInRequest, signUpRequest } from './authThunk'
+import { logOut, signInRequest, signUpRequest } from './authThunk'
 import { STORAGE_KEY } from '../../utils/common/constants/globalConstants'
+import { USER_ROLE } from '../../utils/common/constants/routesConstants'
 
 const getInitialState = () => {
    const json = localStorage.getItem(STORAGE_KEY)
    if (json) {
       const userData = JSON.parse(json)
+      console.log('userData', userData)
 
       return {
          isAuthorization: true,
-         token: userData.data.token,
-
-         user: {
-            firstName: userData.data.user.firstName,
-            lastName: userData.data.user.lastName,
-            phone: userData.data.user.phone,
-            gmail: userData.data.user.gmail,
-            password: userData.data.user.password,
-            confirmPassword: userData.data.user.confirmPassword,
-            role: userData.data.user.role,
-         },
+         token: userData.token,
+         role: userData.role,
       }
    }
+
    return {
       isAuthorization: false,
       token: '',
-      user: {
-         firstName: '',
-         lastName: '',
-         phone: '',
-         gmail: '',
-         password: '',
-         confirmPassword: '',
-         role: '',
-      },
+      role: USER_ROLE.GUEST,
+      error: '',
    }
 }
 
@@ -42,6 +29,7 @@ const initialState = getInitialState()
 export const authSlice = createSlice({
    name: 'auth',
    initialState,
+   reducers: {},
    extraReducers: (builder) => {
       builder
          .addCase(signUpRequest.fulfilled, (state, actions) => {
@@ -49,10 +37,18 @@ export const authSlice = createSlice({
             state.token = actions.payload.token
             state.role = actions.payload.role
          })
-         .addCase(signInRequest.fulfilled, (state, actions) => {
+         .addCase(signInRequest.fulfilled, (state, action) => {
+            console.log('payload: ', action.payload)
+
             state.isAuthorization = true
-            state.token = actions.payload.token
-            state.role = actions.payload.role
+            state.token = action.payload.token
+            state.role = action.payload.role
+         })
+         .addCase(signInRequest.rejected, (state, action) => {
+            state.error = action.payload.message
+         })
+         .addCase(logOut.fulfilled, () => {
+            return { ...initialState }
          })
    },
 })
