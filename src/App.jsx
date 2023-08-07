@@ -1,9 +1,12 @@
-import { UserLayout } from './layout/user/UserLayout'
+// import { UserLayout } from './layout/user/UserLayout'
+
+import { PaymentPage } from './components/paymant/PaymentPage'
 
 function App() {
    return (
       <div>
-         <UserLayout />
+         {/* <UserLayout /> */}
+         <PaymentPage />
       </div>
    )
 }

@@ -37,6 +37,7 @@ const Container = styled('div')`
       margin: 0;
       padding: 0;
    }
+   margin-bottom: 7.5rem;
 `
 
 const Box = styled('div')`

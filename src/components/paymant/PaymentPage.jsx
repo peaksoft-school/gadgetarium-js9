@@ -24,18 +24,17 @@ export const PaymentPage = () => {
                         </p>
 
                         <BlockParagraph>
-                           <b>Скидка:</b>
+                           <b>Скидка:</b> 15%
                         </BlockParagraph>
-                        <p>
+                        <Discount>
                            <b>Сумма скидки:</b>
-                        </p>
+                           <p>9 000 c</p>
+                        </Discount>
                      </div>
                      <BlockChilde>
                         <p>Samsung Galaxy S21 128gb синий 9(MLP3RU)</p>
                         <p>1шт</p>
                         <p>60 000 с</p>
-                        <Paragraph>{15}%</Paragraph>
-                        <Paragraph2>9 000 c</Paragraph2>
                      </BlockChilde>
                   </Block>
                </Line>
@@ -83,7 +82,6 @@ const Line = styled('div')`
    width: 100%;
 `
 const BlockChilde = styled('div')`
-   position: relative;
    p {
       margin-top: 0;
    }
@@ -91,12 +89,10 @@ const BlockChilde = styled('div')`
 const BlockParagraph = styled('p')`
    color: red;
 `
-const Paragraph = styled('p')`
-   position: absolute;
-   right: 28.75rem;
-   color: red;
-`
-const Paragraph2 = styled('p')`
-   position: absolute;
-   top: 8.75rem;
+const Discount = styled('div')`
+   display: flex;
+   p {
+      position: relative;
+      left: 6.4rem;
+   }
 `

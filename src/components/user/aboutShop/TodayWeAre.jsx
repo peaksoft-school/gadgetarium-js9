@@ -42,7 +42,9 @@ export const TodayWeAre = () => {
 
 const Container = styled('div')`
    display: flex;
-   gap: 3rem;
+   width: 85.35vw;
+   justify-content: space-between;
+   margin-bottom: 7.5rem;
 `
 
 const Box = styled('div')`
