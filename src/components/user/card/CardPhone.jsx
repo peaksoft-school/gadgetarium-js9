@@ -43,7 +43,6 @@ export const CardPhone = () => {
 const Container = styled('div')`
    width: 18.75rem;
    height: 30.9375rem;
-   background-color: blue;
    padding: 1.25rem;
 
    .header {
