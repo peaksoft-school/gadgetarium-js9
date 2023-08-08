@@ -51,7 +51,7 @@ const ProductCard = () => {
 
             <IconContainer>
                <StyledComparison
-                  comparison={comparison}
+                  comparison={comparison ? 'true' : 'false'}
                   onClick={toggleComparisonHandler}
                />
                {favorite ? (
@@ -72,7 +72,7 @@ const ProductCard = () => {
                Рейтинг <StyledRating readOnly value={productCard.rating} /> (56)
             </RatingContainer>
             <ButtonContainerTwo>
-               <PriceContainer>
+               <PriceContainer discount={productCard.discount}>
                   {productCard.discount !== 0 ? (
                      <>
                         <DiscountPrice>
@@ -147,8 +147,8 @@ const ButtonContainerTwo = styled('div')`
 `
 const PriceContainer = styled('div')`
    display: flex;
-   align-items: center;
    flex-direction: column;
+   align-items: ${(props) => (props.discount === 0 ? 'center' : 'flex-end')};
 `
 const StyledRating = styled(Rating)`
    && .MuiSvgIcon-root {
@@ -164,6 +164,7 @@ const Price = styled('p')`
    line-height: 135.938%;
    margin: 0;
    text-decoration: 0.08rem line-through;
+   margin-right: 0.5px;
 `
 const DiscountPrice = styled('p')`
    font-size: 0.938vw;
@@ -205,7 +206,7 @@ const Image = styled('img')`
    margin-top: 1.1111vh;
    width: 9.375vw;
    height: 21.852vh;
-   object-fit: cover;
+   object-fit: contain;
 `
 const Circle = styled('div')`
    width: 1.891vw;
@@ -274,7 +275,7 @@ const StyledComparison = styled(Comparison)`
    height: 1.25vw;
    cursor: pointer;
    path {
-      fill: ${(props) => (props.comparison ? '#cb11ab' : '#91969e')};
+      fill: ${(props) => (props.comparison === 'true' ? '#cb11ab' : '#91969e')};
    }
 `
 const StyledFavourite = styled(Favourite)`
