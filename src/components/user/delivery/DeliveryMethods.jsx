@@ -1,4 +1,4 @@
-import { styled } from '@mui/system'
+import { styled } from '@mui/material'
 import { ReactComponent as Truck } from '../../../assets/icons/truck.svg'
 import { ReactComponent as Wallet } from '../../../assets/icons/wallet.svg'
 
@@ -32,7 +32,7 @@ export const DeliveryMethods = () => {
                <Box key={item.id}>
                   <BoxDelivery>
                      <div>
-                        <Truck />
+                        <StyledTruck />
                      </div>
                      <BoxDeliveryText>
                         <p className="title">{item.title}</p>
@@ -40,7 +40,9 @@ export const DeliveryMethods = () => {
                      </BoxDeliveryText>
                   </BoxDelivery>
                   <BoxPayment>
-                     <Wallet />
+                     <div>
+                        <Wallet />
+                     </div>
                      <p className="text">Предоплата не требуется</p>
                   </BoxPayment>
                </Box>
@@ -94,4 +96,10 @@ const BoxPayment = styled('div')`
    display: flex;
    align-items: center;
    gap: 0.75rem;
+   div {
+      width: 1.625rem;
+   }
+`
+const StyledTruck = styled(Truck)`
+   margin-top: 0.25rem;
 `

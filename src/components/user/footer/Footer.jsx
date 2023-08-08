@@ -1,45 +1,56 @@
-import { Button } from '@mui/material'
-import { styled } from '@mui/material/styles'
+import { NavLink } from 'react-router-dom'
+import { Button, styled } from '@mui/material'
+import { navBarForHeader } from '../../../utils/common/constants/header'
 
 export const Footer = () => {
    return (
       <Container>
          <Block1>
-            <Filter>
-               <span>Каталог</span>
-               <Gadget>
-                  <a href="./cмартфоны">Смартфоны</a>
-                  <a href="./ноутбуки и планшеты">Ноутбуки и планшеты</a>
-                  <a href="./смарт-часы и браслеты">Смарт-часы и браслеты</a>
-                  <a href="./аксессуары">Аксессуары</a>
-               </Gadget>
-            </Filter>
-            <Сategories>
-               <span>Будь с нами</span>
-               <Stock>
-                  <a href="/акции">Акции</a>
-                  <a href="./новинки">Новинки</a>
-                  <a href="./популярные категории">Популярные категории </a>
-               </Stock>
-            </Сategories>
-            <Service>
-               <span>Помощь и сервисы</span>
-               <Contact>
-                  <a href="./Омагазине">O магазине</a>
-                  <a href="./доставка">Доставка</a>
-                  <a href="./fag">FAG</a>
-                  <a href="./контакты">Контакты</a>
-               </Contact>
-            </Service>
+            <NavListContainer>
+               <NavList>
+                  <span>Каталог</span>
+                  <Gadget>
+                     <a href="./cмартфоны">Смартфоны</a>
+                     <a href="./ноутбуки и планшеты">Ноутбуки и планшеты</a>
+                     <a href="./смарт-часы и браслеты">Смарт-часы и браслеты</a>
+                     <a href="./аксессуары">Аксессуары</a>
+                  </Gadget>
+               </NavList>
+               <NavList>
+                  <span>Будь с нами</span>
+                  <Stock>
+                     <a href="/акции">Акции</a>
+                     <a href="./новинки">Новинки</a>
+                     <a href="./популярные категории">Популярные категории </a>
+                  </Stock>
+               </NavList>
+               <NavList>
+                  <span>Помощь и сервисы</span>
+                  <Contact>
+                     {navBarForHeader.map((el) => (
+                        <Link
+                           key={el.title}
+                           to={el.path}
+                           className={({ isActive }) =>
+                              isActive ? 'active' : ''
+                           }
+                        >
+                           {el.title}
+                        </Link>
+                     ))}
+                  </Contact>
+               </NavList>
+            </NavListContainer>
+
             <PersonalInformation>
                <div>
                   <span>Расскажем oб акциях и скидках</span>
-                  <form onSubmit="submit">
+                  <Form>
                      <Input type="email" placeholder="Email" />
-                     <ButtonFooter onSubmit="submit" variant="contained">
+                     <ButtonFooter variant="contained">
                         Подписаться
                      </ButtonFooter>
-                  </form>
+                  </Form>
                   <Description>
                      Нажимая на кнопку «подписаться» Вы соглашаетесь на
                      обработку персональных данных
@@ -61,8 +72,11 @@ export const Footer = () => {
 
                <h1>adgetarium</h1>
             </Gadgetarium>
-            <p>© 2022 Gadgetarium. Интернет магазин </p>
-            <span>Bce права защищены.</span>
+
+            <BoxMinInfo>
+               <p>© 2022 Gadgetarium. Интернет магазин </p>
+               <span>Bce права защищены.</span>
+            </BoxMinInfo>
          </Block2>
       </Container>
    )
@@ -73,40 +87,61 @@ const Container = styled('div')`
    width: 100%;
    height: 37.5rem;
    background-color: #1a1a25;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+`
+
+const Link = styled(NavLink)`
+   cursor: pointer;
+   text-decoration: none;
+   color: #fff;
 `
 
 const GadgeteriumContainer = styled('div')`
    width: 35px;
    height: 35px;
-   display: flex;
    background-color: #cb11ab;
    margin-right: 2.5px;
+   display: flex;
    align-items: center;
    justify-content: center;
 `
-
 const GIcons = styled('p')`
    color: #fff !important;
-   display: flex;
-   align-items: center;
-   margin-top: 0px !important;
    font-family: Outfit;
    font-size: 32.053px;
    font-style: normal;
-   font-weight: 600;
+   margin: 0 !important;
+   font-weight: 700;
 `
-
-const Block1 = styled('div')`
+const NavListContainer = styled('div')`
    display: flex;
-   justify-content: space-around;
+   width: 50%;
+   justify-content: space-between;
+`
+const Form = styled('form')`
+   display: flex;
+   align-items: center;
+   margin-top: 0.75rem;
+`
+const Block1 = styled('div')`
+   width: 85.35vw;
+   display: flex;
+   justify-content: space-between;
+   margin-bottom: 49px;
 `
 
 const Block2 = styled('div')`
    border-top: 1px solid#858FA4;
-   width: 81.25rem;
-   margin-top: 3.75rem;
-   margin-left: 5rem;
+   width: 85.35vw;
    text-align: center;
+
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+
    p {
       color: #858fa4;
       margin-top: 1.875rem;
@@ -120,13 +155,15 @@ const Block2 = styled('div')`
 const Input = styled('input')`
    width: 25.5rem;
    height: 2.4375rem;
-   border-radius: 0.25rem;
-   margin-top: 0.75rem;
+   border-radius: 0.35rem;
    border: none;
    padding-left: 1rem;
 `
 const ButtonFooter = styled(Button)`
-   margin-top: -1px;
+   border-radius: 0 !important;
+   border-bottom-right-radius: 0.35rem !important;
+   border-top-right-radius: 0.35rem !important;
+
    margin-left: -10.125rem;
    background-color: #cb11ab;
    width: 10.125rem;
@@ -136,7 +173,7 @@ const ButtonFooter = styled(Button)`
       background-color: #cb11ab;
    }
 `
-const Filter = styled('div')`
+const NavList = styled('div')`
    margin-top: 3.75rem;
    span {
       color: #fff;
@@ -173,13 +210,6 @@ const Info = styled('div')`
       }
    }
 `
-const Сategories = styled('div')`
-   margin-top: 3.75rem;
-   span {
-      color: #fff;
-      cursor: pointer;
-   }
-`
 const Stock = styled('div')`
    display: flex;
    flex-direction: column;
@@ -192,13 +222,6 @@ const Stock = styled('div')`
       &:hover {
          color: #fff;
       }
-   }
-`
-const Service = styled('div')`
-   margin-top: 3.75rem;
-   span {
-      color: #fff;
-      cursor: pointer;
    }
 `
 const Contact = styled('div')`
@@ -224,10 +247,14 @@ const PersonalInformation = styled('div')`
 const Gadgetarium = styled('div')`
    display: flex;
    justify-content: center;
-   margin-top: 2.5rem;
+   align-items: center;
 
    h1 {
       font-family: Orbitron;
+      font-weight: 600;
       color: #fff;
    }
+`
+const BoxMinInfo = styled('div')`
+   margin-top: -36px;
 `

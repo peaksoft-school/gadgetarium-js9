@@ -1,30 +1,20 @@
-import { styled } from '@mui/system'
+import { styled } from '@mui/material'
 import React from 'react'
 import { DeliveryMethods } from './DeliveryMethods'
 import { PaymentMethods } from './PaymentMethods'
 
 export const Delivery = () => {
    return (
-      <Container>
-         <Main>
-            <Text>Доставка</Text>
+      <Main>
+         <Text>Доставка</Text>
 
-            <section>
-               <div>
-                  <DeliveryMethods />
-               </div>
-               <div>
-                  <PaymentMethods />
-               </div>
-            </section>
-         </Main>
-      </Container>
+         <section>
+            <DeliveryMethods />
+            <PaymentMethods />
+         </section>
+      </Main>
    )
 }
-
-const Container = styled('div')`
-   margin: 1.88rem 0 7.87rem 12.25rem;
-`
 
 const Text = styled('p')(({ theme }) => ({
    fontFamily: theme.typography.fontFamily,
@@ -34,11 +24,14 @@ const Text = styled('p')(({ theme }) => ({
    lineHeight: '110%',
    paddingBottom: '1.875rem',
    borderBottom: `1px solid ${theme.palette.secondary.main}`,
-   width: '79.6875vw',
+   width: '85.35vw',
    marginBottom: '2.5rem',
 }))
 
 const Main = styled('main')(({ theme }) => ({
+   display: 'flex',
+   flexDirection: 'column',
+   alignItems: 'center',
    fontFamily: theme.typography.mainFontFamily,
 
    '& .title': {
@@ -55,5 +48,8 @@ const Main = styled('main')(({ theme }) => ({
       fontSize: '1.125rem',
       fontWeight: '400',
       lineHeight: '150%',
+   },
+   section: {
+      width: '85.35vw',
    },
 }))
