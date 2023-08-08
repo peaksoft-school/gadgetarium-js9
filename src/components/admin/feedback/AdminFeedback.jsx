@@ -4,8 +4,8 @@ import { ReactComponent as UserIcon } from '../../assets/icons/avatar/user-fill-
 import { ReactComponent as DeleteIcon } from '../../assets/icons/tools-for-site/delete-icon.svg'
 import { ReactComponent as ArrowDown } from '../../assets/icons/arrows/down-icon.svg'
 import { ReactComponent as ArrowUp } from '../../assets/icons/arrows/up-icon.svg'
-import { Button } from '../UI/Button'
-import { themes } from '../../utils/common/styles/themes'
+import { Button } from '../../UI/Button'
+import { themes } from '../../../utils/common/styles/themes'
 
 const imagesArray = [1, 2, 3, 4, 5]
 const AdminFeedback = ({
