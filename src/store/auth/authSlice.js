@@ -7,7 +7,6 @@ const getInitialState = () => {
    const json = localStorage.getItem(STORAGE_KEY)
    if (json) {
       const userData = JSON.parse(json)
-      console.log('userData', userData)
 
       return {
          isAuthorization: true,
@@ -38,8 +37,6 @@ export const authSlice = createSlice({
             state.role = actions.payload.role
          })
          .addCase(signInRequest.fulfilled, (state, action) => {
-            console.log('payload: ', action.payload)
-
             state.isAuthorization = true
             state.token = action.payload.token
             state.role = action.payload.role

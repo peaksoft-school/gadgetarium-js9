@@ -4,11 +4,13 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { ReactComponent as CloseIcon } from '../../assets/icons/cross/big-cross-icon.svg'
 import { InputUi } from '../../components/UI/Input'
 import { BackgroundInForm } from '../../layout/BackgroundInForm'
 import { signInRequest } from '../../store/auth/authThunk'
+import { SnackBar } from '../../components/UI/SnackBar'
+import { SnackBarActions } from '../../store/snackBarSlice'
 
 const schema = z.object({
    email: z.string().email('Заполните обязательные поля'),
@@ -23,6 +25,8 @@ const schema = z.object({
 })
 
 export const SignIn = () => {
+   const { open } = useSelector((state) => state.snackbar)
+
    const dispatch = useDispatch()
    const navigate = useNavigate()
 
@@ -39,8 +43,7 @@ export const SignIn = () => {
       try {
          const response = await dispatch(signInRequest(data)).unwrap()
          reset()
-
-         console.log('response', response)
+         dispatch(SnackBarActions.doSuccess())
 
          if (response.role === 'USER') {
             navigate('/')
@@ -48,14 +51,20 @@ export const SignIn = () => {
             navigate('admin')
          }
       } catch (error) {
+         dispatch(SnackBarActions.doError())
          console.log('error', error)
       }
+   }
+
+   function onCloseHandler() {
+      dispatch(SnackBarActions.closeSnackbar())
    }
 
    const combinedError = formState.errors.email || formState.errors.password
 
    return (
       <BackgroundInForm>
+         {open && <SnackBar handleClose={onCloseHandler} />}
          <Container>
             <MuiCloseIcon />
             <h2>Войти</h2>

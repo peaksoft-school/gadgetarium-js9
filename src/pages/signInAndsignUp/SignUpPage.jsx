@@ -4,11 +4,13 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { ReactComponent as CloseIcon } from '../../assets/icons/cross/big-cross-icon.svg'
 import { InputUi } from '../../components/UI/Input'
 import { BackgroundInForm } from '../../layout/BackgroundInForm'
 import { signUpRequest } from '../../store/auth/authThunk'
+import { SnackBar } from '../../components/UI/SnackBar'
+import { SnackBarActions } from '../../store/snackBarSlice'
 
 const signUpInputArray = [
    {
@@ -74,6 +76,7 @@ const schema = z
    })
 
 export const SignUp = () => {
+   const { open } = useSelector((state) => state.snackbar)
    const dispatch = useDispatch()
    const navigate = useNavigate()
    const [focusedField, setFocusedField] = useState('')
@@ -99,12 +102,18 @@ export const SignUp = () => {
       try {
          reset()
          dispatch(signUpRequest(data)).unwrap()
+         dispatch(SnackBarActions.doSuccess())
          navigate('/')
       } catch (error) {
+         dispatch(SnackBarActions.doError())
          console.log('error', error)
       }
 
       console.log(data)
+   }
+
+   function onCloseHandler() {
+      dispatch(SnackBarActions.closeSnackbar())
    }
 
    const handleFieldBlur = (fieldName) => {
@@ -117,6 +126,7 @@ export const SignUp = () => {
 
    return (
       <BackgroundInForm>
+         {open && <SnackBar handleClose={onCloseHandler} />}
          <Container>
             <MuiCloseIcon />
             <h2>Регистрация</h2>

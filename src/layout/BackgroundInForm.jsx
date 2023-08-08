@@ -10,6 +10,7 @@ export const BackgroundInForm = ({ children }) => {
                <h2>adgetarium</h2>
             </Block>
          </Title>
+
          {children}
       </Container>
    )
