@@ -36,7 +36,7 @@ const Container = styled('div')`
       justify-content: space-between;
    }
 
-   .ImageParent {
+   .Image {
       width: 100%;
       display: flex;
       justify-content: center;
