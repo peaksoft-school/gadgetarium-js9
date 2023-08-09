@@ -29,8 +29,11 @@ export const ProductCard = ({
    const toggleComparisonHandler = () => {
       setComparison(!comparison)
    }
+   const cardHandler = (id) => {
+      console.log(id)
+   }
    return (
-      <Card key={id}>
+      <Card key={id} onClick={() => cardHandler(id)}>
          <ButtonContainer>
             <CircleContainer>
                {discount === 0 &&
@@ -112,9 +115,13 @@ const Card = styled('div')`
    flex-direction: column;
    align-items: center;
    width: 15.625vw;
-   height: 43vh;
    border-radius: 0.25rem;
-   padding: 0.625rem;
+   padding: 0.52081vw;
+   :hover {
+      cursor: pointer;
+      box-shadow: 0px 8px 25px 0px rgba(0, 0, 0, 0.1),
+         0px -8px 25px 0px rgba(0, 0, 0, 0.1);
+   }
 `
 const RatingContainer = styled('div')`
    display: flex;
@@ -136,6 +143,7 @@ const ButtonContainerTwo = styled('div')`
    width: 100%;
    justify-content: space-between;
    margin-top: 0.7407vh;
+   margin-bottom: 1.1111vh;
 `
 const PriceContainer = styled('div')`
    display: flex;
