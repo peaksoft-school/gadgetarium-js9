@@ -7,24 +7,22 @@ import { ReactComponent as Recommendation } from '../../../assets/icons/recommen
 import { ReactComponent as FilledFavoriteIcon } from '../../../assets/icons/filled-favorite-icon.svg'
 import { Button } from '../../UI/Button'
 
-const ProductCard = () => {
+export const ProductCard = ({
+   recomendationState = false,
+   newState = false,
+   price = 100000,
+   image = 'https://www.myphone.kg/files/media/17/17378.webp',
+   prodName = 'Смартфон Apple iPhone 13 256gb синий 9(MLP3RU00RE)',
+   quantity = 12,
+   rating = 1,
+   discount = 20,
+   countOfReviews = 56,
+   id = '1',
+}) => {
    const [favorite, setFavorite] = useState(false)
    const [comparison, setComparison] = useState(false)
-   const productCard = {
-      recomendationState: false,
-      newState: false,
-      price: 100000,
-      image: '',
-      prodName: 'Смартфон Apple iPhone 13 256gb синий 9(MLP3RU00RE)',
-      quantity: 12,
-      rating: 1,
-      discount: 20,
-      countOfReviews: 56,
-      id: '1',
-   }
 
-   const discountPrice =
-      productCard.price - (productCard.price * productCard.discount) / 100
+   const discountPrice = price - (price * discount) / 100
    const toggleFavoriteHandler = () => {
       setFavorite(!favorite)
    }
@@ -32,21 +30,19 @@ const ProductCard = () => {
       setComparison(!comparison)
    }
    return (
-      <Card>
+      <Card key={id}>
          <ButtonContainer>
             <CircleContainer>
-               {productCard.discount === 0 &&
-                  productCard.newState === false &&
-                  productCard.recomendationState === false && <MarginDiv />}
-               {productCard.recomendationState && (
+               {discount === 0 &&
+                  newState === false &&
+                  recomendationState === false && <MarginDiv />}
+               {recomendationState && (
                   <Circle>
                      <Recommendation />
                   </Circle>
                )}
-               {productCard.discount !== 0 && (
-                  <CircleTwo>-{productCard.discount}%</CircleTwo>
-               )}
-               {productCard.newState && <CircleThree>New</CircleThree>}
+               {discount !== 0 && <CircleTwo>-{discount}%</CircleTwo>}
+               {newState && <CircleThree>New</CircleThree>}
             </CircleContainer>
 
             <IconContainer>
@@ -61,29 +57,27 @@ const ProductCard = () => {
                )}
             </IconContainer>
          </ButtonContainer>
-         <Image
-            src="https://www.myphone.kg/files/media/17/17378.webp"
-            alt="aa"
-         />
+         <Image src={image} />
          <Container>
-            <InStock>В наличии ({productCard.quantity})</InStock>
-            <Title>{productCard.prodName.slice(0, 45)}...</Title>
+            <InStock>В наличии ({quantity})</InStock>
+            <Title>{prodName.slice(0, 45)}...</Title>
             <RatingContainer>
-               Рейтинг <StyledRating readOnly value={productCard.rating} /> (56)
+               Рейтинг <StyledRating readOnly value={rating} /> (
+               {countOfReviews})
             </RatingContainer>
             <ButtonContainerTwo>
-               <PriceContainer discount={productCard.discount}>
-                  {productCard.discount !== 0 ? (
+               <PriceContainer discount={discount}>
+                  {discount !== 0 ? (
                      <>
                         <DiscountPrice>
                            {Math.floor(discountPrice).toLocaleString()}{' '}
                            <span>c</span>
                         </DiscountPrice>
-                        <Price>{productCard.price.toLocaleString()} c</Price>
+                        <Price>{price.toLocaleString()} c</Price>
                      </>
                   ) : (
                      <DiscountPrice>
-                        {productCard.price.toLocaleString()} <span>c</span>
+                        {price.toLocaleString()} <span>c</span>
                      </DiscountPrice>
                   )}
                </PriceContainer>
@@ -100,8 +94,6 @@ const ProductCard = () => {
       </Card>
    )
 }
-export default ProductCard
-
 const MarginDiv = styled('div')`
    width: 2.25rem;
    height: 2.25rem;
