@@ -1,9 +1,11 @@
-import { UserLayout } from './layout/user/UserLayout'
+import { MailingList } from './components/admin/mailing.list/MailingList'
+// import { UserLayout } from './layout/user/UserLayout'
 
 function App() {
    return (
       <div>
-         <UserLayout />
+         {/* <UserLayout /> */}
+         <MailingList />
       </div>
    )
 }

@@ -1,79 +1,89 @@
 import { styled } from '@mui/material'
-import React, { useState } from 'react'
+import React from 'react'
+import { z } from 'zod'
+import { Controller, useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import dayjs from 'dayjs'
 import { Button } from '../../UI/Button'
 import { Calendar } from '../../UI/calendarFolder/Calendar'
 import { InputUi } from '../../UI/Input'
 import { ReactComponent as AddPhotoIcon } from '../../../assets/icons/photo-add/add-photo-icon.svg'
 import { Modal } from '../../UI/Modal'
 
+const schema = z.object({
+   image: z.string().min(1),
+   mealName: z.string().min(1).max(255),
+   mealDescription: z.string().min(1).max(500),
+   startDate: z.date().min(new Date()),
+   finishDate: z.date().min(new Date()),
+})
 export const MailingModal = ({ open, handleClose }) => {
-   const currentDate = new Date(Date.now())
-   const day = currentDate.getDate()
-   const month = currentDate.getMonth() + 1
-   const year = currentDate.getFullYear()
-   const formattedDate = `${day < 10 ? '0' : ''}${day}/${
-      month < 10 ? '0' : ''
-   }${month}/${year}`
-   const [startDate, setStartDate] = useState()
-   const [image, setImage] = useState()
-   const [mealName, setMealName] = useState('')
-   const [mealDescription, setMealDescription] = useState('')
-   const [finishDate, setFinishDate] = useState()
-
-   const getMealName = (e) => {
-      setMealName(e.target.value)
-   }
-   const getMealDescription = (e) => {
-      setMealDescription(e.target.value)
-   }
-   const getFinishDate = (e) => {
-      setFinishDate(e.$d)
-   }
-   const getStartDate = (e) => {
-      setStartDate(e.$d)
-   }
-
-   const getImageValue = (e) => {
-      setImage(e.target.files[0])
-   }
-   const urlImage = image && URL.createObjectURL(image)
-   const submitHandler = (e) => {
-      e.preventDefault()
+   const { register, handleSubmit, getValues, control, reset } = useForm({
+      defaultValues: {
+         image: '',
+         mealName: '',
+         mealDescription: '',
+         startDate: new Date(Date.now()),
+         finishDate: '',
+      },
+      mode: 'onBlur',
+      resolver: zodResolver(schema),
+   })
+   const values = getValues()
+   const submitHandler = () => {
       const data = {
-         title: mealName,
-         description: mealDescription,
-         image: urlImage,
-         startDate,
-         finishDate,
+         title: values.mealName,
+         description: values.mealDescription,
+         image: values.image,
+         startDate: values.startDate,
+         finishDate: values.finishDate,
       }
       console.log('data: ', data)
       handleClose()
+      reset()
    }
    return (
       <Modal open={open.has('openModal')} onClose={handleClose}>
-         <Form onSubmit={submitHandler}>
+         <Form onSubmit={handleSubmit(submitHandler)}>
             <AnswerToComment>Создать рассылку</AnswerToComment>
-            <FileInputLabel>
-               {image ? (
-                  <StyledImage src={urlImage} alt="" />
-               ) : (
-                  <>
-                     <StyledAddPhotoIcon />
-                     <InputText>Нажмите для добавления фотографии</InputText>
-                     <Input type="file" onChange={getImageValue} />
-                  </>
-               )}
-            </FileInputLabel>
+            <Controller
+               name="image"
+               control={control}
+               render={({ field }) => {
+                  return (
+                     <FileInputLabel>
+                        {field.value ? (
+                           <StyledImage src={field.value} alt="" />
+                        ) : (
+                           <>
+                              <StyledAddPhotoIcon />
+                              <InputText>
+                                 Нажмите для добавления фотографии
+                              </InputText>
+                              <Input
+                                 type="file"
+                                 {...field}
+                                 onChange={(e) => {
+                                    field.onChange(
+                                       URL.createObjectURL(e.target.files[0])
+                                    )
+                                 }}
+                              />
+                           </>
+                        )}
+                     </FileInputLabel>
+                  )
+               }}
+            />
             <InputContainer>
                <InputLabelContainer>
                   <Label>
                      Название рассылки <span>*</span>
                   </Label>
                   <InputUi
+                     {...register('mealName')}
                      width="100%"
                      height="2.1875rem"
-                     value={mealName}
-                     onChange={getMealName}
                      placeholder="Введите название рассылки"
                   />
                </InputLabelContainer>
@@ -82,10 +92,9 @@ export const MailingModal = ({ open, handleClose }) => {
                      Описание рассылки <span>*</span>
                   </Label>
                   <InputUi
+                     {...register('mealDescription')}
                      width="100%"
                      height="2.1875rem"
-                     value={mealDescription}
-                     onChange={getMealDescription}
                      placeholder="Введите описание рассылки"
                   />
                </InputLabelContainer>
@@ -94,22 +103,40 @@ export const MailingModal = ({ open, handleClose }) => {
                      <Label>
                         Дата начала акции <span>*</span>
                      </Label>
-                     <Calendar
-                        onChange={getStartDate}
-                        fontSize="1rem"
-                        placeholder={formattedDate}
-                        width="100%"
+                     <Controller
+                        name="startDate"
+                        control={control}
+                        render={({ field }) => (
+                           <Calendar
+                              onChange={(newDate) => {
+                                 field.onChange(newDate.$d)
+                              }}
+                              value={dayjs(field.value)}
+                              fontSize="1rem"
+                              placeholder="Выберите дату"
+                              width="100%"
+                           />
+                        )}
                      />
                   </InputLabelContainer>
                   <InputLabelContainer>
                      <Label>
                         Дата окончания акции <span>*</span>
                      </Label>
-                     <Calendar
-                        onChange={getFinishDate}
-                        fontSize="1em"
-                        placeholder="Выберите дату"
-                        width="100%"
+                     <Controller
+                        name="finishDate"
+                        control={control}
+                        render={({ field }) => (
+                           <Calendar
+                              onChange={(newDate) => {
+                                 field.onChange(newDate.$d)
+                              }}
+                              value={dayjs(field.value)}
+                              fontSize="1em"
+                              placeholder="Выберите дату"
+                              width="100%"
+                           />
+                        )}
                      />
                   </InputLabelContainer>
                </CalendarContainer>
@@ -141,7 +168,6 @@ export const MailingModal = ({ open, handleClose }) => {
    )
 }
 
-export default MailingModal
 const Form = styled('form')(() => ({
    width: '28.5%',
    height: '63.334%',
