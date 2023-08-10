@@ -26,7 +26,7 @@ export const signUpInputArray = [
    },
    {
       key: 'confirmPassword',
-      placeholder: 'Напишите ваше имя',
+      placeholder: 'Подтвердите пароль',
       type: 'password',
    },
 ]
