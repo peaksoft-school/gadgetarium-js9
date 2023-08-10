@@ -76,7 +76,6 @@ const Slide = styled('div')`
 
       img {
          filter: brightness(0.3);
-
          width: 100%;
          height: 100%;
       }
