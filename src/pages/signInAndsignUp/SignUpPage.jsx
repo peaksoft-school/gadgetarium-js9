@@ -1,82 +1,19 @@
 import { Button, styled } from '@mui/material'
 import React, { useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { ReactComponent as CloseIcon } from '../../assets/icons/cross/big-cross-icon.svg'
 import { InputUi } from '../../components/UI/Input'
-import { BackgroundInForm } from '../../layout/BackgroundInForm'
 import { signUpRequest } from '../../store/auth/authThunk'
-import { SnackBar } from '../../components/UI/SnackBar'
-import { SnackBarActions } from '../../store/snackBarSlice'
-
-const signUpInputArray = [
-   {
-      key: 'firstName',
-      placeholder: 'Напишите ваше имя',
-      type: 'text',
-   },
-   {
-      key: 'lastName',
-      placeholder: 'Напишите вашу фамилию',
-      type: 'text',
-   },
-   {
-      key: 'phoneNumber',
-      placeholder: '+996 (_ _ _) _ _  _ _  _ _',
-      type: 'tel',
-   },
-   {
-      key: 'email',
-      placeholder: 'Напишите email',
-      type: 'email',
-   },
-   {
-      key: 'password',
-      placeholder: 'Напишите пароль',
-      type: 'password',
-   },
-   {
-      key: 'confirmPassword',
-      placeholder: 'Напишите ваше имя',
-      type: 'password',
-   },
-]
-
-const schema = z
-   .object({
-      firstName: z.string().nonempty('Заполните обязательные поля').min(3),
-      lastName: z.string().nonempty('Заполните обязательные поля').min(3),
-      phoneNumber: z
-         .string()
-         .nonempty('Заполните обязательные поля')
-         .regex(/^\+996[0-9]{9}$/, {
-            message: 'Введите корректный номер телефона, начинающийся с +996',
-         }),
-      email: z
-         .string()
-         .nonempty('Заполните обязательные поля')
-         .email('Неправильно указан Email'),
-      password: z
-         .string()
-         .min(6, 'Пароль обязателен для заполнения')
-         .regex(
-            /^(?=.*[a-zA-Z])(?=.*\d)/,
-            'Пароль должен содержать буквы и цифры'
-         ),
-      confirmPassword: z
-         .string()
-         .nonempty('Подтверждение пароля обязательно для заполнения'),
-   })
-   .refine((data) => data.password === data.confirmPassword, {
-      message: 'Пароли не совпадают',
-      path: ['confirmPassword'],
-   })
+import { BackgroundInForm } from '../../layout/BackgroundInForm'
+import { useSnackbar } from '../../hooks/useSnackbar'
+import { signUpInputArray } from '../../utils/common/constants/ArrayForm'
+import { schemaSignUp } from '../../utils/helpers/reactHookFormShema'
 
 export const SignUp = () => {
-   const { open } = useSelector((state) => state.snackbar)
+   const { snackbarHandler } = useSnackbar()
    const dispatch = useDispatch()
    const navigate = useNavigate()
    const [focusedField, setFocusedField] = useState('')
@@ -95,25 +32,22 @@ export const SignUp = () => {
          password: '',
       },
       mode: 'onBlur',
-      resolver: zodResolver(schema),
+      resolver: zodResolver(schemaSignUp),
    })
 
    const onSubmit = async (data) => {
       try {
          reset()
          dispatch(signUpRequest(data)).unwrap()
-         dispatch(SnackBarActions.doSuccess())
+         snackbarHandler({
+            message: 'Проверка прошла успешно',
+            type: 'success',
+         })
          navigate('/')
       } catch (error) {
-         dispatch(SnackBarActions.doError())
+         snackbarHandler({ message: 'Что-то пошло не так', type: 'error' })
          console.log('error', error)
       }
-
-      console.log(data)
-   }
-
-   function onCloseHandler() {
-      dispatch(SnackBarActions.closeSnackbar())
    }
 
    const handleFieldBlur = (fieldName) => {
@@ -124,11 +58,14 @@ export const SignUp = () => {
       .filter((el) => errors[el.key]?.message && focusedField === el.key)
       .map((el) => errors[el.key]?.message)
 
+   const onCloseHandler = () => {
+      navigate(-1)
+   }
+
    return (
       <BackgroundInForm>
-         {open && <SnackBar handleClose={onCloseHandler} />}
          <Container>
-            <MuiCloseIcon />
+            <MuiCloseIcon onClick={onCloseHandler} />
             <h2>Регистрация</h2>
             <Form onSubmit={handleSubmit(onSubmit)}>
                {signUpInputArray.map((el) => {
@@ -137,6 +74,7 @@ export const SignUp = () => {
                   return (
                      <div key={el.key}>
                         <Input
+                           width="29.5rem"
                            {...register(el.key)}
                            placeholder={el.placeholder}
                            type={el.type}
@@ -161,7 +99,7 @@ export const SignUp = () => {
             </Form>
             <Block>
                <p>
-                  У вас уже есть аккаунт? <Link to="/">Войти</Link>
+                  У вас уже есть аккаунт? <Link to="/signin">Войти</Link>
                </p>
             </Block>
          </Container>

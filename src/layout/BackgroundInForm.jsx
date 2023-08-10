@@ -1,18 +1,21 @@
 import { styled } from '@mui/material'
 import React from 'react'
+import { CustomToast } from '../components/UI/snackbar/CustomToast'
 
 export const BackgroundInForm = ({ children }) => {
    return (
-      <Container>
-         <Title>
-            <Block>
-               <h1>G</h1>
-               <h2>adgetarium</h2>
-            </Block>
-         </Title>
-
-         {children}
-      </Container>
+      <>
+         <Container>
+            <Title>
+               <Block>
+                  <h1>G</h1>
+                  <h2>adgetarium</h2>
+               </Block>
+            </Title>
+            {children}
+         </Container>
+         <CustomToast />
+      </>
    )
 }
 

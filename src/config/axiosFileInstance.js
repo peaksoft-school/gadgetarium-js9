@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { BASE_URL } from '../utils/common/constants/globalConstants'
+import { logOut } from '../store/auth/authThunk'
 
 const headers = {
    'Content-Type': 'multipart/form-data',
@@ -25,16 +26,13 @@ axiosFileInstance.interceptors.request.use((config) => {
    return updatedConfig
 })
 
-// !
-const logoutAction = () => {}
-
 axiosFileInstance.interceptors.response.use(
    (response) => {
       return Promise.resolve(response)
    },
    (error) => {
       if (error.response.status === 401) {
-         store.dispatch(logoutAction())
+         store.dispatch(logOut())
       }
       return Promise.reject(error)
    }

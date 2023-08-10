@@ -7,7 +7,6 @@ const getInitialState = () => {
    const json = localStorage.getItem(STORAGE_KEY)
    if (json) {
       const userData = JSON.parse(json)
-
       return {
          isAuthorization: true,
          token: userData.token,
