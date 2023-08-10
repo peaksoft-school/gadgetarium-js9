@@ -18,16 +18,17 @@ export const Calendar = ({ placeholder, value, onChange, ...props }) => {
    )
 }
 
-const StyledDatePicker = styled(DatePicker)(({ fontSize, width }) => ({
+const StyledDatePicker = styled(DatePicker)(({ fontSize, width, height }) => ({
    '& label': {
       color: '#91969E',
       marginTop: '-11px',
       fontFamily: 'Inter',
       fontWeight: 300,
+      fontSize,
    },
    '& .MuiOutlinedInput-root': {
       width: width || '9rem',
-      height: '2.1875rem',
+      height: height || '2.1875rem',
       fontSize: fontSize || '0.8rem',
       fontWeight: '400',
    },

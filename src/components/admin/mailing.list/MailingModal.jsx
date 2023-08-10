@@ -18,26 +18,24 @@ const schema = z.object({
    finishDate: z.date().min(new Date()),
 })
 export const MailingModal = ({ open, handleClose }) => {
-   const { register, handleSubmit, getValues, control, reset } = useForm({
-      defaultValues: {
-         image: '',
-         mealName: '',
-         mealDescription: '',
-         startDate: new Date(Date.now()),
-         finishDate: '',
-      },
-      mode: 'onBlur',
-      resolver: zodResolver(schema),
-   })
-   const values = getValues()
-   const submitHandler = () => {
-      const data = {
-         title: values.mealName,
-         description: values.mealDescription,
-         image: values.image,
-         startDate: values.startDate,
-         finishDate: values.finishDate,
+   const { register, handleSubmit, getValues, control, reset, watch } = useForm(
+      {
+         defaultValues: {
+            image: '',
+            mealName: '',
+            mealDescription: '',
+            startDate: new Date(Date.now()),
+            finishDate: new Date(),
+         },
+         mode: 'onBlur',
+         resolver: zodResolver(schema),
       }
+   )
+   const startDate = watch('startDate')
+   const finishDate = watch('finishDate')
+
+   const submitHandler = () => {
+      const data = getValues()
       console.log('data: ', data)
       handleClose()
       reset()
@@ -83,7 +81,8 @@ export const MailingModal = ({ open, handleClose }) => {
                   <InputUi
                      {...register('mealName')}
                      width="100%"
-                     height="2.1875rem"
+                     height="3.2407vh"
+                     fontSize="0.83333vw"
                      placeholder="Введите название рассылки"
                   />
                </InputLabelContainer>
@@ -94,7 +93,8 @@ export const MailingModal = ({ open, handleClose }) => {
                   <InputUi
                      {...register('mealDescription')}
                      width="100%"
-                     height="2.1875rem"
+                     height="3.2407vh"
+                     fontSize="0.83333vw"
                      placeholder="Введите описание рассылки"
                   />
                </InputLabelContainer>
@@ -112,7 +112,9 @@ export const MailingModal = ({ open, handleClose }) => {
                                  field.onChange(newDate.$d)
                               }}
                               value={dayjs(field.value)}
-                              fontSize="1rem"
+                              maxDate={dayjs(finishDate)}
+                              fontSize="0.83333vw"
+                              height="3.2407vh"
                               placeholder="Выберите дату"
                               width="100%"
                            />
@@ -131,9 +133,10 @@ export const MailingModal = ({ open, handleClose }) => {
                               onChange={(newDate) => {
                                  field.onChange(newDate.$d)
                               }}
-                              value={dayjs(field.value)}
-                              fontSize="1em"
+                              minDate={dayjs(startDate)}
+                              fontSize="0.83333vw"
                               placeholder="Выберите дату"
+                              height="3.2407vh"
                               width="100%"
                            />
                         )}
@@ -148,7 +151,7 @@ export const MailingModal = ({ open, handleClose }) => {
                   backgroundHover="#CB11AB"
                   backgroundActive="#CB11AB"
                   padding="0.69vh 5vw"
-                  fontSize="0.875rem"
+                  fontSize="0.791vw"
                   onClick={handleClose}
                >
                   Отменить
@@ -157,7 +160,7 @@ export const MailingModal = ({ open, handleClose }) => {
                   variant="contained"
                   textTransform="uppercase"
                   padding="0.69vh 5vw"
-                  fontSize="0.875rem"
+                  fontSize="0.791vw"
                   type="submit"
                >
                   Отправить
@@ -169,8 +172,8 @@ export const MailingModal = ({ open, handleClose }) => {
 }
 
 const Form = styled('form')(() => ({
-   width: '28.5%',
-   height: '63.334%',
+   width: '28.3334vw',
+   height: '63.334vh',
    padding: '1.66666vw',
    display: 'flex',
    flexDirection: 'column',
@@ -178,8 +181,7 @@ const Form = styled('form')(() => ({
    position: 'absolute',
    top: '50%',
    backgroundColor: 'white',
-   borderRadius: '0.25rem',
-   boxShadow: '0px 4px 16px 0px rgba(0, 0, 0, 0.10)',
+   borderRadius: '0.9%',
    left: '50%',
    transform: 'translate(-50%, -50%)',
 }))
@@ -194,35 +196,27 @@ const InputContainer = styled('div')`
 const CalendarContainer = styled('div')`
    display: flex;
    justify-content: space-between;
-   gap: 20px;
+   gap: 1.07vw;
 `
 
 const ButtonContainer = styled('div')`
    width: 100%;
-   margin-top: 0.75rem;
+   margin-top: 1.1111vh;
    display: flex;
    justify-content: space-between;
-   gap: 1.25rem;
-   @media (max-height: 960px) {
-      margin-top: 0.5rem;
-   }
+   gap: 1.07vw;
 `
 const AnswerToComment = styled('p')`
-   margin-top: 0.5rem;
-   margin-bottom: 2.25rem;
+   margin-top: 0.7407vh;
+   margin-bottom: 3.3333vh;
    font-family: Inter;
-   font-size: 1.5rem;
+   font-size: 1.252vw;
    font-style: normal;
    font-weight: 500;
-   line-height: 2rem;
-   @media (max-height: 960px) {
-      margin-bottom: 1rem;
-      margin-top: 0;
-   }
 `
 const Label = styled('label')`
    font-family: Inter;
-   font-size: 14px;
+   font-size: 0.729vw;
    font-style: normal;
    font-weight: 400;
    span {
@@ -232,36 +226,32 @@ const Label = styled('label')`
 const InputLabelContainer = styled('div')`
    display: flex;
    flex-direction: column;
-   gap: 0.375rem;
-   margin-bottom: 1.25rem;
-   @media (max-height: 960px) {
-      margin-bottom: 0.5rem;
-   }
+   gap: 0.5555vh;
+   margin-bottom: 1.8519vh;
 `
 const FileInputLabel = styled('label')`
    display: flex;
    flex-direction: column;
    align-items: center;
-   gap: 0.875rem;
+   gap: 1.296vh;
    justify-content: center;
-   width: 43.86%;
-   height: 35.12%;
+   width: 11.5135vw;
+   height: 11.5135vw;
    background-color: #909cb533;
-   margin-bottom: 2rem;
-   border-radius: 4px;
+   margin-bottom: 2.96296vh;
+   border-radius: 2%;
 `
 const StyledAddPhotoIcon = styled(AddPhotoIcon)`
-   width: 28px;
-   height: 28px;
+   width: 1.4589vw;
+   height: 1.4589vw;
 `
 const InputText = styled('p')`
    font-family: Inter;
-   font-size: 12px;
+   font-size: 0.625vw;
    font-style: normal;
    font-weight: 400;
    line-height: 120%;
    color: #91969e;
-   width: 80%;
    text-align: center;
    margin: 0;
 `
@@ -269,5 +259,5 @@ const StyledImage = styled('img')`
    object-fit: cover;
    width: 100%;
    height: 100%;
-   border-radius: 4px;
+   border-radius: 2%;
 `

@@ -1,16 +1,16 @@
-import { useSearchParams } from 'react-router-dom'
+import { useCustomSearchParams } from '../../../hooks/useCustomSearchParams'
 import { Button } from '../../UI/Button'
 import { MailingModal } from './MailingModal'
 
 export const MailingList = () => {
-   const [openModal, setOpenModal] = useSearchParams()
+   const { params, setParam, deleteParam } = useCustomSearchParams()
+
    const closeModalHandler = () => {
-      openModal.delete('openModal')
-      setOpenModal(openModal)
+      deleteParam('openModal')
    }
+
    const openModalHandler = () => {
-      openModal.set('openModal', 'true')
-      setOpenModal(openModal)
+      setParam('openModal', 'true')
    }
 
    return (
@@ -18,13 +18,16 @@ export const MailingList = () => {
          <Button
             variant="contained"
             background="#CB11AB"
-            padding="12px 20px 12px 20px"
+            padding="1.11111vh 1.04164vw"
+            fontSize="0.833333vw"
+            borderRadius="2.875rem"
+            textTransform="none"
             onClick={openModalHandler}
          >
             Создать рассылку
          </Button>
-         {openModal.has('openModal') && (
-            <MailingModal open={openModal} handleClose={closeModalHandler} />
+         {params.has('openModal') && (
+            <MailingModal open={params} handleClose={closeModalHandler} />
          )}
       </>
    )

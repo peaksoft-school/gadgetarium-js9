@@ -30,7 +30,7 @@ const StyledButton = styled(ButtonMui)(({ variant, props }) => {
                justifyContent: 'center',
                alignItems: 'center',
                gap: '6px',
-               borderRadius: '4px',
+               borderRadius: props.borderRadius || '4px',
                lineHeight: 'normal',
 
                '&:hover': {
