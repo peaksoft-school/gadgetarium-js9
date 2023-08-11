@@ -1,5 +1,5 @@
 import { styled } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import { z } from 'zod'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -31,6 +31,7 @@ export const MailingModal = ({ open, handleClose }) => {
          resolver: zodResolver(schema),
       }
    )
+   const [firstDateSelected, setFirstDateSelected] = useState(false)
    const startDate = watch('startDate')
    const finishDate = watch('finishDate')
 
@@ -110,9 +111,16 @@ export const MailingModal = ({ open, handleClose }) => {
                            <Calendar
                               onChange={(newDate) => {
                                  field.onChange(newDate.$d)
+                                 if (!firstDateSelected) {
+                                    setFirstDateSelected(true)
+                                 }
                               }}
                               value={dayjs(field.value)}
-                              maxDate={dayjs(finishDate)}
+                              maxDate={
+                                 firstDateSelected
+                                    ? dayjs(finishDate)
+                                    : undefined
+                              }
                               fontSize="0.83333vw"
                               height="3.2407vh"
                               placeholder="Выберите дату"
@@ -132,8 +140,15 @@ export const MailingModal = ({ open, handleClose }) => {
                            <Calendar
                               onChange={(newDate) => {
                                  field.onChange(newDate.$d)
+                                 if (!firstDateSelected) {
+                                    setFirstDateSelected(true)
+                                 }
                               }}
-                              minDate={dayjs(startDate)}
+                              minDate={
+                                 firstDateSelected
+                                    ? dayjs(startDate)
+                                    : undefined
+                              }
                               fontSize="0.83333vw"
                               placeholder="Выберите дату"
                               height="3.2407vh"
