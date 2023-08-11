@@ -30,7 +30,7 @@ export const SignIn = () => {
          const response = await dispatch(signInRequest(data)).unwrap()
          reset()
          snackbarHandler({
-            message: 'Проверка прошла успешно',
+            message: 'Вход успешно выполнен',
             type: 'success',
          })
          if (response.role === 'USER') {
@@ -39,7 +39,11 @@ export const SignIn = () => {
             navigate('admin')
          }
       } catch (error) {
-         snackbarHandler({ message: 'Что-то пошло не так', type: 'error' })
+         snackbarHandler({
+            message:
+               'Неправильный email или пароль. Пожалуйста, попробуйте еще раз.',
+            type: 'error',
+         })
          console.log('error', error)
       }
    }

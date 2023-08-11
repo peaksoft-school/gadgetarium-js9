@@ -40,12 +40,16 @@ export const SignUp = () => {
          reset()
          dispatch(signUpRequest(data)).unwrap()
          snackbarHandler({
-            message: 'Проверка прошла успешно',
+            message: 'Вход успешно выполнен',
             type: 'success',
          })
-         navigate('/')
+         navigate('/signin')
       } catch (error) {
-         snackbarHandler({ message: 'Что-то пошло не так', type: 'error' })
+         snackbarHandler({
+            message:
+               'Неправильный email или пароль. Пожалуйста, попробуйте еще раз.',
+            type: 'error',
+         })
          console.log('error', error)
       }
    }
