@@ -1,15 +1,15 @@
 import { Rating, keyframes, styled } from '@mui/material'
 import React, { useState } from 'react'
-import { ReactComponent as UserIcon } from '../../assets/icons/avatar/user-fill-icon.svg'
-import { ReactComponent as DeleteIcon } from '../../assets/icons/tools-for-site/delete-icon.svg'
-import { ReactComponent as ArrowDown } from '../../assets/icons/arrows/down-icon.svg'
-import { ReactComponent as ArrowUp } from '../../assets/icons/arrows/up-icon.svg'
+import { ReactComponent as ArrowUp } from '../../../assets/icons/arrows/up-icon.svg'
+import { ReactComponent as UserIcon } from '../../../assets/icons/avatar/user-fill-icon.svg'
+import { ReactComponent as DeleteIcon } from '../../../assets/icons/tools-for-site/delete-icon.svg'
+import { ReactComponent as ArrowDown } from '../../../assets/icons/arrows/down-icon.svg'
 import { Button } from '../../UI/Button'
 import { themes } from '../../../utils/common/styles/themes'
 
 const imagesArray = [1, 2, 3, 4, 5]
 const AdminFeedback = ({
-   index,
+   index = 1,
    stars,
    // userText,
    // userName,
@@ -22,6 +22,7 @@ const AdminFeedback = ({
    const [answerState, setAnswerState] = useState(false)
    const [adminAnswer, setAdminAnswer] = useState('')
    const [temporaryAnswer, setTemporaryAnswer] = useState('')
+   const [checked, setChecked] = useState(false)
    const getAdminAnswer = (e) => {
       setTemporaryAnswer(e.target.value)
    }
@@ -43,7 +44,13 @@ const AdminFeedback = ({
    const text =
       'Эрсултан, красавчик! Эрсултан, красавчик! Эрсултан, красавчик! Эрсултан, красавчик! Эрсултан, красавчик! Эрсултан, красавчик! Эрсултан, красавчик! Эрсултан, красавчик! Эрсултан, красавчик! Эрсултан, красавчик! Эрсултан, красавчик! Эрсултан, красавчик! Эрсултан, красавчик! Эрсултан, красавчик! Эрсултан, красавчик!'
    const handleToggle = () => {
-      setExpanded((prevState) => !prevState)
+      if (!checked) {
+         setChecked((prevState) => !prevState)
+      }
+      setExpanded(true)
+   }
+   const handleClose = () => {
+      setExpanded(false)
    }
    const displayText = expanded ? text : text.slice(0, 123)
    return (
@@ -60,7 +67,7 @@ const AdminFeedback = ({
             </ModelContainer>
 
             <UserReviewContainer>
-               <UserText>
+               <UserText checked={checked}>
                   {displayText}
                   {!expanded && text.length > 123 && '...'}
                </UserText>
@@ -79,7 +86,7 @@ const AdminFeedback = ({
                <StyledRating name="read-only" value={stars} readOnly />
                <UserContainer>
                   <UserAvatar>
-                     <UserIcon />
+                     <StyledUserIcon />
                   </UserAvatar>
                   <UserDescription themes={themes}>
                      <h5>Адыл Бакытов</h5>
@@ -89,7 +96,7 @@ const AdminFeedback = ({
                      <StyledDeleteIcon />
                      {expanded ? (
                         <StyledArrowUp
-                           onClick={handleToggle}
+                           onClick={handleClose}
                            className={
                               expanded
                                  ? 'rotate-enter-active'
@@ -136,8 +143,8 @@ const AdminFeedback = ({
                      {answerState ? (
                         <>
                            <Button
-                              fontSize="16px"
-                              padding="6.5px 62px"
+                              fontSize="0.8333vw"
+                              padding="0.6019vh 3.223vw"
                               backgroundHover="#CB11AB"
                               backgroundActive="#E313BF"
                               variant="outlined"
@@ -146,8 +153,8 @@ const AdminFeedback = ({
                               Отменить
                            </Button>
                            <Button
-                              fontSize="16px"
-                              padding="6.5px 58.5px"
+                              fontSize="0.8333vw"
+                              padding="0.6019vh 3.223vw"
                               backgroundHover="#E313BF"
                               backgroundActive="#CB11AB"
                               variant="contained"
@@ -158,9 +165,11 @@ const AdminFeedback = ({
                         </>
                      ) : (
                         <Button
-                           fontSize="16px"
+                           fontSize="0.8333vw"
                            padding={
-                              adminAnswer === '' ? '11.7px 64px' : '11.7px 41px'
+                              adminAnswer === ''
+                                 ? '1.2vh 3.49vw'
+                                 : '1.2vh 2.3vw'
                            }
                            backgroundHover="#E313BF"
                            backgroundActive="#CB11AB"
@@ -179,7 +188,10 @@ const AdminFeedback = ({
 }
 
 export default AdminFeedback
-
+const StyledUserIcon = styled(UserIcon)`
+   width: 1.35417vw;
+   height: 1.35417vw;
+`
 const rotateArrow = keyframes`
   0% { transform: rotate(-180deg); }
   100% { transform: rotate(0deg); }
@@ -208,16 +220,18 @@ const slideOut = keyframes`
 
 const AdminReviewContainer = styled('div')`
    display: flex;
-   width: 67.93%;
-   padding: 20px 0 20px 0;
+   width: 67.188vw;
+   padding: 1.852vh 0;
    border-top: 1px solid #e8e8e8;
    justify-content: space-between;
 `
 const ModelReviewContainer = styled('div')`
    display: flex;
-   width: 60.75%;
+   width: 40.78125vw;
 `
 const StyledDeleteIcon = styled(DeleteIcon)`
+   width: 1.04167vw;
+   height: 1.04167vw;
    :hover {
       cursor: pointer;
       path {
@@ -249,8 +263,8 @@ const StyledArrowDown = styled(ArrowDown)`
    &.rotate-exit-active {
       animation: ${rotateArrow} 0.3s ease-in-out;
    }
-   width: 20px;
-   height: 20px;
+   width: 1.04167vw;
+   height: 1.04167vw;
 `
 const StyledArrowUp = styled(ArrowUp)`
    transition: transform 0.3s ease-in-out;
@@ -270,27 +284,27 @@ const StyledArrowUp = styled(ArrowUp)`
    &.rotate-exit-active {
       animation: ${rotateArrow} 0.3s ease-in-out;
    }
-   width: 1.25rem;
-   height: 1.25rem;
+   width: 1.04167vw;
+   height: 1.04167vw;
 `
 const ModelContainer = styled('div')`
    display: flex;
 `
 const Index = styled('p')`
    font-family: Inter;
-   margin-top: 1.375rem;
-   font-size: 1rem;
+   margin-top: 2.037vh;
+   font-size: 0.8333vw;
    font-style: normal;
    font-weight: 400;
-   line-height: 1.125rem;
-   margin-left: 5px;
+   margin-left: 0.463vh;
 `
 const UserText = styled('p')`
    color: #2e2c34;
-   font-size: 0.875rem;
+   margin: 0;
+   font-size: 0.73vw;
    font-family: Inter;
    font-style: normal;
-   font-weight: 400;
+   font-weight: ${(props) => (props.checked ? '400' : '700')};
    line-height: 150%;
    width: 100%;
 `
@@ -298,8 +312,9 @@ const UserContainer = styled('div')`
    display: flex;
 `
 const Time = styled('p')`
+   margin: 0;
    color: rgba(0, 0, 0, 0.5);
-   font-size: 0.75rem;
+   font-size: 0.625vw;
    font-family: Inter;
    font-style: normal;
    font-weight: 400;
@@ -308,11 +323,12 @@ const Time = styled('p')`
 const ModelDescription = styled('div')(({ theme }) => ({
    display: 'flex',
    flexDirection: 'column',
-   gap: '2px',
-   marginLeft: '1.6875rem',
+   gap: '0.185vh',
+   marginLeft: '1.40625vw',
    h5: {
       fontFamily: 'Inter',
       color: theme.palette.primary.mainContrastText,
+      fontSize: '0.73vw',
       margin: 0,
       fontStyle: 'normal',
       fontWeight: 600,
@@ -321,7 +337,8 @@ const ModelDescription = styled('div')(({ theme }) => ({
    p: {
       fontFamily: 'Inter',
       color: theme.palette.secondary.light,
-      fontSize: '14px',
+      fontSize: '0.73vw',
+      margin: 0,
       fontStyle: 'normal',
       fontWeight: 500,
       lineHeight: '1.25rem',
@@ -332,21 +349,21 @@ const ImageContainer = styled('div')`
       ease-in-out;
    display: flex;
    justify-content: space-between;
-   margin-top: 0.625rem;
-   width: 91%;
+   margin-top: 0.926vh;
+   width: 95%;
 `
 const StyledIcon = styled('div')(({ themes }) => ({
-   width: '56px',
-   height: '62px',
+   width: '2.9167vw',
+   height: '3.23vw',
    background: themes.palette.secondary.main,
    marginLeft: '1.5625rem',
 }))
 const UserReviewContainer = styled('div')`
-   margin-left: 3.9375rem;
+   margin-left: 3.28125vw;
    width: 60.2%;
 `
 const InfoAboutUserContainer = styled('div')`
-   width: 39.25%;
+   width: 25.7291666vw;
    display: flex;
    flex-direction: column;
 `
@@ -356,32 +373,35 @@ const InfoUserContainer = styled('div')`
 `
 const StyledRating = styled(Rating)`
    && .MuiSvgIcon-root {
-      font-size: 1.25rem;
+      font-size: 1.04167vw;
    }
 `
 const UserAvatar = styled('div')`
    display: flex;
    align-items: center;
    justify-content: center;
-   width: 2.625rem;
-   height: 2.625rem;
-   border-radius: 3.125rem;
-   margin-right: 1rem;
+   width: 2.1875vw;
+   height: 2.1875vw;
+   border-radius: 100%;
+   margin-right: 0.8333vw;
    background: #d9d9d9;
 `
 const UserDescription = styled('div')(({ theme }) => ({
-   marginRight: '2.4375rem',
+   marginRight: '2.03125vw',
    h5: {
       fontFamily: 'Inter',
       color: theme.palette.primary.mainContrastText,
       margin: 0,
+      fontSize: '0.73vw',
       fontStyle: 'normal',
       lineHeight: '1.25rem',
    },
    p: {
       color: theme.palette.secondary.lightGray,
       fontFamily: 'Inter',
-      fontSize: '0.875rem',
+      fontSize: '0.73vw',
+      margin: 0,
+      marginTop: '2px',
       fontStyle: 'normal',
       fontWeight: 500,
       lineHeight: 'normal',
@@ -390,12 +410,12 @@ const UserDescription = styled('div')(({ theme }) => ({
 const ToolIconContainer = styled('div')`
    display: flex;
    align-items: flex-start;
-   gap: 20px;
+   gap: 1.04166vw;
    font-family: Inter;
 `
 const StyledImage = styled('div')(({ theme }) => ({
-   width: '5rem',
-   height: '5rem ',
+   width: '4.1667vw',
+   height: '4.1667vw',
    flexShrink: 0,
    background: theme.palette.secondary.main,
    display: 'flex',
@@ -405,7 +425,7 @@ const StyledImage = styled('div')(({ theme }) => ({
 const Form = styled('form')`
    animation: ${(props) => (props.expanded ? slideIn : slideOut)} 0.3s
       ease-in-out;
-   margin-top: 2.375rem;
+   margin-top: 3.5185vh;
    display: flex;
    flex-direction: column;
 `
@@ -420,8 +440,8 @@ const Label = styled('label')(({ theme }) => ({
 }))
 const StyledTextarea = styled('textarea')(() => ({
    width: '100%',
-   height: '8rem',
-   padding: '12px 10px 0px 18px',
+   height: '11.8519vh',
+   padding: '1.11111vh 0.52083vw 0px 0.9375vw',
    borderRadius: '4px',
    border: '1px solid #cdcdcd',
    textAlign: 'start',
@@ -429,6 +449,6 @@ const StyledTextarea = styled('textarea')(() => ({
 }))
 const ButtonContainer = styled('div')(({ answer }) => ({
    display: 'flex',
-   marginTop: '14px',
+   marginTop: '1.29629vh',
    justifyContent: answer ? 'space-between' : 'flex-end',
 }))

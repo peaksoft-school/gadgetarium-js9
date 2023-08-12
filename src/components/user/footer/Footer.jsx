@@ -81,7 +81,11 @@ export const Footer = () => {
       </Container>
    )
 }
-
+const Form = styled('form')`
+   display: flex;
+   align-items: center;
+   margin-top: 0.75rem;
+`
 const Container = styled('div')`
    margin: 0;
    width: 100%;
@@ -119,11 +123,6 @@ const NavListContainer = styled('div')`
    display: flex;
    width: 50%;
    justify-content: space-between;
-`
-const Form = styled('form')`
-   display: flex;
-   align-items: center;
-   margin-top: 0.75rem;
 `
 const Block1 = styled('div')`
    width: 85.35vw;

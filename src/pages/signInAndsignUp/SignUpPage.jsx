@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { ReactComponent as CloseIcon } from '../../assets/icons/cross/big-cross-icon.svg'
 import { InputUi } from '../../components/UI/Input'
-import { BackgroundInForm } from '../../layout/BackgroundInForm'
+import { BackgroundInForm } from '../../components/UI/BackgroundInForm'
 
 const schema = z
    .object({
