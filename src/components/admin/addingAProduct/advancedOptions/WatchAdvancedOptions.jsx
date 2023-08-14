@@ -1,137 +1,173 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { styled } from '@mui/material'
-import { CategoryFilterSelect } from '../selectСategories/CategoryFilterSelect'
+import { useDispatch, useSelector } from 'react-redux'
 import {
    dataProductWatch,
    radioData,
 } from '../../../../utils/common/constants/constantsAdminAddNewProduct'
+import { CategoryFilterSelect } from '../selectСategories/CategoryFilterSelect'
 import { QuantityOfProducts } from '../QuantityOfProducts'
-import RadioInput from '../../../UI/icon.input/RadioInput'
+import RadioInput from '../../UI/radioAdmin/RadioInput'
 import { AddPhotoGadgets } from '../../UI/addPhotoGadgets/AddPhotoGadgets'
 import { InputColorPalette } from '../../UI/color/InputColorPalette'
+import {
+   onChangeSubProduct,
+   collectorWatchParameters,
+   createNewProduct,
+   deleteHandler,
+   addPhotoSubProductRequests,
+   addCodeColorSubProductRequests,
+} from '../../../../store/addProduct/addProductPartOne.slice'
 
-export const WatchAdvancedOptions = ({ onCreateNewProduct, newProduct }) => {
-   const [productWatch, setProductWatch] = useState({
-      rom: '',
-      codeColor: '',
-      materialBracelet: '',
-      housingMaterial: '',
-      display: '',
-      gender: '',
-      waterproof: '',
-      anInterface: '',
-      hullShape: '',
-      price: 0,
-      quantityOfGoods: 0,
-      images: [],
-   })
-
-   console.log('productWatch: ', productWatch)
+export const WatchAdvancedOptions = () => {
+   const dispatch = useDispatch()
+   const { productWatch, newProduct } = useSelector((state) => state.addProduct)
+   const [productNum, setProductNum] = useState(0)
 
    const onHandleChange = (event) => {
       const { name, value } = event.target
 
-      setProductWatch((prevState) => ({
-         ...prevState,
-         [name]: value,
-      }))
+      dispatch(onChangeSubProduct({ name, value, index: productNum }))
    }
 
    const onChangeProductWatchAndResRadio = (name, radioResText) => {
-      setProductWatch((prevProductWatch) => ({
-         ...prevProductWatch,
-         [name]: radioResText,
-      }))
+      dispatch(
+         onChangeSubProduct({ name, value: radioResText, index: productNum })
+      )
+   }
+
+   const onCollectorWatchAdvancedOptionsParameters = () => {
+      dispatch(collectorWatchParameters())
+
+      dispatch(createNewProduct(productWatch))
    }
 
    const addColorProductWatch = (color) => {
-      setProductWatch({ ...productWatch, codeColor: color })
+      dispatch(addCodeColorSubProductRequests({ index: productNum, color }))
    }
 
    const onAddPhotoWatch = (photoData) => {
-      setProductWatch({ ...productWatch, images: photoData })
+      dispatch(addPhotoSubProductRequests({ index: productNum, photoData }))
    }
+
+   const onProductNumRenderMap = (index) => {
+      setProductNum(index)
+   }
+
+   const deleteAndNavigateProductOneHandler = (id) => {
+      dispatch(deleteHandler(id))
+
+      setProductNum(0)
+   }
+
+   const newProductFilterData = newProduct.subProductRequests[productNum]
+
+   const productIdValidator =
+      newProduct.subProductRequests.indexOf(
+         newProduct.subProductRequests[productNum]
+      ) === productNum
 
    return (
       <div>
          <QuantityOfProducts
-            onCreateNewProduct={onCreateNewProduct}
-            newProduct={newProduct}
+            onCreateNewProduct={onCollectorWatchAdvancedOptionsParameters}
+            onProductNumRenderMap={onProductNumRenderMap}
+            productNum={productNum}
+            deleteHandler={deleteAndNavigateProductOneHandler}
          />
+         {productIdValidator ? (
+            <Container>
+               <InputColorPalette
+                  productColor={addColorProductWatch}
+                  stateColor={newProductFilterData.codeColor}
+               />
 
-         <Container>
-            <CategoryFilterSelect
-               title="Объем памяти"
-               label="Выберите объем памяти"
-               selectData={dataProductWatch.rom}
-               value={productWatch.rom}
-               onChange={onHandleChange}
-               name="rom"
-               star={false}
-            />
+               <CategoryFilterSelect
+                  title="Объем памяти"
+                  label="Выберите объем памяти"
+                  selectData={dataProductWatch.rom}
+                  value={newProductFilterData.rom}
+                  onChange={onHandleChange}
+                  name="rom"
+                  star={false}
+               />
 
-            <InputColorPalette productColor={addColorProductWatch} />
+               <CategoryFilterSelect
+                  title="Материал браслета/ремешка"
+                  label="Выберите материал браслета/ремешка"
+                  selectData={dataProductWatch.bracelet}
+                  value={newProductFilterData.materialBracelet}
+                  onChange={onHandleChange}
+                  name="materialBracelet"
+                  star={false}
+               />
 
-            <CategoryFilterSelect
-               title="Материал браслета/ремешка"
-               label="Выберите материал браслета/ремешка"
-               selectData={dataProductWatch.bracelet}
-               value={productWatch.materialBracelet}
-               onChange={onHandleChange}
-               name="bracelet"
-               star={false}
-            />
+               <CategoryFilterSelect
+                  title="Материал корпуса"
+                  label="Выберите материал корпуса"
+                  selectData={dataProductWatch.housingMaterial}
+                  value={newProductFilterData.housingMaterial}
+                  onChange={onHandleChange}
+                  name="housingMaterial"
+                  star={false}
+               />
 
-            <CategoryFilterSelect
-               title="Материал корпуса"
-               label="Выберите материал корпуса"
-               selectData={dataProductWatch.housingMaterial}
-               value={productWatch.housingMaterial}
-               onChange={onHandleChange}
-               name="housingMaterial"
-               star={false}
-            />
+               <CategoryFilterSelect
+                  title="Диагональ дисплея (дюйм)"
+                  label="Выберите диагональ дисплея"
+                  selectData={dataProductWatch.display}
+                  value={newProductFilterData.display}
+                  onChange={onHandleChange}
+                  name="display"
+                  star={false}
+               />
 
-            <CategoryFilterSelect
-               title="Диагональ дисплея (дюйм)"
-               label="Выберите диагональ дисплея"
-               selectData={dataProductWatch.display}
-               value={productWatch.display}
-               onChange={onHandleChange}
-               name="display"
-               star={false}
-            />
+               <RadioInput
+                  radioData={radioData.genderRadioData}
+                  onChangeProductWatchAndResRadio={
+                     onChangeProductWatchAndResRadio
+                  }
+                  value={newProductFilterData.gender}
+                  productRadioText="gender"
+                  label="Пол"
+               />
 
-            <RadioInput
-               radioData={radioData.genderRadioData}
-               onChangeProductWatchAndResRadio={onChangeProductWatchAndResRadio}
-               productRadioText="gender"
-               label="Пол"
-            />
+               <RadioInput
+                  radioData={radioData.waterproof}
+                  onChangeProductWatchAndResRadio={
+                     onChangeProductWatchAndResRadio
+                  }
+                  value={newProductFilterData.waterproof}
+                  productRadioText="waterproof"
+                  label="Водонепроницаемые"
+               />
 
-            <RadioInput
-               radioData={radioData.waterproof}
-               onChangeProductWatchAndResRadio={onChangeProductWatchAndResRadio}
-               productRadioText="waterproof"
-               label="Водонепроницаемые"
-            />
+               <RadioInput
+                  radioData={radioData.anInterface}
+                  onChangeProductWatchAndResRadio={
+                     onChangeProductWatchAndResRadio
+                  }
+                  value={newProductFilterData.anInterface}
+                  productRadioText="anInterface"
+                  label="Беспроводные интерфейсы"
+               />
 
-            <RadioInput
-               radioData={radioData.anInterface}
-               onChangeProductWatchAndResRadio={onChangeProductWatchAndResRadio}
-               productRadioText="anInterface"
-               label="Беспроводные интерфейсы"
-            />
+               <RadioInput
+                  radioData={radioData.hullShape}
+                  onChangeProductWatchAndResRadio={
+                     onChangeProductWatchAndResRadio
+                  }
+                  value={newProductFilterData.hullShape}
+                  productRadioText="hullShape"
+                  label="Форма корпуса"
+               />
 
-            <RadioInput
-               radioData={radioData.hullShape}
-               onChangeProductWatchAndResRadio={onChangeProductWatchAndResRadio}
-               productRadioText="hullShape"
-               label="Форма корпуса"
-            />
-
-            <AddPhotoGadgets onPhotoCollector={onAddPhotoWatch} />
-         </Container>
+               <AddPhotoGadgets
+                  onPhotoCollector={onAddPhotoWatch}
+                  photoStateData={newProductFilterData.images}
+               />
+            </Container>
+         ) : null}
       </div>
    )
 }
@@ -140,6 +176,5 @@ const Container = styled('div')`
    display: flex;
    flex-direction: column;
    gap: 0.83rem;
-
    margin-bottom: 1.5rem;
 `

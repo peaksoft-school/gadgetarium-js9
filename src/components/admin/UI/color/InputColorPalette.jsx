@@ -1,14 +1,24 @@
 import { IconButton, InputAdornment, TextField, styled } from '@mui/material'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ReactComponent as PaintIcon } from '../../../../assets/icons/paint.svg'
 import { bgColor } from '../../../../utils/common/constants/constantsAdminAddNewProduct'
 
-export const InputColorPalette = ({ productColor }) => {
+export const InputColorPalette = ({ productColor, stateColor }) => {
    const [showColor, setShowColor] = useState(false)
-   const [color, setColor] = useState('')
+   const [color, setColor] = useState(stateColor)
+
+   useEffect(() => {
+      if (stateColor === '') {
+         setColor('')
+      }
+
+      setColor(stateColor)
+   }, [stateColor])
 
    const onChangeColorHandler = (e) => {
       setColor(e.target.value)
+
+      productColor(color)
    }
 
    const onShowPalette = () => {
@@ -16,8 +26,8 @@ export const InputColorPalette = ({ productColor }) => {
    }
 
    const onHandleColorClick = (color) => {
-      setColor(color)
       productColor(color)
+      setColor(color)
       setShowColor((prev) => !prev)
    }
 
@@ -72,6 +82,10 @@ const BoxLabel = styled('div')`
    display: flex;
    flex-direction: column;
    gap: 0.38rem;
+
+   p {
+      margin: 0;
+   }
 `
 
 const InputUI = styled(TextField)`
@@ -82,7 +96,7 @@ const InputUI = styled(TextField)`
    }
 
    input {
-      padding: 0.42rem 0.62rem;
+      padding: 0.42rem 0.875rem;
       width: 21rem;
       padding-right: 0;
 
@@ -92,8 +106,12 @@ const InputUI = styled(TextField)`
       line-height: normal;
 
       ::placeholder {
-         color: #91969e !important;
+         color: rgba(0, 0, 0, 0.6) !important;
          opacity: 1;
+         font-family: Ubuntu;
+         font-weight: 400;
+         font-size: 1rem;
+         line-height: 1.4375em;
       }
    }
 `
@@ -110,26 +128,10 @@ const ContainerColor = styled('div')(({ theme }) => ({
    gap: '3px',
    backgroundColor: '#fff',
    marginTop: '4px',
-   zIndex: '999',
+   zIndex: '555',
    border: `1px solid ${theme.palette.primary.main}`,
    borderRadius: '2px',
 }))
-
-// const ContainerColor = styled('div')`
-//    position: absolute;
-//    width: 24.75rem;
-
-//    display: flex;
-//    justify-content: revert;
-//    flex-direction: column;
-//    align-items: revert;
-//    flex-wrap: wrap;
-//    height: 196px;
-//    gap: 3px;
-//    background-color: #fff;
-//    margin-top: 4px;
-//    z-index: 999;
-// `
 
 const BoxColor = styled('div')`
    background-color: ${(props) => props.backgroundColor};

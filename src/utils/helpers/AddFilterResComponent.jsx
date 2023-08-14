@@ -1,54 +1,33 @@
+import { NotebooksOptions } from '../../components/admin/addingAProduct/advancedOptions/NotebooksOptions'
 import { SmartphoneAdvancedOptions } from '../../components/admin/addingAProduct/advancedOptions/SmartphoneAdvancedOptions'
+import { TabletsOptions } from '../../components/admin/addingAProduct/advancedOptions/TabletsOptions'
 import { WatchAdvancedOptions } from '../../components/admin/addingAProduct/advancedOptions/WatchAdvancedOptions'
 
-export const filterResComponent = (
-   value,
-   onCreateNewProduct,
-   onCollectorParameters
-) => {
+export const filterResComponent = (value) => {
    let resComponent
+
+   // eslint-disable-next-line no-debugger
+   // debugger
 
    switch (value.category) {
       case 'Смартфоны':
-         resComponent = (
-            <SmartphoneAdvancedOptions
-               newProduct={value}
-               onCreateNewProduct={onCreateNewProduct}
-               onCollectorParameters={onCollectorParameters}
-            />
-         )
+         resComponent = <SmartphoneAdvancedOptions />
 
          return resComponent
       case 'Смарт-часы и браслеты':
-         resComponent = (
-            <WatchAdvancedOptions
-               newProduct={value}
-               onCreateNewProduct={onCreateNewProduct}
-               onCollectorParameters={onCollectorParameters}
-            />
-         )
+         resComponent = <WatchAdvancedOptions />
 
          return resComponent
 
-      // case 'Ноутбуки':
-      //    resComponent = (
-      //       <WatchAdvancedOptions
-      //          newProduct={newProduct}
-      //          onCreateNewProduct={onCreateNewProduct}
-      //       />
-      //    )
+      case 'Ноутбуки':
+         resComponent = <NotebooksOptions />
 
-      //    return resComponent
+         return resComponent
 
-      // case 'Смарт-часы и браслеты':
-      //    resComponent = (
-      //       <WatchAdvancedOptions
-      //          newProduct={newProduct}
-      //          onCreateNewProduct={onCreateNewProduct}
-      //       />
-      //    )
+      case 'Планшеты':
+         resComponent = <TabletsOptions />
 
-      //    return resComponent
+         return resComponent
       default:
          break
    }

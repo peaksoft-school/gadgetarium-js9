@@ -51,7 +51,7 @@ export const CategoryFilterSelect = ({
                )}
                <Select
                   name={name}
-                  value={value}
+                  value={value !== undefined ? value : ''}
                   onChange={onChange}
                   onFocus={handleSelectFocus}
                   onBlur={handleSelectBlur}
@@ -67,7 +67,7 @@ export const CategoryFilterSelect = ({
                   {selectData.map((item) => (
                      <StyledMenuItem
                         key={item.id}
-                        value={item.value ? item.value : item.name}
+                        value={item.name}
                         selected={value === item.name}
                      >
                         <MenuItemContent>

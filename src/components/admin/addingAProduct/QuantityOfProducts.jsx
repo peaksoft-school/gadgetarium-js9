@@ -1,15 +1,32 @@
+import { useSelector } from 'react-redux'
 import { Button, styled } from '@mui/material'
 import { ReactComponent as Plus } from '../../../assets/icons/plus.svg'
 import { QuantityOfProductsButton } from './QuantityOfProductsButton'
 
-export const QuantityOfProducts = ({ onCreateNewProduct, newProduct }) => {
+export const QuantityOfProducts = ({
+   onCreateNewProduct,
+   onProductNumRenderMap,
+   productNum,
+   deleteHandler,
+}) => {
+   const { newProduct } = useSelector((state) => state.addProduct)
+
    return (
       <Container>
          <Box>
-            {newProduct.subProductRequests.map((_, index) => {
-               const id = index + 1
-               return <QuantityOfProductsButton key={id} index={index} />
-            })}
+            {newProduct.subProductRequests.map((item, index) => (
+               <QuantityOfProductsButton
+                  key={item.id}
+                  id={item.id}
+                  index={index}
+                  newProduct={newProduct}
+                  deleteHandler={deleteHandler}
+                  onProductNumRenderMap={onProductNumRenderMap}
+                  returnsTrueIfYouAreInTheCorrectProductPage={
+                     index === productNum ? 'true' : 'false'
+                  }
+               />
+            ))}
 
             <div>
                <ButtonAddNewProduct

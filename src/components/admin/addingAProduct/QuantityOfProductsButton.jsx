@@ -2,7 +2,14 @@ import { Button as ButtonMui, Tooltip, styled } from '@mui/material'
 import { useState } from 'react'
 import { Button } from '../../UI/Button'
 
-export const QuantityOfProductsButton = ({ index }) => {
+export const QuantityOfProductsButton = ({
+   id,
+   index,
+   newProduct,
+   deleteHandler,
+   onProductNumRenderMap,
+   returnsTrueIfYouAreInTheCorrectProductPage,
+}) => {
    const [openDeleteButton, setOpenDeleteButton] = useState(false)
 
    const onContextMenuDeleteHandler = (event) => {
@@ -11,37 +18,49 @@ export const QuantityOfProductsButton = ({ index }) => {
       setOpenDeleteButton(true)
    }
 
-   const onBLurDeleteHandler = () => {
+   const onDeleteSubProductHandler = () => {
+      deleteHandler(id)
+   }
+
+   const onCloseDeleteHandler = () => {
       setOpenDeleteButton(false)
    }
 
    const numProduct = index + 1
+
+   const idTransmitterHandler = () => {
+      onProductNumRenderMap(index)
+   }
 
    return (
       <Container>
          <ButtonStyleNumber
             variant="outlined"
             onContextMenu={onContextMenuDeleteHandler}
-            onBlur={onBLurDeleteHandler}
+            onClick={idTransmitterHandler}
+            boolean={returnsTrueIfYouAreInTheCorrectProductPage}
          >
             Продукт {numProduct}
          </ButtonStyleNumber>
-         <TooltipStyle
-            onClose={onBLurDeleteHandler}
-            open={openDeleteButton}
-            title={
-               <Button
-                  variant="outlined"
-                  backgroundColor="#fff"
-                  padding="0"
-                  backgroundHover="#CB11AB"
-               >
-                  Delete
-               </Button>
-            }
-         >
-            <Box />
-         </TooltipStyle>
+         {newProduct.subProductRequests.length > 1 ? (
+            <TooltipStyle
+               open={openDeleteButton}
+               onClose={onCloseDeleteHandler}
+               title={
+                  <Button
+                     variant="outlined"
+                     backgroundColor="#fff"
+                     padding="0"
+                     backgroundHover="#CB11AB"
+                     onClick={onDeleteSubProductHandler}
+                  >
+                     Delete
+                  </Button>
+               }
+            >
+               <Box />
+            </TooltipStyle>
+         ) : null}
       </Container>
    )
 }
@@ -70,16 +89,27 @@ const TooltipStyle = styled(({ className, ...props }) => (
    },
 }))
 
-const ButtonStyleNumber = styled(ButtonMui)(({ theme }) => ({
+const ButtonStyleNumber = styled(ButtonMui)(({ theme, boolean }) => ({
    padding: '0.55rem 0.62rem',
-   color: theme.palette.secondary.contrastText,
+   color:
+      boolean === 'true'
+         ? theme.palette.primary.main
+         : theme.palette.secondary.contrastText,
    fontFamily: theme.typography.mainFontFamily,
-   border: `1px solid ${theme.palette.secondary.contrastText}`,
+   border: `1px solid ${
+      boolean === 'true'
+         ? theme.palette.primary.main
+         : theme.palette.secondary.contrastText
+   }`,
    textTransform: 'capitalize',
    fontWeight: 400,
    fontSize: '1rem',
 
    ':hover': {
-      border: `1px solid ${theme.palette.secondary.contrastText}`,
+      border: `1px solid ${
+         boolean === 'true'
+            ? theme.palette.primary.main
+            : theme.palette.secondary.contrastText
+      }`,
    },
 }))

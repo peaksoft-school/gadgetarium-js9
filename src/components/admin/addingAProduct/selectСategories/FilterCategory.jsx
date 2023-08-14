@@ -11,10 +11,15 @@ export const FilterCategory = ({
    onHandleChange,
    onChangeValueDateHandler,
 }) => {
-   const subcategorySelect =
+   const subcategorySelectOne =
       value.category === 'Смартфоны'
          ? categoryProduct.subcategorySmartphones
          : categoryProduct.subcategorySmartWatch
+
+   const subcategorySelect =
+      value.category === 'Ноутбуки'
+         ? categoryProduct.subcategoryNotebooks
+         : subcategorySelectOne
 
    return (
       <Container>
@@ -64,7 +69,11 @@ export const FilterCategory = ({
             <CategoryFilterSelect
                title="Выберите подкатегорию"
                label="Выбрать"
-               selectData={subcategorySelect}
+               selectData={
+                  value.category === 'Планшеты'
+                     ? categoryProduct.subcategoryTablets
+                     : subcategorySelect
+               }
                value={value.subcategory}
                name="subcategory"
                onChange={onHandleChange}
@@ -134,6 +143,26 @@ const BoxLabel = styled('div')`
    display: flex;
    flex-direction: column;
    gap: 0.38rem;
+
+   input {
+      ::placeholder {
+         color: rgba(0, 0, 0, 0.6) !important;
+         opacity: 1;
+         font-family: Ubuntu;
+         font-weight: 400;
+         font-size: 1rem;
+         line-height: 1.4375em;
+      }
+   }
+
+   label {
+      color: rgba(0, 0, 0, 0.6) !important;
+      opacity: 1;
+      font-family: Ubuntu;
+      font-weight: 400;
+      font-size: 1rem;
+      line-height: 1.4375em;
+   }
 
    p {
       margin: 0;

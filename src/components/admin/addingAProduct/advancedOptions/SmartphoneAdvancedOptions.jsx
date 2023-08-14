@@ -1,90 +1,115 @@
 import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { styled } from '@mui/material'
+import { dataProductSmartphones } from '../../../../utils/common/constants/constantsAdminAddNewProduct'
 import { QuantityOfProducts } from '../QuantityOfProducts'
 import { CategoryFilterSelect } from '../selectСategories/CategoryFilterSelect'
-import { dataProductSmartphones } from '../../../../utils/common/constants/constantsAdminAddNewProduct'
 import { AddPhotoGadgets } from '../../UI/addPhotoGadgets/AddPhotoGadgets'
 import { InputColorPalette } from '../../UI/color/InputColorPalette'
+import {
+   addCodeColorSubProductRequests,
+   addPhotoSubProductRequests,
+   collectorSmartphoneParameters,
+   createNewProduct,
+   deleteHandler,
+   onChangeSubProduct,
+} from '../../../../store/addProduct/addProductPartOne.slice'
 
-export const SmartphoneAdvancedOptions = ({
-   onCreateNewProduct,
-   newProduct,
-   onCollectorParameters,
-}) => {
-   const [productSmartphone, setProductSmartphone] = useState({
-      codeColor: '',
-      rom: '',
-      ram: '',
-      sim: '',
-      images: null,
-   })
-
-   console.log('productSmartphone: ', productSmartphone)
+export const SmartphoneAdvancedOptions = () => {
+   const dispatch = useDispatch()
+   const [productNum, setProductNum] = useState(0)
+   const { productSmartphone, newProduct } = useSelector(
+      (state) => state.addProduct
+   )
 
    const onHandleChange = (event) => {
       const { name, value } = event.target
 
-      setProductSmartphone((prevState) => ({
-         ...prevState,
-         [name]: value,
-      }))
+      dispatch(onChangeSubProduct({ name, value, index: productNum }))
+   }
+
+   const deleteAndNavigateProductOneHandler = (id) => {
+      dispatch(deleteHandler(id))
+      setProductNum(0)
+   }
+
+   const onProductNumRenderMap = (index) => {
+      setProductNum(index)
    }
 
    const onAddPhotoSmartphone = (photoData) => {
-      setProductSmartphone({ ...productSmartphone, images: photoData })
+      dispatch(addPhotoSubProductRequests({ index: productNum, photoData }))
    }
 
    const onCollectorSmartphoneParameters = () => {
-      onCollectorParameters(productSmartphone)
-      onCreateNewProduct()
+      dispatch(createNewProduct(productSmartphone))
+
+      dispatch(collectorSmartphoneParameters())
    }
 
    const addColorProductSmartphone = (color) => {
-      setProductSmartphone({ ...productSmartphone, codeColor: color })
+      dispatch(addCodeColorSubProductRequests({ index: productNum, color }))
    }
+
+   const newProductFilterData = newProduct.subProductRequests[productNum]
+
+   const productIdValidator =
+      newProduct.subProductRequests.indexOf(
+         newProduct.subProductRequests[productNum]
+      ) === productNum
 
    return (
       <div>
          <QuantityOfProducts
             onCreateNewProduct={onCollectorSmartphoneParameters}
-            newProduct={newProduct}
+            onProductNumRenderMap={onProductNumRenderMap}
+            productNum={productNum}
+            deleteHandler={deleteAndNavigateProductOneHandler}
          />
 
-         <Container>
-            <InputColorPalette productColor={addColorProductSmartphone} />
+         {productIdValidator ? (
+            <Container>
+               <InputColorPalette
+                  productColor={addColorProductSmartphone}
+                  stateColor={newProductFilterData.codeColor}
+               />
 
-            <CategoryFilterSelect
-               title="Объем памяти"
-               label="Выберите объем памяти"
-               selectData={dataProductSmartphones.romSmartphones}
-               value={productSmartphone.rom}
-               onChange={onHandleChange}
-               name="rom"
-               star={false}
-            />
+               <CategoryFilterSelect
+                  title="Объем памяти"
+                  label="Выберите объем памяти"
+                  selectData={dataProductSmartphones.romSmartphones}
+                  value={newProductFilterData.rom}
+                  onChange={onHandleChange}
+                  name="rom"
+                  star={false}
+               />
 
-            <CategoryFilterSelect
-               title="Оперативная память"
-               label="Выберите оперативную память"
-               selectData={dataProductSmartphones.smartphonesRAM}
-               value={productSmartphone.ram}
-               onChange={onHandleChange}
-               name="ram"
-               star={false}
-            />
+               <CategoryFilterSelect
+                  title="Оперативная память"
+                  label="Выберите оперативную память"
+                  selectData={dataProductSmartphones.smartphonesRAM}
+                  value={newProductFilterData.ram}
+                  onChange={onHandleChange}
+                  name="ram"
+                  star={false}
+               />
 
-            <CategoryFilterSelect
-               title="Кол-во SIM-карт"
-               label="Выберите SIM-карты"
-               selectData={dataProductSmartphones.smartphonesSIMcards}
-               value={productSmartphone.sim}
-               onChange={onHandleChange}
-               name="sim"
-               star={false}
-            />
+               <CategoryFilterSelect
+                  title="Кол-во SIM-карт"
+                  label="Выберите SIM-карты"
+                  selectData={dataProductSmartphones.smartphonesSIMcards}
+                  value={newProductFilterData.sim}
+                  onChange={onHandleChange}
+                  name="sim"
+                  star={false}
+               />
 
-            <AddPhotoGadgets onPhotoCollector={onAddPhotoSmartphone} />
-         </Container>
+               <AddPhotoGadgets
+                  onPhotoCollector={onAddPhotoSmartphone}
+                  photoStateData={newProductFilterData.images}
+               />
+            </Container>
+         ) : null}
       </div>
    )
 }
@@ -93,6 +118,5 @@ const Container = styled('div')`
    display: flex;
    flex-direction: column;
    gap: 0.83rem;
-
    margin-bottom: 1.75rem;
 `

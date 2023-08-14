@@ -1,39 +1,34 @@
 import { styled } from '@mui/material'
 import { useSearchParams } from 'react-router-dom'
-import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react'
 import { format } from 'date-fns'
 import { HeaderAddingAProduct } from './HeaderAddingAProduct'
 import { FilterCategory } from './selectСategories/FilterCategory'
 import { AddNewBrandModal } from './selectСategories/AddNewBrandModal'
 import { filterResComponent } from '../../../utils/helpers/AddFilterResComponent'
 import { Button } from '../../UI/Button'
-
-const productsData = {
-   categoryId: '',
-   category: '',
-   subcategory: '',
-   brand: '',
-   guarantee: '',
-   name: '',
-   dateOfIssue: null,
-   subProductRequests: [
-      {
-         id: '1',
-      },
-   ],
-}
+import {
+   changeValueDateHandler,
+   filterCategorySubProduct,
+   onChangeProductData,
+} from '../../../store/addProduct/addProductPartOne.slice'
 
 export const AddingAProduct = () => {
    const [openModalAddNewBrand, setOpenModalAddNewBrand] = useSearchParams()
-   const [newProduct, setNewProduct] = useState(productsData)
+   const dispatch = useDispatch()
+   const { newProduct } = useSelector((state) => state.addProduct)
+
+   useEffect(() => {
+      if (newProduct.category) {
+         dispatch(filterCategorySubProduct())
+      }
+   }, [newProduct.category])
 
    const onHandleChange = (event) => {
       const { name, value } = event.target
 
-      setNewProduct((prevState) => ({
-         ...prevState,
-         [name]: value,
-      }))
+      dispatch(onChangeProductData({ name, value }))
    }
 
    const onChangeValueDateHandler = (event) => {
@@ -41,27 +36,7 @@ export const AddingAProduct = () => {
 
       const formattedDate = format(date, 'yyyy-MM-dd')
 
-      setNewProduct((prev) => ({
-         ...prev,
-         dateOfIssue: formattedDate,
-      }))
-   }
-
-   const onCreateNewProduct = () => {
-      const resNumProduct = newProduct.subProductRequests.length + 1
-
-      const data = {
-         id: resNumProduct.toString(),
-         numProduct: resNumProduct,
-      }
-      const updatedProductData = [...newProduct.subProductRequests, data]
-
-      const updatedNewProduct = {
-         ...newProduct,
-         subProductRequests: updatedProductData,
-      }
-
-      setNewProduct(updatedNewProduct)
+      dispatch(changeValueDateHandler(formattedDate))
    }
 
    const onCloseModalAddNewBrand = () => {
@@ -76,19 +51,7 @@ export const AddingAProduct = () => {
       setOpenModalAddNewBrand(openModalAddNewBrand)
    }
 
-   const onCollectorParameters = (parametersData) => {
-      const res = newProduct.subProductRequests.map((item) => {
-         const data = { ...item, parameters: parametersData }
-
-         return data
-      })
-
-      setNewProduct(res)
-   }
-
-   const onFurtherHandler = () => {
-      console.log('finished result: ', newProduct)
-   }
+   const onFilterFinishHandler = () => {}
 
    return (
       <Container>
@@ -112,18 +75,12 @@ export const AddingAProduct = () => {
             />
          </div>
 
-         <div>
-            {filterResComponent(
-               newProduct,
-               onCreateNewProduct,
-               onCollectorParameters
-            )}
-         </div>
+         <div>{filterResComponent(newProduct)}</div>
 
          {newProduct.category !== '' && (
             <ContainerButton>
                <Button
-                  onClick={onFurtherHandler}
+                  onClick={onFilterFinishHandler}
                   variant="contained"
                   padding="0.62rem 1.5rem"
                >
@@ -143,6 +100,5 @@ const Container = styled('div')(({ theme }) => ({
 
 const ContainerButton = styled('div')`
    margin-left: 18.6rem;
-
    margin-bottom: 8.38rem;
 `
