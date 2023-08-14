@@ -18,6 +18,7 @@ export const ProductCard = ({
    discount = 20,
    countOfReviews = 56,
    id = '1',
+   onClick,
 }) => {
    const [favorite, setFavorite] = useState(false)
    const [comparison, setComparison] = useState(false)
@@ -33,7 +34,7 @@ export const ProductCard = ({
       console.log(id)
    }
    return (
-      <Card key={id} onClick={() => cardHandler(id)}>
+      <Card onClick={() => cardHandler(id)}>
          <ButtonContainer>
             <CircleContainer>
                {discount === 0 &&
@@ -63,9 +64,11 @@ export const ProductCard = ({
          <Image src={image} />
          <Container>
             <InStock>В наличии ({quantity})</InStock>
-            <Title>{prodName.slice(0, 45)}...</Title>
+            <Title>
+               {prodName.length > 45 ? `${prodName.slice(0, 45)}...` : prodName}
+            </Title>
             <RatingContainer>
-               Рейтинг <StyledRating readOnly value={rating} /> (
+               Рейтинг <StyledRating readOnly value={rating} precision={0.5} />(
                {countOfReviews})
             </RatingContainer>
             <ButtonContainerTwo>
@@ -73,7 +76,7 @@ export const ProductCard = ({
                   {discount !== 0 ? (
                      <>
                         <DiscountPrice>
-                           {Math.floor(discountPrice).toLocaleString()}{' '}
+                           {Math.floor(discountPrice).toLocaleString()}
                            <span>c</span>
                         </DiscountPrice>
                         <Price>{price.toLocaleString()} c</Price>
@@ -89,6 +92,7 @@ export const ProductCard = ({
                   variant="contained"
                   textTransform="uppercase"
                   fontSize="0.73vw"
+                  onClick={onClick}
                >
                   <StyledBasketIcon /> В корзину
                </Button>
@@ -111,6 +115,8 @@ const StyledFilledFavoriteIcon = styled(FilledFavoriteIcon)`
    cursor: pointer;
 `
 const Card = styled('div')`
+   background-color: white;
+   user-select: none;
    display: flex;
    flex-direction: column;
    align-items: center;
@@ -118,6 +124,7 @@ const Card = styled('div')`
    border-radius: 0.25rem;
    padding: 0.52081vw;
    :hover {
+      transition: box-shadow 0.2s ease-in-out;
       cursor: pointer;
       box-shadow: 0px 8px 25px 0px rgba(0, 0, 0, 0.1),
          0px -8px 25px 0px rgba(0, 0, 0, 0.1);

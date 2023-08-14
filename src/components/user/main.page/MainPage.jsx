@@ -1,16 +1,14 @@
 import { styled } from '@mui/material'
 import { BannerCarousel } from './Banner'
+import { FilteredProducts } from './FilteredProducts'
 
 export const MainPage = () => {
-   const banners = [
-      { src: 'banner1.jpg', id: 1 },
-      { src: 'banner2.jpg', id: 2 },
-      { src: 'banner3.jpg', id: 3 },
-   ]
    return (
       <Container>
-         <BannerCarousel banners={banners} />
-         <MainContainer>HI</MainContainer>
+         <BannerCarousel />
+         <MainContainer>
+            <FilteredProducts>Акции</FilteredProducts>
+         </MainContainer>
       </Container>
    )
 }
