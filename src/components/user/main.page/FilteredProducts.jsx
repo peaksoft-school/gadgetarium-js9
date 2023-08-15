@@ -1,37 +1,121 @@
 import { styled } from '@mui/material'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getStock } from '../../../store/main.page/main.page.thunk'
+import {
+   getNovelities,
+   getRecommend,
+   getStock,
+} from '../../../store/main.page/main.page.thunk'
 import { ProductCard } from '../product.card/ProductCard'
 import { Button } from '../../UI/Button'
+import { CardPhone } from '../card/CardPhone'
+import { Loading } from '../../UI/loading/Loading'
 
-export const FilteredProducts = ({ children, path }) => {
-   const { stock } = useSelector((state) => state.mainPage)
-   console.log(stock)
+const arrayForSceleton = [
+   { id: 1, name: 'firstCard' },
+   { id: 1, name: 'secondCard' },
+   { id: 1, name: 'thirdCard' },
+   { id: 1, name: 'fourthCard' },
+   { id: 1, name: 'fifthCard' },
+]
+
+export const FilteredProducts = ({ children, array }) => {
+   const { stock, novelties, recommend, isLoading } = useSelector(
+      (state) => state.mainPage
+   )
+   const [stockPageSize, setStockPageSize] = useState(5)
+   const [novelitiesPageSize, setNovelitiesPageSize] = useState(5)
+   const [recommendPageSize, setRecommendPageSize] = useState(5)
+
    const dispatch = useDispatch()
-   console.log(path)
+
+   const showMoreHandler = () => {
+      switch (array) {
+         case 'novelities':
+            setNovelitiesPageSize(novelitiesPageSize + 5)
+            dispatch(getNovelities({ page: 1, pageSize: novelitiesPageSize }))
+            break
+         case 'recommend':
+            setRecommendPageSize(recommendPageSize + 5)
+            dispatch(getRecommend({ page: 1, pageSize: recommendPageSize }))
+            break
+         default:
+            setStockPageSize(stockPageSize + 5)
+            dispatch(getStock({ page: 1, pageSize: stockPageSize }))
+      }
+   }
    useEffect(() => {
-      dispatch(getStock())
+      switch (array) {
+         case 'novelities':
+            dispatch(getNovelities({ page: 1, pageSize: novelitiesPageSize }))
+            break
+         case 'recommend':
+            dispatch(getRecommend({ page: 1, pageSize: recommendPageSize }))
+            break
+         default:
+            dispatch(getStock({ page: 1, pageSize: stockPageSize }))
+      }
    }, [])
    return (
       <Container>
          <Title>{children}</Title>
          <Products>
-            {stock?.map((el) => {
-               return (
-                  <ProductCard
-                     id={el.subProductId}
-                     key={el.subProductId}
-                     discount={el.discount}
-                     prodName={el.prodName}
-                     image={el.image}
-                     quantity={el.quantity}
-                     countOfReviews={el.countOfReviews}
-                     price={el.price}
-                     rating={el.rating}
-                  />
-               )
-            })}
+            {isLoading && <Loading />}
+            {array === 'stock' &&
+               stock?.map((el) => {
+                  return (
+                     <ProductCard
+                        id={el.subProductId}
+                        key={el.subProductId}
+                        discount={el.discount}
+                        prodName={el.prodName}
+                        image={el.image}
+                        quantity={el.quantity}
+                        countOfReviews={el.countOfReviews}
+                        price={el.price}
+                        rating={el.rating}
+                     />
+                  )
+               })}
+            {array === 'novelities' &&
+               novelties?.map((el) => {
+                  return (
+                     <ProductCard
+                        newState
+                        id={el.subProductId}
+                        key={el.subProductId}
+                        discount={el.discount}
+                        prodName={el.prodName}
+                        image={el.image}
+                        quantity={el.quantity}
+                        countOfReviews={el.countOfReviews}
+                        price={el.price}
+                        rating={el.rating}
+                     />
+                  )
+               })}
+            {array === 'recommend' &&
+               recommend?.map((el) => {
+                  return (
+                     <ProductCard
+                        recomendationState
+                        id={el.subProductId}
+                        key={el.subProductId}
+                        discount={el.discount}
+                        prodName={el.prodName}
+                        image={el.image}
+                        quantity={el.quantity}
+                        countOfReviews={el.countOfReviews}
+                        price={el.price}
+                        rating={el.rating}
+                     />
+                  )
+               })}
+            {isLoading
+               ? arrayForSceleton.map((el) => {
+                    return <CardPhone key={el.id} />
+                 })
+               : null}
          </Products>
          <ButtonContainer>
             <Button
@@ -39,6 +123,7 @@ export const FilteredProducts = ({ children, path }) => {
                variant="outlined"
                backgroundHover="#CB11AB"
                backgroundActive="#E313BF"
+               onClick={showMoreHandler}
             >
                Показать ещё
             </Button>
@@ -67,5 +152,6 @@ const Title = styled('p')`
 `
 const Products = styled('div')`
    display: flex;
+   flex-wrap: wrap;
    gap: 0.416666vw;
 `

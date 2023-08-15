@@ -45,8 +45,8 @@ export const ProductCard = ({
                      <Recommendation />
                   </Circle>
                )}
-               {discount !== 0 && <CircleTwo>-{discount}%</CircleTwo>}
                {newState && <CircleThree>New</CircleThree>}
+               {discount !== 0 && <CircleTwo>-{discount}%</CircleTwo>}
             </CircleContainer>
 
             <IconContainer>

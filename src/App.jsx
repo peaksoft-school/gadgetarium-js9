@@ -1,12 +1,9 @@
-// import { UserLayout } from './layout/user/UserLayout'
-
-import { MainPage } from './components/user/main.page/MainPage'
+import { UserLayout } from './layout/user/UserLayout'
 
 function App() {
    return (
       <div>
-         {/* <UserLayout /> */}
-         <MainPage />
+         <UserLayout />
       </div>
    )
 }
