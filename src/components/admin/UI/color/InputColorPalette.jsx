@@ -44,6 +44,7 @@ export const InputColorPalette = ({ productColor, stateColor }) => {
                   InputProps={{
                      endAdornment: (
                         <InputAdornment position="end">
+                           <CubColor color={color} />
                            <IconButton
                               sx={{ padding: '4px' }}
                               onClick={onShowPalette}
@@ -77,6 +78,15 @@ const Container = styled('div')`
    position: relative;
    width: 24.75rem;
 `
+
+const CubColor = styled('div')(({ color }) => ({
+   backgroundColor: color,
+   width: '20px',
+   height: '18px',
+   borderRadius: '2px',
+
+   border: `1px solid ${color === '#FFFFFF' && '#CB11AB'}`,
+}))
 
 const BoxLabel = styled('div')`
    display: flex;

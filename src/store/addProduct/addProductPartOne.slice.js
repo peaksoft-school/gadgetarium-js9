@@ -313,16 +313,6 @@ export const addProductSlice = createSlice({
 
       // * productSmartphone
 
-      // addPhotoSmartphone(state, { payload }) {
-      //    return {
-      //       ...state,
-      //       productSmartphone: {
-      //          ...state.productSmartphone,
-      //          images: payload,
-      //       },
-      //    }
-      // },
-
       collectorSmartphoneParameters(state) {
          return {
             ...state,
@@ -340,16 +330,6 @@ export const addProductSlice = createSlice({
       },
 
       // * productTablets
-
-      // addPhotoTablets(state, { payload }) {
-      //    return {
-      //       ...state,
-      //       productTablets: {
-      //          ...state.productTablets,
-      //          images: payload,
-      //       },
-      //    }
-      // },
 
       collectorTabletsParameters(state) {
          return {
@@ -371,16 +351,6 @@ export const addProductSlice = createSlice({
       },
 
       // * productWatch
-
-      // addPhotoWatch(state, { payload }) {
-      //    return {
-      //       ...state,
-      //       productWatch: {
-      //          ...state.productWatch,
-      //          images: payload,
-      //       },
-      //    }
-      // },
 
       collectorWatchParameters(state) {
          return {
@@ -404,16 +374,6 @@ export const addProductSlice = createSlice({
       },
 
       // * productNotebooks
-
-      // addPhotoNotebooks(state, { payload }) {
-      //    return {
-      //       ...state,
-      //       productNotebooks: {
-      //          ...state.productNotebooks,
-      //          images: payload,
-      //       },
-      //    }
-      // },
 
       collectorNotebooksParameters(state) {
          return {

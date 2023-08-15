@@ -6,10 +6,8 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 export const Calendar = ({
    placeholder,
    value,
-   width,
-   padding,
    onChange,
-   labelTop,
+   marginTop = '-11px',
    ...props
 }) => {
    return (
@@ -18,10 +16,8 @@ export const Calendar = ({
             <StyledDatePicker
                label={placeholder}
                value={value}
+               marginTop={marginTop}
                onChange={onChange}
-               width={width}
-               padding={padding}
-               labelTop={labelTop}
                {...props}
             />
          </LocalizationProvider>
@@ -30,22 +26,23 @@ export const Calendar = ({
 }
 
 const StyledDatePicker = styled(DatePicker)(
-   ({ width, padding, height, labelTop }) => ({
+   ({ fontSize, width, height, marginTop }) => ({
       '& label': {
          color: '#91969E',
-         fontSize: '1rem',
-         marginTop: labelTop,
+         marginTop,
+         fontFamily: 'Inter',
+         fontWeight: 300,
+         fontSize,
       },
       '& .MuiOutlinedInput-root': {
-         width,
-         height,
-         fontSize: '1rem',
+         width: width || '9rem',
+         height: height || '2.1875rem',
+         fontSize: fontSize || '0.8rem',
          fontWeight: '400',
-         padding,
       },
-      // '& .MuiSvgIcon-root': {
-      // fontSize: '30px',
-      // },
+      '& .MuiSvgIcon-root': {
+         fontSize: '20px',
+      },
       '& label.Mui-focused': {
          display: 'none',
       },

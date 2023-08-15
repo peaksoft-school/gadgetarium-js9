@@ -25,6 +25,10 @@ export const AddingAProduct = () => {
       }
    }, [newProduct.category])
 
+   useEffect(() => {
+      console.log('newProduct: ', newProduct)
+   }, [newProduct])
+
    const onHandleChange = (event) => {
       const { name, value } = event.target
 
@@ -32,7 +36,9 @@ export const AddingAProduct = () => {
    }
 
    const onChangeValueDateHandler = (event) => {
-      const date = new Date(event.$d)
+      console.log('event: ', event)
+
+      const date = new Date(event)
 
       const formattedDate = format(date, 'yyyy-MM-dd')
 

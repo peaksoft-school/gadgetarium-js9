@@ -105,7 +105,7 @@ export const FilterCategory = ({
                      width="24.7rem"
                      padding="0.8rem 0.75rem 0.8rem 0rem"
                      height="2.7rem"
-                     labelTop="-7px"
+                     marginTop="-7px"
                   />
                </BoxLabel>
             ) : null}

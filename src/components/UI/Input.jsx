@@ -6,18 +6,7 @@ import { ReactComponent as VisibilityOffIcon } from '../../assets/icons/eye/eye-
 
 export const InputUi = forwardRef(
    (
-      {
-         error,
-         color,
-         type,
-         id,
-         placeholder,
-         value,
-         onChange,
-         width,
-         height,
-         ...props
-      },
+      { error, color, type, id, placeholder, value, onChange, ...props },
       ref
    ) => {
       const [showPassword, setShowPassword] = useState(false)
@@ -28,13 +17,11 @@ export const InputUi = forwardRef(
 
       return (
          <div>
-            <InputOutlined
+            <InputOutlained
                {...props}
                value={value}
                onChange={onChange}
                error={error}
-               width={width}
-               height={height}
                color={color}
                placeholder={placeholder}
                id={id}
@@ -60,19 +47,14 @@ export const InputUi = forwardRef(
    }
 )
 
-InputUi.displayName = 'InputUi'
-
-const InputOutlined = styled(OutlinedInput)(({ padding, width, height }) => ({
-   width,
-   padding,
-   height,
-
-   '& input[type="date"]::-webkit-inner-spin-button, & input[type="date"]::-webkit-clear-button':
-      {
-         display: 'none',
-      },
-}))
-
+const InputOutlained = styled(OutlinedInput)(
+   ({ width, height, padding, fontSize }) => ({
+      width,
+      height,
+      padding,
+      fontSize,
+   })
+)
 const StyleIconButton = styled(IconButton)`
    position: absolute;
    left: 26.25rem;
