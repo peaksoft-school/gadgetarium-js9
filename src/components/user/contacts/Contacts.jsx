@@ -18,7 +18,7 @@ export const Contacts = () => {
 }
 
 const Container = styled('div')`
-   width: 79.6875vw;
+   width: 85.35vw;
    margin: 0 auto;
    padding-top: 1.88rem;
 `

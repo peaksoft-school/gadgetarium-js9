@@ -47,5 +47,5 @@ const Text = styled('p')(({ theme }) => ({
    fontWeight: '500',
    lineHeight: '110%',
    borderBottom: `1.6px solid ${theme.palette.secondary.main}`,
-   width: '79.6875vw',
+   width: '85.35vw',
 }))

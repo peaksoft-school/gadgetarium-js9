@@ -19,6 +19,7 @@ export const Calendar = ({
                marginTop={marginTop}
                onChange={onChange}
                {...props}
+               {...props}
             />
          </LocalizationProvider>
       </div>

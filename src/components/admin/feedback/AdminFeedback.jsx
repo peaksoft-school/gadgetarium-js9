@@ -4,7 +4,7 @@ import { ReactComponent as ArrowUp } from '../../../assets/icons/arrows/up-icon.
 import { ReactComponent as UserIcon } from '../../../assets/icons/avatar/user-fill-icon.svg'
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/tools-for-site/delete-icon.svg'
 import { ReactComponent as ArrowDown } from '../../../assets/icons/arrows/down-icon.svg'
-import { Button } from '../UI/Button'
+import { Button } from '../../UI/Button'
 
 const imagesArray = [1, 2, 3, 4, 5]
 const AdminFeedback = ({
@@ -87,7 +87,7 @@ const AdminFeedback = ({
                   <UserAvatar>
                      <StyledUserIcon />
                   </UserAvatar>
-                  <UserDescription themes={themes}>
+                  <UserDescription>
                      <h5>Адыл Бакытов</h5>
                      <p>Adyl@mail.ru</p>
                   </UserDescription>

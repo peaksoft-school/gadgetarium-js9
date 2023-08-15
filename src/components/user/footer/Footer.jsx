@@ -1,4 +1,6 @@
+import { NavLink } from 'react-router-dom'
 import { Button, styled } from '@mui/material'
+import { navBarForHeader } from '../../../utils/common/constants/header'
 
 export const Footer = () => {
    return (
@@ -25,10 +27,17 @@ export const Footer = () => {
                <NavList>
                   <span>Помощь и сервисы</span>
                   <Contact>
-                     <a href="./Омагазине">O магазине</a>
-                     <a href="./доставка">Доставка</a>
-                     <a href="./fag">FAG</a>
-                     <a href="./контакты">Контакты</a>
+                     {navBarForHeader.map((el) => (
+                        <Link
+                           key={el.title}
+                           to={el.path}
+                           className={({ isActive }) =>
+                              isActive ? 'active' : ''
+                           }
+                        >
+                           {el.title}
+                        </Link>
+                     ))}
                   </Contact>
                </NavList>
             </NavListContainer>
@@ -36,14 +45,14 @@ export const Footer = () => {
             <PersonalInformation>
                <div>
                   <span>Расскажем oб акциях и скидках</span>
-                  <form>
+                  <Form>
                      <Input type="email" placeholder="Email" />
                      <ButtonFooter variant="contained">
                         Подписаться
                      </ButtonFooter>
-                  </form>
+                  </Form>
                   <Description>
-                     Нажимая на кнопку «подписаться» Вы соглашаетесь на
+                     Нажимая на кнопку «Подписаться» Вы соглашаетесь на
                      обработку персональных данных
                   </Description>
                </div>
@@ -72,7 +81,11 @@ export const Footer = () => {
       </Container>
    )
 }
-
+const Form = styled('form')`
+   display: flex;
+   align-items: center;
+   margin-top: 0.75rem;
+`
 const Container = styled('div')`
    margin: 0;
    width: 100%;
@@ -82,6 +95,13 @@ const Container = styled('div')`
    flex-direction: column;
    align-items: center;
 `
+
+const Link = styled(NavLink)`
+   cursor: pointer;
+   text-decoration: none;
+   color: #fff;
+`
+
 const GadgeteriumContainer = styled('div')`
    width: 35px;
    height: 35px;
@@ -104,7 +124,6 @@ const NavListContainer = styled('div')`
    width: 50%;
    justify-content: space-between;
 `
-
 const Block1 = styled('div')`
    width: 85.35vw;
    display: flex;
@@ -136,17 +155,20 @@ const Input = styled('input')`
    width: 25.5rem;
    height: 2.4375rem;
    border-radius: 0.35rem;
-   margin-top: 0.75rem;
    border: none;
    padding-left: 1rem;
 `
 const ButtonFooter = styled(Button)`
-   border-radius: 0.27rem !important;
+   text-transform: none;
+   border-radius: 0 !important;
+   border-bottom-right-radius: 0.35rem !important;
+   border-top-right-radius: 0.35rem !important;
+
    margin-left: -10.125rem;
    background-color: #cb11ab;
+   font-family: Inter;
    width: 10.125rem;
    height: 2.4375rem;
-   font-size: 0.75rem;
    &:hover {
       background-color: #cb11ab;
    }
