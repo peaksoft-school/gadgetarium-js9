@@ -37,7 +37,7 @@ const Text = styled('p')(({ theme }) => ({
    lineHeight: '110%',
    paddingBottom: '1.875rem',
    borderBottom: `1px solid ${theme.palette.secondary.main}`,
-   width: '85.35vw',
+   width: '79.688vw',
    marginBottom: '2.5rem',
 }))
 
@@ -56,7 +56,7 @@ const Main = styled('main')(({ theme }) => ({
       marginTop: '1.875rem',
       gap: '3.75rem',
       div: {
-         width: '85.35vw',
+         width: '79.688vw',
       },
    },
 
