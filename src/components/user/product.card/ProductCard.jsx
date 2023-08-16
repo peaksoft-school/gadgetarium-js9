@@ -42,7 +42,7 @@ export const ProductCard = ({
                   recomendationState === false && <MarginDiv />}
                {recomendationState && (
                   <Circle>
-                     <Recommendation />
+                     <StyledRecommendation />
                   </Circle>
                )}
                {newState && <CircleThree>New</CircleThree>}
@@ -172,6 +172,10 @@ const Price = styled('p')`
    margin: 0;
    text-decoration: 0.08rem line-through;
    margin-right: 0.5px;
+`
+const StyledRecommendation = styled(Recommendation)`
+   width: 0.781vw;
+   height: 1.4815vh;
 `
 const DiscountPrice = styled('p')`
    font-size: 0.938vw;

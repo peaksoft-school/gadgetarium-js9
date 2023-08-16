@@ -9,7 +9,7 @@ import {
 import { ProductCard } from '../product.card/ProductCard'
 import { Button } from '../../UI/Button'
 import { CardPhone } from '../card/CardPhone'
-import { Loading } from '../../UI/loading/Loading'
+// import { Loading } from '../../UI/loading/Loading'
 
 const arrayForSceleton = [
    { id: 1, name: 'firstCard' },
@@ -60,7 +60,7 @@ export const FilteredProducts = ({ children, array }) => {
       <Container>
          <Title>{children}</Title>
          <Products>
-            {isLoading && <Loading />}
+            {/* {isLoading && <Loading />} */}
             {array === 'stock' &&
                stock?.map((el) => {
                   return (
@@ -138,7 +138,7 @@ const ButtonContainer = styled('div')`
    width: 100%;
    display: flex;
    justify-content: center;
-   margin-top: 3.7037038vh;
+   margin-top: 2.5rem;
 `
 const Title = styled('p')`
    color: #292929;
@@ -148,7 +148,7 @@ const Title = styled('p')`
    font-weight: 500;
    line-height: 110%;
    margin: 0;
-   margin-bottom: 3.7037038vh;
+   margin-bottom: 2.5rem;
 `
 const Products = styled('div')`
    display: flex;
