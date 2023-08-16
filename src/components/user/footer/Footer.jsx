@@ -125,7 +125,7 @@ const NavListContainer = styled('div')`
    justify-content: space-between;
 `
 const Block1 = styled('div')`
-   width: 85.35vw;
+   width: 79.688vw;
    display: flex;
    justify-content: space-between;
    margin-bottom: 49px;
@@ -133,7 +133,7 @@ const Block1 = styled('div')`
 
 const Block2 = styled('div')`
    border-top: 1px solid#858FA4;
-   width: 85.35vw;
+   width: 79.688vw;
    text-align: center;
 
    display: flex;

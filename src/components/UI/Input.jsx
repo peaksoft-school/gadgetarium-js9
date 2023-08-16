@@ -48,11 +48,12 @@ export const InputUi = forwardRef(
 )
 
 const InputOutlained = styled(OutlinedInput)(
-   ({ width, height, padding, fontSize }) => ({
+   ({ width, height, padding, fontSize, background }) => ({
       width,
       height,
       padding,
       fontSize,
+      background,
    })
 )
 const StyleIconButton = styled(IconButton)`
