@@ -124,7 +124,7 @@ export const Header = ({ favorite, comparison, basket }) => {
                         placeholder="Поиск по каталогу магазина  "
                         type="text"
                      />
-                     <StyledVector />
+                     <StyledVector inputText={inputValue} />
                   </SearchForm>
                </ButtonInputContainer>
                <Massage fixed={fixed}>
@@ -181,7 +181,7 @@ const CaptionContainer = styled('div')`
 `
 
 const Caption = styled('div')`
-   width: 85.35vw;
+   width: 79.688vw;
    display: flex;
    justify-content: space-between;
    align-items: center;
@@ -301,23 +301,20 @@ const Input = styled('input')`
    &.hasText {
       background-color: white;
       color: black;
-      svg {
-         path {
-            fill: gray;
-         }
-      }
    }
 `
 
 const StyledVector = styled(SearchIcon)`
    position: absolute;
    right: 20px;
-   fill: red;
+   path {
+      fill: ${(props) => props.inputText !== '' && '#cb11ab !important'};
+   }
    cursor: pointer;
 `
 
 const ButtonContainer = styled('div')`
-   width: 85.35vw;
+   width: 79.688vw;
    display: flex;
    justify-content: space-between;
    p {
@@ -376,7 +373,7 @@ const IconsBasket = styled(Basket)`
    cursor: pointer;
    &:hover {
       path {
-         fill: #cb11ab;
+         fill: #ff00d4;
       }
    }
 `
@@ -386,7 +383,7 @@ const IconsShoppingCart = styled(ShoppingCart)`
 
    &:hover {
       path {
-         fill: #cb11ab;
+         fill: #ff00d4;
       }
    }
 `
@@ -454,7 +451,7 @@ const Select = styled('div')`
    box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.1);
    z-index: 99999;
    top: 50px;
-   left: 1320px;
+   left: 1130px;
    animation: fadeInOut 0.4s ease-in-out;
 
    @keyframes fadeInOut {
@@ -487,7 +484,7 @@ const Select2 = styled('div')`
    box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.1);
    z-index: 99999;
    top: 50px;
-   left: 1290px;
+   left: 1100px;
    animation: fadeInOut 0.4s ease-in-out;
    p {
       color: #292929;

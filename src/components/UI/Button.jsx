@@ -1,9 +1,14 @@
 import React from 'react'
 import { Button as ButtonMui, styled } from '@mui/material'
 
-export const Button = ({ children, onClick, variant, ...props }) => {
+export const Button = ({ children, onClick, variant, type, ...props }) => {
    return (
-      <StyledButton onClick={onClick} props={props} variant={variant}>
+      <StyledButton
+         type={type}
+         onClick={onClick}
+         props={props}
+         variant={variant}
+      >
          {children}
       </StyledButton>
    )
@@ -19,13 +24,13 @@ const StyledButton = styled(ButtonMui)(({ variant, props }) => {
                color: props.color || 'white',
                fontSize: props.fontSize,
                boxSizing: 'border-box',
-               textTransform: 'none',
+               textTransform: props.textTransform || 'none',
                fontFamily: 'Inter',
                display: 'flex',
                justifyContent: 'center',
                alignItems: 'center',
                gap: '6px',
-               borderRadius: '4px',
+               borderRadius: props.borderRadius || '4px',
                lineHeight: 'normal',
 
                '&:hover': {
@@ -46,7 +51,7 @@ const StyledButton = styled(ButtonMui)(({ variant, props }) => {
                justifyContent: 'center',
                alignItems: 'center',
                border: '1px solid #CB11AB',
-               textTransform: 'none',
+               textTransform: props.textTransform || 'none',
                fontFamily: 'Inter',
                color: '#CB11AB',
                '&:hover': {
