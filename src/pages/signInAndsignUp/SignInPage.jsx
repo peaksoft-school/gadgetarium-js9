@@ -6,13 +6,14 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { ReactComponent as CloseIcon } from '../../assets/icons/cross/big-cross-icon.svg'
 import { InputUi } from '../../components/UI/Input'
-import { signInRequest } from '../../store/auth/authThunk'
+import { getPhoneNumber, signInRequest } from '../../store/auth/authThunk'
 import { BackgroundInForm } from '../../layout/BackgroundInForm'
 import { useSnackbar } from '../../hooks/useSnackbar'
 import { schemaSignIn } from '../../utils/helpers/reactHookFormShema'
 
 export const SignIn = () => {
    const { snackbarHandler } = useSnackbar()
+
    const dispatch = useDispatch()
    const navigate = useNavigate()
 
@@ -35,6 +36,7 @@ export const SignIn = () => {
          })
          if (response.role === 'USER') {
             navigate('/')
+            dispatch(getPhoneNumber(data)).unwrap()
          } else {
             navigate('admin')
          }

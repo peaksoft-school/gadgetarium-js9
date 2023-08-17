@@ -15,10 +15,12 @@
    },
    "plugins": ["react", "react-hooks"],
    "rules": {
+      "import/no-cycle": "off",
       "react/prop-types": "off",
       "react/jsx-no-bind": "off",
       "no-param-reassign": "off",
       "react/button-has-type": "off",
+      "jsx-a11y/no-noninteractive-element-interactions": "off",
       "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
       "react/jsx-props-no-spreading": "off",
       "import/no-extraneous-dependencies": "off",

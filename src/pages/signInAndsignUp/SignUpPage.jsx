@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { ReactComponent as CloseIcon } from '../../assets/icons/cross/big-cross-icon.svg'
 import { InputUi } from '../../components/UI/Input'
-import { signUpRequest } from '../../store/auth/authThunk'
+import { getPhoneNumber, signUpRequest } from '../../store/auth/authThunk'
 import { BackgroundInForm } from '../../layout/BackgroundInForm'
 import { useSnackbar } from '../../hooks/useSnackbar'
 import { signUpInputArray } from '../../utils/common/constants/ArrayForm'
@@ -38,19 +38,18 @@ export const SignUp = () => {
    const onSubmit = async (data) => {
       try {
          reset()
-         dispatch(signUpRequest(data)).unwrap()
+         await dispatch(signUpRequest(data)).unwrap()
          snackbarHandler({
-            message: 'Вход успешно выполнен',
+            message: 'Регистрация успешно выполнена',
             type: 'success',
          })
-         navigate('/signin')
+         dispatch(getPhoneNumber(data)).unwrap()
+         navigate('/')
       } catch (error) {
          snackbarHandler({
-            message:
-               'Неправильный email или пароль. Пожалуйста, попробуйте еще раз.',
+            message: error.response.data.message,
             type: 'error',
          })
-         console.log('error', error)
       }
    }
 
@@ -74,7 +73,6 @@ export const SignUp = () => {
             <Form onSubmit={handleSubmit(onSubmit)}>
                {signUpInputArray.map((el) => {
                   const error = errors[el.key]?.message
-
                   return (
                      <div key={el.key}>
                         <Input
