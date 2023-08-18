@@ -51,6 +51,7 @@ export const UserInfo = () => {
                   name="name"
                   onChange={onChangeAll}
                   placeholder="Напишите ваше имя"
+                  background="white"
                />
             </div>
 
@@ -65,6 +66,7 @@ export const UserInfo = () => {
                   name="surname"
                   onChange={onChangeAll}
                   placeholder="Напишите вашу фамилию"
+                  background="white"
                />
             </div>
 
@@ -79,6 +81,7 @@ export const UserInfo = () => {
                   name="email"
                   onChange={onChangeAll}
                   placeholder="Напишите ваш email"
+                  background="white"
                />
             </div>
 
@@ -92,6 +95,7 @@ export const UserInfo = () => {
                   name="tel"
                   onChange={onChangePhone}
                   placeholder="+996 (_ _ _) _ _  _ _  _ _"
+                  background="white"
                />
             </div>
          </div>

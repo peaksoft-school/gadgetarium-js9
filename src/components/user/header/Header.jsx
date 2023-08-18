@@ -76,7 +76,7 @@ export const Header = ({ favorite, comparison, basket }) => {
                         placeholder="Поиск по каталогу магазина  "
                         type="text"
                      />
-                     <StyledVector />
+                     <StyledVector inputText={inputValue} />
                   </SearchForm>
                </ButtonInputContainer>
                <Massage fixed={fixed}>
@@ -133,7 +133,7 @@ const CaptionContainer = styled('div')`
 `
 
 const Caption = styled('div')`
-   width: 85.35vw;
+   width: 79.688vw;
    display: flex;
    justify-content: space-between;
    align-items: center;
@@ -253,23 +253,20 @@ const Input = styled('input')`
    &.hasText {
       background-color: white;
       color: black;
-      svg {
-         path {
-            fill: gray;
-         }
-      }
    }
 `
 
 const StyledVector = styled(SearchIcon)`
    position: absolute;
    right: 20px;
-   fill: red;
+   path {
+      fill: ${(props) => props.inputText !== '' && '#cb11ab !important'};
+   }
    cursor: pointer;
 `
 
 const ButtonContainer = styled('div')`
-   width: 85.35vw;
+   width: 79.688vw;
    display: flex;
    justify-content: space-between;
    p {
@@ -328,7 +325,7 @@ const IconsBasket = styled(Basket)`
    cursor: pointer;
    &:hover {
       path {
-         fill: #cb11ab;
+         fill: #ff00d4;
       }
    }
 `
@@ -338,7 +335,7 @@ const IconsShoppingCart = styled(ShoppingCart)`
 
    &:hover {
       path {
-         fill: #cb11ab;
+         fill: #ff00d4;
       }
    }
 `
