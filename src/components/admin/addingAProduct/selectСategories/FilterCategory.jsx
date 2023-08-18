@@ -1,25 +1,61 @@
+import { useFormik } from 'formik'
 import { styled } from '@mui/material'
+import { useDispatch } from 'react-redux'
+import { useEffect } from 'react'
 import { CategoryFilterSelect } from './CategoryFilterSelect'
 import { InputUi } from '../../../UI/Input'
 import { categoryProduct } from '../../../../utils/common/constants/constantsAdminAddNewProduct'
 import { ReactComponent as SelectLabelIcons } from '../../../../assets/icons/photo-add/add-photo-icon.svg'
 import { Calendar } from '../../../UI/calendarFolder/Calendar'
+import { collectorProductData } from '../../../../store/addProduct/addProductPartOne.slice'
+import { useSnackbar } from '../../../../hooks/useSnackbar'
+import { schema } from '../../../../utils/helpers/filterCategory'
 
-export const FilterCategory = ({
-   onOpenModalAddNewBrand,
-   value,
-   onHandleChange,
-   onChangeValueDateHandler,
-}) => {
+export const FilterCategory = ({ onOpenModalAddNewBrand, value }) => {
+   const dispatch = useDispatch()
+   const { snackbarHandler } = useSnackbar()
+
    const subcategorySelectOne =
-      value.category === 'Смартфоны'
+      value && value.category === 'Смартфоны'
          ? categoryProduct.subcategorySmartphones
          : categoryProduct.subcategorySmartWatch
 
    const subcategorySelect =
-      value.category === 'Ноутбуки'
+      value && value.category === 'Ноутбуки'
          ? categoryProduct.subcategoryNotebooks
          : subcategorySelectOne
+
+   const { values, handleChange, errors, handleBlur, setFieldValue } =
+      useFormik({
+         initialValues: {
+            category: '',
+            brand: '',
+            name: '',
+            subcategory: '',
+            guarantee: '',
+            dateOfIssue: null,
+         },
+         validateOnBlur: true,
+         validationSchema: schema,
+      })
+
+   useEffect(() => {
+      dispatch(collectorProductData(values))
+   }, [values])
+
+   const onChangeValueDateHandler = (event) => {
+      setFieldValue('dateOfIssue', event)
+   }
+
+   useEffect(() => {
+      if (errors) {
+         snackbarHandler({
+            message: 'Bce поле должны быть обязательно заполнены',
+            type: 'error',
+            timeClose: 4000,
+         })
+      }
+   }, [])
 
    return (
       <Container>
@@ -28,9 +64,14 @@ export const FilterCategory = ({
                label="Выбрать"
                title="Выберите категорию"
                selectData={categoryProduct.category}
-               value={value.category}
-               onChange={onHandleChange}
+               value={
+                  values.category === undefined || null ? '' : values.category
+               }
+               onChange={handleChange}
+               onBlur={handleChange}
                name="category"
+               error={Boolean(errors.category)}
+               star
             />
 
             <CategoryFilterSelect
@@ -40,29 +81,33 @@ export const FilterCategory = ({
                      <SelectLabelIconsStyle /> Выберите бренд товара
                   </BoxIconSelect>
                }
-               value={value.brand}
-               onChange={onHandleChange}
+               value={values.brand}
+               onChange={handleChange}
                newBrand
                name="brand"
+               image
                title="Бренд"
                selectData={categoryProduct.brand}
+               star
+               error={Boolean(errors.brand)}
+               onBlur={handleChange}
             />
 
-            {value.category === 'Смартфоны' ? (
-               <BoxLabel>
-                  <p>Название товара</p>
-                  <InputUi
-                     type="text"
-                     padding="0.5rem 0"
-                     placeholder="Введите название товара"
-                     width="24.75rem"
-                     height="2.6rem"
-                     name="name"
-                     value={value.name}
-                     onChange={onHandleChange}
-                  />
-               </BoxLabel>
-            ) : null}
+            <BoxLabel>
+               <p>Название товара</p>
+               <InputUi
+                  type="text"
+                  padding="0.5rem 0"
+                  placeholder="Введите название товара"
+                  width="24.75rem"
+                  height="2.6rem"
+                  name="name"
+                  value={values.name}
+                  onBlur={handleChange}
+                  onChange={handleChange}
+                  error={Boolean(errors.name)}
+               />
+            </BoxLabel>
          </div>
 
          <div className="box">
@@ -74,10 +119,14 @@ export const FilterCategory = ({
                      ? categoryProduct.subcategoryTablets
                      : subcategorySelect
                }
-               value={value.subcategory}
+               value={values.subcategory}
                name="subcategory"
-               onChange={onHandleChange}
+               onBlur={handleChange}
+               star
+               onChange={handleChange}
+               error={Boolean(errors.subcategory)}
             />
+
             <BoxLabel>
                <p>Гарантия (месяцев)</p>
 
@@ -87,28 +136,30 @@ export const FilterCategory = ({
                   placeholder="Введите гарантию товара"
                   width="24.75rem"
                   height="2.6rem"
-                  value={value.guarantee}
+                  onBlur={handleChange}
+                  value={values.guarantee}
                   name="guarantee"
-                  onChange={onHandleChange}
+                  onChange={handleChange}
+                  error={Boolean(errors.guarantee)}
                />
             </BoxLabel>
 
-            {value.category === 'Смартфоны' ? (
-               <BoxLabel>
-                  <p>Дата выпуска</p>
+            <BoxLabel>
+               <p>Дата выпуска</p>
 
-                  <Calendar
-                     placeholder="Введите дату выпуска"
-                     value={value.dateOfIssue}
-                     onChange={onChangeValueDateHandler}
-                     name="dateOfIssue"
-                     width="24.7rem"
-                     padding="0.8rem 0.75rem 0.8rem 0rem"
-                     height="2.7rem"
-                     marginTop="-7px"
-                  />
-               </BoxLabel>
-            ) : null}
+               <Calendar
+                  placeholder="Введите дату выпуска"
+                  value={values.dateOfIssue}
+                  onChange={onChangeValueDateHandler}
+                  name="dateOfIssue"
+                  width="24.7rem"
+                  padding="0.8rem 0.75rem 0.8rem 0rem"
+                  onBlur={handleBlur('dateOfIssue')}
+                  height="2.7rem"
+                  marginTop="-7px"
+                  error={Boolean(errors.dateOfIssue)}
+               />
+            </BoxLabel>
          </div>
       </Container>
    )

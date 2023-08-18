@@ -8,7 +8,7 @@ import {
 import { useState } from 'react'
 
 export const CategoryFilterSelect = ({
-   star = true,
+   star = false,
    label,
    title,
    selectData,
@@ -17,6 +17,9 @@ export const CategoryFilterSelect = ({
    onChange,
    value,
    name,
+   onBlur,
+   error,
+   image = false,
 }) => {
    const [isFocused, setIsFocused] = useState(false)
 
@@ -30,8 +33,12 @@ export const CategoryFilterSelect = ({
       setIsFocused(true)
    }
 
-   const handleSelectBlur = () => {
+   const handleSelectBlur = (event) => {
       setIsFocused(false)
+
+      if (onBlur) {
+         onBlur(event)
+      }
    }
 
    const labelFocused = value === '' ? label : ''
@@ -49,13 +56,28 @@ export const CategoryFilterSelect = ({
                {isFocused ? null : (
                   <InputLabelStyle>{labelFocused}</InputLabelStyle>
                )}
-               <Select
+               {name === 'brand'
+                  ? selectData.map((item) => {
+                       return (
+                          item.name === value && (
+                             <BoxIconSelectBrand key={item.id}>
+                                <div className="box">
+                                   <img src={item.image} alt="images" />
+                                </div>
+                             </BoxIconSelectBrand>
+                          )
+                       )
+                    })
+                  : null}
+               <SelectStyle
                   name={name}
                   value={value !== undefined ? value : ''}
                   onChange={onChange}
+                  image={image === true ? 'true' : 'false'}
                   onFocus={handleSelectFocus}
-                  onBlur={handleSelectBlur}
+                  onBlur={(event) => handleSelectBlur(event)}
                   renderValue={(selected) => selected || label}
+                  error={error}
                   MenuProps={{
                      PaperProps: {
                         style: {
@@ -95,7 +117,7 @@ export const CategoryFilterSelect = ({
                         </NewBrandContainer>
                      </StyledMenuItem>
                   )}
-               </Select>
+               </SelectStyle>
             </StyledFormControl>
          </div>
       </Container>
@@ -106,10 +128,36 @@ const InputLabelStyle = styled(InputLabel)(({ theme }) => ({
    color: theme.palette.secondary.contrastname,
 }))
 
+const SelectStyle = styled(Select)(({ image }) => ({
+   paddingLeft: image === 'true' ? '26px' : '',
+}))
+
 const StyledFormControl = styled(FormControl)(() => ({
    minWidth: '24.75rem',
    margin: 0,
 }))
+
+const BoxIconSelectBrand = styled('div')`
+   width: 3rem;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+
+   .box {
+      margin-bottom: -10px;
+
+      img {
+         margin-bottom: -30px;
+         width: 2rem;
+         height: 2rem;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         object-fit: contain;
+         object-position: center center;
+      }
+   }
+`
 
 const NewBrandContainer = styled('div')(({ theme }) => ({
    color: theme.palette.primary.main,
@@ -133,17 +181,6 @@ const StyledMenuItem = styled(MenuItem)(({ theme, selected }) => ({
    color: selected ? '#fff' : 'inherit',
    borderRadius: '0.6875rem',
    margin: '0rem 0.5rem',
-
-   ':hover': {
-      background: selected
-         ? 'inherit'
-         : `${theme.palette.primary.main} !important`,
-      color: selected ? '#fff' : '#fff',
-   },
-
-   '& .hover': {
-      color: selected ? '#fff' : theme.palette.primary.main,
-   },
 }))
 
 const MenuItemContent = styled('div')`
@@ -157,6 +194,7 @@ const MenuItemContent = styled('div')`
       img {
          width: 100%;
          height: 100%;
+         object-fit: contain;
       }
    }
 `

@@ -65,6 +65,8 @@ const initialState = {
       images: [],
       price: '',
    },
+
+   resultProductPartOneData: null,
 }
 
 export const addProductSlice = createSlice({
@@ -73,24 +75,17 @@ export const addProductSlice = createSlice({
    reducers: {
       // * newProduct
 
-      onChangeProductData(state, { payload }) {
-         const { name, value } = payload
-
+      collectorProductData(state, { payload }) {
          return {
             ...state,
             newProduct: {
                ...state.newProduct,
-               [name]: value,
-            },
-         }
-      },
-
-      changeValueDateHandler(state, { payload }) {
-         return {
-            ...state,
-            newProduct: {
-               ...state.newProduct,
-               dateOfIssue: payload,
+               category: payload.category,
+               brand: payload.brand,
+               dateOfIssue: new Date(payload.dateOfIssue).toString(),
+               guarantee: payload.guarantee,
+               name: payload.name,
+               subcategory: payload.subcategory,
             },
          }
       },
@@ -311,6 +306,84 @@ export const addProductSlice = createSlice({
          }
       },
 
+      furtherCollectorProductPartOne(state, { payload }) {
+         const updatedSubProductRequests =
+            state.newProduct.subProductRequests.map((item) => {
+               if (state.newProduct.category === 'Смартфон') {
+                  return {
+                     codeColor: item.codeColor,
+                     rom: item.rom,
+                     ram: item.ram,
+                     quantity: item.quantity,
+                     sim: item.sim,
+                     images: item.images.map((imageItem) => imageItem.img),
+                     price: item.price,
+                  }
+               }
+               if (state.newProduct.category === 'Ноутбук') {
+                  return {
+                     codeColor: item.codeColor,
+                     processor: item.processor,
+                     screenResolution: item.screenResolution,
+                     purpose: item.purpose,
+                     videoMemory: item.videoMemory,
+                     ram: item.ram,
+                     quantity: item.quantity,
+                     screenSize: item.screenSize,
+                     images: item.images.map((imageItem) => imageItem.img),
+                     price: item.price,
+                  }
+               }
+
+               if (state.newProduct.category === 'Смарт-часы и браслеты') {
+                  return {
+                     codeColor: item.codeColor,
+                     quantity: item.quantity,
+                     images: item.images.map((imageItem) => imageItem.img),
+                     price: item.price,
+                     rom: item.rom,
+                     materialBracelet: item.materialBracelet,
+                     housingMaterial: item.housingMaterial,
+                     display: item.display,
+                     gender: item.gender,
+                     waterproof: item.waterproof,
+                     anInterface: item.anInterface,
+                     hullShape: item.hullShape,
+                  }
+               }
+
+               if (state.newProduct.category === 'Планшеты') {
+                  return {
+                     codeColor: item.codeColor,
+                     screenResolution: item.screenResolution,
+                     ram: item.ram,
+                     quantity: item.quantity,
+                     screenSize: item.screenSize,
+                     images: item.images.map((imageItem) => imageItem.img),
+                     price: item.price,
+                     rom: item.rom,
+                     diagonalScreen: item.diagonalScreen,
+                     batteryCapacity: item.batteryCapacity,
+                  }
+               }
+               return item
+            })
+
+         return {
+            ...state,
+            resultProductPartOneData: {
+               ...state.newProduct,
+               dateOfIssue: payload.date,
+               category: state.newProduct.category,
+               subcategory: state.newProduct.subcategory,
+               brand: state.newProduct.brand,
+               guarantee: state.newProduct.guarantee,
+               name: state.newProduct.name,
+               subProductRequests: updatedSubProductRequests,
+            },
+         }
+      },
+
       // * productSmartphone
 
       collectorSmartphoneParameters(state) {
@@ -322,7 +395,7 @@ export const addProductSlice = createSlice({
                rom: '',
                ram: '',
                sim: '',
-               images: null,
+               images: [],
                price: 0,
                quantity: 0,
             },
@@ -398,8 +471,7 @@ export const addProductSlice = createSlice({
 
 export const {
    filterCategorySubProduct,
-   onChangeProductData,
-   changeValueDateHandler,
+   collectorProductData,
    deleteHandler,
    createNewProduct,
    onChangeSubProduct,
@@ -411,6 +483,8 @@ export const {
    collectorWatchParameters,
 
    collectorNotebooksParameters,
+
+   furtherCollectorProductPartOne,
 
    addCodeColorSubProductRequests,
    addPhotoSubProductRequests,

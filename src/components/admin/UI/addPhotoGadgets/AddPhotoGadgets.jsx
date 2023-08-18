@@ -7,7 +7,7 @@ import { StateAfterAddingOnePhoto } from './StateAfterAddingOnePhoto'
 export const AddPhotoGadgets = ({ onPhotoCollector, photoStateData }) => {
    const [smartphonePhoto, setSmartphonePhoto] = useState(null)
    const { snackbarHandler } = useSnackbar()
-   const [containerImg, setContainerImg] = useState(photoStateData)
+   const [containerImg, setContainerImg] = useState(photoStateData || [])
 
    const deleteHandler = (id) => {
       const filteredContainerImg = containerImg.filter((item) => item.id !== id)
@@ -15,7 +15,11 @@ export const AddPhotoGadgets = ({ onPhotoCollector, photoStateData }) => {
    }
 
    useEffect(() => {
-      setContainerImg(photoStateData)
+      if (photoStateData === null) {
+         setContainerImg([])
+      } else {
+         setContainerImg(photoStateData)
+      }
    }, [photoStateData])
 
    const imgUrl = smartphonePhoto && URL.createObjectURL(smartphonePhoto)

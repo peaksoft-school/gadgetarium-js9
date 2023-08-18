@@ -89,7 +89,6 @@ export const WatchAdvancedOptions = () => {
                   value={newProductFilterData.rom}
                   onChange={onHandleChange}
                   name="rom"
-                  star={false}
                />
 
                <CategoryFilterSelect
@@ -99,7 +98,6 @@ export const WatchAdvancedOptions = () => {
                   value={newProductFilterData.materialBracelet}
                   onChange={onHandleChange}
                   name="materialBracelet"
-                  star={false}
                />
 
                <CategoryFilterSelect
@@ -109,7 +107,6 @@ export const WatchAdvancedOptions = () => {
                   value={newProductFilterData.housingMaterial}
                   onChange={onHandleChange}
                   name="housingMaterial"
-                  star={false}
                />
 
                <CategoryFilterSelect
@@ -119,7 +116,6 @@ export const WatchAdvancedOptions = () => {
                   value={newProductFilterData.display}
                   onChange={onHandleChange}
                   name="display"
-                  star={false}
                />
 
                <RadioInput

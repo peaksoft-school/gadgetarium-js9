@@ -1,3 +1,7 @@
+import HuaweiImg from '../../../assets/images/HUAWEI_Image.png'
+import HonorImg from '../../../assets/images/HONOR_Image.png'
+import XiaomiImg from '../../../assets/images/XIAOMI_Image.png'
+
 export const categoryProduct = {
    category: [
       { id: '1', name: 'Смартфоны' },
@@ -22,10 +26,14 @@ export const categoryProduct = {
          image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Samsung_Logo.svg/2560px-Samsung_Logo.svg.png',
          name: 'Samsung',
       },
-      { id: '2', image: '', name: '🍎 Apple' },
-      { id: '3', image: '', name: '🌞 Huawei' },
-      { id: '4', image: '', name: 'honor Honor' },
-      { id: '5', image: '', name: 'MI Xiaomi' },
+      {
+         id: '2',
+         image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/625px-Apple_logo_black.svg.png',
+         name: 'Apple',
+      },
+      { id: '3', image: HuaweiImg, name: 'Huawei' },
+      { id: '4', image: HonorImg, name: 'Honor' },
+      { id: '5', image: XiaomiImg, name: 'Xiaomi' },
    ],
    subcategorySmartphones: [
       { id: '1', name: 'Samsung' },

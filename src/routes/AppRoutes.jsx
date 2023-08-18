@@ -18,9 +18,7 @@ export const router = createBrowserRouter([
       element: (
          <PrivateRoute
             isAllowed={isAllowed([USER_ROLE.GUEST, USER_ROLE.USER])}
-            fallBacPath={
-               role === USER_ROLE.ADMIN ? '/admin/add-products/part-1' : '/home'
-            }
+            fallBacPath={role === USER_ROLE.ADMIN ? '/admin' : '/'}
             component={<h1>Sign In</h1>}
          />
       ),
@@ -30,9 +28,7 @@ export const router = createBrowserRouter([
       element: (
          <PrivateRoute
             isAllowed={isAllowed([USER_ROLE.GUEST, USER_ROLE.USER])}
-            fallBacPath={
-               role === USER_ROLE.ADMIN ? '/admin/add-products/part-1' : '/home'
-            }
+            fallBacPath={role === USER_ROLE.ADMIN ? '/admin' : '/'}
             component={<h1>Sign Up</h1>}
          />
       ),
@@ -42,25 +38,14 @@ export const router = createBrowserRouter([
       element: (
          <PrivateRoute
             isAllowed={isAllowed([USER_ROLE.GUEST, USER_ROLE.USER])}
-            fallBacPath="/admin/add-products/part-1"
+            fallBacPath="/admin"
             component={<App />}
          />
       ),
       children: userRoutes,
    },
-   // {
-   //    path: routes.ADMIN.index,
-   //    element: (
-   //       <PrivateRoute
-   //          isAllowed={isAllowed([USER_ROLE.ADMIN])}
-   //          fallBacPath="/home"
-   //          component={<AdminLayout />}
-   //       />
-   //    ),
-   //    children: adminRoutes,
-   // },
    {
-      path: routes.ADMIN.addProduct,
+      path: routes.ADMIN.index,
       element: (
          <PrivateRoute
             isAllowed={isAllowed([USER_ROLE.ADMIN])}

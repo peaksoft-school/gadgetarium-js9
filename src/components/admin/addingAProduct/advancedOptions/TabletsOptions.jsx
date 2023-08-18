@@ -81,7 +81,6 @@ export const TabletsOptions = () => {
                   value={newProductFilterData.screenResolution}
                   onChange={onHandleChange}
                   name="screenResolution"
-                  star={false}
                />
 
                <CategoryFilterSelect
@@ -91,7 +90,6 @@ export const TabletsOptions = () => {
                   value={newProductFilterData.screenSize}
                   onChange={onHandleChange}
                   name="screenSize"
-                  star={false}
                />
 
                <CategoryFilterSelect
@@ -101,7 +99,6 @@ export const TabletsOptions = () => {
                   value={newProductFilterData.rom}
                   onChange={onHandleChange}
                   name="rom"
-                  star={false}
                />
 
                <CategoryFilterSelect
@@ -111,7 +108,6 @@ export const TabletsOptions = () => {
                   value={newProductFilterData.ram}
                   onChange={onHandleChange}
                   name="ram"
-                  star={false}
                />
 
                <CategoryFilterSelect
@@ -121,7 +117,6 @@ export const TabletsOptions = () => {
                   value={newProductFilterData.diagonalScreen}
                   onChange={onHandleChange}
                   name="diagonalScreen"
-                  star={false}
                />
 
                <CategoryFilterSelect
@@ -131,7 +126,6 @@ export const TabletsOptions = () => {
                   value={newProductFilterData.batteryCapacity}
                   onChange={onHandleChange}
                   name="batteryCapacity"
-                  star={false}
                />
 
                <AddPhotoGadgets

@@ -43,7 +43,6 @@ export const SmartphoneAdvancedOptions = () => {
 
    const onCollectorSmartphoneParameters = () => {
       dispatch(createNewProduct(productSmartphone))
-
       dispatch(collectorSmartphoneParameters())
    }
 
@@ -81,7 +80,6 @@ export const SmartphoneAdvancedOptions = () => {
                   value={newProductFilterData.rom}
                   onChange={onHandleChange}
                   name="rom"
-                  star={false}
                />
 
                <CategoryFilterSelect
@@ -91,7 +89,6 @@ export const SmartphoneAdvancedOptions = () => {
                   value={newProductFilterData.ram}
                   onChange={onHandleChange}
                   name="ram"
-                  star={false}
                />
 
                <CategoryFilterSelect
@@ -101,7 +98,6 @@ export const SmartphoneAdvancedOptions = () => {
                   value={newProductFilterData.sim}
                   onChange={onHandleChange}
                   name="sim"
-                  star={false}
                />
 
                <AddPhotoGadgets

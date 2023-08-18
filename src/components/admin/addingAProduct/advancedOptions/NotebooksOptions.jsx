@@ -82,7 +82,6 @@ export const NotebooksOptions = () => {
                   value={newProductFilterData.processor}
                   onChange={onHandleChange}
                   name="processor"
-                  star={false}
                />
 
                <CategoryFilterSelect
@@ -92,7 +91,6 @@ export const NotebooksOptions = () => {
                   value={newProductFilterData.screenResolution}
                   onChange={onHandleChange}
                   name="screenResolution"
-                  star={false}
                />
 
                <CategoryFilterSelect
@@ -102,7 +100,6 @@ export const NotebooksOptions = () => {
                   value={newProductFilterData.purpose}
                   onChange={onHandleChange}
                   name="purpose"
-                  star={false}
                />
 
                <CategoryFilterSelect
@@ -112,7 +109,6 @@ export const NotebooksOptions = () => {
                   value={newProductFilterData.videoMemory}
                   onChange={onHandleChange}
                   name="videoMemory"
-                  star={false}
                />
 
                <CategoryFilterSelect
@@ -122,7 +118,6 @@ export const NotebooksOptions = () => {
                   value={newProductFilterData.ram}
                   onChange={onHandleChange}
                   name="ram"
-                  star={false}
                />
 
                <CategoryFilterSelect
@@ -132,7 +127,6 @@ export const NotebooksOptions = () => {
                   value={newProductFilterData.screenSize}
                   onChange={onHandleChange}
                   name="screenSize"
-                  star={false}
                />
 
                <AddPhotoGadgets
