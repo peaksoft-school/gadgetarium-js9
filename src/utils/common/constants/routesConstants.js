@@ -12,6 +12,7 @@ export const routes = {
       delivery: 'delivery',
       faq: 'faq',
       contacts: 'contacts',
+      favorite: 'favorite',
    },
 }
 

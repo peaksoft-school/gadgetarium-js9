@@ -1,5 +1,5 @@
 import { styled, Button, Badge } from '@mui/material'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import React, { useState } from 'react'
 import { ReactComponent as SearchIcon } from '../../../assets/icons/search-icon.svg'
 import { ReactComponent as Instagram } from '../../../assets/icons/messangers/instagram-icon.svg'
@@ -14,6 +14,7 @@ import { navBarForHeader } from '../../../utils/common/constants/header'
 
 export const Header = ({ favorite, comparison, basket }) => {
    const [fixed, setFixed] = useState(false)
+   const navigate = useNavigate()
    const changeHeader = () => {
       if (window.scrollY > 64) {
          setFixed(true)
@@ -26,7 +27,9 @@ export const Header = ({ favorite, comparison, basket }) => {
    const handleChange = (event) => {
       setInputValue(event.target.value)
    }
-
+   const navigateToFavorite = () => {
+      navigate('/favorite')
+   }
    return (
       <Headers>
          <CaptionContainer>
@@ -89,7 +92,7 @@ export const Header = ({ favorite, comparison, basket }) => {
                      <IconsShoppingCart />
                   </MuiBadge>
                   <MuiBadge badgeContent={favorite} showZero>
-                     <IconsHeart />
+                     <IconsHeart onClick={navigateToFavorite} />
                   </MuiBadge>
                   <MuiBadge badgeContent={basket} showZero>
                      <IconsBasket />
