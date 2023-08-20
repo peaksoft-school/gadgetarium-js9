@@ -380,8 +380,6 @@ export const addProductSlice = createSlice({
                return updatedItem
             })
 
-         console.log('updatedSubProductRequests: ', updatedSubProductRequests)
-
          return {
             ...state,
             resultProductPartOneData: {
