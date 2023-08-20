@@ -28,15 +28,17 @@ export const QuantityOfProducts = ({
                />
             ))}
 
-            <div>
-               <ButtonAddNewProduct
-                  onClick={onCreateNewProduct}
-                  variant="outlined"
-               >
-                  <Plus />
-                  <p>Добавить продукт</p>
-               </ButtonAddNewProduct>
-            </div>
+            {newProduct.subProductRequests.length !== 12 ? (
+               <div>
+                  <ButtonAddNewProduct
+                     onClick={onCreateNewProduct}
+                     variant="outlined"
+                  >
+                     <Plus />
+                     <p>Добавить продукт</p>
+                  </ButtonAddNewProduct>
+               </div>
+            ) : null}
          </Box>
       </Container>
    )

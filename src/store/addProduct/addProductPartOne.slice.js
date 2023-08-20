@@ -309,39 +309,46 @@ export const addProductSlice = createSlice({
       furtherCollectorProductPartOne(state, { payload }) {
          const updatedSubProductRequests =
             state.newProduct.subProductRequests.map((item) => {
+               const resImg = item.images.map((imageItem) => imageItem.img)
+               let updatedItem = {}
+
                if (state.newProduct.category === 'Смартфон') {
-                  return {
+                  updatedItem = {
                      codeColor: item.codeColor,
-                     rom: item.rom,
-                     ram: item.ram,
-                     quantity: item.quantity,
-                     sim: item.sim,
-                     images: item.images.map((imageItem) => imageItem.img),
-                     price: item.price,
+                     rom: +item.rom,
+                     ram: +item.ram,
+                     quantity: +item.quantity,
+                     sim: +item.sim,
+                     images: resImg,
+                     price: +item.price,
                   }
+
+                  return updatedItem
                }
                if (state.newProduct.category === 'Ноутбук') {
-                  return {
+                  updatedItem = {
                      codeColor: item.codeColor,
                      processor: item.processor,
                      screenResolution: item.screenResolution,
                      purpose: item.purpose,
                      videoMemory: item.videoMemory,
-                     ram: item.ram,
-                     quantity: item.quantity,
-                     screenSize: item.screenSize,
-                     images: item.images.map((imageItem) => imageItem.img),
-                     price: item.price,
+                     ram: +item.ram,
+                     quantity: +item.quantity,
+                     screenSize: +item.screenSize,
+                     images: resImg,
+                     price: +item.price,
                   }
+
+                  return updatedItem
                }
 
                if (state.newProduct.category === 'Смарт-часы и браслеты') {
-                  return {
+                  updatedItem = {
                      codeColor: item.codeColor,
-                     quantity: item.quantity,
-                     images: item.images.map((imageItem) => imageItem.img),
-                     price: item.price,
-                     rom: item.rom,
+                     quantity: +item.quantity,
+                     images: resImg,
+                     price: +item.price,
+                     rom: +item.rom,
                      materialBracelet: item.materialBracelet,
                      housingMaterial: item.housingMaterial,
                      display: item.display,
@@ -350,29 +357,32 @@ export const addProductSlice = createSlice({
                      anInterface: item.anInterface,
                      hullShape: item.hullShape,
                   }
+
+                  return updatedItem
                }
 
                if (state.newProduct.category === 'Планшеты') {
-                  return {
+                  updatedItem = {
                      codeColor: item.codeColor,
                      screenResolution: item.screenResolution,
-                     ram: item.ram,
-                     quantity: item.quantity,
-                     screenSize: item.screenSize,
-                     images: item.images.map((imageItem) => imageItem.img),
-                     price: item.price,
-                     rom: item.rom,
+                     ram: +item.ram,
+                     quantity: +item.quantity,
+                     screenSize: +item.screenSize,
+                     images: resImg,
+                     price: +item.price,
+                     rom: +item.rom,
                      diagonalScreen: item.diagonalScreen,
                      batteryCapacity: item.batteryCapacity,
                   }
+
+                  return updatedItem
                }
-               return item
+               return updatedItem
             })
 
          return {
             ...state,
             resultProductPartOneData: {
-               ...state.newProduct,
                dateOfIssue: payload.date,
                category: state.newProduct.category,
                subcategory: state.newProduct.subcategory,

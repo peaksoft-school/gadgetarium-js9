@@ -12,10 +12,12 @@ import {
    filterCategorySubProduct,
    furtherCollectorProductPartOne,
 } from '../../../store/addProduct/addProductPartOne.slice'
+import { useSnackbar } from '../../../hooks/useSnackbar'
 
 export const AddingAProduct = () => {
    const [openModalAddNewBrand, setOpenModalAddNewBrand] = useSearchParams()
    const dispatch = useDispatch()
+   const { snackbarHandler } = useSnackbar()
    const { newProduct, resultProductPartOneData } = useSelector(
       (state) => state.addProduct
    )
@@ -39,11 +41,18 @@ export const AddingAProduct = () => {
    }
 
    const onFilterFinishHandler = () => {
+      if (!resultProductPartOneData) {
+         snackbarHandler({
+            message: 'Проверьте всели поле заполнены правильно',
+            type: 'error',
+         })
+      }
+
+      console.log('resultProductPartOneData: ', resultProductPartOneData)
+
       if (newProduct && newProduct.dateOfIssue) {
          const date = newProduct.dateOfIssue
          const formattedDate = format(new Date(date), 'yyyy-MM-dd')
-
-         console.log('resultProductPartOneData: ', resultProductPartOneData)
 
          dispatch(furtherCollectorProductPartOne({ date: formattedDate }))
       }
