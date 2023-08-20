@@ -58,8 +58,6 @@ export const AddingAProduct = () => {
       }
    }
 
-   console.log('resultProductPartOneData: ', resultProductPartOneData)
-
    return (
       <Container>
          {openModalAddNewBrand.has('AddingAProduct') && (
