@@ -17,10 +17,11 @@ export const useSnackbar = () => {
             hideProgressBar: false,
             pauseOnHover: true,
             draggable: true,
-            closeOnClick: false,
+            closeOnClick: true,
             progress: undefined,
             theme: 'dark',
             closeButton: false,
+            newestOnTop: false,
             toastId: 'custom-id-yes',
          }
       )

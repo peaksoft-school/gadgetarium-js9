@@ -44,18 +44,27 @@ export const FilterCategory = ({ onOpenModalAddNewBrand, value }) => {
    }, [values])
 
    const onChangeValueDateHandler = (event) => {
-      setFieldValue('dateOfIssue', event)
+      setFieldValue('dateOfIssue', new Date(event.$d))
    }
+
+   useEffect(() => {
+      if (errors.guarantee) {
+         snackbarHandler({
+            message:
+               'Гарантия (месяцев) Должно быть не более 120 месяцев или меньше',
+            type: 'error',
+         })
+      }
+   }, [errors.guarantee])
 
    useEffect(() => {
       if (errors) {
          snackbarHandler({
             message: 'Bce поле должны быть обязательно заполнены',
             type: 'error',
-            timeClose: 4000,
          })
       }
-   }, [])
+   }, [errors])
 
    return (
       <Container>
@@ -136,7 +145,9 @@ export const FilterCategory = ({ onOpenModalAddNewBrand, value }) => {
                   placeholder="Введите гарантию товара"
                   width="24.75rem"
                   height="2.6rem"
-                  onBlur={handleChange}
+                  onBlur={handleBlur}
+                  min={1}
+                  max={3}
                   value={values.guarantee}
                   name="guarantee"
                   onChange={handleChange}
@@ -158,6 +169,7 @@ export const FilterCategory = ({ onOpenModalAddNewBrand, value }) => {
                   height="2.7rem"
                   marginTop="-7px"
                   error={Boolean(errors.dateOfIssue)}
+                  fontSize="1rem"
                />
             </BoxLabel>
          </div>
