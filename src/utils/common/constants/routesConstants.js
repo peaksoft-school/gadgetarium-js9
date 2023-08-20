@@ -4,7 +4,6 @@ export const routes = {
 
    ADMIN: {
       index: '/admin',
-      addProduct: '/admin/add-products/part-1',
    },
 
    USER: {

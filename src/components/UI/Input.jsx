@@ -1,21 +1,12 @@
 import React, { forwardRef, useState } from 'react'
 import { IconButton, OutlinedInput, styled } from '@mui/material'
+
 import { ReactComponent as VisibilityIcon } from '../../assets/icons/eye/eye-icon.svg'
 import { ReactComponent as VisibilityOffIcon } from '../../assets/icons/eye/eye-slashed-icon.svg'
 
 export const InputUi = forwardRef(
    (
-      {
-         error,
-         color,
-         type,
-         id,
-         placeholder,
-         value,
-         onChange,
-         onBlur,
-         ...props
-      },
+      { error, color, type, id, placeholder, value, onChange, ...props },
       ref
    ) => {
       const [showPassword, setShowPassword] = useState(false)
@@ -24,16 +15,11 @@ export const InputUi = forwardRef(
 
       const passwordType = showPassword ? 'text' : 'password'
 
-      const handleBlur = (event) => {
-         if (onBlur) {
-            onBlur(event)
-         }
-      }
-
       return (
          <div>
             <InputOutlained
-               value={value === undefined || null ? '' : value}
+               {...props}
+               value={value}
                onChange={onChange}
                error={error}
                color={color}
@@ -42,7 +28,6 @@ export const InputUi = forwardRef(
                ref={ref}
                type={type === 'password' ? passwordType : type}
                {...props}
-               onBlur={handleBlur}
                endAdornment={
                   type === 'password' ? (
                      <StyleIconButton onClick={handleClickShowPassword}>

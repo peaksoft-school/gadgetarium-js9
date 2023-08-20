@@ -7,13 +7,12 @@ export const useSnackbar = () => {
       linkText = '',
       path = '',
       type = 'success',
-      timeClose = 2500,
    }) => {
       toast[type](
          <Snackbar message={message} linkText={linkText} path={path} />,
          {
             position: 'top-right',
-            autoClose: timeClose,
+            autoClose: 2500,
             hideProgressBar: false,
             pauseOnHover: true,
             draggable: true,
