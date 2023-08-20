@@ -6,7 +6,7 @@ import { userRoutes } from './UserRoutes'
 import { USER_ROLE, routes } from '../utils/common/constants/routesConstants'
 import { PrivateRoute } from './PrivateRoutes'
 
-const role = 'USER'
+const role = 'ADMIN'
 
 const isAllowed = (roles) => {
    return roles.includes(role)
@@ -18,7 +18,7 @@ export const router = createBrowserRouter([
       element: (
          <PrivateRoute
             isAllowed={isAllowed([USER_ROLE.GUEST, USER_ROLE.USER])}
-            fallBacPath={role === USER_ROLE.ADMIN ? '/admin' : '/home'}
+            fallBacPath={role === USER_ROLE.ADMIN ? '/admin' : '/'}
             component={<h1>Sign In</h1>}
          />
       ),
@@ -28,7 +28,7 @@ export const router = createBrowserRouter([
       element: (
          <PrivateRoute
             isAllowed={isAllowed([USER_ROLE.GUEST, USER_ROLE.USER])}
-            fallBacPath={role === USER_ROLE.ADMIN ? '/admin' : '/home'}
+            fallBacPath={role === USER_ROLE.ADMIN ? '/admin' : '/'}
             component={<h1>Sign Up</h1>}
          />
       ),
@@ -49,7 +49,7 @@ export const router = createBrowserRouter([
       element: (
          <PrivateRoute
             isAllowed={isAllowed([USER_ROLE.ADMIN])}
-            fallBacPath="/home"
+            fallBacPath="/"
             component={<AdminLayout />}
          />
       ),
