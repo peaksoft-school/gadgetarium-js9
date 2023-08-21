@@ -214,11 +214,13 @@ const Stock = styled('div')`
    display: flex;
    flex-direction: column;
    margin-top: 1.875rem;
+
    a {
       text-decoration: none;
       color: #858fa4;
       margin-top: 0.75rem;
       cursor: pointer;
+
       &:hover {
          color: #fff;
       }

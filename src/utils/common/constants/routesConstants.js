@@ -4,6 +4,7 @@ export const routes = {
 
    ADMIN: {
       index: '/admin',
+      addProduct: '/admin/add-products/part-1',
    },
 
    USER: {
@@ -12,6 +13,7 @@ export const routes = {
       delivery: 'delivery',
       faq: 'faq',
       contacts: 'contacts',
+      favorite: 'favorite',
    },
 }
 
