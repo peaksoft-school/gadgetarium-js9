@@ -67,19 +67,23 @@ export const Header = ({ favorite, comparison, basket }) => {
                      </GadgeteriumContainer>
                      <a href="./">adgetarium</a>
                   </TitleFixed>
-                  <Btn
+                  <CatalogButtonContainer
                      onMouseEnter={toggleCatalogSelect}
                      onMouseLeave={toggleCatalogSelect}
-                     variant="contained"
                   >
-                     <Menu />
-                     <p>Каталог</p>
-                  </Btn>
-                  {catalogSelect && (
-                     <CatalogSelect fixed={fixed}>
-                        <GeneralCategorySelectLayout />
-                     </CatalogSelect>
-                  )}
+                     <Btn variant="contained">
+                        <Menu />
+                        <p>Каталог</p>
+                     </Btn>
+                     {catalogSelect && (
+                        <CatalogSelect fixed={fixed}>
+                           <GeneralCategorySelectLayout
+                              toggleCatalogSelect={toggleCatalogSelect}
+                           />
+                        </CatalogSelect>
+                     )}
+                  </CatalogButtonContainer>
+
                   <Border />
                   <SearchForm>
                      <Input
@@ -124,7 +128,7 @@ const Headers = styled('header')`
 
    z-index: 999;
 `
-
+const CatalogButtonContainer = styled('div')``
 const Link = styled(NavLink)`
    padding: 10px 14px 12px 14px;
    cursor: pointer;
