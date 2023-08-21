@@ -53,32 +53,32 @@ const Container = styled('div')`
          transform: translateY(0);
       }
    }
-   span:nth-child(2) {
+   span:nth-of-type(2) {
       margin-left: 0.15625vw;
       animation-delay: 0.2s;
    }
-   span:nth-child(3) {
+   span:nth-of-type(3) {
       animation-delay: 0.3s;
    }
-   span:nth-child(4) {
+   span:nth-of-type(4) {
       animation-delay: 0.4s;
    }
-   span:nth-child(5) {
+   span:nth-of-type(5) {
       animation-delay: 0.5s;
    }
-   span:nth-child(6) {
+   span:nth-of-type(6) {
       animation-delay: 0.6s;
    }
-   span:nth-child(7) {
+   span:nth-of-type(7) {
       animation-delay: 0.7s;
    }
-   span:nth-child(8) {
+   span:nth-of-type(8) {
       animation-delay: 0.8s;
    }
-   span:nth-child(9) {
+   span:nth-of-type(9) {
       animation-delay: 0.9s;
    }
-   span:nth-child(10) {
+   span:nth-of-type(10) {
       animation-delay: 1s;
    }
 `

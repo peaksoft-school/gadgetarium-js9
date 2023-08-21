@@ -9,14 +9,14 @@ import {
 import { ProductCard } from '../product.card/ProductCard'
 import { Button } from '../../UI/Button'
 import { CardPhone } from '../card/CardPhone'
-// import { Loading } from '../../UI/loading/Loading'
+import { Loading } from '../../UI/loading/Loading'
 
 const arrayForSceleton = [
    { id: 1, name: 'firstCard' },
-   { id: 1, name: 'secondCard' },
-   { id: 1, name: 'thirdCard' },
-   { id: 1, name: 'fourthCard' },
-   { id: 1, name: 'fifthCard' },
+   { id: 2, name: 'secondCard' },
+   { id: 3, name: 'thirdCard' },
+   { id: 4, name: 'fourthCard' },
+   { id: 5, name: 'fifthCard' },
 ]
 
 export const FilteredProducts = ({ children, array }) => {
@@ -60,7 +60,7 @@ export const FilteredProducts = ({ children, array }) => {
       <Container>
          <Title>{children}</Title>
          <Products>
-            {/* {isLoading && <Loading />} */}
+            {isLoading && <Loading />}
             {array === 'stock' &&
                stock?.map((el) => {
                   return (

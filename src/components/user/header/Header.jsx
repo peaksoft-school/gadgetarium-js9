@@ -89,7 +89,7 @@ export const Header = ({ favorite, comparison, basket }) => {
                         placeholder="Поиск по каталогу магазина  "
                         type="text"
                      />
-                     <StyledVector inputText={inputValue} />
+                     <StyledVector input={inputValue} />
                   </SearchForm>
                </ButtonInputContainer>
                <Massage fixed={fixed}>
@@ -278,7 +278,7 @@ const StyledVector = styled(SearchIcon)`
    position: absolute;
    right: 20px;
    path {
-      fill: ${(props) => props.inputText !== '' && '#cb11ab !important'};
+      fill: ${(props) => props.input !== '' && '#cb11ab !important'};
    }
    cursor: pointer;
 `
