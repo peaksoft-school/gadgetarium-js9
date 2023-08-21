@@ -1,11 +1,7 @@
 {
-   "env": {
-      "browser": true,
-      "es2021": true
-   },
    "extends": [
-      "plugin:react/recommended",
       "airbnb",
+      "plugin:react/recommended",
       "plugin:prettier/recommended"
    ],
    "overrides": [],
@@ -23,7 +19,7 @@
       "jsx-a11y/no-noninteractive-element-interactions": "off",
       "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
       "react/jsx-props-no-spreading": "off",
-      "import/no-extraneous-dependencies": "off",
+      "jsx-a11y/no-static-element-interactions": "off",
       "react/react-in-jsx-scope": "off",
       "import/prefer-default-export": "off",
       "no-shadow": "off",
@@ -40,6 +36,7 @@
             "ignoreRegExpLiterals": true
          }
       ],
+      "no-undef": "off",
       "no-console": ["warn", { "allow": ["warn", "error"] }],
       "jsx-a11y/label-has-associated-control": [
          "error",
@@ -48,6 +45,7 @@
                "some": ["nesting", "id"]
             }
          }
-      ]
+      ],
+      "func-names": "off"
    }
 }

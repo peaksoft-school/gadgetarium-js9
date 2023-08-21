@@ -1,5 +1,4 @@
 import { Navigate, createBrowserRouter } from 'react-router-dom'
-import App from '../App'
 import { AdminLayout } from '../layout/admin/AdminLayout'
 import { adminRoutes } from './AdminRoutes'
 import { userRoutes } from './UserRoutes'
@@ -7,6 +6,7 @@ import { USER_ROLE, routes } from '../utils/common/constants/routesConstants'
 import { PrivateRoute } from './PrivateRoutes'
 import { SignUp } from '../pages/signInAndsignUp/SignUpPage'
 import { SignIn } from '../pages/signInAndsignUp/SignInPage'
+import App from '../App'
 
 export const router = createBrowserRouter([
    {

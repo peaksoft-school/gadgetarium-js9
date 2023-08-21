@@ -5,7 +5,6 @@ import { ReactComponent as UserIcon } from '../../../assets/icons/avatar/user-fi
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/tools-for-site/delete-icon.svg'
 import { ReactComponent as ArrowDown } from '../../../assets/icons/arrows/down-icon.svg'
 import { Button } from '../../UI/Button'
-import { themes } from '../../../utils/common/styles/themes'
 
 const imagesArray = [1, 2, 3, 4, 5]
 const AdminFeedback = ({
@@ -58,8 +57,8 @@ const AdminFeedback = ({
          <ModelReviewContainer>
             <ModelContainer>
                <Index>{index}</Index>
-               <StyledIcon themes={themes} />
-               <ModelDescription themes={themes}>
+               <StyledIcon />
+               <ModelDescription>
                   <h5>Asus</h5>
                   <p>Модель</p>
                   <p>Арт. 1212121212</p>
@@ -74,9 +73,9 @@ const AdminFeedback = ({
                <Time>20.06.22 - 14:15</Time>
                {expanded && (
                   <ImageContainer expanded={expanded}>
-                     {imagesArray.map((el) => {
-                        return <StyledImage themes={themes}>{el}</StyledImage>
-                     })}
+                     {imagesArray.map((el) => (
+                        <StyledImage key={el.id}>{el}</StyledImage>
+                     ))}
                   </ImageContainer>
                )}
             </UserReviewContainer>
@@ -88,7 +87,7 @@ const AdminFeedback = ({
                   <UserAvatar>
                      <StyledUserIcon />
                   </UserAvatar>
-                  <UserDescription themes={themes}>
+                  <UserDescription>
                      <h5>Адыл Бакытов</h5>
                      <p>Adyl@mail.ru</p>
                   </UserDescription>
@@ -118,9 +117,7 @@ const AdminFeedback = ({
             </InfoUserContainer>
             {expanded && (
                <Form expanded={expanded}>
-                  <Label themes={themes} htmlFor="answer">
-                     Ответить на комментарий
-                  </Label>
+                  <Label htmlFor="answer">Ответить на комментарий</Label>
                   {answerState ? (
                      <StyledTextarea
                         value={temporaryAnswer}
@@ -352,10 +349,10 @@ const ImageContainer = styled('div')`
    margin-top: 0.926vh;
    width: 95%;
 `
-const StyledIcon = styled('div')(({ themes }) => ({
+const StyledIcon = styled('div')(({ theme }) => ({
    width: '2.9167vw',
    height: '3.23vw',
-   background: themes.palette.secondary.main,
+   background: theme.palette.secondary.main,
    marginLeft: '1.5625rem',
 }))
 const UserReviewContainer = styled('div')`
