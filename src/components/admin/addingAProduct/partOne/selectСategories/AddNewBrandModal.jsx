@@ -1,7 +1,7 @@
 import { styled } from '@mui/material'
-import { Modal } from '../../../UI/Modal'
-import { InputUi } from '../../../UI/Input'
-import { Button } from '../../../UI/Button'
+import { Modal } from '../../../../UI/Modal'
+import { InputUi } from '../../../../UI/Input'
+import { Button } from '../../../../UI/Button'
 import PhotoUploader from './PhotoUploader'
 
 export const AddNewBrandModal = ({ openModalAddNewBrand, onClose }) => {

@@ -1,6 +1,6 @@
 import { Button as ButtonMui, Tooltip, styled } from '@mui/material'
 import { useState } from 'react'
-import { Button } from '../../UI/Button'
+import { Button } from '../../../UI/Button'
 
 export const QuantityOfProductsButton = ({
    id,

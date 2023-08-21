@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { styled } from '@mui/material'
-import { dataProductSmartphones } from '../../../../utils/common/constants/constantsAdminAddNewProduct'
+import { dataProductSmartphones } from '../../../../../utils/common/constants/constantsAdminAddNewProduct'
 import { QuantityOfProducts } from '../QuantityOfProducts'
 import { CategoryFilterSelect } from '../selectСategories/CategoryFilterSelect'
-import { AddPhotoGadgets } from '../../UI/addPhotoGadgets/AddPhotoGadgets'
-import { InputColorPalette } from '../../UI/color/InputColorPalette'
+import { AddPhotoGadgets } from '../addPhotoGadgets/AddPhotoGadgets'
+import { InputColorPalette } from '../../../UI/color/InputColorPalette'
 import {
    addCodeColorSubProductRequests,
    addPhotoSubProductRequests,

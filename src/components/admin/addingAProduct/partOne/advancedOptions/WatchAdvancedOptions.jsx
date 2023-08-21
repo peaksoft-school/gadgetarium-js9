@@ -4,12 +4,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
    dataProductWatch,
    radioData,
-} from '../../../../utils/common/constants/constantsAdminAddNewProduct'
+} from '../../../../../utils/common/constants/constantsAdminAddNewProduct'
 import { CategoryFilterSelect } from '../selectСategories/CategoryFilterSelect'
 import { QuantityOfProducts } from '../QuantityOfProducts'
-import RadioInput from '../../UI/radioAdmin/RadioInput'
-import { AddPhotoGadgets } from '../../UI/addPhotoGadgets/AddPhotoGadgets'
-import { InputColorPalette } from '../../UI/color/InputColorPalette'
+import RadioInput from '../../../UI/radioAdmin/RadioInput'
+import { AddPhotoGadgets } from '../addPhotoGadgets/AddPhotoGadgets'
+import { InputColorPalette } from '../../../UI/color/InputColorPalette'
 import {
    onChangeSubProduct,
    collectorWatchParameters,

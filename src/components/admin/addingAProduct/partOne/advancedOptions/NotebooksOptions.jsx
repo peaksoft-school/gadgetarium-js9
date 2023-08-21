@@ -1,23 +1,24 @@
 import { styled } from '@mui/material'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { dataProductTablets } from '../../../../utils/common/constants/constantsAdminAddNewProduct'
+import { dataProductNotebooks } from '../../../../../utils/common/constants/constantsAdminAddNewProduct'
 import { QuantityOfProducts } from '../QuantityOfProducts'
-import { InputColorPalette } from '../../UI/color/InputColorPalette'
 import { CategoryFilterSelect } from '../selectСategories/CategoryFilterSelect'
-import { AddPhotoGadgets } from '../../UI/addPhotoGadgets/AddPhotoGadgets'
+import { InputColorPalette } from '../../../UI/color/InputColorPalette'
 import {
-   addPhotoSubProductRequests,
-   collectorTabletsParameters,
+   onChangeSubProduct,
+   collectorNotebooksParameters,
    createNewProduct,
    deleteHandler,
-   onChangeSubProduct,
+   addCodeColorSubProductRequests,
+   addPhotoSubProductRequests,
 } from '../../../../store/addProduct/addProductPartOne.slice'
+import { AddPhotoGadgets } from '../addPhotoGadgets/AddPhotoGadgets'
 
-export const TabletsOptions = () => {
+export const NotebooksOptions = () => {
    const dispatch = useDispatch()
    const [productNum, setProductNum] = useState(0)
-   const { productTablets, newProduct } = useSelector(
+   const { productNotebooks, newProduct } = useSelector(
       (state) => state.addProduct
    )
 
@@ -27,7 +28,7 @@ export const TabletsOptions = () => {
       dispatch(onChangeSubProduct({ name, value, index: productNum }))
    }
 
-   const addColorProductTablets = (color) => {
+   const addColorProductNotebooks = (color) => {
       dispatch(addCodeColorSubProductRequests({ index: productNum, color }))
    }
 
@@ -37,14 +38,14 @@ export const TabletsOptions = () => {
       setProductNum(0)
    }
 
-   const onCollectorTabletsParameters = () => {
-      dispatch(collectorTabletsParameters())
-
-      dispatch(createNewProduct(productTablets))
+   const onAddPhotoNotebooks = (photoData) => {
+      dispatch(addPhotoSubProductRequests({ index: productNum, photoData }))
    }
 
-   const onAddPhotoTablets = (photoData) => {
-      dispatch(addPhotoSubProductRequests({ index: productNum, photoData }))
+   const onCollectorNotebooksOptionsParameters = () => {
+      dispatch(collectorNotebooksParameters())
+
+      dispatch(createNewProduct(productNotebooks))
    }
 
    const onProductNumRenderMap = (index) => {
@@ -61,7 +62,7 @@ export const TabletsOptions = () => {
    return (
       <div>
          <QuantityOfProducts
-            onCreateNewProduct={onCollectorTabletsParameters}
+            onCreateNewProduct={onCollectorNotebooksOptionsParameters}
             onProductNumRenderMap={onProductNumRenderMap}
             productNum={productNum}
             deleteHandler={deleteAndNavigateProductOneHandler}
@@ -70,66 +71,66 @@ export const TabletsOptions = () => {
          {productIdValidator ? (
             <Container>
                <InputColorPalette
-                  productColor={addColorProductTablets}
+                  productColor={addColorProductNotebooks}
                   stateColor={newProductFilterData.codeColor}
+               />
+
+               <CategoryFilterSelect
+                  title="Процессор ноутбука"
+                  label="Выберите процессор ноутбука"
+                  selectData={dataProductNotebooks.processorNotebooks}
+                  value={newProductFilterData.processor}
+                  onChange={onHandleChange}
+                  name="processor"
                />
 
                <CategoryFilterSelect
                   title="Разрешение экрана"
                   label="Выберите разрешение экрана"
-                  selectData={dataProductTablets.screenResolutionTablets}
+                  selectData={dataProductNotebooks.screenResolutionNotebooks}
                   value={newProductFilterData.screenResolution}
                   onChange={onHandleChange}
                   name="screenResolution"
                />
 
                <CategoryFilterSelect
-                  title="Размер экрана (дюйм)"
-                  label="Выберите размер экрана"
-                  selectData={dataProductTablets.screenSizeTablets}
-                  value={newProductFilterData.screenSize}
+                  title="Назначение"
+                  label="Выберите назначение"
+                  selectData={dataProductNotebooks.purposeNotebooks}
+                  value={newProductFilterData.purpose}
                   onChange={onHandleChange}
-                  name="screenSize"
+                  name="purpose"
                />
 
                <CategoryFilterSelect
-                  title="Объем памяти (GB)"
-                  label="Выберите объем памяти"
-                  selectData={dataProductTablets.romTablets}
-                  value={newProductFilterData.rom}
+                  title="Объем видеопамяти (GB) "
+                  label="Выберите объем видеопамяти"
+                  selectData={dataProductNotebooks.videoMemoryNotebooks}
+                  value={newProductFilterData.videoMemory}
                   onChange={onHandleChange}
-                  name="rom"
+                  name="videoMemory"
                />
 
                <CategoryFilterSelect
                   title="Объем оперативной памяти (GB)"
                   label="Выберите объем оперативной памяти"
-                  selectData={dataProductTablets.ramTablets}
+                  selectData={dataProductNotebooks.ramNotebooks}
                   value={newProductFilterData.ram}
                   onChange={onHandleChange}
                   name="ram"
                />
 
                <CategoryFilterSelect
-                  title="Диагональ экрана (дюйм)"
-                  label="Выберите диагональ экрана"
-                  selectData={dataProductTablets.screenDiagonalTablets}
-                  value={newProductFilterData.diagonalScreen}
+                  title="Размер экрана (дюйм)"
+                  label="Выберите размер экрана"
+                  selectData={dataProductNotebooks.screenSizeNotebooks}
+                  value={newProductFilterData.screenSize}
                   onChange={onHandleChange}
-                  name="diagonalScreen"
-               />
-
-               <CategoryFilterSelect
-                  title="Емкость аккумулятора планшета, мА/ч"
-                  label="Выберите емкость аккумулятора"
-                  selectData={dataProductTablets.batteryCapacity}
-                  value={newProductFilterData.batteryCapacity}
-                  onChange={onHandleChange}
-                  name="batteryCapacity"
+                  name="screenSize"
                />
 
                <AddPhotoGadgets
-                  onPhotoCollector={onAddPhotoTablets}
+                  onPhotoCollector={onAddPhotoNotebooks}
                   photoStateData={newProductFilterData.images}
                />
             </Container>

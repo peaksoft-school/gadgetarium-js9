@@ -3,13 +3,13 @@ import { styled } from '@mui/material'
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import { CategoryFilterSelect } from './CategoryFilterSelect'
-import { InputUi } from '../../../UI/Input'
-import { categoryProduct } from '../../../../utils/common/constants/constantsAdminAddNewProduct'
+import { InputUi } from '../../../../UI/Input'
+import { categoryProduct } from '../../../../../utils/common/constants/constantsAdminAddNewProduct'
 import { ReactComponent as SelectLabelIcons } from '../../../../assets/icons/photo-add/add-photo-icon.svg'
-import { Calendar } from '../../../UI/calendarFolder/Calendar'
+import { Calendar } from '../../../../UI/calendarFolder/Calendar'
 import { collectorProductData } from '../../../../store/addProduct/addProductPartOne.slice'
-import { useSnackbar } from '../../../../hooks/useSnackbar'
-import { schema } from '../../../../utils/helpers/filterCategory'
+import { useSnackbar } from '../../../../../hooks/useSnackbar'
+import { schema } from '../../../../../utils/helpers/filterCategory'
 
 export const FilterCategory = ({ onOpenModalAddNewBrand, value }) => {
    const dispatch = useDispatch()

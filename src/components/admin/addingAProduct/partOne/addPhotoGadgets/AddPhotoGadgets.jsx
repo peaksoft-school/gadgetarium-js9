@@ -1,6 +1,6 @@
 import { styled } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { useSnackbar } from '../../../../hooks/useSnackbar'
+import { useSnackbar } from '../../../../../hooks/useSnackbar'
 import { InitialStateAddPhotoGadgets } from './InitialStateAddPhotoGadgets'
 import { StateAfterAddingOnePhoto } from './StateAfterAddingOnePhoto'
 

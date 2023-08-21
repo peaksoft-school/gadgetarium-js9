@@ -6,7 +6,7 @@ import { format } from 'date-fns'
 import { HeaderAddingAProduct } from './HeaderAddingAProduct'
 import { FilterCategory } from './selectСategories/FilterCategory'
 import { AddNewBrandModal } from './selectСategories/AddNewBrandModal'
-import { filterResComponent } from '../../../utils/helpers/AddFilterResComponent'
+import { filterResComponent } from '../../../../utils/helpers/AddFilterResComponent'
 import { Button } from '../../UI/Button'
 import {
    filterCategorySubProduct,
