@@ -1,19 +1,47 @@
 import { styled } from '@mui/material'
-import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import React, { useEffect } from 'react'
+import { getFavoriteItems } from '../../../store/favorite/favorite.thunk'
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/cross/small-cross-icon.svg'
+import { ProductCard } from '../product.card/ProductCard'
 
 export const Favorite = () => {
+   const dispatch = useDispatch()
+   const { favoriteItems } = useSelector((state) => state.favorite)
+   useEffect(() => {
+      console.log('el')
+      dispatch(getFavoriteItems())
+   }, [])
    return (
-      <Container>
-         <SecondContainer>
-            <Title>Избранное</Title>
-            <CleanButton>
-               <StyledDeleteIcon />
-               Очистить список товаров
-            </CleanButton>
-            <Products />
-         </SecondContainer>
-      </Container>
+      <>
+         {/* {isLoading && <Loading />} */}
+         <Container>
+            <SecondContainer>
+               <Title>Избранное</Title>
+               <CleanButton>
+                  <StyledDeleteIcon />
+                  Очистить список товаров
+               </CleanButton>
+               <Products>
+                  {favoriteItems?.map((el) => {
+                     return (
+                        <ProductCard
+                           id={el.subProductId}
+                           key={el.subProductId}
+                           discount={el.discount}
+                           prodName={el.prodName}
+                           image={el.image}
+                           quantity={el.quantity}
+                           countOfReviews={el.countOfReviews}
+                           price={el.price}
+                           rating={el.rating}
+                        />
+                     )
+                  })}
+               </Products>
+            </SecondContainer>
+         </Container>
+      </>
    )
 }
 const Title = styled('p')`
