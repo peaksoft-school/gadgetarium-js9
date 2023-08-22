@@ -4,39 +4,37 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { forwardRef } from 'react'
 
-export const Calendar = forwardRef(
-   (
-      {
-         placeholder,
-         value,
-         onChange,
-         marginTop = '-11px',
-         onBlur,
-         name,
-         error,
-         ...props
-      },
-      ref
-   ) => {
-      return (
-         <div>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-               <StyledDatePicker
-                  label={placeholder}
-                  value={value === undefined || null ? '' : value}
-                  marginTop={marginTop}
-                  onChange={onChange}
-                  name={name}
-                  error={error}
-                  onBlur={onBlur}
-                  ref={ref}
-                  {...props}
-               />
-            </LocalizationProvider>
-         </div>
-      )
-   }
-)
+export const Calendar = forwardRef(function CalendarComponent(
+   {
+      placeholder,
+      value,
+      onChange,
+      marginTop = '-11px',
+      onBlur,
+      name,
+      error,
+      ...props
+   },
+   ref
+) {
+   return (
+      <div>
+         <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <StyledDatePicker
+               label={placeholder}
+               value={value === undefined || null ? '' : value}
+               marginTop={marginTop}
+               onChange={onChange}
+               name={name}
+               error={error}
+               onBlur={onBlur}
+               ref={ref}
+               {...props}
+            />
+         </LocalizationProvider>
+      </div>
+   )
+})
 
 const StyledDatePicker = styled(DatePicker)(
    ({ fontSize, width, height, marginTop, error }) => ({
