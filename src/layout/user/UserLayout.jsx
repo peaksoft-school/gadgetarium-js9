@@ -13,7 +13,6 @@ export const UserLayout = () => {
    useEffect(() => {
       dispatch(getFavoriteItems())
    }, [])
-   console.log(location)
    return (
       <Container>
          <Header

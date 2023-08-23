@@ -1,6 +1,6 @@
 import { styled } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/cross/small-cross-icon.svg'
 import { ReactComponent as Triangle } from '../../../assets/icons/triangle.svg'
 
@@ -11,34 +11,49 @@ import {
 import { useSnackbar } from '../../../hooks/useSnackbar'
 import { Button } from '../../UI/Button'
 
-export const FavoriteHover = () => {
-   const { favoriteItems } = useSelector((state) => state.favorite)
+export const FavoriteHover = ({ path, favorite, array }) => {
    const dispatch = useDispatch()
    const navigate = useNavigate()
+   const location = useLocation()
    const { snackbarHandler } = useSnackbar()
 
    const deleteFavoriteHandler = async (id) => {
-      dispatch(postFavoriteItem(id))
-         .then(() => {
-            dispatch(getFavoriteItems())
-            snackbarHandler({
-               message: 'Товар удален из избранных',
+      if (favorite) {
+         dispatch(postFavoriteItem(id))
+            .then(() => {
+               dispatch(getFavoriteItems())
+               snackbarHandler({
+                  message: `Товар удален из избранных`,
+               })
             })
-         })
-         .catch((error) => {
-            console.error('Error dispatching postFavoriteItem:', error)
-            snackbarHandler({ message: error.message, type: 'error' })
-         })
+            .catch((error) => {
+               snackbarHandler({ message: error.message, type: 'error' })
+            })
+      } else {
+         dispatch(postComparisonItem(id))
+            .then(() => {
+               dispatch(getComparisonItems())
+               snackbarHandler({
+                  message: `Товар удален из сравнения`,
+               })
+            })
+            .catch((error) => {
+               snackbarHandler({ message: error.message, type: 'error' })
+            })
+      }
    }
    const navigateToFavorite = () => {
-      navigate('/favorite')
+      navigate(path)
    }
+   if (location.pathname === path) {
+      return null
+   }
+
    return (
-      <Container>
-         <StyledTriangle />
+      <Container length={array.length}>
+         <StyledTriangle length={array?.length} />
          <AllProductContainer>
-            {favoriteItems?.map((el, index) => {
-               console.log(el)
+            {array?.map((el, index) => {
                if (index <= 1) {
                   return (
                      <Product key={el.subProductId}>
@@ -58,18 +73,31 @@ export const FavoriteHover = () => {
                return null
             })}
          </AllProductContainer>
-
-         <Button
-            variant="contained"
-            fontSize="0.833vw"
-            padding="0.625vw 1.563vw"
-            backgroundHover="#E313BF"
-            backgroundActive="#C90EA9"
-            marginTop="16px"
-            onClick={navigateToFavorite}
-         >
-            Перейти в избранное
-         </Button>
+         {favorite ? (
+            <Button
+               variant="contained"
+               fontSize="0.833vw"
+               padding="0.625vw 1.563vw"
+               backgroundHover="#E313BF"
+               backgroundActive="#C90EA9"
+               marginTop="16px"
+               onClick={navigateToFavorite}
+            >
+               Перейти в избранное
+            </Button>
+         ) : (
+            <Button
+               variant="contained"
+               fontSize="0.833vw"
+               padding="0.625vw 1.563vw"
+               backgroundHover="#E313BF"
+               backgroundActive="#C90EA9"
+               marginTop="16px"
+               onClick={navigateToFavorite}
+            >
+               Сравнить
+            </Button>
+         )}
       </Container>
    )
 }
@@ -84,6 +112,7 @@ const Container = styled('div')`
    flex-direction: column;
    align-items: center;
    z-index: 20;
+   display: ${(props) => (props.length === 0 ? 'none' : 'display')};
 `
 const Image = styled('img')`
    width: 60px;
@@ -91,7 +120,18 @@ const Image = styled('img')`
 `
 const StyledTriangle = styled(Triangle)`
    position: absolute;
-   bottom: 237px;
+   bottom: ${(props) => {
+      switch (props.length) {
+         case 0:
+            return '59px'
+         case 1:
+            return '148px'
+         case 2:
+            return '237px'
+         default:
+            return '0'
+      }
+   }};
    left: 327px;
 `
 const AllProductContainer = styled('div')`

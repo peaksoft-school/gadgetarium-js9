@@ -17,9 +17,7 @@ export const injectStore = (_store) => {
 }
 axiosInstance.interceptors.request.use((config) => {
    const updatedConfig = { ...config }
-   // const token = store.getState().login.accessToken
-   const token =
-      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTQ1NzM2NjcsImlhdCI6MTY5Mjc1OTI2NywidXNlcm5hbWUiOiJ1c2VyQGdtYWlsLmNvbSJ9.0oMT-fSgFzhy60FxjwWjMLME4paxkFb1PpqMS-b_M6h27JIEEg6cvqdw11K_Qhzk62JPyaEj2I5JYJC7XfQk8w'
+   const token = store.getState().login.accessToken
    if (token) {
       updatedConfig.headers.Authorization = `Bearer ${token}`
    }
@@ -27,7 +25,7 @@ axiosInstance.interceptors.request.use((config) => {
 })
 
 // !
-const logoutAction = () => {}
+const logoutAction = () => { }
 
 axiosInstance.interceptors.response.use(
    (response) => {

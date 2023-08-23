@@ -1,6 +1,7 @@
 import { styled, Button, Badge, keyframes } from '@mui/material'
 import { NavLink, useNavigate } from 'react-router-dom'
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import { ReactComponent as SearchIcon } from '../../../assets/icons/search-icon.svg'
 import { ReactComponent as Instagram } from '../../../assets/icons/messangers/instagram-icon.svg'
 import { ReactComponent as WhatsApp } from '../../../assets/icons/messangers/whatsapp-icon.svg'
@@ -15,6 +16,7 @@ import { FavoriteHover } from '../favorite/FavoriteHover'
 
 export const Header = ({ favorite, comparison, basket }) => {
    const [fixed, setFixed] = useState(false)
+   const { favoriteItems } = useSelector((state) => state.favorite)
    const navigate = useNavigate()
    const [hoverFavorite, setHoverFavorite] = useState(false)
    const toggleHoverFavorite = () => {
@@ -102,7 +104,11 @@ export const Header = ({ favorite, comparison, basket }) => {
                   >
                      {hoverFavorite && (
                         <FavoriteContainer fixed={fixed} hover={hoverFavorite}>
-                           <FavoriteHover />
+                           <FavoriteHover
+                              path="/favorite"
+                              favorite
+                              array={favoriteItems}
+                           />
                         </FavoriteContainer>
                      )}
                      <MuiBadge badgeContent={favorite} showZero>
