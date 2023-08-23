@@ -1,5 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getFavoriteItems } from './favorite.thunk'
+import {
+   deleteFavoriteItems,
+   getFavoriteItems,
+   postFavoriteItem,
+} from './favorite.thunk'
 
 const initialState = {
    favoriteItems: [],
@@ -18,6 +22,24 @@ export const favoriteSlice = createSlice({
          return { ...state, isLoading: false }
       })
       builder.addCase(getFavoriteItems.rejected, (state) => {
+         return { ...state, isLoading: true }
+      })
+      builder.addCase(deleteFavoriteItems.fulfilled, (state) => {
+         return { ...state, isLoading: true }
+      })
+      builder.addCase(deleteFavoriteItems.pending, (state) => {
+         return { ...state, isLoading: false }
+      })
+      builder.addCase(deleteFavoriteItems.rejected, (state) => {
+         return { ...state, isLoading: true }
+      })
+      builder.addCase(postFavoriteItem.fulfilled, (state) => {
+         return { ...state, isLoading: true }
+      })
+      builder.addCase(postFavoriteItem.pending, (state) => {
+         return { ...state, isLoading: false }
+      })
+      builder.addCase(postFavoriteItem.rejected, (state) => {
          return { ...state, isLoading: true }
       })
    },

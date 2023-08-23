@@ -1,3 +1,4 @@
+import { useDispatch } from 'react-redux'
 import { Rating, styled } from '@mui/material'
 import { useState } from 'react'
 import { ReactComponent as Comparison } from '../../../assets/icons/comparison-icon.svg'
@@ -6,6 +7,11 @@ import { ReactComponent as BasketIcon } from '../../../assets/icons/basket-icon.
 import { ReactComponent as Recommendation } from '../../../assets/icons/recommendation.svg'
 import { ReactComponent as FilledFavoriteIcon } from '../../../assets/icons/filled-favorite-icon.svg'
 import { Button } from '../../UI/Button'
+import {
+   getFavoriteItems,
+   postFavoriteItem,
+} from '../../../store/favorite/favorite.thunk'
+import { useSnackbar } from '../../../hooks/useSnackbar'
 
 export const ProductCard = ({
    recomendationState = false,
@@ -17,14 +23,36 @@ export const ProductCard = ({
    rating = 1,
    discount = 20,
    countOfReviews = 56,
+   favoriteState = false,
+   comparisonState = false,
    id = '1',
 }) => {
-   const [favorite, setFavorite] = useState(false)
-   const [comparison, setComparison] = useState(false)
-
+   const [favorite, setFavorite] = useState(favoriteState)
+   const { snackbarHandler } = useSnackbar()
+   const [comparison, setComparison] = useState(comparisonState)
+   const dispatch = useDispatch()
    const discountPrice = price - (price * discount) / 100
-   const toggleFavoriteHandler = () => {
+   const toggleFavoriteHandler = async () => {
       setFavorite(!favorite)
+      dispatch(postFavoriteItem(id))
+         .then(() => {
+            dispatch(getFavoriteItems())
+            if (favorite) {
+               snackbarHandler({
+                  message: 'Товар удален из избранных',
+               })
+            } else {
+               snackbarHandler({
+                  message: 'Товар добавлен в избранные',
+                  linkText: 'Перейти в избранное ',
+                  path: '/favorite',
+               })
+            }
+         })
+         .catch((error) => {
+            console.error('Error dispatching postFavoriteItem:', error)
+            snackbarHandler({ message: error.message, type: 'error' })
+         })
    }
    const toggleComparisonHandler = () => {
       setComparison(!comparison)
@@ -32,6 +60,9 @@ export const ProductCard = ({
    const cardHandler = (id) => {
       console.log(id)
    }
+   // useEffect(() => {
+   //    dispatch(getFavoriteItems())
+   // }, [favorite])
    return (
       <Card key={id} onClick={() => cardHandler(id)}>
          <ButtonContainer>
@@ -122,6 +153,7 @@ const Card = styled('div')`
       box-shadow: 0px 8px 25px 0px rgba(0, 0, 0, 0.1),
          0px -8px 25px 0px rgba(0, 0, 0, 0.1);
    }
+   background: white;
 `
 const RatingContainer = styled('div')`
    display: flex;

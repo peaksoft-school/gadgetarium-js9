@@ -1,45 +1,103 @@
 import { styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import React, { useEffect } from 'react'
-import { getFavoriteItems } from '../../../store/favorite/favorite.thunk'
+import {
+   deleteFavoriteItems,
+   getFavoriteItems,
+} from '../../../store/favorite/favorite.thunk'
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/cross/small-cross-icon.svg'
+import favoriteImage from '../../../assets/images/sammy-order-completed-by-a-delivery-girl 1.png'
 import { ProductCard } from '../product.card/ProductCard'
+import { Button } from '../../UI/Button'
+import { CardPhone } from '../card/CardPhone'
+import { Loading } from '../../UI/loading/Loading'
 
 export const Favorite = () => {
    const dispatch = useDispatch()
-   const { favoriteItems } = useSelector((state) => state.favorite)
+   const navigate = useNavigate()
+   const { favoriteItems, isLoading } = useSelector((state) => state.favorite)
    useEffect(() => {
-      console.log('el')
       dispatch(getFavoriteItems())
    }, [])
+   const deleteFavoriteItemsHandler = () => {
+      dispatch(deleteFavoriteItems())
+   }
+   const enterPurchases = () => {
+      navigate('/')
+   }
+   const arrayForSceleton = [
+      { id: 1, name: 'firstCard' },
+      { id: 2, name: 'secondCard' },
+      { id: 3, name: 'thirdCard' },
+      { id: 4, name: 'fourthCard' },
+      { id: 5, name: 'fifthCard' },
+   ]
    return (
       <>
-         {/* {isLoading && <Loading />} */}
+         {isLoading ? null : <Loading />}
          <Container>
-            <SecondContainer>
-               <Title>Избранное</Title>
-               <CleanButton>
-                  <StyledDeleteIcon />
-                  Очистить список товаров
-               </CleanButton>
-               <Products>
-                  {favoriteItems?.map((el) => {
-                     return (
-                        <ProductCard
-                           id={el.subProductId}
-                           key={el.subProductId}
-                           discount={el.discount}
-                           prodName={el.prodName}
-                           image={el.image}
-                           quantity={el.quantity}
-                           countOfReviews={el.countOfReviews}
-                           price={el.price}
-                           rating={el.rating}
-                        />
-                     )
-                  })}
-               </Products>
-            </SecondContainer>
+            {favoriteItems?.length === 0 ? (
+               <VoidContainer>
+                  <Image src={favoriteImage} alt="" />
+                  <SecondTitle>В избранном пока пусто</SecondTitle>
+                  <Paragraph>
+                     Воспользуйтесь поиском или каталогом, выберите нужные
+                     товары и добавьте их в избранное!
+                  </Paragraph>
+                  <Button
+                     variant="contained"
+                     fontSize="1rem"
+                     padding="11px 21px"
+                     backgroundHover="#E313BF"
+                     backgroundActive="#C90EA9"
+                  >
+                     К покупкам
+                  </Button>
+               </VoidContainer>
+            ) : (
+               <SecondContainer>
+                  <Title>Избранное</Title>
+                  <CleanButton onClick={deleteFavoriteItemsHandler}>
+                     <StyledDeleteIcon />
+                     Очистить список товаров
+                  </CleanButton>
+                  <Products>
+                     {isLoading
+                        ? favoriteItems?.map((el) => {
+                             return (
+                                <ProductCard
+                                   favoriteState
+                                   id={el.subProductId}
+                                   key={el.subProductId}
+                                   discount={el.discount}
+                                   prodName={el.name}
+                                   image={el.image}
+                                   quantity={el.quantity}
+                                   countOfReviews={el.countOfReviews}
+                                   price={el.price}
+                                   rating={el.rating}
+                                />
+                             )
+                          })
+                        : arrayForSceleton.map((el) => {
+                             return <CardPhone key={el.id} />
+                          })}
+                  </Products>
+                  <ButtonContainer>
+                     <Button
+                        variant="outlined"
+                        backgroundHover="#CB11AB"
+                        backgroundActive="#E20FBE"
+                        padding="8px 20px"
+                        fontSize="1rem"
+                        onClick={enterPurchases}
+                     >
+                        Продолжить покупки
+                     </Button>
+                  </ButtonContainer>
+               </SecondContainer>
+            )}
          </Container>
       </>
    )
@@ -47,27 +105,55 @@ export const Favorite = () => {
 const Title = styled('p')`
    color: #292929;
    font-family: Ubuntu;
-   font-size: 30px;
+   font-size: 1.875rem;
    font-style: normal;
    font-weight: 500;
    line-height: 110%;
    margin: 0;
-   margin-top: 30px;
-   margin-bottom: 40px;
-   padding-bottom: 20px;
-   border-bottom: 1px solid #cdcdcd;
+   margin-top: 1.875rem;
+   margin-bottom: 2.5rem;
+   padding-bottom: 1.25rem;
+   border-bottom: 0.0625rem solid #cdcdcd;
+`
+const VoidContainer = styled('div')`
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   margin-top: 11.1111vh;
+   margin-bottom: 11.1111vh;
+`
+const Image = styled('img')`
+   width: 15.625vw;
+   height: 15.625vw;
+`
+const SecondTitle = styled('p')`
+   color: #292929;
+   font-family: Inter;
+   font-size: 1.25vw;
+   font-style: normal;
+   font-weight: 500;
+   line-height: 110%;
+   margin: 0;
+   margin-top: 2.7778vh;
+   margin-bottom: 1.8519vh;
 `
 const Container = styled('div')`
    display: flex;
    flex-direction: column;
    align-items: center;
 `
+const ButtonContainer = styled('div')`
+   display: flex;
+   width: 100%;
+   justify-content: center;
+   margin-bottom: 11.1111vh;
+`
 const SecondContainer = styled('div')`
    width: 79.688vw;
 `
 const CleanButton = styled('button')`
    font-family: Inter;
-   font-size: 14px;
+   font-size: 0.875rem;
    font-style: normal;
    font-weight: 400;
    line-height: 140%;
@@ -75,14 +161,31 @@ const CleanButton = styled('button')`
    padding: 0;
    cursor: pointer;
    background: none;
-   margin-bottom: 30px;
+   margin-bottom: 1.875rem;
 `
 const StyledDeleteIcon = styled(DeleteIcon)`
-   width: 9px;
-   height: 9px;
+   width: 0.5625rem;
+   height: 0.5625rem;
    path {
       fill: #292929;
    }
-   margin-right: 6px;
+   margin-right: 0.375rem;
 `
-const Products = styled('div')``
+const Products = styled('div')`
+   width: 79.688vw;
+   display: flex;
+   flex-wrap: wrap;
+   gap: 0.391vw;
+   margin-bottom: 2.625rem;
+`
+const Paragraph = styled('p')`
+   text-align: center;
+   font-family: Inter;
+   font-size: 0.938vw;
+   font-style: normal;
+   font-weight: 400;
+   line-height: 130%;
+   width: 24.792vw;
+   margin: 0;
+   margin-bottom: 2.2222vh;
+`
