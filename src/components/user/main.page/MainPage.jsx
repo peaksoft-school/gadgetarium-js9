@@ -9,7 +9,7 @@ export const MainPage = () => {
          <BannerCarousel />
          <MainContainer>
             <FilteredProducts array="stock">Акции</FilteredProducts>
-            <FilteredProducts array="novelities">Новинки</FilteredProducts>
+            <FilteredProducts array="novelties">Новинки</FilteredProducts>
             <FilteredProducts array="recommend">
                Мы рекомендуем
             </FilteredProducts>

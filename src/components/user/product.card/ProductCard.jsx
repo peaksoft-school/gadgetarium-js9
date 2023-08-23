@@ -1,11 +1,14 @@
 import { Rating, styled } from '@mui/material'
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { ReactComponent as Comparison } from '../../../assets/icons/comparison-icon.svg'
 import { ReactComponent as Favourite } from '../../../assets/icons/favourites-icon.svg'
 import { ReactComponent as BasketIcon } from '../../../assets/icons/basket-icon.svg'
 import { ReactComponent as Recommendation } from '../../../assets/icons/recommendation.svg'
 import { ReactComponent as FilledFavoriteIcon } from '../../../assets/icons/filled-favorite-icon.svg'
 import { Button } from '../../UI/Button'
+import { postBasketById } from '../../../store/basket/basket.thunk'
+import { useSnackbar } from '../../../hooks/useSnackbar'
 
 export const ProductCard = ({
    recomendationState = false,
@@ -18,20 +21,51 @@ export const ProductCard = ({
    discount = 20,
    countOfReviews = 56,
    id = '1',
-   onClick,
 }) => {
    const [favorite, setFavorite] = useState(false)
    const [comparison, setComparison] = useState(false)
-
+   const dispatch = useDispatch()
+   const { snackbarHandler } = useSnackbar()
    const discountPrice = price - (price * discount) / 100
    const toggleFavoriteHandler = () => {
       setFavorite(!favorite)
    }
    const toggleComparisonHandler = () => {
       setComparison(!comparison)
+      //  Сашка потом сам сделает сравнение
+      //    dispatch(postComparisonItem(id)).then(() => {
+      //       dispatch(getComparisonItems())
+      //       if (favorite) {
+      //          snackbarHandler({
+      //             message: 'Товар удален из сравнения',
+      //          })
+      //       } else {
+      //          snackbarHandler({
+      //             message: 'Товар добавлен в сравнения',
+      //             linkText: 'Перейти в избранное ',
+      //             path: '/favorite',
+      //          })
+      //       }
+      //    })
    }
    const cardHandler = (id) => {
       console.log(id)
+   }
+   const postProductToBasket = async () => {
+      dispatch(postBasketById(id))
+         .then(() => {
+            snackbarHandler({
+               message: 'Товар успешно добавлен в корзину',
+               linkText: 'Перейти в корзину',
+               path: '/basket',
+            })
+         })
+         .catch(() => {
+            snackbarHandler({
+               message: 'Товар не добавлен в корзину',
+               type: 'error',
+            })
+         })
    }
    return (
       <Card onClick={() => cardHandler(id)}>
@@ -92,7 +126,7 @@ export const ProductCard = ({
                   variant="contained"
                   textTransform="uppercase"
                   fontSize="0.73vw"
-                  onClick={onClick}
+                  onClick={postProductToBasket}
                >
                   <StyledBasketIcon /> В корзину
                </Button>
