@@ -56,10 +56,6 @@ export const SignIn = () => {
       navigate(-1)
    }
 
-   const handleEmailChange = (event) => {
-      console.log('Email value:', event.target.value)
-   }
-
    return (
       <BackgroundInForm>
          <Container>
@@ -72,7 +68,6 @@ export const SignIn = () => {
                   placeholder="Напишите email"
                   type="email"
                   error={!!formState.errors.email}
-                  onChange={handleEmailChange}
                />
                <Input
                   width="29rem"

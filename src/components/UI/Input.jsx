@@ -21,7 +21,7 @@ export const InputUi = forwardRef(function InputComponent(
    return (
       <div>
          <InputOutlained
-            value={value === undefined || null ? '' : value}
+            value={value}
             onChange={onChange}
             error={error}
             color={color}
