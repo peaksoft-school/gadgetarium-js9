@@ -8,6 +8,12 @@ import { SignUp } from '../pages/signInAndsignUp/SignUpPage'
 import { SignIn } from '../pages/signInAndsignUp/SignInPage'
 import App from '../App'
 
+const role = 'USER'
+
+const isAllowed = (roles) => {
+   return roles.includes(role)
+}
+
 export const router = createBrowserRouter([
    {
       path: routes.SIGN_IN,
