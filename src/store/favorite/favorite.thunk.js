@@ -19,25 +19,22 @@ export const getFavoriteItems = createAsyncThunk(
 )
 export const deleteFavoriteItems = createAsyncThunk(
    'favorite/deleteFavoriteItems',
-   async (payload, { rejectWithValue }) => {
+   async (_, { rejectWithValue, dispatch }) => {
       try {
-         const response = await deleteFavoriteItemsRequest()
-         console.log(response)
+         await deleteFavoriteItemsRequest()
+         dispatch(getFavoriteItems())
       } catch (error) {
          rejectWithValue(error)
       }
-      return null
    }
 )
 export const postFavoriteItem = createAsyncThunk(
    'favorite/postFavoriteItems',
    async (id, { rejectWithValue }) => {
       try {
-         const response = await postFavoriteItemRequest(id)
-         console.log(response)
+         await postFavoriteItemRequest(id)
       } catch (error) {
          rejectWithValue(error)
       }
-      return null
    }
 )

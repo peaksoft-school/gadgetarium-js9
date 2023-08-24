@@ -42,6 +42,7 @@ const Container = styled('div')`
       font-family: Orbitron;
       animation: appear 1500ms forwards infinite;
    }
+
    @keyframes appear {
       from {
          opacity: 0;

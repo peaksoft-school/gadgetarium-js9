@@ -16,7 +16,9 @@ import { Loading } from '../../UI/loading/Loading'
 export const Favorite = () => {
    const dispatch = useDispatch()
    const navigate = useNavigate()
-   const { favoriteItems, isLoading } = useSelector((state) => state.favorite)
+   const { favoriteItems, isLoadingFavorite } = useSelector(
+      (state) => state.favorite
+   )
    useEffect(() => {
       dispatch(getFavoriteItems())
    }, [])
@@ -35,7 +37,7 @@ export const Favorite = () => {
    ]
    return (
       <>
-         {isLoading ? null : <Loading />}
+         {isLoadingFavorite && <Loading />}
          <Container>
             {favoriteItems?.length === 0 ? (
                <VoidContainer>
@@ -51,6 +53,7 @@ export const Favorite = () => {
                      padding="11px 21px"
                      backgroundHover="#E313BF"
                      backgroundActive="#C90EA9"
+                     onClick={enterPurchases}
                   >
                      К покупкам
                   </Button>
@@ -63,8 +66,11 @@ export const Favorite = () => {
                      Очистить список товаров
                   </CleanButton>
                   <Products>
-                     {isLoading
-                        ? favoriteItems?.map((el) => {
+                     {isLoadingFavorite
+                        ? arrayForSceleton.map((el) => {
+                             return <CardPhone key={el.id} />
+                          })
+                        : favoriteItems?.map((el) => {
                              return (
                                 <ProductCard
                                    favoriteState
@@ -79,9 +85,6 @@ export const Favorite = () => {
                                    rating={el.rating}
                                 />
                              )
-                          })
-                        : arrayForSceleton.map((el) => {
-                             return <CardPhone key={el.id} />
                           })}
                   </Products>
                   <ButtonContainer>

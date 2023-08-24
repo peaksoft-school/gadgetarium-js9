@@ -126,10 +126,8 @@ const StyledTriangle = styled(Triangle)`
             return '59px'
          case 1:
             return '148px'
-         case 2:
-            return '237px'
          default:
-            return '0'
+            return '237px'
       }
    }};
    left: 327px;

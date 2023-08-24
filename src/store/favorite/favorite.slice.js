@@ -7,7 +7,7 @@ import {
 
 const initialState = {
    favoriteItems: [],
-   isLoading: false,
+   isLoadingFavorite: false,
 }
 
 export const favoriteSlice = createSlice({
@@ -16,31 +16,35 @@ export const favoriteSlice = createSlice({
    reducers: {},
    extraReducers: (builder) => {
       builder.addCase(getFavoriteItems.fulfilled, (state, action) => {
-         return { ...state, favoriteItems: action.payload, isLoading: true }
+         return {
+            ...state,
+            favoriteItems: action.payload,
+            isLoadingFavorite: false,
+         }
       })
       builder.addCase(getFavoriteItems.pending, (state) => {
-         return { ...state, isLoading: false }
+         return { ...state, isLoadingFavorite: true }
       })
       builder.addCase(getFavoriteItems.rejected, (state) => {
-         return { ...state, isLoading: true }
+         return { ...state, isLoadingFavorite: false }
       })
       builder.addCase(deleteFavoriteItems.fulfilled, (state) => {
-         return { ...state, isLoading: true }
+         return { ...state, isLoadingFavorite: false }
       })
       builder.addCase(deleteFavoriteItems.pending, (state) => {
-         return { ...state, isLoading: false }
+         return { ...state, isLoadingFavorite: true }
       })
       builder.addCase(deleteFavoriteItems.rejected, (state) => {
-         return { ...state, isLoading: true }
+         return { ...state, isLoadingFavorite: false }
       })
       builder.addCase(postFavoriteItem.fulfilled, (state) => {
-         return { ...state, isLoading: true }
+         return { ...state, isLoadingFavorite: false }
       })
       builder.addCase(postFavoriteItem.pending, (state) => {
-         return { ...state, isLoading: false }
+         return { ...state, isLoadingFavorite: true }
       })
       builder.addCase(postFavoriteItem.rejected, (state) => {
-         return { ...state, isLoading: true }
+         return { ...state, isLoadingFavorite: false }
       })
    },
 })
