@@ -31,18 +31,16 @@ export const PopUpPage = () => {
                </ArrowNext>
             )}
          >
-            {images.map((image) => {
-               return (
-                  <div style={{ padding: '50px' }}>
-                     <img
-                        width="10vw"
-                        height="90px"
-                        src={image.link}
-                        alt="gadget"
-                     />
-                  </div>
-               )
-            })}
+            {images.map((image) => (
+               <div style={{ padding: '50px' }} key={image.id}>
+                  <img
+                     width="10vw"
+                     height="90px"
+                     src={image.link}
+                     alt="gadget"
+                  />
+               </div>
+            ))}
          </CarouselStyle>
       </div>
    )
