@@ -13,6 +13,7 @@ import { ReactComponent as Menu } from '../../../assets/icons/catalog-icon.svg'
 import { ReactComponent as UserIcons } from '../../../assets/icons/avatar/default-avatar-icon.svg'
 import { navBarForHeader } from '../../../utils/common/constants/header'
 import { logOut } from '../../../store/auth/authThunk'
+import { routes } from '../../../utils/common/constants/routesConstants'
 
 export const Header = ({ favorite, comparison, basket }) => {
    const { number, img, token } = useSelector((state) => state.auth)
@@ -35,13 +36,6 @@ export const Header = ({ favorite, comparison, basket }) => {
 
    function openSelect() {
       setOpen((prev) => !prev)
-   }
-
-   const handleSignInClick = () => {
-      window.location.href = '/signin'
-   }
-   const handleSignUpClick = () => {
-      window.location.href = '/signup'
    }
 
    return (
@@ -70,29 +64,33 @@ export const Header = ({ favorite, comparison, basket }) => {
                   {token !== '' && (
                      <div>
                         {open && (
-                           <Select2>
-                              <p>История заказов</p>
-                              <p>Избранное</p>
-                              <p>Профиль</p>
-                              <p
-                                 style={{ color: '#CB11AB' }}
-                                 onClick={() => dispatch(logOut())}
-                              >
-                                 Выйти
-                              </p>
-                           </Select2>
+                           <div style={{ position: 'relative' }}>
+                              <Select2>
+                                 <p>История заказов</p>
+                                 <p>Избранное</p>
+                                 <p>Профиль</p>
+                                 <p
+                                    style={{ color: '#CB11AB' }}
+                                    onClick={() => dispatch(logOut())}
+                                 >
+                                    Выйти
+                                 </p>
+                              </Select2>
+                           </div>
                         )}
                      </div>
                   )}
                   {open && token === '' && (
-                     <Select>
-                        <SelectParagraph onClick={handleSignInClick}>
-                           Войти
-                        </SelectParagraph>
-                        <SelectParagraph2 onClick={handleSignUpClick}>
-                           Регистрация
-                        </SelectParagraph2>
-                     </Select>
+                     <div style={{ position: 'relative' }}>
+                        <Select>
+                           <SelectParagraph to={routes.SIGN_IN}>
+                              Войти
+                           </SelectParagraph>
+                           <SelectParagraph2 to={routes.SIGN_UP}>
+                              Регистрация
+                           </SelectParagraph2>
+                        </Select>
+                     </div>
                   )}
                   {img !== undefined ? (
                      <User onClick={openSelect} />
@@ -443,15 +441,17 @@ const IconsForm = styled('div')`
    justify-content: space-between;
 `
 const Select = styled('div')`
-   position: fixed;
+   display: flex;
+   position: absolute;
+   flex-direction: column;
    width: 8.875rem;
    height: 5.875rem;
    border-radius: 0.25rem;
    background: #fff;
    box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.1);
    z-index: 99999;
-   top: 50px;
-   left: 1130px;
+   top: 1rem;
+   left: -7rem;
    animation: fadeInOut 0.4s ease-in-out;
 
    @keyframes fadeInOut {
@@ -465,26 +465,36 @@ const Select = styled('div')`
       }
    }
 `
-const SelectParagraph = styled('p')`
+const SelectParagraph = styled(Link)`
+   padding: 0;
+   margin-top: 1.25rem;
+   margin-left: 1.28rem;
    color: red;
-   margin-left: 1.5rem;
    cursor: pointer;
+   &:hover {
+      background-color: #fff;
+   }
 `
-const SelectParagraph2 = styled('p')`
+const SelectParagraph2 = styled(Link)`
+   padding: 0;
+   margin-top: 1rem;
+   margin-left: 1.28rem;
    color: black;
-   margin-left: 1.5rem;
    cursor: pointer;
+   &:hover {
+      background-color: #fff;
+   }
 `
 const Select2 = styled('div')`
-   position: fixed;
+   position: absolute;
+   top: 0.8rem;
+   left: -8.8rem;
    width: 10.8125rem;
    height: 10.25rem;
    border-radius: 0.25rem;
    background: #fff;
    box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.1);
    z-index: 99999;
-   top: 50px;
-   left: 1100px;
    animation: fadeInOut 0.4s ease-in-out;
    p {
       color: #292929;

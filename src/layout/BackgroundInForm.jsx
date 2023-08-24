@@ -1,13 +1,20 @@
 import { styled } from '@mui/material'
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { CustomToast } from '../components/UI/snackbar/CustomToast'
+import { routes } from '../utils/common/constants/routesConstants'
 
 export const BackgroundInForm = ({ children }) => {
+   const navigate = useNavigate()
+
+   const backToHomePage = () => {
+      navigate(routes.USER.index)
+   }
    return (
       <>
          <Container>
             <Title>
-               <Block>
+               <Block onClick={backToHomePage}>
                   <h1>G</h1>
                   <h2>adgetarium</h2>
                </Block>
@@ -35,6 +42,7 @@ const Title = styled('div')`
 
 const Block = styled('div')`
    display: flex;
+   cursor: pointer;
    h1 {
       color: #fff;
       font-size: 2.78763rem;
