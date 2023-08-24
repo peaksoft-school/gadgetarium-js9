@@ -24,16 +24,16 @@ export const FilteredProducts = ({ children, array }) => {
       (state) => state.mainPage
    )
    const [stockPageSize, setStockPageSize] = useState(5)
-   const [novelitiesPageSize, setNovelitiesPageSize] = useState(5)
+   const [noveltiesPageSize, setNoveltiesPageSize] = useState(5)
    const [recommendPageSize, setRecommendPageSize] = useState(5)
 
    const dispatch = useDispatch()
 
    const showMoreHandler = () => {
       switch (array) {
-         case 'novelities':
-            setNovelitiesPageSize(novelitiesPageSize + 5)
-            dispatch(getNovelities({ page: 1, pageSize: novelitiesPageSize }))
+         case 'novelties':
+            setNoveltiesPageSize(noveltiesPageSize + 5)
+            dispatch(getNovelities({ page: 1, pageSize: noveltiesPageSize }))
             break
          case 'recommend':
             setRecommendPageSize(recommendPageSize + 5)
@@ -46,8 +46,8 @@ export const FilteredProducts = ({ children, array }) => {
    }
    useEffect(() => {
       switch (array) {
-         case 'novelities':
-            dispatch(getNovelities({ page: 1, pageSize: novelitiesPageSize }))
+         case 'novelties':
+            dispatch(getNovelities({ page: 1, pageSize: noveltiesPageSize }))
             break
          case 'recommend':
             dispatch(getRecommend({ page: 1, pageSize: recommendPageSize }))

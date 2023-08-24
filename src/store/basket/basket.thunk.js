@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { postBasketByIdRequest } from '../../api/main.page.service'
+import { postBasketByIdRequest } from '../../api/mainPage.service'
 
 export const postBasketById = createAsyncThunk(
    'basket/postBasketById',

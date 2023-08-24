@@ -3,7 +3,7 @@ import {
    getNoveltiesRequest,
    getRecommendRequest,
    getStockRequest,
-} from '../../api/main.page.service'
+} from '../../api/mainPage.service'
 
 export const getStock = createAsyncThunk(
    'mainPage/getStock',
