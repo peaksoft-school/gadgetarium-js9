@@ -13,12 +13,14 @@ export const BackgroundInForm = ({ children }) => {
    return (
       <>
          <Container>
-            <Title>
-               <Block onClick={backToHomePage}>
-                  <h1>G</h1>
-                  <h2>adgetarium</h2>
-               </Block>
-            </Title>
+            <Letter>
+               <Title onClick={backToHomePage}>
+                  <GadgeteriumContainer>
+                     <GIcons>G</GIcons>
+                  </GadgeteriumContainer>
+                  <a href="./">adgetarium</a>
+               </Title>
+            </Letter>
             {children}
          </Container>
          <CustomToast />
@@ -36,23 +38,36 @@ const Container = styled('div')`
 
 const Title = styled('div')`
    display: flex;
-   width: 90%;
-   margin-right: 5rem;
+   align-items: center;
+
+   a {
+      font-family: Orbitron;
+      color: #fff;
+      font-size: 1.75rem;
+      text-decoration: none;
+   }
 `
 
-const Block = styled('div')`
+const Letter = styled('div')`
    display: flex;
-   cursor: pointer;
-   h1 {
-      color: #fff;
-      font-size: 2.78763rem;
-      padding: 0 8px 0 8px;
-      background-color: #cb11ab;
-      font-family: 'Outfit';
-   }
-   h2 {
-      color: #fff;
-      font-size: 2.47788rem;
-      font-family: 'Orbitron';
-   }
+   position: relative;
+   top: 2rem;
+   right: 35rem;
+`
+
+const GadgeteriumContainer = styled('div')`
+   width: 35px;
+   height: 35px;
+   display: flex;
+   background-color: #cb11ab;
+   margin-right: 2.5px;
+   align-items: center;
+   justify-content: center;
+`
+const GIcons = styled('p')`
+   color: #fff;
+   font-family: Outfit;
+   font-size: 32.053px;
+   font-style: normal;
+   font-weight: 600;
 `
