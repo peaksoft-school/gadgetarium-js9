@@ -25,7 +25,7 @@ axiosInstance.interceptors.request.use((config) => {
 })
 
 // !
-const logoutAction = () => { }
+const logoutAction = () => {}
 
 axiosInstance.interceptors.response.use(
    (response) => {

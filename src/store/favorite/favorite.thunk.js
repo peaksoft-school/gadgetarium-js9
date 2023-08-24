@@ -14,7 +14,7 @@ export const getFavoriteItems = createAsyncThunk(
       } catch (error) {
          rejectWithValue(error)
       }
-      return null
+      return []
    }
 )
 export const deleteFavoriteItems = createAsyncThunk(
