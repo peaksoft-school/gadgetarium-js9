@@ -11,9 +11,12 @@ import { ReactComponent as Basket } from '../../../assets/icons/basket-icon.svg'
 import { ReactComponent as Menu } from '../../../assets/icons/catalog-icon.svg'
 import { ReactComponent as UserIcons } from '../../../assets/icons/avatar/default-avatar-icon.svg'
 import { navBarForHeader } from '../../../utils/common/constants/header'
+import GeneralCategorySelectLayout from '../GeneralCategorySelectLayout'
 
 export const Header = ({ favorite, comparison, basket }) => {
    const [fixed, setFixed] = useState(false)
+   const [catalogSelect, setCatalogSelect] = useState(false)
+   const [inputValue, setInputValue] = useState('')
    const changeHeader = () => {
       if (window.scrollY > 64) {
          setFixed(true)
@@ -22,11 +25,12 @@ export const Header = ({ favorite, comparison, basket }) => {
       }
    }
    window.addEventListener('scroll', changeHeader)
-   const [inputValue, setInputValue] = useState('')
    const handleChange = (event) => {
       setInputValue(event.target.value)
    }
-
+   const toggleCatalogSelect = () => {
+      setCatalogSelect(!catalogSelect)
+   }
    return (
       <Headers>
          <CaptionContainer>
@@ -63,10 +67,23 @@ export const Header = ({ favorite, comparison, basket }) => {
                      </GadgeteriumContainer>
                      <a href="./">adgetarium</a>
                   </TitleFixed>
-                  <Btn variant="contained">
-                     <Menu />
-                     <p>Каталог</p>
-                  </Btn>
+                  <CatalogButtonContainer
+                     onMouseEnter={toggleCatalogSelect}
+                     onMouseLeave={toggleCatalogSelect}
+                  >
+                     <Btn variant="contained">
+                        <Menu />
+                        <p>Каталог</p>
+                     </Btn>
+                     {catalogSelect && (
+                        <CatalogSelect fixed={fixed}>
+                           <GeneralCategorySelectLayout
+                              toggleCatalogSelect={toggleCatalogSelect}
+                           />
+                        </CatalogSelect>
+                     )}
+                  </CatalogButtonContainer>
+
                   <Border />
                   <SearchForm>
                      <Input
@@ -76,7 +93,7 @@ export const Header = ({ favorite, comparison, basket }) => {
                         placeholder="Поиск по каталогу магазина  "
                         type="text"
                      />
-                     <StyledVector inputText={inputValue} />
+                     <StyledVector input={inputValue} />
                   </SearchForm>
                </ButtonInputContainer>
                <Massage fixed={fixed}>
@@ -111,7 +128,7 @@ const Headers = styled('header')`
 
    z-index: 999;
 `
-
+const CatalogButtonContainer = styled('div')``
 const Link = styled(NavLink)`
    padding: 10px 14px 12px 14px;
    cursor: pointer;
@@ -216,7 +233,12 @@ const TitleFixed = styled('div')`
       text-decoration: none;
    }
 `
-
+const CatalogSelect = styled('div')`
+   position: absolute;
+   z-index: 9999;
+   left: ${(props) => (props.fixed ? '389px' : '')};
+   top: ${(props) => (props.fixed ? '73px' : '148px')};
+`
 const NavBar = styled('div')`
    display: flex;
    align-items: center;
@@ -260,7 +282,7 @@ const StyledVector = styled(SearchIcon)`
    position: absolute;
    right: 20px;
    path {
-      fill: ${(props) => props.inputText !== '' && '#cb11ab !important'};
+      fill: ${(props) => props.input !== '' && '#cb11ab !important'};
    }
    cursor: pointer;
 `

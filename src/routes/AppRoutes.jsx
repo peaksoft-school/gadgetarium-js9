@@ -6,7 +6,7 @@ import { userRoutes } from './UserRoutes'
 import { USER_ROLE, routes } from '../utils/common/constants/routesConstants'
 import { PrivateRoute } from './PrivateRoutes'
 
-const role = 'ADMIN'
+const role = 'USER'
 
 const isAllowed = (roles) => {
    return roles.includes(role)

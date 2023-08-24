@@ -3,8 +3,10 @@ import { AboutShop } from '../components/user/aboutShop/AboutShop'
 import { Delivery } from '../components/user/delivery/Delivery'
 import { routes } from '../utils/common/constants/routesConstants'
 import { Contacts } from '../components/user/contacts/Contacts'
+import { MainPage } from '../components/user/main.page/MainPage'
 
 export const userRoutes = [
+   { path: routes.USER.index, element: <MainPage /> },
    {
       path: routes.USER.aboutShop,
       element: <AboutShop />,
