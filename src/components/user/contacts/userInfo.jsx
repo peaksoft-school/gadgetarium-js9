@@ -42,7 +42,6 @@ export const UserInfo = () => {
          <div className="InfoContent">
             <div>
                <label htmlFor="name">Имя </label>
-               <InputUi name="name" value={all.name} onChange={onChangeAll} />
                <InputUi
                   id="name"
                   type="text"

@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { getNovelities, getRecommend, getStock } from './main.page.thunk'
+// import { getNovelities, getRecommend, getStock } from './main.page.thunk'
 
 const initialState = {
    stock: [],

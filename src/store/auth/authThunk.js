@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { signIn, signUp, signUpPhoneNumber } from '../../api/authServise'
 import {
    NUMBER_IMG,
-   AUTH_KEY_LOCAL,
+   LOGIN_USER_KEY,
 } from '../../utils/common/constants/globalConstants'
 
 export const signInRequest = createAsyncThunk(
@@ -11,7 +11,7 @@ export const signInRequest = createAsyncThunk(
       try {
          const response = await signIn(data)
 
-         localStorage.setItem(AUTH_KEY_LOCAL, JSON.stringify(response.data))
+         localStorage.setItem(LOGIN_USER_KEY, JSON.stringify(response.data))
          return response.data
       } catch (error) {
          return rejectWithValue(error)
@@ -25,7 +25,7 @@ export const signUpRequest = createAsyncThunk(
       try {
          const response = await signUp(data)
 
-         localStorage.setItem(AUTH_KEY_LOCAL, JSON.stringify(response.data))
+         localStorage.setItem(LOGIN_USER_KEY, JSON.stringify(response.data))
          return response.data
       } catch (error) {
          return rejectWithValue(error)
@@ -47,5 +47,6 @@ export const getPhoneNumber = createAsyncThunk(
 )
 
 export const logOut = createAsyncThunk('admin/logOut', async () => {
-   localStorage.removeItem(STORAGE_KEY)
+   localStorage.removeItem(LOGIN_USER_KEY)
+   localStorage.removeItem(NUMBER_IMG)
 })

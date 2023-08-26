@@ -74,12 +74,9 @@ export const Header = ({ favorite, comparison, basket }) => {
                                  <p>История заказов</p>
                                  <p>Избранное</p>
                                  <p>Профиль</p>
-                                 <p
-                                    style={{ color: '#CB11AB' }}
-                                    onClick={() => dispatch(logOut())}
-                                 >
-                                    Выйти
-                                 </p>
+                                 <div onClick={() => dispatch(logOut())}>
+                                    <p style={{ color: '#CB11AB' }}>Выйти</p>
+                                 </div>
                               </Select2>
                            </div>
                         )}
@@ -144,9 +141,15 @@ export const Header = ({ favorite, comparison, basket }) => {
                   </SearchForm>
                </ButtonInputContainer>
                <Massage fixed={fixed}>
-                  <StyledFaceBookIcon />
-                  <StyledInstagramIcon />
-                  <StyledWhatsAppIcon />
+                  <NavLink>
+                     <StyledFaceBookIcon />
+                  </NavLink>
+                  <NavLink to="https://www.instagram.com/peaksoft.house/">
+                     <StyledInstagramIcon />
+                  </NavLink>
+                  <NavLink>
+                     <StyledWhatsAppIcon />
+                  </NavLink>
                </Massage>
                <IconsForm>
                   <MuiBadge badgeContent={comparison} showZero>
