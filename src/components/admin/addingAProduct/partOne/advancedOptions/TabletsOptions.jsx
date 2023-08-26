@@ -12,7 +12,7 @@ import {
    createNewProduct,
    deleteHandler,
    onChangeSubProduct,
-} from '../../../../store/addProduct/addProductPartOne.slice'
+} from '../../../../../store/addProduct/addProductPartOne.slice'
 
 export const TabletsOptions = () => {
    const dispatch = useDispatch()

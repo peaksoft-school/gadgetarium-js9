@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { styled } from '@mui/material'
-import { ReactComponent as AddPhotoIcon } from '../../../../assets/icons/photo-add/add-photo-icon.svg'
+import { ReactComponent as AddPhotoIcon } from '../../../../../assets/icons/photo-add/add-photo-icon.svg'
 
 const PhotoUploader = () => {
    const [selectedFile, setSelectedFile] = useState(null)

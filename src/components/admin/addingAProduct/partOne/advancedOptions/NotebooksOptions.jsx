@@ -12,7 +12,7 @@ import {
    deleteHandler,
    addCodeColorSubProductRequests,
    addPhotoSubProductRequests,
-} from '../../../../store/addProduct/addProductPartOne.slice'
+} from '../../../../../store/addProduct/addProductPartOne.slice'
 import { AddPhotoGadgets } from '../addPhotoGadgets/AddPhotoGadgets'
 
 export const NotebooksOptions = () => {

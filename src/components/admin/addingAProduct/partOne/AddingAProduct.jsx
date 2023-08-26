@@ -3,16 +3,16 @@ import { useSearchParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { format } from 'date-fns'
-import { HeaderAddingAProduct } from './HeaderAddingAProduct'
+import { HeaderAddingAProduct } from '../HeaderAddingAProduct'
 import { FilterCategory } from './selectСategories/FilterCategory'
 import { AddNewBrandModal } from './selectСategories/AddNewBrandModal'
 import { filterResComponent } from '../../../../utils/helpers/AddFilterResComponent'
-import { Button } from '../../UI/Button'
+import { Button } from '../../../UI/Button'
 import {
    filterCategorySubProduct,
    furtherCollectorProductPartOne,
-} from '../../../store/addProduct/addProductPartOne.slice'
-import { useSnackbar } from '../../../hooks/useSnackbar'
+} from '../../../../store/addProduct/addProductPartOne.slice'
+import { useSnackbar } from '../../../../hooks/useSnackbar'
 
 export const AddingAProduct = () => {
    const [openModalAddNewBrand, setOpenModalAddNewBrand] = useSearchParams()
@@ -27,6 +27,7 @@ export const AddingAProduct = () => {
          dispatch(filterCategorySubProduct())
       }
    }, [newProduct.category])
+   console.log('newProduct: ', newProduct)
 
    const onCloseModalAddNewBrand = () => {
       openModalAddNewBrand.delete('AddingAProduct')

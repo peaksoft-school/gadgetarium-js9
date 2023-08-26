@@ -14,6 +14,7 @@ export const InputUi = forwardRef(
          value,
          onChange,
          onBlur,
+         padding,
          ...props
       },
       ref
@@ -33,16 +34,18 @@ export const InputUi = forwardRef(
       return (
          <div>
             <InputOutlained
-               value={value === undefined || null ? '' : value}
+               {...props}
+               value={value}
                onChange={onChange}
                error={error}
                color={color}
                placeholder={placeholder}
                id={id}
                ref={ref}
+               padding={padding}
+               onBlur={handleBlur}
                type={type === 'password' ? passwordType : type}
                {...props}
-               onBlur={handleBlur}
                endAdornment={
                   type === 'password' ? (
                      <StyleIconButton onClick={handleClickShowPassword}>
@@ -63,14 +66,16 @@ export const InputUi = forwardRef(
 )
 
 const InputOutlained = styled(OutlinedInput)(
-   ({ width, height, padding, fontSize, background }) => ({
+   ({ width, height, padding, fontSize, background, borderradius }) => ({
       width,
       height,
       padding,
       fontSize,
       background,
+      borderRadius: borderradius,
    })
 )
+
 const StyleIconButton = styled(IconButton)`
    position: absolute;
    left: 26.25rem;

@@ -1,5 +1,5 @@
 import { styled } from '@mui/material'
-import { ReactComponent as AddPhotoIcon } from '../../../../assets/icons/photo-add/add-photo-icon.svg'
+import { ReactComponent as AddPhotoIcon } from '../../../../../assets/icons/photo-add/add-photo-icon.svg'
 
 export const InitialStateAddPhotoGadgets = ({
    handleFileChange,

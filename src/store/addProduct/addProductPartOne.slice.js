@@ -307,13 +307,23 @@ export const addProductSlice = createSlice({
       },
 
       furtherCollectorProductPartOne(state, { payload }) {
+         console.log('payload: ', payload)
+
          const updatedSubProductRequests =
             state.newProduct.subProductRequests.map((item) => {
+               console.log(
+                  'state.newProduct.subProductRequests: ',
+                  state.newProduct.subProductRequests
+               )
+
+               console.log('item: ', item.images)
+
                const resImg = item.images.map((imageItem) => imageItem.img)
                let updatedItem = {}
 
                if (state.newProduct.category === 'Смартфон') {
                   updatedItem = {
+                     id: item.id,
                      codeColor: item.codeColor,
                      rom: +item.rom,
                      ram: +item.ram,
@@ -327,6 +337,7 @@ export const addProductSlice = createSlice({
                }
                if (state.newProduct.category === 'Ноутбук') {
                   updatedItem = {
+                     id: item.id,
                      codeColor: item.codeColor,
                      processor: item.processor,
                      screenResolution: item.screenResolution,
@@ -344,6 +355,7 @@ export const addProductSlice = createSlice({
 
                if (state.newProduct.category === 'Смарт-часы и браслеты') {
                   updatedItem = {
+                     id: item.id,
                      codeColor: item.codeColor,
                      quantity: +item.quantity,
                      images: resImg,
@@ -363,6 +375,7 @@ export const addProductSlice = createSlice({
 
                if (state.newProduct.category === 'Планшеты') {
                   updatedItem = {
+                     id: item.id,
                      codeColor: item.codeColor,
                      screenResolution: item.screenResolution,
                      ram: +item.ram,
@@ -379,6 +392,8 @@ export const addProductSlice = createSlice({
                }
                return updatedItem
             })
+
+         console.log('updatedSubProductRequests: ', updatedSubProductRequests)
 
          return {
             ...state,

@@ -17,7 +17,7 @@ import {
    deleteHandler,
    addPhotoSubProductRequests,
    addCodeColorSubProductRequests,
-} from '../../../../store/addProduct/addProductPartOne.slice'
+} from '../../../../../store/addProduct/addProductPartOne.slice'
 
 export const WatchAdvancedOptions = () => {
    const dispatch = useDispatch()

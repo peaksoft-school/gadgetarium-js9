@@ -13,7 +13,7 @@ import {
    createNewProduct,
    deleteHandler,
    onChangeSubProduct,
-} from '../../../../store/addProduct/addProductPartOne.slice'
+} from '../../../../../store/addProduct/addProductPartOne.slice'
 
 export const SmartphoneAdvancedOptions = () => {
    const dispatch = useDispatch()
