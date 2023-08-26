@@ -5,11 +5,11 @@ import {
    signInRequest,
    signUpRequest,
 } from './authThunk'
-import { AUTH_KEY_LOCAL } from '../../utils/common/constants/globalConstants'
+import { LOGIN_USER_KEY } from '../../utils/common/constants/globalConstants'
 import { USER_ROLE } from '../../utils/common/constants/routesConstants'
 
 const getInitialState = () => {
-   const json = localStorage.getItem(AUTH_KEY_LOCAL)
+   const json = localStorage.getItem(LOGIN_USER_KEY)
    const phoneNumberFromLocal = localStorage.getItem('NUMBER_IMG')
    const phoneNumber = phoneNumberFromLocal
       ? JSON.parse(phoneNumberFromLocal)

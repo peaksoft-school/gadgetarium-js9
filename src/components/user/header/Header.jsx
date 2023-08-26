@@ -144,9 +144,15 @@ export const Header = ({ favorite, comparison, basket }) => {
                   </SearchForm>
                </ButtonInputContainer>
                <Massage fixed={fixed}>
-                  <StyledFaceBookIcon />
-                  <StyledInstagramIcon />
-                  <StyledWhatsAppIcon />
+                  <NavLink>
+                     <StyledFaceBookIcon />
+                  </NavLink>
+                  <NavLink to="https://www.instagram.com/peaksoft.house/">
+                     <StyledInstagramIcon />
+                  </NavLink>
+                  <NavLink>
+                     <StyledWhatsAppIcon />
+                  </NavLink>
                </Massage>
                <IconsForm>
                   <MuiBadge badgeContent={comparison} showZero>

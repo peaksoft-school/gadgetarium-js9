@@ -204,7 +204,7 @@ const Info = styled('div')`
    p {
       color: #858fa4;
       margin-top: 0.75rem;
-      cursor: pointer;
+
       &:hover {
          color: #fff;
       }
