@@ -1,6 +1,7 @@
 import { styled, Button, Badge } from '@mui/material'
 import { NavLink } from 'react-router-dom'
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { ReactComponent as SearchIcon } from '../../../assets/icons/search-icon.svg'
 import { ReactComponent as Instagram } from '../../../assets/icons/messangers/instagram-icon.svg'
 import { ReactComponent as WhatsApp } from '../../../assets/icons/messangers/whatsapp-icon.svg'
@@ -11,9 +12,18 @@ import { ReactComponent as Basket } from '../../../assets/icons/basket-icon.svg'
 import { ReactComponent as Menu } from '../../../assets/icons/catalog-icon.svg'
 import { ReactComponent as UserIcons } from '../../../assets/icons/avatar/default-avatar-icon.svg'
 import { navBarForHeader } from '../../../utils/common/constants/header'
+import { logOut } from '../../../store/auth/authThunk'
+import { routes } from '../../../utils/common/constants/routesConstants'
+import GeneralCategorySelectLayout from '../GeneralCategorySelectLayout'
 
 export const Header = ({ favorite, comparison, basket }) => {
+   const { number, img, token } = useSelector((state) => state.auth)
+   const dispatch = useDispatch()
+
    const [fixed, setFixed] = useState(false)
+   const [open, setOpen] = useState(false)
+   const [catalogSelect, setCatalogSelect] = useState(false)
+   const [inputValue, setInputValue] = useState('')
    const changeHeader = () => {
       if (window.scrollY > 64) {
          setFixed(true)
@@ -22,11 +32,17 @@ export const Header = ({ favorite, comparison, basket }) => {
       }
    }
    window.addEventListener('scroll', changeHeader)
-   const [inputValue, setInputValue] = useState('')
    const handleChange = (event) => {
       setInputValue(event.target.value)
    }
 
+   function openSelect() {
+      setOpen((prev) => !prev)
+   }
+
+   const toggleCatalogSelect = () => {
+      setCatalogSelect(!catalogSelect)
+   }
    return (
       <Headers>
          <CaptionContainer>
@@ -49,8 +65,43 @@ export const Header = ({ favorite, comparison, basket }) => {
                   ))}
                </NavBar>
                <UserNumber>
-                  <p>+996 (400) 00-00-00</p>
-                  <User />
+                  <p>{number}</p>
+                  {token !== '' && (
+                     <div>
+                        {open && (
+                           <div style={{ position: 'relative' }}>
+                              <Select2>
+                                 <p>История заказов</p>
+                                 <p>Избранное</p>
+                                 <p>Профиль</p>
+                                 <p
+                                    style={{ color: '#CB11AB' }}
+                                    onClick={() => dispatch(logOut())}
+                                 >
+                                    Выйти
+                                 </p>
+                              </Select2>
+                           </div>
+                        )}
+                     </div>
+                  )}
+                  {open && token === '' && (
+                     <div style={{ position: 'relative' }}>
+                        <Select>
+                           <SelectParagraph to={routes.SIGN_IN}>
+                              Войти
+                           </SelectParagraph>
+                           <SelectParagraph2 to={routes.SIGN_UP}>
+                              Регистрация
+                           </SelectParagraph2>
+                        </Select>
+                     </div>
+                  )}
+                  {img !== undefined ? (
+                     <User onClick={openSelect} />
+                  ) : (
+                     <User onClick={openSelect} />
+                  )}
                </UserNumber>
             </Caption>
          </CaptionContainer>
@@ -63,10 +114,23 @@ export const Header = ({ favorite, comparison, basket }) => {
                      </GadgeteriumContainer>
                      <a href="./">adgetarium</a>
                   </TitleFixed>
-                  <Btn variant="contained">
-                     <Menu />
-                     <p>Каталог</p>
-                  </Btn>
+                  <CatalogButtonContainer
+                     onMouseEnter={toggleCatalogSelect}
+                     onMouseLeave={toggleCatalogSelect}
+                  >
+                     <Btn variant="contained">
+                        <Menu />
+                        <p>Каталог</p>
+                     </Btn>
+                     {catalogSelect && (
+                        <CatalogSelect fixed={fixed}>
+                           <GeneralCategorySelectLayout
+                              toggleCatalogSelect={toggleCatalogSelect}
+                           />
+                        </CatalogSelect>
+                     )}
+                  </CatalogButtonContainer>
+
                   <Border />
                   <SearchForm>
                      <Input
@@ -76,7 +140,7 @@ export const Header = ({ favorite, comparison, basket }) => {
                         placeholder="Поиск по каталогу магазина  "
                         type="text"
                      />
-                     <StyledVector inputText={inputValue} />
+                     <StyledVector input={inputValue} />
                   </SearchForm>
                </ButtonInputContainer>
                <Massage fixed={fixed}>
@@ -111,7 +175,7 @@ const Headers = styled('header')`
 
    z-index: 999;
 `
-
+const CatalogButtonContainer = styled('div')``
 const Link = styled(NavLink)`
    padding: 10px 14px 12px 14px;
    cursor: pointer;
@@ -216,7 +280,12 @@ const TitleFixed = styled('div')`
       text-decoration: none;
    }
 `
-
+const CatalogSelect = styled('div')`
+   position: absolute;
+   z-index: 9999;
+   left: ${(props) => (props.fixed ? '389px' : '')};
+   top: ${(props) => (props.fixed ? '73px' : '148px')};
+`
 const NavBar = styled('div')`
    display: flex;
    align-items: center;
@@ -260,7 +329,7 @@ const StyledVector = styled(SearchIcon)`
    position: absolute;
    right: 20px;
    path {
-      fill: ${(props) => props.inputText !== '' && '#cb11ab !important'};
+      fill: ${(props) => props.input !== '' && '#cb11ab !important'};
    }
    cursor: pointer;
 `
@@ -393,4 +462,77 @@ const IconsForm = styled('div')`
    align-items: center;
    width: 9rem;
    justify-content: space-between;
+`
+const Select = styled('div')`
+   display: flex;
+   position: absolute;
+   flex-direction: column;
+   width: 8.875rem;
+   height: 5.875rem;
+   border-radius: 0.25rem;
+   background: #fff;
+   box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.1);
+   z-index: 99999;
+   top: 1rem;
+   left: -7rem;
+   animation: fadeInOut 0.4s ease-in-out;
+
+   @keyframes fadeInOut {
+      0% {
+         opacity: 0;
+         transform: translateY(-10px);
+      }
+      100% {
+         opacity: 1;
+         transform: translateY(0);
+      }
+   }
+`
+const SelectParagraph = styled(Link)`
+   padding: 0;
+   margin-top: 1.25rem;
+   margin-left: 1.28rem;
+   color: red;
+   cursor: pointer;
+   &:hover {
+      background-color: #fff;
+   }
+`
+const SelectParagraph2 = styled(Link)`
+   padding: 0;
+   margin-top: 1rem;
+   margin-left: 1.28rem;
+   color: black;
+   cursor: pointer;
+   &:hover {
+      background-color: #fff;
+   }
+`
+const Select2 = styled('div')`
+   position: absolute;
+   top: 0.8rem;
+   left: -8.8rem;
+   width: 10.8125rem;
+   height: 10.25rem;
+   border-radius: 0.25rem;
+   background: #fff;
+   box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.1);
+   z-index: 99999;
+   animation: fadeInOut 0.4s ease-in-out;
+   p {
+      color: #292929;
+      cursor: pointer;
+      margin-left: 1.5rem;
+   }
+
+   @keyframes fadeInOut {
+      0% {
+         opacity: 0;
+         transform: translateY(-10px);
+      }
+      100% {
+         opacity: 1;
+         transform: translateY(0);
+      }
+   }
 `

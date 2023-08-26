@@ -1,25 +1,21 @@
 import { Navigate, createBrowserRouter } from 'react-router-dom'
-import App from '../App'
 import { AdminLayout } from '../layout/admin/AdminLayout'
 import { adminRoutes } from './AdminRoutes'
 import { userRoutes } from './UserRoutes'
 import { USER_ROLE, routes } from '../utils/common/constants/routesConstants'
 import { PrivateRoute } from './PrivateRoutes'
-
-const role = 'ADMIN'
-
-const isAllowed = (roles) => {
-   return roles.includes(role)
-}
+import { SignUp } from '../pages/signInAndsignUp/SignUpPage'
+import { SignIn } from '../pages/signInAndsignUp/SignInPage'
+import App from '../App'
 
 export const router = createBrowserRouter([
    {
       path: routes.SIGN_IN,
       element: (
          <PrivateRoute
-            isAllowed={isAllowed([USER_ROLE.GUEST, USER_ROLE.USER])}
-            fallBacPath={role === USER_ROLE.ADMIN ? '/admin' : '/'}
-            component={<h1>Sign In</h1>}
+            roles={[USER_ROLE.GUEST, USER_ROLE.USER]}
+            fallBacPath="register"
+            component={<SignIn />}
          />
       ),
    },
@@ -27,9 +23,9 @@ export const router = createBrowserRouter([
       path: routes.SIGN_UP,
       element: (
          <PrivateRoute
-            isAllowed={isAllowed([USER_ROLE.GUEST, USER_ROLE.USER])}
-            fallBacPath={role === USER_ROLE.ADMIN ? '/admin' : '/'}
-            component={<h1>Sign Up</h1>}
+            roles={[USER_ROLE.GUEST, USER_ROLE.USER]}
+            fallBacPath="register"
+            component={<SignUp />}
          />
       ),
    },
@@ -37,7 +33,7 @@ export const router = createBrowserRouter([
       path: routes.USER.index,
       element: (
          <PrivateRoute
-            isAllowed={isAllowed([USER_ROLE.GUEST, USER_ROLE.USER])}
+            roles={[USER_ROLE.GUEST, USER_ROLE.USER]}
             fallBacPath="/admin"
             component={<App />}
          />
@@ -48,7 +44,7 @@ export const router = createBrowserRouter([
       path: routes.ADMIN.index,
       element: (
          <PrivateRoute
-            isAllowed={isAllowed([USER_ROLE.ADMIN])}
+            roles={[USER_ROLE.ADMIN]}
             fallBacPath="/"
             component={<AdminLayout />}
          />
