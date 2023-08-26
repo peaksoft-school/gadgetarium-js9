@@ -43,6 +43,11 @@ export const Header = ({ favorite, comparison, basket }) => {
    const toggleCatalogSelect = () => {
       setCatalogSelect(!catalogSelect)
    }
+
+   const handleSelectClick = () => {
+      openSelect()
+   }
+
    return (
       <Headers>
          <CaptionContainer>
@@ -74,12 +79,9 @@ export const Header = ({ favorite, comparison, basket }) => {
                                  <p>История заказов</p>
                                  <p>Избранное</p>
                                  <p>Профиль</p>
-                                 <p
-                                    style={{ color: '#CB11AB' }}
-                                    onClick={() => dispatch(logOut())}
-                                 >
-                                    Выйти
-                                 </p>
+                                 <div onClick={() => dispatch(logOut())}>
+                                    <p style={{ color: '#CB11AB' }}>Выйти</p>
+                                 </div>
                               </Select2>
                            </div>
                         )}
@@ -98,10 +100,8 @@ export const Header = ({ favorite, comparison, basket }) => {
                      </div>
                   )}
                   {img !== undefined ? (
-                     <User onClick={openSelect} />
-                  ) : (
-                     <User onClick={openSelect} />
-                  )}
+                     <User onClick={handleSelectClick} />
+                  ) : null}
                </UserNumber>
             </Caption>
          </CaptionContainer>
