@@ -13,7 +13,7 @@ import { Button } from '../../UI/Button'
 import { CardPhone } from '../card/CardPhone'
 import { Loading } from '../../UI/loading/Loading'
 
-export const Favorite = () => {
+export const Favorite = React.memo(() => {
    const dispatch = useDispatch()
    const navigate = useNavigate()
    const { favoriteItems, isLoadingFavorite } = useSelector(
@@ -104,7 +104,8 @@ export const Favorite = () => {
          </Container>
       </>
    )
-}
+})
+Favorite.displayName = 'Favorite'
 const Title = styled('p')`
    color: #292929;
    font-family: Ubuntu;

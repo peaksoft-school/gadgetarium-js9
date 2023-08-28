@@ -8,10 +8,14 @@ import { getFavoriteItems } from '../../store/favorite/favorite.thunk'
 
 export const UserLayout = () => {
    const { favoriteItems } = useSelector((state) => state.favorite)
+   const { isAuthorization } = useSelector((state) => state.auth)
+
    const location = useLocation()
    const dispatch = useDispatch()
    useEffect(() => {
-      dispatch(getFavoriteItems())
+      if (isAuthorization) {
+         dispatch(getFavoriteItems())
+      }
    }, [])
    return (
       <Container>

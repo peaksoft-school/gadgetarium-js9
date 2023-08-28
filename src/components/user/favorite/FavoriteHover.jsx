@@ -11,7 +11,7 @@ import {
 import { useSnackbar } from '../../../hooks/useSnackbar'
 import { Button } from '../../UI/Button'
 
-export const FavoriteHover = ({ path, favorite, array }) => {
+export const FavoriteHover = React.memo(({ path, favorite, array }) => {
    const dispatch = useDispatch()
    const navigate = useNavigate()
    const location = useLocation()
@@ -100,7 +100,8 @@ export const FavoriteHover = ({ path, favorite, array }) => {
          )}
       </Container>
    )
-}
+})
+FavoriteHover.displayName = 'FavoriteHover'
 const Container = styled('div')`
    width: 26.042vw;
    height: min-content;

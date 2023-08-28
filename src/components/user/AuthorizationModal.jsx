@@ -5,13 +5,13 @@ import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { ReactComponent as CloseIcon } from '../../assets/icons/cross/big-cross-icon.svg'
-import { InputUi } from '../../components/UI/Input'
+import { Modal } from '../UI/Modal'
+import { InputUi } from '../UI/Input'
 import { getPhoneNumber, signInRequest } from '../../store/auth/authThunk'
-import { BackgroundInForm } from '../../layout/BackgroundInForm'
 import { useSnackbar } from '../../hooks/useSnackbar'
 import { schemaSignIn } from '../../utils/helpers/reactHookFormShema'
 
-export const SignIn = () => {
+export const AuthorizationModal = ({ openModal, toggleHandler }) => {
    const { snackbarHandler } = useSnackbar()
 
    const dispatch = useDispatch()
@@ -34,6 +34,7 @@ export const SignIn = () => {
             message: 'Вход успешно выполнен',
             type: 'success',
          })
+         toggleHandler()
          if (response.role === 'USER') {
             navigate('/')
             dispatch(getPhoneNumber(data)).unwrap()
@@ -52,17 +53,22 @@ export const SignIn = () => {
    const combinedError = formState.errors.email || formState.errors.password
 
    const onCloseHandler = () => {
-      navigate(-1)
+      toggleHandler()
    }
-
+   const open = !!openModal
    return (
-      <BackgroundInForm>
+      <StyledModal open={open} onClose={toggleHandler} padding="0">
          <Container>
-            <MuiCloseIcon onClick={onCloseHandler} />
-            <h2>Войти</h2>
+            <CloseContainer>
+               <MuiCloseIcon onClick={onCloseHandler} />
+            </CloseContainer>
+            <LoginWarning sx={{ marginTop: '26px' }}>Вы не вошли</LoginWarning>
+            <LoginWarning>войдите или зарегестрируйтесь</LoginWarning>
+            <LoginText>Войти</LoginText>
             <Form onSubmit={handleSubmit(onSubmit)}>
                <Input
                   width="29rem"
+                  height="43px"
                   {...register('email')}
                   placeholder="Напишите email"
                   type="email"
@@ -70,6 +76,7 @@ export const SignIn = () => {
                />
                <Input
                   width="29rem"
+                  height="43px"
                   error={!!formState.errors.password}
                   {...register('password')}
                   placeholder="Напишите пароль"
@@ -92,51 +99,89 @@ export const SignIn = () => {
                </p>
             </Block>
          </Container>
-      </BackgroundInForm>
+      </StyledModal>
    )
 }
-
 const Container = styled('div')`
-   margin-top: 8rem;
-   padding-bottom: 2.5rem;
+   width: 35.875rem;
+   padding: 1.25rem;
    border-radius: 0.25rem;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
    background: #fff;
    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
    h2 {
-      margin-left: 15.5rem;
+      /* margin-left: 15.5rem; */
    }
 `
-
+const LoginText = styled('p')`
+   color: #292929;
+   text-align: center;
+   font-family: Inter;
+   font-size: 1.75rem;
+   font-style: normal;
+   font-weight: 500;
+   line-height: 110%;
+   margin: 0;
+   margin-top: 1.5rem;
+   margin-bottom: 1.5rem;
+`
+const LoginWarning = styled('p')`
+   color: #292929;
+   text-align: center;
+   font-family: Inter;
+   font-size: 1.25rem;
+   font-style: normal;
+   font-weight: 600;
+   line-height: 120%;
+   margin: 0;
+`
+const StyledModal = styled(Modal)`
+   padding: 0;
+`
 const ButtonUi = styled(Button)`
    width: 28.75rem;
    height: 2.9375rem;
    color: #fff;
-   margin-left: 3.75rem;
 `
 const Block = styled('div')`
    display: flex;
-   margin-top: 1rem;
-   margin-left: 9.75rem;
+   margin-top: 0.75rem;
+   margin-bottom: 2.5rem;
+   p {
+      margin: 0;
+   }
    a {
       text-decoration: none;
    }
 `
 const Input = styled(InputUi)`
-   margin-left: 3.78rem;
+   .MuiInputBase-input {
+      height: 1.6875rem;
+      background: #f6f6f6;
+      padding: 0;
+      padding: 0.5rem 1.125rem;
+   }
    padding-right: 0;
 `
 const ErrorTitle = styled('div')`
    display: flex;
-   width: 35.875rem;
    justify-content: center;
+   width: 80%;
+   text-align: center;
 `
 const MuiCloseIcon = styled(CloseIcon)`
-   margin-top: 1.5rem;
-   margin-left: 33.5rem;
    cursor: pointer;
 `
 const Form = styled('form')`
    display: flex;
    flex-direction: column;
-   gap: 1.25rem;
+   align-items: center;
+   gap: 1rem;
+`
+const CloseContainer = styled('div')`
+   width: 100%;
+   display: flex;
+   justify-content: flex-end;
 `

@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
 import { Rating, styled } from '@mui/material'
 import { ReactComponent as Comparison } from '../../../assets/icons/comparison-icon.svg'
 import { ReactComponent as Favourite } from '../../../assets/icons/favourites-icon.svg'
@@ -19,7 +18,7 @@ import {
    getRecommend,
    getStock,
 } from '../../../store/main.page/main.page.thunk'
-import { Modal } from '../../UI/Modal'
+import { AuthorizationModal } from '../AuthorizationModal'
 
 export const ProductCard = ({
    recomendationState = false,
@@ -43,7 +42,6 @@ export const ProductCard = ({
 
    const [openModal, setOpenModal] = useState(false)
    const dispatch = useDispatch()
-   const navigate = useNavigate()
    const discountPrice = price - (price * discount) / 100
    const toggleFavoriteHandler = async () => {
       if (isAuthorization) {
@@ -120,27 +118,18 @@ export const ProductCard = ({
          setOpenModal(!openModal)
       }
    }
-   const closeModalHandler = () => {
-      setOpenModal(false)
+   const toggleHandler = () => {
+      setOpenModal(!openModal)
    }
    return (
       <Card onClick={() => cardHandler(id)}>
-         <StyledModal open={openModal} onClose={closeModalHandler}>
-            <p>Вы не вошли</p>
-            <div>
-               <Button
-                  backgroundHover="#cb11ab"
-                  backgroundActive="#cb11Ab"
-                  variant="outlined"
-                  onClick={() => navigate('/signIn')}
-               >
-                  Войти
-               </Button>
-               <Button variant="contained" onClick={() => navigate('/signUp')}>
-                  Зарегистрироватся
-               </Button>
-            </div>
-         </StyledModal>
+         {openModal && (
+            <AuthorizationModal
+               openModal={openModal}
+               toggleHandler={toggleHandler}
+            />
+         )}
+
          <ButtonContainer>
             <CircleContainer>
                {discount === 0 &&
@@ -210,26 +199,6 @@ export const ProductCard = ({
 const MarginDiv = styled('div')`
    width: 2.25rem;
    height: 2.25rem;
-`
-const StyledModal = styled(Modal)`
-   .MuiBox-root {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 0.833vw;
-      height: 16vh;
-      width: 18vw;
-      p {
-         font-weight: 600;
-         font-size: 20px;
-         margin-top: 10px;
-      }
-      div {
-         display: flex;
-         width: 100%;
-         justify-content: space-between;
-      }
-   }
 `
 const StyledBasketIcon = styled(BasketIcon)`
    width: 1.25vw;
