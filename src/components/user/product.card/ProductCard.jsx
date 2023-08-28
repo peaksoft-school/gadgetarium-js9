@@ -1,4 +1,6 @@
-import { useDispatch } from 'react-redux'
+import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { Rating, styled } from '@mui/material'
 import { ReactComponent as Comparison } from '../../../assets/icons/comparison-icon.svg'
 import { ReactComponent as Favourite } from '../../../assets/icons/favourites-icon.svg'
@@ -17,6 +19,7 @@ import {
    getRecommend,
    getStock,
 } from '../../../store/main.page/main.page.thunk'
+import { Modal } from '../../UI/Modal'
 
 export const ProductCard = ({
    recomendationState = false,
@@ -36,33 +39,42 @@ export const ProductCard = ({
    id = '1',
 }) => {
    const { snackbarHandler } = useSnackbar()
+   const { isAuthorization } = useSelector((state) => state.auth)
+
+   const [openModal, setOpenModal] = useState(false)
    const dispatch = useDispatch()
+   const navigate = useNavigate()
    const discountPrice = price - (price * discount) / 100
    const toggleFavoriteHandler = async () => {
-      dispatch(postFavoriteItem(id))
-         .unwrap()
-         .then(() => {
-            dispatch(getNovelities({ page: 1, pageSize: noveltiesPageSize }))
-            dispatch(getRecommend({ page: 1, pageSize: recommendPageSize }))
-            dispatch(getStock({ page: 1, pageSize: stockPageSize }))
-            dispatch(getFavoriteItems())
-            if (favoriteState) {
-               snackbarHandler({
-                  message: 'Товар удален из избранных',
-               })
-            } else {
-               snackbarHandler({
-                  message: 'Товар добавлен в избранные',
-                  linkText: 'Перейти в избранное ',
-                  path: '/favorite',
-               })
-            }
-         })
-         .catch((error) => {
-            console.error('Error dispatching postFavoriteItem:', error)
-            snackbarHandler({ message: error.message, type: 'error' })
-         })
+      if (isAuthorization) {
+         dispatch(postFavoriteItem(id))
+            .unwrap()
+            .then(() => {
+               dispatch(getNovelities({ page: 1, pageSize: noveltiesPageSize }))
+               dispatch(getRecommend({ page: 1, pageSize: recommendPageSize }))
+               dispatch(getStock({ page: 1, pageSize: stockPageSize }))
+               dispatch(getFavoriteItems())
+               if (favoriteState) {
+                  snackbarHandler({
+                     message: 'Товар удален из избранных',
+                  })
+               } else {
+                  snackbarHandler({
+                     message: 'Товар добавлен в избранные',
+                     linkText: 'Перейти в избранное ',
+                     path: '/favorite',
+                  })
+               }
+            })
+            .catch((error) => {
+               console.error('Error dispatching postFavoriteItem:', error)
+               snackbarHandler({ message: error.message, type: 'error' })
+            })
+      } else {
+         setOpenModal(!openModal)
+      }
    }
+
    const toggleComparisonHandler = () => {
       // dispatch(postCompareProduct({ id, addOrDelete: !comparisonState }))
       //    .unwrap()
@@ -88,23 +100,47 @@ export const ProductCard = ({
       console.log(id)
    }
    const postProductToBasket = async () => {
-      dispatch(postBasketById(id))
-         .then(() => {
-            snackbarHandler({
-               message: 'Товар успешно добавлен в корзину',
-               linkText: 'Перейти в корзину',
-               path: '/basket',
+      if (isAuthorization) {
+         dispatch(postBasketById(id))
+            .unwrap()
+            .then(() => {
+               snackbarHandler({
+                  message: 'Товар успешно добавлен в корзину',
+                  linkText: 'Перейти в корзину',
+                  path: '/basket',
+               })
             })
-         })
-         .catch(() => {
-            snackbarHandler({
-               message: 'Товар не добавлен в корзину',
-               type: 'error',
+            .catch(() => {
+               snackbarHandler({
+                  message: 'Товар не добавлен в корзину',
+                  type: 'error',
+               })
             })
-         })
+      } else {
+         setOpenModal(!openModal)
+      }
+   }
+   const closeModalHandler = () => {
+      setOpenModal(false)
    }
    return (
       <Card onClick={() => cardHandler(id)}>
+         <StyledModal open={openModal} onClose={closeModalHandler}>
+            <p>Вы не вошли</p>
+            <div>
+               <Button
+                  backgroundHover="#cb11ab"
+                  backgroundActive="#cb11Ab"
+                  variant="outlined"
+                  onClick={() => navigate('/signIn')}
+               >
+                  Войти
+               </Button>
+               <Button variant="contained" onClick={() => navigate('/signUp')}>
+                  Зарегистрироватся
+               </Button>
+            </div>
+         </StyledModal>
          <ButtonContainer>
             <CircleContainer>
                {discount === 0 &&
@@ -174,6 +210,26 @@ export const ProductCard = ({
 const MarginDiv = styled('div')`
    width: 2.25rem;
    height: 2.25rem;
+`
+const StyledModal = styled(Modal)`
+   .MuiBox-root {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0.833vw;
+      height: 16vh;
+      width: 18vw;
+      p {
+         font-weight: 600;
+         font-size: 20px;
+         margin-top: 10px;
+      }
+      div {
+         display: flex;
+         width: 100%;
+         justify-content: space-between;
+      }
+   }
 `
 const StyledBasketIcon = styled(BasketIcon)`
    width: 1.25vw;
