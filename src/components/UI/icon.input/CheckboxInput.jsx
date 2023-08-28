@@ -2,7 +2,7 @@ import React from 'react'
 import Checkbox from '@mui/material/Checkbox'
 import { styled } from '@mui/material'
 
-function CheckboxInput({ isChecked, onChange, bgColor, onClick }) {
+function CheckboxInput({ isChecked, onChange, bgColor, onClick, ...props }) {
    return (
       <StyledCheckbox
          checked={isChecked}
@@ -10,13 +10,15 @@ function CheckboxInput({ isChecked, onChange, bgColor, onClick }) {
          backgroundcolor={bgColor}
          onClick={onClick}
          color="primary"
+         {...props}
       />
    )
 }
 export default CheckboxInput
 
-const StyledCheckbox = styled(Checkbox)(({ backgroundcolor }) => ({
+const StyledCheckbox = styled(Checkbox)(({ backgroundcolor, ...props }) => ({
    color: 'gray',
+   width: props.width || 'auto',
    '&:hover': {
       background: 'none',
       color: backgroundcolor,

@@ -14,6 +14,7 @@ export const routes = {
       faq: 'faq',
       contacts: 'contacts',
       favorite: 'favorite',
+      compare: 'compare',
    },
 }
 

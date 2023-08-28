@@ -13,7 +13,7 @@ const categories = [
    { id: 4, title: 'Аксессуары', icon: Headphone },
 ]
 
-const GeneralCategorySelectLayout = () => {
+const GeneralCategorySelectLayout = ({ toggleCatalogSelect }) => {
    const [categoryStates, setCategoryStates] = useState({
       smartphone: false,
       desktop: false,
@@ -36,6 +36,7 @@ const GeneralCategorySelectLayout = () => {
          watch: false,
          headphone: false,
       })
+      toggleCatalogSelect()
    }
 
    return (

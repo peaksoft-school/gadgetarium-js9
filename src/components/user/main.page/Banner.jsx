@@ -1,31 +1,19 @@
 import { styled } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Carousel } from 'react-responsive-carousel'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
-import banner from '../../../assets/images/banner/banner.png'
-import airpodsBanner from '../../../assets/images/banner/airpods-banner.jpg'
-import watchBanner from '../../../assets/images/banner/watch-banner.jpg'
-import laptopBanner from '../../../assets/images/banner/laptop-banner.jpg'
+import { useDispatch, useSelector } from 'react-redux'
+import { getBanners } from '../../../store/main.page/main.page.thunk'
 
-const banners = [
-   {
-      src: banner,
-      id: 1,
-   },
-   {
-      src: airpodsBanner,
-      id: 2,
-   },
-   {
-      src: watchBanner,
-      id: 3,
-   },
-   {
-      src: laptopBanner,
-      id: 4,
-   },
-]
 export const BannerCarousel = () => {
+   const dispatch = useDispatch()
+   const banner = useSelector((state) => state.mainPage.banner)
+   console.log(banner)
+
+   useEffect(() => {
+      dispatch(getBanners())
+      console.log(banner)
+   }, [])
    return (
       <StyledCarousel
          autoPlay
@@ -34,9 +22,9 @@ export const BannerCarousel = () => {
          showStatus={false}
          showThumbs={false}
       >
-         {banners.map((banner, index) => (
+         {banner?.map((banner, index) => (
             <div key={banner.id}>
-               <Image src={banner.src} alt={`Banner ${index + 1}`} />
+               <Image src={banner.images[0]} alt={`Banner ${index + 1}`} />
             </div>
          ))}
       </StyledCarousel>
