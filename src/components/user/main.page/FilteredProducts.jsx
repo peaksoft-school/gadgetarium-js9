@@ -76,6 +76,11 @@ export const FilteredProducts = ({ children, array }) => {
                      countOfReviews={el.countOfReviews}
                      price={el.price}
                      rating={el.rating}
+                     favoriteState={el.favorite}
+                     comparisonState={el.comparison}
+                     noveltiesPageSize={noveltiesPageSize}
+                     stockPageSize={stockPageSize}
+                     recommendPageSize={recommendPageSize}
                   />
                ))}
             {array === 'stock' && !isLoading && stock.length === 0 && (
@@ -98,7 +103,13 @@ export const FilteredProducts = ({ children, array }) => {
                      quantity={el.quantity}
                      countOfReviews={el.countOfReviews}
                      price={el.price}
+                     newState
                      rating={el.rating}
+                     favoriteState={el.favorite}
+                     comparisonState={el.comparison}
+                     noveltiesPageSize={noveltiesPageSize}
+                     stockPageSize={stockPageSize}
+                     recommendPageSize={recommendPageSize}
                   />
                ))}
 
@@ -106,6 +117,7 @@ export const FilteredProducts = ({ children, array }) => {
                recommend.map((el) => (
                   <ProductCard
                      id={el.subProductId}
+                     recomendationState
                      key={el.subProductId}
                      discount={el.discount}
                      prodName={el.prodName}
@@ -114,6 +126,11 @@ export const FilteredProducts = ({ children, array }) => {
                      countOfReviews={el.countOfReviews}
                      price={el.price}
                      rating={el.rating}
+                     favoriteState={el.favorite}
+                     comparisonState={el.comparison}
+                     noveltiesPageSize={noveltiesPageSize}
+                     stockPageSize={stockPageSize}
+                     recommendPageSize={recommendPageSize}
                   />
                ))}
             {isLoading

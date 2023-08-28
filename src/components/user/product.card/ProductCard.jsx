@@ -1,6 +1,5 @@
 import { useDispatch } from 'react-redux'
 import { Rating, styled } from '@mui/material'
-import { useState } from 'react'
 import { ReactComponent as Comparison } from '../../../assets/icons/comparison-icon.svg'
 import { ReactComponent as Favourite } from '../../../assets/icons/favourites-icon.svg'
 import { ReactComponent as BasketIcon } from '../../../assets/icons/basket-icon.svg'
@@ -13,6 +12,11 @@ import {
 } from '../../../store/favorite/favorite.thunk'
 import { postBasketById } from '../../../store/basket/basket.thunk'
 import { useSnackbar } from '../../../hooks/useSnackbar'
+import {
+   getNovelities,
+   getRecommend,
+   getStock,
+} from '../../../store/main.page/main.page.thunk'
 
 export const ProductCard = ({
    recomendationState = false,
@@ -24,21 +28,25 @@ export const ProductCard = ({
    rating = 1,
    discount = 20,
    countOfReviews = 56,
-   favoriteState = false,
-   comparisonState = false,
+   favoriteState,
+   comparisonState,
+   noveltiesPageSize,
+   recommendPageSize,
+   stockPageSize,
    id = '1',
 }) => {
-   const [favorite, setFavorite] = useState(favoriteState)
    const { snackbarHandler } = useSnackbar()
-   const [comparison, setComparison] = useState(comparisonState)
    const dispatch = useDispatch()
    const discountPrice = price - (price * discount) / 100
    const toggleFavoriteHandler = async () => {
-      setFavorite(!favorite)
       dispatch(postFavoriteItem(id))
+         .unwrap()
          .then(() => {
+            dispatch(getNovelities({ page: 1, pageSize: noveltiesPageSize }))
+            dispatch(getRecommend({ page: 1, pageSize: recommendPageSize }))
+            dispatch(getStock({ page: 1, pageSize: stockPageSize }))
             dispatch(getFavoriteItems())
-            if (favorite) {
+            if (favoriteState) {
                snackbarHandler({
                   message: 'Товар удален из избранных',
                })
@@ -56,11 +64,14 @@ export const ProductCard = ({
          })
    }
    const toggleComparisonHandler = () => {
-      setComparison(!comparison)
-      //  Сашка потом сам сделает сравнение
-      //    dispatch(postComparisonItem(id)).then(() => {
-      //       dispatch(getComparisonItems())
-      //       if (favorite) {
+      // dispatch(postCompareProduct({ id, addOrDelete: !comparisonState }))
+      //    .unwrap()
+      //    .then(() => {
+      //       dispatch(getNovelities({ page: 1, pageSize: noveltiesPageSize }))
+      //       dispatch(getRecommend({ page: 1, pageSize: recommendPageSize }))
+      //       dispatch(getStock({ page: 1, pageSize: stockPageSize }))
+      //       dispatch(getCompare())
+      //       if (comparisonState) {
       //          snackbarHandler({
       //             message: 'Товар удален из сравнения',
       //          })
@@ -110,10 +121,10 @@ export const ProductCard = ({
 
             <IconContainer>
                <StyledComparison
-                  comparison={comparison ? 'true' : 'false'}
+                  comparison={comparisonState ? 'true' : 'false'}
                   onClick={toggleComparisonHandler}
                />
-               {favorite ? (
+               {favoriteState ? (
                   <StyledFilledFavoriteIcon onClick={toggleFavoriteHandler} />
                ) : (
                   <StyledFavourite onClick={toggleFavoriteHandler} />
