@@ -27,10 +27,7 @@ axiosFileInstance.interceptors.request.use((config) => {
    return updatedConfig
 })
 
-// !
-const logoutAction = () => {}
-
-axiosInstance.interceptors.response.use(
+axiosFileInstance.interceptors.response.use(
    (response) => {
       return Promise.resolve(response)
    },

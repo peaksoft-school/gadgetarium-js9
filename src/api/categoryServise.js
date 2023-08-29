@@ -1,7 +1,7 @@
 import { axiosInstance } from '../config/axiosInstants'
 
 export const getCategoryRequest = () => {
-   return axiosInstance.get('/api/v1/brand/get-all')
+   return axiosInstance.get('/v1/brand/get-all')
 }
 
 export const filterProductsByCategory = (payload) => {
@@ -29,7 +29,7 @@ export const filterProductsByCategory = (payload) => {
       hullShapes: ['string'],
    }
    return axiosInstance.post(
-      `/api/v1/products/filter?pageSize=${payload.pageSize}&pageNumber=${payload.pageNumber}`,
+      `/v1/products/filter?pageSize=${payload.pageSize}&pageNumber=${payload.pageNumber}`,
       requestData
    )
 }
