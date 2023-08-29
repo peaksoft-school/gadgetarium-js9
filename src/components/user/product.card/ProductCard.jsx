@@ -1,11 +1,14 @@
 import { Rating, styled } from '@mui/material'
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { ReactComponent as Comparison } from '../../../assets/icons/comparison-icon.svg'
 import { ReactComponent as Favourite } from '../../../assets/icons/favourites-icon.svg'
 import { ReactComponent as BasketIcon } from '../../../assets/icons/basket-icon.svg'
 import { ReactComponent as Recommendation } from '../../../assets/icons/recommendation.svg'
 import { ReactComponent as FilledFavoriteIcon } from '../../../assets/icons/filled-favorite-icon.svg'
 import { Button } from '../../UI/Button'
+import { postBasketById } from '../../../store/basket/basket.thunk'
+import { useSnackbar } from '../../../hooks/useSnackbar'
 
 export const ProductCard = ({
    recomendationState = false,
@@ -22,16 +25,48 @@ export const ProductCard = ({
 }) => {
    const [favorite, setFavorite] = useState(false)
    const [comparison, setComparison] = useState(false)
-
+   const dispatch = useDispatch()
+   const { snackbarHandler } = useSnackbar()
    const discountPrice = price - (price * discount) / 100
    const toggleFavoriteHandler = () => {
       setFavorite(!favorite)
    }
    const toggleComparisonHandler = () => {
       setComparison(!comparison)
+      //  Сашка потом сам сделает сравнение
+      //    dispatch(postComparisonItem(id)).then(() => {
+      //       dispatch(getComparisonItems())
+      //       if (favorite) {
+      //          snackbarHandler({
+      //             message: 'Товар удален из сравнения',
+      //          })
+      //       } else {
+      //          snackbarHandler({
+      //             message: 'Товар добавлен в сравнения',
+      //             linkText: 'Перейти в избранное ',
+      //             path: '/favorite',
+      //          })
+      //       }
+      //    })
    }
    const cardHandler = (id) => {
       console.log(id)
+   }
+   const postProductToBasket = async () => {
+      dispatch(postBasketById(id))
+         .then(() => {
+            snackbarHandler({
+               message: 'Товар успешно добавлен в корзину',
+               linkText: 'Перейти в корзину',
+               path: '/basket',
+            })
+         })
+         .catch(() => {
+            snackbarHandler({
+               message: 'Товар не добавлен в корзину',
+               type: 'error',
+            })
+         })
    }
    return (
       <Card key={id} onClick={() => cardHandler(id)} {...props}>
@@ -42,11 +77,11 @@ export const ProductCard = ({
                   recomendationState === false && <MarginDiv />}
                {recomendationState && (
                   <Circle>
-                     <Recommendation />
+                     <StyledRecommendation />
                   </Circle>
                )}
-               {discount !== 0 && <CircleTwo>-{discount}%</CircleTwo>}
                {newState && <CircleThree>New</CircleThree>}
+               {discount !== 0 && <CircleTwo>-{discount}%</CircleTwo>}
             </CircleContainer>
 
             <IconContainer>
@@ -64,9 +99,11 @@ export const ProductCard = ({
          <Image src={image} />
          <Container>
             <InStock>В наличии ({quantity})</InStock>
-            <Title>{prodName.slice(0, 45)}...</Title>
+            <Title>
+               {prodName.length > 45 ? `${prodName.slice(0, 45)}...` : prodName}
+            </Title>
             <RatingContainer>
-               Рейтинг <StyledRating readOnly value={rating} /> (
+               Рейтинг <StyledRating readOnly value={rating} precision={0.5} />(
                {countOfReviews})
             </RatingContainer>
             <ButtonContainerTwo>
@@ -74,7 +111,7 @@ export const ProductCard = ({
                   {discount !== 0 ? (
                      <>
                         <DiscountPrice>
-                           {Math.floor(discountPrice).toLocaleString()}{' '}
+                           {Math.floor(discountPrice).toLocaleString()}
                            <span>c</span>
                         </DiscountPrice>
                         <Price>{price.toLocaleString()} c</Price>
@@ -90,6 +127,7 @@ export const ProductCard = ({
                   variant="contained"
                   texttransform="uppercase"
                   fontSize="0.73vw"
+                  onClick={postProductToBasket}
                >
                   <StyledBasketIcon /> В корзину
                </Button>
@@ -112,6 +150,8 @@ const StyledFilledFavoriteIcon = styled(FilledFavoriteIcon)`
    cursor: pointer;
 `
 const Card = styled('div')`
+   background-color: white;
+   user-select: none;
    display: flex;
    flex-direction: column;
    align-items: center;
@@ -120,6 +160,7 @@ const Card = styled('div')`
    padding: 0.52081vw;
    background: #fff;
    :hover {
+      transition: box-shadow 0.2s ease-in-out;
       cursor: pointer;
       box-shadow: 0px 8px 25px 0px rgba(0, 0, 0, 0.1),
          0px -8px 25px 0px rgba(0, 0, 0, 0.1);
@@ -167,6 +208,10 @@ const Price = styled('p')`
    margin: 0;
    text-decoration: 0.08rem line-through;
    margin-right: 0.5px;
+`
+const StyledRecommendation = styled(Recommendation)`
+   width: 0.781vw;
+   height: 1.4815vh;
 `
 const DiscountPrice = styled('p')`
    font-size: 0.938vw;

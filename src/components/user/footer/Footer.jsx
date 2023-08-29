@@ -81,7 +81,11 @@ export const Footer = () => {
       </Container>
    )
 }
-
+const Form = styled('form')`
+   display: flex;
+   align-items: center;
+   margin-top: 0.75rem;
+`
 const Container = styled('div')`
    margin: 0;
    width: 100%;
@@ -120,13 +124,8 @@ const NavListContainer = styled('div')`
    width: 50%;
    justify-content: space-between;
 `
-const Form = styled('form')`
-   display: flex;
-   align-items: center;
-   margin-top: 0.75rem;
-`
 const Block1 = styled('div')`
-   width: 85.35vw;
+   width: 79.688vw;
    display: flex;
    justify-content: space-between;
    margin-bottom: 49px;
@@ -134,7 +133,7 @@ const Block1 = styled('div')`
 
 const Block2 = styled('div')`
    border-top: 1px solid#858FA4;
-   width: 85.35vw;
+   width: 79.688vw;
    text-align: center;
 
    display: flex;
@@ -205,7 +204,7 @@ const Info = styled('div')`
    p {
       color: #858fa4;
       margin-top: 0.75rem;
-      cursor: pointer;
+
       &:hover {
          color: #fff;
       }
@@ -215,11 +214,13 @@ const Stock = styled('div')`
    display: flex;
    flex-direction: column;
    margin-top: 1.875rem;
+
    a {
       text-decoration: none;
       color: #858fa4;
       margin-top: 0.75rem;
       cursor: pointer;
+
       &:hover {
          color: #fff;
       }

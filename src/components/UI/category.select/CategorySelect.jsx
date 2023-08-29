@@ -144,7 +144,7 @@ const Menu = styled('div')`
    font-weight: 500;
    position: absolute;
    width: 18.3125rem;
-   left: 359px;
+   left: 346px;
    top: ${(props) => {
       switch (props.index) {
          case 2:
@@ -158,7 +158,7 @@ const Menu = styled('div')`
       }
    }};
    background-color: white;
-   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+   /* box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); */
    padding: 1.125rem;
    z-index: 1000;
 `
