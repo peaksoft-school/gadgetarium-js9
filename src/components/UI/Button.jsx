@@ -3,13 +3,13 @@ import { Button as ButtonMui, styled } from '@mui/material'
 
 export const Button = ({ children, onClick, variant, ...props }) => {
    return (
-      <StyledButton onClick={onClick} props={props} variant={variant}>
+      <StyledButton onClick={onClick} {...props} variant={variant}>
          {children}
       </StyledButton>
    )
 }
 
-const StyledButton = styled(ButtonMui)(({ variant, props }) => {
+const StyledButton = styled(ButtonMui)(({ variant, ...props }) => {
    switch (variant) {
       case 'contained':
          return {
@@ -19,7 +19,7 @@ const StyledButton = styled(ButtonMui)(({ variant, props }) => {
                color: props.color || 'white',
                fontSize: props.fontSize,
                boxSizing: 'border-box',
-               textTransform: props.textTransform || 'none',
+               textTransform: props.texttransform || 'none',
                fontFamily: 'Inter',
                display: 'flex',
                justifyContent: 'center',
@@ -29,11 +29,11 @@ const StyledButton = styled(ButtonMui)(({ variant, props }) => {
                lineHeight: 'normal',
 
                '&:hover': {
-                  background: props.backgroundHover,
+                  background: props.backgroundhover,
                },
 
                '&:active': {
-                  background: props.backgroundActive,
+                  background: props.backgroundactive,
                },
             },
          }
@@ -46,15 +46,16 @@ const StyledButton = styled(ButtonMui)(({ variant, props }) => {
                justifyContent: 'center',
                alignItems: 'center',
                border: '1px solid #CB11AB',
-               textTransform: props.textTransform || 'none',
+               textTransform: props.texttransform || 'none',
                fontFamily: 'Inter',
                color: '#CB11AB',
                '&:hover': {
-                  background: props.backgroundHover,
+                  background: props.backgroundhover,
+                  border: `1px solid ${props.backgroundhover}`,
                   color: 'white',
                },
                '&:active': {
-                  background: props.backgroundActive,
+                  background: props.backgroundactive,
                   color: 'white',
                },
             },

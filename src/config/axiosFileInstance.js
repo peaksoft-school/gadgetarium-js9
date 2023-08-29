@@ -5,7 +5,7 @@ const headers = {
    'Content-Type': 'multipart/form-data',
 }
 
-export const axiosInstance = axios.create({
+export const axiosFileInstance = axios.create({
    baseURL: BASE_URL,
    headers,
 })
@@ -16,7 +16,7 @@ export const injectStore = (_store) => {
    store = _store
 }
 
-axiosInstance.interceptors.request.use((config) => {
+axiosFileInstance.interceptors.request.use((config) => {
    const updatedConfig = { ...config }
    const token = store.getState().login.accessToken
    if (token) {
@@ -28,7 +28,7 @@ axiosInstance.interceptors.request.use((config) => {
 // !
 const logoutAction = () => {}
 
-axiosInstance.interceptors.response.use(
+axiosFileInstance.interceptors.response.use(
    (response) => {
       return Promise.resolve(response)
    },

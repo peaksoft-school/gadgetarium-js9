@@ -18,6 +18,7 @@ export const ProductCard = ({
    discount = 20,
    countOfReviews = 56,
    id = '1',
+   ...props
 }) => {
    const [favorite, setFavorite] = useState(false)
    const [comparison, setComparison] = useState(false)
@@ -33,7 +34,7 @@ export const ProductCard = ({
       console.log(id)
    }
    return (
-      <Card key={id} onClick={() => cardHandler(id)}>
+      <Card key={id} onClick={() => cardHandler(id)} {...props}>
          <ButtonContainer>
             <CircleContainer>
                {discount === 0 &&
@@ -87,7 +88,7 @@ export const ProductCard = ({
                <Button
                   padding="1.1111vh 0.99vw"
                   variant="contained"
-                  textTransform="uppercase"
+                  texttransform="uppercase"
                   fontSize="0.73vw"
                >
                   <StyledBasketIcon /> В корзину
@@ -98,8 +99,8 @@ export const ProductCard = ({
    )
 }
 const MarginDiv = styled('div')`
-   width: 2.25rem;
-   height: 2.25rem;
+   width: 1.891vw;
+   height: 1.891vw;
 `
 const StyledBasketIcon = styled(BasketIcon)`
    width: 1.25vw;
@@ -117,6 +118,7 @@ const Card = styled('div')`
    width: 15.625vw;
    border-radius: 0.25rem;
    padding: 0.52081vw;
+   background: #fff;
    :hover {
       cursor: pointer;
       box-shadow: 0px 8px 25px 0px rgba(0, 0, 0, 0.1),
