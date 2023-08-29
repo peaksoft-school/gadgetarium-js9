@@ -1,44 +1,23 @@
 import { Button, styled } from '@mui/material'
 import React, { useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import { ReactComponent as CloseIcon } from '../../assets/icons/cross/big-cross-icon.svg'
 import { InputUi } from '../../components/UI/Input'
+import { getPhoneNumber, signUpRequest } from '../../store/auth/authThunk'
 import { BackgroundInForm } from '../../layout/BackgroundInForm'
-
-const schema = z
-   .object({
-      firstName: z.string().nonempty('Заполните обязательные поля').min(3),
-      lastName: z.string().nonempty('Заполните обязательные поля').min(3),
-      phone: z
-         .string()
-         .nonempty('Заполните обязательные поля')
-         .regex(/^\+996[0-9]{9}$/, {
-            message: 'Введите корректный номер телефона, начинающийся с +996',
-         }),
-      email: z
-         .string()
-         .nonempty('Заполните обязательные поля')
-         .email('Неправильно указан Email'),
-      password: z
-         .string()
-         .min(6, 'Пароль обязателен для заполнения')
-         .regex(
-            /^(?=.*[a-zA-Z])(?=.*\d)/,
-            'Пароль должен содержать буквы и цифры'
-         ),
-      confirmPassword: z
-         .string()
-         .nonempty('Подтверждение пароля обязательно для заполнения'),
-   })
-   .refine((data) => data.password === data.confirmPassword, {
-      message: 'Пароли не совпадают',
-      path: ['confirmPassword'],
-   })
+import { useSnackbar } from '../../hooks/useSnackbar'
+import { signUpInputArray } from '../../utils/common/constants/ArrayForm'
+import { schemaSignUp } from '../../utils/helpers/reactHookFormShema'
 
 export const SignUp = () => {
+   const { snackbarHandler } = useSnackbar()
+   const dispatch = useDispatch()
+   const navigate = useNavigate()
+   const [focusedField, setFocusedField] = useState('')
+
    const {
       register,
       formState: { errors },
@@ -48,52 +27,31 @@ export const SignUp = () => {
       defaultValues: {
          firstName: '',
          lastName: '',
-         phone: '',
+         phoneNumber: '',
          email: '',
          password: '',
       },
       mode: 'onBlur',
-      resolver: zodResolver(schema),
+      resolver: zodResolver(schemaSignUp),
    })
 
-   const onSubmit = () => {
-      reset()
+   const onSubmit = async (data) => {
+      try {
+         reset()
+         await dispatch(signUpRequest(data)).unwrap()
+         snackbarHandler({
+            message: 'Регистрация успешно выполнена',
+            type: 'success',
+         })
+         dispatch(getPhoneNumber(data)).unwrap()
+         navigate('/')
+      } catch (error) {
+         snackbarHandler({
+            message: error.response.data.message,
+            type: 'error',
+         })
+      }
    }
-
-   const signUpInputArray = [
-      {
-         key: 'firstName',
-         placeholder: 'Напишите ваше имя',
-         type: 'text',
-      },
-      {
-         key: 'lastName',
-         placeholder: 'Напишите вашу фамилию',
-         type: 'text',
-      },
-      {
-         key: 'phone',
-         placeholder: '+996 (_ _ _) _ _  _ _  _ _',
-         type: 'tel',
-      },
-      {
-         key: 'email',
-         placeholder: 'Напишите email',
-         type: 'email',
-      },
-      {
-         key: 'password',
-         placeholder: 'Напишите пароль',
-         type: 'password',
-      },
-      {
-         key: 'confirmPassword',
-         placeholder: 'Напишите ваше имя',
-         type: 'password',
-      },
-   ]
-
-   const [focusedField, setFocusedField] = useState('')
 
    const handleFieldBlur = (fieldName) => {
       setFocusedField(fieldName)
@@ -103,58 +61,71 @@ export const SignUp = () => {
       .filter((el) => errors[el.key]?.message && focusedField === el.key)
       .map((el) => errors[el.key]?.message)
 
+   const onCloseHandler = () => {
+      navigate(-1)
+   }
+
    return (
       <BackgroundInForm>
-         <Container>
-            <MuiCloseIcon />
-            <h2>Регистрация</h2>
-            <Form onSubmit={handleSubmit(onSubmit)}>
-               {signUpInputArray.map((el) => {
-                  const error = errors[el.key]?.message
-                  return (
-                     <div key={el.key}>
-                        <Input
-                           {...register(el.key)}
-                           placeholder={el.placeholder}
-                           type={el.type}
-                           error={!!error}
-                           onBlur={() => handleFieldBlur(el.key)}
-                        />
+         <ContainerChilde>
+            <Container>
+               <MuiCloseIcon onClick={onCloseHandler} />
+               <h2>Регистрация</h2>
+               <Form onSubmit={handleSubmit(onSubmit)}>
+                  {signUpInputArray.map((el) => {
+                     const error = errors[el.key]?.message
+                     return (
+                        <div key={el.key}>
+                           <Input
+                              width="29.5rem"
+                              {...register(el.key)}
+                              placeholder={el.placeholder}
+                              type={el.type}
+                              error={!!error}
+                              onBlur={() => handleFieldBlur(el.key)}
+                           />
+                        </div>
+                     )
+                  })}
+                  {errorMessages.length > 0 && (
+                     <div>
+                        {errorMessages.map((errorMessage) => (
+                           <ErrorMessage key={errorMessage}>
+                              {errorMessage}
+                           </ErrorMessage>
+                        ))}
                      </div>
-                  )
-               })}
-               {errorMessages.length > 0 && (
-                  <div>
-                     {errorMessages.map((errorMessage) => (
-                        <ErrorMessage key={errorMessage}>
-                           {errorMessage}
-                        </ErrorMessage>
-                     ))}
-                  </div>
-               )}
-               <ButtonUi type="submit" variant="contained">
-                  Войти
-               </ButtonUi>
-            </Form>
-            <Block>
-               <p>
-                  У вас уже есть аккаунт? <Link to="/">Войти</Link>
-               </p>
-            </Block>
-         </Container>
+                  )}
+                  <ButtonUi type="submit" variant="contained">
+                     Войти
+                  </ButtonUi>
+               </Form>
+               <Block>
+                  <p>
+                     У вас уже есть аккаунт? <Link to="/signin">Войти</Link>
+                  </p>
+               </Block>
+            </Container>
+         </ContainerChilde>
       </BackgroundInForm>
    )
 }
 
 const Container = styled('div')`
+   position: relative;
    width: 36.25rem;
-   margin-top: 0.5rem;
+   height: 44rem;
    border-radius: 0.25rem;
    background: #fff;
    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
    h2 {
       text-align: center;
    }
+`
+
+const ContainerChilde = styled('div')`
+   position: absolute;
+   bottom: 30px;
 `
 
 const ButtonUi = styled(Button)`

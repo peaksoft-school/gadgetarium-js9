@@ -1,54 +1,76 @@
 import { Button, styled } from '@mui/material'
 import React from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import { ReactComponent as CloseIcon } from '../../assets/icons/cross/big-cross-icon.svg'
 import { InputUi } from '../../components/UI/Input'
+import { getPhoneNumber, signInRequest } from '../../store/auth/authThunk'
 import { BackgroundInForm } from '../../layout/BackgroundInForm'
-
-const schema = z.object({
-   email: z.string().email('Заполните обязательные поля'),
-
-   password: z
-      .string()
-      .min(6, 'Пароль должен содержать минимум 6 символов')
-      .regex(
-         /^(?=.*[a-zA-Z])(?=.*\d)/,
-         'Пароль должен содержать буквы и цифры'
-      ),
-})
+import { useSnackbar } from '../../hooks/useSnackbar'
+import { schemaSignIn } from '../../utils/helpers/reactHookFormShema'
 
 export const SignIn = () => {
+   const { snackbarHandler } = useSnackbar()
+
+   const dispatch = useDispatch()
+   const navigate = useNavigate()
+
    const { register, handleSubmit, reset, formState } = useForm({
       defaultValues: {
          email: '',
          password: '',
       },
       mode: 'onBlur',
-      resolver: zodResolver(schema),
+      resolver: zodResolver(schemaSignIn),
    })
 
-   const onSubmit = () => {
-      reset()
+   const onSubmit = async (data) => {
+      try {
+         const response = await dispatch(signInRequest(data)).unwrap()
+         reset()
+         snackbarHandler({
+            message: 'Вход успешно выполнен',
+            type: 'success',
+         })
+         if (response.role === 'USER') {
+            navigate('/')
+            dispatch(getPhoneNumber(data)).unwrap()
+         } else {
+            navigate('admin')
+         }
+      } catch (error) {
+         snackbarHandler({
+            message:
+               'Неправильный email или пароль. Пожалуйста, попробуйте еще раз.',
+            type: 'error',
+         })
+         console.log('error', error)
+      }
    }
 
    const combinedError = formState.errors.email || formState.errors.password
 
+   const onCloseHandler = () => {
+      navigate(-1)
+   }
+
    return (
       <BackgroundInForm>
          <Container>
-            <MuiCloseIcon />
+            <MuiCloseIcon onClick={onCloseHandler} />
             <h2>Войти</h2>
             <Form onSubmit={handleSubmit(onSubmit)}>
                <Input
+                  width="29rem"
                   {...register('email')}
                   placeholder="Напишите email"
                   type="email"
                   error={!!formState.errors.email}
                />
                <Input
+                  width="29rem"
                   error={!!formState.errors.password}
                   {...register('password')}
                   placeholder="Напишите пароль"

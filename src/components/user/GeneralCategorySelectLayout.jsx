@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { styled } from '@mui/material'
 import Category from '../UI/category.select/CategorySelect'
-import { ReactComponent as Smartphone } from '../assets/icons/goods/mobile-android-two-icon.svg'
-import { ReactComponent as Headphone } from '../assets/icons/goods/headphones-icon.svg'
-import { ReactComponent as Desktop } from '../assets/icons/goods/desktop-two-icon.svg'
-import { ReactComponent as Watch } from '../assets/icons/goods/watch-icon.svg'
+import { ReactComponent as Smartphone } from '../../assets/icons/goods/mobile-android-two-icon.svg'
+import { ReactComponent as Headphone } from '../../assets/icons/goods/headphones-icon.svg'
+import { ReactComponent as Desktop } from '../../assets/icons/goods/desktop-two-icon.svg'
+import { ReactComponent as Watch } from '../../assets/icons/goods/watch-icon.svg'
 
 const categories = [
    { id: 1, title: 'Смартфоны', icon: Smartphone },
@@ -13,7 +13,7 @@ const categories = [
    { id: 4, title: 'Аксессуары', icon: Headphone },
 ]
 
-const GeneralCategorySelectLayout = () => {
+const GeneralCategorySelectLayout = ({ toggleCatalogSelect }) => {
    const [categoryStates, setCategoryStates] = useState({
       smartphone: false,
       desktop: false,
@@ -36,6 +36,7 @@ const GeneralCategorySelectLayout = () => {
          watch: false,
          headphone: false,
       })
+      toggleCatalogSelect()
    }
 
    return (
@@ -111,8 +112,10 @@ const Container = styled('div')`
    flex-direction: column;
    align-items: center;
    justify-content: center;
+   background-color: white;
    width: 372px;
    height: 186px;
-   border-radius: 4px, 0px, 0px, 4px;
-   box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.1);
+   border-radius: 4px 0px 0px 4px;
+   padding: 0px 8px 0px 8px;
+   /* box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.1); */
 `

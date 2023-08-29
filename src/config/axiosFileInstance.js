@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { BASE_URL } from '../utils/common/constants/globalConstants'
+import { logOut } from '../store/auth/authThunk'
 
 const headers = {
    'Content-Type': 'multipart/form-data',
@@ -12,21 +13,19 @@ export const axiosFileInstance = axios.create({
 
 let store
 
-export const injectStore = (_store) => {
+export const injectStoreFile = (_store) => {
    store = _store
 }
 
 axiosFileInstance.interceptors.request.use((config) => {
    const updatedConfig = { ...config }
    const token = store.getState().login.accessToken
+
    if (token) {
       updatedConfig.headers.Authorization = `Bearer ${token}`
    }
    return updatedConfig
 })
-
-// !
-const logoutAction = () => {}
 
 axiosFileInstance.interceptors.response.use(
    (response) => {
@@ -34,7 +33,7 @@ axiosFileInstance.interceptors.response.use(
    },
    (error) => {
       if (error.response.status === 401) {
-         store.dispatch(logoutAction())
+         store.dispatch(logOut())
       }
       return Promise.reject(error)
    }
