@@ -10,6 +10,12 @@ import { InputUi } from '../UI/Input'
 import { getPhoneNumber, signInRequest } from '../../store/auth/authThunk'
 import { useSnackbar } from '../../hooks/useSnackbar'
 import { schemaSignIn } from '../../utils/helpers/reactHookFormShema'
+import { getFavoriteItems } from '../../store/favorite/favorite.thunk'
+import {
+   getNovelities,
+   getRecommend,
+   getStock,
+} from '../../store/main.page/main.page.thunk'
 
 export const AuthorizationModal = ({ openModal, toggleHandler }) => {
    const { snackbarHandler } = useSnackbar()
@@ -29,6 +35,10 @@ export const AuthorizationModal = ({ openModal, toggleHandler }) => {
    const onSubmit = async (data) => {
       try {
          const response = await dispatch(signInRequest(data)).unwrap()
+         dispatch(getNovelities({ page: 1, pageSize: 5 }))
+         dispatch(getRecommend({ page: 1, pageSize: 5 }))
+         dispatch(getStock({ page: 1, pageSize: 5 }))
+         dispatch(getFavoriteItems())
          reset()
          snackbarHandler({
             message: 'Вход успешно выполнен',
