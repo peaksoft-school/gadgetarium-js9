@@ -56,6 +56,10 @@ export const Header = ({ favorite, comparison, basket }) => {
    const navigateToCompare = () => {
       navigate('/compare')
    }
+   const logOutHandler = () => {
+      dispatch(logOut())
+      window.location.reload()
+   }
    return (
       <Headers>
          <CaptionContainer>
@@ -87,7 +91,7 @@ export const Header = ({ favorite, comparison, basket }) => {
                                  <p>История заказов</p>
                                  <p>Избранное</p>
                                  <p>Профиль</p>
-                                 <div onClick={() => dispatch(logOut())}>
+                                 <div onClick={logOutHandler}>
                                     <p style={{ color: '#CB11AB' }}>Выйти</p>
                                  </div>
                               </Select2>
