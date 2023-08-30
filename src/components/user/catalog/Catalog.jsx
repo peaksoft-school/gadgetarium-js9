@@ -1,8 +1,8 @@
 import { styled } from '@mui/material'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Category } from './Category'
-import { Products } from './Products'
+import { Category } from './Properties/Category'
+import { Products } from './Properties/Products'
 import { ReactComponent as Strelka } from '../../../assets/icons/arrows/up-icon.svg'
 import { categoryActions } from '../../../store/cataog/catalogSlice'
 import { ReactComponent as Cancel } from '../../../assets/icons/cross/small-cross-icon.svg'
@@ -41,6 +41,7 @@ export const Catalog = () => {
       }
       dispatch(sendSelectedCategories(dataCategory))
    }, [pageSize])
+
    useEffect(() => {
       if (pageSize > filteredProducts.length) {
          dispatch(categoryActions.setShowMore(false))
@@ -50,6 +51,7 @@ export const Catalog = () => {
          dispatch(categoryActions.setShowMore(true))
       }
    }, [pageSize, filteredProducts])
+
    return (
       <Conteiner>
          <SecondContainer>
@@ -114,91 +116,88 @@ export const Catalog = () => {
       </Conteiner>
    )
 }
+
 const ButtonStyled = styled(Button)`
    margin-top: 3.7037vh;
 `
+
 const SecondProductsContainer = styled('div')`
    display: flex;
-   flex-direction: column;
    align-items: center;
+   flex-direction: column;
 `
+
 const Conteiner = styled('div')`
    width: 100%;
    display: flex;
    justify-content: center;
 `
+
 const ButtonContainer = styled('div')`
    margin-top: 3.7037vh;
    margin-bottom: 11.1111vh;
 `
+
 const SecondContainer = styled('div')`
    width: 79.688vw;
    margin-top: 1.88rem;
 
    h1 {
-      font-family: Ubuntu;
       margin: 0;
-      border-bottom: 0.0625rem solid #cdcdcd;
-      font-size: 1.875rem;
-      font-style: normal;
       font-weight: 500;
       line-height: 110%;
-      padding-bottom: 1.25rem;
+      font-style: normal;
+      font-family: Ubuntu;
+      font-size: 1.875rem;
       margin-bottom: 2.5rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 0.0625rem solid #cdcdcd;
    }
 `
+
 const ToolContainer = styled('div')`
-   display: flex;
    width: 100%;
+   display: flex;
    justify-content: space-between;
 `
+
 const HeaderTitle = styled('h5')`
    font-size: 14px;
-   font-style: normal;
+   margin-top: 14px;
    font-weight: 400;
    line-height: 130%;
+   font-style: normal;
    display: inline-block;
    margin-bottom: 1.12rem;
-   margin-top: 14px;
 `
+
 const SortingContainer = styled('div')`
    display: flex;
-   justify-content: space-between;
-   align-items: center;
    width: 59.375vw;
+   align-items: center;
+   justify-content: space-between;
 `
+
 const Content = styled('div')`
-   padding: 1.875rem;
-   padding-right: 1.375rem;
-   height: 139.4444vh;
    flex-shrink: 0;
+   padding: 1.875rem;
+   height: 139.4444vh;
+   padding-right: 1.375rem;
    border-radius: 0.25rem 0rem 0rem 0.25rem;
-   overflow-y: scroll;
-   ::-webkit-scrollbar {
-      height: 130px;
-   }
-   ::-webkit-scrollbar-track {
-      height: 130px;
-   }
-   ::-webkit-scrollbar-corner {
-      height: 130px;
-   }
-   ::-webkit-scrollbar-track-piece {
-      height: 130px;
-   }
 `
 
 const Container = styled('div')(({ theme }) => ({
    display: 'flex',
    flexDirection: 'column',
-   // gap: ' 1.771vw',
    justifyContent: 'space-between',
    fontFamily: theme.typography.mainFontFamily,
 }))
+
 const ProductContainer = styled('div')`
    display: flex;
    justify-content: space-between;
 `
+
 const Title = styled('p')`
    gap: 0.521vw;
    display: flex;
@@ -214,9 +213,10 @@ const Title = styled('p')`
 `
 
 const FilterContainerTitle = styled('div')`
-   display: flex;
    gap: 0.625vw;
+   display: flex;
 `
+
 const CancelStyled = styled(Cancel)`
    margin: 0;
    padding: 0;
@@ -227,15 +227,16 @@ const CancelStyled = styled(Cancel)`
       fill: #292929;
    }
 `
+
 const Sorting = styled('div')`
-   display: flex;
-   align-items: center;
    gap: 9px;
-   color: #384255;
+   display: flex;
    font-size: 16px;
-   font-style: normal;
    font-weight: 400;
+   color: #384255;
    line-height: 130%;
+   font-style: normal;
+   align-items: center;
    .strelka {
       transform: rotate(180deg);
    }

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { keyframes, styled } from '@mui/material'
 import { useSelector, useDispatch } from 'react-redux'
-import CheckboxInput from '../../UI/icon.input/CheckboxInput'
-import { ReactComponent as Strelka } from '../../../assets/icons/arrows/up-icon.svg'
-import { getCategory } from '../../../store/cataog/categoryThunk'
-import { categoryActions } from '../../../store/cataog/catalogSlice'
+import CheckboxInput from '../../../UI/icon.input/CheckboxInput'
+import { ReactComponent as Strelka } from '../../../../assets/icons/arrows/up-icon.svg'
+import { getCategory } from '../../../../store/cataog/categoryThunk'
+import { categoryActions } from '../../../../store/cataog/catalogSlice'
 
 export const Category = () => {
    const dispatch = useDispatch()
@@ -21,6 +21,7 @@ export const Category = () => {
       dispatch(categoryActions.resetChecked())
       setCate(false)
    }
+
    useEffect(() => {
       dispatch(getCategory())
    }, [])
@@ -84,6 +85,7 @@ const Container = styled('div')`
    margin-bottom: 1.25rem;
    padding-bottom: 1.25rem;
    border-bottom: 1px solid #e8e8e8;
+
    h5 {
       margin: 0;
       font-size: 1rem;
@@ -91,6 +93,7 @@ const Container = styled('div')`
       font-style: normal;
       line-height: normal;
    }
+
    .brandContainer {
       padding: 0;
       display: flex;

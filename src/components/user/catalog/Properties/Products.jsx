@@ -1,13 +1,14 @@
 import { styled } from '@mui/material'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { sendSelectedCategories } from '../../../store/cataog/categoryThunk'
-import { CardPhone } from '../card/CardPhone'
-import { ProductCard } from '../product.card/ProductCard'
+import { sendSelectedCategories } from '../../../../store/cataog/categoryThunk'
+import { CardPhone } from '../../card/CardPhone'
+import { ProductCard } from '../../product.card/ProductCard'
 
 export const Products = () => {
    const { filteredProducts, isLoading, brandsId, items, pageSize } =
       useSelector((state) => state.category)
+
    const dispatch = useDispatch()
 
    useEffect(() => {
@@ -32,6 +33,12 @@ export const Products = () => {
                />
             )
          )}
+         {filteredProducts.length === 0 && (
+            <Warnings>
+               Извините, на данный момент товаров нет в наличии. Мы работаем над
+               обновлением ассортимента. Загляните позже!
+            </Warnings>
+         )}
       </Container>
    )
 }
@@ -45,8 +52,14 @@ const CardStyled = styled(CardPhone)`
 `
 
 const Container = styled('div')`
-   width: 59.375vw;
-   display: flex;
-   flex-wrap: wrap;
    gap: 0.417vw;
+   display: flex;
+   width: 59.375vw;
+   flex-wrap: wrap;
+`
+const Warnings = styled('h2')`
+   width: 42vw;
+   margin: 0 auto;
+   margin-top: 150px;
+   text-align: center;
 `
