@@ -80,13 +80,6 @@ const ColumnTable = () => {
                                           </StyledTableCell>
                                        )
                                     }
-                                    if (el.name === 'Вес') {
-                                       return (
-                                          <StyledTableCell key={el.id}>
-                                             177 гр
-                                          </StyledTableCell>
-                                       )
-                                    }
                                     if (el.name === 'SIM-карты') {
                                        return (
                                           <StyledTableCell key={el.id}>
@@ -197,13 +190,6 @@ const ColumnTable = () => {
                                           </StyledTableCell>
                                        )
                                     }
-                                    if (el.name === 'Вес') {
-                                       return (
-                                          <StyledTableCell key={el.id}>
-                                             {item.brandName}гр
-                                          </StyledTableCell>
-                                       )
-                                    }
                                     if (el.name === 'SIM-карты') {
                                        return (
                                           <StyledTableCell key={el.id}>
@@ -256,13 +242,6 @@ const ColumnTable = () => {
                                        return (
                                           <StyledTableCell key={el.id}>
                                              {item.rom}ГБ
-                                          </StyledTableCell>
-                                       )
-                                    }
-                                    if (el.name === 'Вес') {
-                                       return (
-                                          <StyledTableCell key={el.id}>
-                                             {item.brandName}гр
                                           </StyledTableCell>
                                        )
                                     }

@@ -12,7 +12,7 @@ const initialState = {
    smartWatch: [],
    countProducts: [],
    productName: 'Phone',
-   isLoading: false,
+   isLoadingComparison: false,
 }
 
 export const compareSlice = createSlice({
@@ -26,42 +26,58 @@ export const compareSlice = createSlice({
    extraReducers: (builder) => {
       builder.addCase(getCompare.fulfilled, (state, action) => {
          if (state.productName === 'Phone') {
-            return { ...state, smartphone: action.payload, isLoading: false }
+            return {
+               ...state,
+               smartphone: action.payload,
+               isLoadingComparison: false,
+            }
          }
          if (state.productName === 'Tablet') {
-            return { ...state, tablets: action.payload, isLoading: false }
+            return {
+               ...state,
+               tablets: action.payload,
+               isLoadingComparison: false,
+            }
          }
          if (state.productName === 'Laptop') {
-            return { ...state, laptops: action.payload, isLoading: false }
+            return {
+               ...state,
+               laptops: action.payload,
+               isLoadingComparison: false,
+            }
          }
          if (state.productName === 'Smart Watch') {
-            return { ...state, smartWatch: action.payload, isLoading: false }
+            return {
+               ...state,
+               smartWatch: action.payload,
+               isLoadingComparison: false,
+            }
          }
-         return { ...state, isLoading: false }
+         return { ...state, isLoadingComparison: false }
       })
       builder.addCase(getCompare.pending, (state) => {
-         state.isLoading = true
+         state.isLoadingComparison = true
       })
       builder.addCase(getCompare.rejected, (state) => {
-         state.isLoading = false
+         state.isLoadingComparison = false
       })
       builder.addCase(postCompareProduct.pending, (state) => {
-         state.isLoading = true
+         state.isLoadingComparison = true
       })
       builder.addCase(postCompareProduct.rejected, (state) => {
-         state.isLoading = false
+         state.isLoadingComparison = false
       })
       builder.addCase(postCompareProduct.fulfilled, (state) => {
-         state.isLoading = false
+         state.isLoadingComparison = false
       })
       builder.addCase(getCountProduct.pending, (state) => {
-         state.isLoading = true
+         state.isLoadingComparison = true
       })
       builder.addCase(getCountProduct.rejected, (state) => {
-         state.isLoading = false
+         state.isLoadingComparison = false
       })
       builder.addCase(getCountProduct.fulfilled, (state, action) => {
-         state.isLoading = false
+         state.isLoadingComparison = false
          state.countProducts = action.payload
       })
    },

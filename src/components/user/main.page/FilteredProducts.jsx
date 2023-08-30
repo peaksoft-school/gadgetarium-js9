@@ -24,6 +24,8 @@ export const FilteredProducts = ({ children, array }) => {
       (state) => state.mainPage
    )
    // const { isLoadingFavorite } = useSelector((state) => state.favorite)
+   const { isLoadingComparison } = useSelector((state) => state.compare)
+
    const [stockPageSize, setStockPageSize] = useState(5)
    const [noveltiesPageSize, setNoveltiesPageSize] = useState(5)
    const [recommendPageSize, setRecommendPageSize] = useState(5)
@@ -63,6 +65,7 @@ export const FilteredProducts = ({ children, array }) => {
          <Products>
             {isLoading && <Loading />}
             {/* {isLoadingFavorite === true && isLoading === false && <Loading />} */}
+            {isLoadingComparison === true && isLoading === false && <Loading />}
 
             {array === 'stock' &&
                stock.map((el) => (
