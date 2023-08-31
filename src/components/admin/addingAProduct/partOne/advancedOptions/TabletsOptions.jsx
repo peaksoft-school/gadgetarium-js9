@@ -1,5 +1,5 @@
 import { styled } from '@mui/material'
-import { useState } from 'react'
+import { memo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { dataProductTablets } from '../../../../../utils/common/constants/constantsAdminAddNewProduct'
 import { QuantityOfProducts } from '../QuantityOfProducts'
@@ -14,7 +14,7 @@ import {
    onChangeSubProduct,
 } from '../../../../../store/addProduct/addProductPartOne.slice'
 
-export const TabletsOptions = () => {
+export const TabletsOptions = memo(() => {
    const dispatch = useDispatch()
    const [productNum, setProductNum] = useState(0)
    const { productTablets, newProduct } = useSelector(
@@ -136,7 +136,7 @@ export const TabletsOptions = () => {
          ) : null}
       </div>
    )
-}
+})
 
 const Container = styled('div')`
    display: flex;

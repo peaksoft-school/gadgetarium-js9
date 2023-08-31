@@ -66,13 +66,22 @@ export const InputUi = forwardRef(
 )
 
 const InputOutlained = styled(OutlinedInput)(
-   ({ width, height, padding, fontSize, background, borderradius }) => ({
+   ({
+      width,
+      height,
+      padding,
+      fontSize,
+      background,
+      borderradius,
+      border,
+   }) => ({
       width,
       height,
       padding,
       fontSize,
       background,
       borderRadius: borderradius,
+      border,
    })
 )
 

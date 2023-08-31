@@ -16,7 +16,7 @@ const getInitialState = () => {
       : null
    if (json) {
       const userData = JSON.parse(json)
-      const keys = Object.keys(phoneNumber)
+      const keys = phoneNumber ? Object.keys(phoneNumber) : ''
       const firstkey = keys[0]
       const secondKey = keys[1] || ''
       return {

@@ -1,36 +1,54 @@
 import { TableCell, TableHead, TableRow, styled } from '@mui/material'
+import { memo } from 'react'
 
-export const TablesHeadPartTwo = ({ columns }) => {
-   console.log('columns: ', columns)
-
+export const TablesHeadPartTwo = memo(({ subProduct }) => {
    return (
-      <TableHead>
-         <TableRow>
-            <TableCellStyle
-               padding="0.75rem 0 0.75rem 1.25rem"
-               width="21.333vw"
-            >
+      <TableHead sx={{ marginBottom: '10px' }}>
+         <TableRow sx={{ display: 'flex' }}>
+            <TableCellStyle sx={{ paddingLeft: '1.25rem' }} width="5.4vw">
                Бренд
             </TableCellStyle>
-            <TableCellStyle width="20vw">Цвет</TableCellStyle>
-            <TableCellStyle width="24vw">Объем памяти</TableCellStyle>
-            <TableCellStyle width="32vw">Оперативная память</TableCellStyle>
-            <TableCellStyle width="31.333vw">Кол-во SIM-карт</TableCellStyle>
-            <TableCellStyle width="40vw">Дата выпуска</TableCellStyle>
-            <TableCellStyle padding="0.75rem 0 0.75rem 1rem" width="21.333vw">
-               Кол-во товара
-            </TableCellStyle>
-            <TableCellStyle padding="0.75rem 0 0.75rem 1rem" width="16vw">
-               Цена
-            </TableCellStyle>
+            <TableCellStyle width="8vw">Цвет</TableCellStyle>
+            {subProduct.rom && (
+               <TableCellStyle width="10vw">Объем памяти</TableCellStyle>
+            )}
+            {subProduct.category !== 'Планшеты' && subProduct.screenSize && (
+               <TableCellStyle width="10vw">Размер экрана</TableCellStyle>
+            )}
+            {subProduct.category === 'Планшеты' &&
+               subProduct.screenResolution && (
+                  <TableCellStyle width="12vw">
+                     Разрешение экрана
+                  </TableCellStyle>
+               )}
+            {subProduct.category !== 'Планшеты' && subProduct.ram && (
+               <TableCellStyle width="12vw">Оперативная память</TableCellStyle>
+            )}
+            {subProduct.processor && (
+               <TableCellStyle width="11.1vw">Процессор</TableCellStyle>
+            )}
+            {subProduct.sim && (
+               <TableCellStyle width="11vw">Кол-во SIM-карт</TableCellStyle>
+            )}
+            {subProduct.housingMaterial && (
+               <TableCellStyle width="12vw">Материал браслета</TableCellStyle>
+            )}
+            {subProduct.diagonalScreen && (
+               <TableCellStyle width="11vw">Диагональ экрана</TableCellStyle>
+            )}
+            {subProduct.gender && (
+               <TableCellStyle width="11vw">Пол</TableCellStyle>
+            )}
+            <TableCellStyle width="10vw">Дата выпуска</TableCellStyle>
+            <TableCellStyle width="11vw">Кол-во товара</TableCellStyle>
+            <TableCellStyle width="12.1vw">Цена</TableCellStyle>
          </TableRow>
       </TableHead>
    )
-}
+})
 
-const TableCellStyle = styled(TableCell)(({ theme, width, padding }) => ({
+const TableCellStyle = styled(TableCell)(({ theme, width }) => ({
    backgroundColor: '#384255e5',
-   padding: padding || '0.75rem 0',
    color: '#fff',
    fontFamily: theme.typography.mainFontFamily,
    fontSize: '14px',
@@ -40,17 +58,9 @@ const TableCellStyle = styled(TableCell)(({ theme, width, padding }) => ({
    letterSpacing: '1px',
    textTransform: 'capitalize',
    width,
+   padding: 0,
+   display: 'flex',
+   alignItems: 'center',
+   height: '40px',
+   // border: '1px solid #000',
 }))
-
-/*
-{columns.map((column) => (
-	<TableCell
-	   key={column.key}
-	   align={column.align}
-	   style={{ minWidth: column.minWidth }}
-	>
-	   {column.header}
-	</TableCell>
-))}
-
-*/

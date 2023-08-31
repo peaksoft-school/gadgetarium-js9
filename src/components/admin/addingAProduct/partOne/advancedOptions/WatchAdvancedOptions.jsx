@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { memo, useState } from 'react'
 import { styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -19,7 +19,7 @@ import {
    addCodeColorSubProductRequests,
 } from '../../../../../store/addProduct/addProductPartOne.slice'
 
-export const WatchAdvancedOptions = () => {
+export const WatchAdvancedOptions = memo(() => {
    const dispatch = useDispatch()
    const { productWatch, newProduct } = useSelector((state) => state.addProduct)
    const [productNum, setProductNum] = useState(0)
@@ -166,7 +166,7 @@ export const WatchAdvancedOptions = () => {
          ) : null}
       </div>
    )
-}
+})
 
 const Container = styled('div')`
    display: flex;

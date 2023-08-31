@@ -1,38 +1,61 @@
+import { useEffect, useState } from 'react'
 import { styled } from '@mui/material'
 import * as Yup from 'yup'
+import { useDispatch, useSelector } from 'react-redux'
 import { useFormik } from 'formik'
 import { HeaderAddingAProduct } from '../HeaderAddingAProduct'
 import { InputUi } from '../../../UI/Input'
 import { Button } from '../../../UI/Button'
 import { TablesPartTwo } from './table/TablesPartTwo'
+import {
+   addAllPriceAndQuantity,
+   editNewProductAndReturnNewEditDataHandler,
+} from '../../../../store/addProduct/addProductPartOne.slice'
 
 const schema = Yup.object().shape({
-   price: Yup.number().required('Обязательное поле').min(3).max(9999999),
-   quantity: Yup.number().required('Обязательное поле').min(1).max(9999),
+   price: Yup.number().required('Обязательное поле'),
+   quantity: Yup.number().required('Обязательное поле'),
 })
 
 export const QuantityOfGoodsAndPrice = () => {
-   const title = 'Общая цена'
+   const dispatch = useDispatch()
+   const { newProduct } = useSelector((state) => state.addProduct)
+   const [changeBooleanValue, setChangeBooleanValue] = useState(true)
 
-   const onSubmit = (values) => {
-      console.log('values: ', values)
+   const title = changeBooleanValue ? 'Общая цена' : 'Общая количество'
+
+   const onCollectorPriceAndQuantity = (values) => {
+      dispatch(
+         addAllPriceAndQuantity({
+            price: values.price,
+            quantity: values.quantity,
+         })
+      )
    }
 
-   const { values, handleChange, errors, handleBlur, handleSubmit } = useFormik(
-      {
-         initialValues: {
-            price: 0,
-            quantity: 0,
-         },
-         onSubmit,
-         validateOnBlur: true,
-         validationSchema: schema,
-      }
-   )
+   const onChangeBooleanValuePrice = () => {
+      setChangeBooleanValue(true)
+   }
 
-   console.log('values: ', values)
+   const onChangeBooleanValueQuantity = () => {
+      setChangeBooleanValue(false)
+   }
 
-   console.log('errors: ', errors)
+   const { values, handleChange, handleBlur, handleSubmit } = useFormik({
+      initialValues: {
+         price: 0,
+         quantity: 0,
+      },
+      onSubmit: onCollectorPriceAndQuantity,
+      validateOnBlur: true,
+      validationSchema: schema,
+   })
+
+   useEffect(() => {
+      dispatch(editNewProductAndReturnNewEditDataHandler(newProduct))
+   }, [])
+
+   const finishedAddPriceAndQuantity = () => {}
 
    return (
       <Container>
@@ -41,40 +64,66 @@ export const QuantityOfGoodsAndPrice = () => {
             pathNumber={2}
          />
 
-         <ContainerTotalPriceAndQuanti>
-            <p>{title}</p>
+         <div className="box">
+            <ContainerTotalPriceAndQuanti>
+               <p>{title}</p>
 
-            <FormStyle onSubmit={handleSubmit}>
-               <InputUi
-                  fontSize="1.2rem"
-                  borderradius="6px"
-                  height="40px"
-                  width="9.1vw"
-                  type="number"
-                  value={values.price}
-                  name="price"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-               />
+               <FormStyle onSubmit={handleSubmit}>
+                  <InputUi
+                     fontSize="1.2rem"
+                     borderradius="6px"
+                     height="40px"
+                     width="9.1vw"
+                     type="number"
+                     value={
+                        changeBooleanValue === true
+                           ? values.price
+                           : values.quantity
+                     }
+                     name={changeBooleanValue === true ? 'price' : 'quantity'}
+                     onChange={handleChange}
+                     onBlur={handleBlur}
+                  />
+                  <Button
+                     variant="contained"
+                     fontSize="1rem"
+                     padding="0.75rem 1.625rem"
+                     width="140px"
+                     type="submit"
+                  >
+                     Установить цену
+                  </Button>
+               </FormStyle>
+            </ContainerTotalPriceAndQuanti>
+            <TablesPartTwo
+               onChangeBooleanValuePrice={onChangeBooleanValuePrice}
+               onChangeBooleanValueQuantity={onChangeBooleanValueQuantity}
+               changeBooleanValue={changeBooleanValue}
+            />
+
+            <ContainerButton>
                <Button
-                  variant="contained"
+                  onClick={finishedAddPriceAndQuantity}
+                  padding="10px 1.5rem"
                   fontSize="1rem"
-                  padding="0.75rem 1.625rem"
-                  width="140px"
-                  type="submit"
+                  variant="contained"
                >
-                  Установить цену
+                  Далее
                </Button>
-            </FormStyle>
-         </ContainerTotalPriceAndQuanti>
-
-         <TablesPartTwo />
+            </ContainerButton>
+         </div>
       </Container>
    )
 }
 
 const Container = styled('div')`
    margin-left: 6.25rem;
+
+   .box {
+      display: flex;
+      flex-direction: column;
+      gap: 3.8125rem;
+   }
 `
 
 const ContainerTotalPriceAndQuanti = styled('div')`
@@ -95,4 +144,10 @@ const ContainerTotalPriceAndQuanti = styled('div')`
 const FormStyle = styled('form')`
    display: flex;
    gap: 1.25rem;
+`
+
+const ContainerButton = styled('div')`
+   width: 79.688vw;
+   display: flex;
+   justify-content: flex-end;
 `

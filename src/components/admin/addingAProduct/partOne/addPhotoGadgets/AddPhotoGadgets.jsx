@@ -1,10 +1,10 @@
 import { styled } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import { useSnackbar } from '../../../../../hooks/useSnackbar'
 import { InitialStateAddPhotoGadgets } from './InitialStateAddPhotoGadgets'
 import { StateAfterAddingOnePhoto } from './StateAfterAddingOnePhoto'
 
-export const AddPhotoGadgets = ({ onPhotoCollector, photoStateData }) => {
+export const AddPhotoGadgets = memo(({ onPhotoCollector, photoStateData }) => {
    const [smartphonePhoto, setSmartphonePhoto] = useState(null)
    const { snackbarHandler } = useSnackbar()
    const [containerImg, setContainerImg] = useState(photoStateData || [])
@@ -108,7 +108,7 @@ export const AddPhotoGadgets = ({ onPhotoCollector, photoStateData }) => {
          </ContainerAddPhoto>
       </Container>
    )
-}
+})
 
 const Container = styled('div')`
    display: flex;

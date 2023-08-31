@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { memo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { styled } from '@mui/material'
 import { dataProductSmartphones } from '../../../../../utils/common/constants/constantsAdminAddNewProduct'
@@ -15,7 +15,7 @@ import {
    onChangeSubProduct,
 } from '../../../../../store/addProduct/addProductPartOne.slice'
 
-export const SmartphoneAdvancedOptions = () => {
+export const SmartphoneAdvancedOptions = memo(() => {
    const dispatch = useDispatch()
    const [productNum, setProductNum] = useState(0)
    const { productSmartphone, newProduct } = useSelector(
@@ -108,7 +108,7 @@ export const SmartphoneAdvancedOptions = () => {
          ) : null}
       </div>
    )
-}
+})
 
 const Container = styled('div')`
    display: flex;
