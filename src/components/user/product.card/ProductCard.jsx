@@ -7,17 +7,9 @@ import { ReactComponent as BasketIcon } from '../../../assets/icons/basket-icon.
 import { ReactComponent as Recommendation } from '../../../assets/icons/recommendation.svg'
 import { ReactComponent as FilledFavoriteIcon } from '../../../assets/icons/filled-favorite-icon.svg'
 import { Button } from '../../UI/Button'
-import {
-   getFavoriteItems,
-   postFavoriteItem,
-} from '../../../store/favorite/favorite.thunk'
+import { postFavoriteItem } from '../../../store/favorite/favorite.thunk'
 import { postBasketById } from '../../../store/basket/basket.thunk'
 import { useSnackbar } from '../../../hooks/useSnackbar'
-import {
-   getNovelities,
-   getRecommend,
-   getStock,
-} from '../../../store/main.page/main.page.thunk'
 import { AuthorizationModal } from '../AuthorizationModal'
 
 export const ProductCard = ({
@@ -45,29 +37,15 @@ export const ProductCard = ({
    const discountPrice = price - (price * discount) / 100
    const toggleFavoriteHandler = async () => {
       if (isAuthorization) {
-         dispatch(postFavoriteItem(id))
-            .unwrap()
-            .then(() => {
-               dispatch(getNovelities({ page: 1, pageSize: noveltiesPageSize }))
-               dispatch(getRecommend({ page: 1, pageSize: recommendPageSize }))
-               dispatch(getStock({ page: 1, pageSize: stockPageSize }))
-               dispatch(getFavoriteItems())
-               if (favoriteState) {
-                  snackbarHandler({
-                     message: 'Товар удален из избранных',
-                  })
-               } else {
-                  snackbarHandler({
-                     message: 'Товар добавлен в избранные',
-                     linkText: 'Перейти в избранное ',
-                     path: '/favorite',
-                  })
-               }
+         dispatch(
+            postFavoriteItem({
+               id,
+               favoriteState,
+               noveltiesPageSize,
+               recommendPageSize,
+               stockPageSize,
             })
-            .catch((error) => {
-               console.error('Error dispatching postFavoriteItem:', error)
-               snackbarHandler({ message: error.message, type: 'error' })
-            })
+         )
       } else {
          setOpenModal(!openModal)
       }

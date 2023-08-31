@@ -4,6 +4,14 @@ import {
    getFavoriteItemsRequest,
    postFavoriteItemRequest,
 } from '../../api/favoriteService'
+import { useSnackbar } from '../../hooks/useSnackbar'
+import {
+   getNovelities,
+   getRecommend,
+   getStock,
+} from '../main.page/main.page.thunk'
+
+const { snackbarHandler } = useSnackbar()
 
 export const getFavoriteItems = createAsyncThunk(
    'favorite/getFavoriteItems',
@@ -30,10 +38,38 @@ export const deleteFavoriteItems = createAsyncThunk(
 )
 export const postFavoriteItem = createAsyncThunk(
    'favorite/postFavoriteItems',
-   async (id, { rejectWithValue }) => {
+   async (
+      {
+         id,
+         favoriteState,
+         noveltiesPageSize,
+         recommendPageSize,
+         stockPageSize,
+      },
+      { rejectWithValue, dispatch }
+   ) => {
       try {
          await postFavoriteItemRequest(id)
+         dispatch(getNovelities({ page: 1, pageSize: noveltiesPageSize }))
+         dispatch(getRecommend({ page: 1, pageSize: recommendPageSize }))
+         dispatch(getStock({ page: 1, pageSize: stockPageSize }))
+         dispatch(getFavoriteItems())
+         if (favoriteState) {
+            snackbarHandler({
+               message: 'Товар удален из избранных',
+            })
+         } else {
+            snackbarHandler({
+               message: 'Товар добавлен в избранные',
+               linkText: 'Перейти в избранное ',
+               path: '/favorite',
+            })
+         }
+         snackbarHandler({
+            message: `Товар удален из избранных`,
+         })
       } catch (error) {
+         snackbarHandler({ message: error.message, type: 'error' })
          rejectWithValue(error)
       }
    }

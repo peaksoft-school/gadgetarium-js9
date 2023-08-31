@@ -15,7 +15,7 @@ import { navBarForHeader } from '../../../utils/common/constants/header'
 import { logOut } from '../../../store/auth/authThunk'
 import { routes } from '../../../utils/common/constants/routesConstants'
 import GeneralCategorySelectLayout from '../GeneralCategorySelectLayout'
-import { FavoriteHover } from '../favorite/FavoriteHover'
+import { ProductsModalWhenIsHovered } from '../../UI/ProductsModalWhenIsHovered'
 
 export const Header = ({ favorite, comparison, basket }) => {
    const { number, img, token } = useSelector((state) => state.auth)
@@ -178,7 +178,7 @@ export const Header = ({ favorite, comparison, basket }) => {
                   >
                      {hoverFavorite && (
                         <FavoriteContainer fixed={fixed} hover={hoverFavorite}>
-                           <FavoriteHover
+                           <ProductsModalWhenIsHovered
                               path="/favorite"
                               favorite
                               array={favoriteItems}
