@@ -8,7 +8,6 @@ import {
    TableBody,
    styled,
 } from '@mui/material'
-import { useSelector } from 'react-redux'
 
 const data = [
    { id: 1, name: 'Бренд' },
@@ -19,9 +18,7 @@ const data = [
    { id: 7, name: 'SIM-карты' },
 ]
 
-const ColumnTable = () => {
-   const { tablets, productName, laptops, smartphone, smartWatch } =
-      useSelector((state) => state.compare)
+const ColumnTable = ({ table }) => {
    return (
       <TableContainer>
          <StyledTable>
@@ -35,230 +32,60 @@ const ColumnTable = () => {
                })}
             </TableHead>
             <StyledTableBody>
-               {(() => {
-                  switch (productName) {
-                     case 'Smart Watch':
-                        return smartWatch?.map((item, index) => {
-                           if (index > 5) {
-                              return null
-                           }
-                           return (
-                              <StyledTableRowBody key={item.id} index={index}>
-                                 {data?.map((el) => {
-                                    if (el.name === 'Бренд') {
-                                       return (
-                                          <StyledTableCell key={el.id}>
-                                             {item.brandName}
-                                          </StyledTableCell>
-                                       )
-                                    }
-                                    if (el.name === 'Экран') {
-                                       return (
-                                          <StyledTableCell key={el.id}>
-                                             53* ({item.screen}) IPS
-                                          </StyledTableCell>
-                                       )
-                                    }
-                                    if (el.name === 'Цвет') {
-                                       return (
-                                          <StyledTableCell key={el.id}>
-                                             {item.color}
-                                          </StyledTableCell>
-                                       )
-                                    }
-                                    if (el.name === 'Операционная система') {
-                                       return (
-                                          <StyledTableCell key={el.id}>
-                                             {item.operationalSystems}
-                                          </StyledTableCell>
-                                       )
-                                    }
-                                    if (el.name === 'Память') {
-                                       return (
-                                          <StyledTableCell key={el.id}>
-                                             {item.rom}ГБ
-                                          </StyledTableCell>
-                                       )
-                                    }
-                                    if (el.name === 'SIM-карты') {
-                                       return (
-                                          <StyledTableCell key={el.id}>
-                                             2 (nano SIM)
-                                          </StyledTableCell>
-                                       )
-                                    }
-                                    return null
-                                 })}
-                              </StyledTableRowBody>
-                           )
-                        })
-                     case 'Tablet':
-                        return tablets?.map((item, index) => {
-                           if (index > 5) {
-                              return null
-                           }
-                           return (
-                              <StyledTableRowBody key={item.id} index={index}>
-                                 {data?.map((el) => {
-                                    if (el.name === 'Бренд') {
-                                       return (
-                                          <StyledTableCell key={el.id}>
-                                             {item.brandName}
-                                          </StyledTableCell>
-                                       )
-                                    }
-                                    if (el.name === 'Экран') {
-                                       return (
-                                          <StyledTableCell key={el.id}>
-                                             53* ({item.screen}) IPS
-                                          </StyledTableCell>
-                                       )
-                                    }
-                                    if (el.name === 'Цвет') {
-                                       return (
-                                          <StyledTableCell key={el.id}>
-                                             {item.color}
-                                          </StyledTableCell>
-                                       )
-                                    }
-                                    if (el.name === 'Операционная система') {
-                                       return (
-                                          <StyledTableCell key={el.id}>
-                                             {item.operationalSystems}
-                                          </StyledTableCell>
-                                       )
-                                    }
-                                    if (el.name === 'Память') {
-                                       return (
-                                          <StyledTableCell key={el.id}>
-                                             {item.rom}ГБ
-                                          </StyledTableCell>
-                                       )
-                                    }
-                                    if (el.name === 'SIM-карты') {
-                                       return (
-                                          <StyledTableCell key={el.id}>
-                                             2 (nano SIM)
-                                          </StyledTableCell>
-                                       )
-                                    }
-                                    return null
-                                 })}
-                              </StyledTableRowBody>
-                           )
-                        })
-                     case 'Laptop':
-                        return laptops?.map((item, index) => {
-                           if (index > 5) {
-                              return null
-                           }
-                           return (
-                              <StyledTableRowBody key={item.id} index={index}>
-                                 {data?.map((el) => {
-                                    if (el.name === 'Бренд') {
-                                       return (
-                                          <StyledTableCell key={el.id}>
-                                             {item.brandName}
-                                          </StyledTableCell>
-                                       )
-                                    }
-                                    if (el.name === 'Экран') {
-                                       return (
-                                          <StyledTableCell key={el.id}>
-                                             53* ({item.screen}) IPS
-                                          </StyledTableCell>
-                                       )
-                                    }
-                                    if (el.name === 'Цвет') {
-                                       return (
-                                          <StyledTableCell key={el.id}>
-                                             {item.color}
-                                          </StyledTableCell>
-                                       )
-                                    }
-                                    if (el.name === 'Операционная система') {
-                                       return (
-                                          <StyledTableCell key={el.id}>
-                                             {item.operationalSystems}
-                                          </StyledTableCell>
-                                       )
-                                    }
-                                    if (el.name === 'Память') {
-                                       return (
-                                          <StyledTableCell key={el.id}>
-                                             {item.rom}ГБ
-                                          </StyledTableCell>
-                                       )
-                                    }
-                                    if (el.name === 'SIM-карты') {
-                                       return (
-                                          <StyledTableCell key={el.id}>
-                                             2 (nano SIM)
-                                          </StyledTableCell>
-                                       )
-                                    }
-                                    return null
-                                 })}
-                              </StyledTableRowBody>
-                           )
-                        })
-                     default:
-                        return smartphone?.map((item, index) => {
-                           if (index > 5) {
-                              return null
-                           }
-                           return (
-                              <StyledTableRowBody key={item.id} index={index}>
-                                 {data?.map((el) => {
-                                    if (el.name === 'Бренд') {
-                                       return (
-                                          <StyledTableCell key={el.id}>
-                                             {item.brandName}
-                                          </StyledTableCell>
-                                       )
-                                    }
-                                    if (el.name === 'Экран') {
-                                       return (
-                                          <StyledTableCell key={el.id}>
-                                             53* ({item.screen}) IPS
-                                          </StyledTableCell>
-                                       )
-                                    }
-                                    if (el.name === 'Цвет') {
-                                       return (
-                                          <StyledTableCell key={el.id}>
-                                             {item.color}
-                                          </StyledTableCell>
-                                       )
-                                    }
-                                    if (el.name === 'Операционная система') {
-                                       return (
-                                          <StyledTableCell key={el.id}>
-                                             {item.operationalSystems}
-                                          </StyledTableCell>
-                                       )
-                                    }
-                                    if (el.name === 'Память') {
-                                       return (
-                                          <StyledTableCell key={el.id}>
-                                             {item.rom}ГБ
-                                          </StyledTableCell>
-                                       )
-                                    }
-                                    if (el.name === 'SIM-карты') {
-                                       return (
-                                          <StyledTableCell key={el.id}>
-                                             2 (nano SIM)
-                                          </StyledTableCell>
-                                       )
-                                    }
-                                    return null
-                                 })}
-                              </StyledTableRowBody>
-                           )
-                        })
+               {table?.map((item, index) => {
+                  if (index > 5) {
+                     return null
                   }
-               })()}
+                  return (
+                     <StyledTableRowBody key={item.id} index={index}>
+                        {data?.map((el) => {
+                           if (el.name === 'Бренд') {
+                              return (
+                                 <StyledTableCell key={el.id}>
+                                    {item.brandName}
+                                 </StyledTableCell>
+                              )
+                           }
+                           if (el.name === 'Экран') {
+                              return (
+                                 <StyledTableCell key={el.id}>
+                                    53* ({item.screen}) IPS
+                                 </StyledTableCell>
+                              )
+                           }
+                           if (el.name === 'Цвет') {
+                              return (
+                                 <StyledTableCell key={el.id}>
+                                    {item.color}
+                                 </StyledTableCell>
+                              )
+                           }
+                           if (el.name === 'Операционная система') {
+                              return (
+                                 <StyledTableCell key={el.id}>
+                                    {item.operationalSystems}
+                                 </StyledTableCell>
+                              )
+                           }
+                           if (el.name === 'Память') {
+                              return (
+                                 <StyledTableCell key={el.id}>
+                                    {item.rom}ГБ
+                                 </StyledTableCell>
+                              )
+                           }
+                           if (el.name === 'SIM-карты') {
+                              return (
+                                 <StyledTableCell key={el.id}>
+                                    2 (nano SIM)
+                                 </StyledTableCell>
+                              )
+                           }
+                           return null
+                        })}
+                     </StyledTableRowBody>
+                  )
+               })}
             </StyledTableBody>
          </StyledTable>
       </TableContainer>

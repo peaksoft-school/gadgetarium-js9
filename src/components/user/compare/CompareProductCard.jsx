@@ -9,9 +9,10 @@ export const CompareProductCard = ({
    image,
    id,
    deleteHandler,
+   ...props
 }) => {
    return (
-      <Container>
+      <Container {...props}>
          <DeleteContainer>
             <DeleteButton onClick={() => deleteHandler(id)} />
          </DeleteContainer>
@@ -65,6 +66,7 @@ const Title = styled('p')`
    line-height: 140%;
    width: 9.271vw;
    text-align: left;
+   text-transform: capitalize;
 `
 const Image = styled('img')`
    width: 8.039vw;

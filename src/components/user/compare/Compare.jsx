@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Button, styled } from '@mui/material'
+import { Button, keyframes, styled } from '@mui/material'
 import CheckboxInput from '../../UI/icon.input/CheckboxInput'
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/cross/small-cross-icon.svg'
 import { CompareProductCard } from './CompareProductCard'
@@ -14,6 +14,8 @@ import {
 } from '../../../store/compare/compare.thunk'
 import { Loading } from '../../UI/loading/Loading'
 import ForthButton from '../../UI/icon.button/back.forth.buttons/ForthButton'
+import BackButton from '../../UI/icon.button/back.forth.buttons/BackButton'
+
 import { useSnackbar } from '../../../hooks/useSnackbar'
 import sammyFinance from '../../../assets/images/sammy-finance-image.png'
 import 'slick-carousel/slick/slick.css'
@@ -30,13 +32,14 @@ export const Compare = () => {
       countProducts,
    } = useSelector((state) => state.compare)
    const { snackbarHandler } = useSnackbar()
+   const [startPosition, setStartPosition] = useState(0)
+   const [openLeftButton, setOpenLeftButton] = useState({
+      open: false,
+      count: 0,
+   })
+
    const dispatch = useDispatch()
    const navigate = useNavigate()
-   // const [currentIndex, setCurrentIndex] = useState(0)
-
-   // const handleForthButton = () => {
-   //    setCurrentIndex((prevIndex) => prevIndex + 1)
-   // }
    const changeProductNameToLaptop = () => {
       dispatch(compareActions.getProductNameHandler('Laptop'))
    }
@@ -49,12 +52,6 @@ export const Compare = () => {
    const changeProductNameToTablet = () => {
       dispatch(compareActions.getProductNameHandler('Tablet'))
    }
-   useEffect(() => {
-      dispatch(getCompare(productName))
-   }, [productName])
-   useEffect(() => {
-      dispatch(getCountProduct())
-   }, [])
    const deleteHandler = async (id) => {
       dispatch(postCompareProduct({ id, addOrDelete: false }))
          .unwrap()
@@ -92,63 +89,77 @@ export const Compare = () => {
             return smartphone?.length || 0
       }
    }
-   const renderProductCards = () => {
-      switch (productName) {
-         case 'Smart Watch':
-            return smartWatch?.map((el) => {
-               return (
-                  <CompareProductCard
-                     key={el.subProductId}
-                     id={el.subProductId}
-                     prodName={el.prodName}
-                     price={el.price}
-                     image={el.image}
-                     deleteHandler={deleteHandler}
-                  />
-               )
+
+   const handleScroll = (direction) => {
+      if (direction === 'left') {
+         setStartPosition(Math.max(0, startPosition - 1))
+         if (openLeftButton.count > 0) {
+            setOpenLeftButton({
+               ...openLeftButton,
+               count: openLeftButton.count - 1,
             })
-         case 'Tablet':
-            return tablets?.map((el) => {
-               return (
-                  <CompareProductCard
-                     key={el.subProductId}
-                     id={el.subProductId}
-                     prodName={el.prodName}
-                     price={el.price}
-                     image={el.image}
-                     deleteHandler={deleteHandler}
-                  />
-               )
-            })
-         case 'Laptop':
-            return laptops?.map((el) => {
-               return (
-                  <CompareProductCard
-                     key={el.subProductId}
-                     id={el.subProductId}
-                     prodName={el.prodName}
-                     price={el.price}
-                     image={el.image}
-                     deleteHandler={deleteHandler}
-                  />
-               )
-            })
-         default:
-            return smartphone?.map((el) => {
-               return (
-                  <CompareProductCard
-                     key={el.subProductId}
-                     id={el.subProductId}
-                     prodName={el.prodName}
-                     price={el.price}
-                     image={el.image}
-                     deleteHandler={deleteHandler}
-                  />
-               )
-            })
+         }
+      } else if (direction === 'right') {
+         switch (productName) {
+            case 'Smart Watch':
+               if (startPosition < smartWatch.length - 6) {
+                  setOpenLeftButton({
+                     open: true,
+                     count: openLeftButton.count + 1,
+                  })
+                  setStartPosition(startPosition + 1)
+               }
+               break
+            case 'Tablet':
+               if (startPosition < tablets.length - 6) {
+                  setOpenLeftButton({
+                     open: true,
+                     count: openLeftButton.count + 1,
+                  })
+                  setStartPosition(startPosition + 1)
+               }
+               break
+            case 'Laptop':
+               if (startPosition < laptops.length - 6) {
+                  setOpenLeftButton({
+                     open: true,
+                     count: openLeftButton.count + 1,
+                  })
+                  setStartPosition(startPosition + 1)
+               }
+               break
+            default:
+               if (startPosition < smartphone.length - 6) {
+                  setOpenLeftButton({
+                     open: true,
+                     count: openLeftButton.count + 1,
+                  })
+                  setStartPosition(startPosition + 1)
+               }
+         }
       }
    }
+   useEffect(() => {
+      dispatch(getCountProduct())
+   }, [])
+   useEffect(() => {
+      dispatch(getCompare(productName))
+   }, [productName])
+   const visibleItems =
+      (productName === 'Phone' &&
+         smartphone?.slice(startPosition, startPosition + 6)) ||
+      (productName === 'Tablet' &&
+         tablets?.slice(startPosition, startPosition + 6)) ||
+      (productName === 'Laptop' &&
+         laptops?.slice(startPosition, startPosition + 6)) ||
+      (productName === 'Smart Watch' &&
+         smartWatch?.slice(startPosition, startPosition + 6))
 
+   const checkLength =
+      (productName === 'Phone' && smartphone?.length > 6) ||
+      (productName === 'Tablet' && tablets?.length > 6) ||
+      (productName === 'Laptop' && laptops?.length > 6) ||
+      (productName === 'Smart Watch' && smartWatch?.length > 6)
    return (
       <>
          {isLoadingComparison && <Loading />}
@@ -216,47 +227,41 @@ export const Compare = () => {
                      </ToolContainer>
                   </SecondWidthContainer>
                   <Products array={getArrayLength()}>
-                     {renderProductCards()}
-
-                     {smartphone?.length > 6 && productName === 'Phone' && (
-                        <ForthButtonPosition>
-                           <StyledForthButton
-                              bigButton
-                              // onClick={handleForthButton}
-                           />
-                        </ForthButtonPosition>
-                     )}
-
-                     {tablets?.length > 6 && productName === 'Tablet' && (
-                        <ForthButtonPosition>
-                           <StyledForthButton
-                              bigButton
-                              // onClick={handleForthButton}
-                           />
-                        </ForthButtonPosition>
-                     )}
-
-                     {smartWatch?.length > 6 &&
-                        productName === 'Smart Watch' && (
-                           <ForthButtonPosition>
-                              <StyledForthButton
+                     {checkLength &&
+                        openLeftButton.open &&
+                        openLeftButton.count !== 0 && (
+                           <BackButtonPosition>
+                              <StyledBackButton
                                  bigButton
-                                 // onClick={handleForthButton}
+                                 onClick={() => handleScroll('left')}
                               />
-                           </ForthButtonPosition>
+                           </BackButtonPosition>
                         )}
 
-                     {laptops?.length > 6 && productName === 'Laptop' && (
+                     {visibleItems?.map((el, index) => {
+                        return (
+                           <StyledCompareProductCard
+                              key={el.subProductId}
+                              id={el.subProductId}
+                              prodName={el.prodName}
+                              price={el.price}
+                              image={el.image}
+                              deleteHandler={deleteHandler}
+                              index={index}
+                           />
+                        )
+                     })}
+                     {checkLength && (
                         <ForthButtonPosition>
                            <StyledForthButton
                               bigButton
-                              // onClick={handleForthButton}
+                              onClick={() => handleScroll('right')}
                            />
                         </ForthButtonPosition>
                      )}
                   </Products>
                   <TableContainer>
-                     <ColumnTable key="ada" />
+                     <ColumnTable table={visibleItems} />
                   </TableContainer>
                </CompareContainer>
             ) : (
@@ -334,6 +339,14 @@ const StyledForthButton = styled(ForthButton)`
       height: 0.677vw;
    }
 `
+const StyledBackButton = styled(BackButton)`
+   width: 2.604vw;
+   height: 2.604vw;
+   svg {
+      width: 0.781vw;
+      height: 0.677vw;
+   }
+`
 const WidthContainer = styled('div')`
    width: 79.688vw;
 `
@@ -348,15 +361,15 @@ const Products = styled('div')`
    margin-right: ${(props) => {
       switch (props.array) {
          case 1:
-            return '1975px'
+            return '128.5vw'
          case 2:
-            return '1580.006px'
+            return '102.3vw'
          case 3:
-            return '1187px'
+            return '76.3vw'
          case 4:
-            return '780px'
+            return '50.3vw'
          case 5:
-            return '384px'
+            return '24.5vw'
          default:
             return '0'
       }
@@ -385,6 +398,12 @@ const StyledCheckboxInput = styled(CheckboxInput)`
 const ForthButtonPosition = styled('div')`
    position: absolute;
    top: 100px;
+`
+const BackButtonPosition = styled('div')`
+   position: absolute;
+   z-index: 10;
+   top: 100px;
+   right: 1300px;
 `
 const ToolContainer = styled('div')`
    display: flex;
@@ -456,4 +475,19 @@ const StyledButton = styled(Button)`
 `
 const StyledDeleteIcon = styled(DeleteIcon)`
    margin-top: 3px;
+`
+const animation = keyframes`
+   from {
+      transform: scale(0);
+      opacity: 0;
+      
+   }
+   to {
+      transform:scale(1);
+      opacity: 1;
+
+   }
+`
+const StyledCompareProductCard = styled(CompareProductCard)`
+   animation: alternate ${animation} 1s forwards;
 `
