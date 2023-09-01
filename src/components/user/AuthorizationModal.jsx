@@ -3,17 +3,24 @@ import React from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { ReactComponent as CloseIcon } from '../../assets/icons/cross/big-cross-icon.svg'
 import { Modal } from '../UI/Modal'
 import { InputUi } from '../UI/Input'
 import { getPhoneNumber, signInRequest } from '../../store/auth/authThunk'
 import { useSnackbar } from '../../hooks/useSnackbar'
 import { schemaSignIn } from '../../utils/helpers/reactHookFormShema'
+import { getFavoriteItems } from '../../store/favorite/favorite.thunk'
+import {
+   getNovelities,
+   getRecommend,
+   getStock,
+} from '../../store/main.page/main.page.thunk'
+import { Loading } from '../UI/loading/Loading'
 
 export const AuthorizationModal = ({ openModal, toggleHandler }) => {
    const { snackbarHandler } = useSnackbar()
-
+   const { isLoading } = useSelector((state) => state.auth)
    const dispatch = useDispatch()
    const navigate = useNavigate()
 
@@ -32,13 +39,17 @@ export const AuthorizationModal = ({ openModal, toggleHandler }) => {
          .then((response) => {
             if (response.role === 'USER') {
                navigate('/')
+               dispatch(getNovelities({ page: 1, pageSize: 5 }))
+               dispatch(getRecommend({ page: 1, pageSize: 5 }))
+               dispatch(getStock({ page: 1, pageSize: 5 }))
                dispatch(getPhoneNumber(data))
+               dispatch(getFavoriteItems())
+               toggleHandler()
             } else {
                navigate('admin')
             }
          })
       reset()
-      toggleHandler()
    }
 
    const combinedError = formState.errors.email || formState.errors.password
@@ -48,49 +59,54 @@ export const AuthorizationModal = ({ openModal, toggleHandler }) => {
    }
    const open = !!openModal
    return (
-      <StyledModal open={open} onClose={toggleHandler} padding="0">
-         <Container>
-            <CloseContainer>
-               <MuiCloseIcon onClick={onCloseHandler} />
-            </CloseContainer>
-            <LoginWarning sx={{ marginTop: '26px' }}>Вы не вошли</LoginWarning>
-            <LoginWarning>войдите или зарегестрируйтесь</LoginWarning>
-            <LoginText>Войти</LoginText>
-            <Form onSubmit={handleSubmit(onSubmit)}>
-               <Input
-                  width="29rem"
-                  height="43px"
-                  {...register('email')}
-                  placeholder="Напишите email"
-                  type="email"
-                  error={!!formState.errors.email}
-               />
-               <Input
-                  width="29rem"
-                  height="43px"
-                  error={!!formState.errors.password}
-                  {...register('password')}
-                  placeholder="Напишите пароль"
-                  type="password"
-               />
-               <ErrorTitle>
-                  {combinedError && (
-                     <p style={{ color: 'red', margin: 0 }}>
-                        {combinedError.message}
-                     </p>
-                  )}
-               </ErrorTitle>
-               <ButtonUi type="submit" variant="contained">
-                  Войти
-               </ButtonUi>
-            </Form>
-            <Block>
-               <p>
-                  Нет аккаунта? <Link to="/signup">Зарегистрироваться</Link>
-               </p>
-            </Block>
-         </Container>
-      </StyledModal>
+      <>
+         {isLoading && <Loading />}
+         <StyledModal open={open} onClose={toggleHandler} padding="0">
+            <Container>
+               <CloseContainer>
+                  <MuiCloseIcon onClick={onCloseHandler} />
+               </CloseContainer>
+               <LoginWarning sx={{ marginTop: '26px' }}>
+                  Вы не вошли
+               </LoginWarning>
+               <LoginWarning>войдите или зарегестрируйтесь</LoginWarning>
+               <LoginText>Войти</LoginText>
+               <Form onSubmit={handleSubmit(onSubmit)}>
+                  <Input
+                     width="29rem"
+                     height="43px"
+                     {...register('email')}
+                     placeholder="Напишите email"
+                     type="email"
+                     error={!!formState.errors.email}
+                  />
+                  <Input
+                     width="29rem"
+                     height="43px"
+                     error={!!formState.errors.password}
+                     {...register('password')}
+                     placeholder="Напишите пароль"
+                     type="password"
+                  />
+                  <ErrorTitle>
+                     {combinedError && (
+                        <p style={{ color: 'red', margin: 0 }}>
+                           {combinedError.message}
+                        </p>
+                     )}
+                  </ErrorTitle>
+                  <ButtonUi type="submit" variant="contained">
+                     Войти
+                  </ButtonUi>
+               </Form>
+               <Block>
+                  <p>
+                     Нет аккаунта? <Link to="/signup">Зарегистрироваться</Link>
+                  </p>
+               </Block>
+            </Container>
+         </StyledModal>
+      </>
    )
 }
 const Container = styled('div')`
