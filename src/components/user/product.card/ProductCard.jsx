@@ -94,7 +94,6 @@ export const ProductCard = ({
                toggleHandler={toggleHandler}
             />
          )}
-
          <ButtonContainer>
             <CircleContainer>
                {discount === 0 &&
