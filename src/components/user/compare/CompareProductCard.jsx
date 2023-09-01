@@ -19,7 +19,7 @@ export const CompareProductCard = ({
          <Image src={image} alt="" />
          <Title>{prodName}</Title>
          <Price>
-            {price} <span>с</span>
+            {price.toLocaleString()} <span>с</span>
          </Price>
          <Button
             padding="1.1111vh 1.875vw"
@@ -46,7 +46,7 @@ const Container = styled('div')`
       box-shadow: 0px 8px 25px 0px rgba(0, 0, 0, 0.1),
          0px -8px 25px 0px rgba(13, 13, 13, 0.1);
    }
-   padding-bottom: 20px;
+   padding-bottom: 1.8519vh;
 `
 const DeleteContainer = styled('div')`
    margin-top: 1.1111vh;
@@ -83,7 +83,7 @@ const Price = styled('p')`
    margin: 0;
    margin-bottom: 1.1111vh;
    text-align: left;
-   padding: 0 20px;
+   padding: 0 1.016vw;
    width: 100%;
    span {
       text-decoration-line: underline;

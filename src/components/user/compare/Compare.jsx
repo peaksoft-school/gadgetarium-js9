@@ -20,6 +20,7 @@ import { useSnackbar } from '../../../hooks/useSnackbar'
 import sammyFinance from '../../../assets/images/sammy-finance-image.png'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
+import { categoryMappings } from '../../../utils/common/constants/compare.constants'
 
 export const Compare = () => {
    const {
@@ -37,6 +38,7 @@ export const Compare = () => {
       open: false,
       count: 0,
    })
+   const [isChecked, setIsChecked] = useState(false)
 
    const dispatch = useDispatch()
    const navigate = useNavigate()
@@ -51,6 +53,9 @@ export const Compare = () => {
    }
    const changeProductNameToTablet = () => {
       dispatch(compareActions.getProductNameHandler('Tablet'))
+   }
+   const toggleIsChecked = () => {
+      setIsChecked(!isChecked)
    }
    const deleteHandler = async (id) => {
       dispatch(postCompareProduct({ id, addOrDelete: false }))
@@ -67,12 +72,6 @@ export const Compare = () => {
                type: 'error',
             })
          })
-   }
-   const categoryMappings = {
-      Phone: 'Смартфоны',
-      Tablet: 'Планшеты',
-      Laptop: 'Ноутбуки',
-      'Smart Watch': 'Смарт-часы',
    }
    const enterPurchases = () => {
       navigate('/')
@@ -217,7 +216,10 @@ export const Compare = () => {
                      </ButtonContainer>
                      <ToolContainer>
                         <CheckedContainer>
-                           <StyledCheckboxInput />
+                           <StyledCheckboxInput
+                              isChecked={isChecked}
+                              onClick={toggleIsChecked}
+                           />
                            <p>Показывать только различия</p>
                         </CheckedContainer>
                         <ClearContainer>
@@ -261,7 +263,7 @@ export const Compare = () => {
                      )}
                   </Products>
                   <TableContainer>
-                     <ColumnTable table={visibleItems} />
+                     <ColumnTable isChecked={isChecked} table={visibleItems} />
                   </TableContainer>
                </CompareContainer>
             ) : (
@@ -365,7 +367,7 @@ const Products = styled('div')`
          case 2:
             return '102.3vw'
          case 3:
-            return '76.3vw'
+            return '76.8vw'
          case 4:
             return '50.3vw'
          case 5:
@@ -403,7 +405,7 @@ const BackButtonPosition = styled('div')`
    position: absolute;
    z-index: 10;
    top: 100px;
-   right: 1300px;
+   right: 73.708vw;
 `
 const ToolContainer = styled('div')`
    display: flex;

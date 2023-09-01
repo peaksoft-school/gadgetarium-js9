@@ -95,7 +95,7 @@ const Container = styled('div')`
    justify-content: center;
    background-color: white;
    width: 372px;
-   height: 186px;
+   height: 146px;
    border-radius: 4px 0px 0px 4px;
    padding: 0px 8px 0px 8px;
    /* box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.1); */

@@ -8,90 +8,60 @@ import {
    TableBody,
    styled,
 } from '@mui/material'
+import {
+   columnDataInfo,
+   columns,
+   isAllValuesEqual,
+} from '../../../utils/common/constants/compare.constants'
 
-const data = [
-   { id: 1, name: 'Бренд' },
-   { id: 2, name: 'Экран' },
-   { id: 3, name: 'Цвет' },
-   { id: 4, name: 'Операционная система' },
-   { id: 5, name: 'Память' },
-   { id: 7, name: 'SIM-карты' },
-]
-
-const ColumnTable = ({ table }) => {
+const ColumnTable = ({ table, isChecked }) => {
+   const isAllValuesEqualFlags = columnDataInfo.map(({ columnName, index }) =>
+      isAllValuesEqual(table, columnName, index)
+   )
+   const filteredColumns = columns.filter(
+      (column, index) => !isAllValuesEqualFlags[index]
+   )
    return (
       <TableContainer>
          <StyledTable>
             <TableHead>
-               {data.map((el) => {
-                  return (
-                     <StyledTableRowHead key={el.id}>
-                        <StyledTableCell>{el.name}</StyledTableCell>
-                     </StyledTableRowHead>
-                  )
-               })}
+               {isChecked
+                  ? filteredColumns.map((column) => (
+                       <StyledTableRowHead key={column.name}>
+                          <StyledTableCell>{column.name}</StyledTableCell>
+                       </StyledTableRowHead>
+                    ))
+                  : columns.map((column) => (
+                       <StyledTableRowHead key={column.name}>
+                          <StyledTableCell>{column.name}</StyledTableCell>
+                       </StyledTableRowHead>
+                    ))}
             </TableHead>
             <StyledTableBody>
-               {table?.map((item, index) => {
-                  if (index > 5) {
-                     return null
-                  }
-                  return (
-                     <StyledTableRowBody key={item.id} index={index}>
-                        {data?.map((el) => {
-                           if (el.name === 'Бренд') {
-                              return (
-                                 <StyledTableCell key={el.id}>
-                                    {item.brandName}
-                                 </StyledTableCell>
-                              )
-                           }
-                           if (el.name === 'Экран') {
-                              return (
-                                 <StyledTableCell key={el.id}>
-                                    53* ({item.screen}) IPS
-                                 </StyledTableCell>
-                              )
-                           }
-                           if (el.name === 'Цвет') {
-                              return (
-                                 <StyledTableCell key={el.id}>
-                                    {item.color}
-                                 </StyledTableCell>
-                              )
-                           }
-                           if (el.name === 'Операционная система') {
-                              return (
-                                 <StyledTableCell key={el.id}>
-                                    {item.operationalSystems}
-                                 </StyledTableCell>
-                              )
-                           }
-                           if (el.name === 'Память') {
-                              return (
-                                 <StyledTableCell key={el.id}>
-                                    {item.rom}ГБ
-                                 </StyledTableCell>
-                              )
-                           }
-                           if (el.name === 'SIM-карты') {
-                              return (
-                                 <StyledTableCell key={el.id}>
-                                    2 (nano SIM)
-                                 </StyledTableCell>
-                              )
-                           }
-                           return null
-                        })}
-                     </StyledTableRowBody>
-                  )
-               })}
+               {table?.slice(0, 6).map((item, index) => (
+                  <StyledTableRowBody key={item.subProductId} index={index}>
+                     {isChecked
+                        ? filteredColumns.map((column) => (
+                             <StyledTableCell key={column.name}>
+                                {column.render
+                                   ? column.render(item)
+                                   : column.value || item[column.field]}
+                             </StyledTableCell>
+                          ))
+                        : columns.map((column) => (
+                             <StyledTableCell key={column.name}>
+                                {column.render
+                                   ? column.render(item)
+                                   : column.value || item[column.field]}
+                             </StyledTableCell>
+                          ))}
+                  </StyledTableRowBody>
+               ))}
             </StyledTableBody>
          </StyledTable>
       </TableContainer>
    )
 }
-
 export default ColumnTable
 const StyledTable = styled(Table)`
    display: flex;
@@ -100,7 +70,7 @@ const StyledTableRowHead = styled(TableRow)`
    display: flex;
    width: 13.438vw;
    th {
-      font-weight: 700;
+      font-weight: 800;
    }
 `
 const StyledTableBody = styled(TableBody)`
