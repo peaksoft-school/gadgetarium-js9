@@ -10,12 +10,6 @@ import { InputUi } from '../UI/Input'
 import { getPhoneNumber, signInRequest } from '../../store/auth/authThunk'
 import { useSnackbar } from '../../hooks/useSnackbar'
 import { schemaSignIn } from '../../utils/helpers/reactHookFormShema'
-import { getFavoriteItems } from '../../store/favorite/favorite.thunk'
-import {
-   getNovelities,
-   getRecommend,
-   getStock,
-} from '../../store/main.page/main.page.thunk'
 
 export const AuthorizationModal = ({ openModal, toggleHandler }) => {
    const { snackbarHandler } = useSnackbar()
@@ -32,32 +26,19 @@ export const AuthorizationModal = ({ openModal, toggleHandler }) => {
       resolver: zodResolver(schemaSignIn),
    })
 
-   const onSubmit = async (data) => {
-      try {
-         const response = await dispatch(signInRequest(data)).unwrap()
-         dispatch(getNovelities({ page: 1, pageSize: 5 }))
-         dispatch(getRecommend({ page: 1, pageSize: 5 }))
-         dispatch(getStock({ page: 1, pageSize: 5 }))
-         dispatch(getFavoriteItems())
-         reset()
-         snackbarHandler({
-            message: 'Вход успешно выполнен',
-            type: 'success',
+   const onSubmit = (data) => {
+      dispatch(signInRequest({ data, snackbarHandler }))
+         .unwrap()
+         .then((response) => {
+            if (response.role === 'USER') {
+               navigate('/')
+               dispatch(getPhoneNumber(data))
+            } else {
+               navigate('admin')
+            }
          })
-         toggleHandler()
-         if (response.role === 'USER') {
-            navigate('/')
-            dispatch(getPhoneNumber(data)).unwrap()
-         } else {
-            navigate('admin')
-         }
-      } catch (error) {
-         snackbarHandler({
-            message:
-               'Неправильный email или пароль. Пожалуйста, попробуйте еще раз.',
-            type: 'error',
-         })
-      }
+      reset()
+      toggleHandler()
    }
 
    const combinedError = formState.errors.email || formState.errors.password

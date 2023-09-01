@@ -9,6 +9,7 @@ function CheckboxInput({ isChecked, onChange, bgColor, onClick, ...props }) {
          onChange={onChange}
          backgroundcolor={bgColor}
          onClick={onClick}
+         {...props}
          color="primary"
          {...props}
       />

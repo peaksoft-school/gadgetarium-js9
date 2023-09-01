@@ -27,26 +27,17 @@ export const SignIn = () => {
    })
 
    const onSubmit = async (data) => {
-      try {
-         const response = await dispatch(signInRequest(data)).unwrap()
-         reset()
-         snackbarHandler({
-            message: 'Вход успешно выполнен',
-            type: 'success',
+      await dispatch(signInRequest({ data, snackbarHandler }))
+         .unwrap()
+         .then((response) => {
+            if (response.role === 'USER') {
+               navigate('/')
+               dispatch(getPhoneNumber(data))
+            } else {
+               navigate('admin')
+            }
          })
-         if (response.role === 'USER') {
-            navigate('/')
-            dispatch(getPhoneNumber(data)).unwrap()
-         } else {
-            navigate('admin')
-         }
-      } catch (error) {
-         snackbarHandler({
-            message:
-               'Неправильный email или пароль. Пожалуйста, попробуйте еще раз.',
-            type: 'error',
-         })
-      }
+      reset()
    }
 
    const combinedError = formState.errors.email || formState.errors.password
