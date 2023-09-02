@@ -38,21 +38,17 @@ export const deleteFavoriteItems = createAsyncThunk(
 )
 export const postFavoriteItem = createAsyncThunk(
    'favorite/postFavoriteItems',
-   async (
-      {
-         id,
-         favoriteState,
-         noveltiesPageSize,
-         recommendPageSize,
-         stockPageSize,
-      },
-      { rejectWithValue, dispatch }
-   ) => {
+   async ({ id, favoriteState, pageSize }, { rejectWithValue, dispatch }) => {
       try {
          await postFavoriteItemRequest(id)
-         dispatch(getNovelities({ page: 1, pageSize: noveltiesPageSize }))
-         dispatch(getRecommend({ page: 1, pageSize: recommendPageSize }))
-         dispatch(getStock({ page: 1, pageSize: stockPageSize }))
+         dispatch(
+            getNovelities({
+               page: 1,
+               pageSize: pageSize || 5,
+            })
+         )
+         dispatch(getRecommend({ page: 1, pageSize: pageSize || 5 }))
+         dispatch(getStock({ page: 1, pageSize: pageSize || 5 }))
          dispatch(getFavoriteItems())
          if (favoriteState) {
             snackbarHandler({

@@ -24,9 +24,7 @@ export const ProductCard = ({
    countOfReviews = 56,
    favoriteState,
    comparisonState,
-   noveltiesPageSize,
-   recommendPageSize,
-   stockPageSize,
+   pageSize,
    id = '1',
    ...props
 }) => {
@@ -42,9 +40,7 @@ export const ProductCard = ({
             postFavoriteItem({
                id,
                favoriteState,
-               noveltiesPageSize,
-               recommendPageSize,
-               stockPageSize,
+               pageSize,
             })
          )
       } else {

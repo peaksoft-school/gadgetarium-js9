@@ -16,7 +16,7 @@ export const ProductsModalWhenIsHovered = React.memo(
 
       const deleteFavoriteHandler = async (id) => {
          if (favorite) {
-            dispatch(postFavoriteItem({ id }))
+            dispatch(postFavoriteItem({ id, favoriteState: true }))
          } else {
             // dispatch(postComparisonItem(id))
             //    .then(() => {
@@ -95,6 +95,7 @@ const Container = styled('div')`
    border-radius: 5px;
    box-shadow: 0px 10px 30px 0px rgba(133, 143, 164, 0.1);
    padding: 2.037vh 0 2.037vh 1.042vw;
+   padding-right: ${(props) => (props.length < 3 ? '1.042vw' : '0')};
    display: flex;
    flex-direction: column;
    align-items: center;
