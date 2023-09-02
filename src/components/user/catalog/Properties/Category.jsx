@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { keyframes, styled } from '@mui/material'
 import { useSelector, useDispatch } from 'react-redux'
-import CheckboxInput from '../../UI/icon.input/CheckboxInput'
+import CheckboxInput from '../../../UI/icon.input/CheckboxInput'
 import { ReactComponent as Strelka } from '../../../../assets/icons/arrows/up-icon.svg'
 import { getCategory } from '../../../../store/cataog/categoryThunk'
-import { categoryActions } from '../../../store/cataog/catalogSlice'
+import { categoryActions } from '../../../../store/cataog/catalogSlice'
 
 export const Category = () => {
    const dispatch = useDispatch()

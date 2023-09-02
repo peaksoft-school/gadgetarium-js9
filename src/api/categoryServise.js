@@ -5,13 +5,12 @@ export const getCategoryRequest = () => {
 }
 
 export const filterProductsByCategory = (payload) => {
-   console.log('payload: ', payload)
    const requestData = {
       gadgetType: 'Phone',
       sorting: 'string',
       brandIds: payload.id.length === 0 ? [0] : payload.id,
-      priceStart: payload.minValue || 0,
-      priceEnd: payload.maxValue || 0,
+      priceStart: 0,
+      priceEnd: 0,
       codeColor: ['string'],
       rom: [0],
       ram: [0],

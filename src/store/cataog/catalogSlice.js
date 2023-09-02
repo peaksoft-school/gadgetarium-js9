@@ -10,8 +10,6 @@ const initialState = {
    pageSize: 12,
    plusPageSize: 0,
    showMore: false,
-   minValue: 0,
-   maxValue: 100000,
 }
 
 export const categorySlice = createSlice({
@@ -115,12 +113,6 @@ export const categorySlice = createSlice({
             return el
          })
          return { ...state, items: resetItems }
-      },
-      setMinValue: (state, action) => {
-         return { ...state, minValue: action.payload }
-      },
-      setMaxValue: (state, action) => {
-         return { ...state, maxValue: action.payload }
       },
    },
    extraReducers: (builder) => {
