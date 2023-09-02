@@ -30,8 +30,8 @@ export const RatingPhoto = ({ handleDrop, handleFileChange, img }) => {
                   </div>
 
                   <p>
-                     <a href="http://localhost:3000/">Нажмите на ссылку, </a>{' '}
-                     чтобы выбрать фотографии или просто перетащите их сюда
+                     <span>Нажмите на ссылку, </span> чтобы выбрать фотографии
+                     или просто перетащите их сюда
                   </p>
                </BoxContent>
             </label>
@@ -77,6 +77,16 @@ const BoxContent = styled('div')`
    p {
       width: 25.6875rem;
       color: #91969e;
+      span {
+         margin: 0;
+         color: #2c68f5;
+         font-family: Inter;
+         font-size: 16px;
+         font-style: normal;
+         font-weight: 400;
+         line-height: 120%;
+         cursor: pointer;
+      }
 
       a {
          text-decoration: none;

@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Button } from '../../components/UI/Button'
 import { LeaveYourFeedback } from './LeaveYourFeedback'
 
-export const Rating = () => {
+export const Rating = ({ allReviews }) => {
    const [rating, setRating] = useState(false)
    const role = 'USER'
 
@@ -21,31 +21,36 @@ export const Rating = () => {
             <BoxInfoRating>
                <ContainerGeneralRating>
                   <BoxGeneralRating>
-                     <h1>4,5</h1>
-                     <RatingMuiStyle value={3} readOnly size="small" />
+                     <h1>{allReviews.rating?.toFixed(1)}</h1>
+                     <RatingMuiStyle
+                        value={allReviews.rating?.toFixed(1)}
+                        readOnly
+                        precision={0.1}
+                        size="small"
+                     />
                   </BoxGeneralRating>
-                  <span>789 отзывов</span>
+                  <span>{allReviews.totalReviews} отзывов</span>
                </ContainerGeneralRating>
                <ContainerInfoStar>
                   <div className="star-box">
                      <RatingMuiStyle value={5} readOnly size="small" />
-                     <span>{23} отзывов</span>
+                     <span>{allReviews.five} отзывов</span>
                   </div>
                   <div className="star-box">
                      <RatingMuiStyle value={4} readOnly size="small" />
-                     <span>{5} отзывов</span>
+                     <span>{allReviews.four} отзывов</span>
                   </div>
                   <div className="star-box">
                      <RatingMuiStyle value={3} readOnly size="small" />
-                     <span>{17} отзывов</span>
+                     <span>{allReviews.three} отзывов</span>
                   </div>
                   <div className="star-box">
                      <RatingMuiStyle value={2} readOnly size="small" />
-                     <span>{4} отзывов</span>
+                     <span>{allReviews.two} отзывов</span>
                   </div>
                   <div className="star-box">
                      <RatingMuiStyle value={1} readOnly size="small" />
-                     <span>{2} отзывов</span>
+                     <span>{allReviews.one} отзывов</span>
                   </div>
                </ContainerInfoStar>
             </BoxInfoRating>

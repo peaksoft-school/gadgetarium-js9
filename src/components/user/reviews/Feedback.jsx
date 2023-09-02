@@ -14,7 +14,8 @@ const Feedback = ({
    timePublication,
    stars,
    canUserEdit,
-   adminState = true,
+   adminState,
+   // id,
 }) => {
    const [openModal, setOpenModal] = useSearchParams()
    const [adminText, setAdminText] = useState('')
@@ -98,7 +99,7 @@ const Feedback = ({
 
 export default Feedback
 const Container = styled('div')`
-   width: 47%;
+   width: 45.677vw;
    border-bottom: 0.0625rem solid #e8e8e8;
 `
 const ToolContainer = styled('div')`
