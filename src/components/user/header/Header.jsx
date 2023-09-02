@@ -1,6 +1,6 @@
-import { styled, Button, Badge } from '@mui/material'
-import { NavLink, useNavigate } from 'react-router-dom'
-import React, { useState } from 'react'
+import { styled, Button, Badge, keyframes } from '@mui/material'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ReactComponent as SearchIcon } from '../../../assets/icons/search-icon.svg'
 import { ReactComponent as Instagram } from '../../../assets/icons/messangers/instagram-icon.svg'
@@ -15,11 +15,18 @@ import { navBarForHeader } from '../../../utils/common/constants/header'
 import { logOut } from '../../../store/auth/authThunk'
 import { routes } from '../../../utils/common/constants/routesConstants'
 import GeneralCategorySelectLayout from '../GeneralCategorySelectLayout'
+import { getAllCompareGoods } from '../../../store/compare/compare.thunk'
+import { ProductsModalWhenIsHovered } from '../../UI/ProductsModalWhenIsHovered'
 
-export const Header = ({ favorite, comparison, basket }) => {
+export const Header = ({ favorite, basket }) => {
    const { number, img, token } = useSelector((state) => state.auth)
    const dispatch = useDispatch()
-
+   const [hoverCompare, setHoverCompare] = useState(false)
+   const toggleHoverCompare = () => {
+      setHoverCompare(!hoverCompare)
+   }
+   const location = useLocation()
+   const { allProducts } = useSelector((state) => state.compare)
    const [fixed, setFixed] = useState(false)
    const [open, setOpen] = useState(false)
    const [catalogSelect, setCatalogSelect] = useState(false)
@@ -49,6 +56,9 @@ export const Header = ({ favorite, comparison, basket }) => {
    const toggleCatalogSelect = () => {
       setCatalogSelect(!catalogSelect)
    }
+   useEffect(() => {
+      dispatch(getAllCompareGoods())
+   }, [])
    return (
       <Headers>
          <CaptionContainer>
@@ -158,9 +168,29 @@ export const Header = ({ favorite, comparison, basket }) => {
                   </NavLink>
                </Massage>
                <IconsForm>
-                  <MuiBadge badgeContent={comparison} showZero>
-                     <IconsShoppingCart onClick={navigateToCompare} />
-                  </MuiBadge>
+                  <PositionContainer
+                     onMouseEnter={toggleHoverCompare}
+                     onMouseLeave={toggleHoverCompare}
+                  >
+                     {hoverCompare && (
+                        <CompareContainer fixed={fixed} hover={hoverCompare}>
+                           <ProductsModalWhenIsHovered
+                              path="/compare"
+                              array={allProducts}
+                           />
+                        </CompareContainer>
+                     )}
+                     {location.pathname === '/compare' ? (
+                        <MuiBadge>
+                           <IconsShoppingCart onClick={navigateToCompare} />
+                        </MuiBadge>
+                     ) : (
+                        <MuiBadge badgeContent={allProducts?.length} showZero>
+                           <IconsShoppingCart onClick={navigateToCompare} />
+                        </MuiBadge>
+                     )}
+                  </PositionContainer>
+
                   <MuiBadge badgeContent={favorite} showZero>
                      <IconsHeart onClick={navigateToFavorite} />
                   </MuiBadge>
@@ -173,7 +203,27 @@ export const Header = ({ favorite, comparison, basket }) => {
       </Headers>
    )
 }
+const slideIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`
 
+const slideOut = keyframes`
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+`
 const Headers = styled('header')`
    width: 100%;
    background-color: #1a1a25;
@@ -196,7 +246,18 @@ const Link = styled(NavLink)`
       background: rgba(133, 143, 164, 0.15);
    }
 `
-
+const PositionContainer = styled('div')`
+   p {
+      color: #292929;
+   }
+   position: relative;
+`
+const CompareContainer = styled('div')`
+   animation: ${(props) => (props.hover ? slideIn : slideOut)} 0.3s ease-in-out;
+   position: absolute;
+   right: -37px;
+   top: 36px;
+`
 const CaptionContainer = styled('div')`
    display: flex;
    align-items: center;

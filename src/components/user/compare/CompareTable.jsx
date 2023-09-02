@@ -14,10 +14,18 @@ import {
    isAllValuesEqual,
 } from '../../../utils/common/constants/compare.constants'
 
-const ColumnTable = ({ table, isChecked }) => {
+const ColumnTable = ({ table, isChecked, productName }) => {
    const isAllValuesEqualFlags = columnDataInfo.map(({ columnName, index }) =>
       isAllValuesEqual(table, columnName, index)
    )
+   const updatedColumns = columns.filter(
+      (column) =>
+         (productName === 'Laptop' && column.name !== 'SIM-карты') ||
+         (productName === 'Smart Watch' && column.name !== 'SIM-карты') ||
+         productName === 'Phone' ||
+         productName === 'Tablet'
+   )
+
    const filteredColumns = columns.filter(
       (column, index) => !isAllValuesEqualFlags[index]
    )
@@ -31,7 +39,7 @@ const ColumnTable = ({ table, isChecked }) => {
                           <StyledTableCell>{column.name}</StyledTableCell>
                        </StyledTableRowHead>
                     ))
-                  : columns.map((column) => (
+                  : updatedColumns.map((column) => (
                        <StyledTableRowHead key={column.name}>
                           <StyledTableCell>{column.name}</StyledTableCell>
                        </StyledTableRowHead>
@@ -48,11 +56,11 @@ const ColumnTable = ({ table, isChecked }) => {
                                    : column.value || item[column.field]}
                              </StyledTableCell>
                           ))
-                        : columns.map((column) => (
+                        : updatedColumns.map((column) => (
                              <StyledTableCell key={column.name}>
                                 {column.render
                                    ? column.render(item)
-                                   : column.value || item[column.field]}
+                                   : item[column.field]}
                              </StyledTableCell>
                           ))}
                   </StyledTableRowBody>
@@ -83,7 +91,9 @@ const StyledTableRowBody = styled(TableRow)`
 `
 const StyledTableCell = styled(TableCell)`
    height: 53px;
-   padding-left: 0;
+   display: flex;
+   align-items: center;
+   padding: 0;
    flex: 1;
    font-family: Inter;
    font-size: 0.833vw;

@@ -1,9 +1,23 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import {
+   deleteAllListProductsRequest,
+   getAllCompareGoodsRequest,
    getCompareRequest,
    getCountProductRequest,
    postCompareProductRequest,
 } from '../../api/compare.service'
+
+export const getAllCompareGoods = createAsyncThunk(
+   'compare/getAllCompareGoods',
+   async (_, { rejectWithValue }) => {
+      try {
+         const response = await getAllCompareGoodsRequest()
+         return response.data
+      } catch (error) {
+         return rejectWithValue(error)
+      }
+   }
+)
 
 export const getCompare = createAsyncThunk(
    'compare/getCompare',
@@ -31,11 +45,48 @@ export const getCountProduct = createAsyncThunk(
 
 export const postCompareProduct = createAsyncThunk(
    'compare/postCompareProduct',
-   async ({ id, addOrDelete }, { rejectWithValue }) => {
+   async (
+      { id, addOrDelete, productName, snackbarHandler },
+      { rejectWithValue, dispatch }
+   ) => {
       try {
-         return await postCompareProductRequest(id, addOrDelete)
+         await postCompareProductRequest(id, addOrDelete)
+         dispatch(getCompare(productName))
+         dispatch(getAllCompareGoods())
+
+         snackbarHandler({
+            message: 'Товар успешно удален из сравнения',
+         })
       } catch (error) {
-         return rejectWithValue(error)
+         snackbarHandler({
+            message: 'Товар не удален из сравнения',
+            type: 'error',
+         })
+         rejectWithValue(error)
+      }
+   }
+)
+
+export const deleteAllListProducts = createAsyncThunk(
+   'compare/deleteAllListProducts',
+   async (
+      { deleteAll, productName, snackbarHandler },
+      { rejectWithValue, dispatch }
+   ) => {
+      try {
+         await deleteAllListProductsRequest(deleteAll)
+         dispatch(getCompare(productName))
+         dispatch(getAllCompareGoods())
+
+         snackbarHandler({
+            message: 'Все товары успешно удалены из сравнения',
+         })
+      } catch (error) {
+         snackbarHandler({
+            message: 'Все товары не удалены из сравнения',
+            type: 'error',
+         })
+         rejectWithValue(error)
       }
    }
 )

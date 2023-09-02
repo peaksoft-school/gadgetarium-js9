@@ -1,18 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
+   deleteAllListProducts,
+   getAllCompareGoods,
    getCompare,
    getCountProduct,
    postCompareProduct,
 } from './compare.thunk'
 
 const initialState = {
-   tablets: [],
-   laptops: [],
-   smartphone: [],
-   smartWatch: [],
+   products: [],
    countProducts: [],
    productName: 'Phone',
    isLoadingComparison: false,
+   deleteAll: [],
+   allProducts: [],
 }
 
 export const compareSlice = createSlice({
@@ -25,35 +26,11 @@ export const compareSlice = createSlice({
    },
    extraReducers: (builder) => {
       builder.addCase(getCompare.fulfilled, (state, action) => {
-         if (state.productName === 'Phone') {
-            return {
-               ...state,
-               smartphone: action.payload,
-               isLoadingComparison: false,
-            }
-         }
-         if (state.productName === 'Tablet') {
-            return {
-               ...state,
-               tablets: action.payload,
-               isLoadingComparison: false,
-            }
-         }
-         if (state.productName === 'Laptop') {
-            return {
-               ...state,
-               laptops: action.payload,
-               isLoadingComparison: false,
-            }
-         }
-         if (state.productName === 'Smart Watch') {
-            return {
-               ...state,
-               smartWatch: action.payload,
-               isLoadingComparison: false,
-            }
-         }
-         return { ...state, isLoadingComparison: false }
+         const deleteAllConstant = []
+         action.payload.map((el) => deleteAllConstant.push(el.subProductId))
+         state.products = action.payload
+         state.deleteAll = deleteAllConstant
+         state.isLoadingComparison = false
       })
       builder.addCase(getCompare.pending, (state) => {
          state.isLoadingComparison = true
@@ -79,6 +56,25 @@ export const compareSlice = createSlice({
       builder.addCase(getCountProduct.fulfilled, (state, action) => {
          state.isLoadingComparison = false
          state.countProducts = action.payload
+      })
+      builder.addCase(deleteAllListProducts.pending, (state) => {
+         state.isLoadingComparison = true
+      })
+      builder.addCase(deleteAllListProducts.rejected, (state) => {
+         state.isLoadingComparison = false
+      })
+      builder.addCase(deleteAllListProducts.fulfilled, (state) => {
+         state.isLoadingComparison = false
+      })
+      builder.addCase(getAllCompareGoods.pending, (state) => {
+         state.isLoadingComparison = true
+      })
+      builder.addCase(getAllCompareGoods.rejected, (state) => {
+         state.isLoadingComparison = false
+      })
+      builder.addCase(getAllCompareGoods.fulfilled, (state, action) => {
+         state.allProducts = action.payload
+         state.isLoadingComparison = false
       })
    },
 })

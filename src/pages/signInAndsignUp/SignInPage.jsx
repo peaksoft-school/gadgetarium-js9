@@ -46,7 +46,6 @@ export const SignIn = () => {
                'Неправильный email или пароль. Пожалуйста, попробуйте еще раз.',
             type: 'error',
          })
-         console.log('error', error)
       }
    }
 

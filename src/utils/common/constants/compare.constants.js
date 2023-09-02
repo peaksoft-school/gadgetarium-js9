@@ -5,7 +5,7 @@ export const columns = [
    { name: 'Цена', render: (item) => `${item.price.toLocaleString()} с` },
    { name: 'Операционная система', field: 'operationalSystems' },
    { name: 'Память', render: (item) => `${item.rom}ГБ` },
-   { name: 'SIM-карты', value: '2 (nano SIM)' },
+   { name: 'SIM-карты', render: (item) => `${item.simCart} (nano SIM)` },
 ]
 export const isAllValuesEqual = (table, columnName, index) => {
    return table.every((item) => item[columnName] === table[index]?.[columnName])

@@ -8,6 +8,7 @@ import { CompareProductCard } from './CompareProductCard'
 import ColumnTable from './CompareTable'
 import { compareActions } from '../../../store/compare/compare.slice'
 import {
+   deleteAllListProducts,
    getCompare,
    getCountProduct,
    postCompareProduct,
@@ -24,13 +25,11 @@ import { categoryMappings } from '../../../utils/common/constants/compare.consta
 
 export const Compare = () => {
    const {
-      tablets,
-      productName,
-      laptops,
-      smartphone,
-      smartWatch,
+      products,
       isLoadingComparison,
       countProducts,
+      productName,
+      deleteAll,
    } = useSelector((state) => state.compare)
    const { snackbarHandler } = useSnackbar()
    const [startPosition, setStartPosition] = useState(0)
@@ -58,35 +57,25 @@ export const Compare = () => {
       setIsChecked(!isChecked)
    }
    const deleteHandler = async (id) => {
-      dispatch(postCompareProduct({ id, addOrDelete: false }))
-         .unwrap()
-         .then(() => {
-            dispatch(getCompare(productName))
-            snackbarHandler({
-               message: 'Товар успешно удален из сравнения',
-            })
+      dispatch(
+         postCompareProduct({
+            id,
+            addOrDelete: false,
+            productName,
+            snackbarHandler,
          })
-         .catch(() => {
-            snackbarHandler({
-               message: 'Товар не удален из сравнения',
-               type: 'error',
-            })
-         })
+      )
+   }
+   const deleteAllHandler = () => {
+      dispatch(
+         deleteAllListProducts({ deleteAll, productName, snackbarHandler })
+      )
    }
    const enterPurchases = () => {
       navigate('/')
    }
    const getArrayLength = () => {
-      switch (productName) {
-         case 'Smart Watch':
-            return smartWatch?.length || 0
-         case 'Tablet':
-            return tablets?.length || 0
-         case 'Laptop':
-            return laptops?.length || 0
-         default:
-            return smartphone?.length || 0
-      }
+      return products?.length || 0
    }
 
    const handleScroll = (direction) => {
@@ -99,42 +88,12 @@ export const Compare = () => {
             })
          }
       } else if (direction === 'right') {
-         switch (productName) {
-            case 'Smart Watch':
-               if (startPosition < smartWatch.length - 6) {
-                  setOpenLeftButton({
-                     open: true,
-                     count: openLeftButton.count + 1,
-                  })
-                  setStartPosition(startPosition + 1)
-               }
-               break
-            case 'Tablet':
-               if (startPosition < tablets.length - 6) {
-                  setOpenLeftButton({
-                     open: true,
-                     count: openLeftButton.count + 1,
-                  })
-                  setStartPosition(startPosition + 1)
-               }
-               break
-            case 'Laptop':
-               if (startPosition < laptops.length - 6) {
-                  setOpenLeftButton({
-                     open: true,
-                     count: openLeftButton.count + 1,
-                  })
-                  setStartPosition(startPosition + 1)
-               }
-               break
-            default:
-               if (startPosition < smartphone.length - 6) {
-                  setOpenLeftButton({
-                     open: true,
-                     count: openLeftButton.count + 1,
-                  })
-                  setStartPosition(startPosition + 1)
-               }
+         if (startPosition < products.length - 6) {
+            setOpenLeftButton({
+               open: true,
+               count: openLeftButton.count + 1,
+            })
+            setStartPosition(startPosition + 1)
          }
       }
    }
@@ -144,21 +103,8 @@ export const Compare = () => {
    useEffect(() => {
       dispatch(getCompare(productName))
    }, [productName])
-   const visibleItems =
-      (productName === 'Phone' &&
-         smartphone?.slice(startPosition, startPosition + 6)) ||
-      (productName === 'Tablet' &&
-         tablets?.slice(startPosition, startPosition + 6)) ||
-      (productName === 'Laptop' &&
-         laptops?.slice(startPosition, startPosition + 6)) ||
-      (productName === 'Smart Watch' &&
-         smartWatch?.slice(startPosition, startPosition + 6))
+   const visibleItems = products?.slice(startPosition, startPosition + 6)
 
-   const checkLength =
-      (productName === 'Phone' && smartphone?.length > 6) ||
-      (productName === 'Tablet' && tablets?.length > 6) ||
-      (productName === 'Laptop' && laptops?.length > 6) ||
-      (productName === 'Smart Watch' && smartWatch?.length > 6)
    return (
       <>
          {isLoadingComparison && <Loading />}
@@ -222,14 +168,14 @@ export const Compare = () => {
                            />
                            <p>Показывать только различия</p>
                         </CheckedContainer>
-                        <ClearContainer>
+                        <ClearContainer onClick={deleteAllHandler}>
                            <StyledDeleteIcon />
                            <p>Очистить список</p>
                         </ClearContainer>
                      </ToolContainer>
                   </SecondWidthContainer>
                   <Products array={getArrayLength()}>
-                     {checkLength &&
+                     {products?.length > 6 &&
                         openLeftButton.open &&
                         openLeftButton.count !== 0 && (
                            <BackButtonPosition>
@@ -253,7 +199,7 @@ export const Compare = () => {
                            />
                         )
                      })}
-                     {checkLength && (
+                     {products?.length > 6 && (
                         <ForthButtonPosition>
                            <StyledForthButton
                               bigButton
@@ -263,7 +209,11 @@ export const Compare = () => {
                      )}
                   </Products>
                   <TableContainer>
-                     <ColumnTable isChecked={isChecked} table={visibleItems} />
+                     <ColumnTable
+                        productName={productName}
+                        isChecked={isChecked}
+                        table={visibleItems}
+                     />
                   </TableContainer>
                </CompareContainer>
             ) : (
