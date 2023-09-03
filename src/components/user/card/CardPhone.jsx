@@ -1,9 +1,9 @@
 import { Skeleton, styled } from '@mui/material'
 import React from 'react'
 
-export const CardPhone = () => {
+export const CardPhone = ({ ...props }) => {
    return (
-      <Container>
+      <Container {...props}>
          <div className="header">
             <SkeletonDiscount variant="circular" />
 
