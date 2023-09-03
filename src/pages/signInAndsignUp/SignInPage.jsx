@@ -25,8 +25,8 @@ export const SignIn = () => {
       resolver: zodResolver(schemaSignIn),
    })
 
-   const onSubmit = async (data) => {
-      await dispatch(signInRequest({ data, snackbarHandler }))
+   const onSubmit = (data) => {
+      dispatch(signInRequest({ data, snackbarHandler }))
          .unwrap()
          .then((response) => {
             if (response.role === 'USER') {
@@ -36,6 +36,7 @@ export const SignIn = () => {
                navigate('admin')
             }
          })
+         .catch((error) => console.error(error))
       reset()
    }
 
