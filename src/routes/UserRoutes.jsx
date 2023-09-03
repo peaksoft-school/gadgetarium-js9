@@ -4,6 +4,7 @@ import { Delivery } from '../components/user/delivery/Delivery'
 import { routes } from '../utils/common/constants/routesConstants'
 import { Contacts } from '../components/user/contacts/Contacts'
 import { MainPage } from '../components/user/main.page/MainPage'
+import { Catalog } from '../components/user/catalog/Catalog'
 
 export const userRoutes = [
    { path: routes.USER.index, element: <MainPage /> },
@@ -22,5 +23,15 @@ export const userRoutes = [
    {
       path: routes.USER.contacts,
       element: <Contacts />,
+   },
+   {
+      path: routes.USER.category.index,
+      element: <Catalog />,
+      children: [
+         { path: routes.USER.category.smartphone, element: <Catalog /> },
+         { path: routes.USER.category.smartWatch, element: <Catalog /> },
+         { path: routes.USER.category.tablets, element: <Catalog /> },
+         { path: routes.USER.category.laptops, element: <Catalog /> },
+      ],
    },
 ]

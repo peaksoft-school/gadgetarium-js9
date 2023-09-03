@@ -10,10 +10,11 @@ export const Footer = () => {
                <NavList>
                   <span>Каталог</span>
                   <Gadget>
-                     <a href="./cмартфоны">Смартфоны</a>
-                     <a href="./ноутбуки и планшеты">Ноутбуки и планшеты</a>
-                     <a href="./смарт-часы и браслеты">Смарт-часы и браслеты</a>
-                     <a href="./аксессуары">Аксессуары</a>
+                     <NavLink to="/category/Phone">Смартфоны</NavLink>
+                     <NavLink to="/category/Laptop">Ноутбуки</NavLink>
+                     <NavLink to="/category/Smart Watch">
+                        Смарт-часы и браслеты
+                     </NavLink>
                   </Gadget>
                </NavList>
                <NavList>
@@ -132,7 +133,7 @@ const Block1 = styled('div')`
 `
 
 const Block2 = styled('div')`
-   border-top: 1px solid#858FA4;
+   border-top: 1px solid #858fa4;
    width: 79.688vw;
    text-align: center;
 
@@ -189,6 +190,7 @@ const Gadget = styled('div')`
       color: #858fa4;
       margin-top: 0.75rem;
       cursor: pointer;
+      margin-bottom: 0;
       &:hover {
          color: #fff;
       }
@@ -220,7 +222,6 @@ const Stock = styled('div')`
       color: #858fa4;
       margin-top: 0.75rem;
       cursor: pointer;
-
       &:hover {
          color: #fff;
       }
