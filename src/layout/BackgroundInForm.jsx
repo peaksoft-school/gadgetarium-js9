@@ -1,6 +1,6 @@
 import { styled } from '@mui/material'
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { CustomToast } from '../components/UI/snackbar/CustomToast'
 import { routes } from '../utils/common/constants/routesConstants'
 
@@ -18,7 +18,7 @@ export const BackgroundInForm = ({ children }) => {
                   <GadgeteriumContainer>
                      <GIcons>G</GIcons>
                   </GadgeteriumContainer>
-                  <a href="./">adgetarium</a>
+                  <Link to="/">adgetarium</Link>
                </Title>
             </Letter>
             {children}
@@ -31,6 +31,9 @@ export const BackgroundInForm = ({ children }) => {
 const Container = styled('div')`
    background: linear-gradient(135deg, #6b0fa9, #4d0eb8);
    height: 100vh;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
    display: flex;
    flex-direction: column;
    align-items: center;
@@ -50,9 +53,10 @@ const Title = styled('div')`
 
 const Letter = styled('div')`
    display: flex;
-   position: relative;
-   top: 2rem;
-   right: 35rem;
+   align-items: center;
+   height: 75.5px;
+   width: 79.688vw;
+   margin-right: 17px;
 `
 
 const GadgeteriumContainer = styled('div')`

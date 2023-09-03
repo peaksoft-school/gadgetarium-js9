@@ -1,8 +1,8 @@
 import { TableCell, TableRow, styled } from '@mui/material'
 import React, { useState } from 'react'
-import { ReactComponent as EditIcon } from '../../../assets/icons/tools-for-site/edit-icon.svg'
-import { ReactComponent as DeleteIcon } from '../../../assets/icons/tools-for-site/delete-icon.svg'
-import { ReactComponent as ArrowDown } from '../../../assets/icons/arrows/down-icon.svg'
+import { ReactComponent as EditIcon } from '../../../../assets/icons/tools-for-site/edit-icon.svg'
+import { ReactComponent as DeleteIcon } from '../../../../assets/icons/tools-for-site/delete-icon.svg'
+import { ReactComponent as ArrowDown } from '../../../../assets/icons/arrows/down-icon.svg'
 import {
    calculateBackgroundColor,
    nestedContentFunction,

@@ -1,14 +1,16 @@
-import { Rating, styled } from '@mui/material'
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { Rating, styled } from '@mui/material'
 import { ReactComponent as Comparison } from '../../../assets/icons/comparison-icon.svg'
 import { ReactComponent as Favourite } from '../../../assets/icons/favourites-icon.svg'
 import { ReactComponent as BasketIcon } from '../../../assets/icons/basket-icon.svg'
 import { ReactComponent as Recommendation } from '../../../assets/icons/recommendation.svg'
 import { ReactComponent as FilledFavoriteIcon } from '../../../assets/icons/filled-favorite-icon.svg'
 import { Button } from '../../UI/Button'
+import { postFavoriteItem } from '../../../store/favorite/favorite.thunk'
 import { postBasketById } from '../../../store/basket/basket.thunk'
 import { useSnackbar } from '../../../hooks/useSnackbar'
+import { AuthorizationModal } from '../AuthorizationModal'
 
 export const ProductCard = ({
    recomendationState = false,
@@ -20,23 +22,41 @@ export const ProductCard = ({
    rating = 1,
    discount = 20,
    countOfReviews = 56,
+   favoriteState,
+   comparisonState,
+   pageSize,
    id = '1',
    ...props
 }) => {
-   const [favorite, setFavorite] = useState(false)
-   const [comparison, setComparison] = useState(false)
-   const dispatch = useDispatch()
    const { snackbarHandler } = useSnackbar()
+   const { isAuthorization } = useSelector((state) => state.auth)
+
+   const [openModal, setOpenModal] = useState(false)
+   const dispatch = useDispatch()
    const discountPrice = price - (price * discount) / 100
-   const toggleFavoriteHandler = () => {
-      setFavorite(!favorite)
+   const toggleFavoriteHandler = async () => {
+      if (isAuthorization) {
+         dispatch(
+            postFavoriteItem({
+               id,
+               favoriteState,
+               pageSize,
+            })
+         )
+      } else {
+         setOpenModal(!openModal)
+      }
    }
+
    const toggleComparisonHandler = () => {
-      setComparison(!comparison)
-      //  Сашка потом сам сделает сравнение
-      //    dispatch(postComparisonItem(id)).then(() => {
-      //       dispatch(getComparisonItems())
-      //       if (favorite) {
+      // dispatch(postCompareProduct({ id, addOrDelete: !comparisonState }))
+      //    .unwrap()
+      //    .then(() => {
+      //       dispatch(getNovelities({ page: 1, pageSize: noveltiesPageSize }))
+      //       dispatch(getRecommend({ page: 1, pageSize: recommendPageSize }))
+      //       dispatch(getStock({ page: 1, pageSize: stockPageSize }))
+      //       dispatch(getCompare())
+      //       if (comparisonState) {
       //          snackbarHandler({
       //             message: 'Товар удален из сравнения',
       //          })
@@ -53,23 +73,23 @@ export const ProductCard = ({
       console.log(id)
    }
    const postProductToBasket = async () => {
-      dispatch(postBasketById(id))
-         .then(() => {
-            snackbarHandler({
-               message: 'Товар успешно добавлен в корзину',
-               linkText: 'Перейти в корзину',
-               path: '/basket',
-            })
-         })
-         .catch(() => {
-            snackbarHandler({
-               message: 'Товар не добавлен в корзину',
-               type: 'error',
-            })
-         })
+      if (isAuthorization) {
+         dispatch(postBasketById({ id, snackbarHandler }))
+      } else {
+         setOpenModal(!openModal)
+      }
+   }
+   const toggleHandler = () => {
+      setOpenModal(!openModal)
    }
    return (
-      <Card key={id} onClick={() => cardHandler(id)} {...props}>
+      <Card onClick={() => cardHandler(id)} {...props}>
+         {openModal && (
+            <AuthorizationModal
+               openModal={openModal}
+               toggleHandler={toggleHandler}
+            />
+         )}
          <ButtonContainer>
             <CircleContainer>
                {discount === 0 &&
@@ -86,10 +106,10 @@ export const ProductCard = ({
 
             <IconContainer>
                <StyledComparison
-                  comparison={comparison ? 'true' : 'false'}
+                  comparison={comparisonState ? 'true' : 'false'}
                   onClick={toggleComparisonHandler}
                />
-               {favorite ? (
+               {favoriteState ? (
                   <StyledFilledFavoriteIcon onClick={toggleFavoriteHandler} />
                ) : (
                   <StyledFavourite onClick={toggleFavoriteHandler} />
@@ -165,6 +185,7 @@ const Card = styled('div')`
       box-shadow: 0px 8px 25px 0px rgba(0, 0, 0, 0.1),
          0px -8px 25px 0px rgba(0, 0, 0, 0.1);
    }
+   background: white;
 `
 const RatingContainer = styled('div')`
    display: flex;
