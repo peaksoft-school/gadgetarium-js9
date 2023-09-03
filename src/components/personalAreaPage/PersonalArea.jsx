@@ -44,15 +44,17 @@ export const PersonalArea = () => {
                <h2>Избранное</h2>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={2}>
-               <Profile />
+               <h2>Профиль</h2>
             </CustomTabPanel>
-            <BlockTabs>
-               <Tabs value={value} onChange={handleChange}>
-                  <Tab label="История заказов" {...a11yProps(0)} />
-                  <Tab label="Избранное" {...a11yProps(1)} />
-                  <Tab label="Профиль" {...a11yProps(2)} />
-               </Tabs>
-            </BlockTabs>
+            <Box sx={{ borderTop: 2, borderColor: '#CDCDCD' }}>
+               <BlockTabs>
+                  <Tabs value={value} onChange={handleChange}>
+                     <Tab label="История заказов" {...a11yProps(0)} />
+                     <Tab label="Избранное" {...a11yProps(1)} />
+                     <Tab label="Профиль" {...a11yProps(2)} />
+                  </Tabs>
+               </BlockTabs>
+            </Box>
             <CustomTabPanel value={value} index={0}>
                <History />
             </CustomTabPanel>
@@ -67,6 +69,14 @@ export const PersonalArea = () => {
    )
 }
 const Container = styled('div')`
+   width: 69vw;
+   display: flex;
+   margin-top: 6.88rem;
+   justify-content: center;
+
+   .css-19kzrtu {
+      padding: 0;
+   }
    .MuiTab-root.Mui-selected {
       background-color: #384255;
       color: #fff;
@@ -75,8 +85,10 @@ const Container = styled('div')`
       border-radius: 4px;
       color: black;
       background-color: #e0e2e7;
-      margin-left: 20px;
       padding: 0px 20px 0px 20px;
+      h2 {
+         margin-left: 200px;
+      }
    }
 
    .MuiTabs-indicator {
@@ -86,5 +98,6 @@ const Container = styled('div')`
 const BlockTabs = styled('div')`
    width: 500px;
    display: flex;
+   margin-top: 2.5rem;
    justify-content: space-between;
 `

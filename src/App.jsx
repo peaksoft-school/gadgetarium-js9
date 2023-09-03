@@ -1,12 +1,12 @@
 import { CustomToast } from './components/UI/snackbar/CustomToast'
-import { PersonalArea } from './components/personalAreaPage/PersonalArea'
+import { PersonalAreaContainer } from './components/personalAreaPage/PersonalAreaContainer'
 // import { UserLayout } from './layout/user/UserLayout'
 
 function App() {
    return (
       <div>
          {/* <UserLayout /> */}
-         <PersonalArea />
+         <PersonalAreaContainer />
          <CustomToast />
       </div>
    )
