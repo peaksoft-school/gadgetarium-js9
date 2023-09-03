@@ -1,9 +1,9 @@
-import { Button, styled } from '@mui/material'
+import { Button, CircularProgress, styled } from '@mui/material'
 import React from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { ReactComponent as CloseIcon } from '../../assets/icons/cross/big-cross-icon.svg'
 import { InputUi } from '../../components/UI/Input'
 import { getPhoneNumber, signInRequest } from '../../store/auth/authThunk'
@@ -13,10 +13,9 @@ import { schemaSignIn } from '../../utils/helpers/reactHookFormShema'
 
 export const SignIn = () => {
    const { snackbarHandler } = useSnackbar()
-
    const dispatch = useDispatch()
    const navigate = useNavigate()
-
+   const { isLoading } = useSelector((state) => state.auth)
    const { register, handleSubmit, reset, formState } = useForm({
       defaultValues: {
          email: '',
@@ -26,28 +25,19 @@ export const SignIn = () => {
       resolver: zodResolver(schemaSignIn),
    })
 
-   const onSubmit = async (data) => {
-      try {
-         const response = await dispatch(signInRequest(data)).unwrap()
-         reset()
-         snackbarHandler({
-            message: 'Вход успешно выполнен',
-            type: 'success',
+   const onSubmit = (data) => {
+      dispatch(signInRequest({ data, snackbarHandler }))
+         .unwrap()
+         .then((response) => {
+            if (response.role === 'USER') {
+               navigate('/')
+               dispatch(getPhoneNumber(data))
+            } else {
+               navigate('admin')
+            }
          })
-         if (response.role === 'USER') {
-            navigate('/')
-            dispatch(getPhoneNumber(data)).unwrap()
-         } else {
-            navigate('admin')
-         }
-      } catch (error) {
-         snackbarHandler({
-            message:
-               'Неправильный email или пароль. Пожалуйста, попробуйте еще раз.',
-            type: 'error',
-         })
-         console.log('error', error)
-      }
+         .catch((error) => console.error(error))
+      reset()
    }
 
    const combinedError = formState.errors.email || formState.errors.password
@@ -60,7 +50,7 @@ export const SignIn = () => {
       <BackgroundInForm>
          <Container>
             <MuiCloseIcon onClick={onCloseHandler} />
-            <h2>Войти</h2>
+            <Title>Войти</Title>
             <Form onSubmit={handleSubmit(onSubmit)}>
                <Input
                   width="29rem"
@@ -84,7 +74,11 @@ export const SignIn = () => {
                   )}
                </ErrorTitle>
                <ButtonUi type="submit" variant="contained">
-                  Войти
+                  {isLoading ? (
+                     <CircularProgress size={27} sx={{ color: 'white' }} />
+                  ) : (
+                     'Войти'
+                  )}
                </ButtonUi>
             </Form>
             <Block>
@@ -98,32 +92,46 @@ export const SignIn = () => {
 }
 
 const Container = styled('div')`
+   display: flex;
+   flex-direction: column;
+   align-items: center;
    margin-top: 8rem;
    padding-bottom: 2.5rem;
    border-radius: 0.25rem;
    background: #fff;
    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-   h2 {
-      margin-left: 15.5rem;
-   }
 `
-
+const Title = styled('p')`
+   color: #292929;
+   text-align: center;
+   font-family: Inter;
+   font-size: 28px;
+   font-style: normal;
+   font-weight: 500;
+   line-height: normal;
+   margin: 0;
+   margin-bottom: 24px;
+   margin-top: 14.5px;
+`
 const ButtonUi = styled(Button)`
-   width: 28.75rem;
+   width: 29rem;
    height: 2.9375rem;
    color: #fff;
-   margin-left: 3.75rem;
+   font-family: Inter;
+   font-size: 16px;
+   text-transform: none;
 `
 const Block = styled('div')`
    display: flex;
-   margin-top: 1rem;
-   margin-left: 9.75rem;
    a {
       text-decoration: none;
    }
+   p {
+      margin-top: 12px;
+   }
 `
 const Input = styled(InputUi)`
-   margin-left: 3.78rem;
+   padding-right: 0;
 `
 const ErrorTitle = styled('div')`
    display: flex;
@@ -131,12 +139,13 @@ const ErrorTitle = styled('div')`
    justify-content: center;
 `
 const MuiCloseIcon = styled(CloseIcon)`
-   margin-top: 1.5rem;
-   margin-left: 33.5rem;
+   margin-top: 1.2rem;
+   margin-left: 33rem;
    cursor: pointer;
 `
 const Form = styled('form')`
    display: flex;
    flex-direction: column;
+   align-items: center;
    gap: 1.25rem;
 `

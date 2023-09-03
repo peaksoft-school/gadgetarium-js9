@@ -21,6 +21,7 @@ export const routes = {
          tablets: ':tablets',
          laptops: ':laptops',
       },
+      favorite: 'favorite',
    },
 }
 
