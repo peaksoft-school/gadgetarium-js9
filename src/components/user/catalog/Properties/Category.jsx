@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { keyframes, styled } from '@mui/material'
+import { styled } from '@mui/material'
 import { useSelector, useDispatch } from 'react-redux'
 import CheckboxInput from '../../../UI/icon.input/CheckboxInput'
-import { ReactComponent as Strelka } from '../../../../assets/icons/arrows/up-icon.svg'
 import { getCategory } from '../../../../store/cataog/categoryThunk'
 import { categoryActions } from '../../../../store/cataog/catalogSlice'
+import { ArrowIcon } from '../../../UI/Arrow'
+import { slideIn, slideOut } from '../../../../utils/common/constants/constants'
 
 export const Category = () => {
    const dispatch = useDispatch()
@@ -38,7 +39,7 @@ export const Category = () => {
 
          <CategorySelectContainer>
             <h5>Категория</h5>
-            <StrelkaStyled checked={cate} onClick={openHandler} />
+            <ArrowIconStyled checked={cate} onClick={openHandler} />
          </CategorySelectContainer>
          {cate && (
             <div className="brandContainer">
@@ -57,33 +58,11 @@ export const Category = () => {
    )
 }
 
-const slideIn = keyframes`
-     from {
-       opacity: 0;
-       transform: translateY(-10px);
-     }
-     to {
-       opacity: 1;
-       transform: translateY(0);
-     }
-   `
-
-const slideOut = keyframes`
-     from {
-        opacity: 1;
-        transform: translateY(0);
-     }
-     to {
-       opacity: 0;
-       transform: translateY(-10px);
-     }
-     `
-
 const Container = styled('div')`
    user-select: none;
-   width: 15.15625vw;
-   margin-bottom: 1.25rem;
-   padding-bottom: 1.25rem;
+   /* width: 15.15625vw; */
+   margin-bottom: 1.8519vh;
+   padding-bottom: 1.8519vh;
    border-bottom: 1px solid #e8e8e8;
 
    h5 {
@@ -109,7 +88,7 @@ const Container = styled('div')`
    }
 `
 
-const StrelkaStyled = styled(Strelka)(({ checked }) => ({
+const ArrowIconStyled = styled(ArrowIcon)(({ checked }) => ({
    transition: 'transform 0.4s ease',
    transform: checked ? 'rotate(0)' : 'rotate(180deg)',
 }))

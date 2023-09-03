@@ -6,8 +6,15 @@ import { CardPhone } from '../../card/CardPhone'
 import { ProductCard } from '../../product.card/ProductCard'
 
 export const Products = () => {
-   const { filteredProducts, isLoading, brandsId, items, pageSize } =
-      useSelector((state) => state.category)
+   const {
+      filteredProducts,
+      isLoading,
+      brandsId,
+      items,
+      pageSize,
+      minValue,
+      maxValue,
+   } = useSelector((state) => state.category)
 
    const dispatch = useDispatch()
 
@@ -16,9 +23,11 @@ export const Products = () => {
          id: brandsId,
          pageSize,
          pageNumber: 1,
+         minValue,
+         maxValue,
       }
       dispatch(sendSelectedCategories(dataCategory))
-   }, [items])
+   }, [items, minValue, maxValue])
 
    return (
       <Container>

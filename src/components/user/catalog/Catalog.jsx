@@ -1,13 +1,13 @@
 import { styled } from '@mui/material'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Category } from './Properties/Category'
 import { Products } from './Properties/Products'
-import { ReactComponent as Strelka } from '../../../assets/icons/arrows/up-icon.svg'
 import { categoryActions } from '../../../store/cataog/catalogSlice'
 import { ReactComponent as Cancel } from '../../../assets/icons/cross/small-cross-icon.svg'
 import { Button } from '../../UI/Button'
+import { Options } from './Options'
 import { sendSelectedCategories } from '../../../store/cataog/categoryThunk'
+import { ArrowIcon } from '../../UI/Arrow'
 
 export const Catalog = () => {
    const {
@@ -56,11 +56,13 @@ export const Catalog = () => {
       <Conteiner>
          <SecondContainer>
             <h1>Cмартфоны</h1>
+
             <Container>
                <ToolContainer>
                   <HeaderTitle>
                      Найдено {filteredProducts.length} товаров
                   </HeaderTitle>
+
                   <SortingContainer>
                      <FilterContainerTitle>
                         {selectedCategories?.map((el) => {
@@ -75,16 +77,17 @@ export const Catalog = () => {
                         })}
                      </FilterContainerTitle>
                      <Sorting>
-                        Сортировать <Strelka className="strelka" />
+                        Сортировать <ArrowIconStyled />
                      </Sorting>
                   </SortingContainer>
                </ToolContainer>
+
                <ProductContainer>
-                  <Content>
-                     <Category />
-                  </Content>
+                  <Options />
+
                   <SecondProductsContainer>
                      <Products />
+
                      <ButtonContainer>
                         {filteredProducts?.length >= 12 && showMore && (
                            <ButtonStyled
@@ -97,6 +100,7 @@ export const Catalog = () => {
                               Показать ещё
                            </ButtonStyled>
                         )}
+
                         {filteredProducts?.length >= 12 && !showMore && (
                            <ButtonStyled
                               padding="0.78240740vh 4.983073vw"
@@ -178,14 +182,6 @@ const SortingContainer = styled('div')`
    justify-content: space-between;
 `
 
-const Content = styled('div')`
-   flex-shrink: 0;
-   padding: 1.875rem;
-   height: 139.4444vh;
-   padding-right: 1.375rem;
-   border-radius: 0.25rem 0rem 0rem 0.25rem;
-`
-
 const Container = styled('div')(({ theme }) => ({
    display: 'flex',
    flexDirection: 'column',
@@ -237,7 +233,7 @@ const Sorting = styled('div')`
    line-height: 130%;
    font-style: normal;
    align-items: center;
-   .strelka {
-      transform: rotate(180deg);
-   }
+`
+const ArrowIconStyled = styled(ArrowIcon)`
+   transform: rotate(180deg);
 `

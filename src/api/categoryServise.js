@@ -5,12 +5,13 @@ export const getCategoryRequest = () => {
 }
 
 export const filterProductsByCategory = (payload) => {
+   console.log('payload: ', payload)
    const requestData = {
       gadgetType: 'Phone',
       sorting: 'string',
       brandIds: payload.id.length === 0 ? [0] : payload.id,
-      priceStart: 0,
-      priceEnd: 0,
+      priceStart: payload.minValue,
+      priceEnd: payload.maxValue,
       codeColor: ['string'],
       rom: [0],
       ram: [0],
@@ -28,6 +29,7 @@ export const filterProductsByCategory = (payload) => {
       interfaces: ['string'],
       hullShapes: ['string'],
    }
+
    return axiosInstance.post(
       `/v1/products/filter?pageSize=${payload.pageSize}&pageNumber=${payload.pageNumber}`,
       requestData

@@ -32,6 +32,7 @@ const Container = styled('div')`
 const ContentContainer = styled('div')`
    display: flex;
    align-items: center;
+   user-select: none;
 
    .title {
       font-size: 1.125rem;
