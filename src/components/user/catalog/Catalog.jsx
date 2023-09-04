@@ -24,7 +24,7 @@ export const Catalog = () => {
    const category = useParams()
 
    const categoryName = {
-      Phone: 'Cмартфон',
+      Phone: 'Cмартфоны и Планшеты',
       Laptop: 'Ноутбуки',
       'Smart Watch': 'Смарт-часы и браслеты',
    }
