@@ -1,3 +1,8 @@
+
+
+import { styled, Button, Badge, keyframes } from '@mui/material'
+import { NavLink, useNavigate } from 'react-router-dom'
+
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { styled, Button, Badge } from '@mui/material'
@@ -15,6 +20,7 @@ import { navBarForHeader } from '../../../utils/common/constants/header'
 import { logOut } from '../../../store/auth/authThunk'
 import { routes } from '../../../utils/common/constants/routesConstants'
 import GeneralCategorySelectLayout from '../GeneralCategorySelectLayout'
+import { ProductsModalWhenIsHovered } from '../../UI/ProductsModalWhenIsHovered'
 
 export const Header = ({ favorite, comparison, basket }) => {
    const dispatch = useDispatch()
@@ -24,6 +30,15 @@ export const Header = ({ favorite, comparison, basket }) => {
    const [open, setOpen] = useState(false)
    const [catalogSelect, setCatalogSelect] = useState(false)
    const [inputValue, setInputValue] = useState('')
+
+
+
+   const { favoriteItems } = useSelector((state) => state.favorite)
+   const navigate = useNavigate()
+   const [hoverFavorite, setHoverFavorite] = useState(false)
+   const toggleHoverFavorite = () => {
+      setHoverFavorite(!hoverFavorite)
+   }
 
    const changeHeader = () => {
       if (window.scrollY > 64) {
@@ -49,6 +64,16 @@ export const Header = ({ favorite, comparison, basket }) => {
    const toggleCatalogSelect = () => {
       setCatalogSelect(!catalogSelect)
    }
+   const navigateToFavorite = () => {
+      navigate('/favorite')
+   }
+   const navigateToCompare = () => {
+      navigate('/compare')
+   }
+   const logOutHandler = () => {
+      dispatch(logOut())
+      window.location.reload()
+   }
    return (
       <Headers>
          <CaptionContainer>
@@ -72,6 +97,7 @@ export const Header = ({ favorite, comparison, basket }) => {
                </NavBar>
                <UserNumber>
                   <p>{number}</p>
+
                   <div onMouseLeave={openSelect} onMouseEnter={openSelect}>
                      {token !== '' && (
                         <div>
@@ -113,6 +139,41 @@ export const Header = ({ favorite, comparison, basket }) => {
                         img
                      )}
                   </div>
+
+                  {token !== '' && (
+                     <div>
+                        {open && (
+                           <div style={{ position: 'relative' }}>
+                              <Select2>
+                                 <p>История заказов</p>
+                                 <p>Избранное</p>
+                                 <p>Профиль</p>
+                                 <div onClick={logOutHandler}>
+                                    <p style={{ color: '#CB11AB' }}>Выйти</p>
+                                 </div>
+                              </Select2>
+                           </div>
+                        )}
+                     </div>
+                  )}
+                  {open && token === '' && (
+                     <div style={{ position: 'relative' }}>
+                        <Select>
+                           <SelectParagraph to={routes.SIGN_IN}>
+                              Войти
+                           </SelectParagraph>
+                           <SelectParagraph2 to={routes.SIGN_UP}>
+                              Регистрация
+                           </SelectParagraph2>
+                        </Select>
+                     </div>
+                  )}
+                  {img !== undefined ? (
+                     <User onClick={openSelect} />
+                  ) : (
+                     <User onClick={openSelect} />
+                  )}
+
                </UserNumber>
             </Caption>
          </CaptionContainer>
@@ -168,11 +229,26 @@ export const Header = ({ favorite, comparison, basket }) => {
                </Massage>
                <IconsForm>
                   <MuiBadge badgeContent={comparison} showZero>
-                     <IconsShoppingCart />
+                     <IconsShoppingCart onClick={navigateToCompare} />
                   </MuiBadge>
-                  <MuiBadge badgeContent={favorite} showZero>
-                     <IconsHeart />
-                  </MuiBadge>
+                  <PositionContainer
+                     onMouseEnter={toggleHoverFavorite}
+                     onMouseLeave={toggleHoverFavorite}
+                  >
+                     {hoverFavorite && (
+                        <FavoriteContainer fixed={fixed} hover={hoverFavorite}>
+                           <ProductsModalWhenIsHovered
+                              path="/favorite"
+                              favorite
+                              array={favoriteItems}
+                           />
+                        </FavoriteContainer>
+                     )}
+                     <MuiBadge badgeContent={favorite} showZero>
+                        <IconsHeart onClick={navigateToFavorite} />
+                     </MuiBadge>
+                  </PositionContainer>
+
                   <MuiBadge badgeContent={basket} showZero>
                      <IconsBasket />
                   </MuiBadge>
@@ -182,7 +258,33 @@ export const Header = ({ favorite, comparison, basket }) => {
       </Headers>
    )
 }
+const slideIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`
 
+const slideOut = keyframes`
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+`
+const PositionContainer = styled('div')`
+   p {
+      color: #292929;
+   }
+   position: relative;
+`
 const Headers = styled('header')`
    width: 100%;
    background-color: #1a1a25;
@@ -191,7 +293,13 @@ const Headers = styled('header')`
    flex-direction: column;
    align-items: center;
 
-   z-index: 999;
+   z-index: 6;
+`
+const FavoriteContainer = styled('div')`
+   animation: ${(props) => (props.hover ? slideIn : slideOut)} 0.3s ease-in-out;
+   position: absolute;
+   right: -37px;
+   top: 36px;
 `
 const CatalogButtonContainer = styled('div')``
 const Link = styled(NavLink)`
@@ -403,7 +511,7 @@ const Line = styled('div')`
    align-items: center;
    width: 100%;
    height: 96.5px;
-   z-index: 9999;
+   z-index: 9;
 `
 
 const Massage = styled('div')`
