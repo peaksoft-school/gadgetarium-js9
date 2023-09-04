@@ -25,6 +25,10 @@ export const Header = ({ favorite, comparison, basket }) => {
    const [open, setOpen] = useState(false)
    const [catalogSelect, setCatalogSelect] = useState(false)
    const [inputValue, setInputValue] = useState('')
+   const [hoverFavorite, setHoverFavorite] = useState(false)
+   const toggleHoverFavorite = () => {
+      setHoverFavorite(!hoverFavorite)
+   }
 
    const changeHeader = () => {
       if (window.scrollY > 64) {
@@ -61,11 +65,6 @@ export const Header = ({ favorite, comparison, basket }) => {
       window.location.reload()
    }
 
-   const [hoverFavorite, setHoverFavorite] = useState(false)
-
-   const toggleHoverFavorite = () => {
-      setHoverFavorite(!hoverFavorite)
-   }
    return (
       <Headers>
          <CaptionContainer>
@@ -89,6 +88,7 @@ export const Header = ({ favorite, comparison, basket }) => {
                </NavBar>
                <UserNumber>
                   <p>{number}</p>
+
                   <div onMouseLeave={openSelect} onMouseEnter={openSelect}>
                      {token !== '' && (
                         <div>
