@@ -56,6 +56,9 @@ export const Header = ({ favorite, comparison, basket }) => {
    const navigateToCompare = () => {
       navigate('/compare')
    }
+   const navigateToBasket = () => {
+      navigate('/basket')
+   }
    const logOutHandler = () => {
       dispatch(logOut())
       window.location.reload()
@@ -191,7 +194,7 @@ export const Header = ({ favorite, comparison, basket }) => {
                   </PositionContainer>
 
                   <MuiBadge badgeContent={basket} showZero>
-                     <IconsBasket />
+                     <IconsBasket onClick={navigateToBasket} />
                   </MuiBadge>
                </IconsForm>
             </ButtonContainer>

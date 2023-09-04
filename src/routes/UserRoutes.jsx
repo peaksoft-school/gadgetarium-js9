@@ -5,6 +5,7 @@ import { routes } from '../utils/common/constants/routesConstants'
 import { Contacts } from '../components/user/contacts/Contacts'
 import { Favorite } from '../components/user/favorite/Favorite'
 import { MainPage } from '../components/user/main.page/MainPage'
+import { Basket } from '../components/user/basket/Basket'
 
 export const userRoutes = [
    { path: routes.USER.index, element: <MainPage /> },
@@ -27,5 +28,9 @@ export const userRoutes = [
    {
       path: routes.USER.favorite,
       element: <Favorite />,
+   },
+   {
+      path: routes.USER.basket,
+      element: <Basket />,
    },
 ]

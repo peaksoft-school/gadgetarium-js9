@@ -1,5 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { postBasketByIdRequest } from '../../api/mainPage.service'
+import {
+   getBasketRequest,
+   postBasketByIdRequest,
+} from '../../api/basket.service'
 
 export const postBasketById = createAsyncThunk(
    'basket/postBasketById',
@@ -17,6 +20,17 @@ export const postBasketById = createAsyncThunk(
             type: 'error',
          })
          rejectWithValue(error)
+      }
+   }
+)
+export const getBasket = createAsyncThunk(
+   'basket/getBasket',
+   async (_, { rejectWithValue }) => {
+      try {
+         const response = await getBasketRequest()
+         return response.data
+      } catch (error) {
+         return rejectWithValue(error)
       }
    }
 )
