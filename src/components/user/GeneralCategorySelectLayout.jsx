@@ -10,7 +10,6 @@ const categories = [
    { id: 1, title: 'Смартфоны', icon: Smartphone },
    { id: 2, title: 'Ноутбуки и планшеты', icon: Desktop },
    { id: 3, title: 'Смарт-часы и браслеты', icon: Watch },
-   { id: 4, title: 'Аксессуары', icon: Headphone },
 ]
 
 const GeneralCategorySelectLayout = ({ toggleCatalogSelect }) => {
