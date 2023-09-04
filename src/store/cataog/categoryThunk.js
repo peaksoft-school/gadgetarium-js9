@@ -23,7 +23,6 @@ export const sendSelectedCategories = createAsyncThunk(
       try {
          const response = await filterProductsByCategory(payload)
          const { data } = response
-
          return data
       } catch (error) {
          return rejectWithValue(error)

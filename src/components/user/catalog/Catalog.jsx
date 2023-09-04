@@ -17,6 +17,8 @@ export const Catalog = () => {
       pageSize,
       showMore,
       plusPageSize,
+      minValue,
+      maxValue,
    } = useSelector((state) => state.category)
    const dispatch = useDispatch()
 
@@ -38,6 +40,8 @@ export const Catalog = () => {
          id: brandsId,
          pageSize,
          pageNumber: 1,
+         minValue,
+         maxValue,
       }
       dispatch(sendSelectedCategories(dataCategory))
    }, [pageSize])
@@ -234,6 +238,7 @@ const Sorting = styled('div')`
    font-style: normal;
    align-items: center;
 `
+
 const ArrowIconStyled = styled(ArrowIcon)`
    transform: rotate(180deg);
 `

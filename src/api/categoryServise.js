@@ -7,7 +7,7 @@ export const getCategoryRequest = () => {
 export const filterProductsByCategory = (payload) => {
    console.log('payload: ', payload)
    const requestData = {
-      gadgetType: 'Phone',
+      gadgetType: 'string',
       sorting: 'string',
       brandIds: payload.id.length === 0 ? [0] : payload.id,
       priceStart: payload.minValue,
