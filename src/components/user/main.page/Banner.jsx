@@ -5,14 +5,12 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { getBanners } from '../../../store/main.page/main.page.thunk'
 
-export const BannerCarousel = () => {
+export const BannerCarousel = React.memo(() => {
    const dispatch = useDispatch()
    const banner = useSelector((state) => state.mainPage.banner)
-   console.log(banner)
 
    useEffect(() => {
       dispatch(getBanners())
-      console.log(banner)
    }, [])
    return (
       <StyledCarousel
@@ -29,7 +27,8 @@ export const BannerCarousel = () => {
          ))}
       </StyledCarousel>
    )
-}
+})
+BannerCarousel.displayName = 'Banner'
 const Image = styled('img')`
    width: 100vw !important;
    height: 46.2963vh;

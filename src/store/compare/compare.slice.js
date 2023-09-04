@@ -23,13 +23,15 @@ export const compareSlice = createSlice({
       getProductNameHandler: (state, action) => {
          state.productName = action.payload
       },
+      changeDelete: (state) => {
+         const deleteAllConstant = []
+         state.products.map((el) => deleteAllConstant.push(el.subProductId))
+         state.deleteAll = deleteAllConstant
+      },
    },
    extraReducers: (builder) => {
       builder.addCase(getCompare.fulfilled, (state, action) => {
-         const deleteAllConstant = []
-         action.payload.map((el) => deleteAllConstant.push(el.subProductId))
          state.products = action.payload
-         state.deleteAll = deleteAllConstant
          state.isLoadingComparison = false
       })
       builder.addCase(getCompare.pending, (state) => {

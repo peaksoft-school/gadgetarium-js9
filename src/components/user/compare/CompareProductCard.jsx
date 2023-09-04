@@ -1,7 +1,10 @@
 import { styled } from '@mui/material'
+import { useDispatch } from 'react-redux'
 import { Button } from '../../UI/Button'
 import DeleteButton from '../../UI/icon.button/DeleteButton'
 import { ReactComponent as BasketIcon } from '../../../assets/icons/basket-icon.svg'
+import { postBasketById } from '../../../store/basket/basket.thunk'
+import { useSnackbar } from '../../../hooks/useSnackbar'
 
 export const CompareProductCard = ({
    prodName,
@@ -11,8 +14,13 @@ export const CompareProductCard = ({
    deleteHandler,
    ...props
 }) => {
+   const dispatch = useDispatch()
+   const { snackbarHandler } = useSnackbar()
+   const cardHandler = (id) => {
+      console.log(id)
+   }
    return (
-      <Container {...props}>
+      <Container {...props} onClick={cardHandler}>
          <DeleteContainer>
             <DeleteButton onClick={() => deleteHandler(id)} />
          </DeleteContainer>
@@ -24,9 +32,9 @@ export const CompareProductCard = ({
          <Button
             padding="1.1111vh 1.875vw"
             variant="contained"
-            textTransform="uppercase"
+            texttransform="uppercase"
             fontSize="0.729vw"
-            // onClick={}
+            onClick={() => dispatch(postBasketById({ id, snackbarHandler }))}
          >
             <StyledBasketIcon /> В корзину
          </Button>

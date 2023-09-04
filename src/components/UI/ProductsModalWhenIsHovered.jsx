@@ -4,10 +4,9 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { ReactComponent as DeleteIcon } from '../../assets/icons/cross/small-cross-icon.svg'
 import { ReactComponent as Triangle } from '../../assets/icons/triangle.svg'
-
-// import { postFavoriteItem } from '../../store/favorite/favorite.thunk'
-import { Button } from './Button'
 import { postCompareProduct } from '../../store/compare/compare.thunk'
+import { postFavoriteItem } from '../../store/favorite/favorite.thunk'
+import { Button } from './Button'
 
 export const ProductsModalWhenIsHovered = React.memo(
    ({ path, favorite, array }) => {
@@ -15,9 +14,9 @@ export const ProductsModalWhenIsHovered = React.memo(
       const navigate = useNavigate()
       const location = useLocation()
 
-      const deleteFavoriteHandler = async (id) => {
+      const deleteFavoriteHandler = (id) => {
          if (favorite) {
-            // dispatch(postFavoriteItem({ id }))
+            dispatch(postFavoriteItem({ id, favoriteState: true }))
          } else {
             dispatch(postCompareProduct({ id, addOrDelete: false }))
          }
@@ -32,7 +31,7 @@ export const ProductsModalWhenIsHovered = React.memo(
       return (
          <Container length={array?.length}>
             <StyledTriangle length={array?.length} />
-            <AllProductContainer>
+            <AllProductContainer length={array?.length}>
                {array?.map((el) => {
                   return (
                      <Product key={el.subProductId}>
@@ -55,9 +54,8 @@ export const ProductsModalWhenIsHovered = React.memo(
                   variant="contained"
                   fontSize="0.833vw"
                   padding="0.625vw 1.563vw"
-                  backgroundHover="#E313BF"
-                  backgroundActive="#C90EA9"
-                  marginTop="16px"
+                  backgroundhover="#E313BF"
+                  backgroundactive="#C90EA9"
                   onClick={navigateToFavorite}
                >
                   Перейти в избранное
@@ -67,9 +65,8 @@ export const ProductsModalWhenIsHovered = React.memo(
                   variant="contained"
                   fontSize="0.833vw"
                   padding="0.625vw 1.563vw"
-                  backgroundHover="#E313BF"
-                  backgroundActive="#C90EA9"
-                  marginTop="16px"
+                  backgroundhover="#E313BF"
+                  backgroundactive="#C90EA9"
                   onClick={navigateToFavorite}
                >
                   Сравнить
@@ -87,6 +84,7 @@ const Container = styled('div')`
    border-radius: 5px;
    box-shadow: 0px 10px 30px 0px rgba(133, 143, 164, 0.1);
    padding: 2.037vh 0 2.037vh 1.042vw;
+   padding-right: ${(props) => (props.length < 3 ? '1.042vw' : '0')};
    display: flex;
    flex-direction: column;
    align-items: center;
@@ -114,7 +112,7 @@ const StyledTriangle = styled(Triangle)`
 const AllProductContainer = styled('div')`
    margin-bottom: 1.4815vh;
    width: 100%;
-   height: 177.6px;
+   height: ${(props) => (props.length > 1 ? '177.6px' : 'auto')};
    overflow-y: auto;
    ::-webkit-scrollbar {
       scroll-margin-left: 1px;

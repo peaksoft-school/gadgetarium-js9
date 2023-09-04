@@ -103,8 +103,26 @@ export const Compare = () => {
    useEffect(() => {
       dispatch(getCompare(productName))
    }, [productName])
+   useEffect(() => {
+      dispatch(compareActions.changeDelete())
+   }, [products])
    const visibleItems = products?.slice(startPosition, startPosition + 6)
-
+   const renderForthButton = () => {
+      if (products?.length === startPosition + 6) {
+         return null
+      }
+      if (products?.length > 6) {
+         return (
+            <ForthButtonPosition>
+               <StyledForthButton
+                  bigButton
+                  onClick={() => handleScroll('right')}
+               />
+            </ForthButtonPosition>
+         )
+      }
+      return null
+   }
    return (
       <>
          {isLoadingComparison && <Loading />}
@@ -199,14 +217,7 @@ export const Compare = () => {
                            />
                         )
                      })}
-                     {products?.length > 6 && (
-                        <ForthButtonPosition>
-                           <StyledForthButton
-                              bigButton
-                              onClick={() => handleScroll('right')}
-                           />
-                        </ForthButtonPosition>
-                     )}
+                     {renderForthButton()}
                   </Products>
                   <TableContainer>
                      <ColumnTable
@@ -353,7 +364,7 @@ const ForthButtonPosition = styled('div')`
 `
 const BackButtonPosition = styled('div')`
    position: absolute;
-   z-index: 10;
+   z-index: 7;
    top: 100px;
    right: 73.708vw;
 `

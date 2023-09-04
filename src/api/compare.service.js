@@ -17,5 +17,6 @@ export const postCompareProductRequest = (id, addOrDelete) => {
    )
 }
 export const deleteAllListProductsRequest = (deleteAll) => {
-   return axiosInstance.delete('/v1/products', deleteAll)
+   console.log('deleteAll: ', deleteAll)
+   return axiosInstance.delete('/v1/products', { data: deleteAll })
 }

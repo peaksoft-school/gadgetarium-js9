@@ -1,4 +1,5 @@
-import { useDispatch } from 'react-redux'
+import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Rating, styled } from '@mui/material'
 import { ReactComponent as Comparison } from '../../../assets/icons/comparison-icon.svg'
 import { ReactComponent as Favourite } from '../../../assets/icons/favourites-icon.svg'
@@ -6,17 +7,10 @@ import { ReactComponent as BasketIcon } from '../../../assets/icons/basket-icon.
 import { ReactComponent as Recommendation } from '../../../assets/icons/recommendation.svg'
 import { ReactComponent as FilledFavoriteIcon } from '../../../assets/icons/filled-favorite-icon.svg'
 import { Button } from '../../UI/Button'
-// import {
-//    getFavoriteItems,
-//    postFavoriteItem,
-// } from '../../../store/favorite/favorite.thunk'
+import { postFavoriteItem } from '../../../store/favorite/favorite.thunk'
 import { postBasketById } from '../../../store/basket/basket.thunk'
 import { useSnackbar } from '../../../hooks/useSnackbar'
-import {
-   getNovelities,
-   getRecommend,
-   getStock,
-} from '../../../store/main.page/main.page.thunk'
+import { AuthorizationModal } from '../AuthorizationModal'
 import {
    getCompare,
    postCompareProduct,
@@ -34,38 +28,28 @@ export const ProductCard = ({
    countOfReviews = 56,
    favoriteState,
    comparisonState,
-   noveltiesPageSize,
-   recommendPageSize,
-   stockPageSize,
+   pageSize,
    id = '1',
+   ...props
 }) => {
    const { snackbarHandler } = useSnackbar()
+   const { isAuthorization } = useSelector((state) => state.auth)
+
+   const [openModal, setOpenModal] = useState(false)
    const dispatch = useDispatch()
    const discountPrice = price - (price * discount) / 100
    const toggleFavoriteHandler = async () => {
-      // dispatch(postFavoriteItem(id))
-      //    .unwrap()
-      //    .then(() => {
-      //       dispatch(getNovelities({ page: 1, pageSize: noveltiesPageSize }))
-      //       dispatch(getRecommend({ page: 1, pageSize: recommendPageSize }))
-      //       dispatch(getStock({ page: 1, pageSize: stockPageSize }))
-      //       // dispatch(getFavoriteItems())
-      //       if (favoriteState) {
-      //          snackbarHandler({
-      //             message: 'Товар удален из избранных',
-      //          })
-      //       } else {
-      //          snackbarHandler({
-      //             message: 'Товар добавлен в избранные',
-      //             linkText: 'Перейти в избранное ',
-      //             path: '/favorite',
-      //          })
-      //       }
-      //    })
-      //    .catch((error) => {
-      //       console.error('Error dispatching postFavoriteItem:', error)
-      //       snackbarHandler({ message: error.message, type: 'error' })
-      //    })
+      if (isAuthorization) {
+         dispatch(
+            postFavoriteItem({
+               id,
+               favoriteState,
+               pageSize,
+            })
+         )
+      } else {
+         setOpenModal(!openModal)
+      }
    }
    const toggleComparisonHandler = () => {
       dispatch(postCompareProduct({ id, addOrDelete: !comparisonState }))
@@ -92,23 +76,23 @@ export const ProductCard = ({
       console.log(id)
    }
    const postProductToBasket = async () => {
-      dispatch(postBasketById(id))
-         .then(() => {
-            snackbarHandler({
-               message: 'Товар успешно добавлен в корзину',
-               linkText: 'Перейти в корзину',
-               path: '/basket',
-            })
-         })
-         .catch(() => {
-            snackbarHandler({
-               message: 'Товар не добавлен в корзину',
-               type: 'error',
-            })
-         })
+      if (isAuthorization) {
+         dispatch(postBasketById({ id, snackbarHandler }))
+      } else {
+         setOpenModal(!openModal)
+      }
+   }
+   const toggleHandler = () => {
+      setOpenModal(!openModal)
    }
    return (
-      <Card onClick={() => cardHandler(id)}>
+      <Card onClick={() => cardHandler(id)} {...props}>
+         {openModal && (
+            <AuthorizationModal
+               openModal={openModal}
+               toggleHandler={toggleHandler}
+            />
+         )}
          <ButtonContainer>
             <CircleContainer>
                {discount === 0 &&
@@ -164,7 +148,7 @@ export const ProductCard = ({
                <Button
                   padding="1.1111vh 0.99vw"
                   variant="contained"
-                  textTransform="uppercase"
+                  texttransform="uppercase"
                   fontSize="0.73vw"
                   onClick={postProductToBasket}
                >
@@ -176,8 +160,8 @@ export const ProductCard = ({
    )
 }
 const MarginDiv = styled('div')`
-   width: 2.25rem;
-   height: 2.25rem;
+   width: 1.891vw;
+   height: 1.891vw;
 `
 const StyledBasketIcon = styled(BasketIcon)`
    width: 1.25vw;
@@ -197,6 +181,7 @@ const Card = styled('div')`
    width: 15.625vw;
    border-radius: 0.25rem;
    padding: 0.52081vw;
+   background: #fff;
    :hover {
       transition: box-shadow 0.2s ease-in-out;
       cursor: pointer;

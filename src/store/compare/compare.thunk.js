@@ -6,6 +6,7 @@ import {
    getCountProductRequest,
    postCompareProductRequest,
 } from '../../api/compare.service'
+import { compareActions } from './compare.slice'
 
 export const getAllCompareGoods = createAsyncThunk(
    'compare/getAllCompareGoods',
@@ -33,9 +34,12 @@ export const getCompare = createAsyncThunk(
 
 export const getCountProduct = createAsyncThunk(
    'compare/getCountProduct',
-   async (_, { rejectWithValue }) => {
+   async (_, { rejectWithValue, dispatch }) => {
       try {
          const response = await getCountProductRequest()
+         dispatch(
+            compareActions.getProductNameHandler(response.data[0].categoryTitle)
+         )
          return response.data
       } catch (error) {
          return rejectWithValue(error)
@@ -51,9 +55,9 @@ export const postCompareProduct = createAsyncThunk(
    ) => {
       try {
          await postCompareProductRequest(id, addOrDelete)
+         dispatch(getCountProduct())
          dispatch(getCompare(productName))
          dispatch(getAllCompareGoods())
-
          snackbarHandler({
             message: 'Товар успешно удален из сравнения',
          })
@@ -75,6 +79,7 @@ export const deleteAllListProducts = createAsyncThunk(
    ) => {
       try {
          await deleteAllListProductsRequest(deleteAll)
+         dispatch(getCountProduct())
          dispatch(getCompare(productName))
          dispatch(getAllCompareGoods())
 

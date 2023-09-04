@@ -3,8 +3,8 @@ import { AboutShop } from '../components/user/aboutShop/AboutShop'
 import { Delivery } from '../components/user/delivery/Delivery'
 import { routes } from '../utils/common/constants/routesConstants'
 import { Contacts } from '../components/user/contacts/Contacts'
-import { MainPage } from '../components/user/main.page/MainPage'
 import { Favorite } from '../components/user/favorite/Favorite'
+import { MainPage } from '../components/user/main.page/MainPage'
 import { Compare } from '../components/user/compare/Compare'
 
 export const userRoutes = [
