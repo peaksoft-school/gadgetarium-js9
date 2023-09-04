@@ -4,9 +4,12 @@ import Tab from '@mui/material/Tab'
 import Typography from '@mui/material/Typography'
 import { styled } from '@mui/material'
 import Box from '@mui/material/Box'
-import { History } from './pages/History'
-import { Favorites } from './pages/Favorites'
-import { Profile } from './pages/Profile'
+import { History } from './historyPages/History'
+import { Favorites } from './favoritesPages/Favorites'
+import { Profile } from './profilePages/Profile'
+// import { ReactComponent as Cross } from '../../assets/icons/cross/small-cross-icon.svg'
+import { EmptyHistory } from './historyPages/EmptyHistory'
+import { EmptyFavorites } from './favoritesPages/EmptyFavorites'
 
 function CustomTabPanel(props) {
    const { children, value, index, ...other } = props
@@ -34,6 +37,9 @@ export const PersonalArea = () => {
    const handleChange = (event, newValue) => {
       setValue(newValue)
    }
+
+   const Status = true
+
    return (
       <Container>
          <Box sx={{ width: '100%' }}>
@@ -52,14 +58,22 @@ export const PersonalArea = () => {
                      <Tab label="История заказов" {...a11yProps(0)} />
                      <Tab label="Избранное" {...a11yProps(1)} />
                      <Tab label="Профиль" {...a11yProps(2)} />
+                     {/* {Status ? (
+                        <div>
+                           <Cross />
+                           <p>Очистить список заказов</p>
+                        </div>
+                     ) : (
+                        ''
+                     )} */}
                   </Tabs>
                </BlockTabs>
             </Box>
             <CustomTabPanel value={value} index={0}>
-               <History />
+               {Status ? <History /> : <EmptyHistory />}
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
-               <Favorites />
+               {Status ? <Favorites /> : <EmptyFavorites />}
             </CustomTabPanel>
             <CustomTabPanel value={value} index={2}>
                <Profile />
@@ -69,7 +83,7 @@ export const PersonalArea = () => {
    )
 }
 const Container = styled('div')`
-   width: 69vw;
+   width: 79.888vw;
    display: flex;
    margin-top: 6.88rem;
    justify-content: center;
@@ -86,18 +100,28 @@ const Container = styled('div')`
       color: black;
       background-color: #e0e2e7;
       padding: 0px 20px 0px 20px;
-      h2 {
-         margin-left: 200px;
-      }
    }
 
    .MuiTabs-indicator {
       display: none;
    }
+   .MuiTabs-flexContainer {
+      display: flex;
+      width: 28rem;
+      justify-content: space-between;
+      /* div {
+         display: flex;
+         cursor: pointer;
+         justify-content: space-between;
+         align-items: center;
+         p {
+            position: relative;
+            left: 0.5rem;
+         }
+      } */
+   }
 `
+
 const BlockTabs = styled('div')`
-   width: 500px;
-   display: flex;
    margin-top: 2.5rem;
-   justify-content: space-between;
 `

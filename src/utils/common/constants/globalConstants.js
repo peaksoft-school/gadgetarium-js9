@@ -3,3 +3,7 @@ export const LOGIN_USER_KEY = 'GADGETARIUM_SUPER_USER_KEY'
 export const BASE_URL = 'http://gadgetarium.peaksoftprojects.com/api'
 
 export const NUMBER_IMG = 'NUMBER_IMG'
+
+export const PENDING = 'PENDING'
+export const DELIVERED = 'DELIVERED'
+export const CANCELED = 'CANCELED'
