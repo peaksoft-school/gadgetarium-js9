@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { styled, Button, Badge } from '@mui/material'
+import { styled, Button, Badge, keyframes } from '@mui/material'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { ReactComponent as Instagram } from '../../../assets/icons/messangers/instagram-icon.svg'
 import { ReactComponent as SearchIcon } from '../../../assets/icons/search-icon.svg'
@@ -15,6 +15,7 @@ import { navBarForHeader } from '../../../utils/common/constants/header'
 import { logOut } from '../../../store/auth/authThunk'
 import { routes } from '../../../utils/common/constants/routesConstants'
 import GeneralCategorySelectLayout from '../GeneralCategorySelectLayout'
+import { ProductsModalWhenIsHovered } from '../../UI/ProductsModalWhenIsHovered'
 
 export const Header = ({ favorite, comparison, basket }) => {
    const dispatch = useDispatch()
@@ -49,6 +50,22 @@ export const Header = ({ favorite, comparison, basket }) => {
    const toggleCatalogSelect = () => {
       setCatalogSelect(!catalogSelect)
    }
+   const navigateToFavorite = () => {
+      navigate('/favorite')
+   }
+   const navigateToCompare = () => {
+      navigate('/compare')
+   }
+   const logOutHandler = () => {
+      dispatch(logOut())
+      window.location.reload()
+   }
+
+   const [hoverFavorite, setHoverFavorite] = useState(false)
+
+   const toggleHoverFavorite = () => {
+      setHoverFavorite(!hoverFavorite)
+   }
    return (
       <Headers>
          <CaptionContainer>
@@ -81,7 +98,7 @@ export const Header = ({ favorite, comparison, basket }) => {
                                     <p>История заказов</p>
                                     <p>Избранное</p>
                                     <p>Профиль</p>
-                                    <div onClick={() => dispatch(logOut())}>
+                                    <div onClick={logOutHandler}>
                                        <p style={{ color: '#CB11AB' }}>Выйти</p>
                                     </div>
                                  </Select2>
@@ -125,7 +142,7 @@ export const Header = ({ favorite, comparison, basket }) => {
                      </GadgeteriumContainer>
                      <p>adgetarium</p>
                   </TitleFixed>
-                  <CatalogButtonContainer
+                  <div
                      onMouseEnter={toggleCatalogSelect}
                      onMouseLeave={toggleCatalogSelect}
                   >
@@ -140,7 +157,7 @@ export const Header = ({ favorite, comparison, basket }) => {
                            />
                         </CatalogSelect>
                      )}
-                  </CatalogButtonContainer>
+                  </div>
                   <Border />
                   <SearchForm>
                      <button>
@@ -168,11 +185,25 @@ export const Header = ({ favorite, comparison, basket }) => {
                </Massage>
                <IconsForm>
                   <MuiBadge badgeContent={comparison} showZero>
-                     <IconsShoppingCart />
+                     <IconsShoppingCart onClick={navigateToCompare} />
                   </MuiBadge>
-                  <MuiBadge badgeContent={favorite} showZero>
-                     <IconsHeart />
-                  </MuiBadge>
+                  <PositionContainer
+                     onMouseEnter={toggleHoverFavorite}
+                     onMouseLeave={toggleHoverFavorite}
+                  >
+                     {hoverFavorite && (
+                        <FavoriteContainer fixed={fixed} hover={hoverFavorite}>
+                           <ProductsModalWhenIsHovered
+                              path="/favorite"
+                              favorite
+                           />
+                        </FavoriteContainer>
+                     )}
+                     <MuiBadge badgeContent={favorite} showZero>
+                        <IconsHeart onClick={navigateToFavorite} />
+                     </MuiBadge>
+                  </PositionContainer>
+
                   <MuiBadge badgeContent={basket} showZero>
                      <IconsBasket />
                   </MuiBadge>
@@ -182,7 +213,33 @@ export const Header = ({ favorite, comparison, basket }) => {
       </Headers>
    )
 }
+const slideIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`
 
+const slideOut = keyframes`
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+`
+const PositionContainer = styled('div')`
+   p {
+      color: #292929;
+   }
+   position: relative;
+`
 const Headers = styled('header')`
    width: 100%;
    background-color: #1a1a25;
@@ -191,9 +248,14 @@ const Headers = styled('header')`
    flex-direction: column;
    align-items: center;
 
-   z-index: 999;
+   z-index: 6;
 `
-const CatalogButtonContainer = styled('div')``
+const FavoriteContainer = styled('div')`
+   animation: ${(props) => (props.hover ? slideIn : slideOut)} 0.3s ease-in-out;
+   position: absolute;
+   right: -37px;
+   top: 36px;
+`
 const Link = styled(NavLink)`
    padding: 10px 14px 12px 14px;
    cursor: pointer;
@@ -305,6 +367,7 @@ const Title = styled('div')`
 const TitleFixed = styled('div')`
    display: ${(props) => (props.fixed ? 'flex' : 'none')};
    align-items: center;
+   cursor: pointer;
 
    a {
       font-family: Orbitron;
@@ -403,7 +466,7 @@ const Line = styled('div')`
    align-items: center;
    width: 100%;
    height: 96.5px;
-   z-index: 9999;
+   z-index: 9;
 `
 
 const Massage = styled('div')`
@@ -523,8 +586,8 @@ const Select = styled('div')`
    background: #fff;
    box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.1);
    z-index: 99999;
-   top: 1rem;
-   left: -7rem;
+   top: 1.5rem;
+   left: -8rem;
    animation: fadeInOut 0.4s ease-in-out;
 
    @keyframes fadeInOut {
@@ -560,16 +623,17 @@ const SelectParagraph2 = styled(Link)`
 `
 const Select2 = styled('div')`
    position: absolute;
-   top: 0.8rem;
-   left: -8.8rem;
+   top: 1.8rem;
+   left: -10rem;
    width: 10.8125rem;
-   height: 10.25rem;
+   height: 10.5rem;
    border-radius: 0.25rem;
    background: #fff;
    box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.1);
    z-index: 99999;
    animation: fadeInOut 0.4s ease-in-out;
    p {
+      width: 10rem;
       color: #292929;
       cursor: pointer;
       margin-left: 1.5rem;

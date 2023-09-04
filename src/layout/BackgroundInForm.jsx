@@ -34,6 +34,9 @@ const Container = styled('div')`
    display: flex;
    flex-direction: column;
    align-items: center;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
 `
 
 const Title = styled('div')`
@@ -59,7 +62,7 @@ const Letter = styled('div')`
    display: flex;
    position: relative;
    top: 1rem;
-   right: 40rem;
+   right: 35rem;
 `
 
 const GadgeteriumContainer = styled('div')`

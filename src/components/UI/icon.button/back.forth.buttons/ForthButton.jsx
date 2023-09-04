@@ -2,9 +2,14 @@ import { styled } from '@mui/material'
 import React from 'react'
 import { themes } from '../../../../utils/common/styles/themes'
 
-const ForthButton = ({ onClick, bigButton }) => {
+const ForthButton = ({ onClick, bigButton, ...props }) => {
    return (
-      <StyledButton onClick={onClick} themes={themes} state={bigButton}>
+      <StyledButton
+         onClick={onClick}
+         themes={themes}
+         state={bigButton}
+         {...props}
+      >
          <svg
             width="15"
             height="13"
