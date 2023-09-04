@@ -463,7 +463,6 @@ const IconsShoppingCart = styled(ShoppingCart)`
 const User = styled(UserIcons)`
    width: 1.5rem;
    height: 1.5rem;
-   /* margin-left: 1.875rem; */
    cursor: pointer;
 `
 
