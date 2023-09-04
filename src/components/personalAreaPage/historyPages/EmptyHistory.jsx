@@ -1,21 +1,22 @@
 import React from 'react'
-import { styled } from '@mui/material'
+import { Button, styled } from '@mui/material'
 import ImageMen from '../../../assets/images/sammy-the-man-trying-to-find-the-right-document 1.png'
-import { Button } from '../../UI/Button'
 
 export const EmptyHistory = () => {
    return (
       <Conatiner>
          <div>
             <BlockChilde>
-               <img src={ImageMen} alt="menImage" />
-               <p>Здесь пока пусто</p>
+               <Image src={ImageMen} alt="menImage" />
             </BlockChilde>
-            <Paragraph>Здесь будет храниться история ваших заказов.</Paragraph>
+            <Empty>
+               <p>Здесь пока пусто</p>
+               <span>Здесь будет храниться история ваших заказов.</span>
+            </Empty>
             <BlockButton>
-               <Button variant="contained" padding="20px">
+               <ButtonUi variant="contained" padding="20px">
                   К покупкам
-               </Button>
+               </ButtonUi>
             </BlockButton>
          </div>
       </Conatiner>
@@ -25,7 +26,7 @@ export const EmptyHistory = () => {
 const Conatiner = styled('div')`
    display: flex;
    justify-content: center;
-   margin-top: 5.5rem;
+   margin-top: 3rem;
 `
 
 const BlockChilde = styled('div')`
@@ -38,12 +39,30 @@ const BlockChilde = styled('div')`
       font-weight: 500;
    }
 `
-const Paragraph = styled('p')`
-   font-family: 'Inter';
-   font-weight: 400;
-   font-size: 1.125rem;
+
+const Empty = styled('p')`
+   display: flex;
+   align-items: center;
+   flex-direction: column;
+   p {
+      font-family: 'Inter';
+      font-size: 1.5rem;
+      font-weight: 500;
+   }
+   span {
+      font-family: 'Inter';
+      font-weight: 400;
+      font-size: 1rem;
+   }
 `
 const BlockButton = styled('div')`
    display: flex;
    justify-content: center;
+`
+const Image = styled('img')`
+   width: 13.75rem;
+   height: 13.75rem;
+`
+const ButtonUi = styled(Button)`
+   margin-top: 1rem;
 `

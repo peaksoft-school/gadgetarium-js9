@@ -22,8 +22,6 @@ export const History = () => {
       dispatch(orderRequest())
    }, [])
 
-   const handleTableRowClick = () => {}
-
    return (
       <Container>
          <TableContainer>

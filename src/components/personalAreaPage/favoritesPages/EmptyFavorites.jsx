@@ -1,14 +1,13 @@
 import React from 'react'
-import { styled } from '@mui/material'
+import { Button, styled } from '@mui/material'
 import ImageMen from '../../../assets/images/sammy-order-completed-by-a-delivery-girl 1.png'
-import { Button } from '../../UI/Button'
 
 export const EmptyFavorites = () => {
    return (
       <Conatiner>
          <div>
             <BlockChilde>
-               <img src={ImageMen} alt="menImage" />
+               <Image src={ImageMen} alt="menImage" />
             </BlockChilde>
             <Paragraph>
                <p>Здесь пока пусто</p>
@@ -17,9 +16,9 @@ export const EmptyFavorites = () => {
             </Paragraph>
 
             <BlockButton>
-               <Button variant="contained" padding="20px">
+               <ButtonUi variant="contained" padding="20px">
                   К покупкам
-               </Button>
+               </ButtonUi>
             </BlockButton>
          </div>
       </Conatiner>
@@ -29,7 +28,7 @@ export const EmptyFavorites = () => {
 const Conatiner = styled('div')`
    display: flex;
    justify-content: center;
-   margin-top: 5.5rem;
+   margin-top: 3rem;
 `
 
 const BlockChilde = styled('div')`
@@ -43,7 +42,7 @@ const Paragraph = styled('div')`
    align-items: center;
    font-family: 'Inter';
    font-weight: 400;
-   font-size: 1.125rem;
+   font-size: 1rem;
    p {
       font-family: 'Inter';
       font-size: 1.5rem;
@@ -55,4 +54,11 @@ const BlockButton = styled('div')`
    display: flex;
    margin-top: 1.5rem;
    justify-content: center;
+`
+const Image = styled('img')`
+   width: 13.75rem;
+   height: 13.75rem;
+`
+const ButtonUi = styled(Button)`
+   margin-top: 1rem;
 `

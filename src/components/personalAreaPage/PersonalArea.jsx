@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography'
 import { styled } from '@mui/material'
 import Box from '@mui/material/Box'
 import { History } from './historyPages/History'
+// import { HistoryDeital } from './historyPages/HistoryDeital'
 import { Favorites } from './favoritesPages/Favorites'
 import { Profile } from './profilePages/Profile'
 // import { ReactComponent as Cross } from '../../assets/icons/cross/small-cross-icon.svg'
@@ -96,6 +97,7 @@ const Container = styled('div')`
       color: #fff;
    }
    .MuiTab-root {
+      height: 2.125rem;
       border-radius: 4px;
       color: black;
       background-color: #e0e2e7;
@@ -104,6 +106,10 @@ const Container = styled('div')`
 
    .MuiTabs-indicator {
       display: none;
+   }
+
+   .MuiTab-root {
+      min-height: 0;
    }
    .MuiTabs-flexContainer {
       display: flex;

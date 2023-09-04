@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { favorireRequest, orderRequest } from './Order.thunk'
+import { favorireRequest, orderByIdRequest, orderRequest } from './Order.thunk'
 
 const initialState = {
    productOrder: [],
    favorite: [],
+   orderInfo: {},
 }
 
 export const orderSlice = createSlice({
@@ -16,6 +17,9 @@ export const orderSlice = createSlice({
       })
       builder.addCase(favorireRequest.fulfilled, (state, action) => {
          state.favorite = action.payload
+      })
+      builder.addCase(orderByIdRequest.fulfilled, (state, action) => {
+         state.orderInfo = action.payload
       })
    },
 })
