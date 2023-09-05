@@ -19,8 +19,6 @@ import BackButton from '../../UI/icon.button/back.forth.buttons/BackButton'
 
 import { useSnackbar } from '../../../hooks/useSnackbar'
 import sammyFinance from '../../../assets/images/sammy-finance-image.png'
-import 'slick-carousel/slick/slick.css'
-import 'slick-carousel/slick/slick-theme.css'
 import { categoryMappings } from '../../../utils/common/constants/compare.constants'
 
 export const Compare = () => {
@@ -56,7 +54,7 @@ export const Compare = () => {
    const toggleIsChecked = () => {
       setIsChecked(!isChecked)
    }
-   const deleteHandler = async (id) => {
+   const deleteHandler = (id) => {
       dispatch(
          postCompareProduct({
             id,
@@ -99,7 +97,7 @@ export const Compare = () => {
       }
    }
    useEffect(() => {
-      dispatch(getCountProduct())
+      dispatch(getCountProduct(true))
    }, [])
    useEffect(() => {
       dispatch(getCompare(productName))
@@ -180,13 +178,16 @@ export const Compare = () => {
                         })}
                      </ButtonContainer>
                      <ToolContainer>
-                        <CheckedContainer>
-                           <StyledCheckboxInput
-                              isChecked={isChecked}
-                              onClick={toggleIsChecked}
-                           />
-                           <p>Показывать только различия</p>
-                        </CheckedContainer>
+                        {products?.length < 2 ? null : (
+                           <CheckedContainer>
+                              <StyledCheckboxInput
+                                 isChecked={isChecked}
+                                 onClick={toggleIsChecked}
+                              />
+                              <p>Показывать только различия</p>
+                           </CheckedContainer>
+                        )}
+
                         <ClearContainer onClick={deleteAllHandler}>
                            <StyledDeleteIcon />
                            <p>Очистить список</p>

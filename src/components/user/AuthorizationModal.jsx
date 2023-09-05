@@ -17,6 +17,7 @@ import {
    getStock,
 } from '../../store/main.page/main.page.thunk'
 import { Loading } from '../UI/loading/Loading'
+import { getAllCompareGoods } from '../../store/compare/compare.thunk'
 
 export const AuthorizationModal = ({ openModal, toggleHandler }) => {
    const { snackbarHandler } = useSnackbar()
@@ -44,19 +45,18 @@ export const AuthorizationModal = ({ openModal, toggleHandler }) => {
                dispatch(getStock({ page: 1, pageSize: 5 }))
                dispatch(getPhoneNumber(data))
                dispatch(getFavoriteItems())
+               dispatch(getAllCompareGoods())
+               toggleHandler()
+               reset()
                toggleHandler()
             } else {
                navigate('admin')
             }
          })
-      reset()
    }
 
    const combinedError = formState.errors.email || formState.errors.password
 
-   const onCloseHandler = () => {
-      toggleHandler()
-   }
    const open = !!openModal
    return (
       <>
@@ -64,7 +64,7 @@ export const AuthorizationModal = ({ openModal, toggleHandler }) => {
          <StyledModal open={open} onClose={toggleHandler} padding="0">
             <Container>
                <CloseContainer>
-                  <MuiCloseIcon onClick={onCloseHandler} />
+                  <MuiCloseIcon onClick={toggleHandler} />
                </CloseContainer>
                <LoginWarning sx={{ marginTop: '26px' }}>
                   Вы не вошли

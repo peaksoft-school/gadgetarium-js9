@@ -15,8 +15,8 @@ import {
 } from '../../../utils/common/constants/compare.constants'
 
 const ColumnTable = ({ table, isChecked, productName }) => {
-   const isAllValuesEqualFlags = columnDataInfo.map(({ columnName, index }) =>
-      isAllValuesEqual(table, columnName, index)
+   const isAllValuesEqualFlags = columnDataInfo.map(({ columnName }) =>
+      isAllValuesEqual(table, columnName)
    )
    const updatedColumns = columns.filter(
       (column) =>

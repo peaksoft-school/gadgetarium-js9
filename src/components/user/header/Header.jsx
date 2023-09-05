@@ -17,10 +17,13 @@ import GeneralCategorySelectLayout from '../GeneralCategorySelectLayout'
 import { getAllCompareGoods } from '../../../store/compare/compare.thunk'
 import { ProductsModalWhenIsHovered } from '../../UI/ProductsModalWhenIsHovered'
 import { logOut } from '../../../store/auth/authThunk'
+import { AuthorizationModal } from '../AuthorizationModal'
 
 export const Header = ({ favorite, basket }) => {
    const dispatch = useDispatch()
-   const { number, img, token } = useSelector((state) => state.auth)
+   const { number, img, token, isAuthorization } = useSelector(
+      (state) => state.auth
+   )
    const [hoverCompare, setHoverCompare] = useState(false)
    const [hoverFavorite, setHoverFavorite] = useState(false)
    const navigate = useNavigate()
@@ -33,11 +36,11 @@ export const Header = ({ favorite, basket }) => {
    const toggleHoverFavorite = () => {
       setHoverFavorite(!hoverFavorite)
    }
-
    const [fixed, setFixed] = useState(false)
    const [open, setOpen] = useState(false)
    const [catalogSelect, setCatalogSelect] = useState(false)
    const [inputValue, setInputValue] = useState('')
+   const [openModal, setOpenModal] = useState(false)
    const changeHeader = () => {
       if (window.scrollY > 64) {
          setFixed(true)
@@ -54,10 +57,18 @@ export const Header = ({ favorite, basket }) => {
       navigate('./')
    }
    const navigateToFavorite = () => {
-      navigate('/favorite')
+      if (isAuthorization) {
+         navigate('/favorite')
+      } else {
+         setOpenModal(true)
+      }
    }
    const navigateToCompare = () => {
-      navigate('/compare')
+      if (isAuthorization) {
+         navigate('/compare')
+      } else {
+         setOpenModal(true)
+      }
    }
    useEffect(() => {
       dispatch(getAllCompareGoods())
@@ -73,173 +84,192 @@ export const Header = ({ favorite, basket }) => {
    const toggleCatalogSelect = () => {
       setCatalogSelect(!catalogSelect)
    }
+   const toggleModalHandler = () => {
+      setOpenModal(!openModal)
+   }
    return (
-      <Headers>
-         <CaptionContainer>
-            <Caption>
-               <Title onClick={onComeBack}>
-                  <GadgeteriumContainer>
-                     <GIcons>G</GIcons>
-                  </GadgeteriumContainer>
-                  <AdgetariumTitle>adgetarium</AdgetariumTitle>
-               </Title>
-               <NavBar>
-                  {navBarForHeader.map((el) => (
-                     <Link
-                        key={el.title}
-                        to={el.path}
-                        className={({ isActive }) => (isActive ? 'active' : '')}
-                     >
-                        {el.title}
-                     </Link>
-                  ))}
-               </NavBar>
-               <UserNumber>
-                  <p>{number}</p>
-
-                  <div onMouseLeave={openSelect} onMouseEnter={openSelect}>
-                     {token !== '' && (
-                        <div>
-                           {open && (
-                              <div style={{ position: 'relative' }}>
-                                 <Select2>
-                                    <p>История заказов</p>
-                                    <p>Избранное</p>
-                                    <p>Профиль</p>
-                                    <p onClick={logOutHandler}>Выйти</p>
-                                 </Select2>
-                              </div>
-                           )}
-                        </div>
-                     )}
-                     {open && token === '' && (
-                        <div
-                           style={{
-                              position: 'relative',
-                           }}
-                        >
-                           <Select>
-                              <SelectParagraph
-                                 onClick={() => navigate(routes.SIGN_IN)}
-                              >
-                                 Войти
-                              </SelectParagraph>
-                              <SelectParagraph2
-                                 onClick={() => navigate(routes.SIGN_UP)}
-                              >
-                                 Регистрация
-                              </SelectParagraph2>
-                           </Select>
-                        </div>
-                     )}
-                     {img !== undefined ? (
-                        <button>
-                           <User />
-                        </button>
-                     ) : (
-                        img
-                     )}
-                  </div>
-               </UserNumber>
-            </Caption>
-         </CaptionContainer>
-         <Line fixed={fixed}>
-            <ButtonContainer>
-               <ButtonInputContainer fixed={fixed}>
-                  <TitleFixed onClick={onComeBack} fixed={fixed}>
+      <>
+         {openModal && (
+            <AuthorizationModal
+               openModal={openModal}
+               toggleHandler={toggleModalHandler}
+            />
+         )}
+         <Headers>
+            <CaptionContainer>
+               <Caption>
+                  <Title onClick={onComeBack}>
                      <GadgeteriumContainer>
                         <GIcons>G</GIcons>
                      </GadgeteriumContainer>
                      <AdgetariumTitle>adgetarium</AdgetariumTitle>
-                  </TitleFixed>
-                  <CatalogButtonContainer
-                     onMouseEnter={toggleCatalogSelect}
-                     onMouseLeave={toggleCatalogSelect}
-                  >
-                     <Btn variant="contained">
-                        <Menu />
-                        <p>Каталог</p>
-                     </Btn>
-                     {catalogSelect && (
-                        <CatalogSelect fixed={fixed}>
-                           <GeneralCategorySelectLayout
-                              toggleCatalogSelect={toggleCatalogSelect}
+                  </Title>
+                  <NavBar>
+                     {navBarForHeader.map((el) => (
+                        <Link
+                           key={el.title}
+                           to={el.path}
+                           className={({ isActive }) =>
+                              isActive ? 'active' : ''
+                           }
+                        >
+                           {el.title}
+                        </Link>
+                     ))}
+                  </NavBar>
+                  <UserNumber>
+                     <p>{number}</p>
+
+                     <div onMouseLeave={openSelect} onMouseEnter={openSelect}>
+                        {token !== '' && (
+                           <div>
+                              {open && (
+                                 <div style={{ position: 'relative' }}>
+                                    <Select2>
+                                       <p>История заказов</p>
+                                       <p>Избранное</p>
+                                       <p>Профиль</p>
+                                       <p onClick={logOutHandler}>Выйти</p>
+                                    </Select2>
+                                 </div>
+                              )}
+                           </div>
+                        )}
+                        {open && token === '' && (
+                           <div
+                              style={{
+                                 position: 'relative',
+                              }}
+                           >
+                              <Select>
+                                 <SelectParagraph
+                                    onClick={() => navigate(routes.SIGN_IN)}
+                                 >
+                                    Войти
+                                 </SelectParagraph>
+                                 <SelectParagraph2
+                                    onClick={() => navigate(routes.SIGN_UP)}
+                                 >
+                                    Регистрация
+                                 </SelectParagraph2>
+                              </Select>
+                           </div>
+                        )}
+                        {img !== undefined ? (
+                           <button>
+                              <User />
+                           </button>
+                        ) : (
+                           img
+                        )}
+                     </div>
+                  </UserNumber>
+               </Caption>
+            </CaptionContainer>
+            <Line fixed={fixed}>
+               <ButtonContainer>
+                  <ButtonInputContainer fixed={fixed}>
+                     <TitleFixed onClick={onComeBack} fixed={fixed}>
+                        <GadgeteriumContainer>
+                           <GIcons>G</GIcons>
+                        </GadgeteriumContainer>
+                        <AdgetariumTitle>adgetarium</AdgetariumTitle>
+                     </TitleFixed>
+                     <CatalogButtonContainer
+                        onMouseEnter={toggleCatalogSelect}
+                        onMouseLeave={toggleCatalogSelect}
+                     >
+                        <Btn variant="contained">
+                           <Menu />
+                           <p>Каталог</p>
+                        </Btn>
+                        {catalogSelect && (
+                           <CatalogSelect fixed={fixed}>
+                              <GeneralCategorySelectLayout
+                                 toggleCatalogSelect={toggleCatalogSelect}
+                              />
+                           </CatalogSelect>
+                        )}
+                     </CatalogButtonContainer>
+                     <Border />
+                     <SearchForm>
+                        <button>
+                           <Input
+                              className={inputValue ? 'hasText' : ''}
+                              value={inputValue}
+                              onChange={handleChange}
+                              placeholder="Поиск по каталогу магазина  "
+                              type="text"
                            />
-                        </CatalogSelect>
-                     )}
-                  </CatalogButtonContainer>
-                  <Border />
-                  <SearchForm>
-                     <button>
-                        <Input
-                           className={inputValue ? 'hasText' : ''}
-                           value={inputValue}
-                           onChange={handleChange}
-                           placeholder="Поиск по каталогу магазина  "
-                           type="text"
-                        />
-                     </button>
-                     <StyledVector input={inputValue} />
-                  </SearchForm>
-               </ButtonInputContainer>
-               <Massage fixed={fixed}>
-                  <NavLink>
-                     <StyledFaceBookIcon />
-                  </NavLink>
-                  <NavLink to="https://www.instagram.com/peaksoft.house/">
-                     <StyledInstagramIcon />
-                  </NavLink>
-                  <NavLink>
-                     <StyledWhatsAppIcon />
-                  </NavLink>
-               </Massage>
-               <IconsForm>
-                  <PositionContainer
-                     onMouseEnter={toggleHoverCompare}
-                     onMouseLeave={toggleHoverCompare}
-                  >
-                     {hoverCompare && (
-                        <CompareContainer fixed={fixed} hover={hoverCompare}>
-                           <ProductsModalWhenIsHovered
-                              path="/compare"
-                              array={allProducts}
-                           />
-                        </CompareContainer>
-                     )}
-                     {location.pathname === '/compare' ? (
-                        <MuiBadge>
-                           <IconsShoppingCart onClick={navigateToCompare} />
+                        </button>
+                        <StyledVector input={inputValue} />
+                     </SearchForm>
+                  </ButtonInputContainer>
+                  <Massage fixed={fixed}>
+                     <NavLink>
+                        <StyledFaceBookIcon />
+                     </NavLink>
+                     <NavLink to="https://www.instagram.com/peaksoft.house/">
+                        <StyledInstagramIcon />
+                     </NavLink>
+                     <NavLink>
+                        <StyledWhatsAppIcon />
+                     </NavLink>
+                  </Massage>
+                  <IconsForm>
+                     <PositionContainer
+                        onMouseEnter={toggleHoverCompare}
+                        onMouseLeave={toggleHoverCompare}
+                     >
+                        {hoverCompare && (
+                           <CompareContainer fixed={fixed} hover={hoverCompare}>
+                              <ProductsModalWhenIsHovered
+                                 path="/compare"
+                                 array={allProducts}
+                              />
+                           </CompareContainer>
+                        )}
+                        {location.pathname === '/compare' ? (
+                           <MuiBadge>
+                              <IconsShoppingCart onClick={navigateToCompare} />
+                           </MuiBadge>
+                        ) : (
+                           <MuiBadge
+                              badgeContent={allProducts?.length}
+                              showZero
+                           >
+                              <IconsShoppingCart onClick={navigateToCompare} />
+                           </MuiBadge>
+                        )}
+                     </PositionContainer>
+                     <PositionContainer
+                        onMouseEnter={toggleHoverFavorite}
+                        onMouseLeave={toggleHoverFavorite}
+                     >
+                        {hoverFavorite && (
+                           <FavoriteContainer
+                              fixed={fixed}
+                              hover={hoverFavorite}
+                           >
+                              <ProductsModalWhenIsHovered
+                                 path="/favorite"
+                                 favorite
+                                 array={favoriteItems}
+                              />
+                           </FavoriteContainer>
+                        )}
+                        <MuiBadge badgeContent={favorite} showZero>
+                           <IconsHeart onClick={navigateToFavorite} />
                         </MuiBadge>
-                     ) : (
-                        <MuiBadge badgeContent={allProducts?.length} showZero>
-                           <IconsShoppingCart onClick={navigateToCompare} />
-                        </MuiBadge>
-                     )}
-                  </PositionContainer>
-                  <PositionContainer
-                     onMouseEnter={toggleHoverFavorite}
-                     onMouseLeave={toggleHoverFavorite}
-                  >
-                     {hoverFavorite && (
-                        <FavoriteContainer fixed={fixed} hover={hoverFavorite}>
-                           <ProductsModalWhenIsHovered
-                              path="/favorite"
-                              favorite
-                              array={favoriteItems}
-                           />
-                        </FavoriteContainer>
-                     )}
-                     <MuiBadge badgeContent={favorite} showZero>
-                        <IconsHeart onClick={navigateToFavorite} />
+                     </PositionContainer>
+                     <MuiBadge badgeContent={basket} showZero>
+                        <IconsBasket />
                      </MuiBadge>
-                  </PositionContainer>
-                  <MuiBadge badgeContent={basket} showZero>
-                     <IconsBasket />
-                  </MuiBadge>
-               </IconsForm>
-            </ButtonContainer>
-         </Line>
-      </Headers>
+                  </IconsForm>
+               </ButtonContainer>
+            </Line>
+         </Headers>
+      </>
    )
 }
 const slideIn = keyframes`

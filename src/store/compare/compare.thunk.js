@@ -57,7 +57,7 @@ export const postCompareProduct = createAsyncThunk(
    ) => {
       try {
          await postCompareProductRequest(id, addOrDelete)
-         dispatch(getCountProduct())
+         dispatch(getCountProduct(false))
          if (productName) {
             dispatch(getCompare(productName))
          }
@@ -67,7 +67,6 @@ export const postCompareProduct = createAsyncThunk(
             dispatch(getRecommend({ page: 1, pageSize }))
             dispatch(getStock({ page: 1, pageSize }))
          }
-         dispatch(getCompare())
          if (comparisonState) {
             snackbarHandler({
                message: 'Товар удален из сравнения',
