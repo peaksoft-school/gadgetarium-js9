@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import {
+   getBannersRequest,
    getNoveltiesRequest,
    getRecommendRequest,
    getStockRequest,
@@ -41,6 +42,17 @@ export const getRecommend = createAsyncThunk(
          return response.data
       } catch (error) {
          return rejectWithValue(error.message)
+      }
+   }
+)
+export const getBanners = createAsyncThunk(
+   'mainPage/getBanners',
+   async (payload, { rejectWithValue }) => {
+      try {
+         const response = await getBannersRequest()
+         return response.data
+      } catch (error) {
+         return rejectWithValue(error)
       }
    }
 )

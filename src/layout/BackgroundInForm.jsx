@@ -1,6 +1,6 @@
 import { styled } from '@mui/material'
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { CustomToast } from '../components/UI/snackbar/CustomToast'
 import { routes } from '../utils/common/constants/routesConstants'
 
@@ -18,7 +18,10 @@ export const BackgroundInForm = ({ children }) => {
                   <GadgeteriumContainer>
                      <GIcons>G</GIcons>
                   </GadgeteriumContainer>
-                  <a href="./">adgetarium</a>
+
+                  <p>adgetarium</p>
+
+                  <Link to="/">adgetarium</Link>
                </Title>
             </Letter>
             {children}
@@ -34,11 +37,15 @@ const Container = styled('div')`
    display: flex;
    flex-direction: column;
    align-items: center;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
 `
 
 const Title = styled('div')`
    display: flex;
    align-items: center;
+   cursor: pointer;
 
    a {
       font-family: Orbitron;
@@ -46,13 +53,23 @@ const Title = styled('div')`
       font-size: 1.75rem;
       text-decoration: none;
    }
+
+   p {
+      font-size: 28.49px;
+      color: #ffffff;
+      font-family: 'Orbitron';
+   }
 `
 
 const Letter = styled('div')`
    display: flex;
    position: relative;
-   top: 2rem;
-   right: 35rem;
+   top: 1rem;
+   right: 40rem;
+   align-items: center;
+   height: 75.5px;
+   width: 79.688vw;
+   margin-right: 17px;
 `
 
 const GadgeteriumContainer = styled('div')`
@@ -60,7 +77,6 @@ const GadgeteriumContainer = styled('div')`
    height: 35px;
    display: flex;
    background-color: #cb11ab;
-   margin-right: 2.5px;
    align-items: center;
    justify-content: center;
 `

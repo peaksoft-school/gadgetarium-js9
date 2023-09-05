@@ -25,6 +25,7 @@ const getInitialState = () => {
          role: userData.role,
          number: firstkey,
          img: secondKey,
+         isLoading: false,
       }
    }
    return {
@@ -34,6 +35,7 @@ const getInitialState = () => {
       error: '',
       number: '',
       img: '',
+      isLoading: false,
    }
 }
 

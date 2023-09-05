@@ -1,12 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getNovelities, getRecommend, getStock } from './main.page.thunk'
-// import { getNovelities, getRecommend, getStock } from './main.page.thunk'
+import {
+   getBanners,
+   getNovelities,
+   getRecommend,
+   getStock,
+} from './main.page.thunk'
 
 const initialState = {
    stock: [],
    novelties: [],
    recommend: [],
    isLoading: false,
+   banner: [],
 }
 
 export const mainPageSlice = createSlice({
@@ -70,6 +75,16 @@ export const mainPageSlice = createSlice({
             ...state,
             isLoading: false,
          }
+      })
+      builder.addCase(getBanners.fulfilled, (state, action) => {
+         state.banner = action.payload
+         state.isLoading = false
+      })
+      builder.addCase(getBanners.rejected, (state) => {
+         return { ...state, isLoading: false }
+      })
+      builder.addCase(getBanners.pending, (state) => {
+         return { ...state, isLoading: true }
       })
    },
 })

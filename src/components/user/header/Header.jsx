@@ -1,9 +1,14 @@
-import { styled, Button, Badge } from '@mui/material'
-import { NavLink } from 'react-router-dom'
+
+
+import { styled, Button, Badge, keyframes } from '@mui/material'
+import { NavLink, useNavigate } from 'react-router-dom'
+
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ReactComponent as SearchIcon } from '../../../assets/icons/search-icon.svg'
+import { styled, Button, Badge } from '@mui/material'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { ReactComponent as Instagram } from '../../../assets/icons/messangers/instagram-icon.svg'
+import { ReactComponent as SearchIcon } from '../../../assets/icons/search-icon.svg'
 import { ReactComponent as WhatsApp } from '../../../assets/icons/messangers/whatsapp-icon.svg'
 import { ReactComponent as FaceBook } from '../../../assets/icons/messangers/facebook-icon.svg'
 import { ReactComponent as ShoppingCart } from '../../../assets/icons/comparison-icon.svg'
@@ -15,15 +20,26 @@ import { navBarForHeader } from '../../../utils/common/constants/header'
 import { logOut } from '../../../store/auth/authThunk'
 import { routes } from '../../../utils/common/constants/routesConstants'
 import GeneralCategorySelectLayout from '../GeneralCategorySelectLayout'
+import { ProductsModalWhenIsHovered } from '../../UI/ProductsModalWhenIsHovered'
 
 export const Header = ({ favorite, comparison, basket }) => {
-   const { number, img, token } = useSelector((state) => state.auth)
    const dispatch = useDispatch()
-
+   const { number, img, token } = useSelector((state) => state.auth)
+   const navigate = useNavigate()
    const [fixed, setFixed] = useState(false)
    const [open, setOpen] = useState(false)
    const [catalogSelect, setCatalogSelect] = useState(false)
    const [inputValue, setInputValue] = useState('')
+
+
+
+   const { favoriteItems } = useSelector((state) => state.favorite)
+   const navigate = useNavigate()
+   const [hoverFavorite, setHoverFavorite] = useState(false)
+   const toggleHoverFavorite = () => {
+      setHoverFavorite(!hoverFavorite)
+   }
+
    const changeHeader = () => {
       if (window.scrollY > 64) {
          setFixed(true)
@@ -32,8 +48,13 @@ export const Header = ({ favorite, comparison, basket }) => {
       }
    }
    window.addEventListener('scroll', changeHeader)
+
    const handleChange = (event) => {
       setInputValue(event.target.value)
+   }
+
+   function onComeBack() {
+      navigate('./')
    }
 
    function openSelect() {
@@ -43,20 +64,25 @@ export const Header = ({ favorite, comparison, basket }) => {
    const toggleCatalogSelect = () => {
       setCatalogSelect(!catalogSelect)
    }
-
-   const handleSelectClick = () => {
-      openSelect()
+   const navigateToFavorite = () => {
+      navigate('/favorite')
    }
-
+   const navigateToCompare = () => {
+      navigate('/compare')
+   }
+   const logOutHandler = () => {
+      dispatch(logOut())
+      window.location.reload()
+   }
    return (
       <Headers>
          <CaptionContainer>
             <Caption>
-               <Title>
+               <Title onClick={onComeBack}>
                   <GadgeteriumContainer>
                      <GIcons>G</GIcons>
                   </GadgeteriumContainer>
-                  <a href="./">adgetarium</a>
+                  <p>adgetarium</p>
                </Title>
                <NavBar>
                   {navBarForHeader.map((el) => (
@@ -71,6 +97,49 @@ export const Header = ({ favorite, comparison, basket }) => {
                </NavBar>
                <UserNumber>
                   <p>{number}</p>
+
+                  <div onMouseLeave={openSelect} onMouseEnter={openSelect}>
+                     {token !== '' && (
+                        <div>
+                           {open && (
+                              <div style={{ position: 'relative' }}>
+                                 <Select2>
+                                    <p>История заказов</p>
+                                    <p>Избранное</p>
+                                    <p>Профиль</p>
+                                    <div onClick={() => dispatch(logOut())}>
+                                       <p style={{ color: '#CB11AB' }}>Выйти</p>
+                                    </div>
+                                 </Select2>
+                              </div>
+                           )}
+                        </div>
+                     )}
+                     {open && token === '' && (
+                        <div
+                           style={{
+                              position: 'relative',
+                           }}
+                        >
+                           <Select>
+                              <SelectParagraph to={routes.SIGN_IN}>
+                                 Войти
+                              </SelectParagraph>
+                              <SelectParagraph2 to={routes.SIGN_UP}>
+                                 Регистрация
+                              </SelectParagraph2>
+                           </Select>
+                        </div>
+                     )}
+                     {img !== undefined ? (
+                        <button>
+                           <User />
+                        </button>
+                     ) : (
+                        img
+                     )}
+                  </div>
+
                   {token !== '' && (
                      <div>
                         {open && (
@@ -79,7 +148,7 @@ export const Header = ({ favorite, comparison, basket }) => {
                                  <p>История заказов</p>
                                  <p>Избранное</p>
                                  <p>Профиль</p>
-                                 <div onClick={() => dispatch(logOut())}>
+                                 <div onClick={logOutHandler}>
                                     <p style={{ color: '#CB11AB' }}>Выйти</p>
                                  </div>
                               </Select2>
@@ -100,19 +169,22 @@ export const Header = ({ favorite, comparison, basket }) => {
                      </div>
                   )}
                   {img !== undefined ? (
-                     <User onClick={handleSelectClick} />
-                  ) : null}
+                     <User onClick={openSelect} />
+                  ) : (
+                     <User onClick={openSelect} />
+                  )}
+
                </UserNumber>
             </Caption>
          </CaptionContainer>
          <Line fixed={fixed}>
             <ButtonContainer>
                <ButtonInputContainer fixed={fixed}>
-                  <TitleFixed fixed={fixed}>
+                  <TitleFixed onClick={onComeBack} fixed={fixed}>
                      <GadgeteriumContainer>
                         <GIcons>G</GIcons>
                      </GadgeteriumContainer>
-                     <a href="./">adgetarium</a>
+                     <p>adgetarium</p>
                   </TitleFixed>
                   <CatalogButtonContainer
                      onMouseEnter={toggleCatalogSelect}
@@ -130,16 +202,17 @@ export const Header = ({ favorite, comparison, basket }) => {
                         </CatalogSelect>
                      )}
                   </CatalogButtonContainer>
-
                   <Border />
                   <SearchForm>
-                     <Input
-                        className={inputValue ? 'hasText' : ''}
-                        value={inputValue}
-                        onChange={handleChange}
-                        placeholder="Поиск по каталогу магазина  "
-                        type="text"
-                     />
+                     <button>
+                        <Input
+                           className={inputValue ? 'hasText' : ''}
+                           value={inputValue}
+                           onChange={handleChange}
+                           placeholder="Поиск по каталогу магазина  "
+                           type="text"
+                        />
+                     </button>
                      <StyledVector input={inputValue} />
                   </SearchForm>
                </ButtonInputContainer>
@@ -156,11 +229,26 @@ export const Header = ({ favorite, comparison, basket }) => {
                </Massage>
                <IconsForm>
                   <MuiBadge badgeContent={comparison} showZero>
-                     <IconsShoppingCart />
+                     <IconsShoppingCart onClick={navigateToCompare} />
                   </MuiBadge>
-                  <MuiBadge badgeContent={favorite} showZero>
-                     <IconsHeart />
-                  </MuiBadge>
+                  <PositionContainer
+                     onMouseEnter={toggleHoverFavorite}
+                     onMouseLeave={toggleHoverFavorite}
+                  >
+                     {hoverFavorite && (
+                        <FavoriteContainer fixed={fixed} hover={hoverFavorite}>
+                           <ProductsModalWhenIsHovered
+                              path="/favorite"
+                              favorite
+                              array={favoriteItems}
+                           />
+                        </FavoriteContainer>
+                     )}
+                     <MuiBadge badgeContent={favorite} showZero>
+                        <IconsHeart onClick={navigateToFavorite} />
+                     </MuiBadge>
+                  </PositionContainer>
+
                   <MuiBadge badgeContent={basket} showZero>
                      <IconsBasket />
                   </MuiBadge>
@@ -170,7 +258,33 @@ export const Header = ({ favorite, comparison, basket }) => {
       </Headers>
    )
 }
+const slideIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`
 
+const slideOut = keyframes`
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+`
+const PositionContainer = styled('div')`
+   p {
+      color: #292929;
+   }
+   position: relative;
+`
 const Headers = styled('header')`
    width: 100%;
    background-color: #1a1a25;
@@ -179,7 +293,13 @@ const Headers = styled('header')`
    flex-direction: column;
    align-items: center;
 
-   z-index: 999;
+   z-index: 6;
+`
+const FavoriteContainer = styled('div')`
+   animation: ${(props) => (props.hover ? slideIn : slideOut)} 0.3s ease-in-out;
+   position: absolute;
+   right: -37px;
+   top: 36px;
 `
 const CatalogButtonContainer = styled('div')``
 const Link = styled(NavLink)`
@@ -191,6 +311,7 @@ const Link = styled(NavLink)`
    &:hover {
       border-radius: 4px;
       background: rgba(133, 143, 164, 0.15);
+      box-shadow: 0 0 10px rgba(133, 143, 164, 0.15);
    }
 `
 
@@ -232,6 +353,13 @@ const SearchForm = styled('form')`
    position: relative;
    align-items: center;
 
+   button {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      background: none;
+   }
+
    &.hasText {
       input {
          background-color: white;
@@ -266,12 +394,19 @@ const GIcons = styled('p')`
 const Title = styled('div')`
    display: flex;
    align-items: center;
+   cursor: pointer;
 
    a {
       font-family: Orbitron;
       color: #fff;
       font-size: 1.75rem;
       text-decoration: none;
+   }
+
+   p {
+      font-size: 28.49px;
+      color: #ffffff;
+      font-family: 'Orbitron';
    }
 `
 
@@ -284,6 +419,12 @@ const TitleFixed = styled('div')`
       color: #fff;
       font-size: 1.75rem;
       text-decoration: none;
+   }
+
+   p {
+      font-size: 28.49px;
+      color: #ffffff;
+      font-family: 'Orbitron';
    }
 `
 const CatalogSelect = styled('div')`
@@ -302,6 +443,7 @@ const NavBar = styled('div')`
    .active {
       border-radius: 4px;
       background: rgba(133, 143, 164, 0.15);
+      box-shadow: 0 0 10px rgba(133, 143, 164, 0.15);
    }
 `
 
@@ -309,6 +451,17 @@ const UserNumber = styled('div')`
    display: flex;
    align-items: center;
    color: #fff;
+
+   p {
+      margin-right: 1.875rem;
+   }
+
+   button {
+      padding: 0px;
+      margin: 0px;
+      border: 0;
+      background: none;
+   }
 `
 
 const Input = styled('input')`
@@ -358,7 +511,7 @@ const Line = styled('div')`
    align-items: center;
    width: 100%;
    height: 96.5px;
-   z-index: 9999;
+   z-index: 9;
 `
 
 const Massage = styled('div')`
@@ -418,7 +571,7 @@ const IconsShoppingCart = styled(ShoppingCart)`
 const User = styled(UserIcons)`
    width: 1.5rem;
    height: 1.5rem;
-   margin-left: 1.875rem;
+   /* margin-left: 1.875rem; */
    cursor: pointer;
 `
 
