@@ -1,15 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import {
-   deleteReviewsRequest,
-   getInfoPhoneRequest,
-   postReviewsRequest,
-} from '../../api/informationPage.service'
+import { getByIdPhoneRequest } from '../../api/getById.service'
 
 export const getInfoPage = createAsyncThunk(
-   'infoPhone/getInfoPage',
+   'phone/getInfoPage',
    async (_, { rejectWithValue }) => {
       try {
-         const response = await getInfoPhoneRequest()
+         const response = await getByIdPhoneRequest()
          console.log('response.data', response.data)
          return response.data
       } catch (error) {
@@ -19,7 +15,7 @@ export const getInfoPage = createAsyncThunk(
 )
 
 export const deleteReviewsPhone = createAsyncThunk(
-   'infoPhone/deleteReviewsPhone',
+   'phone/deleteReviewsPhone',
    async (reviewId, { dispatch, rejectWithValue }) => {
       try {
          console.log(reviewId)
@@ -32,7 +28,7 @@ export const deleteReviewsPhone = createAsyncThunk(
 )
 
 export const postReviewsPhone = createAsyncThunk(
-   'infoPhone/postReviewsPhone',
+   'phone/postReviewsPhone',
    async (data, { rejectWithValue }) => {
       console.log(data, 'LeaveYourFeedback')
       try {
