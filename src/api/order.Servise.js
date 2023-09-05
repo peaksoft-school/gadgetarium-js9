@@ -8,6 +8,5 @@ export const getFavoriteRequest = () => {
 }
 export const getOrderByIdRequest = (orderId) => {
    console.log('orderId', orderId)
-
    return axiosInstance.get(`/order/5`)
 }

@@ -6,6 +6,7 @@ function App() {
    return (
       <div>
          {/* <UserLayout /> */}
+
          <PersonalAreaContainer />
          <CustomToast />
       </div>

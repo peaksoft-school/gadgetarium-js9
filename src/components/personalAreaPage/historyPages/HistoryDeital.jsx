@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { styled } from '@mui/material'
-import { orderByIdRequest } from '../../../store/order/Order.thunk'
 import { DELIVERED } from '../../../utils/common/constants/globalConstants'
+import { orderByIdRequest } from '../../../store/order/Order.thunk'
 
 export const HistoryDeital = ({ orderId = 5 }) => {
    const orders = useSelector((state) => state.order.orderInfo)
-   console.log(orders.productResponseList)
    const dispatch = useDispatch()
 
    useEffect(() => {

@@ -4,13 +4,12 @@ import Tab from '@mui/material/Tab'
 import Typography from '@mui/material/Typography'
 import { styled } from '@mui/material'
 import Box from '@mui/material/Box'
-import { History } from './historyPages/History'
-// import { HistoryDeital } from './historyPages/HistoryDeital'
 import { Favorites } from './favoritesPages/Favorites'
 import { Profile } from './profilePages/Profile'
 // import { ReactComponent as Cross } from '../../assets/icons/cross/small-cross-icon.svg'
 import { EmptyHistory } from './historyPages/EmptyHistory'
 import { EmptyFavorites } from './favoritesPages/EmptyFavorites'
+import { HistoryDeital } from './historyPages/HistoryDeital'
 
 function CustomTabPanel(props) {
    const { children, value, index, ...other } = props
@@ -71,7 +70,7 @@ export const PersonalArea = () => {
                </BlockTabs>
             </Box>
             <CustomTabPanel value={value} index={0}>
-               {Status ? <History /> : <EmptyHistory />}
+               {Status ? <HistoryDeital /> : <EmptyHistory />}
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
                {Status ? <Favorites /> : <EmptyFavorites />}
@@ -86,7 +85,7 @@ export const PersonalArea = () => {
 const Container = styled('div')`
    width: 79.888vw;
    display: flex;
-   margin-top: 6.88rem;
+   margin-top: 2.88rem;
    justify-content: center;
 
    .css-19kzrtu {

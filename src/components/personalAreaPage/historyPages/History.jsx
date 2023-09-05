@@ -15,6 +15,7 @@ import { orderRequest } from '../../../store/order/Order.thunk'
 
 export const History = () => {
    const orders = useSelector((state) => state.order.productOrder)
+   console.log(orders)
 
    const dispatch = useDispatch()
 

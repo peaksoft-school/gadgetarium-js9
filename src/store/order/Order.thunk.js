@@ -11,7 +11,6 @@ export const orderRequest = createAsyncThunk(
    async (_, { rejectWithValue }) => {
       try {
          const responce = await getOrderInfoRequest()
-
          return responce.data
       } catch (error) {
          return rejectWithValue(error)
