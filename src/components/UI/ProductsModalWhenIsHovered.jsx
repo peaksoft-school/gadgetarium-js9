@@ -18,7 +18,14 @@ export const ProductsModalWhenIsHovered = React.memo(
          if (favorite) {
             dispatch(postFavoriteItem({ id, favoriteState: true }))
          } else {
-            dispatch(postCompareProduct({ id, addOrDelete: false }))
+            dispatch(
+               postCompareProduct({
+                  id,
+                  addOrDelete: false,
+                  comparisonState: true,
+                  pageSize: 5,
+               })
+            )
          }
       }
       const navigateToFavorite = () => {

@@ -61,8 +61,9 @@ export const Compare = () => {
          postCompareProduct({
             id,
             addOrDelete: false,
+            comparisonState: true,
+            pageSize: 0,
             productName,
-            snackbarHandler,
          })
       )
    }

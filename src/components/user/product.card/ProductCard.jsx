@@ -11,10 +11,7 @@ import { postFavoriteItem } from '../../../store/favorite/favorite.thunk'
 import { postBasketById } from '../../../store/basket/basket.thunk'
 import { useSnackbar } from '../../../hooks/useSnackbar'
 import { AuthorizationModal } from '../AuthorizationModal'
-import {
-   getCompare,
-   postCompareProduct,
-} from '../../../store/compare/compare.thunk'
+import { postCompareProduct } from '../../../store/compare/compare.thunk'
 
 export const ProductCard = ({
    recomendationState = false,
@@ -52,25 +49,18 @@ export const ProductCard = ({
       }
    }
    const toggleComparisonHandler = () => {
-      dispatch(postCompareProduct({ id, addOrDelete: !comparisonState }))
-         .unwrap()
-         .then(() => {
-            dispatch(getNovelities({ page: 1, pageSize: noveltiesPageSize }))
-            dispatch(getRecommend({ page: 1, pageSize: recommendPageSize }))
-            dispatch(getStock({ page: 1, pageSize: stockPageSize }))
-            dispatch(getCompare())
-            if (comparisonState) {
-               snackbarHandler({
-                  message: 'Товар удален из сравнения',
-               })
-            } else {
-               snackbarHandler({
-                  message: 'Товар добавлен в сравнения',
-                  linkText: 'Перейти в избранное ',
-                  path: '/favorite',
-               })
-            }
-         })
+      if (isAuthorization) {
+         dispatch(
+            postCompareProduct({
+               id,
+               addOrDelete: !comparisonState,
+               comparisonState,
+               pageSize,
+            })
+         )
+      } else {
+         setOpenModal(!openModal)
+      }
    }
    const cardHandler = (id) => {
       console.log(id)

@@ -393,19 +393,6 @@ const AdgetariumTitle = styled('div')`
 const TitleFixed = styled('div')`
    display: ${(props) => (props.fixed ? 'flex' : 'none')};
    align-items: center;
-
-   a {
-      font-family: Orbitron;
-      color: #fff;
-      font-size: 1.75rem;
-      text-decoration: none;
-   }
-
-   p {
-      font-size: 28.49px;
-      color: #ffffff;
-      font-family: 'Orbitron';
-   }
 `
 const CatalogSelect = styled('div')`
    position: absolute;
