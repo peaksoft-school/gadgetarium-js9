@@ -6,6 +6,7 @@ import TableContainer from '@mui/material/TableContainer'
 import TableRow from '@mui/material/TableRow'
 import { styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
+import { NavLink } from 'react-router-dom'
 import {
    DELIVERED,
    PENDING,
@@ -28,41 +29,43 @@ export const History = () => {
          <TableContainer>
             <Table sx={{ width: '65.625rem' }}>
                {orders?.map((el) => (
-                  <TableBody
-                     onClick={() => handleTableRowClick(el.orderId)}
+                  <NavLink
                      key={el.orderId}
+                     to={`/personal:${el.orderId}/details`}
                   >
-                     <TableRow>
-                        <TableCell>
-                           <p>{el.date}</p>
-                        </TableCell>
-                        <TableCell>
-                           <strong>№{el.orderNumber}</strong>
-                        </TableCell>
-                        <TableCell>
-                           <div>
-                              {el.status === PENDING ? (
-                                 <Treatment>В обработке</Treatment>
-                              ) : (
-                                 ''
-                              )}
-                              {el.status === DELIVERED ? (
-                                 <Delivered>Доставлен</Delivered>
-                              ) : (
-                                 ''
-                              )}
-                              {el.status === CANCELED ? (
-                                 <Cancellation>Отменен</Cancellation>
-                              ) : (
-                                 ''
-                              )}
-                           </div>
-                        </TableCell>
-                        <TableCell align="right">
-                           <strong>{el.totalPrice}</strong>
-                        </TableCell>
-                     </TableRow>
-                  </TableBody>
+                     <TableBody>
+                        <TableRow>
+                           <TableCell>
+                              <p>{el.date}</p>
+                           </TableCell>
+                           <TableCell>
+                              <strong>№{el.orderNumber}</strong>
+                           </TableCell>
+                           <TableCell>
+                              <div>
+                                 {el.status === PENDING ? (
+                                    <Treatment>В обработке</Treatment>
+                                 ) : (
+                                    ''
+                                 )}
+                                 {el.status === DELIVERED ? (
+                                    <Delivered>Доставлен</Delivered>
+                                 ) : (
+                                    ''
+                                 )}
+                                 {el.status === CANCELED ? (
+                                    <Cancellation>Отменен</Cancellation>
+                                 ) : (
+                                    ''
+                                 )}
+                              </div>
+                           </TableCell>
+                           <TableCell align="right">
+                              <strong>{el.totalPrice}</strong>
+                           </TableCell>
+                        </TableRow>
+                     </TableBody>
+                  </NavLink>
                ))}
             </Table>
          </TableContainer>

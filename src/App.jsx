@@ -5,9 +5,9 @@ import { PersonalAreaContainer } from './components/personalAreaPage/PersonalAre
 function App() {
    return (
       <div>
+         <PersonalAreaContainer />
          {/* <UserLayout /> */}
 
-         <PersonalAreaContainer />
          <CustomToast />
       </div>
    )

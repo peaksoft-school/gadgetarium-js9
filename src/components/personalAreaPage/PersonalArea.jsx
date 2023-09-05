@@ -9,7 +9,7 @@ import { Profile } from './profilePages/Profile'
 // import { ReactComponent as Cross } from '../../assets/icons/cross/small-cross-icon.svg'
 import { EmptyHistory } from './historyPages/EmptyHistory'
 import { EmptyFavorites } from './favoritesPages/EmptyFavorites'
-import { HistoryDeital } from './historyPages/HistoryDeital'
+import { History } from './historyPages/History'
 
 function CustomTabPanel(props) {
    const { children, value, index, ...other } = props
@@ -70,7 +70,7 @@ export const PersonalArea = () => {
                </BlockTabs>
             </Box>
             <CustomTabPanel value={value} index={0}>
-               {Status ? <HistoryDeital /> : <EmptyHistory />}
+               {Status ? <History /> : <EmptyHistory />}
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
                {Status ? <Favorites /> : <EmptyFavorites />}

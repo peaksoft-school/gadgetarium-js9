@@ -1,13 +1,13 @@
 import React from 'react'
 import { Button, styled } from '@mui/material'
-import ImageMen from '../../../assets/images/sammy-order-completed-by-a-delivery-girl 1.png'
+import ImageGirle from '../../../assets/images/sammy-order-completed-by-a-delivery-girl 1.png'
 
 export const EmptyFavorites = () => {
    return (
       <Conatiner>
          <div>
             <BlockChilde>
-               <Image src={ImageMen} alt="menImage" />
+               <Image src={ImageGirle} alt="menImage" />
             </BlockChilde>
             <Paragraph>
                <p>Здесь пока пусто</p>

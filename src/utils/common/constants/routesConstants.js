@@ -13,6 +13,11 @@ export const routes = {
       delivery: 'delivery',
       faq: 'faq',
       contacts: 'contacts',
+      favorite: 'favorite',
+      personal: {
+         index: 'personal/',
+         personalDetail: 'personal/:orderId/details',
+      },
    },
 }
 
