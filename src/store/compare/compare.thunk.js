@@ -36,12 +36,18 @@ export const getCompare = createAsyncThunk(
 
 export const getCountProduct = createAsyncThunk(
    'compare/getCountProduct',
-   async (_, { rejectWithValue, dispatch }) => {
+   async (payload, { rejectWithValue, dispatch }) => {
       try {
          const response = await getCountProductRequest()
-         dispatch(
-            compareActions.getProductNameHandler(response.data[0].categoryTitle)
-         )
+         if (payload) {
+            if (response.data.length !== 0) {
+               dispatch(
+                  compareActions.getProductNameHandler(
+                     response.data[0]?.categoryTitle
+                  )
+               )
+            }
+         }
          return response.data
       } catch (error) {
          return rejectWithValue(error)
@@ -57,7 +63,7 @@ export const postCompareProduct = createAsyncThunk(
    ) => {
       try {
          await postCompareProductRequest(id, addOrDelete)
-         dispatch(getCountProduct(false))
+         dispatch(getCountProduct(true))
          if (productName) {
             dispatch(getCompare(productName))
          }
@@ -96,7 +102,7 @@ export const deleteAllListProducts = createAsyncThunk(
    ) => {
       try {
          await deleteAllListProductsRequest(deleteAll)
-         dispatch(getCountProduct())
+         dispatch(getCountProduct(true))
          dispatch(getCompare(productName))
          dispatch(getAllCompareGoods())
 
