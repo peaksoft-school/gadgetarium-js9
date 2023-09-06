@@ -6,7 +6,6 @@ import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import Rating from '@mui/material/Rating'
 import { styled } from '@mui/material'
-
 import { useParams } from 'react-router-dom'
 import { DELIVERED } from '../../../utils/common/constants/globalConstants'
 import { orderByIdRequest } from '../../../store/order/Order.thunk'
@@ -18,7 +17,7 @@ export const HistoryDeital = () => {
    console.log(params)
    useEffect(() => {
       dispatch(orderByIdRequest(orderId))
-   }, [orderId])
+   }, [])
 
    return (
       <Conatiner>
