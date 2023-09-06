@@ -2,22 +2,19 @@ import React from 'react'
 import { styled } from '@mui/material'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { Carousel } from 'react-responsive-carousel'
+import { useSelector } from 'react-redux'
 import BackButton from '../../../UI/icon.button/back.forth.buttons/BackButton'
 import ForthButton from '../../../UI/icon.button/back.forth.buttons/ForthButton'
 
-const images = [
-   { id: 1, link: 'https://www.myphone.kg/files/media/17/17225.webp' },
-   { id: 2, link: 'https://www.myphone.kg/files/media/17/17226.webp' },
-   { id: 3, link: 'https://www.myphone.kg/files/media/17/17216.webp' },
-   { id: 4, link: 'https://www.myphone.kg/files/media/17/17217.webp' },
-   { id: 5, link: 'https://www.myphone.kg/files/media/17/17219.webp' },
-   { id: 6, link: 'https://www.myphone.kg/files/media/17/17220.webp' },
-   { id: 7, link: 'https://www.myphone.kg/files/media/17/17222.webp' },
-]
+import { ReactComponent as Cross } from '../../../../assets/icons/cross/big-cross-icon.svg'
 
-export const PopUpPage = () => {
+export const PopUpPage = ({ openComponent }) => {
+   const infoPhone = useSelector((state) => state.phone.infoPhone)
    return (
       <div>
+         <BlockCross onClick={openComponent}>
+            <Cross />
+         </BlockCross>
          <CarouselStyle
             infiniteLoop
             renderArrowPrev={(onClickHandler) => (
@@ -31,20 +28,24 @@ export const PopUpPage = () => {
                </ArrowNext>
             )}
          >
-            {images.map((image) => (
-               <div style={{ padding: '50px' }} key={image.id}>
-                  <img
-                     width="10vw"
-                     height="90px"
-                     src={image.link}
-                     alt="gadget"
-                  />
+            {infoPhone.images?.map((image) => (
+               <div style={{ padding: '50px' }} key={image}>
+                  <img width="10vw" height="90px" src={image} alt="gadget" />
                </div>
             ))}
          </CarouselStyle>
       </div>
    )
 }
+
+const BlockCross = styled('div')`
+   display: flex;
+   position: relative;
+   width: 98vw;
+   bottom: 3rem;
+   justify-content: flex-end;
+   cursor: pointer;
+`
 const CarouselStyle = styled(Carousel)(({ theme }) => ({
    textAlign: 'center',
 

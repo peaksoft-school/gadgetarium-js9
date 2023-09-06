@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import { ReactComponent as ArrowLeft } from '../../../../assets/icons/arrows/left-icon.svg'
 import { ReactComponent as ArrowRight } from '../../../../assets/icons/arrows/right-icon.svg'
 
-export const PopUpMain = () => {
+export const PopUpMain = ({ openComponent }) => {
    const infoPhone = useSelector((state) => state.phone.infoPhone)
    const [currentIndex, setCurrentIndex] = useState(0)
 
@@ -37,7 +37,7 @@ export const PopUpMain = () => {
             onChange={(index) => setCurrentIndex(index)}
          >
             {infoPhone.images?.map((image) => (
-               <div key={image}>
+               <div onClick={openComponent} key={image}>
                   <img height="80rem" src={image} alt="gadget" />
                </div>
             ))}

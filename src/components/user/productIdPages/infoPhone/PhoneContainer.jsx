@@ -1,13 +1,11 @@
 import React from 'react'
 import { styled } from '@mui/material'
 import { PhonePage } from './PhonePage'
-import { Attribute } from '../informationPage/Attribute'
 
 export const PhoneContainer = () => {
    return (
       <Container>
          <PhonePage />
-         <Attribute />
       </Container>
    )
 }
