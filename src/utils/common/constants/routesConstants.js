@@ -13,6 +13,14 @@ export const routes = {
       delivery: 'delivery',
       faq: 'faq',
       contacts: 'contacts',
+
+      category: {
+         index: 'category/',
+         smartphone: ':smartphone',
+         smartWatch: ':smartWatch',
+         tablets: ':tablets',
+         laptops: ':laptops',
+      },
       favorite: 'favorite',
       basket: 'basket',
    },

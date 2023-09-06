@@ -6,7 +6,7 @@ export const getCategoryRequest = () => {
 
 export const filterProductsByCategory = (payload) => {
    const requestData = {
-      gadgetType: 'Phone',
+      gadgetType: payload.gadgetType[0],
       sorting: 'string',
       brandIds: payload.id.length === 0 ? [0] : payload.id,
       priceStart: 0,
