@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from '@emotion/styled'
 import { useDispatch, useSelector } from 'react-redux'
 import { format } from 'date-fns'
@@ -9,7 +9,7 @@ import { Button } from '../../../UI/Button'
 import Feedback from '../../reviews/Feedback'
 import { Rating } from '../../../../containers/rating/Rating'
 import { InputUi } from '../../../UI/Input'
-import ImageBaha from '../../../assets/images/IMG_1373.jpg'
+import { getInfoPage } from '../../../../store/informationPhone/infoPageThunk'
 
 const formatDate = (dateString) => {
    const date = new Date(dateString)
@@ -19,9 +19,12 @@ const formatDate = (dateString) => {
 export const Reviews = () => {
    const dispatch = useDispatch()
    const [inputText, setInputText] = useState()
-   const reviews = useSelector(
-      (state) => state.infoPhone.productGetById.reviews
-   )
+
+   const reviews = useSelector((state) => state.phone.infoPhone.reviews)
+
+   useEffect(() => {
+      dispatch(getInfoPage())
+   }, [])
 
    function handleSubmit() {
       dispatch(postReviewsPhone({ comment: inputText }))
@@ -63,17 +66,12 @@ export const Reviews = () => {
                   Отзывы
                </p>
                <FeedbackBlock>
-                  {reviews.map((review) => {
+                  {reviews?.map((review) => {
                      return (
                         <Feedback
                            key={review.reviewId}
                            my={review.my}
                            handleOpen={handleOpen}
-                           userIcon={
-                              review.userAvatar === 'img'
-                                 ? ImageBaha
-                                 : review.userAvatar
-                           }
                            userName={review.userFullName}
                            userText="Размер (разумный - достаточно большой для чтения/просмотра контента, но не чрезмерный).Камера (первое время режимом мультикадр был приятно удивлён  мегапикселей не пожалели на основную камеру,зум работает увереннее, чем у конкурентов)"
                            stars={review.grade}
@@ -140,6 +138,8 @@ export const Reviews = () => {
 
 const Container = styled('div')`
    display: flex;
+   width: 78.5vw;
+   justify-content: space-between;
 `
 
 const FeedbackBlock = styled('div')`

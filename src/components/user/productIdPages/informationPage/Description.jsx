@@ -1,7 +1,9 @@
 import { styled } from '@mui/material'
 import React from 'react'
+import { useSelector } from 'react-redux'
 
 export const Description = () => {
+   const { description } = useSelector((state) => state.phone.infoPhone)
    return (
       <Container>
          <iframe
@@ -12,7 +14,7 @@ export const Description = () => {
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowfullscreen
          />
-         <h3>Non ultricies sollicitudin nisi quisque?</h3>
+         <h3>{description}</h3>
          <p>
             Non ultricies sollicitudin nisi quisque. Morbi integer quis
             tincidunt vitae penatibus. Feugiat quis tincidunt volutpat

@@ -1,4 +1,4 @@
-import styled from '@emotion/styled'
+import { styled } from '@mui/material'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { PopUpMain } from '../../UserUI/PopUp/PopUpMain'
@@ -29,12 +29,10 @@ const Container = styled('div')`
       color: blue;
    }
 `
-
 const ConatinerChilde = styled('div')`
-   width: 79vw;
-   border-top: 1px solid #cdcdcd;
-
    display: flex;
    justify-content: space-between;
-   align-items: center;
+
+   width: 80vw;
+   border-top: 1px solid #cdcdcd;
 `

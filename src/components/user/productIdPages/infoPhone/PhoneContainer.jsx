@@ -1,11 +1,13 @@
-import styled from '@emotion/styled'
 import React from 'react'
+import { styled } from '@mui/material'
 import { PhonePage } from './PhonePage'
+import { Attribute } from '../informationPage/Attribute'
 
 export const PhoneContainer = () => {
    return (
       <Container>
          <PhonePage />
+         <Attribute />
       </Container>
    )
 }
@@ -13,6 +15,7 @@ export const PhoneContainer = () => {
 const Container = styled('div')`
    width: 100%;
    display: flex;
+   flex-direction: column;
    justify-content: center;
    align-items: center;
 `

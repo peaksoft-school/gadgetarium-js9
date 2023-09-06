@@ -37,8 +37,8 @@ export const PopUpMain = () => {
             onChange={(index) => setCurrentIndex(index)}
          >
             {infoPhone.images?.map((image) => (
-               <div style={{ padding: '50px' }} key={image}>
-                  <img width="60rem" height="80rem" src={image} alt="gadget" />
+               <div key={image}>
+                  <img height="80rem" src={image} alt="gadget" />
                </div>
             ))}
          </CarouselStyle>
@@ -80,7 +80,7 @@ const ButtonBlock = styled('div')`
    display: flex;
    justify-content: center;
    position: relative;
-   top: 34rem;
+   top: 28rem;
 `
 const LeftBtn = styled(ArrowLeft)`
    position: relative;
