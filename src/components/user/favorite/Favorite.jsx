@@ -1,11 +1,8 @@
 import { styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import React, { useEffect } from 'react'
-import {
-   deleteFavoriteItems,
-   getFavoriteItems,
-} from '../../../store/favorite/favorite.thunk'
+import { deleteFavoriteItems } from '../../../store/favorite/favorite.thunk'
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/cross/small-cross-icon.svg'
 import favoriteImage from '../../../assets/images/sammy-order-completed-by-a-delivery-girl 1.png'
 import { ProductCard } from '../product.card/ProductCard'
@@ -19,9 +16,6 @@ export const Favorite = React.memo(() => {
    const { favoriteItems, isLoadingFavorite } = useSelector(
       (state) => state.favorite
    )
-   useEffect(() => {
-      dispatch(getFavoriteItems())
-   }, [])
    const deleteFavoriteItemsHandler = () => {
       dispatch(deleteFavoriteItems())
    }

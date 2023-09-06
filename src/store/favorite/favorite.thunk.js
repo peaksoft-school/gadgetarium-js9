@@ -10,6 +10,7 @@ import {
    getRecommend,
    getStock,
 } from '../main.page/main.page.thunk'
+import { getBasket } from '../basket/basket.thunk'
 
 const { snackbarHandler } = useSnackbar()
 
@@ -47,9 +48,12 @@ export const postFavoriteItem = createAsyncThunk(
                pageSize: pageSize || 5,
             })
          )
-         dispatch(getRecommend({ page: 1, pageSize: pageSize || 5 }))
-         dispatch(getStock({ page: 1, pageSize: pageSize || 5 }))
+         if (pageSize) {
+            dispatch(getRecommend({ page: 1, pageSize }))
+            dispatch(getStock({ page: 1, pageSize }))
+         }
          dispatch(getFavoriteItems())
+         dispatch(getBasket())
          if (favoriteState) {
             snackbarHandler({
                message: 'Товар удален из избранных',

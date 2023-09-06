@@ -5,9 +5,11 @@ import { styled } from '@mui/material'
 import { Header } from '../../components/user/header/Header'
 import { Footer } from '../../components/user/footer/Footer'
 import { getFavoriteItems } from '../../store/favorite/favorite.thunk'
+import { getBasket } from '../../store/basket/basket.thunk'
 
 export const UserLayout = () => {
    const { favoriteItems } = useSelector((state) => state.favorite)
+   const { basketResponses } = useSelector((state) => state.basket)
    const { isAuthorization } = useSelector((state) => state.auth)
 
    const location = useLocation()
@@ -15,6 +17,7 @@ export const UserLayout = () => {
    useEffect(() => {
       if (isAuthorization) {
          dispatch(getFavoriteItems())
+         dispatch(getBasket())
       }
    }, [])
    return (
@@ -22,6 +25,9 @@ export const UserLayout = () => {
          <Header
             favorite={
                location.pathname === '/favorite' ? null : favoriteItems.length
+            }
+            basket={
+               location.pathname === '/basket' ? null : basketResponses.length
             }
          />
 

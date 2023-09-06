@@ -1,5 +1,6 @@
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { styled } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import CheckboxInput from '../../UI/icon.input/CheckboxInput'
 import { ReactComponent as DeleteButton } from '../../../assets/icons/tools-for-site/delete-icon.svg'
@@ -9,19 +10,19 @@ import { Button } from '../../UI/Button'
 import {
    addAllFavoriteGoods,
    deleteAllBasketGoods,
-   getBasket,
 } from '../../../store/basket/basket.thunk'
 import { basketActions } from '../../../store/basket/basket.slice'
 import { useSnackbar } from '../../../hooks/useSnackbar'
+import { Loading } from '../../UI/loading/Loading'
+import sammyShopping from '../../../assets/images/sammy-shopping.png'
 
-export const Basket = () => {
+export const Basket = React.memo(() => {
    const dispatch = useDispatch()
-   const { basket, basketResponses, isCheckedAll, basketIdsArray } =
+   const { basket, basketResponses, isCheckedAll, basketIdsArray, isLoading } =
       useSelector((state) => state.basket)
+   const { isLoadingFavorite } = useSelector((state) => state.favorite)
    const { snackbarHandler } = useSnackbar()
-   useEffect(() => {
-      dispatch(getBasket())
-   }, [])
+   const navigate = useNavigate()
    useEffect(() => {
       dispatch(basketActions.changeCheckedAll())
       dispatch(basketActions.onChangeBasketChecked())
@@ -37,98 +38,138 @@ export const Basket = () => {
       }
    }
    const addFavoriteAllHandler = () => {
-      console.log('hi')
       if (basketIdsArray.length === 0) {
          snackbarHandler({
             type: 'error',
             message: 'Выберите товар чтобы добавить в избранное!',
          })
       } else {
-         dispatch(addAllFavoriteGoods(basketIdsArray))
+         const itemsInFavorite = basketResponses.some(
+            (el) => el.isChecked && el.favorite
+         )
+
+         if (itemsInFavorite) {
+            snackbarHandler({
+               type: 'error',
+               message: 'Некоторые товары уже находятся в избранном!',
+            })
+         } else {
+            dispatch(addAllFavoriteGoods(basketIdsArray))
+         }
       }
    }
+   const enterPurchases = () => {
+      navigate('/')
+   }
    return (
-      <Container>
-         <WidthContaniner>
-            <Title>Товары в корзине</Title>
-            <AllContainer>
-               <ToolContainer>
-                  {isCheckedAll && (
-                     <Tools>
-                        <StyledCheckboxInput
-                           isChecked={isCheckedAll}
-                           onClick={() =>
-                              dispatch(basketActions.cancelEverything())
-                           }
-                        />
-                        Отменить все
-                     </Tools>
-                  )}
+      <>
+         {isLoading && <Loading />}
+         {isLoadingFavorite && <Loading />}
 
-                  <Tools onClick={deleteAllHandler}>
-                     <StyledDeleteButton />
-                     Удалить
-                  </Tools>
-                  <Tools onClick={addFavoriteAllHandler}>
-                     <StyledFavoriteButton />
-                     Переместить в избранное
-                  </Tools>
-               </ToolContainer>
-               <ProductsAndToolContainer>
-                  <Products>
-                     {basketResponses?.map((el) => {
-                        return (
-                           <BasketCard
-                              key={el.subProductId}
-                              id={el.subProductId}
-                              title={el.title}
-                              numberOfReviews={el.numberOfReviews}
-                              quantity={el.quantity}
-                              price={el.price}
-                              theNumberOfOrders={el.theNumberOfOrders}
-                              articleNumber={el.articleNumber}
-                              image={el.image}
-                              isChecked={el.isChecked}
-                           />
-                        )
-                     })}
-                  </Products>
-                  <OrderAmount>
-                     <OrderAmountTitle>Сумма заказа</OrderAmountTitle>
-                     <CountOfGoods>
-                        Количество товаров:{' '}
-                        <span>{basket?.quantitySubProducts} шт.</span>
-                     </CountOfGoods>
-                     <YourDiscount>
-                        Ваша скидка:{' '}
-                        <span>
-                           {' '}
-                           - {basket.totalDiscount?.toLocaleString()}{' '}
-                           <span>с</span>
-                        </span>
-                     </YourDiscount>
-                     <SumTitle>
-                        Сумма:{' '}
-                        <span>
-                           {basket.totalPrice?.toLocaleString()} <span>с</span>
-                        </span>
-                     </SumTitle>
-                     <TotalAmount>
-                        Итого:{' '}
-                        <span>
-                           {basket.toPay?.toLocaleString()} <span>с</span>
-                        </span>
-                     </TotalAmount>
-                     <StyledButton variant="contained">
-                        Перейти к оформлению
-                     </StyledButton>
-                  </OrderAmount>
-               </ProductsAndToolContainer>
-            </AllContainer>
-         </WidthContaniner>
-      </Container>
+         <Container>
+            <WidthContaniner>
+               <Title>Товары в корзине</Title>
+               {basketResponses?.length !== 0 ? (
+                  <AllContainer>
+                     <ToolContainer>
+                        {isCheckedAll && (
+                           <Tools>
+                              <StyledCheckboxInput
+                                 isChecked={isCheckedAll}
+                                 onClick={() =>
+                                    dispatch(basketActions.cancelEverything())
+                                 }
+                              />
+                              Отменить все
+                           </Tools>
+                        )}
+
+                        <Tools onClick={deleteAllHandler}>
+                           <StyledDeleteButton />
+                           Удалить
+                        </Tools>
+                        <Tools onClick={addFavoriteAllHandler}>
+                           <StyledFavoriteButton />
+                           Переместить в избранное
+                        </Tools>
+                     </ToolContainer>
+                     <ProductsAndToolContainer>
+                        <Products>
+                           {basketResponses?.map((el) => {
+                              return (
+                                 <BasketCard
+                                    key={el.subProductId}
+                                    id={el.subProductId}
+                                    title={el.title}
+                                    numberOfReviews={el.numberOfReviews}
+                                    quantity={el.quantity}
+                                    price={el.price}
+                                    theNumberOfOrders={el.theNumberOfOrders}
+                                    articleNumber={el.articleNumber}
+                                    image={el.image}
+                                    isChecked={el.isChecked}
+                                    favorite={el.favorite}
+                                    rating={el.rating}
+                                 />
+                              )
+                           })}
+                        </Products>
+                        <OrderAmount>
+                           <OrderAmountTitle>Сумма заказа</OrderAmountTitle>
+                           <CountOfGoods>
+                              Количество товаров:{' '}
+                              <span>{basket?.quantitySubProducts} шт.</span>
+                           </CountOfGoods>
+                           <YourDiscount>
+                              Ваша скидка:{' '}
+                              <span>
+                                 {' '}
+                                 - {basket.totalDiscount?.toLocaleString()}{' '}
+                                 <span>с</span>
+                              </span>
+                           </YourDiscount>
+                           <SumTitle>
+                              Сумма:{' '}
+                              <span>
+                                 {basket.totalPrice?.toLocaleString()}{' '}
+                                 <span>с</span>
+                              </span>
+                           </SumTitle>
+                           <TotalAmount>
+                              Итого:{' '}
+                              <span>
+                                 {basket.toPay?.toLocaleString()} <span>с</span>
+                              </span>
+                           </TotalAmount>
+                           <StyledButton variant="contained">
+                              Перейти к оформлению
+                           </StyledButton>
+                        </OrderAmount>
+                     </ProductsAndToolContainer>
+                  </AllContainer>
+               ) : (
+                  <VoidContainer>
+                     <Image src={sammyShopping} alt="Basket" />
+                     <SecondTitle>Ваша корзина пуста</SecondTitle>
+                     <Paragraph>Но вы всегда можете её пополнить</Paragraph>
+                     <Button
+                        variant="contained"
+                        fontSize="1rem"
+                        padding="11px 21px"
+                        backgroundHover="#E313BF"
+                        backgroundActive="#C90EA9"
+                        onClick={enterPurchases}
+                     >
+                        К покупкам
+                     </Button>
+                  </VoidContainer>
+               )}
+            </WidthContaniner>
+         </Container>
+      </>
    )
-}
+}, [])
+Basket.displayName = 'Basket'
 const WidthContaniner = styled('div')`
    width: 79.688vw;
 `
@@ -148,6 +189,27 @@ const Title = styled('p')`
    padding-bottom: 20px;
    line-height: 110%;
    margin-bottom: 30px;
+`
+const Paragraph = styled('p')`
+   color: #1a1a25;
+   text-align: center;
+   font-family: Inter;
+   font-size: 0.938vw;
+   font-style: normal;
+   font-weight: 400;
+   line-height: 140.023%;
+   margin: 0;
+   margin-bottom: 2.2222vh;
+`
+const SecondTitle = styled('p')`
+   color: var(--black-292929, #292929);
+   font-family: Inter;
+   font-size: 1.25vw;
+   font-style: normal;
+   font-weight: 500;
+   line-height: 110%;
+   margin-top: 2.7778vh;
+   margin-bottom: 1.4815vh;
 `
 const ToolContainer = styled('div')`
    display: flex;
@@ -197,14 +259,17 @@ const StyledDeleteButton = styled(DeleteButton)`
    margin-right: 0.313vw;
    width: 1.25vw;
    height: 1.25vw;
+   path {
+      fill: #909cb5;
+   }
 `
 const StyledFavoriteButton = styled(FavoriteButton)`
    width: 1.25vw;
    height: 1.25vw;
-   margin-right: 0.313vw;
    path {
       stroke: #909cb5;
    }
+   margin-right: 0.313vw;
 `
 const Products = styled('div')`
    display: flex;
@@ -308,4 +373,15 @@ const TotalAmount = styled('p')`
          text-decoration: underline;
       }
    }
+`
+const VoidContainer = styled('div')`
+   width: 100%;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   padding: 11.1111vh 0px;
+`
+const Image = styled('img')`
+   width: 20.833vw;
+   height: 15.625vw;
 `

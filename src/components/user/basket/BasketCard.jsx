@@ -3,8 +3,16 @@ import { Add, Remove } from '@mui/icons-material'
 import { useDispatch } from 'react-redux'
 import CheckboxInput from '../../UI/icon.input/CheckboxInput'
 import { ReactComponent as FavoriteButton } from '../../../assets/icons/favourites-icon.svg'
+import { ReactComponent as FilledFavoriteButton } from '../../../assets/icons/filled-favorite-icon.svg'
+
 import { ReactComponent as CrossButton } from '../../../assets/icons/cross/small-cross-icon.svg'
 import { basketActions } from '../../../store/basket/basket.slice'
+import {
+   deleteAllBasketGoods,
+   deleteBasketById,
+   postBasketById,
+} from '../../../store/basket/basket.thunk'
+import { postFavoriteItem } from '../../../store/favorite/favorite.thunk'
 
 export const BasketCard = ({
    image,
@@ -17,6 +25,7 @@ export const BasketCard = ({
    price,
    isChecked,
    theNumberOfOrders,
+   favorite,
 }) => {
    const dispatch = useDispatch()
    return (
@@ -39,11 +48,15 @@ export const BasketCard = ({
                      <InStock>В наличии ({quantity}шт)</InStock>
                   </TitleContainer>
                   <DecrementAndIncrementContainer>
-                     <ToolButton>
+                     <ToolButton onClick={() => dispatch(deleteBasketById(id))}>
                         <Remove />
                      </ToolButton>
                      <Count>{theNumberOfOrders}</Count>
-                     <ToolButton>
+                     <ToolButton
+                        onClick={() =>
+                           dispatch(postBasketById({ id, needSnackbar: false }))
+                        }
+                     >
                         <Add />
                      </ToolButton>
                   </DecrementAndIncrementContainer>
@@ -52,10 +65,37 @@ export const BasketCard = ({
                <SecondToolContainer>
                   <GoodCode>Код товара: {articleNumber}</GoodCode>
                   <FavoriteDeleteContainer>
-                     <ToolFavoriteAndDelete>
-                        <StyledFavoriteButton />В избранное
-                     </ToolFavoriteAndDelete>
-                     <ToolFavoriteAndDelete>
+                     {favorite ? (
+                        <ToolFavoriteAndDelete
+                           onClick={() =>
+                              dispatch(
+                                 postFavoriteItem({
+                                    id,
+                                    favoriteState: favorite,
+                                 })
+                              )
+                           }
+                        >
+                           <StyledFilledFavoriteButton />В избранном
+                        </ToolFavoriteAndDelete>
+                     ) : (
+                        <ToolFavoriteAndDelete
+                           onClick={() =>
+                              dispatch(
+                                 postFavoriteItem({
+                                    id,
+                                    favoriteState: favorite,
+                                 })
+                              )
+                           }
+                        >
+                           <StyledFavoriteButton />В избранное
+                        </ToolFavoriteAndDelete>
+                     )}
+
+                     <ToolFavoriteAndDelete
+                        onClick={() => dispatch(deleteAllBasketGoods([id]))}
+                     >
                         <StyledCrossButton />
                         Удалить
                      </ToolFavoriteAndDelete>
@@ -175,6 +215,22 @@ const ToolButton = styled('div')`
    text-transform: lowercase;
    border-radius: 100%;
    border: 1px solid #909cb5;
+   :hover {
+      border-color: #cb11ab;
+      .MuiSvgIcon-root {
+         path {
+            fill: #cb11ab;
+         }
+      }
+   }
+   :active {
+      border-color: #e313bf;
+      .MuiSvgIcon-root {
+         path {
+            fill: #e313bf;
+         }
+      }
+   }
    display: flex;
    align-items: center;
    justify-content: center;
@@ -229,7 +285,11 @@ const StyledFavoriteButton = styled(FavoriteButton)`
    path {
       stroke: #909cb5;
    }
-   margin-right: 0.208vw;
+`
+const StyledFilledFavoriteButton = styled(FilledFavoriteButton)`
+   width: 0.833vw;
+   height: 0.729vw;
+   margin-right: 0.313vw;
 `
 const StyledCrossButton = styled(CrossButton)`
    width: 0.521vw;

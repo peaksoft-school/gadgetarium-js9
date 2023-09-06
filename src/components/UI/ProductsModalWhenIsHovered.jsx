@@ -16,7 +16,7 @@ export const ProductsModalWhenIsHovered = React.memo(
 
       const deleteFavoriteHandler = async (id) => {
          if (favorite) {
-            dispatch(postFavoriteItem({ id, favoriteState: true }))
+            dispatch(postFavoriteItem({ id, favoriteState: true, pageSize: 5 }))
          } else {
             // dispatch(postComparisonItem(id))
             //    .then(() => {

@@ -1,5 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getBasket } from './basket.thunk'
+import {
+   addAllFavoriteGoods,
+   deleteAllBasketGoods,
+   deleteBasketById,
+   getBasket,
+   postBasketById,
+} from './basket.thunk'
 
 const initialState = {
    basket: {},
@@ -48,7 +54,7 @@ export const basketSlice = createSlice({
          const basketArray = []
          state.basketResponses.map((el) => {
             if (el.isChecked === true) {
-               basketArray.push(el.isChecked)
+               basketArray.push(el.subProductId)
             }
             return el
          })
@@ -67,6 +73,42 @@ export const basketSlice = createSlice({
          state.isLoading = true
       })
       builder.addCase(getBasket.rejected, (state) => {
+         state.isLoading = false
+      })
+      builder.addCase(postBasketById.pending, (state) => {
+         state.isLoading = true
+      })
+      builder.addCase(postBasketById.rejected, (state) => {
+         state.isLoading = false
+      })
+      builder.addCase(postBasketById.fulfilled, (state) => {
+         state.isLoading = false
+      })
+      builder.addCase(addAllFavoriteGoods.pending, (state) => {
+         state.isLoading = true
+      })
+      builder.addCase(addAllFavoriteGoods.rejected, (state) => {
+         state.isLoading = false
+      })
+      builder.addCase(addAllFavoriteGoods.fulfilled, (state) => {
+         state.isLoading = false
+      })
+      builder.addCase(deleteAllBasketGoods.pending, (state) => {
+         state.isLoading = true
+      })
+      builder.addCase(deleteAllBasketGoods.rejected, (state) => {
+         state.isLoading = false
+      })
+      builder.addCase(deleteAllBasketGoods.fulfilled, (state) => {
+         state.isLoading = false
+      })
+      builder.addCase(deleteBasketById.pending, (state) => {
+         state.isLoading = true
+      })
+      builder.addCase(deleteBasketById.rejected, (state) => {
+         state.isLoading = false
+      })
+      builder.addCase(deleteBasketById.fulfilled, (state) => {
          state.isLoading = false
       })
    },

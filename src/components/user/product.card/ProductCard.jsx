@@ -9,7 +9,6 @@ import { ReactComponent as FilledFavoriteIcon } from '../../../assets/icons/fill
 import { Button } from '../../UI/Button'
 import { postFavoriteItem } from '../../../store/favorite/favorite.thunk'
 import { postBasketById } from '../../../store/basket/basket.thunk'
-import { useSnackbar } from '../../../hooks/useSnackbar'
 import { AuthorizationModal } from '../AuthorizationModal'
 
 export const ProductCard = ({
@@ -28,7 +27,6 @@ export const ProductCard = ({
    id = '1',
    ...props
 }) => {
-   const { snackbarHandler } = useSnackbar()
    const { isAuthorization } = useSelector((state) => state.auth)
 
    const [openModal, setOpenModal] = useState(false)
@@ -74,7 +72,7 @@ export const ProductCard = ({
    }
    const postProductToBasket = async () => {
       if (isAuthorization) {
-         dispatch(postBasketById({ id, snackbarHandler }))
+         dispatch(postBasketById({ id, needSnackbar: true }))
       } else {
          setOpenModal(!openModal)
       }
