@@ -20,6 +20,7 @@ import BackButton from '../../UI/icon.button/back.forth.buttons/BackButton'
 import { useSnackbar } from '../../../hooks/useSnackbar'
 import sammyFinance from '../../../assets/images/sammy-finance-image.png'
 import { categoryMappings } from '../../../utils/common/constants/compare.constants'
+import { useCustomSearchParams } from '../../../hooks/useCustomSearchParams'
 
 export const Compare = () => {
    const {
@@ -36,7 +37,7 @@ export const Compare = () => {
       count: 0,
    })
    const [isChecked, setIsChecked] = useState(false)
-
+   const { setParam } = useCustomSearchParams()
    const dispatch = useDispatch()
    const navigate = useNavigate()
    const changeProductNameToLaptop = () => {
@@ -97,10 +98,21 @@ export const Compare = () => {
       }
    }
    useEffect(() => {
-      dispatch(getCountProduct(true))
+      dispatch(getCountProduct())
    }, [])
    useEffect(() => {
+      if (countProducts?.length > 0) {
+         dispatch(
+            compareActions.getProductNameHandler(
+               countProducts[0]?.categoryTitle
+            )
+         )
+         setParam('productName', countProducts[0]?.categoryTitle)
+      }
+   }, [countProducts.length])
+   useEffect(() => {
       dispatch(getCompare(productName))
+      setParam('productName', productName)
    }, [productName])
    useEffect(() => {
       dispatch(compareActions.changeDelete())

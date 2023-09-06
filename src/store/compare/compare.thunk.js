@@ -6,7 +6,6 @@ import {
    getCountProductRequest,
    postCompareProductRequest,
 } from '../../api/compare.service'
-import { compareActions } from './compare.slice'
 import { useSnackbar } from '../../hooks/useSnackbar'
 
 const { snackbarHandler } = useSnackbar()
@@ -36,18 +35,9 @@ export const getCompare = createAsyncThunk(
 
 export const getCountProduct = createAsyncThunk(
    'compare/getCountProduct',
-   async (payload, { rejectWithValue, dispatch }) => {
+   async (_, { rejectWithValue }) => {
       try {
          const response = await getCountProductRequest()
-         if (payload) {
-            if (response.data.length !== 0) {
-               dispatch(
-                  compareActions.getProductNameHandler(
-                     response.data[0]?.categoryTitle
-                  )
-               )
-            }
-         }
          return response.data
       } catch (error) {
          return rejectWithValue(error)
@@ -63,7 +53,7 @@ export const postCompareProduct = createAsyncThunk(
    ) => {
       try {
          await postCompareProductRequest(id, addOrDelete)
-         dispatch(getCountProduct(true))
+         dispatch(getCountProduct())
          if (productName) {
             dispatch(getCompare(productName))
          }
@@ -102,7 +92,7 @@ export const deleteAllListProducts = createAsyncThunk(
    ) => {
       try {
          await deleteAllListProductsRequest(deleteAll)
-         dispatch(getCountProduct(true))
+         dispatch(getCountProduct())
          dispatch(getCompare(productName))
          dispatch(getAllCompareGoods())
 
