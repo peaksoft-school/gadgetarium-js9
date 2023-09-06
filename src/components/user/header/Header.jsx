@@ -1,12 +1,7 @@
-
-
 import { styled, Button, Badge, keyframes } from '@mui/material'
 import { NavLink, useNavigate } from 'react-router-dom'
-
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { styled, Button, Badge } from '@mui/material'
-import { NavLink, useNavigate } from 'react-router-dom'
 import { ReactComponent as Instagram } from '../../../assets/icons/messangers/instagram-icon.svg'
 import { ReactComponent as SearchIcon } from '../../../assets/icons/search-icon.svg'
 import { ReactComponent as WhatsApp } from '../../../assets/icons/messangers/whatsapp-icon.svg'
@@ -30,11 +25,8 @@ export const Header = ({ favorite, comparison, basket }) => {
    const [open, setOpen] = useState(false)
    const [catalogSelect, setCatalogSelect] = useState(false)
    const [inputValue, setInputValue] = useState('')
-
-
-
    const { favoriteItems } = useSelector((state) => state.favorite)
-   const navigate = useNavigate()
+
    const [hoverFavorite, setHoverFavorite] = useState(false)
    const toggleHoverFavorite = () => {
       setHoverFavorite(!hoverFavorite)
@@ -173,7 +165,6 @@ export const Header = ({ favorite, comparison, basket }) => {
                   ) : (
                      <User onClick={openSelect} />
                   )}
-
                </UserNumber>
             </Caption>
          </CaptionContainer>
