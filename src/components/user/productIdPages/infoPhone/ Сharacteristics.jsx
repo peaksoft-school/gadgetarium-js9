@@ -53,14 +53,14 @@ export const Сharacteristics = () => {
          {category === 'Phone' ? (
             <Product>
                <Key>
-                  <p>Экран............................................</p>
+                  <p>{screenResolution === null ? '' : screenResolution}</p>
                   <p>ПЗУ..............................................</p>
                   <p>Дата выпуска..............................</p>
                   <p>Операционная система............</p>
                   <p>Память.........................................</p>
                </Key>
                <Value>
-                  <p>{screenResolution}</p>
+                  <p>{screenResolution === null ? '' : screenResolution}</p>
                   <p>{rom}</p>
                   <p>Март 2022</p>
                   <p>Android 12</p>

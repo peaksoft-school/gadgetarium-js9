@@ -139,6 +139,7 @@ export const Reviews = () => {
 const Container = styled('div')`
    display: flex;
    width: 78.5vw;
+   margin-top: 2.5rem;
    justify-content: space-between;
 `
 

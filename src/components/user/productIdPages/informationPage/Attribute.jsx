@@ -7,6 +7,7 @@ import styled from '@emotion/styled'
 import { Description } from './Description'
 import { Reviews } from './Reviews'
 import { Delivery } from './Delivery'
+import { Сharacteristics } from './Сharacteristics'
 
 function CustomTabPanel(props) {
    const { children, value, index, ...other } = props
@@ -20,7 +21,7 @@ function CustomTabPanel(props) {
          {...other}
       >
          {value === index && (
-            <Box sx={{ p: 3 }}>
+            <Box>
                <Typography>{children}</Typography>
             </Box>
          )}
@@ -61,7 +62,7 @@ export const Attribute = () => {
                <Description />
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
-               Item Two
+               <Сharacteristics />
             </CustomTabPanel>
             <CustomTabPanel value={value} index={2}>
                <Reviews />

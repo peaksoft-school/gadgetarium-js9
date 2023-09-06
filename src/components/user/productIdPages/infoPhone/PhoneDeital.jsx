@@ -40,7 +40,7 @@ export const PhoneDeital = () => {
          <h2>{name}</h2>
          <Line>
             <Block1>
-               <p>В наличии (36шт)</p>
+               <Stock>В наличии (36шт)</Stock>
                <p>Артикул: {articleNumber}</p>
                <RatingBlock>
                   <Rating name="half-rating" value={formattedRating} readOnly />
@@ -112,6 +112,10 @@ const Container = styled('div')`
 const Line = styled('div')`
    width: 100%;
    border-bottom: 1px solid #cdcdcd;
+`
+
+const Stock = styled('p')`
+   color: #2fc509;
 `
 
 const Block1 = styled('div')`

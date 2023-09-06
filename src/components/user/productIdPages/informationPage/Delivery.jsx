@@ -8,7 +8,7 @@ import { ReactComponent as Paint } from '../../../../assets/icons/cashUponReceip
 
 export const Delivery = () => {
    return (
-      <>
+      <Container>
          <Deliver>Доставка</Deliver>
          <p>
             Город доставки <strong>Бишкек</strong>
@@ -76,9 +76,14 @@ export const Delivery = () => {
                <p>Картой при получении</p>
             </CardBlock>
          </Block3>
-      </>
+      </Container>
    )
 }
+
+const Container = styled('div')`
+   margin-top: 6.06rem;
+   height: 70vh;
+`
 
 const Deliver = styled('h3')`
    font-family: Ubuntu;

@@ -33,6 +33,6 @@ const ConatinerChilde = styled('div')`
    display: flex;
    justify-content: space-between;
 
-   width: 80vw;
+   width: 79.688vw;
    border-top: 1px solid #cdcdcd;
 `

@@ -3,12 +3,7 @@ import { Button as ButtonMui, styled } from '@mui/material'
 
 export const Button = ({ children, onClick, variant, type, ...props }) => {
    return (
-      <StyledButton
-         type={type}
-         onClick={onClick}
-         props={props}
-         variant={variant}
-      >
+      <StyledButton type={type} onClick={onClick} {...props} variant={variant}>
          {children}
       </StyledButton>
    )
