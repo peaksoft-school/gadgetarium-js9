@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { styled } from '@mui/material'
 import { useSelector, useDispatch } from 'react-redux'
 import CheckboxInput from '../../../UI/icon.input/CheckboxInput'
@@ -9,8 +9,7 @@ import { slideIn, slideOut } from '../../../../utils/common/constants/constants'
 
 export const Category = () => {
    const dispatch = useDispatch()
-   const { items } = useSelector((state) => state.category)
-   const [cate, setCate] = useState(false)
+   const { items, cateCategory } = useSelector((state) => state.category)
 
    const toggleCheckedHandler = (categoryId, category) => {
       dispatch(categoryActions.toggleCheckedHandler(categoryId))
@@ -18,30 +17,29 @@ export const Category = () => {
       dispatch(categoryActions.addSelectedCategories(category))
    }
 
-   const ResetAllFilters = () => {
-      dispatch(categoryActions.resetChecked())
-      setCate(false)
-   }
-
    useEffect(() => {
       dispatch(getCategory())
    }, [])
 
+   const resetAllFilters = () => {
+      dispatch(categoryActions.resetChecked())
+   }
+
    const openHandler = () => {
-      setCate((prev) => !prev)
+      dispatch(categoryActions.setCateCategory(!cateCategory))
    }
 
    return (
-      <Container checked={cate}>
-         <ButtonStyled onClick={ResetAllFilters}>
+      <Container checked={cateCategory}>
+         <ButtonStyled onClick={resetAllFilters}>
             Сбросить все фильтры
          </ButtonStyled>
 
          <CategorySelectContainer>
             <h5>Категория</h5>
-            <ArrowIconStyled checked={cate} onClick={openHandler} />
+            <ArrowIcon checked={cateCategory} onClick={openHandler} />
          </CategorySelectContainer>
-         {cate && (
+         {cateCategory && (
             <div className="brandContainer">
                {items?.map((el) => (
                   <div key={el.id}>
@@ -59,9 +57,7 @@ export const Category = () => {
 }
 
 const Container = styled('div')`
-   user-select: none;
-   /* width: 15.15625vw; */
-   margin-bottom: 1.8519vh;
+   box-sizing: border-box;
    padding-bottom: 1.8519vh;
    border-bottom: 1px solid #e8e8e8;
 
@@ -88,15 +84,10 @@ const Container = styled('div')`
    }
 `
 
-const ArrowIconStyled = styled(ArrowIcon)(({ checked }) => ({
-   transition: 'transform 0.4s ease',
-   transform: checked ? 'rotate(0)' : 'rotate(180deg)',
-}))
-
 const CategorySelectContainer = styled('div')`
    display: flex;
    align-items: center;
-   margin-bottom: 0.875rem;
+   margin-bottom: 1.2963vh;
    justify-content: space-between;
 `
 

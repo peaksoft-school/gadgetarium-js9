@@ -76,3 +76,14 @@ export const slideOut = keyframes`
        transform: translateY(-10px);
      }
      `
+
+export const memoryCapacity = [
+   { title: 8, id: 1, checked: false },
+   { title: 16, id: 2, checked: false },
+   { title: 32, id: 3, checked: false },
+   { title: 64, id: 4, checked: false },
+   { title: 128, id: 5, checked: false },
+   { title: 256, id: 6, checked: false },
+   { title: 512, id: 7, checked: false },
+   { title: 1000, id: 8, checked: false },
+]

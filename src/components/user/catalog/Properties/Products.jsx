@@ -14,6 +14,7 @@ export const Products = () => {
       pageSize,
       minValue,
       maxValue,
+      memory,
    } = useSelector((state) => state.category)
 
    const dispatch = useDispatch()
@@ -25,6 +26,7 @@ export const Products = () => {
          pageNumber: 1,
          minValue,
          maxValue,
+         memory,
       }
       dispatch(sendSelectedCategories(dataCategory))
    }, [items, minValue, maxValue])

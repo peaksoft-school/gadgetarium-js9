@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { styled, TextField, Slider } from '@mui/material'
 // import { useDispatch } from 'react-redux'
@@ -7,8 +7,10 @@ import { slideIn, slideOut } from '../../../../utils/common/constants/constants'
 import { categoryActions } from '../../../../store/cataog/catalogSlice'
 
 export const Price = () => {
-   const { minValue, maxValue } = useSelector((state) => state.category)
-   const [cate, setCate] = useState(false)
+   const { minValue, maxValue, catePrice } = useSelector(
+      (state) => state.category
+   )
+   // const [cate, setCate] = useState(false)
    const dispatch = useDispatch()
 
    const handleMinChange = (event) => {
@@ -24,37 +26,39 @@ export const Price = () => {
       dispatch(categoryActions.setMaxValue(newValue[1]))
    }
    const openHandler = () => {
-      setCate((prev) => !prev)
+      dispatch(categoryActions.setCatePrice(!catePrice))
    }
 
    return (
       <Container>
          <CategorySelectContainer>
             <h5>Стоимость</h5>
-            <ArrowIconStyled checked={cate} onClick={openHandler} />
+            <ArrowIcon checked={catePrice} onClick={openHandler} />
          </CategorySelectContainer>
-         {cate && (
-            <InfoPrice checked={cate}>
+         {catePrice && (
+            <InfoPrice checked={catePrice}>
                <div className="ContainerTextField">
                   <TextFieldStyled
+                     label="От"
+                     type="number"
                      value={minValue}
                      onChange={handleMinChange}
-                     type="number"
-                     inputProps={{ min: 0, max: 100000 }}
+                     inputProps={{ min: 0, max: maxValue }}
                   />
 
                   <TextFieldStyled
+                     label="До"
+                     type="number"
                      value={maxValue}
                      onChange={handleMaxChange}
-                     type="number"
-                     inputProps={{ min: 0, max: 100000 }}
+                     inputProps={{ min: 0, max: maxValue }}
                   />
                </div>
                <SliderStyled
                   value={[minValue, maxValue]}
                   onChangeCommitted={handleSliderChange}
                   min={0}
-                  max={100000}
+                  max={250000}
                   valueLabelDisplay="auto"
                />
             </InfoPrice>
@@ -65,15 +69,17 @@ export const Price = () => {
 const Container = styled('div')`
    user-select: none;
    border-bottom: 1px solid #e8e8e8;
-   padding-bottom: 2.6852vh;
+   padding-bottom: 1.8519vh;
+   margin-top: 1.8519vh;
 `
 
 const CategorySelectContainer = styled('div')`
    display: flex;
    align-items: center;
    justify-content: space-between;
+   margin-bottom: 1.2963vh;
    h5 {
-      font-size: 16px;
+      font-size: 1rem;
       font-style: normal;
       font-weight: 600;
       line-height: 120%;
@@ -82,18 +88,13 @@ const CategorySelectContainer = styled('div')`
    }
 `
 
-const ArrowIconStyled = styled(ArrowIcon)(({ checked }) => ({
-   transition: 'transform 0.4s ease',
-   transform: checked ? 'rotate(0)' : 'rotate(180deg)',
-}))
-
 const InfoPrice = styled('div')`
    animation: ${(props) => (props.checked ? slideIn : slideOut)} 0.3s
       ease-in-out;
    .ContainerTextField {
       display: flex;
       justify-content: space-between;
-      margin-top: 18px;
+      margin-top: 1.6667vh;
    }
 `
 
@@ -105,7 +106,7 @@ const TextFieldStyled = styled(TextField)`
 `
 
 const SliderStyled = styled(Slider)`
-   width: 14.4vw;
+   width: 93%;
    padding: 0;
    margin: 0;
    margin-top: 9vh;

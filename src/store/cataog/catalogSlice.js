@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { memoryCapacity } from '../../utils/common/constants/constants'
 import { getCategory, sendSelectedCategories } from './categoryThunk'
 
 const initialState = {
@@ -11,7 +12,11 @@ const initialState = {
    plusPageSize: 0,
    showMore: false,
    minValue: 0,
-   maxValue: 100000,
+   maxValue: 250000,
+   cateCategory: false,
+   cateMemory: false,
+   catePrice: false,
+   memory: [],
 }
 
 export const categorySlice = createSlice({
@@ -42,15 +47,19 @@ export const categorySlice = createSlice({
          }
          return state
       },
+
       setPageSize: (state, action) => {
          return { ...state, pageSize: action.payload }
       },
+
       setPlusPageSize: (state, action) => {
          return { ...state, plusPageSize: state.plusPageSize + action.payload }
       },
+
       setShowMore: (state, action) => {
          return { ...state, showMore: action.payload }
       },
+
       toggleCheckedHandler: (state, action) => {
          const updatedItems = state.items.map((el) => {
             if (el.id === action.payload) {
@@ -60,16 +69,29 @@ export const categorySlice = createSlice({
          })
          return { ...state, items: updatedItems }
       },
+
+      memoryPhone: (state) => {
+         const memory = []
+         memoryCapacity.map((el) => {
+            if (el.checked === true) {
+               memory.push(el.title)
+            }
+            return el
+         })
+         return { ...state, memory }
+      },
       addBrandsId: (state) => {
          const brandsId = []
          state.items.map((el) => {
             if (el.checked === true) {
                brandsId.push(el.id)
+               return { ...el, checked: !el.checked }
             }
             return el
          })
          return { ...state, brandsId }
       },
+
       deleteItem: (state, action) => {
          let brandsId
          state.items.map((el) => {
@@ -94,6 +116,7 @@ export const categorySlice = createSlice({
             selectedCategories: updatedSelectedCategories,
          }
       },
+
       resetChecked: (state) => {
          const resetItems = state.items.map((el) => ({
             ...el,
@@ -105,8 +128,14 @@ export const categorySlice = createSlice({
             items: resetItems,
             brandsId: [],
             selectedCategories: [],
+            minValue: 0,
+            maxValue: 250000,
+            cateCategory: false,
+            cateMemory: false,
+            catePrice: false,
          }
       },
+
       resetItemById: (state, action) => {
          const resetItems = state.items.map((el) => {
             if (el.id === action.payload) {
@@ -116,13 +145,25 @@ export const categorySlice = createSlice({
          })
          return { ...state, items: resetItems }
       },
+
       setMinValue: (state, action) => {
          return { ...state, minValue: action.payload }
       },
       setMaxValue: (state, action) => {
          return { ...state, maxValue: action.payload }
       },
+
+      setCateCategory: (state, action) => {
+         return { ...state, cateCategory: action.payload }
+      },
+      setCateMemory: (state, action) => {
+         return { ...state, cateMemory: action.payload }
+      },
+      setCatePrice: (state, action) => {
+         return { ...state, catePrice: action.payload }
+      },
    },
+
    extraReducers: (builder) => {
       builder
          .addCase(getCategory.pending, (state) => {
@@ -137,6 +178,7 @@ export const categorySlice = createSlice({
          .addCase(getCategory.rejected, (state) => {
             return { ...state, isLoading: false }
          })
+
          .addCase(sendSelectedCategories.pending, (state) => {
             return { ...state, isLoading: true }
          })

@@ -1,6 +1,7 @@
 import { styled } from '@mui/material'
 import React from 'react'
 import { Category } from './Properties/Category'
+import { MemoryСapacity } from './Properties/MemoryСapacity'
 import { Price } from './Properties/Price'
 
 export const Options = () => {
@@ -8,6 +9,7 @@ export const Options = () => {
       <Content>
          <Category />
          <Price />
+         <MemoryСapacity />
       </Content>
    )
 }

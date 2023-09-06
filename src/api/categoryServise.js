@@ -7,13 +7,13 @@ export const getCategoryRequest = () => {
 export const filterProductsByCategory = (payload) => {
    console.log('payload: ', payload)
    const requestData = {
-      gadgetType: 'string',
+      gadgetType: 'Phone',
       sorting: 'string',
       brandIds: payload.id.length === 0 ? [0] : payload.id,
       priceStart: payload.minValue,
       priceEnd: payload.maxValue,
       codeColor: ['string'],
-      rom: [0],
+      rom: payload.memory.length === 0 ? [0] : payload.memory,
       ram: [0],
       sim: [0],
       processors: ['string'],
