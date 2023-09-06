@@ -10,6 +10,9 @@ const initialState = {
       name: '',
       dateOfIssue: null,
       subProductRequests: [],
+      videoLink: '',
+      pdf: '',
+      description: '',
    },
 
    productSmartphone: {
@@ -67,7 +70,6 @@ const initialState = {
       price: 0,
    },
 
-   editNewProductAndReturnNewEditData: '',
    transformedProduct: {},
 }
 
@@ -511,6 +513,20 @@ export const addProductSlice = createSlice({
             subProductRequests: formattedSubProducts,
          }
       },
+
+      // * AddProductPart - 3
+
+      addDescriptionAndOverview(state, { payload }) {
+         return {
+            ...state,
+            newProduct: {
+               ...state.newProduct,
+               videoLink: payload.videoLink,
+               pdf: payload.pdf,
+               description: payload.description,
+            },
+         }
+      },
    },
 })
 
@@ -537,4 +553,6 @@ export const {
    addAndEditQuantity,
 
    editNewProductAndReturnNewEditDataHandler,
+
+   addDescriptionAndOverview,
 } = addProductSlice.actions

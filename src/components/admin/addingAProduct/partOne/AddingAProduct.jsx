@@ -8,12 +8,14 @@ import { AddNewBrandModal } from './selectСategories/AddNewBrandModal'
 import { filterResComponent } from '../../../../utils/helpers/AddFilterResComponent'
 import { Button } from '../../../UI/Button'
 import { filterCategorySubProduct } from '../../../../store/addProduct/addProductPartOne.slice'
+import { useSnackbar } from '../../../../hooks/useSnackbar'
 
 export const AddingAProduct = () => {
    const dispatch = useDispatch()
    const [openModalAddNewBrand, setOpenModalAddNewBrand] = useSearchParams()
    const navigate = useNavigate()
    const { newProduct } = useSelector((state) => state.addProduct)
+   const { snackbarHandler } = useSnackbar()
 
    useEffect(() => {
       if (newProduct.category) {
@@ -34,11 +36,17 @@ export const AddingAProduct = () => {
    }
 
    const onFilterFinishHandler = () => {
-      if (
-         newProduct.subProductRequests[0].codeColor &&
-         newProduct.dateOfIssue
-      ) {
+      const allHaveId = newProduct.subProductRequests.every(
+         (subProduct) => subProduct.codeColor !== ''
+      )
+
+      if (allHaveId) {
          navigate('/admin/add-products-part-2')
+      } else {
+         snackbarHandler({
+            message: 'Bce поле должны быть обязательно заполнены',
+            type: 'error',
+         })
       }
    }
 

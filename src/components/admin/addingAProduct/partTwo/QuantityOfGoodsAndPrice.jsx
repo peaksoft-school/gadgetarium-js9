@@ -3,6 +3,7 @@ import { styled } from '@mui/material'
 import * as Yup from 'yup'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFormik } from 'formik'
+import { useNavigate } from 'react-router-dom'
 import { HeaderAddingAProduct } from '../HeaderAddingAProduct'
 import { InputUi } from '../../../UI/Input'
 import { Button } from '../../../UI/Button'
@@ -20,7 +21,9 @@ const schema = Yup.object().shape({
 export const QuantityOfGoodsAndPrice = () => {
    const dispatch = useDispatch()
    const { newProduct } = useSelector((state) => state.addProduct)
+
    const [changeBooleanValue, setChangeBooleanValue] = useState(true)
+   const navigate = useNavigate()
 
    const title = changeBooleanValue ? 'Общая цена' : 'Общая количество'
 
@@ -41,21 +44,27 @@ export const QuantityOfGoodsAndPrice = () => {
       setChangeBooleanValue(false)
    }
 
-   const { values, handleChange, handleBlur, handleSubmit } = useFormik({
-      initialValues: {
-         price: 0,
-         quantity: 0,
-      },
-      onSubmit: onCollectorPriceAndQuantity,
-      validateOnBlur: true,
-      validationSchema: schema,
-   })
+   const { values, handleChange, handleBlur, handleSubmit, errors } = useFormik(
+      {
+         initialValues: {
+            price: 0,
+            quantity: 0,
+         },
+         onSubmit: onCollectorPriceAndQuantity,
+         validateOnBlur: true,
+         validationSchema: schema,
+      }
+   )
 
    useEffect(() => {
       dispatch(editNewProductAndReturnNewEditDataHandler(newProduct))
    }, [])
 
-   const finishedAddPriceAndQuantity = () => {}
+   const finishedAddPriceAndQuantity = () => {
+      if (!errors.price && !errors.quantity) {
+         navigate('/admin/add-products-part-3')
+      }
+   }
 
    return (
       <Container>
@@ -124,6 +133,8 @@ const Container = styled('div')`
       flex-direction: column;
       gap: 3.8125rem;
    }
+
+   margin-bottom: 3.125rem;
 `
 
 const ContainerTotalPriceAndQuanti = styled('div')`

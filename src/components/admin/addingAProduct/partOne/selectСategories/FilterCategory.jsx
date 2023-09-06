@@ -47,7 +47,9 @@ export const FilterCategory = ({ onOpenModalAddNewBrand, value }) => {
       setFieldValue('dateOfIssue', new Date(event.$d))
    }
 
-   useEffect(() => {
+   const guaranteeOnBlur = (e) => {
+      handleBlur(e)
+
       if (errors.guarantee) {
          snackbarHandler({
             message:
@@ -55,16 +57,18 @@ export const FilterCategory = ({ onOpenModalAddNewBrand, value }) => {
             type: 'error',
          })
       }
-   }, [errors.guarantee])
+   }
 
-   useEffect(() => {
+   const onBlurAndErrorSnackbar = (e) => {
+      handleBlur(e)
+
       if (errors) {
          snackbarHandler({
             message: 'Bce поле должны быть обязательно заполнены',
             type: 'error',
          })
       }
-   }, [errors])
+   }
 
    return (
       <Container>
@@ -77,7 +81,7 @@ export const FilterCategory = ({ onOpenModalAddNewBrand, value }) => {
                   values.category === undefined || null ? '' : values.category
                }
                onChange={handleChange}
-               onBlur={handleChange}
+               onBlur={(e) => onBlurAndErrorSnackbar(e)}
                name="category"
                error={Boolean(errors.category)}
                star
@@ -99,7 +103,7 @@ export const FilterCategory = ({ onOpenModalAddNewBrand, value }) => {
                selectData={categoryProduct.brand}
                star
                error={Boolean(errors.brand)}
-               onBlur={handleChange}
+               onBlur={(e) => onBlurAndErrorSnackbar(e)}
             />
 
             <BoxLabel>
@@ -112,7 +116,7 @@ export const FilterCategory = ({ onOpenModalAddNewBrand, value }) => {
                   height="2.6rem"
                   name="name"
                   value={values.name}
-                  onBlur={handleChange}
+                  onBlur={(e) => onBlurAndErrorSnackbar(e)}
                   onChange={handleChange}
                   error={Boolean(errors.name)}
                />
@@ -130,7 +134,7 @@ export const FilterCategory = ({ onOpenModalAddNewBrand, value }) => {
                }
                value={values.subcategory}
                name="subcategory"
-               onBlur={handleChange}
+               onBlur={(e) => onBlurAndErrorSnackbar(e)}
                star
                onChange={handleChange}
                error={Boolean(errors.subcategory)}
@@ -145,7 +149,7 @@ export const FilterCategory = ({ onOpenModalAddNewBrand, value }) => {
                   placeholder="Введите гарантию товара"
                   width="24.75rem"
                   height="2.6rem"
-                  onBlur={handleBlur}
+                  onBlur={(e) => guaranteeOnBlur(e)}
                   min={1}
                   max={3}
                   value={values.guarantee}

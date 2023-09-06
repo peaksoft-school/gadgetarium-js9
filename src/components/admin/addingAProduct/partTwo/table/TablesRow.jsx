@@ -58,12 +58,16 @@ export const TablesRow = ({
       dispatch(addAndEditQuantity({ id: row.id, quantity: values.quantity }))
    }
 
+   const color = row.codeColor === '#FFFFFF' ? '#000' : row.codeColor
+
    return (
       <TableRowStyle hover role="checkbox" tabIndex={-1} key={row.id}>
          <TableCellStyle width="5.4vw" sx={{ paddingLeft: '1.25rem' }}>
             {rows.brand}
          </TableCellStyle>
-         <TableCellStyle width="8vw">{row.codeColor}</TableCellStyle>
+         <TableCellStyle color={color} width="8vw">
+            {row.codeColor}
+         </TableCellStyle>
          {row.rom && <TableCellStyle width="10vw">{row.rom}ГБ</TableCellStyle>}
          {rows.category !== 'Планшеты' && row.screenSize && (
             <TableCellStyle width="10vw">{row.screenSize}</TableCellStyle>
@@ -136,10 +140,10 @@ const TableRowStyle = styled(TableRow)(({ theme }) => ({
    width: '79.688vw',
 }))
 
-const TableCellStyle = styled(TableCell)(({ theme, width }) => ({
+const TableCellStyle = styled(TableCell)(({ theme, width, color }) => ({
    fontFamily: theme.typography.mainFontFamily,
    fontSize: '1rem',
-   color: '#292929',
+   color: color || '#292929',
    height: '4.625rem',
    padding: '0',
    width,
