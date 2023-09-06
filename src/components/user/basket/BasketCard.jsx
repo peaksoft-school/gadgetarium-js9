@@ -16,7 +16,7 @@ export const BasketCard = ({
    articleNumber,
    price,
    isChecked,
-   //    theNumberOfOrders,
+   theNumberOfOrders,
 }) => {
    const dispatch = useDispatch()
    return (
@@ -42,7 +42,7 @@ export const BasketCard = ({
                      <ToolButton>
                         <Remove />
                      </ToolButton>
-                     <Count>1</Count>
+                     <Count>{theNumberOfOrders}</Count>
                      <ToolButton>
                         <Add />
                      </ToolButton>

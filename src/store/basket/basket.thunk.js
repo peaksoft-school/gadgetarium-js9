@@ -1,8 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import {
+   deleteAllBasketGoodsRequest,
    getBasketRequest,
    postBasketByIdRequest,
 } from '../../api/basket.service'
+import { addAllFavoriteGoodsRequest } from '../../api/favoriteService'
 
 export const postBasketById = createAsyncThunk(
    'basket/postBasketById',
@@ -31,6 +33,26 @@ export const getBasket = createAsyncThunk(
          return response.data
       } catch (error) {
          return rejectWithValue(error)
+      }
+   }
+)
+export const deleteAllBasketGoods = createAsyncThunk(
+   'basket/deleteAllBasketGoods',
+   async (payload, { rejectWithValue }) => {
+      try {
+         await deleteAllBasketGoodsRequest(payload)
+      } catch (error) {
+         rejectWithValue(error)
+      }
+   }
+)
+export const addAllFavoriteGoods = createAsyncThunk(
+   'basket/addAllFavoriteGoods',
+   async (payload, { rejectWithValue }) => {
+      try {
+         await addAllFavoriteGoodsRequest(payload)
+      } catch (error) {
+         rejectWithValue(error)
       }
    }
 )

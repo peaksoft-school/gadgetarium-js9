@@ -6,3 +6,6 @@ export const postBasketByIdRequest = (id) => {
 export const getBasketRequest = () => {
    return axiosInstance.get(`/v1/basket`)
 }
+export const deleteAllBasketGoodsRequest = (basketArray) => {
+   return axiosInstance.delete(`/v1/basket`, { data: basketArray })
+}

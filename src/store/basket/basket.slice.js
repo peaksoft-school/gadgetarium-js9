@@ -6,6 +6,7 @@ const initialState = {
    basketResponses: [],
    isLoading: false,
    isCheckedAll: false,
+   basketIdsArray: [],
 }
 
 export const basketSlice = createSlice({
@@ -15,12 +16,43 @@ export const basketSlice = createSlice({
       checkedHandler: (state, action) => {
          const updatedBasketResponses = state.basketResponses.map((el) => {
             if (el.subProductId === action.payload) {
-               state.isCheckedAll = !state.isCheckedAll
                return { ...el, isChecked: !el.isChecked }
             }
             return el
          })
          state.basketResponses = updatedBasketResponses
+      },
+      changeCheckedAll: (state) => {
+         const array = []
+         state.basketResponses.map((el) => {
+            if (el.isChecked) {
+               array.push(el.isChecked)
+            }
+            return el
+         })
+         if (array.length > 0) {
+            return { ...state, isCheckedAll: true }
+         }
+         if (array.length === 0) {
+            return { ...state, isCheckedAll: false }
+         }
+         return state
+      },
+      cancelEverything: (state) => {
+         const updatedBasketResponses = state.basketResponses.map((el) => {
+            return { ...el, isChecked: false }
+         })
+         state.basketResponses = updatedBasketResponses
+      },
+      onChangeBasketChecked: (state) => {
+         const basketArray = []
+         state.basketResponses.map((el) => {
+            if (el.isChecked === true) {
+               basketArray.push(el.isChecked)
+            }
+            return el
+         })
+         state.basketIdsArray = basketArray
       },
    },
    extraReducers: (builder) => {

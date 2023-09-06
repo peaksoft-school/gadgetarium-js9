@@ -6,17 +6,47 @@ import { ReactComponent as DeleteButton } from '../../../assets/icons/tools-for-
 import { ReactComponent as FavoriteButton } from '../../../assets/icons/favourites-icon.svg'
 import { BasketCard } from './BasketCard'
 import { Button } from '../../UI/Button'
-import { getBasket } from '../../../store/basket/basket.thunk'
+import {
+   addAllFavoriteGoods,
+   deleteAllBasketGoods,
+   getBasket,
+} from '../../../store/basket/basket.thunk'
+import { basketActions } from '../../../store/basket/basket.slice'
+import { useSnackbar } from '../../../hooks/useSnackbar'
 
 export const Basket = () => {
    const dispatch = useDispatch()
-   const { basket, basketResponses, isCheckedAll } = useSelector(
-      (state) => state.basket
-   )
+   const { basket, basketResponses, isCheckedAll, basketIdsArray } =
+      useSelector((state) => state.basket)
+   const { snackbarHandler } = useSnackbar()
    useEffect(() => {
       dispatch(getBasket())
    }, [])
-
+   useEffect(() => {
+      dispatch(basketActions.changeCheckedAll())
+      dispatch(basketActions.onChangeBasketChecked())
+   }, [basketResponses])
+   const deleteAllHandler = () => {
+      if (basketIdsArray.length === 0) {
+         snackbarHandler({
+            type: 'error',
+            message: 'Выберите товар чтобы удалить!',
+         })
+      } else {
+         dispatch(deleteAllBasketGoods(basketIdsArray))
+      }
+   }
+   const addFavoriteAllHandler = () => {
+      console.log('hi')
+      if (basketIdsArray.length === 0) {
+         snackbarHandler({
+            type: 'error',
+            message: 'Выберите товар чтобы добавить в избранное!',
+         })
+      } else {
+         dispatch(addAllFavoriteGoods(basketIdsArray))
+      }
+   }
    return (
       <Container>
          <WidthContaniner>
@@ -25,16 +55,21 @@ export const Basket = () => {
                <ToolContainer>
                   {isCheckedAll && (
                      <Tools>
-                        <StyledCheckboxInput isChecked={isCheckedAll} />
+                        <StyledCheckboxInput
+                           isChecked={isCheckedAll}
+                           onClick={() =>
+                              dispatch(basketActions.cancelEverything())
+                           }
+                        />
                         Отменить все
                      </Tools>
                   )}
 
-                  <Tools>
+                  <Tools onClick={deleteAllHandler}>
                      <StyledDeleteButton />
                      Удалить
                   </Tools>
-                  <Tools>
+                  <Tools onClick={addFavoriteAllHandler}>
                      <StyledFavoriteButton />
                      Переместить в избранное
                   </Tools>
@@ -119,6 +154,7 @@ const ToolContainer = styled('div')`
    gap: 1.667vw;
    align-items: center;
    margin-bottom: 1.406vw;
+   height: 1.6667vh;
 `
 const Tools = styled('p')`
    color: #292929;
@@ -170,9 +206,14 @@ const StyledFavoriteButton = styled(FavoriteButton)`
       stroke: #909cb5;
    }
 `
-const Products = styled('div')``
+const Products = styled('div')`
+   display: flex;
+   flex-direction: column;
+   gap: 1.8519vh;
+`
 const ProductsAndToolContainer = styled('div')`
    display: flex;
+   align-items: flex-start;
    width: 100%;
    justify-content: space-between;
 `
