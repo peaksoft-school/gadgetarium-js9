@@ -23,7 +23,7 @@ export const TablesRow = ({
    changeBooleanValue,
 }) => {
    const dispatch = useDispatch()
-   const { values, handleChange, setFieldValue } = useFormik({
+   const { values, setFieldValue } = useFormik({
       initialValues: {
          price: row.price,
          quantity: row.quantity,
@@ -32,6 +32,14 @@ export const TablesRow = ({
       validateOnBlur: true,
       validationSchema: schema,
    })
+
+   const handleChangeNoMinus = (e) => {
+      const newValue = e.target.value
+
+      if (!Number.isNaN(newValue) && newValue >= 0) {
+         setFieldValue(e.target.name, newValue)
+      }
+   }
 
    useEffect(() => {
       const dataRow = {
@@ -51,11 +59,11 @@ export const TablesRow = ({
    }, [row, changeBooleanValue])
 
    const onAddAndEditPriceHandler = () => {
-      dispatch(addAndEditPrice({ id: row.id, price: values.price }))
+      dispatch(addAndEditPrice({ id: row.id, price: +values.price }))
    }
 
    const onAddAndEditQuantityHandler = () => {
-      dispatch(addAndEditQuantity({ id: row.id, quantity: values.quantity }))
+      dispatch(addAndEditQuantity({ id: row.id, quantity: +values.quantity }))
    }
 
    const color = row.codeColor === '#FFFFFF' ? '#000' : row.codeColor
@@ -103,7 +111,7 @@ export const TablesRow = ({
                   borderradius="0"
                   fontSize="1rem"
                   type="number"
-                  onChange={handleChange}
+                  onChange={handleChangeNoMinus}
                   onFocus={onChangeBooleanValueQuantity}
                   value={values.quantity}
                   name="quantity"
@@ -120,7 +128,7 @@ export const TablesRow = ({
                   borderradius="0 6px 6px 0"
                   value={values.price}
                   name="price"
-                  onChange={handleChange}
+                  onChange={handleChangeNoMinus}
                   fontSize="1rem"
                   type="number"
                   background="#cb11ab19"

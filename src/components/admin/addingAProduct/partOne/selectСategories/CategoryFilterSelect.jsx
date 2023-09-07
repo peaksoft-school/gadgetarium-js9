@@ -1,138 +1,134 @@
-import {
-   FormControl,
-   MenuItem,
-   Select,
-   styled,
-   InputLabel,
-} from '@mui/material'
-import { memo, useState } from 'react'
+import { FormControl, MenuItem, Select, styled } from '@mui/material'
+import { useState } from 'react'
 
-export const CategoryFilterSelect = memo(
-   ({
-      star = false,
-      label,
-      title,
-      selectData,
-      newBrand,
-      onOpenModalAddNewBrand,
-      onChange,
-      value,
-      name,
-      onBlur,
-      error,
-      image = false,
-   }) => {
-      const [isFocused, setIsFocused] = useState(false)
+export const CategoryFilterSelect = ({
+   star = false,
+   label,
+   title,
+   selectData,
+   newBrand,
+   onOpenModalAddNewBrand,
+   onChange,
+   value,
+   name,
+   onBlur,
+   error,
+   errorcategory,
+   image = false,
+}) => {
+   const [isFocused, setIsFocused] = useState(false)
 
-      const onSelectValue = () => {
-         onOpenModalAddNewBrand()
+   const onSelectValue = () => {
+      onOpenModalAddNewBrand()
 
-         setIsFocused(false)
-      }
-
-      const handleSelectFocus = () => {
-         setIsFocused(true)
-      }
-
-      const handleSelectBlur = (event) => {
-         setIsFocused(false)
-
-         if (onBlur) {
-            onBlur(event)
-         }
-      }
-
-      const labelFocused = value === '' ? label : ''
-
-      return (
-         <Container>
-            <BoxLabel>
-               <p>
-                  {title} <span>{star && '*'}</span>
-               </p>
-            </BoxLabel>
-
-            <div>
-               <StyledFormControl size="small">
-                  {isFocused ? null : (
-                     <InputLabelStyle>{labelFocused}</InputLabelStyle>
-                  )}
-                  {name === 'brand'
-                     ? selectData.map((item) => {
-                          return (
-                             item.name === value && (
-                                <BoxIconSelectBrand key={item.id}>
-                                   <div className="box">
-                                      <img src={item.image} alt="images" />
-                                   </div>
-                                </BoxIconSelectBrand>
-                             )
-                          )
-                       })
-                     : null}
-                  <SelectStyle
-                     name={name}
-                     value={value !== undefined ? value : ''}
-                     onChange={onChange}
-                     image={image === true ? 'true' : 'false'}
-                     onFocus={handleSelectFocus}
-                     onBlur={(event) => handleSelectBlur(event)}
-                     renderValue={(selected) => selected || label}
-                     error={error}
-                     MenuProps={{
-                        PaperProps: {
-                           style: {
-                              maxHeight: '17.5rem',
-                           },
-                        },
-                     }}
-                  >
-                     {selectData.map((item) => (
-                        <StyledMenuItem
-                           key={item.id}
-                           value={item.name}
-                           selected={value === item.name}
-                        >
-                           <MenuItemContent>
-                              {item.image && (
-                                 <div className="box-img">
-                                    <img
-                                       src={item.image}
-                                       alt="icon brand photos"
-                                    />
-                                 </div>
-                              )}
-                              <span>{item.name}</span>
-                           </MenuItemContent>
-                        </StyledMenuItem>
-                     ))}
-                     {newBrand && (
-                        <StyledMenuItem
-                           onClick={onSelectValue}
-                           value="addNewBrand"
-                        >
-                           <NewBrandContainer className={isFocused && 'hover'}>
-                              <p>
-                                 <span>+</span> Создать новый бренд
-                              </p>
-                           </NewBrandContainer>
-                        </StyledMenuItem>
-                     )}
-                  </SelectStyle>
-               </StyledFormControl>
-            </div>
-         </Container>
-      )
+      setIsFocused(false)
    }
-)
 
-const InputLabelStyle = styled(InputLabel)(({ theme }) => ({
-   color: theme.palette.secondary.contrastname,
-}))
+   const handleSelectFocus = () => {
+      setIsFocused(true)
+   }
 
-const SelectStyle = styled(Select)(({ image }) => ({
-   paddingLeft: image === 'true' ? '26px' : '',
-}))
+   const handleSelectBlur = (event) => {
+      setIsFocused(false)
+
+      if (onBlur) {
+         onBlur(event)
+      }
+   }
+
+   const selectValue = value !== undefined ? value : ''
+
+   const labelFocused = value === '' ? label : selectValue
+
+   const labelblur = value === ''
+
+   return (
+      <Container>
+         <BoxLabel>
+            <p>
+               {title} <span>{star && '*'}</span>
+            </p>
+         </BoxLabel>
+
+         <div>
+            <StyledFormControl size="small">
+               {name === 'brand'
+                  ? selectData.map((item) => {
+                       return (
+                          item.name === value && (
+                             <BoxIconSelectBrand key={item.id}>
+                                <div className="box">
+                                   <img src={item.image} alt="images" />
+                                </div>
+                             </BoxIconSelectBrand>
+                          )
+                       )
+                    })
+                  : null}
+               <SelectStyle
+                  name={name}
+                  value={selectValue === '' ? labelFocused : selectValue}
+                  onChange={onChange}
+                  image={image === true ? 'true' : 'false'}
+                  onFocus={handleSelectFocus}
+                  onBlur={(event) => handleSelectBlur(event)}
+                  renderValue={(selected) => selected || label}
+                  error={errorcategory === 'true' ? error : false}
+                  labelblur={labelblur ? 'true' : 'false'}
+                  MenuProps={{
+                     PaperProps: {
+                        style: {
+                           maxHeight: '17.5rem',
+                        },
+                     },
+                  }}
+               >
+                  {selectData.map((item) => (
+                     <StyledMenuItem
+                        key={item.id}
+                        value={item.name}
+                        selected={value === item.name}
+                     >
+                        <MenuItemContent>
+                           {item.image && (
+                              <div className="box-img">
+                                 <img
+                                    src={item.image}
+                                    alt="icon brand photos"
+                                 />
+                              </div>
+                           )}
+                           <span>{item.name}</span>
+                        </MenuItemContent>
+                     </StyledMenuItem>
+                  ))}
+                  {newBrand && (
+                     <StyledMenuItem
+                        onClick={onSelectValue}
+                        value="addNewBrand"
+                     >
+                        <NewBrandContainer className={isFocused && 'hover'}>
+                           <p>
+                              <span>+</span> Создать новый бренд
+                           </p>
+                        </NewBrandContainer>
+                     </StyledMenuItem>
+                  )}
+               </SelectStyle>
+            </StyledFormControl>
+         </div>
+      </Container>
+   )
+}
+
+const SelectStyle = styled(Select)(({ image, labelblur }) => {
+   const labelbLurfalse = image === 'true' ? '26px' : ''
+
+   return {
+      paddingLeft: labelblur === 'true' ? '0px' : labelbLurfalse,
+      color: labelblur === 'true' ? '#91969E' : '',
+   }
+})
 
 const StyledFormControl = styled(FormControl)(() => ({
    minWidth: '24.75rem',

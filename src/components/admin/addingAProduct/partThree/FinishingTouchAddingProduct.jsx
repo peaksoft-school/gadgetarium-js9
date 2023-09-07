@@ -2,6 +2,7 @@ import { InputAdornment, TextField, styled } from '@mui/material'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import { useNavigate } from 'react-router-dom'
+import { memo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { HeaderAddingAProduct } from '../HeaderAddingAProduct'
 import { InputPDF } from './inputAddProductPartThree/InputPDF'
@@ -17,10 +18,11 @@ const schema = Yup.object().shape({
    description: Yup.string().required('Обязательное поле'),
 })
 
-export const FinishingTouchAddingProduct = () => {
+export const FinishingTouchAddingProduct = memo(() => {
    const dispatch = useDispatch()
    const { snackbarHandler } = useSnackbar()
    const { newProduct } = useSelector((state) => state.addProduct)
+   console.log('newProduct: ', newProduct)
    const navigate = useNavigate()
 
    const formik = useFormik({
@@ -131,7 +133,9 @@ export const FinishingTouchAddingProduct = () => {
          </ContainerInput>
       </Container>
    )
-}
+})
+
+FinishingTouchAddingProduct.displayName = 'FinishingTouchAddingProduct'
 
 const Container = styled('div')`
    margin-left: 6.25rem;

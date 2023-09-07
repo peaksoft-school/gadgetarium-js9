@@ -1,7 +1,6 @@
 import { TableCell, TableHead, TableRow, styled } from '@mui/material'
-import { memo } from 'react'
 
-export const TablesHeadPartTwo = memo(({ subProduct }) => {
+export const TablesHeadPartTwo = ({ subProduct }) => {
    return (
       <TableHead sx={{ marginBottom: '10px' }}>
          <TableRow sx={{ display: 'flex' }}>
@@ -45,7 +44,7 @@ export const TablesHeadPartTwo = memo(({ subProduct }) => {
          </TableRow>
       </TableHead>
    )
-})
+}
 
 const TableCellStyle = styled(TableCell)(({ theme, width }) => ({
    backgroundColor: '#384255e5',

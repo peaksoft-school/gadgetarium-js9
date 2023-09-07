@@ -1,142 +1,144 @@
 import { styled } from '@mui/material'
-import { memo } from 'react'
 import { ReactComponent as AddPhotoIcon } from '../../../../../assets/icons/photo-add/add-photo-icon.svg'
 import { ReactComponent as DeleteItem } from '../../../../../assets/icons/tools-for-site/delete-icon.svg'
 
-export const StateAfterAddingOnePhoto = memo(
-   ({ deleteHandler, handleFileChange, containerImg, handleDrop }) => {
-      return (
-         <ContainerPhotoAndAddNewPhoto containerImg={containerImg.length}>
-            <div
-               className={`box box${
-                  containerImg.length === 3
-                     ? '-length-three-true'
-                     : '-length-three-false'
-               }`}
-            >
-               <ContainerPhoto>
-                  {containerImg.length === 10 ? null : (
-                     <Label
-                        containerImg={containerImg.length}
-                        onDragOver={(e) => e.preventDefault()}
-                        onDragEnter={(e) => e.preventDefault()}
-                        onDragLeave={(e) => e.preventDefault()}
-                        onDrop={handleDrop}
-                     >
-                        <input
-                           type="file"
-                           accept="image/*"
-                           multiple
-                           onChange={handleFileChange}
-                        />
+export const StateAfterAddingOnePhoto = ({
+   deleteHandler,
+   handleFileChange,
+   containerImg,
+   handleDrop,
+}) => {
+   return (
+      <ContainerPhotoAndAddNewPhoto containerImg={containerImg.length}>
+         <div
+            className={`box box${
+               containerImg.length === 3
+                  ? '-length-three-true'
+                  : '-length-three-false'
+            }`}
+         >
+            <ContainerPhoto>
+               {containerImg.length === 10 ? null : (
+                  <Label
+                     containerImg={containerImg.length}
+                     onDragOver={(e) => e.preventDefault()}
+                     onDragEnter={(e) => e.preventDefault()}
+                     onDragLeave={(e) => e.preventDefault()}
+                     onDrop={handleDrop}
+                  >
+                     <input
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        onChange={handleFileChange}
+                     />
 
-                        <BoxLabelContent>
-                           <StyledAddPhotoIcon />
-                           <span>Добавить фото</span>
-                        </BoxLabelContent>
-                     </Label>
-                  )}
-                  {containerImg.length >= 4 && (
-                     <SecondContainerForImg>
-                        {containerImg.map((item, index) => {
-                           if (
-                              (containerImg.length === 4 && index >= 2) ||
-                              (containerImg.length === 5 && index >= 3) ||
-                              (containerImg.length === 7 && index >= 6) ||
-                              (containerImg.length === 8 && index >= 6) ||
-                              (containerImg.length >= 9 && index >= 8) ||
-                              (containerImg.length === 10 && index >= 9)
-                           ) {
-                              return (
-                                 <BoxPhoto
-                                    containerImg={containerImg.length}
-                                    index={index}
-                                    key={item.id}
-                                    sx={{
-                                       width:
-                                          containerImg.length === 7 ||
-                                          containerImg.length === 10 ||
-                                          containerImg.length === 9
-                                             ? '10.7rem'
-                                             : '6.90025rem',
-                                    }}
-                                 >
-                                    <ImageContainer
-                                       className="img-wrapper"
-                                       image={item.img}
-                                    >
-                                       <DeleteContainer
-                                          onClick={() => deleteHandler(item.id)}
-                                       >
-                                          <StyledDeleteIcon />
-                                       </DeleteContainer>
-                                    </ImageContainer>
-                                 </BoxPhoto>
-                              )
-                           }
-                           return null
-                        })}
-                     </SecondContainerForImg>
-                  )}
-               </ContainerPhoto>
-               <FirstContainerForImg containerImg={containerImg.length}>
-                  {containerImg
-                     .slice()
-                     .reverse()
-                     .map((item, index) => {
+                     <BoxLabelContent>
+                        <StyledAddPhotoIcon />
+                        <span>Добавить фото</span>
+                     </BoxLabelContent>
+                  </Label>
+               )}
+               {containerImg.length >= 4 && (
+                  <SecondContainerForImg>
+                     {containerImg.map((item, index) => {
                         if (
-                           containerImg.length === 4 &&
-                           (index === 0 || index === 1)
+                           (containerImg.length === 4 && index >= 2) ||
+                           (containerImg.length === 5 && index >= 3) ||
+                           (containerImg.length === 7 && index >= 6) ||
+                           (containerImg.length === 8 && index >= 6) ||
+                           (containerImg.length >= 9 && index >= 8) ||
+                           (containerImg.length === 10 && index >= 9)
                         ) {
-                           return null
-                        }
-                        if (
-                           containerImg.length === 5 &&
-                           (index === 0 || index === 1)
-                        ) {
-                           return null
-                        }
-                        if (
-                           (containerImg.length === 7 && index === 0) ||
-                           (containerImg.length === 8 &&
-                              (index === 0 || index === 1))
-                        ) {
-                           return null
-                        }
-                        if (containerImg.length === 9 && index === 0) {
-                           return null
-                        }
-                        if (
-                           (containerImg.length === 10 && index === 0) ||
-                           (containerImg.length === 10 && index === 1)
-                        ) {
-                           return null
-                        }
-                        return (
-                           <BoxPhoto
-                              containerImg={containerImg.length}
-                              index={index}
-                              key={item.id}
-                           >
-                              <ImageContainer
-                                 className="img-wrapper"
-                                 image={item.img}
+                           return (
+                              <BoxPhoto
+                                 containerImg={containerImg.length}
+                                 index={index}
+                                 key={item.id}
+                                 sx={{
+                                    width:
+                                       containerImg.length === 7 ||
+                                       containerImg.length === 10 ||
+                                       containerImg.length === 9
+                                          ? '10.7rem'
+                                          : '6.90025rem',
+                                 }}
                               >
-                                 <DeleteContainer
-                                    onClick={() => deleteHandler(item.id)}
+                                 <ImageContainer
+                                    className="img-wrapper"
+                                    image={item.img}
                                  >
-                                    <StyledDeleteIcon />
-                                 </DeleteContainer>
-                              </ImageContainer>
-                           </BoxPhoto>
-                        )
+                                    <DeleteContainer
+                                       onClick={() => deleteHandler(item.id)}
+                                    >
+                                       <StyledDeleteIcon />
+                                    </DeleteContainer>
+                                 </ImageContainer>
+                              </BoxPhoto>
+                           )
+                        }
+                        return null
                      })}
-               </FirstContainerForImg>
-            </div>
-         </ContainerPhotoAndAddNewPhoto>
-      )
-   }
-)
+                  </SecondContainerForImg>
+               )}
+            </ContainerPhoto>
+            <FirstContainerForImg containerImg={containerImg.length}>
+               {containerImg
+                  .slice()
+                  .reverse()
+                  .map((item, index) => {
+                     if (
+                        containerImg.length === 4 &&
+                        (index === 0 || index === 1)
+                     ) {
+                        return null
+                     }
+                     if (
+                        containerImg.length === 5 &&
+                        (index === 0 || index === 1)
+                     ) {
+                        return null
+                     }
+                     if (
+                        (containerImg.length === 7 && index === 0) ||
+                        (containerImg.length === 8 &&
+                           (index === 0 || index === 1))
+                     ) {
+                        return null
+                     }
+                     if (containerImg.length === 9 && index === 0) {
+                        return null
+                     }
+                     if (
+                        (containerImg.length === 10 && index === 0) ||
+                        (containerImg.length === 10 && index === 1)
+                     ) {
+                        return null
+                     }
+                     return (
+                        <BoxPhoto
+                           containerImg={containerImg.length}
+                           index={index}
+                           key={item.id}
+                        >
+                           <ImageContainer
+                              className="img-wrapper"
+                              image={item.img}
+                           >
+                              <DeleteContainer
+                                 onClick={() => deleteHandler(item.id)}
+                              >
+                                 <StyledDeleteIcon />
+                              </DeleteContainer>
+                           </ImageContainer>
+                        </BoxPhoto>
+                     )
+                  })}
+            </FirstContainerForImg>
+         </div>
+      </ContainerPhotoAndAddNewPhoto>
+   )
+}
 
 const widthNestForLabel = (containerImg) => {
    if ([3, 6].includes(containerImg)) {
