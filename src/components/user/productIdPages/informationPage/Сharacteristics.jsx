@@ -21,6 +21,7 @@ export const Сharacteristics = () => {
             </AccordionSummary>
             <AccordionDetails>
                <Typography>
+                  mklmlmlk
                   {category === 'Laptop' && 'Phone' ? (
                      <TypographyBlock>
                         <div>
@@ -129,4 +130,5 @@ const ArrowStyle = styled(Arrow)`
    .my-circle {
       fill: none;
    }
+   transform: rotate(-90deg);
 `

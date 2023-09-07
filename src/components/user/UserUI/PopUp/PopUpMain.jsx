@@ -76,24 +76,43 @@ const CarouselStyle = styled(Carousel)(({ theme }) => ({
    },
 }))
 
+// const ButtonBlock = styled('div')`
+//    display: flex;
+//    justify-content: center;
+//    position: relative;
+//    top: 28rem;
+// `
+// const LeftBtn = styled(ArrowLeft)`
+//    position: relative;
+//    z-index: 2;
+//    right: 8rem;
+//    width: 1.8525rem;
+//    height: 1.8525rem;
+//    cursor: pointer;
+// `
+// const RightBtn = styled(ArrowRight)`
+//    position: relative;
+//    z-index: 2;
+//    left: 8rem;
+//    width: 1.8525rem;
+//    height: 1.8525rem;
+//    cursor: pointer;
+// `
 const ButtonBlock = styled('div')`
    display: flex;
-   justify-content: center;
-   position: relative;
-   top: 28rem;
+   width: 100px;
+   height: 200px;
+   justify-content: space-between;
+   align-items: flex-end;
 `
 const LeftBtn = styled(ArrowLeft)`
-   position: relative;
    z-index: 2;
-   right: 8rem;
    width: 1.8525rem;
    height: 1.8525rem;
    cursor: pointer;
 `
 const RightBtn = styled(ArrowRight)`
-   position: relative;
    z-index: 2;
-   left: 8rem;
    width: 1.8525rem;
    height: 1.8525rem;
    cursor: pointer;
