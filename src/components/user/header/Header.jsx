@@ -97,13 +97,19 @@ export const Header = ({ favorite, comparison, basket }) => {
                               <div style={{ position: 'relative' }}>
                                  <Select2>
                                     <NavLinkBlock>
-                                       <NavLinkParagraph to="/personalArea/history">
+                                       <NavLinkParagraph
+                                          onClick={openSelect}
+                                          to="/personalArea/history"
+                                       >
                                           История заказов
                                        </NavLinkParagraph>
-                                       <NavLinkParagraph to="/personalArea/favorites">
+                                       <NavLinkParagraph
+                                          onClick={openSelect}
+                                          to="/personalArea/favorites"
+                                       >
                                           Избранное
                                        </NavLinkParagraph>
-                                       <NavLinkParagraph>
+                                       <NavLinkParagraph onClick={openSelect}>
                                           Профиль
                                        </NavLinkParagraph>
                                        <div onClick={logOutHandler}>
@@ -598,7 +604,7 @@ const Select = styled('div')`
    background: #fff;
    box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.1);
    z-index: 99999;
-   top: 1.5rem;
+   top: 1.3rem;
    right: 1rem;
    animation: fadeInOut 0.4s ease-in-out;
 
@@ -637,7 +643,7 @@ const SelectParagraph2 = styled(Link)`
 `
 const Select2 = styled('div')`
    position: absolute;
-   top: 1.5rem;
+   top: 1.4rem;
    right: 1rem;
    width: 11.5rem;
    height: 10.25rem;
