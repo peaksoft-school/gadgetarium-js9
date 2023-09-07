@@ -1,5 +1,5 @@
 import { styled } from '@mui/material'
-import { memo, useState } from 'react'
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { dataProductTablets } from '../../../../../utils/common/constants/constantsAdminAddNewProduct'
 import { QuantityOfProducts } from '../QuantityOfProducts'
@@ -14,7 +14,7 @@ import {
    onChangeSubProduct,
 } from '../../../../../store/addProduct/addProductPartOne.slice'
 
-export const TabletsOptions = memo(() => {
+export const TabletsOptions = ({ errorCategory }) => {
    const dispatch = useDispatch()
    const [productNum, setProductNum] = useState(0)
    const { productTablets, newProduct } = useSelector(
@@ -72,9 +72,16 @@ export const TabletsOptions = memo(() => {
                <InputColorPalette
                   productColor={addColorProductTablets}
                   stateColor={newProductFilterData.codeColor}
+                  error={
+                     errorCategory === true
+                        ? newProductFilterData.codeColor === ''
+                        : false
+                  }
                />
 
                <CategoryFilterSelect
+                  error={newProductFilterData.screenResolution === ''}
+                  errorcategory={errorCategory ? 'true' : 'false'}
                   title="Разрешение экрана"
                   label="Выберите разрешение экрана"
                   selectData={dataProductTablets.screenResolutionTablets}
@@ -84,6 +91,8 @@ export const TabletsOptions = memo(() => {
                />
 
                <CategoryFilterSelect
+                  error={newProductFilterData.screenSize === ''}
+                  errorcategory={errorCategory ? 'true' : 'false'}
                   title="Размер экрана (дюйм)"
                   label="Выберите размер экрана"
                   selectData={dataProductTablets.screenSizeTablets}
@@ -93,6 +102,8 @@ export const TabletsOptions = memo(() => {
                />
 
                <CategoryFilterSelect
+                  error={newProductFilterData.rom === ''}
+                  errorcategory={errorCategory ? 'true' : 'false'}
                   title="Объем памяти (GB)"
                   label="Выберите объем памяти"
                   selectData={dataProductTablets.romTablets}
@@ -102,6 +113,8 @@ export const TabletsOptions = memo(() => {
                />
 
                <CategoryFilterSelect
+                  error={newProductFilterData.ram === ''}
+                  errorcategory={errorCategory ? 'true' : 'false'}
                   title="Объем оперативной памяти (GB)"
                   label="Выберите объем оперативной памяти"
                   selectData={dataProductTablets.ramTablets}
@@ -111,6 +124,8 @@ export const TabletsOptions = memo(() => {
                />
 
                <CategoryFilterSelect
+                  error={newProductFilterData.diagonalScreen === ''}
+                  errorcategory={errorCategory ? 'true' : 'false'}
                   title="Диагональ экрана (дюйм)"
                   label="Выберите диагональ экрана"
                   selectData={dataProductTablets.screenDiagonalTablets}
@@ -120,6 +135,8 @@ export const TabletsOptions = memo(() => {
                />
 
                <CategoryFilterSelect
+                  error={newProductFilterData.batteryCapacity === ''}
+                  errorcategory={errorCategory ? 'true' : 'false'}
                   title="Емкость аккумулятора планшета, мА/ч"
                   label="Выберите емкость аккумулятора"
                   selectData={dataProductTablets.batteryCapacity}
@@ -131,12 +148,13 @@ export const TabletsOptions = memo(() => {
                <AddPhotoGadgets
                   onPhotoCollector={onAddPhotoTablets}
                   photoStateData={newProductFilterData.images}
+                  errorcategory={errorCategory ? 'true' : 'false'}
                />
             </Container>
          ) : null}
       </div>
    )
-})
+}
 
 const Container = styled('div')`
    display: flex;

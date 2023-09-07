@@ -1,4 +1,4 @@
-import { memo, useState } from 'react'
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { styled } from '@mui/material'
 import { dataProductSmartphones } from '../../../../../utils/common/constants/constantsAdminAddNewProduct'
@@ -15,7 +15,7 @@ import {
    onChangeSubProduct,
 } from '../../../../../store/addProduct/addProductPartOne.slice'
 
-export const SmartphoneAdvancedOptions = memo(() => {
+export const SmartphoneAdvancedOptions = ({ errorCategory }) => {
    const dispatch = useDispatch()
    const [productNum, setProductNum] = useState(0)
    const { productSmartphone, newProduct } = useSelector(
@@ -71,9 +71,16 @@ export const SmartphoneAdvancedOptions = memo(() => {
                <InputColorPalette
                   productColor={addColorProductSmartphone}
                   stateColor={newProductFilterData.codeColor}
+                  error={
+                     errorCategory === true
+                        ? newProductFilterData.codeColor === ''
+                        : false
+                  }
                />
 
                <CategoryFilterSelect
+                  error={newProductFilterData.rom === ''}
+                  errorcategory={errorCategory ? 'true' : 'false'}
                   title="Объем памяти"
                   label="Выберите объем памяти"
                   selectData={dataProductSmartphones.romSmartphones}
@@ -83,6 +90,8 @@ export const SmartphoneAdvancedOptions = memo(() => {
                />
 
                <CategoryFilterSelect
+                  error={newProductFilterData.ram === ''}
+                  errorcategory={errorCategory ? 'true' : 'false'}
                   title="Оперативная память"
                   label="Выберите оперативную память"
                   selectData={dataProductSmartphones.smartphonesRAM}
@@ -92,6 +101,8 @@ export const SmartphoneAdvancedOptions = memo(() => {
                />
 
                <CategoryFilterSelect
+                  error={newProductFilterData.sim === ''}
+                  errorcategory={errorCategory ? 'true' : 'false'}
                   title="Кол-во SIM-карт"
                   label="Выберите SIM-карты"
                   selectData={dataProductSmartphones.smartphonesSIMcards}
@@ -103,12 +114,13 @@ export const SmartphoneAdvancedOptions = memo(() => {
                <AddPhotoGadgets
                   onPhotoCollector={onAddPhotoSmartphone}
                   photoStateData={newProductFilterData.images}
+                  errorcategory={errorCategory ? 'true' : 'false'}
                />
             </Container>
          ) : null}
       </div>
    )
-})
+}
 
 const Container = styled('div')`
    display: flex;

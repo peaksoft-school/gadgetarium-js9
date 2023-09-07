@@ -44,6 +44,8 @@ const PhotoUploader = memo(() => {
    )
 })
 
+PhotoUploader.displayName = 'PhotoUploader'
+
 export default PhotoUploader
 
 const BoxAddImg = styled('div')(() => ({

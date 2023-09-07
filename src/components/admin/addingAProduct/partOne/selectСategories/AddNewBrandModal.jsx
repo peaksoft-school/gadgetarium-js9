@@ -1,11 +1,10 @@
 import { styled } from '@mui/material'
-import { memo } from 'react'
 import { Modal } from '../../../../UI/Modal'
 import { InputUi } from '../../../../UI/Input'
 import { Button } from '../../../../UI/Button'
 import PhotoUploader from './PhotoUploader'
 
-export const AddNewBrandModal = memo(({ openModalAddNewBrand, onClose }) => {
+export const AddNewBrandModal = ({ openModalAddNewBrand, onClose }) => {
    return (
       <Modal
          open={openModalAddNewBrand.has('AddingAProduct')}
@@ -51,7 +50,7 @@ export const AddNewBrandModal = memo(({ openModalAddNewBrand, onClose }) => {
          </Container>
       </Modal>
    )
-})
+}
 
 const Container = styled('div')`
    display: flex;

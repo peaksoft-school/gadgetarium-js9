@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, memo } from 'react'
 import { styled } from '@mui/material'
 import * as Yup from 'yup'
 import { useDispatch, useSelector } from 'react-redux'
@@ -18,11 +18,10 @@ const schema = Yup.object().shape({
    quantity: Yup.number().required('Обязательное поле'),
 })
 
-export const QuantityOfGoodsAndPrice = () => {
+export const QuantityOfGoodsAndPrice = memo(() => {
    const dispatch = useDispatch()
    const { newProduct } = useSelector((state) => state.addProduct)
-
-   const [changeBooleanValue, setChangeBooleanValue] = useState(true)
+   const [changeBooleanValue, setChangeBooleanValue] = useState(false)
    const navigate = useNavigate()
 
    const title = changeBooleanValue ? 'Общая цена' : 'Общая количество'
@@ -30,8 +29,8 @@ export const QuantityOfGoodsAndPrice = () => {
    const onCollectorPriceAndQuantity = (values) => {
       dispatch(
          addAllPriceAndQuantity({
-            price: values.price,
-            quantity: values.quantity,
+            price: +values.price,
+            quantity: +values.quantity,
          })
       )
    }
@@ -44,17 +43,23 @@ export const QuantityOfGoodsAndPrice = () => {
       setChangeBooleanValue(false)
    }
 
-   const { values, handleChange, handleBlur, handleSubmit, errors } = useFormik(
-      {
-         initialValues: {
-            price: 0,
-            quantity: 0,
-         },
-         onSubmit: onCollectorPriceAndQuantity,
-         validateOnBlur: true,
-         validationSchema: schema,
+   const { values, handleSubmit, errors, setFieldValue } = useFormik({
+      initialValues: {
+         price: 0,
+         quantity: 0,
+      },
+      onSubmit: onCollectorPriceAndQuantity,
+      validateOnBlur: true,
+      validationSchema: schema,
+   })
+
+   const handleChangeNoMinus = (e) => {
+      const newValue = e.target.value
+
+      if (!Number.isNaN(newValue) && newValue >= 0) {
+         setFieldValue(e.target.name, newValue)
       }
-   )
+   }
 
    useEffect(() => {
       dispatch(editNewProductAndReturnNewEditDataHandler(newProduct))
@@ -64,6 +69,10 @@ export const QuantityOfGoodsAndPrice = () => {
       if (!errors.price && !errors.quantity) {
          navigate('/admin/add-products-part-3')
       }
+   }
+
+   const onClose = () => {
+      navigate('/admin/add-products-part-1')
    }
 
    return (
@@ -90,8 +99,7 @@ export const QuantityOfGoodsAndPrice = () => {
                            : values.quantity
                      }
                      name={changeBooleanValue === true ? 'price' : 'quantity'}
-                     onChange={handleChange}
-                     onBlur={handleBlur}
+                     onChange={handleChangeNoMinus}
                   />
                   <Button
                      variant="contained"
@@ -112,6 +120,15 @@ export const QuantityOfGoodsAndPrice = () => {
 
             <ContainerButton>
                <Button
+                  backgroundHover="#CB11AB"
+                  onClick={onClose}
+                  variant="outlined"
+                  fontSize="1rem"
+               >
+                  Назад
+               </Button>
+
+               <Button
                   onClick={finishedAddPriceAndQuantity}
                   padding="10px 1.5rem"
                   fontSize="1rem"
@@ -123,7 +140,7 @@ export const QuantityOfGoodsAndPrice = () => {
          </div>
       </Container>
    )
-}
+})
 
 const Container = styled('div')`
    margin-left: 6.25rem;
@@ -160,5 +177,6 @@ const FormStyle = styled('form')`
 const ContainerButton = styled('div')`
    width: 79.688vw;
    display: flex;
-   justify-content: flex-end;
+   justify-content: space-between;
+   align-items: center;
 `

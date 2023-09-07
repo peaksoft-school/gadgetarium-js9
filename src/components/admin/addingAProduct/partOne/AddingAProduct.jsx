@@ -1,7 +1,7 @@
 import { styled } from '@mui/material'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { useEffect } from 'react'
+import { useEffect, useState, memo } from 'react'
 import { HeaderAddingAProduct } from '../HeaderAddingAProduct'
 import { FilterCategory } from './selectСategories/FilterCategory'
 import { AddNewBrandModal } from './selectСategories/AddNewBrandModal'
@@ -10,12 +10,13 @@ import { Button } from '../../../UI/Button'
 import { filterCategorySubProduct } from '../../../../store/addProduct/addProductPartOne.slice'
 import { useSnackbar } from '../../../../hooks/useSnackbar'
 
-export const AddingAProduct = () => {
+export const AddingAProduct = memo(() => {
    const dispatch = useDispatch()
    const [openModalAddNewBrand, setOpenModalAddNewBrand] = useSearchParams()
    const navigate = useNavigate()
    const { newProduct } = useSelector((state) => state.addProduct)
    const { snackbarHandler } = useSnackbar()
+   const [errorCategory, setErrorCategory] = useState(false)
 
    useEffect(() => {
       if (newProduct.category) {
@@ -36,18 +37,52 @@ export const AddingAProduct = () => {
    }
 
    const onFilterFinishHandler = () => {
-      const allHaveId = newProduct.subProductRequests.every(
-         (subProduct) => subProduct.codeColor !== ''
+      const valuesArray = Object.values(newProduct)
+
+      const isEmptyOrNull = valuesArray.every(
+         (value) => value !== null && value !== ''
       )
 
-      if (allHaveId) {
+      const { subProductRequests } = newProduct
+
+      const resultValidSubProductRequests = subProductRequests.every(
+         (request) => {
+            const values = Object.values(request)
+
+            return values.every((value) => {
+               if (Array.isArray(value)) {
+                  return value.length !== 0
+               }
+
+               return value !== ''
+            })
+         }
+      )
+
+      if (
+         resultValidSubProductRequests &&
+         isEmptyOrNull &&
+         newProduct.guarantee <= 120
+      ) {
          navigate('/admin/add-products-part-2')
+      } else if (newProduct.guarantee > 120) {
+         snackbarHandler({
+            message:
+               'Гарантия (месяцев) Должно быть не более 120 месяцев или меньше',
+            type: 'error',
+         })
       } else {
          snackbarHandler({
             message: 'Bce поле должны быть обязательно заполнены',
             type: 'error',
          })
       }
+
+      setErrorCategory(true)
+   }
+
+   const onClose = () => {
+      navigate('/')
    }
 
    return (
@@ -67,13 +102,22 @@ export const AddingAProduct = () => {
             <FilterCategory
                onOpenModalAddNewBrand={onOpenModalAddNewBrand}
                value={newProduct}
+               errorCategory={errorCategory}
             />
          </div>
 
-         <div>{filterResComponent(newProduct)}</div>
+         <div>{filterResComponent(newProduct, errorCategory)}</div>
 
          {newProduct.category && newProduct.category !== '' && (
             <ContainerButton>
+               <Button
+                  backgroundHover="#CB11AB"
+                  onClick={onClose}
+                  variant="outlined"
+               >
+                  Назад
+               </Button>
+
                <Button
                   onClick={onFilterFinishHandler}
                   variant="contained"
@@ -85,7 +129,9 @@ export const AddingAProduct = () => {
          )}
       </Container>
    )
-}
+})
+
+AddingAProduct.displayName = 'AddingAProduct'
 
 const Container = styled('div')(({ theme }) => ({
    paddingLeft: '6.25rem',
@@ -94,6 +140,9 @@ const Container = styled('div')(({ theme }) => ({
 }))
 
 const ContainerButton = styled('div')`
-   margin-left: 18.6rem;
    margin-bottom: 8.38rem;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   width: 348px;
 `

@@ -1,4 +1,3 @@
-import { memo } from 'react'
 import { EditorProvider } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { styled } from '@mui/material'
@@ -9,7 +8,7 @@ const content = '<div></div>'
 
 const extensions = [StarterKit, Underline]
 
-export const InputDescription = memo(({ formik }) => {
+export const InputDescription = ({ formik }) => {
    return (
       <Container>
          <EditorProvider
@@ -19,7 +18,7 @@ export const InputDescription = memo(({ formik }) => {
          />
       </Container>
    )
-})
+}
 
 const Container = styled('div')`
    width: 45.3vw;

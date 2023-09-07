@@ -1,4 +1,4 @@
-import { memo, useState } from 'react'
+import { useState } from 'react'
 import { styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -19,7 +19,7 @@ import {
    addCodeColorSubProductRequests,
 } from '../../../../../store/addProduct/addProductPartOne.slice'
 
-export const WatchAdvancedOptions = memo(() => {
+export const WatchAdvancedOptions = ({ errorCategory }) => {
    const dispatch = useDispatch()
    const { productWatch, newProduct } = useSelector((state) => state.addProduct)
    const [productNum, setProductNum] = useState(0)
@@ -80,9 +80,16 @@ export const WatchAdvancedOptions = memo(() => {
                <InputColorPalette
                   productColor={addColorProductWatch}
                   stateColor={newProductFilterData.codeColor}
+                  error={
+                     errorCategory === true
+                        ? newProductFilterData.codeColor === ''
+                        : false
+                  }
                />
 
                <CategoryFilterSelect
+                  error={newProductFilterData.rom === ''}
+                  errorcategory={errorCategory ? 'true' : 'false'}
                   title="Объем памяти"
                   label="Выберите объем памяти"
                   selectData={dataProductWatch.rom}
@@ -92,6 +99,8 @@ export const WatchAdvancedOptions = memo(() => {
                />
 
                <CategoryFilterSelect
+                  error={newProductFilterData.materialBracelet === ''}
+                  errorcategory={errorCategory ? 'true' : 'false'}
                   title="Материал браслета/ремешка"
                   label="Выберите материал браслета/ремешка"
                   selectData={dataProductWatch.bracelet}
@@ -101,6 +110,8 @@ export const WatchAdvancedOptions = memo(() => {
                />
 
                <CategoryFilterSelect
+                  error={newProductFilterData.housingMaterial === ''}
+                  errorcategory={errorCategory ? 'true' : 'false'}
                   title="Материал корпуса"
                   label="Выберите материал корпуса"
                   selectData={dataProductWatch.housingMaterial}
@@ -110,6 +121,8 @@ export const WatchAdvancedOptions = memo(() => {
                />
 
                <CategoryFilterSelect
+                  error={newProductFilterData.display === ''}
+                  errorcategory={errorCategory ? 'true' : 'false'}
                   title="Диагональ дисплея (дюйм)"
                   label="Выберите диагональ дисплея"
                   selectData={dataProductWatch.display}
@@ -126,6 +139,11 @@ export const WatchAdvancedOptions = memo(() => {
                   value={newProductFilterData.gender}
                   productRadioText="gender"
                   label="Пол"
+                  error={
+                     errorCategory === true
+                        ? newProductFilterData.gender === ''
+                        : false
+                  }
                />
 
                <RadioInput
@@ -136,6 +154,11 @@ export const WatchAdvancedOptions = memo(() => {
                   value={newProductFilterData.waterproof}
                   productRadioText="waterproof"
                   label="Водонепроницаемые"
+                  error={
+                     errorCategory === true
+                        ? newProductFilterData.waterproof === ''
+                        : false
+                  }
                />
 
                <RadioInput
@@ -146,6 +169,11 @@ export const WatchAdvancedOptions = memo(() => {
                   value={newProductFilterData.anInterface}
                   productRadioText="anInterface"
                   label="Беспроводные интерфейсы"
+                  error={
+                     errorCategory === true
+                        ? newProductFilterData.anInterface === ''
+                        : false
+                  }
                />
 
                <RadioInput
@@ -156,17 +184,23 @@ export const WatchAdvancedOptions = memo(() => {
                   value={newProductFilterData.hullShape}
                   productRadioText="hullShape"
                   label="Форма корпуса"
+                  error={
+                     errorCategory === true
+                        ? newProductFilterData.hullShape === ''
+                        : false
+                  }
                />
 
                <AddPhotoGadgets
                   onPhotoCollector={onAddPhotoWatch}
                   photoStateData={newProductFilterData.images}
+                  errorcategory={errorCategory ? 'true' : 'false'}
                />
             </Container>
          ) : null}
       </div>
    )
-})
+}
 
 const Container = styled('div')`
    display: flex;
