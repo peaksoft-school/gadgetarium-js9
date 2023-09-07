@@ -26,7 +26,6 @@ export const Favorites = () => {
    }, [])
    return (
       <Container>
-         dqwdqwdq
          <Block>
             {favoritesOrders?.map((el) => (
                <Card key={el.subProductId}>
@@ -61,7 +60,8 @@ export const Favorites = () => {
 
 const Container = styled('div')`
    margin-top: 2.44rem;
-   height: 110vh;
+   height: 100%;
+   padding-bottom: 7.5rem;
 `
 
 const Block = styled('div')`

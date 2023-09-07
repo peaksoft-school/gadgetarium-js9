@@ -82,20 +82,20 @@ export const PersonalArea = () => {
                   <Tab label="Профиль" {...a11yProps(2)} />
                </Tabs>
 
-               {order === null ? (
-                  ''
-               ) : (
+               {value === 0 ? (
                   <Delete>
                      <Cross />
                      <p>Очистить список заказов</p>
                   </Delete>
+               ) : (
+                  ''
                )}
             </TabsHeader>
             <CustomTabPanel value={value} index={0}>
-               {order === null ? <EmptyHistory /> : <History />}
+               {order === 0 ? <EmptyHistory /> : <History />}
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
-               {order === null ? <EmptyFavorites /> : <Favorites />}
+               {order === 0 ? <EmptyFavorites /> : <Favorites />}
             </CustomTabPanel>
             <CustomTabPanel value={value} index={2}>
                <Profile />
