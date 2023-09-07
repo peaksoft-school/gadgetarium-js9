@@ -398,8 +398,8 @@ export const addProductSlice = createSlice({
             (item) => {
                return {
                   ...item,
-                  price: payload.price,
-                  quantity: payload.quantity,
+                  price: +payload.price,
+                  quantity: +payload.quantity,
                }
             }
          )
@@ -473,6 +473,7 @@ export const addProductSlice = createSlice({
                   ram: +subProduct.ram,
                   quantity: +subProduct.quantity,
                   sim: +subProduct.sim,
+                  price: +subProduct.price,
                }
             } else if (category === 'Планшеты') {
                formattedSubProduct = {
@@ -480,12 +481,16 @@ export const addProductSlice = createSlice({
                   screenSize: +subProduct.screenSize,
                   rom: +subProduct.rom,
                   ram: +subProduct.ram,
+                  price: +subProduct.price,
+                  quantity: +subProduct.quantity,
                }
             } else if (category === 'Смарт-часы и браслеты') {
                formattedSubProduct = {
                   ...formattedSubProduct,
                   rom: +subProduct.rom,
                   displayDiscount: +subProduct.display,
+                  price: +subProduct.price,
+                  quantity: +subProduct.quantity,
                }
             } else if (category === 'Ноутбуки') {
                formattedSubProduct = {
@@ -493,6 +498,8 @@ export const addProductSlice = createSlice({
                   videoMemory: +subProduct.videoMemory,
                   ram: +subProduct.ram,
                   screenSize: +subProduct.screenSize,
+                  price: +subProduct.price,
+                  quantity: +subProduct.quantity,
                }
             }
 

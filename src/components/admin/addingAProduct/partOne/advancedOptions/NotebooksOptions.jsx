@@ -1,5 +1,5 @@
 import { styled } from '@mui/material'
-import { memo, useState } from 'react'
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { dataProductNotebooks } from '../../../../../utils/common/constants/constantsAdminAddNewProduct'
 import { QuantityOfProducts } from '../QuantityOfProducts'
@@ -15,7 +15,7 @@ import {
 } from '../../../../../store/addProduct/addProductPartOne.slice'
 import { AddPhotoGadgets } from '../addPhotoGadgets/AddPhotoGadgets'
 
-export const NotebooksOptions = memo(() => {
+export const NotebooksOptions = ({ errorCategory }) => {
    const dispatch = useDispatch()
    const [productNum, setProductNum] = useState(0)
    const { productNotebooks, newProduct } = useSelector(
@@ -73,18 +73,27 @@ export const NotebooksOptions = memo(() => {
                <InputColorPalette
                   productColor={addColorProductNotebooks}
                   stateColor={newProductFilterData.codeColor}
+                  error={
+                     errorCategory === true
+                        ? newProductFilterData.codeColor === ''
+                        : false
+                  }
                />
 
                <CategoryFilterSelect
+                  errorcategory={errorCategory ? 'true' : 'false'}
                   title="Процессор ноутбука"
                   label="Выберите процессор ноутбука"
                   selectData={dataProductNotebooks.processorNotebooks}
                   value={newProductFilterData.processor}
                   onChange={onHandleChange}
+                  error={newProductFilterData.processor === ''}
                   name="processor"
                />
 
                <CategoryFilterSelect
+                  error={newProductFilterData.screenResolution === ''}
+                  errorcategory={errorCategory ? 'true' : 'false'}
                   title="Разрешение экрана"
                   label="Выберите разрешение экрана"
                   selectData={dataProductNotebooks.screenResolutionNotebooks}
@@ -94,6 +103,8 @@ export const NotebooksOptions = memo(() => {
                />
 
                <CategoryFilterSelect
+                  error={newProductFilterData.purpose === ''}
+                  errorcategory={errorCategory ? 'true' : 'false'}
                   title="Назначение"
                   label="Выберите назначение"
                   selectData={dataProductNotebooks.purposeNotebooks}
@@ -103,6 +114,8 @@ export const NotebooksOptions = memo(() => {
                />
 
                <CategoryFilterSelect
+                  error={newProductFilterData.videoMemory === ''}
+                  errorcategory={errorCategory ? 'true' : 'false'}
                   title="Объем видеопамяти (GB) "
                   label="Выберите объем видеопамяти"
                   selectData={dataProductNotebooks.videoMemoryNotebooks}
@@ -112,6 +125,8 @@ export const NotebooksOptions = memo(() => {
                />
 
                <CategoryFilterSelect
+                  error={newProductFilterData.ram === ''}
+                  errorcategory={errorCategory ? 'true' : 'false'}
                   title="Объем оперативной памяти (GB)"
                   label="Выберите объем оперативной памяти"
                   selectData={dataProductNotebooks.ramNotebooks}
@@ -121,6 +136,8 @@ export const NotebooksOptions = memo(() => {
                />
 
                <CategoryFilterSelect
+                  error={newProductFilterData.screenSize === ''}
+                  errorcategory={errorCategory ? 'true' : 'false'}
                   title="Размер экрана (дюйм)"
                   label="Выберите размер экрана"
                   selectData={dataProductNotebooks.screenSizeNotebooks}
@@ -132,12 +149,13 @@ export const NotebooksOptions = memo(() => {
                <AddPhotoGadgets
                   onPhotoCollector={onAddPhotoNotebooks}
                   photoStateData={newProductFilterData.images}
+                  errorcategory={errorCategory ? 'true' : 'false'}
                />
             </Container>
          ) : null}
       </div>
    )
-})
+}
 
 const Container = styled('div')`
    display: flex;

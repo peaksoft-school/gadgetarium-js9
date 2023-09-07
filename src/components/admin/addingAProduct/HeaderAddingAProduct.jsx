@@ -1,8 +1,7 @@
 import { styled } from '@mui/material'
-import React, { memo } from 'react'
 import { pathNumberTrueColorPinkBackgroundColorAndColor } from '../../../utils/helpers/AddFilterResComponent'
 
-export const HeaderAddingAProduct = memo(({ title, pathNumber }) => {
+export const HeaderAddingAProduct = ({ title, pathNumber }) => {
    return (
       <Container>
          <Text>{title}</Text>
@@ -37,7 +36,7 @@ export const HeaderAddingAProduct = memo(({ title, pathNumber }) => {
          </Box>
       </Container>
    )
-})
+}
 
 const Container = styled('div')`
    display: flex;

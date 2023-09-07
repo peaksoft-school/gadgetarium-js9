@@ -14,6 +14,7 @@ const RadioInput = ({
    radioData,
    label,
    value,
+   error,
 }) => {
    const [valueRadio, setValueRadio] = useState(value)
 
@@ -34,7 +35,7 @@ const RadioInput = ({
    }
 
    return (
-      <Container>
+      <Container error={error}>
          <FormLabel>{label}</FormLabel>
          <RadioGroup
             value={valueRadio === undefined ? '' : valueRadio}

@@ -11,7 +11,11 @@ import { collectorProductData } from '../../../../../store/addProduct/addProduct
 import { useSnackbar } from '../../../../../hooks/useSnackbar'
 import { schema } from '../../../../../utils/helpers/filterCategory'
 
-export const FilterCategory = ({ onOpenModalAddNewBrand, value }) => {
+export const FilterCategory = ({
+   onOpenModalAddNewBrand,
+   value,
+   errorCategory,
+}) => {
    const dispatch = useDispatch()
    const { snackbarHandler } = useSnackbar()
 
@@ -47,27 +51,31 @@ export const FilterCategory = ({ onOpenModalAddNewBrand, value }) => {
       setFieldValue('dateOfIssue', new Date(event.$d))
    }
 
+   useEffect(() => {
+      if (errorCategory) {
+         if (errors) {
+            if (errors.guarantee) {
+               snackbarHandler({
+                  message:
+                     'Гарантия (месяцев) Должно быть не более 120 месяцев или меньше',
+                  type: 'error',
+               })
+            }
+
+            snackbarHandler({
+               message: 'Bce поле должны быть обязательно заполнены',
+               type: 'error',
+            })
+         }
+      }
+   }, [errorCategory])
+
    const guaranteeOnBlur = (e) => {
       handleBlur(e)
-
-      if (errors.guarantee) {
-         snackbarHandler({
-            message:
-               'Гарантия (месяцев) Должно быть не более 120 месяцев или меньше',
-            type: 'error',
-         })
-      }
    }
 
    const onBlurAndErrorSnackbar = (e) => {
       handleBlur(e)
-
-      if (errors) {
-         snackbarHandler({
-            message: 'Bce поле должны быть обязательно заполнены',
-            type: 'error',
-         })
-      }
    }
 
    return (
@@ -85,6 +93,7 @@ export const FilterCategory = ({ onOpenModalAddNewBrand, value }) => {
                name="category"
                error={Boolean(errors.category)}
                star
+               errorcategory={errorCategory ? 'true' : 'false'}
             />
 
             <CategoryFilterSelect
@@ -104,6 +113,7 @@ export const FilterCategory = ({ onOpenModalAddNewBrand, value }) => {
                star
                error={Boolean(errors.brand)}
                onBlur={(e) => onBlurAndErrorSnackbar(e)}
+               errorcategory={errorCategory ? 'true' : 'false'}
             />
 
             <BoxLabel>
@@ -118,7 +128,8 @@ export const FilterCategory = ({ onOpenModalAddNewBrand, value }) => {
                   value={values.name}
                   onBlur={(e) => onBlurAndErrorSnackbar(e)}
                   onChange={handleChange}
-                  error={Boolean(errors.name)}
+                  error={errorCategory === true ? Boolean(errors.name) : false}
+                  errorcategory={errorCategory ? 'true' : 'false'}
                />
             </BoxLabel>
          </div>
@@ -137,6 +148,7 @@ export const FilterCategory = ({ onOpenModalAddNewBrand, value }) => {
                onBlur={(e) => onBlurAndErrorSnackbar(e)}
                star
                onChange={handleChange}
+               errorcategory={errorCategory ? 'true' : 'false'}
                error={Boolean(errors.subcategory)}
             />
 
@@ -155,7 +167,9 @@ export const FilterCategory = ({ onOpenModalAddNewBrand, value }) => {
                   value={values.guarantee}
                   name="guarantee"
                   onChange={handleChange}
-                  error={Boolean(errors.guarantee)}
+                  error={
+                     errorCategory === true ? Boolean(errors.guarantee) : false
+                  }
                />
             </BoxLabel>
 
@@ -172,7 +186,11 @@ export const FilterCategory = ({ onOpenModalAddNewBrand, value }) => {
                   onBlur={handleBlur('dateOfIssue')}
                   height="2.7rem"
                   marginTop="-7px"
-                  error={Boolean(errors.dateOfIssue)}
+                  error={
+                     errorCategory === true
+                        ? Boolean(errors.dateOfIssue)
+                        : false
+                  }
                   fontSize="1rem"
                />
             </BoxLabel>

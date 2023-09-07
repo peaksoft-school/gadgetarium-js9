@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useCurrentEditor } from '@tiptap/react'
 import { styled, IconButton } from '@mui/material'
 import FormatBoldIcon from '@mui/icons-material/FormatBold'
@@ -7,7 +7,7 @@ import FormatUnderlinedIcon from '@mui/icons-material/FormatUnderlined'
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted'
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered'
 
-export const MenuBar = memo(({ formik }) => {
+export const MenuBar = ({ formik }) => {
    const { editor } = useCurrentEditor()
 
    if (!editor) {
@@ -57,7 +57,7 @@ export const MenuBar = memo(({ formik }) => {
          </IconButton>
       </ContainerButton>
    )
-})
+}
 
 const ContainerButton = styled('div')`
    padding: 1.25rem 3.1875rem;
