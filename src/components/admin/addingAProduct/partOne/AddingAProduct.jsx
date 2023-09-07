@@ -1,26 +1,21 @@
 import { styled } from '@mui/material'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
-import { format } from 'date-fns'
-import { HeaderAddingAProduct } from './HeaderAddingAProduct'
+import { HeaderAddingAProduct } from '../HeaderAddingAProduct'
 import { FilterCategory } from './selectСategories/FilterCategory'
 import { AddNewBrandModal } from './selectСategories/AddNewBrandModal'
-import { filterResComponent } from '../../../utils/helpers/AddFilterResComponent'
-import { Button } from '../../UI/Button'
-import {
-   filterCategorySubProduct,
-   furtherCollectorProductPartOne,
-} from '../../../store/addProduct/addProductPartOne.slice'
-import { useSnackbar } from '../../../hooks/useSnackbar'
+import { filterResComponent } from '../../../../utils/helpers/AddFilterResComponent'
+import { Button } from '../../../UI/Button'
+import { filterCategorySubProduct } from '../../../../store/addProduct/addProductPartOne.slice'
+import { useSnackbar } from '../../../../hooks/useSnackbar'
 
 export const AddingAProduct = () => {
-   const [openModalAddNewBrand, setOpenModalAddNewBrand] = useSearchParams()
    const dispatch = useDispatch()
+   const [openModalAddNewBrand, setOpenModalAddNewBrand] = useSearchParams()
+   const navigate = useNavigate()
+   const { newProduct } = useSelector((state) => state.addProduct)
    const { snackbarHandler } = useSnackbar()
-   const { newProduct, resultProductPartOneData } = useSelector(
-      (state) => state.addProduct
-   )
 
    useEffect(() => {
       if (newProduct.category) {
@@ -41,20 +36,17 @@ export const AddingAProduct = () => {
    }
 
    const onFilterFinishHandler = () => {
-      if (!resultProductPartOneData) {
+      const allHaveId = newProduct.subProductRequests.every(
+         (subProduct) => subProduct.codeColor !== ''
+      )
+
+      if (allHaveId) {
+         navigate('/admin/add-products-part-2')
+      } else {
          snackbarHandler({
-            message: 'Проверьте всели поле заполнены правильно',
+            message: 'Bce поле должны быть обязательно заполнены',
             type: 'error',
          })
-      }
-
-      console.log('resultProductPartOneData: ', resultProductPartOneData)
-
-      if (newProduct && newProduct.dateOfIssue) {
-         const date = newProduct.dateOfIssue
-         const formattedDate = format(new Date(date), 'yyyy-MM-dd')
-
-         dispatch(furtherCollectorProductPartOne({ date: formattedDate }))
       }
    }
 

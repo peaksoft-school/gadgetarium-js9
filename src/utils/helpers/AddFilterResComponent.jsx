@@ -1,13 +1,10 @@
-import { NotebooksOptions } from '../../components/admin/addingAProduct/advancedOptions/NotebooksOptions'
-import { SmartphoneAdvancedOptions } from '../../components/admin/addingAProduct/advancedOptions/SmartphoneAdvancedOptions'
-import { TabletsOptions } from '../../components/admin/addingAProduct/advancedOptions/TabletsOptions'
-import { WatchAdvancedOptions } from '../../components/admin/addingAProduct/advancedOptions/WatchAdvancedOptions'
+import { NotebooksOptions } from '../../components/admin/addingAProduct/partOne/advancedOptions/NotebooksOptions'
+import { SmartphoneAdvancedOptions } from '../../components/admin/addingAProduct/partOne/advancedOptions/SmartphoneAdvancedOptions'
+import { TabletsOptions } from '../../components/admin/addingAProduct/partOne/advancedOptions/TabletsOptions'
+import { WatchAdvancedOptions } from '../../components/admin/addingAProduct/partOne/advancedOptions/WatchAdvancedOptions'
 
 export const filterResComponent = (value) => {
    let resComponent
-
-   // eslint-disable-next-line no-debugger
-   // debugger
 
    switch (value.category) {
       case 'Смартфоны':

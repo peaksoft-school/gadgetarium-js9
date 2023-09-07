@@ -1,8 +1,8 @@
 import { styled } from '@mui/material'
-import React from 'react'
+import React, { memo } from 'react'
 import { pathNumberTrueColorPinkBackgroundColorAndColor } from '../../../utils/helpers/AddFilterResComponent'
 
-export const HeaderAddingAProduct = ({ title, pathNumber }) => {
+export const HeaderAddingAProduct = memo(({ title, pathNumber }) => {
    return (
       <Container>
          <Text>{title}</Text>
@@ -37,7 +37,7 @@ export const HeaderAddingAProduct = ({ title, pathNumber }) => {
          </Box>
       </Container>
    )
-}
+})
 
 const Container = styled('div')`
    display: flex;
@@ -99,7 +99,7 @@ const Text = styled('p')(({ theme }) => ({
    lineHeight: '110%',
    paddingBottom: '1.875rem',
    borderBottom: `1px solid ${theme.palette.secondary.main}`,
-   width: '79.6875vw',
+   width: '82vw',
    marginBottom: '2.5rem',
 }))
 

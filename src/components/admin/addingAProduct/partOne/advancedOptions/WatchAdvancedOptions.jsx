@@ -1,15 +1,15 @@
-import { useState } from 'react'
+import { memo, useState } from 'react'
 import { styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import {
    dataProductWatch,
    radioData,
-} from '../../../../utils/common/constants/constantsAdminAddNewProduct'
+} from '../../../../../utils/common/constants/constantsAdminAddNewProduct'
 import { CategoryFilterSelect } from '../selectСategories/CategoryFilterSelect'
 import { QuantityOfProducts } from '../QuantityOfProducts'
-import RadioInput from '../../UI/radioAdmin/RadioInput'
-import { AddPhotoGadgets } from '../../UI/addPhotoGadgets/AddPhotoGadgets'
-import { InputColorPalette } from '../../UI/color/InputColorPalette'
+import RadioInput from '../../../UI/radioAdmin/RadioInput'
+import { AddPhotoGadgets } from '../addPhotoGadgets/AddPhotoGadgets'
+import { InputColorPalette } from '../../../UI/color/InputColorPalette'
 import {
    onChangeSubProduct,
    collectorWatchParameters,
@@ -17,9 +17,9 @@ import {
    deleteHandler,
    addPhotoSubProductRequests,
    addCodeColorSubProductRequests,
-} from '../../../../store/addProduct/addProductPartOne.slice'
+} from '../../../../../store/addProduct/addProductPartOne.slice'
 
-export const WatchAdvancedOptions = () => {
+export const WatchAdvancedOptions = memo(() => {
    const dispatch = useDispatch()
    const { productWatch, newProduct } = useSelector((state) => state.addProduct)
    const [productNum, setProductNum] = useState(0)
@@ -166,7 +166,7 @@ export const WatchAdvancedOptions = () => {
          ) : null}
       </div>
    )
-}
+})
 
 const Container = styled('div')`
    display: flex;
