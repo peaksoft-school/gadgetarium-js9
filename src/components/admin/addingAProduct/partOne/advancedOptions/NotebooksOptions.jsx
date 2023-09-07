@@ -1,11 +1,10 @@
 import { styled } from '@mui/material'
-import { useState } from 'react'
+import { memo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { dataProductNotebooks } from '../../../../utils/common/constants/constantsAdminAddNewProduct'
+import { dataProductNotebooks } from '../../../../../utils/common/constants/constantsAdminAddNewProduct'
 import { QuantityOfProducts } from '../QuantityOfProducts'
 import { CategoryFilterSelect } from '../selectСategories/CategoryFilterSelect'
-import { InputColorPalette } from '../../UI/color/InputColorPalette'
-import { AddPhotoGadgets } from '../../UI/addPhotoGadgets/AddPhotoGadgets'
+import { InputColorPalette } from '../../../UI/color/InputColorPalette'
 import {
    onChangeSubProduct,
    collectorNotebooksParameters,
@@ -13,9 +12,10 @@ import {
    deleteHandler,
    addCodeColorSubProductRequests,
    addPhotoSubProductRequests,
-} from '../../../../store/addProduct/addProductPartOne.slice'
+} from '../../../../../store/addProduct/addProductPartOne.slice'
+import { AddPhotoGadgets } from '../addPhotoGadgets/AddPhotoGadgets'
 
-export const NotebooksOptions = () => {
+export const NotebooksOptions = memo(() => {
    const dispatch = useDispatch()
    const [productNum, setProductNum] = useState(0)
    const { productNotebooks, newProduct } = useSelector(
@@ -137,7 +137,7 @@ export const NotebooksOptions = () => {
          ) : null}
       </div>
    )
-}
+})
 
 const Container = styled('div')`
    display: flex;

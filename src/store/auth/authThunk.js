@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { signIn, signUp, signUpPhoneNumber } from '../../api/authServise'
+import { signIn, signUp, signUpPhoneNumber } from '../../api/auth.service'
 import {
    NUMBER_IMG,
    LOGIN_USER_KEY,

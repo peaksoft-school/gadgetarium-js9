@@ -4,7 +4,8 @@ export const routes = {
 
    ADMIN: {
       index: '/admin',
-      addProduct: '/admin/add-products/part-1',
+      addProductPartOne: '/admin/add-products-part-1',
+      addProductPartTwo: '/admin/add-products-part-2',
    },
 
    USER: {
@@ -13,6 +14,14 @@ export const routes = {
       delivery: 'delivery',
       faq: 'faq',
       contacts: 'contacts',
+
+      category: {
+         index: 'category/',
+         smartphone: ':smartphone',
+         smartWatch: ':smartWatch',
+         tablets: ':tablets',
+         laptops: ':laptops',
+      },
       favorite: 'favorite',
       compare: 'compare',
    },
