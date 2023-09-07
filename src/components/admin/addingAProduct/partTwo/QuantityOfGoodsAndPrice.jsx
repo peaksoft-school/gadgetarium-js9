@@ -142,6 +142,8 @@ export const QuantityOfGoodsAndPrice = memo(() => {
    )
 })
 
+QuantityOfGoodsAndPrice.displayName = 'QuantityOfGoodsAndPrice'
+
 const Container = styled('div')`
    margin-left: 6.25rem;
 

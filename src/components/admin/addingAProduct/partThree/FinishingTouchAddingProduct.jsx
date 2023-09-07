@@ -135,6 +135,8 @@ export const FinishingTouchAddingProduct = memo(() => {
    )
 })
 
+FinishingTouchAddingProduct.displayName = 'FinishingTouchAddingProduct'
+
 const Container = styled('div')`
    margin-left: 6.25rem;
 
