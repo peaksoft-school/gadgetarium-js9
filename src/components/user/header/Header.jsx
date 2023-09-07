@@ -27,7 +27,7 @@ export const Header = ({ favorite, comparison, basket }) => {
    const [inputValue, setInputValue] = useState('')
 
    const { favoriteItems } = useSelector((state) => state.favorite)
-
+   const { favoriteItems } = useSelector((state) => state.favorite)
    const [hoverFavorite, setHoverFavorite] = useState(false)
    const toggleHoverFavorite = () => {
       setHoverFavorite(!hoverFavorite)
@@ -141,6 +141,40 @@ export const Header = ({ favorite, comparison, basket }) => {
                         img
                      )}
                   </div>
+
+                  {token !== '' && (
+                     <div>
+                        {open && (
+                           <div style={{ position: 'relative' }}>
+                              <Select2>
+                                 <p>История заказов</p>
+                                 <p>Избранное</p>
+                                 <p>Профиль</p>
+                                 <div onClick={logOutHandler}>
+                                    <p style={{ color: '#CB11AB' }}>Выйти</p>
+                                 </div>
+                              </Select2>
+                           </div>
+                        )}
+                     </div>
+                  )}
+                  {open && token === '' && (
+                     <div style={{ position: 'relative' }}>
+                        <Select>
+                           <SelectParagraph to={routes.SIGN_IN}>
+                              Войти
+                           </SelectParagraph>
+                           <SelectParagraph2 to={routes.SIGN_UP}>
+                              Регистрация
+                           </SelectParagraph2>
+                        </Select>
+                     </div>
+                  )}
+                  {img !== undefined ? (
+                     <User onClick={openSelect} />
+                  ) : (
+                     <User onClick={openSelect} />
+                  )}
                </UserNumber>
             </Caption>
          </CaptionContainer>

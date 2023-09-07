@@ -3,15 +3,19 @@ import { styled } from '@mui/material'
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import { CategoryFilterSelect } from './CategoryFilterSelect'
-import { InputUi } from '../../../UI/Input'
-import { categoryProduct } from '../../../../utils/common/constants/constantsAdminAddNewProduct'
-import { ReactComponent as SelectLabelIcons } from '../../../../assets/icons/photo-add/add-photo-icon.svg'
-import { Calendar } from '../../../UI/calendarFolder/Calendar'
-import { collectorProductData } from '../../../../store/addProduct/addProductPartOne.slice'
-import { useSnackbar } from '../../../../hooks/useSnackbar'
-import { schema } from '../../../../utils/helpers/filterCategory'
+import { InputUi } from '../../../../UI/Input'
+import { categoryProduct } from '../../../../../utils/common/constants/constantsAdminAddNewProduct'
+import { ReactComponent as SelectLabelIcons } from '../../../../../assets/icons/photo-add/add-photo-icon.svg'
+import { Calendar } from '../../../../UI/calendarFolder/Calendar'
+import { collectorProductData } from '../../../../../store/addProduct/addProductPartOne.slice'
+import { useSnackbar } from '../../../../../hooks/useSnackbar'
+import { schema } from '../../../../../utils/helpers/filterCategory'
 
-export const FilterCategory = ({ onOpenModalAddNewBrand, value }) => {
+export const FilterCategory = ({
+   onOpenModalAddNewBrand,
+   value,
+   errorCategory,
+}) => {
    const dispatch = useDispatch()
    const { snackbarHandler } = useSnackbar()
 
@@ -48,23 +52,31 @@ export const FilterCategory = ({ onOpenModalAddNewBrand, value }) => {
    }
 
    useEffect(() => {
-      if (errors.guarantee) {
-         snackbarHandler({
-            message:
-               'Гарантия (месяцев) Должно быть не более 120 месяцев или меньше',
-            type: 'error',
-         })
-      }
-   }, [errors.guarantee])
+      if (errorCategory) {
+         if (errors) {
+            if (errors.guarantee) {
+               snackbarHandler({
+                  message:
+                     'Гарантия (месяцев) Должно быть не более 120 месяцев или меньше',
+                  type: 'error',
+               })
+            }
 
-   useEffect(() => {
-      if (errors) {
-         snackbarHandler({
-            message: 'Bce поле должны быть обязательно заполнены',
-            type: 'error',
-         })
+            snackbarHandler({
+               message: 'Bce поле должны быть обязательно заполнены',
+               type: 'error',
+            })
+         }
       }
-   }, [errors])
+   }, [errorCategory])
+
+   const guaranteeOnBlur = (e) => {
+      handleBlur(e)
+   }
+
+   const onBlurAndErrorSnackbar = (e) => {
+      handleBlur(e)
+   }
 
    return (
       <Container>
@@ -77,10 +89,11 @@ export const FilterCategory = ({ onOpenModalAddNewBrand, value }) => {
                   values.category === undefined || null ? '' : values.category
                }
                onChange={handleChange}
-               onBlur={handleChange}
+               onBlur={(e) => onBlurAndErrorSnackbar(e)}
                name="category"
                error={Boolean(errors.category)}
                star
+               errorcategory={errorCategory ? 'true' : 'false'}
             />
 
             <CategoryFilterSelect
@@ -99,7 +112,8 @@ export const FilterCategory = ({ onOpenModalAddNewBrand, value }) => {
                selectData={categoryProduct.brand}
                star
                error={Boolean(errors.brand)}
-               onBlur={handleChange}
+               onBlur={(e) => onBlurAndErrorSnackbar(e)}
+               errorcategory={errorCategory ? 'true' : 'false'}
             />
 
             <BoxLabel>
@@ -112,9 +126,10 @@ export const FilterCategory = ({ onOpenModalAddNewBrand, value }) => {
                   height="2.6rem"
                   name="name"
                   value={values.name}
-                  onBlur={handleChange}
+                  onBlur={(e) => onBlurAndErrorSnackbar(e)}
                   onChange={handleChange}
-                  error={Boolean(errors.name)}
+                  error={errorCategory === true ? Boolean(errors.name) : false}
+                  errorcategory={errorCategory ? 'true' : 'false'}
                />
             </BoxLabel>
          </div>
@@ -130,9 +145,10 @@ export const FilterCategory = ({ onOpenModalAddNewBrand, value }) => {
                }
                value={values.subcategory}
                name="subcategory"
-               onBlur={handleChange}
+               onBlur={(e) => onBlurAndErrorSnackbar(e)}
                star
                onChange={handleChange}
+               errorcategory={errorCategory ? 'true' : 'false'}
                error={Boolean(errors.subcategory)}
             />
 
@@ -145,13 +161,15 @@ export const FilterCategory = ({ onOpenModalAddNewBrand, value }) => {
                   placeholder="Введите гарантию товара"
                   width="24.75rem"
                   height="2.6rem"
-                  onBlur={handleBlur}
+                  onBlur={(e) => guaranteeOnBlur(e)}
                   min={1}
                   max={3}
                   value={values.guarantee}
                   name="guarantee"
                   onChange={handleChange}
-                  error={Boolean(errors.guarantee)}
+                  error={
+                     errorCategory === true ? Boolean(errors.guarantee) : false
+                  }
                />
             </BoxLabel>
 
@@ -168,7 +186,11 @@ export const FilterCategory = ({ onOpenModalAddNewBrand, value }) => {
                   onBlur={handleBlur('dateOfIssue')}
                   height="2.7rem"
                   marginTop="-7px"
-                  error={Boolean(errors.dateOfIssue)}
+                  error={
+                     errorCategory === true
+                        ? Boolean(errors.dateOfIssue)
+                        : false
+                  }
                   fontSize="1rem"
                />
             </BoxLabel>

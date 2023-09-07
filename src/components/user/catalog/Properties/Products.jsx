@@ -1,6 +1,7 @@
 import { styled } from '@mui/material'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
 import { sendSelectedCategories } from '../../../../store/cataog/categoryThunk'
 import { CardPhone } from '../../card/CardPhone'
 import { ProductCard } from '../../product.card/ProductCard'
@@ -8,7 +9,7 @@ import { ProductCard } from '../../product.card/ProductCard'
 export const Products = () => {
    const { filteredProducts, isLoading, brandsId, items, pageSize } =
       useSelector((state) => state.category)
-
+   const category = useParams()
    const dispatch = useDispatch()
 
    useEffect(() => {
@@ -16,9 +17,10 @@ export const Products = () => {
          id: brandsId,
          pageSize,
          pageNumber: 1,
+         gadgetType: Object.values(category),
       }
       dispatch(sendSelectedCategories(dataCategory))
-   }, [items])
+   }, [items, category])
 
    return (
       <Container>

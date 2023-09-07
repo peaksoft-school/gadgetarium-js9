@@ -1,6 +1,6 @@
 import { styled } from '@mui/material'
-import { ReactComponent as AddPhotoIcon } from '../../../../assets/icons/photo-add/add-photo-icon.svg'
-import { ReactComponent as DeleteItem } from '../../../../assets/icons/tools-for-site/delete-icon.svg'
+import { ReactComponent as AddPhotoIcon } from '../../../../../assets/icons/photo-add/add-photo-icon.svg'
+import { ReactComponent as DeleteItem } from '../../../../../assets/icons/tools-for-site/delete-icon.svg'
 
 export const StateAfterAddingOnePhoto = ({
    deleteHandler,
@@ -139,7 +139,6 @@ export const StateAfterAddingOnePhoto = ({
       </ContainerPhotoAndAddNewPhoto>
    )
 }
-export default StateAfterAddingOnePhoto
 
 const widthNestForLabel = (containerImg) => {
    if ([3, 6].includes(containerImg)) {

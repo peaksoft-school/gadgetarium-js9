@@ -1,10 +1,4 @@
-import {
-   FormControl,
-   MenuItem,
-   Select,
-   styled,
-   InputLabel,
-} from '@mui/material'
+import { FormControl, MenuItem, Select, styled } from '@mui/material'
 import { useState } from 'react'
 
 export const CategoryFilterSelect = ({
@@ -19,6 +13,7 @@ export const CategoryFilterSelect = ({
    name,
    onBlur,
    error,
+   errorcategory,
    image = false,
 }) => {
    const [isFocused, setIsFocused] = useState(false)
@@ -41,7 +36,11 @@ export const CategoryFilterSelect = ({
       }
    }
 
-   const labelFocused = value === '' ? label : ''
+   const selectValue = value !== undefined ? value : ''
+
+   const labelFocused = value === '' ? label : selectValue
+
+   const labelblur = value === ''
 
    return (
       <Container>
@@ -53,9 +52,6 @@ export const CategoryFilterSelect = ({
 
          <div>
             <StyledFormControl size="small">
-               {isFocused ? null : (
-                  <InputLabelStyle>{labelFocused}</InputLabelStyle>
-               )}
                {name === 'brand'
                   ? selectData.map((item) => {
                        return (
@@ -71,13 +67,14 @@ export const CategoryFilterSelect = ({
                   : null}
                <SelectStyle
                   name={name}
-                  value={value !== undefined ? value : ''}
+                  value={selectValue === '' ? labelFocused : selectValue}
                   onChange={onChange}
                   image={image === true ? 'true' : 'false'}
                   onFocus={handleSelectFocus}
                   onBlur={(event) => handleSelectBlur(event)}
                   renderValue={(selected) => selected || label}
-                  error={error}
+                  error={errorcategory === 'true' ? error : false}
+                  labelblur={labelblur ? 'true' : 'false'}
                   MenuProps={{
                      PaperProps: {
                         style: {
@@ -124,13 +121,14 @@ export const CategoryFilterSelect = ({
    )
 }
 
-const InputLabelStyle = styled(InputLabel)(({ theme }) => ({
-   color: theme.palette.secondary.contrastname,
-}))
+const SelectStyle = styled(Select)(({ image, labelblur }) => {
+   const labelbLurfalse = image === 'true' ? '26px' : ''
 
-const SelectStyle = styled(Select)(({ image }) => ({
-   paddingLeft: image === 'true' ? '26px' : '',
-}))
+   return {
+      paddingLeft: labelblur === 'true' ? '0px' : labelbLurfalse,
+      color: labelblur === 'true' ? '#91969E' : '',
+   }
+})
 
 const StyledFormControl = styled(FormControl)(() => ({
    minWidth: '24.75rem',
