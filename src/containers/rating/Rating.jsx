@@ -21,9 +21,9 @@ export const Rating = ({ allReviews }) => {
             <BoxInfoRating>
                <ContainerGeneralRating>
                   <BoxGeneralRating>
-                     <h1>{allReviews.rating?.toFixed(1)}</h1>
+                     <h1>{allReviews.rating}</h1>
                      <RatingMuiStyle
-                        value={allReviews.rating?.toFixed(1)}
+                        value={allReviews.rating || 0}
                         readOnly
                         precision={0.1}
                         size="small"

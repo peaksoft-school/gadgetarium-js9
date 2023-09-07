@@ -28,7 +28,6 @@ export const LeaveYourFeedback = ({ rating, onClose, subProductId = 1 }) => {
          imageLink: imgUrl,
       }
 
-      console.log('BAHA LOX: ', data)
       dispatch(postReviewProduct(data))
       onClose()
       onOpenSuccessModal()
@@ -118,7 +117,6 @@ export const LeaveYourFeedback = ({ rating, onClose, subProductId = 1 }) => {
       </>
    )
 }
-
 const Container = styled('div')(({ theme }) => ({
    display: 'flex',
    flexDirection: 'column',
