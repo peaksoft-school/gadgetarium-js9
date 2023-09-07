@@ -6,7 +6,6 @@ export const getOrderInfoRequest = () => {
 export const getFavoriteRequest = () => {
    return axiosInstance.get('/v1/user/favorites')
 }
-export const getOrderByIdRequest = (orderId) => {
-   console.log('orderId', orderId)
-   return axiosInstance.get(`/order/5`)
+export const getOrderByIdRequest = (params) => {
+   return axiosInstance.get(`/v1/user/user_order/${+params.orderId}`)
 }

@@ -1,15 +1,17 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Typography from '@mui/material/Typography'
 import { styled } from '@mui/material'
 import Box from '@mui/material/Box'
-import { Favorites } from './favoritesPages/Favorites'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import { Profile } from './profilePages/Profile'
-// import { ReactComponent as Cross } from '../../assets/icons/cross/small-cross-icon.svg'
+import { ReactComponent as Cross } from '../../assets/icons/cross/small-cross-icon.svg'
 import { EmptyHistory } from './historyPages/EmptyHistory'
 import { EmptyFavorites } from './favoritesPages/EmptyFavorites'
 import { History } from './historyPages/History'
+import { Favorites } from './favoritesPages/Favorites'
 
 function CustomTabPanel(props) {
    const { children, value, index, ...other } = props
@@ -25,20 +27,33 @@ function CustomTabPanel(props) {
    )
 }
 
-function a11yProps(index) {
-   return {
-      id: `simple-tab-${index}`,
-   }
-}
-
 export const PersonalArea = () => {
+   const productOrder = useSelector((state) => state.order.productOrder)
+
+   const order = productOrder.length > 0 ? productOrder[0] : null
+
+   const navigate = useNavigate()
    const [value, setValue] = useState(0)
 
    const handleChange = (event, newValue) => {
       setValue(newValue)
    }
+   const { tab } = useParams()
+   function a11yProps(index) {
+      return {
+         id: `simple-tab-${index}`,
+      }
+   }
 
-   const Status = true
+   useEffect(() => {
+      if (tab === 'history') {
+         setValue(0)
+      } else if (tab === 'favorites') {
+         setValue(1)
+      } else {
+         setValue(2)
+      }
+   }, [tab])
 
    return (
       <Container>
@@ -52,28 +67,35 @@ export const PersonalArea = () => {
             <CustomTabPanel value={value} index={2}>
                <h2>Профиль</h2>
             </CustomTabPanel>
-            <Box sx={{ borderTop: 2, borderColor: '#CDCDCD' }}>
-               <BlockTabs>
-                  <Tabs value={value} onChange={handleChange}>
-                     <Tab label="История заказов" {...a11yProps(0)} />
-                     <Tab label="Избранное" {...a11yProps(1)} />
-                     <Tab label="Профиль" {...a11yProps(2)} />
-                     {/* {Status ? (
-                        <div>
-                           <Cross />
-                           <p>Очистить список заказов</p>
-                        </div>
-                     ) : (
-                        ''
-                     )} */}
-                  </Tabs>
-               </BlockTabs>
-            </Box>
+            <TabsHeader>
+               <Tabs value={value} onChange={handleChange}>
+                  <Tab
+                     onClick={() => navigate('/personalArea/history')}
+                     label="История заказов"
+                     {...a11yProps(0)}
+                  />
+                  <Tab
+                     onClick={() => navigate('/personalArea/favorites')}
+                     label="Избранное"
+                     {...a11yProps(1)}
+                  />
+                  <Tab label="Профиль" {...a11yProps(2)} />
+               </Tabs>
+
+               {order === null ? (
+                  ''
+               ) : (
+                  <Delete>
+                     <Cross />
+                     <p>Очистить список заказов</p>
+                  </Delete>
+               )}
+            </TabsHeader>
             <CustomTabPanel value={value} index={0}>
-               {Status ? <History /> : <EmptyHistory />}
+               {order === null ? <EmptyHistory /> : <History />}
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
-               {Status ? <Favorites /> : <EmptyFavorites />}
+               {order === null ? <EmptyFavorites /> : <Favorites />}
             </CustomTabPanel>
             <CustomTabPanel value={value} index={2}>
                <Profile />
@@ -114,19 +136,26 @@ const Container = styled('div')`
       display: flex;
       width: 28rem;
       justify-content: space-between;
-      /* div {
-         display: flex;
-         cursor: pointer;
-         justify-content: space-between;
-         align-items: center;
-         p {
-            position: relative;
-            left: 0.5rem;
-         }
-      } */
    }
 `
 
-const BlockTabs = styled('div')`
-   margin-top: 2.5rem;
+const Delete = styled('div')`
+   display: flex;
+   cursor: pointer;
+   justify-content: space-between;
+   align-items: center;
+   position: relative;
+   right: 10rem;
+   p {
+      position: relative;
+      left: 0.5rem;
+   }
+`
+const TabsHeader = styled('div')`
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+
+   border-top: 2px solid #e0e2e7;
+   padding-top: 2.5rem;
 `

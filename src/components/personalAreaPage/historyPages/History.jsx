@@ -16,7 +16,6 @@ import { orderRequest } from '../../../store/order/Order.thunk'
 
 export const History = () => {
    const orders = useSelector((state) => state.order.productOrder)
-   console.log(orders)
 
    const dispatch = useDispatch()
 
@@ -26,14 +25,13 @@ export const History = () => {
 
    return (
       <Container>
-         cddsd
          <TableContainer>
-            <Table sx={{ width: '65.625rem' }}>
-               {orders?.map((el) => (
-                  <NavLink
-                     key={el.orderId}
-                     to={`/personal:${el.orderId}/details`}
-                  >
+            {orders?.map((el) => (
+               <NavLinkStyle
+                  key={el.orderId}
+                  to={`/personalArea/${el.orderId}/details`}
+               >
+                  <Table sx={{ width: '60rem' }}>
                      <TableBody>
                         <TableRow>
                            <TableCell>
@@ -66,9 +64,9 @@ export const History = () => {
                            </TableCell>
                         </TableRow>
                      </TableBody>
-                  </NavLink>
-               ))}
-            </Table>
+                  </Table>
+               </NavLinkStyle>
+            ))}
          </TableContainer>
       </Container>
    )
@@ -76,14 +74,10 @@ export const History = () => {
 
 const Container = styled('div')`
    margin-top: 3.16rem;
+   height: 50vh;
    .MuiTableCell-root:not(:last-child) {
       width: 200px;
       text-align: start;
-   }
-   .css-heg063-MuiTabs-flexContainer {
-      display: flex;
-      width: 2000px;
-      justify-content: space-between;
    }
    strong {
       font-size: 1.125rem;
@@ -103,4 +97,7 @@ const Cancellation = styled('p')`
 const Delivered = styled('p')`
    color: #299a0d;
    font-size: 1rem;
+`
+const NavLinkStyle = styled(NavLink)`
+   text-decoration: none;
 `

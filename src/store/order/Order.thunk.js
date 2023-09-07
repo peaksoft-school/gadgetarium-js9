@@ -33,9 +33,9 @@ export const favorireRequest = createAsyncThunk(
 
 export const orderByIdRequest = createAsyncThunk(
    'order/orderByIdRequest',
-   async (orderId, { rejectWithValue }) => {
+   async (params, { rejectWithValue }) => {
       try {
-         const responce = await getOrderByIdRequest(orderId)
+         const responce = await getOrderByIdRequest(params)
          console.log(responce.data)
          return responce.data
       } catch (error) {

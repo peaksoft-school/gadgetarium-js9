@@ -96,12 +96,22 @@ export const Header = ({ favorite, comparison, basket }) => {
                            {open && (
                               <div style={{ position: 'relative' }}>
                                  <Select2>
-                                    <p>История заказов</p>
-                                    <p>Избранное</p>
-                                    <p>Профиль</p>
-                                    <div onClick={logOutHandler}>
-                                       <p style={{ color: '#CB11AB' }}>Выйти</p>
-                                    </div>
+                                    <NavLinkBlock>
+                                       <NavLinkParagraph to="/personalArea/history">
+                                          История заказов
+                                       </NavLinkParagraph>
+                                       <NavLinkParagraph to="/personalArea/favorites">
+                                          Избранное
+                                       </NavLinkParagraph>
+                                       <NavLinkParagraph>
+                                          Профиль
+                                       </NavLinkParagraph>
+                                       <div onClick={logOutHandler}>
+                                          <NavLinkParagraph>
+                                             Выйти
+                                          </NavLinkParagraph>
+                                       </div>
+                                    </NavLinkBlock>
                                  </Select2>
                               </div>
                            )}
@@ -607,10 +617,11 @@ const SelectParagraph = styled(Link)`
    padding: 0;
    margin-top: 1.25rem;
    margin-left: 1.28rem;
-   color: red;
+   color: black;
    cursor: pointer;
    &:hover {
-      background-color: #fff;
+      background: #fff;
+      color: red;
    }
 `
 const SelectParagraph2 = styled(Link)`
@@ -620,7 +631,8 @@ const SelectParagraph2 = styled(Link)`
    color: black;
    cursor: pointer;
    &:hover {
-      background-color: #fff;
+      color: red;
+      background: #fff;
    }
 `
 const Select2 = styled('div')`
@@ -634,11 +646,6 @@ const Select2 = styled('div')`
    box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.1);
    z-index: 99999;
    animation: fadeInOut 0.4s ease-in-out;
-   p {
-      color: #292929;
-      cursor: pointer;
-      margin-left: 1.5rem;
-   }
 
    @keyframes fadeInOut {
       0% {
@@ -650,4 +657,19 @@ const Select2 = styled('div')`
          transform: translateY(0);
       }
    }
+`
+const NavLinkParagraph = styled(NavLink)`
+   text-decoration: none;
+   color: #292929;
+   cursor: pointer;
+   &:hover {
+      color: #cb11ab;
+   }
+`
+const NavLinkBlock = styled('div')`
+   display: flex;
+   flex-direction: column;
+   gap: 1rem;
+   margin-top: 1rem;
+   padding-left: 1.5rem;
 `

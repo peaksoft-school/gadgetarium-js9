@@ -15,9 +15,10 @@ export const routes = {
       contacts: 'contacts',
       favorite: 'favorite',
       personal: {
-         index: 'personal/',
-         personalDetail: 'personal/:orderId/details',
+         index: 'personalArea/:tab',
+         personalDetail: 'personalArea/:orderId/details',
       },
+      personalFavorites: '/personalArea/:tab',
    },
 }
 
