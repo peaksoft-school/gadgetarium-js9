@@ -1,4 +1,4 @@
-import { Button, styled } from '@mui/material'
+import { Button, CircularProgress, styled } from '@mui/material'
 import React from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -16,7 +16,6 @@ import {
    getRecommend,
    getStock,
 } from '../../store/main.page/main.page.thunk'
-import { Loading } from '../UI/loading/Loading'
 import { getAllCompareGoods } from '../../store/compare/compare.thunk'
 
 export const AuthorizationModal = ({ openModal, toggleHandler }) => {
@@ -48,7 +47,6 @@ export const AuthorizationModal = ({ openModal, toggleHandler }) => {
                dispatch(getAllCompareGoods())
                toggleHandler()
                reset()
-               toggleHandler()
             } else {
                navigate('admin')
             }
@@ -59,54 +57,57 @@ export const AuthorizationModal = ({ openModal, toggleHandler }) => {
 
    const open = !!openModal
    return (
-      <>
-         {isLoading && <Loading />}
-         <StyledModal open={open} onClose={toggleHandler} padding="0">
-            <Container>
-               <CloseContainer>
-                  <MuiCloseIcon onClick={toggleHandler} />
-               </CloseContainer>
-               <LoginWarning sx={{ marginTop: '26px' }}>
-                  Вы не вошли
-               </LoginWarning>
-               <LoginWarning>войдите или зарегестрируйтесь</LoginWarning>
-               <LoginText>Войти</LoginText>
-               <Form onSubmit={handleSubmit(onSubmit)}>
-                  <Input
-                     width="29rem"
-                     height="43px"
-                     {...register('email')}
-                     placeholder="Напишите email"
-                     type="email"
-                     error={!!formState.errors.email}
-                  />
-                  <Input
-                     width="29rem"
-                     height="43px"
-                     error={!!formState.errors.password}
-                     {...register('password')}
-                     placeholder="Напишите пароль"
-                     type="password"
-                  />
-                  <ErrorTitle>
-                     {combinedError && (
-                        <p style={{ color: 'red', margin: 0 }}>
-                           {combinedError.message}
-                        </p>
-                     )}
-                  </ErrorTitle>
-                  <ButtonUi type="submit" variant="contained">
-                     Войти
-                  </ButtonUi>
-               </Form>
-               <Block>
-                  <p>
-                     Нет аккаунта? <Link to="/signup">Зарегистрироваться</Link>
-                  </p>
-               </Block>
-            </Container>
-         </StyledModal>
-      </>
+      <StyledModal
+         open={open}
+         onClose={isLoading ? null : toggleHandler}
+         padding="0"
+      >
+         <Container>
+            <CloseContainer>
+               <MuiCloseIcon onClick={toggleHandler} />
+            </CloseContainer>
+            <LoginWarning sx={{ marginTop: '26px' }}>Вы не вошли</LoginWarning>
+            <LoginWarning>войдите или зарегестрируйтесь</LoginWarning>
+            <LoginText>Войти</LoginText>
+            <Form onSubmit={handleSubmit(onSubmit)}>
+               <Input
+                  width="29rem"
+                  height="43px"
+                  {...register('email')}
+                  placeholder="Напишите email"
+                  type="email"
+                  error={!!formState.errors.email}
+               />
+               <Input
+                  width="29rem"
+                  height="43px"
+                  error={!!formState.errors.password}
+                  {...register('password')}
+                  placeholder="Напишите пароль"
+                  type="password"
+               />
+               <ErrorTitle>
+                  {combinedError && (
+                     <p style={{ color: 'red', margin: 0 }}>
+                        {combinedError.message}
+                     </p>
+                  )}
+               </ErrorTitle>
+               <ButtonUi type="submit" variant="contained">
+                  {isLoading ? (
+                     <CircularProgress size={27} sx={{ color: 'white' }} />
+                  ) : (
+                     'Войти'
+                  )}
+               </ButtonUi>
+            </Form>
+            <Block>
+               <p>
+                  Нет аккаунта? <Link to="/signup">Зарегистрироваться</Link>
+               </p>
+            </Block>
+         </Container>
+      </StyledModal>
    )
 }
 const Container = styled('div')`

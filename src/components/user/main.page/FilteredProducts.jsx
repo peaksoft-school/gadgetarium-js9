@@ -9,7 +9,6 @@ import {
 import { ProductCard } from '../product.card/ProductCard'
 import { Button } from '../../UI/Button'
 import { CardPhone } from '../card/CardPhone'
-import { Loading } from '../../UI/loading/Loading'
 
 const arrayForSkeleton = [
    { id: 1, name: 'firstCard' },
@@ -25,10 +24,8 @@ export const FilteredProducts = ({ children, array }) => {
    )
    const { isLoadingFavorite } = useSelector((state) => state.favorite)
    const { isLoadingComparison } = useSelector((state) => state.compare)
-
    const [pageSize, setPageSize] = useState(5)
    const [visibleProducts, setVisibleProducts] = useState([])
-
    const dispatch = useDispatch()
 
    useEffect(() => {
@@ -43,7 +40,6 @@ export const FilteredProducts = ({ children, array }) => {
          default:
             action = getStock
       }
-
       dispatch(action({ page: 1, pageSize }))
    }, [pageSize])
 
@@ -85,7 +81,12 @@ export const FilteredProducts = ({ children, array }) => {
    }
 
    const renderNoGoods = (productArray) => {
-      if (!isLoading && productArray.length === 0) {
+      if (
+         !isLoading &&
+         !isLoadingComparison &&
+         !isLoadingFavorite &&
+         productArray.length === 0
+      ) {
          return <NoGoods>Здесь нет товаров</NoGoods>
       }
       return null
@@ -130,15 +131,9 @@ export const FilteredProducts = ({ children, array }) => {
       <Container>
          <Title>{children}</Title>
          <Products>
-            {isLoading && <Loading />}
-            {isLoadingFavorite && !isLoading && <Loading />}
-            {isLoadingComparison && !isLoading && !isLoadingFavorite && (
-               <Loading />
-            )}
-
             {renderProductCards(visibleProducts)}
             {renderNoGoods(visibleProducts)}
-            {isLoading
+            {isLoading || isLoadingComparison || isLoadingFavorite
                ? arrayForSkeleton.map((el) => <CardPhone key={el.id} />)
                : null}
          </Products>

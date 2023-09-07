@@ -1,7 +1,7 @@
 import React from 'react'
-import { styled } from '@mui/material'
+import { CircularProgress, styled } from '@mui/material'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { ReactComponent as DeleteIcon } from '../../assets/icons/cross/small-cross-icon.svg'
 import { ReactComponent as Triangle } from '../../assets/icons/triangle.svg'
 import { postCompareProduct } from '../../store/compare/compare.thunk'
@@ -13,7 +13,8 @@ export const ProductsModalWhenIsHovered = React.memo(
       const dispatch = useDispatch()
       const navigate = useNavigate()
       const location = useLocation()
-
+      const { isLoadingFavorite } = useSelector((state) => state.favorite)
+      const { isLoadingComparison } = useSelector((state) => state.compare)
       const deleteFavoriteHandler = (id) => {
          if (favorite) {
             dispatch(postFavoriteItem({ id, favoriteState: true }))
@@ -65,7 +66,11 @@ export const ProductsModalWhenIsHovered = React.memo(
                   backgroundactive="#C90EA9"
                   onClick={navigateToFavorite}
                >
-                  Перейти в избранное
+                  {isLoadingFavorite ? (
+                     <CircularProgress size={15} sx={{ color: 'white' }} />
+                  ) : (
+                     'Перейти в избранное'
+                  )}
                </Button>
             ) : (
                <Button
@@ -76,7 +81,11 @@ export const ProductsModalWhenIsHovered = React.memo(
                   backgroundactive="#C90EA9"
                   onClick={navigateToFavorite}
                >
-                  Сравнить
+                  {isLoadingComparison ? (
+                     <CircularProgress size={15} sx={{ color: 'white' }} />
+                  ) : (
+                     'Сравнить'
+                  )}
                </Button>
             )}
          </Container>

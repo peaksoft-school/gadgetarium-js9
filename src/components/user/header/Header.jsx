@@ -1,6 +1,6 @@
 import { styled, Button, Badge, keyframes } from '@mui/material'
-import { NavLink, useLocation, useNavigate } from 'react-router-dom'
-import React, { useEffect, useState } from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ReactComponent as Instagram } from '../../../assets/icons/messangers/instagram-icon.svg'
 import { ReactComponent as SearchIcon } from '../../../assets/icons/search-icon.svg'
@@ -14,12 +14,11 @@ import { ReactComponent as UserIcons } from '../../../assets/icons/avatar/defaul
 import { navBarForHeader } from '../../../utils/common/constants/header'
 import { routes } from '../../../utils/common/constants/routesConstants'
 import GeneralCategorySelectLayout from '../GeneralCategorySelectLayout'
-import { getAllCompareGoods } from '../../../store/compare/compare.thunk'
 import { ProductsModalWhenIsHovered } from '../../UI/ProductsModalWhenIsHovered'
 import { logOut } from '../../../store/auth/authThunk'
 import { AuthorizationModal } from '../AuthorizationModal'
 
-export const Header = ({ favorite, basket }) => {
+export const Header = ({ favorite, basket, compare }) => {
    const dispatch = useDispatch()
    const { number, img, token, isAuthorization } = useSelector(
       (state) => state.auth
@@ -27,7 +26,6 @@ export const Header = ({ favorite, basket }) => {
    const [hoverCompare, setHoverCompare] = useState(false)
    const [hoverFavorite, setHoverFavorite] = useState(false)
    const navigate = useNavigate()
-   const location = useLocation()
    const { allProducts } = useSelector((state) => state.compare)
    const { favoriteItems } = useSelector((state) => state.favorite)
    const toggleHoverCompare = () => {
@@ -70,9 +68,6 @@ export const Header = ({ favorite, basket }) => {
          setOpenModal(true)
       }
    }
-   useEffect(() => {
-      dispatch(getAllCompareGoods())
-   }, [])
    const logOutHandler = () => {
       dispatch(logOut())
       window.location.reload()
@@ -229,18 +224,9 @@ export const Header = ({ favorite, basket }) => {
                               />
                            </CompareContainer>
                         )}
-                        {location.pathname === '/compare' ? (
-                           <MuiBadge>
-                              <IconsShoppingCart onClick={navigateToCompare} />
-                           </MuiBadge>
-                        ) : (
-                           <MuiBadge
-                              badgeContent={allProducts?.length}
-                              showZero
-                           >
-                              <IconsShoppingCart onClick={navigateToCompare} />
-                           </MuiBadge>
-                        )}
+                        <MuiBadge badgeContent={compare} showZero>
+                           <IconsShoppingCart onClick={navigateToCompare} />
+                        </MuiBadge>
                      </PositionContainer>
                      <PositionContainer
                         onMouseEnter={toggleHoverFavorite}

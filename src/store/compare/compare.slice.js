@@ -10,7 +10,7 @@ import {
 const initialState = {
    products: [],
    countProducts: [],
-   productName: 'Phone',
+   productName: 'Laptop',
    isLoadingComparison: false,
    deleteAll: [],
    allProducts: [],
