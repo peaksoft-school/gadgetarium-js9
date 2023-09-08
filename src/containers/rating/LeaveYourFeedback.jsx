@@ -1,15 +1,19 @@
 import { useState, useEffect } from 'react'
 import { styled, Rating as RatingMui } from '@mui/material'
+import { useDispatch } from 'react-redux'
 import { RatingPhoto } from './RatingPhoto'
 import { Modal } from '../../components/UI/Modal'
 import { Button } from '../../components/UI/Button'
 import { SuccessModal } from './SuccessModal'
+import { postReviewsPhone } from '../../store/informationPhone/infoPageThunk'
 
-export const LeaveYourFeedback = ({ rating, onClose }) => {
+export const LeaveYourFeedback = ({ rating, onClose, subProductId = 1 }) => {
    const [myStar, setMyStar] = useState(0)
    const [comment, setComment] = useState('')
    const [img, setImg] = useState('')
    const [successModal, setSuccessModal] = useState(false)
+
+   const dispatch = useDispatch()
 
    const imgUrl = img && URL.createObjectURL(img)
 
@@ -19,13 +23,13 @@ export const LeaveYourFeedback = ({ rating, onClose }) => {
 
    const onCreateReview = () => {
       const data = {
+         subProductId,
          star: myStar,
          comment,
          img: imgUrl,
       }
-
-      console.log('data: ', data)
-
+      console.log(data)
+      dispatch(postReviewsPhone(data))
       onClose()
       onOpenSuccessModal()
       setMyStar(0)

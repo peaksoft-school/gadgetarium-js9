@@ -1,8 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { styled } from '@mui/material'
+import { useDispatch } from 'react-redux'
 import { Attribute } from './Attribute'
+import { getInfoPage } from '../../../../store/informationPhone/infoPageThunk'
 
 export const InfoPagesContainer = () => {
+   const dispatch = useDispatch()
+   useEffect(() => {
+      dispatch(getInfoPage())
+   }, [])
    return (
       <Container>
          <Attribute />

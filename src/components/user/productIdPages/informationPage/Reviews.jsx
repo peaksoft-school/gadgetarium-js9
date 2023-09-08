@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styled from '@emotion/styled'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { format } from 'date-fns'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
@@ -9,7 +9,6 @@ import { Button } from '../../../UI/Button'
 import Feedback from '../../reviews/Feedback'
 import { Rating } from '../../../../containers/rating/Rating'
 import { InputUi } from '../../../UI/Input'
-import { getInfoPage } from '../../../../store/informationPhone/infoPageThunk'
 
 const formatDate = (dateString) => {
    const date = new Date(dateString)
@@ -17,21 +16,7 @@ const formatDate = (dateString) => {
 }
 
 export const Reviews = () => {
-   const dispatch = useDispatch()
-   const [inputText, setInputText] = useState()
-
    const reviews = useSelector((state) => state.phone.infoPhone.reviews)
-
-   useEffect(() => {
-      dispatch(getInfoPage())
-   }, [])
-
-   function handleSubmit() {
-      dispatch(postReviewsPhone({ comment: inputText }))
-   }
-   function handleOnChange(event) {
-      setInputText(event.target.value)
-   }
 
    const [open, setOpen] = useState(false)
    const handleOpen = () => setOpen(true)
@@ -103,8 +88,6 @@ export const Reviews = () => {
                         style={{ marginTop: '3rem' }}
                         width="20.8rem"
                         height="3rem"
-                        value={inputText}
-                        onChange={handleOnChange}
                      />
                      <ButtonBlock>
                         <Button
@@ -123,7 +106,6 @@ export const Reviews = () => {
                            backgroundHover="#CB11AB"
                            backgroundActive="#CB11AB"
                            padding="0.625rem 2.6825rem"
-                           onClick={handleSubmit}
                         >
                            Добавить
                         </Button>

@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import {
    getByIdPhoneRequest,
    getReviwesProductRequest,
+   postReviewsProductRequest,
 } from '../../api/getById.service'
 
 export const getInfoPage = createAsyncThunk(
@@ -9,7 +10,6 @@ export const getInfoPage = createAsyncThunk(
    async (_, { rejectWithValue }) => {
       try {
          const response = await getByIdPhoneRequest()
-         console.log('response.data', response.data)
          return response.data
       } catch (error) {
          return rejectWithValue(error)
@@ -19,29 +19,15 @@ export const getInfoPage = createAsyncThunk(
 
 export const deleteReviewsPhone = createAsyncThunk(
    'phone/deleteReviewsPhone',
-   async (reviewId, { dispatch, rejectWithValue }) => {
+   async (reviewId, { rejectWithValue }) => {
       try {
-         console.log(reviewId)
          await deleteReviewsRequest(reviewId)
-         dispatch(getInfoPage())
       } catch (error) {
          rejectWithValue(error)
       }
    }
 )
 
-export const postReviewsPhone = createAsyncThunk(
-   'phone/postReviewsPhone',
-   async (data, { rejectWithValue }) => {
-      console.log(data, 'LeaveYourFeedback')
-      try {
-         const response = await postReviewsRequest(data)
-         return response.data
-      } catch (error) {
-         return rejectWithValue(error.message)
-      }
-   }
-)
 export const getReviwesProduct = createAsyncThunk(
    'phone/getReviwesProduct',
    async (id, { rejectWithValue }) => {
@@ -50,6 +36,19 @@ export const getReviwesProduct = createAsyncThunk(
          return response.data
       } catch (error) {
          return rejectWithValue(error)
+      }
+   }
+)
+
+export const postReviewsPhone = createAsyncThunk(
+   'phone/postReviewsPhone',
+   async (data, { dispatch, rejectWithValue }) => {
+      try {
+         await postReviewsProductRequest(data)
+         dispatch(getInfoPage(data.subProductId))
+         dispatch(getReviwesProduct(data.subProductId))
+      } catch (error) {
+         rejectWithValue(error.message)
       }
    }
 )

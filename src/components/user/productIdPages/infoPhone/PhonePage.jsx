@@ -5,8 +5,6 @@ import { PopUpMain } from '../../UserUI/PopUp/PopUpMain'
 import { PhoneDeital } from './PhoneDeital'
 import { getInfoPage } from '../../../../store/informationPhone/infoPageThunk'
 
-// import { Attribute } from '../informationPage/Attribute'
-
 export const PhonePage = () => {
    const { brandName } = useSelector((state) => state.phone.infoPhone)
 
@@ -22,7 +20,6 @@ export const PhonePage = () => {
             <PopUpMain />
             <PhoneDeital />
          </ConatinerChilde>
-         {/* <Attribute /> */}
       </Container>
    )
 }

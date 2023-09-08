@@ -1,13 +1,22 @@
 import { styled, Rating as RatingMui } from '@mui/material'
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Button } from '../../components/UI/Button'
 import { LeaveYourFeedback } from './LeaveYourFeedback'
+import { getReviwesProduct } from '../../store/informationPhone/infoPageThunk'
 
-export const Rating = () => {
-   const { totalReviews } = useSelector((state) => state.phone.getReviews)
-   console.log(totalReviews)
-   const [rating, setRating] = useState(false)
+export const Rating = ({ id = 1 }) => {
+   const { rating, totalReviews, five, four, three, two, one } = useSelector(
+      (state) => state.phone.getReviews
+   )
+
+   const dispatch = useDispatch()
+
+   useEffect(() => {
+      dispatch(getReviwesProduct(id))
+   }, [])
+
+   const [ratings, setRating] = useState(false)
    const role = 'USER'
 
    const onOpenNodal = () => {
@@ -24,31 +33,35 @@ export const Rating = () => {
             <BoxInfoRating>
                <ContainerGeneralRating>
                   <BoxGeneralRating>
-                     <h1>4,5</h1>
-                     <RatingMuiStyle value={3} readOnly size="small" />
+                     <h1>{rating}</h1>
+                     <RatingMuiStyle
+                        value={rating || 0}
+                        readOnly
+                        size="small"
+                     />
                   </BoxGeneralRating>
-                  <span>789 отзывов</span>
+                  <span>{totalReviews} отзывов</span>
                </ContainerGeneralRating>
                <ContainerInfoStar>
                   <div className="star-box">
                      <RatingMuiStyle value={5} readOnly size="small" />
-                     <span>{23} отзывов</span>
+                     <span>{five} отзывов</span>
                   </div>
                   <div className="star-box">
                      <RatingMuiStyle value={4} readOnly size="small" />
-                     <span>{5} отзывов</span>
+                     <span>{four} отзывов</span>
                   </div>
                   <div className="star-box">
                      <RatingMuiStyle value={3} readOnly size="small" />
-                     <span>{17} отзывов</span>
+                     <span>{three} отзывов</span>
                   </div>
                   <div className="star-box">
                      <RatingMuiStyle value={2} readOnly size="small" />
-                     <span>{4} отзывов</span>
+                     <span>{two} отзывов</span>
                   </div>
                   <div className="star-box">
                      <RatingMuiStyle value={1} readOnly size="small" />
-                     <span>{2} отзывов</span>
+                     <span>{one} отзывов</span>
                   </div>
                </ContainerInfoStar>
             </BoxInfoRating>
@@ -63,7 +76,7 @@ export const Rating = () => {
                </Button>
             ) : null}
 
-            <LeaveYourFeedback rating={rating} onClose={onClose} />
+            <LeaveYourFeedback rating={ratings} onClose={onClose} />
          </Container>
       </div>
    )
