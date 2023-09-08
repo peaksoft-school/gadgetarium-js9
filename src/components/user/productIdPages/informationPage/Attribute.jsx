@@ -77,5 +77,6 @@ export const Attribute = () => {
 
 const Container = styled('div')`
    width: 80vw;
+   padding-bottom: 10rem;
    margin-top: 4.75rem;
 `

@@ -82,7 +82,6 @@ export const Delivery = () => {
 
 const Container = styled('div')`
    margin-top: 6.06rem;
-   height: 70vh;
 `
 
 const Deliver = styled('h3')`

@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getInfoPage } from './infoPageThunk'
+import { getInfoPage, getReviwesProduct } from './infoPageThunk'
 
 const initialState = {
    infoPhone: {},
+   getReviews: {},
 }
 
 export const infoPageSlice = createSlice({
@@ -15,6 +16,9 @@ export const infoPageSlice = createSlice({
             ...state,
             infoPhone: action.payload,
          }
+      })
+      builder.addCase(getReviwesProduct.fulfilled, (state, action) => {
+         state.getReviews = action.payload
       })
    },
 })

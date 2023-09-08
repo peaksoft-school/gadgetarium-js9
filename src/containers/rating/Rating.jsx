@@ -1,9 +1,12 @@
 import { styled, Rating as RatingMui } from '@mui/material'
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import { Button } from '../../components/UI/Button'
 import { LeaveYourFeedback } from './LeaveYourFeedback'
 
 export const Rating = () => {
+   const { totalReviews } = useSelector((state) => state.phone.getReviews)
+   console.log(totalReviews)
    const [rating, setRating] = useState(false)
    const role = 'USER'
 

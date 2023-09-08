@@ -1,18 +1,25 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { styled } from '@mui/material'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { Carousel } from 'react-responsive-carousel'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { NavLink } from 'react-router-dom'
 import BackButton from '../../../UI/icon.button/back.forth.buttons/BackButton'
 import ForthButton from '../../../UI/icon.button/back.forth.buttons/ForthButton'
-
 import { ReactComponent as Cross } from '../../../../assets/icons/cross/big-cross-icon.svg'
+import { getInfoPage } from '../../../../store/informationPhone/infoPageThunk'
 
-export const PopUpPage = ({ openComponent }) => {
+export const PopUpPage = () => {
    const infoPhone = useSelector((state) => state.phone.infoPhone)
+
+   const dispatch = useDispatch()
+
+   useEffect(() => {
+      dispatch(getInfoPage())
+   }, [])
    return (
-      <div>
-         <BlockCross onClick={openComponent}>
+      <Container>
+         <BlockCross to="/phones">
             <Cross />
          </BlockCross>
          <CarouselStyle
@@ -29,16 +36,20 @@ export const PopUpPage = ({ openComponent }) => {
             )}
          >
             {infoPhone.images?.map((image) => (
-               <div style={{ padding: '50px' }} key={image}>
+               <div key={image}>
                   <img width="10vw" height="90px" src={image} alt="gadget" />
                </div>
             ))}
          </CarouselStyle>
-      </div>
+      </Container>
    )
 }
 
-const BlockCross = styled('div')`
+const Container = styled('div')`
+   margin-top: 5rem;
+`
+
+const BlockCross = styled(NavLink)`
    display: flex;
    position: relative;
    width: 98vw;
@@ -48,6 +59,7 @@ const BlockCross = styled('div')`
 `
 const CarouselStyle = styled(Carousel)(({ theme }) => ({
    textAlign: 'center',
+   paddingBottom: '10rem',
 
    '& .thumb.selected': {
       border: `1px solid ${theme.palette.primary.main}`,
@@ -73,6 +85,9 @@ const CarouselStyle = styled(Carousel)(({ theme }) => ({
 
    '& .carousel-status': {
       display: 'none',
+   },
+   '& .thumb': {
+      border: 'none',
    },
 }))
 

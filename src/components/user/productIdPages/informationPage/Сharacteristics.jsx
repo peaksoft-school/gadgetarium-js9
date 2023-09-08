@@ -21,7 +21,6 @@ export const Сharacteristics = () => {
             </AccordionSummary>
             <AccordionDetails>
                <Typography>
-                  mklmlmlk
                   {category === 'Laptop' && 'Phone' ? (
                      <TypographyBlock>
                         <div>
@@ -118,6 +117,8 @@ const Container = styled('div')`
    }
    .MuiAccordionSummary-content {
       margin: 0;
+   }
+   .MuiAccordion-root {
    }
 `
 

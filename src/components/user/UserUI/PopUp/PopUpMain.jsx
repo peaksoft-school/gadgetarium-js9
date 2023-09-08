@@ -3,10 +3,11 @@ import { styled } from '@mui/material'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { Carousel } from 'react-responsive-carousel'
 import { useSelector } from 'react-redux'
+import { NavLink } from 'react-router-dom'
 import { ReactComponent as ArrowLeft } from '../../../../assets/icons/arrows/left-icon.svg'
 import { ReactComponent as ArrowRight } from '../../../../assets/icons/arrows/right-icon.svg'
 
-export const PopUpMain = ({ openComponent }) => {
+export const PopUpMain = () => {
    const infoPhone = useSelector((state) => state.phone.infoPhone)
    const [currentIndex, setCurrentIndex] = useState(0)
 
@@ -25,29 +26,34 @@ export const PopUpMain = ({ openComponent }) => {
          setCurrentIndex(0)
       }
    }
+
    return (
       <div>
          <ButtonBlock>
             <LeftBtn onClick={handlePreviousClick} />
             <RightBtn onClick={handleNextClick} />
          </ButtonBlock>
-         <CarouselStyle
-            infiniteLoop
-            selectedItem={currentIndex}
-            onChange={(index) => setCurrentIndex(index)}
-         >
-            {infoPhone.images?.map((image) => (
-               <div onClick={openComponent} key={image}>
-                  <img height="80rem" src={image} alt="gadget" />
-               </div>
-            ))}
-         </CarouselStyle>
+         <NavLink to="/phones/fullPicture">
+            <CarouselStyle
+               infiniteLoop
+               selectedItem={currentIndex}
+               onChange={(index) => setCurrentIndex(index)}
+            >
+               {infoPhone.images?.map((image) => (
+                  <div key={image}>
+                     <img height="80rem" src={image} alt="gadget" />
+                  </div>
+               ))}
+            </CarouselStyle>
+         </NavLink>
       </div>
    )
 }
 
 const CarouselStyle = styled(Carousel)(({ theme }) => ({
+   width: '20vw',
    textAlign: 'center',
+
    '& .thumb.selected': {
       border: `1px solid ${theme.palette.primary.main}`,
    },
@@ -57,7 +63,6 @@ const CarouselStyle = styled(Carousel)(({ theme }) => ({
    },
 
    '& .carousel .slide img': {
-      width: '25vw',
       height: '45vh',
    },
    img: {
@@ -74,45 +79,30 @@ const CarouselStyle = styled(Carousel)(({ theme }) => ({
    '& .carousel.carousel-slider .control-arrow': {
       display: 'none',
    },
+   '& .thumb': {
+      border: 'none',
+   },
 }))
 
-// const ButtonBlock = styled('div')`
-//    display: flex;
-//    justify-content: center;
-//    position: relative;
-//    top: 28rem;
-// `
-// const LeftBtn = styled(ArrowLeft)`
-//    position: relative;
-//    z-index: 2;
-//    right: 8rem;
-//    width: 1.8525rem;
-//    height: 1.8525rem;
-//    cursor: pointer;
-// `
-// const RightBtn = styled(ArrowRight)`
-//    position: relative;
-//    z-index: 2;
-//    left: 8rem;
-//    width: 1.8525rem;
-//    height: 1.8525rem;
-//    cursor: pointer;
-// `
 const ButtonBlock = styled('div')`
    display: flex;
-   width: 100px;
-   height: 200px;
-   justify-content: space-between;
-   align-items: flex-end;
+   justify-content: center;
+   position: relative;
+   top: 28rem;
 `
 const LeftBtn = styled(ArrowLeft)`
+   position: relative;
    z-index: 2;
+   right: 8rem;
+
    width: 1.8525rem;
    height: 1.8525rem;
    cursor: pointer;
 `
 const RightBtn = styled(ArrowRight)`
+   position: relative;
    z-index: 2;
+   left: 8rem;
    width: 1.8525rem;
    height: 1.8525rem;
    cursor: pointer;

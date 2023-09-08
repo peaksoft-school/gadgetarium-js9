@@ -1,48 +1,39 @@
 import { styled } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { PopUpMain } from '../../UserUI/PopUp/PopUpMain'
 import { PhoneDeital } from './PhoneDeital'
 import { getInfoPage } from '../../../../store/informationPhone/infoPageThunk'
-import { PopUpPage } from '../../UserUI/PopUp/PopUpPage'
-import { Attribute } from '../informationPage/Attribute'
+
+// import { Attribute } from '../informationPage/Attribute'
 
 export const PhonePage = () => {
    const { brandName } = useSelector((state) => state.phone.infoPhone)
-   const [open, setOpen] = useState(false)
-   const dispatch = useDispatch()
 
-   const openComponent = () => {
-      setOpen((prev) => !prev)
-   }
+   const dispatch = useDispatch()
 
    useEffect(() => {
       dispatch(getInfoPage())
    }, [])
    return (
       <Container>
-         {open ? (
-            <PopUpPage openComponent={openComponent} />
-         ) : (
-            <>
-               <BrandName>{brandName}</BrandName>
-               <ConatinerChilde>
-                  <PopUpMain openComponent={openComponent} />
-                  <PhoneDeital />
-               </ConatinerChilde>
-               <Attribute />
-            </>
-         )}
+         <BrandName>{brandName}</BrandName>
+         <ConatinerChilde>
+            <PopUpMain />
+            <PhoneDeital />
+         </ConatinerChilde>
+         {/* <Attribute /> */}
       </Container>
    )
 }
 
 const Container = styled('div')`
-   margin-top: 5rem;
+   margin-top: 1rem;
 `
 
 const BrandName = styled('h1')`
    color: blue;
+   font-family: Orbitron;
 `
 const ConatinerChilde = styled('div')`
    display: flex;
