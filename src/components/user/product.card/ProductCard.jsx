@@ -54,7 +54,6 @@ export const ProductCard = ({
             postCompareProduct({
                id,
                addOrDelete: !comparisonState,
-               comparisonState,
                pageSize,
             })
          )

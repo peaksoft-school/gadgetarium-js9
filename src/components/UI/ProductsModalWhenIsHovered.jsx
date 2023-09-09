@@ -23,7 +23,6 @@ export const ProductsModalWhenIsHovered = React.memo(
                postCompareProduct({
                   id,
                   addOrDelete: false,
-                  comparisonState: true,
                   pageSize: 5,
                })
             )

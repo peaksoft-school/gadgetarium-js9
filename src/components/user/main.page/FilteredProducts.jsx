@@ -22,8 +22,6 @@ export const FilteredProducts = ({ children, array }) => {
    const { stock, novelties, recommend, isLoading } = useSelector(
       (state) => state.mainPage
    )
-   const { isLoadingFavorite } = useSelector((state) => state.favorite)
-   const { isLoadingComparison } = useSelector((state) => state.compare)
    const [pageSize, setPageSize] = useState(5)
    const [visibleProducts, setVisibleProducts] = useState([])
    const dispatch = useDispatch()
@@ -81,12 +79,7 @@ export const FilteredProducts = ({ children, array }) => {
    }
 
    const renderNoGoods = (productArray) => {
-      if (
-         !isLoading &&
-         !isLoadingComparison &&
-         !isLoadingFavorite &&
-         productArray.length === 0
-      ) {
+      if (!isLoading && productArray.length === 0) {
          return <NoGoods>Здесь нет товаров</NoGoods>
       }
       return null
@@ -131,11 +124,10 @@ export const FilteredProducts = ({ children, array }) => {
       <Container>
          <Title>{children}</Title>
          <Products>
-            {renderProductCards(visibleProducts)}
+            {!isLoading && renderProductCards(visibleProducts)}
             {renderNoGoods(visibleProducts)}
-            {isLoading || isLoadingComparison || isLoadingFavorite
-               ? arrayForSkeleton.map((el) => <CardPhone key={el.id} />)
-               : null}
+            {isLoading &&
+               arrayForSkeleton.map((el) => <CardPhone key={el.id} />)}
          </Products>
          <ButtonContainer>{renderButton()}</ButtonContainer>
       </Container>

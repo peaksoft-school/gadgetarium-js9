@@ -7,6 +7,11 @@ import {
    postCompareProductRequest,
 } from '../../api/compare.service'
 import { useSnackbar } from '../../hooks/useSnackbar'
+import {
+   getNovelities,
+   getRecommend,
+   getStock,
+} from '../main.page/main.page.thunk'
 
 const { snackbarHandler } = useSnackbar()
 export const getAllCompareGoods = createAsyncThunk(
@@ -48,7 +53,7 @@ export const getCountProduct = createAsyncThunk(
 export const postCompareProduct = createAsyncThunk(
    'compare/postCompareProduct',
    async (
-      { id, addOrDelete, comparisonState, pageSize, productName },
+      { id, addOrDelete, pageSize, productName },
       { rejectWithValue, dispatch }
    ) => {
       try {
@@ -63,7 +68,7 @@ export const postCompareProduct = createAsyncThunk(
             dispatch(getRecommend({ page: 1, pageSize }))
             dispatch(getStock({ page: 1, pageSize }))
          }
-         if (comparisonState) {
+         if (!addOrDelete) {
             snackbarHandler({
                message: 'Товар удален из сравнения',
             })
@@ -75,10 +80,17 @@ export const postCompareProduct = createAsyncThunk(
             })
          }
       } catch (error) {
-         snackbarHandler({
-            message: 'Товар не удален из сравнения',
-            type: 'error',
-         })
+         if (!addOrDelete) {
+            snackbarHandler({
+               message: 'Товар не удален из сравнения',
+               type: 'error',
+            })
+         } else {
+            snackbarHandler({
+               message: 'Товар не добавлен в сравнения',
+               type: 'error',
+            })
+         }
          rejectWithValue(error)
       }
    }
