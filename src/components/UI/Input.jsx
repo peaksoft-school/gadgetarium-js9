@@ -64,6 +64,7 @@ export const InputUi = forwardRef(
       )
    }
 )
+InputUi.displayName = 'Input'
 
 const InputOutlained = styled(OutlinedInput)(
    ({
