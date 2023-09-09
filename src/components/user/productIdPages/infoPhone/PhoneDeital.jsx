@@ -1,6 +1,5 @@
 import { styled, Button } from '@mui/material'
 import Rating from '@mui/material/Rating'
-
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import RemoveIcon from '@mui/icons-material/Remove'
@@ -18,6 +17,7 @@ export const PhoneDeital = () => {
       discountOfProduct,
       colours,
       favorite,
+      color,
    } = useSelector((state) => state.phone.infoPhone)
 
    const [count, setCount] = useState(0)
@@ -63,9 +63,9 @@ export const PhoneDeital = () => {
                         <p>-{discountOfProduct}%</p>
                      </Discount>
                      <strong>
-                        {result} <span>c</span>
+                        {result?.toLocaleString()} <span>c</span>
                      </strong>
-                     <DiscountPrice>{price} с</DiscountPrice>
+                     <DiscountPrice>{price?.toLocaleString()} с</DiscountPrice>
                   </>
                )}
             </BlockPrice>
@@ -73,9 +73,20 @@ export const PhoneDeital = () => {
 
          <Block3>
             <div>
-               {colours?.map((el) => (
-                  <Color key={el} style={{ backgroundColor: el }} />
-               ))}
+               {colours?.map((el) => {
+                  if (color === el) {
+                     return (
+                        <BorderColor key={el} border>
+                           <Color bgcolor={el} />
+                        </BorderColor>
+                     )
+                  }
+                  return (
+                     <BorderColor key={el}>
+                        <Color bgcolor={el} />
+                     </BorderColor>
+                  )
+               })}
             </div>
             <Counter>
                <Button1 onClick={countMinus}>
@@ -212,9 +223,7 @@ const Color = styled('p')`
    width: 1.625rem;
    height: 1.625rem;
    border-radius: 100%;
-   cursor: pointer;
-
-   margin-top: 1.5rem;
+   background: ${(props) => props.bgcolor && props.bgcolor};
 `
 const Block3 = styled('div')`
    display: flex;
@@ -262,4 +271,14 @@ const BasketStyle = styled(Basket)`
 const ButtonUi = styled(Button)`
    width: 12.25rem;
    height: 2.8125rem;
+`
+const BorderColor = styled('div')`
+   display: flex;
+   width: 34px;
+   height: 34px;
+   justify-content: center;
+   align-items: center;
+   border-radius: 100%;
+   cursor: ${(props) => !props.border && 'pointer'};
+   border: ${(props) => props.border && '2px solid #cb11ab'};
 `

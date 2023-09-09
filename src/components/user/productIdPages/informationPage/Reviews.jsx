@@ -38,6 +38,7 @@ export const Reviews = () => {
       left: '50%',
       transform: 'translate(-50%, -50%)',
    }
+
    return (
       <div>
          <Container>
@@ -55,14 +56,13 @@ export const Reviews = () => {
                      return (
                         <Feedback
                            key={review.reviewId}
-                           my={review.my}
                            handleOpen={handleOpen}
                            userName={review.userFullName}
-                           userText="Размер (разумный - достаточно большой для чтения/просмотра контента, но не чрезмерный).Камера (первое время режимом мультикадр был приятно удивлён  мегапикселей не пожалели на основную камеру,зум работает увереннее, чем у конкурентов)"
+                           userText={review.comment}
                            stars={review.grade}
-                           canUserEdit
                            timePublication={formatDate(review.dateOfCreatAd)}
                            reviewId={review.reviewId}
+                           canUserEdit={review.my}
                         />
                      )
                   })}
