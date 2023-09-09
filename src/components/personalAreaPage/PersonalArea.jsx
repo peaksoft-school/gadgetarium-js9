@@ -5,13 +5,14 @@ import Typography from '@mui/material/Typography'
 import { styled } from '@mui/material'
 import Box from '@mui/material/Box'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Profile } from './profilePages/Profile'
 import { ReactComponent as Cross } from '../../assets/icons/cross/small-cross-icon.svg'
 import { EmptyHistory } from './historyPages/EmptyHistory'
 import { EmptyFavorites } from './favoritesPages/EmptyFavorites'
 import { History } from './historyPages/History'
 import { Favorites } from './favoritesPages/Favorites'
+import { deleteOrderRequest } from '../../store/order/Order.thunk'
 
 function CustomTabPanel(props) {
    const { children, value, index, ...other } = props
@@ -28,12 +29,18 @@ function CustomTabPanel(props) {
 }
 
 export const PersonalArea = () => {
-   const productOrder = useSelector((state) => state.order.productOrder)
+   const dispatch = useDispatch()
+   const { productOrder } = useSelector((state) => state.order)
 
-   const order = productOrder.length > 0 ? productOrder[0] : null
+   const orderById = productOrder.length > 0 ? productOrder[0].orderId : null
+   console.log('order', orderById)
 
    const navigate = useNavigate()
    const [value, setValue] = useState(0)
+
+   const deleteOrder = () => {
+      dispatch(deleteOrderRequest(orderById))
+   }
 
    const handleChange = (event, newValue) => {
       setValue(newValue)
@@ -82,8 +89,8 @@ export const PersonalArea = () => {
                   <Tab label="Профиль" {...a11yProps(2)} />
                </Tabs>
 
-               {value === 0 ? (
-                  <Delete>
+               {value === 0 && productOrder.length > 0 ? (
+                  <Delete onClick={deleteOrder}>
                      <Cross />
                      <p>Очистить список заказов</p>
                   </Delete>
@@ -92,10 +99,10 @@ export const PersonalArea = () => {
                )}
             </TabsHeader>
             <CustomTabPanel value={value} index={0}>
-               {order === 0 ? <EmptyHistory /> : <History />}
+               {orderById === 0 ? <EmptyHistory /> : <History />}
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
-               {order === 0 ? <EmptyFavorites /> : <Favorites />}
+               {orderById === 0 ? <EmptyFavorites /> : <Favorites />}
             </CustomTabPanel>
             <CustomTabPanel value={value} index={2}>
                <Profile />
@@ -120,18 +127,17 @@ const Container = styled('div')`
    .MuiTab-root {
       height: 2.125rem;
       border-radius: 4px;
-      color: black;
+      color: #384255;
+      min-height: 0;
       background-color: #e0e2e7;
       padding: 0px 20px 0px 20px;
+      text-transform: none;
    }
 
    .MuiTabs-indicator {
       display: none;
    }
 
-   .MuiTab-root {
-      min-height: 0;
-   }
    .MuiTabs-flexContainer {
       display: flex;
       width: 28rem;
@@ -144,14 +150,12 @@ const Delete = styled('div')`
    cursor: pointer;
    justify-content: space-between;
    align-items: center;
-   position: relative;
-   right: 10rem;
    p {
-      position: relative;
-      left: 0.5rem;
+      margin-left: 0.5rem;
    }
 `
 const TabsHeader = styled('div')`
+   width: 100%;
    display: flex;
    align-items: center;
    justify-content: space-between;
