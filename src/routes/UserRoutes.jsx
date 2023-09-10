@@ -7,6 +7,7 @@ import { MainPage } from '../components/user/main.page/MainPage'
 import { PhoneContainer } from '../components/user/productIdPages/infoPhone/PhoneContainer'
 import { PopUpPage } from '../components/user/UserUI/PopUp/PopUpPage'
 import { InfoPagesContainer } from '../components/user/productIdPages/informationPage/InfoPagesContainer'
+import { ViewedContainer } from '../components/user/productIdPages/viewedPhones/ViewedContainer'
 
 export const userRoutes = [
    { path: routes.USER.index, element: <MainPage /> },
@@ -30,7 +31,7 @@ export const userRoutes = [
       path: routes.USER.phones.index,
       element: (
          <div>
-            <PhoneContainer /> <InfoPagesContainer />
+            <PhoneContainer /> <InfoPagesContainer /> <ViewedContainer />
          </div>
       ),
    },
