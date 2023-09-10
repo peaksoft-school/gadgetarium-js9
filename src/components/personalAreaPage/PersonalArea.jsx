@@ -33,7 +33,6 @@ export const PersonalArea = () => {
    const { productOrder } = useSelector((state) => state.order)
 
    const orderById = productOrder.length > 0 ? productOrder[0].orderId : null
-   console.log('order', orderById)
 
    const navigate = useNavigate()
    const [value, setValue] = useState(0)
@@ -57,7 +56,7 @@ export const PersonalArea = () => {
          setValue(0)
       } else if (tab === 'favorites') {
          setValue(1)
-      } else {
+      } else if (tab === 'profile') {
          setValue(2)
       }
    }, [tab])

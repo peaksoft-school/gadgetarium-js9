@@ -76,7 +76,7 @@ const Container = styled('div')`
    margin-top: 3.16rem;
    height: 50vh;
    .MuiTableCell-root:not(:last-child) {
-      width: 200px;
+      width: 12.5rem;
       text-align: start;
    }
    strong {

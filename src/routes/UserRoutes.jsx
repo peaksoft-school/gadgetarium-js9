@@ -42,4 +42,8 @@ export const userRoutes = [
       path: routes.USER.personalFavorites,
       element: <PersonalAreaContainer />,
    },
+   {
+      path: routes.USER.personalProfile,
+      element: <PersonalAreaContainer />,
+   },
 ]

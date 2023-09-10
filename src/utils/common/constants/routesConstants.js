@@ -19,6 +19,7 @@ export const routes = {
          personalDetail: 'personalArea/:orderId/details',
       },
       personalFavorites: '/personalArea/:tab',
+      personalProfile: '/personalArea/:tab',
    },
 }
 
