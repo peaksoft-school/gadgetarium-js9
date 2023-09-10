@@ -19,7 +19,6 @@ import BackButton from '../../UI/icon.button/back.forth.buttons/BackButton'
 
 import { useSnackbar } from '../../../hooks/useSnackbar'
 import sammyFinance from '../../../assets/images/sammy-finance-image.png'
-import { categoryMappings } from '../../../utils/common/constants/compare.constants'
 import { useCustomSearchParams } from '../../../hooks/useCustomSearchParams'
 
 export const Compare = () => {
@@ -117,7 +116,7 @@ export const Compare = () => {
    useEffect(() => {
       dispatch(compareActions.changeDelete())
    }, [products])
-   const visibleItems = products?.slice(startPosition, startPosition + 6)
+   const visibleItems = products?.slice(startPosition, startPosition + 6) || []
    const renderForthButton = () => {
       if (products?.length === startPosition + 6) {
          return null
@@ -173,9 +172,6 @@ export const Compare = () => {
                               },
                            }
 
-                           const russianCategory =
-                              categoryMappings[el.categoryTitle]
-
                            return (
                               <StyledButton
                                  {...productButtonProps}
@@ -184,7 +180,7 @@ export const Compare = () => {
                                     isCurrentProduct ? 'true' : 'false'
                                  }
                               >
-                                 {`${russianCategory} (${el.totalCounter})`}
+                                 {`${el.categoryTitle} (${el.totalCounter})`}
                               </StyledButton>
                            )
                         })}
