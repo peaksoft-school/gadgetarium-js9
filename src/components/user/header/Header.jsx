@@ -27,7 +27,6 @@ export const Header = ({ favorite, comparison, basket }) => {
    const [inputValue, setInputValue] = useState('')
 
    const { favoriteItems } = useSelector((state) => state.favorite)
-
    const [hoverFavorite, setHoverFavorite] = useState(false)
    const toggleHoverFavorite = () => {
       setHoverFavorite(!hoverFavorite)

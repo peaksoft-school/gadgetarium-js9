@@ -7,6 +7,7 @@ import { Favorite } from '../components/user/favorite/Favorite'
 import { MainPage } from '../components/user/main.page/MainPage'
 import { PersonalAreaContainer } from '../components/personalAreaPage/PersonalAreaContainer'
 import { HistoryDetailContainer } from '../components/personalAreaPage/historyPages/HistoryDetailContainer'
+import { Catalog } from '../components/user/catalog/Catalog'
 
 export const userRoutes = [
    { path: routes.USER.index, element: <MainPage /> },
@@ -43,7 +44,13 @@ export const userRoutes = [
       element: <PersonalAreaContainer />,
    },
    {
-      path: routes.USER.personalProfile,
-      element: <PersonalAreaContainer />,
+      path: routes.USER.category.index,
+      element: <Catalog />,
+      children: [
+         { path: routes.USER.category.smartphone, element: <Catalog /> },
+         { path: routes.USER.category.smartWatch, element: <Catalog /> },
+         { path: routes.USER.category.tablets, element: <Catalog /> },
+         { path: routes.USER.category.laptops, element: <Catalog /> },
+      ],
    },
 ]

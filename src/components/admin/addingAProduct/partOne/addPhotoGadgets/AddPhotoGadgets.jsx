@@ -1,13 +1,19 @@
 import { styled } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { useSnackbar } from '../../../../hooks/useSnackbar'
+import { useSnackbar } from '../../../../../hooks/useSnackbar'
 import { InitialStateAddPhotoGadgets } from './InitialStateAddPhotoGadgets'
 import { StateAfterAddingOnePhoto } from './StateAfterAddingOnePhoto'
 
-export const AddPhotoGadgets = ({ onPhotoCollector, photoStateData }) => {
+export const AddPhotoGadgets = ({
+   onPhotoCollector,
+   photoStateData,
+   errorcategory,
+}) => {
    const [smartphonePhoto, setSmartphonePhoto] = useState(null)
    const { snackbarHandler } = useSnackbar()
    const [containerImg, setContainerImg] = useState(photoStateData || [])
+
+   const error = errorcategory === 'true' ? containerImg[0] === '' : true
 
    const deleteHandler = (id) => {
       const filteredContainerImg = containerImg.filter((item) => item.id !== id)
@@ -89,7 +95,7 @@ export const AddPhotoGadgets = ({ onPhotoCollector, photoStateData }) => {
 
    return (
       <Container>
-         <ContainerAddPhoto>
+         <ContainerAddPhoto error={error ? 'true' : 'false'}>
             <span className="span">Добавьте фото</span>
 
             {containerImg.length === 0 ? (
@@ -115,7 +121,7 @@ const Container = styled('div')`
    width: 10px;
 `
 
-const ContainerAddPhoto = styled('div')(({ theme }) => ({
+const ContainerAddPhoto = styled('div')(({ theme, error }) => ({
    display: 'flex',
    flexDirection: 'column',
    gap: '0.31rem',
@@ -129,7 +135,7 @@ const ContainerAddPhoto = styled('div')(({ theme }) => ({
       padding: '1.3rem 0',
 
       borderRadius: '0.20833rem',
-      border: `1px dashed black`,
+      border: `1px dashed ${error === 'false' ? '#ff0000' : '#000000'}`,
       backgroundColor: '#d2d4d87f',
    },
 

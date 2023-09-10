@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 import { Button, styled } from '@mui/material'
-import { ReactComponent as Plus } from '../../../assets/icons/plus.svg'
+import { ReactComponent as Plus } from '../../../../assets/icons/plus.svg'
 import { QuantityOfProductsButton } from './QuantityOfProductsButton'
 
 export const QuantityOfProducts = ({
