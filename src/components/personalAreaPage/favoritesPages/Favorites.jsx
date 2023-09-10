@@ -30,9 +30,9 @@ export const Favorites = () => {
             {favoritesOrders?.map((el) => (
                <Card key={el.subProductId}>
                   <CardMedia
+                     onClick={() => console.log(el.subProductId)}
                      sx={{ width: 210, height: 210 }}
                      image={el.image}
-                     title="green iguana"
                   />
                   <CardContent>
                      <Typography variant="h5" component="div">
@@ -75,6 +75,13 @@ const Block = styled('div')`
    }
    .MuiCard-root {
       width: 13.125rem;
+      cursor: pointer;
+   }
+   .MuiCard-root:hover {
+      transform: scale(1.05);
+      transition: transform 0.3s ease;
+      box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
    }
    .MuiCardContent-root {
       height: 9rem;
