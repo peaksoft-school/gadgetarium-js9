@@ -72,7 +72,7 @@ export const PhoneDeital = () => {
          </Block2>
 
          <Block3>
-            <div>
+            <BlockColors>
                {colours?.map((el) => {
                   if (color === el) {
                      return (
@@ -87,7 +87,7 @@ export const PhoneDeital = () => {
                      </BorderColor>
                   )
                })}
-            </div>
+            </BlockColors>
             <Counter>
                <Button1 onClick={countMinus}>
                   <RemoveIcon />
@@ -281,4 +281,7 @@ const BorderColor = styled('div')`
    border-radius: 100%;
    cursor: ${(props) => !props.border && 'pointer'};
    border: ${(props) => props.border && '2px solid #cb11ab'};
+`
+const BlockColors = styled('div')`
+   margin-top: 1.4rem;
 `

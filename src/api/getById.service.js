@@ -11,3 +11,7 @@ export const getReviwesProductRequest = (id) => {
 export const postReviewsProductRequest = (data) => {
    return axiosInstance.post('/reviews', data)
 }
+
+export const deleteReviewsProductRequest = (reviewId = 1) => {
+   return axiosInstance.delete(`/reviews/${reviewId}`)
+}

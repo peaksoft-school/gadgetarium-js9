@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 
 export const Description = () => {
    const { description } = useSelector((state) => state.phone.infoPhone)
+
    return (
       <Container>
          <iframe

@@ -21,7 +21,7 @@ export const Сharacteristics = () => {
             </AccordionSummary>
             <AccordionDetails>
                <Typography>
-                  {category === 'Laptop' && 'Phone' ? (
+                  {category === 'Ноутбук' && 'Phone' ? (
                      <TypographyBlock>
                         <div>
                            <p>Бренд:</p>

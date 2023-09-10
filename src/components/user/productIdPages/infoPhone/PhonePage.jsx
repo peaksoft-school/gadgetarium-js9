@@ -26,6 +26,7 @@ export const PhonePage = () => {
 
 const Container = styled('div')`
    margin-top: 1rem;
+   margin-bottom: 7.5rem;
 `
 
 const BrandName = styled('h1')`

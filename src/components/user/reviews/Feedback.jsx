@@ -15,6 +15,7 @@ const Feedback = ({
    stars,
    canUserEdit,
    adminState,
+   deleteProductRequest,
 }) => {
    const [openModal, setOpenModal] = useSearchParams()
    const [adminText, setAdminText] = useState('')
@@ -46,6 +47,7 @@ const Feedback = ({
       openModal.set('openModal', 'true')
       setOpenModal(openModal)
    }
+
    return (
       <Container>
          <UserContainer>
@@ -72,7 +74,7 @@ const Feedback = ({
          {canUserEdit && (
             <ToolContainer>
                <EditIcon />
-               <DeleteIcon />
+               <DeleteIcon onClick={deleteProductRequest} />
             </ToolContainer>
          )}
          {adminState && (

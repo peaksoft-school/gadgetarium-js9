@@ -9,7 +9,7 @@ export const Сharacteristics = () => {
    return (
       <div>
          <strong>Коротко о товаре:</strong>
-         {category === 'Smart Watch' ? (
+         {category === 'Смарт часы' ? (
             <Product>
                <Key>
                   <p>ПЗУ..............................................</p>
@@ -27,7 +27,7 @@ export const Сharacteristics = () => {
          ) : (
             ''
          )}
-         {category === 'Laptop' ? (
+         {category === 'Ноутбук' ? (
             <Product>
                <Key>
                   <p>Экран............................................</p>
@@ -47,7 +47,7 @@ export const Сharacteristics = () => {
          ) : (
             ''
          )}
-         {category === 'Phone' ? (
+         {category === 'Смартфоны' ? (
             <Product>
                <Key>
                   <p>{screenResolution === null ? '' : screenResolution}</p>
