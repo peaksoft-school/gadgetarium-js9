@@ -21,3 +21,6 @@ export const postBasketByIdRequest = (id) => {
 export const getBannersRequest = () => {
    return axiosInstance.get(`/v1/banners`)
 }
+export const getGlobalSearchRequest = (keyword) => {
+   return axiosInstance.get(`/globalSearch?keyword=${keyword}`)
+}

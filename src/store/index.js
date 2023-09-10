@@ -5,6 +5,7 @@ import { addProductSlice } from './addProduct/addProductPartOne.slice'
 import { favoriteSlice } from './favorite/favorite.slice'
 import { mainPageSlice } from './main.page/main.page.slice'
 import { compareSlice } from './compare/compare.slice'
+import { globalSearchSlice } from './globalSearch/global.search.slice'
 
 export const store = configureStore({
    reducer: {
@@ -14,5 +15,6 @@ export const store = configureStore({
       [favoriteSlice.name]: favoriteSlice.reducer,
       [mainPageSlice.name]: mainPageSlice.reducer,
       [compareSlice.name]: compareSlice.reducer,
+      [globalSearchSlice.name]: globalSearchSlice.reducer,
    },
 })
