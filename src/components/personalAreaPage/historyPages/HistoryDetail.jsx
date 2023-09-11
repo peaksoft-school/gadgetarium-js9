@@ -44,12 +44,15 @@ export const HistoryDetail = () => {
                         </Typography>
                         <BlockRaiting>
                            <p>Рейтинг</p>
-                           <Rating name="simple-controlled" value={el.rating} />
+                           <Rating
+                              name="read-only"
+                              value={el.rating}
+                              readOnly
+                           />
                            <p> ({el.rating})</p>
                         </BlockRaiting>
                         <h3>
-                           {el.price}
-                           <Сurrency>c</Сurrency>
+                           {el.price?.toLocaleString()} <Сurrency>c</Сurrency>
                         </h3>
                      </CardContent>
                   </Card>
@@ -150,6 +153,12 @@ const Container = styled('div')`
    .MuiCard-root:not(:first-child) {
       margin-left: 2rem;
    }
+   .MuiCard-root:hover {
+      transform: scale(1.05);
+      transition: transform 0.3s ease;
+      box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+   }
 `
 
 const BlockContainer = styled('div')`
@@ -178,7 +187,7 @@ const BlockRaiting = styled('div')`
       font-size: 12px;
       color: #909cb5;
    }
-   .css-iljtu2-MuiRating-root {
+   .MuiRating-root {
       font-size: 1rem;
    }
 `

@@ -101,7 +101,7 @@ export const PersonalArea = () => {
                )}
             </TabsHeader>
             <CustomTabPanel value={value} index={0}>
-               {orderById === null ? <EmptyHistory /> : <History />}
+               {orderById === 0 ? <EmptyHistory /> : <History />}
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
                {subProductById === 0 ? <EmptyFavorites /> : <Favorites />}
@@ -119,7 +119,7 @@ const Container = styled('div')`
    margin-top: 2.88rem;
    justify-content: center;
 
-   .css-19kzrtu {
+   .MuiBox-root {
       padding: 0;
    }
    .MuiTab-root.Mui-selected {

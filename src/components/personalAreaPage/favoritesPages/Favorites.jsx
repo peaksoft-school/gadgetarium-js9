@@ -43,10 +43,9 @@ export const Favorites = () => {
                         <Rating name="read-only" value={el.rating} readOnly />
                         <p> ({el.rating})</p>
                      </BlockRaiting>
-                     <h3>
-                        {el.price?.toLocaleString('ru-RU')}
-                        <Сurrency>c</Сurrency>
-                     </h3>
+                     <Price>
+                        {el.price?.toLocaleString()} <Сurrency>c</Сurrency>
+                     </Price>
                   </CardContent>
                </Card>
             ))}
@@ -119,4 +118,9 @@ const ButtonStyle = styled(Button)`
 `
 const Сurrency = styled('span')`
    border-bottom: 1.5px solid black;
+`
+const Price = styled('p')`
+   font-family: Inter;
+   font-size: 1.125rem;
+   font-weight: 700;
 `
