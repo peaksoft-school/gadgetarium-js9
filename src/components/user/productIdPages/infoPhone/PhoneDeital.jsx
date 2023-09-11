@@ -283,5 +283,6 @@ const BorderColor = styled('div')`
    border: ${(props) => props.border && '2px solid #cb11ab'};
 `
 const BlockColors = styled('div')`
+   display: flex;
    margin-top: 1.4rem;
 `
