@@ -5,6 +5,7 @@ const initialState = {
    productOrder: [],
    favorite: [],
    orderInfo: {},
+   productsViewed: [],
    isLoading: false,
 }
 

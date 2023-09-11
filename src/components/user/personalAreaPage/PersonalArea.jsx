@@ -7,12 +7,12 @@ import Box from '@mui/material/Box'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Profile } from './profilePages/Profile'
-import { ReactComponent as Cross } from '../../assets/icons/cross/small-cross-icon.svg'
+import { ReactComponent as Cross } from '../../../assets/icons/cross/small-cross-icon.svg'
 import { EmptyHistory } from './historyPages/EmptyHistory'
 import { EmptyFavorites } from './favoritesPages/EmptyFavorites'
 import { History } from './historyPages/History'
 import { Favorites } from './favoritesPages/Favorites'
-import { deleteOrderRequest } from '../../store/order/order.thunk'
+import { deleteOrderRequest } from '../../../store/order/order.thunk'
 
 function CustomTabPanel(props) {
    const { children, value, index, ...other } = props

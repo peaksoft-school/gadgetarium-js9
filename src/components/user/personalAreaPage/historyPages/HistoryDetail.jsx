@@ -1,10 +1,5 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
-import CardMedia from '@mui/material/CardMedia'
-import Typography from '@mui/material/Typography'
-import Rating from '@mui/material/Rating'
 import { styled, css } from '@mui/material'
 import { useParams } from 'react-router-dom'
 import {
@@ -12,8 +7,9 @@ import {
    PENDING,
    CANCELED,
    ONMYWAY,
-} from '../../../utils/common/constants/globalConstants'
-import { orderByIdRequest } from '../../../store/order/order.thunk'
+} from '../../../../utils/common/constants/globalConstants'
+import { orderByIdRequest } from '../../../../store/order/order.thunk'
+import { SecondProductCard } from '../../UserUI/uiCart/SecondProductCard'
 
 export const HistoryDetail = () => {
    const param = useParams()
@@ -36,33 +32,7 @@ export const HistoryDetail = () => {
             <h2>№ {orders.orderNumber}</h2>
             <BlockCard>
                {orders.productsInfoResponses?.map((el) => (
-                  <Card
-                     key={el.subProductId}
-                     sx={{ width: '210px', height: '354px' }}
-                  >
-                     <CardMedia
-                        sx={{ width: 210, height: 210 }}
-                        image={el.image}
-                        title="green iguana"
-                     />
-                     <CardContent>
-                        <Typography gutterBottom variant="p" component="div">
-                           {el.productName}
-                        </Typography>
-                        <BlockRaiting>
-                           <BlockRaitingTest>Рейтинг</BlockRaitingTest>
-                           <Rating
-                              name="read-only"
-                              value={el.rating}
-                              readOnly
-                           />
-                           <BlockRaitingTest> ({el.rating})</BlockRaitingTest>
-                        </BlockRaiting>
-                        <h3>
-                           {el.price?.toLocaleString()} <Сurrency>c</Сurrency>
-                        </h3>
-                     </CardContent>
-                  </Card>
+                  <SecondProductCard key={el.subProductId} el={el} />
                ))}
             </BlockCard>
             <p>Статус</p>
@@ -169,22 +139,6 @@ const BlockContainer = styled('div')`
    margin-top: 2.5rem;
 `
 
-const BlockRaiting = styled('div')`
-   display: flex;
-   width: 10rem;
-   margin-top: 0.5rem;
-   justify-content: space-between;
-   align-items: center;
-
-   .MuiRating-root {
-      font-size: 1rem;
-   }
-`
-
-const BlockRaitingTest = styled('p')`
-   font-size: 12px;
-   color: #909cb5;
-`
 const BlockCard = styled('div')`
    display: flex;
    flex-wrap: wrap;
@@ -192,9 +146,7 @@ const BlockCard = styled('div')`
    margin-top: 1.88rem;
    padding-bottom: 1.88rem;
 `
-const Сurrency = styled('strong')`
-   border-bottom: 1px solid black;
-`
+
 const Block = styled('div')`
    display: flex;
    width: 30rem;

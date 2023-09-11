@@ -11,8 +11,8 @@ import {
    DELIVERED,
    PENDING,
    CANCELED,
-} from '../../../utils/common/constants/globalConstants'
-import { orderRequest } from '../../../store/order/order.thunk'
+} from '../../../../utils/common/constants/globalConstants'
+import { orderRequest } from '../../../../store/order/order.thunk'
 
 export const History = () => {
    const orders = useSelector((state) => state.order.productOrder)
