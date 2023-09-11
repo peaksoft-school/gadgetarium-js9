@@ -7,7 +7,7 @@ import Rating from '@mui/material/Rating'
 import { styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { favorireRequest } from '../../../store/order/Order.thunk'
+import { favorireRequest } from '../../../store/order/order.thunk'
 import { Button } from '../../UI/Button'
 
 export const Favorites = () => {

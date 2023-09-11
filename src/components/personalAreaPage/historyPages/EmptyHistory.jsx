@@ -45,7 +45,7 @@ const BlockChilde = styled('div')`
    }
 `
 
-const Empty = styled('p')`
+const Empty = styled('div')`
    display: flex;
    align-items: center;
    flex-direction: column;

@@ -5,10 +5,15 @@ import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import Rating from '@mui/material/Rating'
-import { styled } from '@mui/material'
+import { styled, css } from '@mui/material'
 import { useParams } from 'react-router-dom'
-import { DELIVERED } from '../../../utils/common/constants/globalConstants'
-import { orderByIdRequest } from '../../../store/order/Order.thunk'
+import {
+   DELIVERED,
+   PENDING,
+   CANCELED,
+   ONMYWAY,
+} from '../../../utils/common/constants/globalConstants'
+import { orderByIdRequest } from '../../../store/order/order.thunk'
 
 export const HistoryDetail = () => {
    const param = useParams()
@@ -16,6 +21,8 @@ export const HistoryDetail = () => {
    const dispatch = useDispatch()
 
    const orders = useSelector((state) => state.order.orderInfo)
+
+   const state = orders?.status
 
    useEffect(() => {
       dispatch(orderByIdRequest(param))
@@ -43,13 +50,13 @@ export const HistoryDetail = () => {
                            {el.productName}
                         </Typography>
                         <BlockRaiting>
-                           <p>Рейтинг</p>
+                           <BlockRaitingTest>Рейтинг</BlockRaitingTest>
                            <Rating
                               name="read-only"
                               value={el.rating}
                               readOnly
                            />
-                           <p> ({el.rating})</p>
+                           <BlockRaitingTest> ({el.rating})</BlockRaitingTest>
                         </BlockRaiting>
                         <h3>
                            {el.price?.toLocaleString()} <Сurrency>c</Сurrency>
@@ -60,11 +67,10 @@ export const HistoryDetail = () => {
             </BlockCard>
             <p>Статус</p>
             <div>
-               {orders.status === DELIVERED ? (
-                  <Deliver>Доставлено</Deliver>
-               ) : (
-                  ''
-               )}
+               {state === DELIVERED ? <Deliver>Доставлено</Deliver> : ''}
+               {state === PENDING ? <Pending>В обработке</Pending> : ''}
+               {state === CANCELED ? <Canceled>Отменен</Canceled> : ''}
+               {state === ONMYWAY ? <OnMyWay>В пути</OnMyWay> : ''}
             </div>
             <Block>
                <BlockChilde1>
@@ -107,22 +113,21 @@ export const HistoryDetail = () => {
                   </div>
                   <div>
                      <p>Способ оплаты</p>
-                     <p>
-                        {orders.typePayment === 'CASH' ? (
-                           <Paragraph>Наличные</Paragraph>
-                        ) : (
-                           <Paragraph>Без наличные</Paragraph>
-                        )}
-                     </p>
+
+                     {orders.typePayment === 'CASH' ? (
+                        <Paragraph>Наличные</Paragraph>
+                     ) : (
+                        <Paragraph>Без наличные</Paragraph>
+                     )}
                   </div>
                </BlockChilde2>
             </Block>
             <TotalDiskount>
                <p>
-                  Скидка: <Span>{orders.totalDiscount}</Span>
+                  Скидка: <Span>{orders.totalDiscount} c</Span>
                </p>
                <p>
-                  Итого: <Span>{orders.totalPrice}</Span>
+                  Итого: <Span>{orders.totalPrice} c</Span>
                </p>
             </TotalDiskount>
          </BlockContainer>
@@ -135,7 +140,6 @@ const Container = styled('div')`
    margin-top: 6rem;
    height: 94rem;
    p {
-      color: #384255;
       font-family: Inter;
       font-size: 0.875rem;
       font-weight: 400;
@@ -150,7 +154,7 @@ const Container = styled('div')`
       font-family: Ubuntu;
       font-size: 1.875rem;
    }
-   .MuiCard-root:not(:first-child) {
+   .MuiCard-root:not(:first-of-type) {
       margin-left: 2rem;
    }
    .MuiCard-root:hover {
@@ -165,31 +169,21 @@ const BlockContainer = styled('div')`
    margin-top: 2.5rem;
 `
 
-const Deliver = styled('p')`
-   display: flex;
-   justify-content: center;
-   color: #033152;
-   font-family: Manrope;
-   font-size: 0.875rem;
-   font-weight: 600;
-   padding: 0.375rem 0.625rem;
-   border-radius: 0.375rem;
-   width: 7.8125rem;
-   background: #bddef1;
-`
 const BlockRaiting = styled('div')`
    display: flex;
    width: 10rem;
    margin-top: 0.5rem;
    justify-content: space-between;
    align-items: center;
-   p {
-      font-size: 12px;
-      color: #909cb5;
-   }
+
    .MuiRating-root {
       font-size: 1rem;
    }
+`
+
+const BlockRaitingTest = styled('p')`
+   font-size: 12px;
+   color: #909cb5;
 `
 const BlockCard = styled('div')`
    display: flex;
@@ -209,10 +203,18 @@ const Block = styled('div')`
 const BlockChilde1 = styled('div')`
    display: grid;
    gap: 1rem;
+   p {
+      margin-bottom: 0.39rem;
+      color: #384255;
+   }
 `
 const BlockChilde2 = styled('div')`
    display: grid;
    gap: 1rem;
+   p {
+      margin-bottom: 0.39rem;
+      color: #384255;
+   }
 `
 const Paragraph = styled('span')`
    color: #000;
@@ -228,7 +230,42 @@ const Span = styled('span')`
 `
 const TotalDiskount = styled('div')`
    margin-top: 2.94rem;
+   p {
+      margin-top: 3px;
+      margin-bottom: 0;
+   }
 `
 const Line = styled('div')`
    border-bottom: 1px solid #cdcdcd;
+`
+
+const generalStyle = css`
+   display: flex;
+   justify-content: center;
+   font-family: Manrope;
+   font-size: 0.875rem;
+   font-weight: 600;
+   padding: 0.375rem 0.625rem;
+   border-radius: 0.375rem;
+   width: 7.8125rem;
+`
+
+const Pending = styled('p')`
+   ${generalStyle}
+   background: #bddef1;
+   color: #fff;
+`
+const Canceled = styled('p')`
+   ${generalStyle}
+   background: #F53B49;
+   color: #fff;
+`
+const OnMyWay = styled('p')`
+   ${generalStyle}
+   background: #08a592;
+`
+const Deliver = styled('p')`
+   ${generalStyle}
+   background: #299a0d;
+   color: #fff;
 `

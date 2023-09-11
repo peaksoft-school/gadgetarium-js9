@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { favorireRequest, orderByIdRequest, orderRequest } from './Order.thunk'
+import { favorireRequest, orderByIdRequest, orderRequest } from './order.thunk'
 
 const initialState = {
    productOrder: [],
    favorite: [],
    orderInfo: {},
+   isLoading: false,
 }
 
 export const orderSlice = createSlice({
@@ -20,6 +21,13 @@ export const orderSlice = createSlice({
       })
       builder.addCase(orderByIdRequest.fulfilled, (state, action) => {
          state.orderInfo = action.payload
+         state.isLoading = false
+      })
+      builder.addCase(orderByIdRequest.pending, (state) => {
+         state.isLoading = true
+      })
+      builder.addCase(orderByIdRequest.rejected, (state) => {
+         state.isLoading = false
       })
    },
 })

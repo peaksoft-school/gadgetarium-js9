@@ -12,7 +12,7 @@ import {
    PENDING,
    CANCELED,
 } from '../../../utils/common/constants/globalConstants'
-import { orderRequest } from '../../../store/order/Order.thunk'
+import { orderRequest } from '../../../store/order/order.thunk'
 
 export const History = () => {
    const orders = useSelector((state) => state.order.productOrder)
@@ -31,31 +31,23 @@ export const History = () => {
                   key={el.orderId}
                   to={`/personalArea/${el.orderId}/details`}
                >
-                  <Table sx={{ width: '60rem' }}>
+                  <Table sx={{ width: '60rem', height: '3rem' }}>
                      <TableBody>
                         <TableRow>
-                           <TableCell>
-                              <p>{el.date}</p>
-                           </TableCell>
+                           <StyledTableCell>{el.date}</StyledTableCell>
                            <TableCell>
                               <strong>№{el.orderNumber}</strong>
                            </TableCell>
                            <TableCell>
                               <div>
-                                 {el.status === PENDING ? (
+                                 {el.status === PENDING && (
                                     <Treatment>В обработке</Treatment>
-                                 ) : (
-                                    ''
                                  )}
-                                 {el.status === DELIVERED ? (
+                                 {el.status === DELIVERED && (
                                     <Delivered>Доставлен</Delivered>
-                                 ) : (
-                                    ''
                                  )}
-                                 {el.status === CANCELED ? (
+                                 {el.status === CANCELED && (
                                     <Cancellation>Отменен</Cancellation>
-                                 ) : (
-                                    ''
                                  )}
                               </div>
                            </TableCell>
@@ -74,7 +66,7 @@ export const History = () => {
 
 const Container = styled('div')`
    margin-top: 3.16rem;
-   height: 50vh;
+   margin-bottom: 120px;
    .MuiTableCell-root:not(:last-child) {
       width: 12.5rem;
       text-align: start;
@@ -89,15 +81,22 @@ const Container = styled('div')`
 const Treatment = styled('p')`
    color: #f99808;
    font-size: 1rem;
+   margin: 0;
 `
 const Cancellation = styled('p')`
    color: red;
    font-size: 1rem;
+   margin: 0;
 `
 const Delivered = styled('p')`
    color: #299a0d;
    font-size: 1rem;
+   margin: 0;
 `
 const NavLinkStyle = styled(NavLink)`
    text-decoration: none;
+`
+const StyledTableCell = styled(TableCell)`
+   font-family: Inter;
+   font-size: 1rem;
 `

@@ -12,7 +12,7 @@ import { EmptyHistory } from './historyPages/EmptyHistory'
 import { EmptyFavorites } from './favoritesPages/EmptyFavorites'
 import { History } from './historyPages/History'
 import { Favorites } from './favoritesPages/Favorites'
-import { deleteOrderRequest } from '../../store/order/Order.thunk'
+import { deleteOrderRequest } from '../../store/order/order.thunk'
 
 function CustomTabPanel(props) {
    const { children, value, index, ...other } = props
@@ -68,13 +68,13 @@ export const PersonalArea = () => {
       <Container>
          <Box sx={{ width: '100%' }}>
             <CustomTabPanel value={value} index={0}>
-               <h2>История заказов</h2>
+               История заказов
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
-               <h2>Избранное</h2>
+               Избранное
             </CustomTabPanel>
             <CustomTabPanel value={value} index={2}>
-               <h2>Профиль</h2>
+               Профиль
             </CustomTabPanel>
             <TabsHeader>
                <Tabs value={value} onChange={handleChange}>
@@ -100,15 +100,21 @@ export const PersonalArea = () => {
                   ''
                )}
             </TabsHeader>
-            <CustomTabPanel value={value} index={0}>
-               {orderById === 0 ? <EmptyHistory /> : <History />}
-            </CustomTabPanel>
-            <CustomTabPanel value={value} index={1}>
-               {subProductById === 0 ? <EmptyFavorites /> : <Favorites />}
-            </CustomTabPanel>
-            <CustomTabPanel value={value} index={2}>
-               <Profile />
-            </CustomTabPanel>
+            {value === 0 && (
+               <div value={value}>
+                  {orderById === 0 ? <EmptyHistory /> : <History />}
+               </div>
+            )}
+            {value === 1 && (
+               <div value={value}>
+                  {subProductById === 0 ? <EmptyFavorites /> : <Favorites />}
+               </div>
+            )}
+            {value === 2 && (
+               <div value={value}>
+                  <Profile />
+               </div>
+            )}
          </Box>
       </Container>
    )
@@ -118,6 +124,12 @@ const Container = styled('div')`
    display: flex;
    margin-top: 2.88rem;
    justify-content: center;
+   h2 {
+      font-family: Ubuntu;
+      color: #292929;
+      font-weight: 500;
+      font-size: 1.875rem;
+   }
 
    .MuiBox-root {
       padding: 0;
@@ -135,6 +147,9 @@ const Container = styled('div')`
       padding: 0px 20px 0px 20px;
       text-transform: none;
    }
+   .MuiTabs-root {
+      min-height: auto;
+   }
 
    .MuiTabs-indicator {
       display: none;
@@ -142,8 +157,14 @@ const Container = styled('div')`
 
    .MuiTabs-flexContainer {
       display: flex;
-      width: 28rem;
-      justify-content: space-between;
+      gap: 0.75rem;
+   }
+   .MuiTypography-root {
+      font-family: Ubuntu;
+      font-size: 1.875rem;
+      font-weight: 500;
+      color: #292929;
+      padding-bottom: 1.25rem;
    }
 `
 
@@ -153,6 +174,7 @@ const Delete = styled('div')`
    justify-content: space-between;
    align-items: center;
    p {
+      margin: 0;
       margin-left: 0.5rem;
    }
 `
