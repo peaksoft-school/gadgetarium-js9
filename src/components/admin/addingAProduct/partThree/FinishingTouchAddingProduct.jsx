@@ -2,7 +2,7 @@ import { InputAdornment, TextField, styled } from '@mui/material'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import { useNavigate } from 'react-router-dom'
-import { memo } from 'react'
+import { memo, useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { HeaderAddingAProduct } from '../HeaderAddingAProduct'
 import { InputPDF } from './inputAddProductPartThree/InputPDF'
@@ -11,6 +11,11 @@ import { ReactComponent as DownloadIcon } from '../../../../assets/icons/tools-f
 import { useSnackbar } from '../../../../hooks/useSnackbar'
 import { addDescriptionAndOverview } from '../../../../store/addProduct/addProductPartOne.slice'
 import { Button } from '../../../UI/Button'
+import {
+   postAddProduct,
+   postFileImg,
+   postFilePDF,
+} from '../../../../store/addProduct/addProduct.thunk'
 
 const schema = Yup.object().shape({
    videoLink: Yup.string().required('Обязательное поле').url(),
@@ -21,9 +26,12 @@ const schema = Yup.object().shape({
 export const FinishingTouchAddingProduct = memo(() => {
    const dispatch = useDispatch()
    const { snackbarHandler } = useSnackbar()
-   const { newProduct } = useSelector((state) => state.addProduct)
-   console.log('newProduct: ', newProduct)
+   const { newProduct, pathPdf, resultAddProductData } = useSelector(
+      (state) => state.addProduct
+   )
    const navigate = useNavigate()
+   const [PDFValues, setPDFValues] = useState()
+   const [validPDF, setValidPDF] = useState(false)
 
    const formik = useFormik({
       initialValues: {
@@ -34,6 +42,10 @@ export const FinishingTouchAddingProduct = memo(() => {
       validateOnBlur: true,
       validationSchema: schema,
    })
+
+   const pdfDataChangeHandler = (data) => {
+      setPDFValues(data)
+   }
 
    const onBlurHandler = (e) => {
       formik.handleBlur(e)
@@ -69,21 +81,70 @@ export const FinishingTouchAddingProduct = memo(() => {
       }
 
       formik.setFieldValue('pdf', file.name)
+
+      pdfDataChangeHandler(file)
    }
 
-   const finishedPartThree = () => {
+   useEffect(() => {
+      if (pathPdf === '') {
+         dispatch(
+            addDescriptionAndOverview({
+               videoLink: formik.values.videoLink,
+               pdf: formik.values.pdf,
+               description: formik.values.description,
+            })
+         )
+      }
+
+      if (pathPdf !== '') {
+         setValidPDF(true)
+      }
+
       dispatch(
          addDescriptionAndOverview({
             videoLink: formik.values.videoLink,
-            pdf: formik.values.pdf,
+            pdf: pathPdf,
             description: formik.values.description,
          })
       )
+   }, [pathPdf])
+
+   useEffect(() => {
+      if (validPDF === true) {
+         dispatch(postFileImg(newProduct))
+      }
+   }, [validPDF])
+
+   const finishedPartThree = async () => {
+      if (formik.errors && formik.values.description === '<p></p>') {
+         snackbarHandler({
+            message: 'Bce поле должны быть обязательно заполнены',
+            type: 'error',
+         })
+      } else {
+         dispatch(postFilePDF(PDFValues))
+      }
    }
 
    const onClose = () => {
       navigate('/')
    }
+
+   const postAddProductHandler = async () => {
+      dispatch(
+         postAddProduct({
+            payloadOne: resultAddProductData,
+            payloadTwo: snackbarHandler,
+            payloadThree: navigate,
+         })
+      )
+   }
+
+   useEffect(() => {
+      if (resultAddProductData.categoryId) {
+         postAddProductHandler()
+      }
+   }, [resultAddProductData])
 
    return (
       <Container>

@@ -22,7 +22,6 @@
       "carousel": "^0.0.3",
       "date-fns": "^2.30.0",
       "dayjs": "^1.11.9",
-      "draft-js": "^0.11.7",
       "formik": "^2.4.3",
       "react": "^18.2.0",
       "react-datepicker": "^4.16.0",

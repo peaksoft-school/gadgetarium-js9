@@ -1,10 +1,10 @@
 import * as Yup from 'yup'
 
 export const schema = Yup.object().shape({
-   category: Yup.string().required('Обязательное поле'),
-   brand: Yup.string().required('Обязательное поле'),
+   categoryId: Yup.number().required('Обязательное поле'),
+   brandId: Yup.number().required('Обязательное поле'),
    name: Yup.string().required('Обязательное поле'),
-   subcategory: Yup.string().required('Обязательное поле'),
+   subCategoryId: Yup.number().required('Обязательное поле'),
    guarantee: Yup.number()
       .required('Обязательное поле')
       .min(1, 'Должно быть не менее 1')

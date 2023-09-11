@@ -71,19 +71,19 @@ export const TablesRow = ({
    return (
       <TableRowStyle hover role="checkbox" tabIndex={-1} key={row.id}>
          <TableCellStyle width="5.4vw" sx={{ paddingLeft: '1.25rem' }}>
-            {rows.brand}
+            {rows.brandId}
          </TableCellStyle>
          <TableCellStyle color={color} width="8vw">
             {row.codeColor}
          </TableCellStyle>
          {row.rom && <TableCellStyle width="10vw">{row.rom}ГБ</TableCellStyle>}
-         {rows.category !== 'Планшеты' && row.screenSize && (
+         {rows.categoryId !== 4 && row.screenSize && (
             <TableCellStyle width="10vw">{row.screenSize}</TableCellStyle>
          )}
-         {rows.category === 'Планшеты' && row.screenResolution && (
+         {rows.categoryId === 4 && row.screenResolution && (
             <TableCellStyle width="12vw">{row.screenResolution}</TableCellStyle>
          )}
-         {rows.category !== 'Планшеты'
+         {rows.categoryId !== 4
             ? row.ram && (
                  <TableCellStyle width="12vw">RAM {row.ram}ГБ</TableCellStyle>
               )
