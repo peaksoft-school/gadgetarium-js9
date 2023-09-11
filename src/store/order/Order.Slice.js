@@ -4,7 +4,7 @@ import { favorireRequest, orderByIdRequest, orderRequest } from './order.thunk'
 const initialState = {
    productOrder: [],
    favorite: [],
-   orderInfo: {},
+   orders: {},
    productsViewed: [],
    isLoading: false,
 }
@@ -21,7 +21,7 @@ export const orderSlice = createSlice({
          state.favorite = action.payload
       })
       builder.addCase(orderByIdRequest.fulfilled, (state, action) => {
-         state.orderInfo = action.payload
+         state.orders = action.payload
          state.isLoading = false
       })
       builder.addCase(orderByIdRequest.pending, (state) => {

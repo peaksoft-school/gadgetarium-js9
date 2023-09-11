@@ -66,7 +66,7 @@ export const History = () => {
 
 const Container = styled('div')`
    margin-top: 3.16rem;
-   margin-bottom: 120px;
+   margin-bottom: 40rem;
    .MuiTableCell-root:not(:last-child) {
       width: 12.5rem;
       text-align: start;

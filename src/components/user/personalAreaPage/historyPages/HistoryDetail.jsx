@@ -10,13 +10,14 @@ import {
 } from '../../../../utils/common/constants/globalConstants'
 import { orderByIdRequest } from '../../../../store/order/order.thunk'
 import { SecondProductCard } from '../../UserUI/uiCart/SecondProductCard'
+import { Loading } from '../../../UI/loading/Loading'
 
 export const HistoryDetail = () => {
    const param = useParams()
 
    const dispatch = useDispatch()
 
-   const orders = useSelector((state) => state.order.orderInfo)
+   const { orders, isLoading } = useSelector((state) => state.order)
 
    const state = orders?.status
 
@@ -25,83 +26,86 @@ export const HistoryDetail = () => {
    }, [])
 
    return (
-      <Container>
-         <h1>История заказов</h1>
-         <Line />
-         <BlockContainer>
-            <h2>№ {orders.orderNumber}</h2>
-            <BlockCard>
-               {orders.productsInfoResponses?.map((el) => (
-                  <SecondProductCard key={el.subProductId} el={el} />
-               ))}
-            </BlockCard>
-            <p>Статус</p>
-            <div>
-               {state === DELIVERED ? <Deliver>Доставлено</Deliver> : ''}
-               {state === PENDING ? <Pending>В обработке</Pending> : ''}
-               {state === CANCELED ? <Canceled>Отменен</Canceled> : ''}
-               {state === ONMYWAY ? <OnMyWay>В пути</OnMyWay> : ''}
-            </div>
-            <Block>
-               <BlockChilde1>
-                  <div>
-                     <p>Клиент</p>
-                     <Paragraph>{orders.client}</Paragraph>
-                  </div>
-                  <div>
-                     <p>Имя</p>
-                     <Paragraph>{orders.firstName}</Paragraph>
-                  </div>
-                  <div>
-                     <p>Фамилия</p>
-                     <Paragraph>{orders.lastName}</Paragraph>
-                  </div>
-                  <div>
-                     <p>Адрес</p>
-                     <Paragraph>
-                        {orders.address === null ? (
-                           <Paragraph>Исанова 55</Paragraph>
+      <>
+         {isLoading && <Loading />}
+         <Container>
+            <h1>История заказов</h1>
+            <Line />
+            <BlockContainer>
+               <h2>№ {orders.orderNumber}</h2>
+               <BlockCard>
+                  {orders.productsInfoResponses?.map((el) => (
+                     <SecondProductCard key={el.subProductId} el={el} />
+                  ))}
+               </BlockCard>
+               <p>Статус</p>
+               <div>
+                  {state === DELIVERED ? <Deliver>Доставлено</Deliver> : ''}
+                  {state === PENDING ? <Pending>В обработке</Pending> : ''}
+                  {state === CANCELED ? <Canceled>Отменен</Canceled> : ''}
+                  {state === ONMYWAY ? <OnMyWay>В пути</OnMyWay> : ''}
+               </div>
+               <Block>
+                  <BlockChilde1>
+                     <div>
+                        <p>Клиент</p>
+                        <Paragraph>{orders.client}</Paragraph>
+                     </div>
+                     <div>
+                        <p>Имя</p>
+                        <Paragraph>{orders.firstName}</Paragraph>
+                     </div>
+                     <div>
+                        <p>Фамилия</p>
+                        <Paragraph>{orders.lastName}</Paragraph>
+                     </div>
+                     <div>
+                        <p>Адрес</p>
+                        <Paragraph>
+                           {orders.address === null ? (
+                              <Paragraph>Исанова 55</Paragraph>
+                           ) : (
+                              orders.address
+                           )}
+                        </Paragraph>
+                     </div>
+                  </BlockChilde1>
+
+                  <BlockChilde2>
+                     <div>
+                        <p>Телефон</p>
+                        <Paragraph>{orders.phoneNumber}</Paragraph>
+                     </div>
+                     <div>
+                        <p>Email</p>
+                        <Paragraph>{orders.email}</Paragraph>
+                     </div>
+                     <div>
+                        <p>Дата</p>
+                        <Paragraph>{orders.date}</Paragraph>
+                     </div>
+                     <div>
+                        <p>Способ оплаты</p>
+
+                        {orders.typePayment === 'CASH' ? (
+                           <Paragraph>Наличные</Paragraph>
                         ) : (
-                           orders.address
+                           <Paragraph>Без наличные</Paragraph>
                         )}
-                     </Paragraph>
-                  </div>
-               </BlockChilde1>
-
-               <BlockChilde2>
-                  <div>
-                     <p>Телефон</p>
-                     <Paragraph>{orders.phoneNumber}</Paragraph>
-                  </div>
-                  <div>
-                     <p>Email</p>
-                     <Paragraph>{orders.email}</Paragraph>
-                  </div>
-                  <div>
-                     <p>Дата</p>
-                     <Paragraph>{orders.date}</Paragraph>
-                  </div>
-                  <div>
-                     <p>Способ оплаты</p>
-
-                     {orders.typePayment === 'CASH' ? (
-                        <Paragraph>Наличные</Paragraph>
-                     ) : (
-                        <Paragraph>Без наличные</Paragraph>
-                     )}
-                  </div>
-               </BlockChilde2>
-            </Block>
-            <TotalDiskount>
-               <p>
-                  Скидка: <Span>{orders.totalDiscount} c</Span>
-               </p>
-               <p>
-                  Итого: <Span>{orders.totalPrice} c</Span>
-               </p>
-            </TotalDiskount>
-         </BlockContainer>
-      </Container>
+                     </div>
+                  </BlockChilde2>
+               </Block>
+               <TotalDiskount>
+                  <p>
+                     Скидка: <Span>{orders.totalDiscount} c</Span>
+                  </p>
+                  <p>
+                     Итого: <Span>{orders.totalPrice} c</Span>
+                  </p>
+               </TotalDiskount>
+            </BlockContainer>
+         </Container>
+      </>
    )
 }
 
