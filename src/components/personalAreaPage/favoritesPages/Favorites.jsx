@@ -40,7 +40,7 @@ export const Favorites = () => {
                      </Typography>
                      <BlockRaiting>
                         <p>Рейтинг</p>
-                        <Rating name="simple-controlled" value={el.rating} />
+                        <Rating name="read-only" value={el.rating} readOnly />
                         <p> ({el.rating})</p>
                      </BlockRaiting>
                      <h3>
