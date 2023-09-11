@@ -31,6 +31,9 @@ function CustomTabPanel(props) {
 export const PersonalArea = () => {
    const dispatch = useDispatch()
    const { productOrder } = useSelector((state) => state.order)
+   const favoritesOrders = useSelector((state) => state.order.favorite)
+
+   const subProductById = favoritesOrders?.map((el) => el.subProductId)
 
    const orderById = productOrder.length > 0 ? productOrder[0].orderId : null
 
@@ -98,10 +101,10 @@ export const PersonalArea = () => {
                )}
             </TabsHeader>
             <CustomTabPanel value={value} index={0}>
-               {orderById === 0 ? <EmptyHistory /> : <History />}
+               {orderById === null ? <EmptyHistory /> : <History />}
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
-               {orderById === 0 ? <EmptyFavorites /> : <Favorites />}
+               {subProductById === 0 ? <EmptyFavorites /> : <Favorites />}
             </CustomTabPanel>
             <CustomTabPanel value={value} index={2}>
                <Profile />

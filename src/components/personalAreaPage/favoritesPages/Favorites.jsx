@@ -44,7 +44,7 @@ export const Favorites = () => {
                         <p> ({el.rating})</p>
                      </BlockRaiting>
                      <h3>
-                        {el.price}
+                        {el.price?.toLocaleString('ru-RU')}
                         <Сurrency>c</Сurrency>
                      </h3>
                   </CardContent>
