@@ -36,58 +36,65 @@ export const ProductsModalWhenIsHovered = React.memo(
       }
 
       return (
-         <Container length={array?.length}>
-            <StyledTriangle length={array?.length} />
-            <AllProductContainer length={array?.length}>
-               {array?.map((el) => {
-                  return (
-                     <Product key={el.subProductId}>
-                        <ProductContainer>
-                           <Image src={el.image} alt="Photo" />
-                           <Title>{el.name}</Title>
-                           <Price>{el.price.toLocaleString()} с</Price>
-                        </ProductContainer>
-                        <StyledDeleteIcon
+         <PositionContainer>
+            <StyledTriangle />
+            <Container length={array?.length}>
+               <AllProductContainer length={array?.length}>
+                  {array?.map((el) => {
+                     return (
+                        <Product
                            onClick={() =>
-                              deleteFavoriteHandler(el.subProductId)
+                              navigate(favorite ? '/favorite' : '/compare')
                            }
-                        />
-                     </Product>
-                  )
-               })}
-            </AllProductContainer>
-            {favorite ? (
-               <Button
-                  variant="contained"
-                  fontSize="0.833vw"
-                  padding="0.625vw 1.563vw"
-                  backgroundhover="#E313BF"
-                  backgroundactive="#C90EA9"
-                  onClick={navigateToFavorite}
-               >
-                  {isLoadingFavorite ? (
-                     <CircularProgress size={15} sx={{ color: 'white' }} />
-                  ) : (
-                     'Перейти в избранное'
-                  )}
-               </Button>
-            ) : (
-               <Button
-                  variant="contained"
-                  fontSize="0.833vw"
-                  padding="0.625vw 1.563vw"
-                  backgroundhover="#E313BF"
-                  backgroundactive="#C90EA9"
-                  onClick={navigateToFavorite}
-               >
-                  {isLoadingComparison ? (
-                     <CircularProgress size={15} sx={{ color: 'white' }} />
-                  ) : (
-                     'Сравнить'
-                  )}
-               </Button>
-            )}
-         </Container>
+                           key={el.subProductId}
+                        >
+                           <ProductContainer>
+                              <Image src={el.image} alt="Photo" />
+                              <Title>{el.name}</Title>
+                              <Price>{el.price.toLocaleString()} с</Price>
+                           </ProductContainer>
+                           <StyledDeleteIcon
+                              onClick={() =>
+                                 deleteFavoriteHandler(el.subProductId)
+                              }
+                           />
+                        </Product>
+                     )
+                  })}
+               </AllProductContainer>
+               {favorite ? (
+                  <Button
+                     variant="contained"
+                     fontSize="0.833vw"
+                     padding="0.625vw 1.563vw"
+                     backgroundhover="#E313BF"
+                     backgroundactive="#C90EA9"
+                     onClick={navigateToFavorite}
+                  >
+                     {isLoadingFavorite ? (
+                        <CircularProgress size={15} sx={{ color: 'white' }} />
+                     ) : (
+                        'Перейти в избранное'
+                     )}
+                  </Button>
+               ) : (
+                  <Button
+                     variant="contained"
+                     fontSize="0.833vw"
+                     padding="0.625vw 1.563vw"
+                     backgroundhover="#E313BF"
+                     backgroundactive="#C90EA9"
+                     onClick={navigateToFavorite}
+                  >
+                     {isLoadingComparison ? (
+                        <CircularProgress size={15} sx={{ color: 'white' }} />
+                     ) : (
+                        'Сравнить'
+                     )}
+                  </Button>
+               )}
+            </Container>
+         </PositionContainer>
       )
    }
 )
@@ -110,19 +117,17 @@ const Image = styled('img')`
    width: 60px;
    height: 68px;
 `
+const PositionContainer = styled('div')`
+   display: flex;
+   flex-direction: column;
+   align-items: flex-end;
+   position: relative;
+   bottom: 5px;
+`
 const StyledTriangle = styled(Triangle)`
    position: absolute;
-   bottom: ${(props) => {
-      switch (props.length) {
-         case 0:
-            return '59px'
-         case 1:
-            return '148px'
-         default:
-            return '237px'
-      }
-   }};
-   left: 327px;
+   top: -26px;
+   margin-right: 25px;
 `
 const AllProductContainer = styled('div')`
    margin-bottom: 1.4815vh;
@@ -145,6 +150,7 @@ const Price = styled('p')`
 const Product = styled('div')`
    display: flex;
    justify-content: space-between;
+   cursor: pointer;
    width: 100%;
    margin-top: 10px;
    padding-bottom: 10px;

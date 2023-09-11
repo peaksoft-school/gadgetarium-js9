@@ -39,17 +39,8 @@ export const Compare = () => {
    const { setParam } = useCustomSearchParams()
    const dispatch = useDispatch()
    const navigate = useNavigate()
-   const changeProductNameToLaptop = () => {
-      dispatch(compareActions.getProductNameHandler('Laptop'))
-   }
-   const changeProductNameToSmartphone = () => {
-      dispatch(compareActions.getProductNameHandler('Phone'))
-   }
-   const changeProductNameToSmartWatch = () => {
-      dispatch(compareActions.getProductNameHandler('Smart Watch'))
-   }
-   const changeProductNameToTablet = () => {
-      dispatch(compareActions.getProductNameHandler('Tablet'))
+   const changeProductName = (value) => {
+      dispatch(compareActions.getProductNameHandler(value))
    }
    const toggleIsChecked = () => {
       setIsChecked(!isChecked)
@@ -153,22 +144,7 @@ export const Compare = () => {
                               prodname: productName,
                               key: el.categoryTitle,
                               onClick: () => {
-                                 switch (el.categoryTitle) {
-                                    case 'Phone':
-                                       changeProductNameToSmartphone()
-                                       break
-                                    case 'Tablet':
-                                       changeProductNameToTablet()
-                                       break
-                                    case 'Laptop':
-                                       changeProductNameToLaptop()
-                                       break
-                                    case 'Smart Watch':
-                                       changeProductNameToSmartWatch()
-                                       break
-                                    default:
-                                       break
-                                 }
+                                 changeProductName(el.categoryTitle)
                               },
                            }
 
@@ -328,28 +304,12 @@ const WidthContainer = styled('div')`
 `
 const Products = styled('div')`
    display: flex;
-   gap: 1.563vw;
+   gap: 1.5vw;
    margin-top: 34px;
    width: 100%;
-   justify-content: flex-end;
+   justify-content: ${(props) => (props.array > 6 ? 'flex-end' : 'none')};
    position: relative;
-   padding-left: 9.896vw;
-   margin-right: ${(props) => {
-      switch (props.array) {
-         case 1:
-            return '128.5vw'
-         case 2:
-            return '102.3vw'
-         case 3:
-            return '76.8vw'
-         case 4:
-            return '50.3vw'
-         case 5:
-            return '24.5vw'
-         default:
-            return '0'
-      }
-   }};
+   padding-left: 23.232vw;
 `
 const SecondWidthContainer = styled('div')`
    width: 79.688vw;

@@ -75,8 +75,8 @@ export const postCompareProduct = createAsyncThunk(
          } else {
             snackbarHandler({
                message: 'Товар добавлен в сравнения',
-               linkText: 'Перейти в избранное ',
-               path: '/favorite',
+               linkText: 'Перейти в сравнение ',
+               path: '/compare',
             })
          }
       } catch (error) {
