@@ -36,7 +36,7 @@ export const ProductsModalWhenIsHovered = React.memo(
       }
 
       return (
-         <PositionContainer>
+         <PositionContainer length={array?.length}>
             <StyledTriangle />
             <Container length={array?.length}>
                <AllProductContainer length={array?.length}>
@@ -111,7 +111,6 @@ const Container = styled('div')`
    flex-direction: column;
    align-items: center;
    z-index: 20;
-   display: ${(props) => (props.length === 0 ? 'none' : 'display')};
 `
 const Image = styled('img')`
    width: 60px;
@@ -123,6 +122,7 @@ const PositionContainer = styled('div')`
    align-items: flex-end;
    position: relative;
    bottom: 5px;
+   display: ${(props) => (props.length === 0 ? 'none' : 'display')};
 `
 const StyledTriangle = styled(Triangle)`
    position: absolute;

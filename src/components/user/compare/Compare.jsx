@@ -22,15 +22,11 @@ import sammyFinance from '../../../assets/images/sammy-finance-image.png'
 import { useCustomSearchParams } from '../../../hooks/useCustomSearchParams'
 
 export const Compare = () => {
-   const {
-      products,
-      isLoadingComparison,
-      countProducts,
-      productName,
-      deleteAll,
-   } = useSelector((state) => state.compare)
+   const { products, isLoadingComparison, countProducts, deleteAll } =
+      useSelector((state) => state.compare)
    const { snackbarHandler } = useSnackbar()
    const [startPosition, setStartPosition] = useState(0)
+   const [productName, setProductName] = useState('Laptop')
    const [openLeftButton, setOpenLeftButton] = useState({
       open: false,
       count: 0,
@@ -40,7 +36,7 @@ export const Compare = () => {
    const dispatch = useDispatch()
    const navigate = useNavigate()
    const changeProductName = (value) => {
-      dispatch(compareActions.getProductNameHandler(value))
+      setProductName(value)
    }
    const toggleIsChecked = () => {
       setIsChecked(!isChecked)
@@ -92,11 +88,7 @@ export const Compare = () => {
    }, [])
    useEffect(() => {
       if (countProducts?.length > 0) {
-         dispatch(
-            compareActions.getProductNameHandler(
-               countProducts[0]?.categoryTitle
-            )
-         )
+         setProductName(countProducts[0]?.categoryTitle)
          setParam('productName', countProducts[0]?.categoryTitle)
       }
    }, [countProducts.length])

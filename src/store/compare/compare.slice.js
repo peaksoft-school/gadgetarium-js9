@@ -10,7 +10,6 @@ import {
 const initialState = {
    products: [],
    countProducts: [],
-   productName: 'Laptop',
    isLoadingComparison: false,
    deleteAll: [],
    allProducts: [],
@@ -20,9 +19,6 @@ export const compareSlice = createSlice({
    name: 'compare',
    initialState,
    reducers: {
-      getProductNameHandler: (state, action) => {
-         state.productName = action.payload
-      },
       changeDelete: (state) => {
          const deleteAllConstant = []
          state.products.map((el) => deleteAllConstant.push(el.subProductId))
