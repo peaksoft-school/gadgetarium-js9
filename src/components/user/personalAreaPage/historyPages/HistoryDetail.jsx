@@ -5,8 +5,11 @@ import { useParams } from 'react-router-dom'
 import {
    DELIVERED,
    PENDING,
-   CANCELED,
-   ONMYWAY,
+   IN_PROCESSING,
+   CANCEL,
+   COURIER_ON_THE_WAY,
+   RECEIVED,
+   READY_FOR_DELIVERY,
 } from '../../../../utils/common/constants/globalConstants'
 import { orderByIdRequest } from '../../../../store/order/order.thunk'
 import { SecondProductCard } from '../../UserUI/uiCart/SecondProductCard'
@@ -40,10 +43,19 @@ export const HistoryDetail = () => {
                </BlockCard>
                <p>Статус</p>
                <div>
-                  {state === DELIVERED ? <Deliver>Доставлено</Deliver> : ''}
-                  {state === PENDING ? <Pending>В обработке</Pending> : ''}
-                  {state === CANCELED ? <Canceled>Отменен</Canceled> : ''}
-                  {state === ONMYWAY ? <OnMyWay>В пути</OnMyWay> : ''}
+                  {state === DELIVERED && <Deliver>Доставлено</Deliver>}
+                  {state === PENDING && <Pending>В ожидании</Pending>}
+                  {state === CANCEL && <Canceled>Отменен</Canceled>}
+                  {state === IN_PROCESSING && (
+                     <Processing>В обработке</Processing>
+                  )}
+                  {state === COURIER_ON_THE_WAY && (
+                     <OnMyWay>Курьер в пути</OnMyWay>
+                  )}
+                  {state === RECEIVED && <Deliver>Получен</Deliver>}
+                  {state === READY_FOR_DELIVERY && (
+                     <Deliver>Готов к выдаче</Deliver>
+                  )}
                </div>
                <Block>
                   <BlockChilde1>
@@ -208,20 +220,27 @@ const generalStyle = css`
 
 const Pending = styled('p')`
    ${generalStyle}
-   background: #bddef1;
-   color: #fff;
+   background: #BDDEF1;
+   color: #033152;
 `
 const Canceled = styled('p')`
    ${generalStyle}
    background: #F53B49;
    color: #fff;
 `
-const OnMyWay = styled('p')`
-   ${generalStyle}
-   background: #08a592;
-`
 const Deliver = styled('p')`
    ${generalStyle}
    background: #299a0d;
    color: #fff;
+`
+const Processing = styled('p')`
+   ${generalStyle}
+   color: #033152;
+   background: #f3daa5;
+   font-size: 1rem;
+`
+const OnMyWay = styled('p')`
+   ${generalStyle}
+   color: #0812a5;
+   font-size: 1rem;
 `

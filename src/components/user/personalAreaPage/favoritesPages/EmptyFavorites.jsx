@@ -22,7 +22,9 @@ export const EmptyFavorites = () => {
             </Paragraph>
 
             <BlockButton onClick={homePage}>
-               <ButtonUi padding="20px">К покупкам</ButtonUi>
+               <ButtonUi variant="outlined" padding="20px">
+                  К покупкам
+               </ButtonUi>
             </BlockButton>
          </div>
       </Conatiner>
@@ -55,17 +57,15 @@ const Paragraph = styled('div')`
    }
 `
 
-const BlockButton = styled('div')`
-   display: flex;
-   justify-content: center;
-   margin-top: 1rem;
-`
 const Image = styled('img')`
    width: 13.75rem;
    height: 13.75rem;
 `
+const BlockButton = styled('div')`
+   display: flex;
+   justify-content: center;
+`
 const ButtonUi = styled(Button)`
-   border: 1px solid #cb11ab;
    margin-top: 1rem;
    &:hover {
       color: #fff;

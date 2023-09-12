@@ -10,7 +10,11 @@ import { NavLink } from 'react-router-dom'
 import {
    DELIVERED,
    PENDING,
-   CANCELED,
+   IN_PROCESSING,
+   CANCEL,
+   COURIER_ON_THE_WAY,
+   RECEIVED,
+   READY_FOR_DELIVERY,
 } from '../../../../utils/common/constants/globalConstants'
 import { orderRequest } from '../../../../store/order/order.thunk'
 
@@ -41,13 +45,25 @@ export const History = () => {
                            <TableCell>
                               <div>
                                  {el.status === PENDING && (
-                                    <Treatment>В обработке</Treatment>
+                                    <Treatment>В ожидании</Treatment>
                                  )}
                                  {el.status === DELIVERED && (
                                     <Delivered>Доставлен</Delivered>
                                  )}
-                                 {el.status === CANCELED && (
+                                 {el.status === CANCEL && (
                                     <Cancellation>Отменен</Cancellation>
+                                 )}
+                                 {el.status === IN_PROCESSING && (
+                                    <Processing>В обработке</Processing>
+                                 )}
+                                 {el.status === COURIER_ON_THE_WAY && (
+                                    <OnMyWay>Курьер в пути</OnMyWay>
+                                 )}
+                                 {el.status === RECEIVED && (
+                                    <Delivered>Получен</Delivered>
+                                 )}
+                                 {el.status === READY_FOR_DELIVERY && (
+                                    <Delivered>Готов к выдаче</Delivered>
                                  )}
                               </div>
                            </TableCell>
@@ -98,5 +114,13 @@ const NavLinkStyle = styled(NavLink)`
 `
 const StyledTableCell = styled(TableCell)`
    font-family: Inter;
+   font-size: 1rem;
+`
+const Processing = styled('p')`
+   color: #f99808;
+   font-size: 1rem;
+`
+const OnMyWay = styled('p')`
+   color: #0812a5;
    font-size: 1rem;
 `
