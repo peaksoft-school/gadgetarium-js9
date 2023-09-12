@@ -5,7 +5,7 @@ import {
    getFavoriteRequest,
    getOrderByIdRequest,
    getOrderInfoRequest,
-} from '../../api/order.Servise'
+} from '../../api/order.servise'
 
 export const orderRequest = createAsyncThunk(
    'order/orderRequest',
