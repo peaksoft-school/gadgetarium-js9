@@ -12,6 +12,7 @@ const initialState = {
 export const orderSlice = createSlice({
    name: 'order',
    initialState,
+   reducers: {},
    extraReducers: (builder) => {
       builder.addCase(orderRequest.fulfilled, (state, action) => {
          state.productOrder = action.payload

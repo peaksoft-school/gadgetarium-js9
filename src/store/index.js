@@ -13,7 +13,6 @@ export const store = configureStore({
       [addProductSlice.name]: addProductSlice.reducer,
       [favoriteSlice.name]: favoriteSlice.reducer,
       [mainPageSlice.name]: mainPageSlice.reducer,
-
       [orderSlice.name]: orderSlice.reducer,
    },
 })
