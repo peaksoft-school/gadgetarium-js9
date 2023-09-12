@@ -36,6 +36,7 @@ export const orderByIdRequest = createAsyncThunk(
    async (params, { rejectWithValue }) => {
       try {
          const responce = await getOrderByIdRequest(params)
+
          return responce.data
       } catch (error) {
          return rejectWithValue(error)
@@ -48,6 +49,7 @@ export const deleteOrderRequest = createAsyncThunk(
    async (orderById, { dispatch, rejectWithValue }) => {
       try {
          await deleteOrderInfoRequest(orderById)
+
          dispatch(orderRequest())
       } catch (error) {
          rejectWithValue(error)

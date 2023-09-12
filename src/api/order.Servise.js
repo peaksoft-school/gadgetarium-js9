@@ -9,7 +9,7 @@ export const getFavoriteRequest = () => {
 export const getOrderByIdRequest = (params) => {
    return axiosInstance.get(`/v1/user/user_order/${+params.orderId}`)
 }
+
 export const deleteOrderInfoRequest = (orderById) => {
-   console.log(orderById)
    return axiosInstance.delete(`/order/single-delete/${orderById}`)
 }
