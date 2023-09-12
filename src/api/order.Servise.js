@@ -12,4 +12,3 @@ export const getOrderByIdRequest = (params) => {
 export const deleteOrderInfoRequest = (orderById) => {
    return axiosInstance.delete(`/order/single-delete/${orderById}`)
 }
-   

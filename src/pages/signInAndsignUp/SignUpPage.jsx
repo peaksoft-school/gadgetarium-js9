@@ -46,6 +46,7 @@ export const SignUp = () => {
          dispatch(getPhoneNumber(data)).unwrap()
          navigate('/')
       } catch (error) {
+         console.log('error.response.data.message', error.response.data.message)
          snackbarHandler({
             message: error.response.data.message,
             type: 'error',

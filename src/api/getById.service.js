@@ -1,6 +1,6 @@
 import { axiosInstance } from '../config/axiosInstants'
 
-export const getByIdPhoneRequest = (subProductId = 2) => {
+export const getByIdPhoneRequest = (subProductId = 1) => {
    return axiosInstance.get(`/v1/products/get-by-id?productId=${subProductId}`)
 }
 export const getReviwesProductRequest = (id) => {
