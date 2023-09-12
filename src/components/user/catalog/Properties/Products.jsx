@@ -15,6 +15,8 @@ export const Products = () => {
       minValue,
       maxValue,
       memory,
+      memoryRam,
+      // simPhoneArray,
    } = useSelector((state) => state.category)
 
    const dispatch = useDispatch()
@@ -27,9 +29,11 @@ export const Products = () => {
          minValue,
          maxValue,
          memory,
+         memoryRam,
+         // simPhoneArray,
       }
       dispatch(sendSelectedCategories(dataCategory))
-   }, [items, minValue, maxValue])
+   }, [items, minValue, maxValue, memory, pageSize, memoryRam])
 
    return (
       <Container>

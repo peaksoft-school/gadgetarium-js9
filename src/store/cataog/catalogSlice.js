@@ -1,22 +1,38 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { memoryCapacity } from '../../utils/common/constants/constants'
-import { getCategory, sendSelectedCategories } from './categoryThunk'
+import {
+   memoryRamConstants,
+   memoryCapacityConstants,
+   simConstants,
+} from '../../utils/common/constants/constants'
+import {
+   getCategory,
+   getColorsCatalog,
+   sendSelectedCategories,
+} from './categoryThunk'
 
 const initialState = {
+   isLoading: false,
+
+   itemsColors: [],
    items: [],
    filteredProducts: [],
    selectedCategories: [],
    brandsId: [],
-   isLoading: false,
+
    pageSize: 12,
    plusPageSize: 0,
    showMore: false,
+
    minValue: 0,
    maxValue: 250000,
-   cateCategory: false,
-   cateMemory: false,
-   catePrice: false,
+
    memory: [],
+   memoryCapacity: memoryCapacityConstants,
+   memoryRam: [],
+   memoryRamArray: memoryRamConstants,
+   simPhoneArray: [],
+   simPhone: simConstants,
+   allCate: true,
 }
 
 export const categorySlice = createSlice({
@@ -72,7 +88,7 @@ export const categorySlice = createSlice({
 
       memoryPhone: (state) => {
          const memory = []
-         memoryCapacity.map((el) => {
+         state.memoryCapacity.map((el) => {
             if (el.checked === true) {
                memory.push(el.title)
             }
@@ -80,12 +96,21 @@ export const categorySlice = createSlice({
          })
          return { ...state, memory }
       },
+      changeMemory: (state, action) => {
+         const updatedMemory = state.memoryCapacity.map((el) => {
+            if (el.id === action.payload) {
+               return { ...el, checked: !el.checked }
+            }
+            return el
+         })
+         state.memoryCapacity = updatedMemory
+      },
+
       addBrandsId: (state) => {
          const brandsId = []
          state.items.map((el) => {
             if (el.checked === true) {
                brandsId.push(el.id)
-               return { ...el, checked: !el.checked }
             }
             return el
          })
@@ -122,17 +147,25 @@ export const categorySlice = createSlice({
             ...el,
             checked: false,
          }))
-
+         const resetMemory = state.memoryCapacity.map((el) => ({
+            ...el,
+            checked: false,
+         }))
+         const resetMemoryRam = state.memoryRamArray.map((el) => ({
+            ...el,
+            checked: false,
+         }))
          return {
             ...state,
             items: resetItems,
+            memoryRamArray: resetMemoryRam,
+            memoryCapacity: resetMemory,
             brandsId: [],
             selectedCategories: [],
+
             minValue: 0,
             maxValue: 250000,
-            cateCategory: false,
-            cateMemory: false,
-            catePrice: false,
+            allCate: !state.allCate,
          }
       },
 
@@ -152,16 +185,57 @@ export const categorySlice = createSlice({
       setMaxValue: (state, action) => {
          return { ...state, maxValue: action.payload }
       },
-
-      setCateCategory: (state, action) => {
-         return { ...state, cateCategory: action.payload }
+      changeAllCate: (state) => {
+         return { ...state, allCate: true }
       },
-      setCateMemory: (state, action) => {
-         return { ...state, cateMemory: action.payload }
+      memoryRam: (state) => {
+         const memoryRam = []
+         state.memoryRamArray.map((el) => {
+            if (el.checked === true) {
+               memoryRam.push(el.title)
+            }
+            return el
+         })
+         return { ...state, memoryRam }
       },
-      setCatePrice: (state, action) => {
-         return { ...state, catePrice: action.payload }
+      changeMemoryRam: (state, action) => {
+         const updatedMemory = state.memoryRamArray.map((el) => {
+            if (el.id === action.payload) {
+               return { ...el, checked: !el.checked }
+            }
+            return el
+         })
+         state.memoryRamArray = updatedMemory
       },
+      simPhoneThunk: (state) => {
+         const simPhoneArray = []
+         state.simPhone.map((el) => {
+            if (el.checked === true) {
+               simPhoneArray.push(el.title)
+            }
+            return el
+         })
+         return { ...state, simPhoneArray }
+      },
+      changeSimPhone: (state, action) => {
+         const updatedMemory = state.simPhone.map((el) => {
+            if (el.id === action.payload) {
+               return { ...el, checked: !el.checked }
+            }
+            return el
+         })
+         state.simPhone = updatedMemory
+      },
+      // colors: (state) => {
+      //    const itemsColors = []
+      //    state.itemsColors.map((el) => {
+      //       if (el.checked === true) {
+      //          itemsColors.push(el.title)
+      //       }
+      //       return el
+      //    })
+      //    return { ...state, itemsColors }
+      // },
    },
 
    extraReducers: (builder) => {
@@ -190,6 +264,15 @@ export const categorySlice = createSlice({
             }
          })
          .addCase(sendSelectedCategories.rejected, (state) => {
+            return { ...state, isLoading: false }
+         })
+         .addCase(getColorsCatalog.pending, (state) => {
+            return { ...state, isLoading: true }
+         })
+         .addCase(getColorsCatalog.fulfilled, (state, action) => {
+            return { ...state, itemsColors: action.payload }
+         })
+         .addCase(getColorsCatalog.rejected, (state) => {
             return { ...state, isLoading: false }
          })
    },

@@ -77,7 +77,15 @@ export const slideOut = keyframes`
      }
      `
 
-export const memoryCapacity = [
+export const memoryRamConstants = [
+   { title: 3, id: 1, checked: false },
+   { title: 4, id: 2, checked: false },
+   { title: 6, id: 3, checked: false },
+   { title: 8, id: 4, checked: false },
+   { title: 16, id: 5, checked: false },
+]
+
+export const memoryCapacityConstants = [
    { title: 8, id: 1, checked: false },
    { title: 16, id: 2, checked: false },
    { title: 32, id: 3, checked: false },
@@ -85,5 +93,24 @@ export const memoryCapacity = [
    { title: 128, id: 5, checked: false },
    { title: 256, id: 6, checked: false },
    { title: 512, id: 7, checked: false },
-   { title: 1000, id: 8, checked: false },
+   { title: 1024, id: 8, checked: false },
+]
+export const simConstants = [
+   { title: 1, id: 1, checked: false },
+   { title: 2, id: 2, checked: false },
+]
+
+export const ProcessorsLaptop = [
+   { title: 'Intel Core i3', id: 1, checked: false },
+   { title: 'Intel Core i5', id: 2, checked: false },
+   { title: 'Intel Core i7', id: 3, checked: false },
+   { title: 'Intel Core i9', id: 4, checked: false },
+   { title: 'Intel Celeron', id: 5, checked: false },
+   { title: 'Intel Pentium', id: 6, checked: false },
+   { title: 'AMD', id: 7, checked: false },
+   { title: 'Intel Quad Core', id: 8, checked: false },
+   { title: 'Intel Dual Core', id: 9, checked: false },
+   { title: 'AMD Ryzen 3 3250U', id: 10, checked: false },
+   { title: 'Intel Core i7-8565U', id: 11, checked: false },
+   { title: 'AMD Ryzen 7 4700U', id: 12, checked: false },
 ]

@@ -6,19 +6,15 @@ import { categoryActions } from '../../../store/cataog/catalogSlice'
 import { ReactComponent as Cancel } from '../../../assets/icons/cross/small-cross-icon.svg'
 import { Button } from '../../UI/Button'
 import { Options } from './Options'
-import { sendSelectedCategories } from '../../../store/cataog/categoryThunk'
 import { ArrowIcon } from '../../UI/Arrow'
 
 export const Catalog = () => {
    const {
       selectedCategories,
-      brandsId,
       filteredProducts,
       pageSize,
       showMore,
       plusPageSize,
-      minValue,
-      maxValue,
    } = useSelector((state) => state.category)
    const dispatch = useDispatch()
 
@@ -34,18 +30,6 @@ export const Catalog = () => {
    const showLessHandler = () => {
       dispatch(categoryActions.setPageSize(pageSize - plusPageSize))
    }
-
-   useEffect(() => {
-      const dataCategory = {
-         id: brandsId,
-         pageSize,
-         pageNumber: 1,
-         minValue,
-         maxValue,
-      }
-      dispatch(sendSelectedCategories(dataCategory))
-   }, [pageSize])
-
    useEffect(() => {
       if (pageSize > filteredProducts.length) {
          dispatch(categoryActions.setShowMore(false))

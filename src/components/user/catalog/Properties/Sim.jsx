@@ -3,22 +3,24 @@ import { useDispatch, useSelector } from 'react-redux'
 import { categoryActions } from '../../../../store/cataog/catalogSlice'
 import { CatalogSelect } from '../../../UI/CatalogSelect'
 
-export const MemoryСapacity = () => {
-   const { memoryCapacity } = useSelector((state) => state.category)
+export const Sim = () => {
    const dispatch = useDispatch()
+   const { simPhoneArray } = useSelector((state) => state.category)
 
    const postTitle = (id) => {
-      dispatch(categoryActions.changeMemory(id))
+      dispatch(categoryActions.changeSimPhone(id))
    }
+
    useEffect(() => {
-      dispatch(categoryActions.memoryPhone())
-   }, [memoryCapacity])
+      dispatch(categoryActions.simPhoneThunk())
+   }, [])
+   // simPhoneArray
 
    return (
       <CatalogSelect
-         title="Объем памяти (GB)"
+         title="Кол-во SIM-карт"
          onToggleCheckbox={postTitle}
-         items={memoryCapacity}
+         items={simPhoneArray}
       />
    )
 }

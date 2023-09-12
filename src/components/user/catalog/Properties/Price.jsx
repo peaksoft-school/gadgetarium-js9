@@ -1,18 +1,16 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { styled, TextField, Slider } from '@mui/material'
-// import { useDispatch } from 'react-redux'
 import { ArrowIcon } from '../../../UI/Arrow'
 import { slideIn, slideOut } from '../../../../utils/common/constants/constants'
 import { categoryActions } from '../../../../store/cataog/catalogSlice'
 
 export const Price = () => {
-   const { minValue, maxValue, catePrice } = useSelector(
+   const { minValue, maxValue, allCate } = useSelector(
       (state) => state.category
    )
-   // const [cate, setCate] = useState(false)
    const dispatch = useDispatch()
-
+   const [cate, setCate] = useState(false)
    const handleMinChange = (event) => {
       dispatch(categoryActions.setMinValue(event.target.value))
    }
@@ -26,17 +24,26 @@ export const Price = () => {
       dispatch(categoryActions.setMaxValue(newValue[1]))
    }
    const openHandler = () => {
-      dispatch(categoryActions.setCatePrice(!catePrice))
+      setCate(!cate)
    }
+
+   useEffect(() => {
+      if (cate) {
+         dispatch(categoryActions.changeAllCate())
+      }
+      if (!allCate) {
+         setCate(allCate)
+      }
+   }, [allCate])
 
    return (
       <Container>
          <CategorySelectContainer>
             <h5>Стоимость</h5>
-            <ArrowIcon checked={catePrice} onClick={openHandler} />
+            <ArrowIcon checked={cate} onClick={openHandler} />
          </CategorySelectContainer>
-         {catePrice && (
-            <InfoPrice checked={catePrice}>
+         {cate && (
+            <InfoPrice checked={cate}>
                <div className="ContainerTextField">
                   <TextFieldStyled
                      label="От"

@@ -3,18 +3,23 @@ import { axiosInstance } from '../config/axiosInstants'
 export const getCategoryRequest = () => {
    return axiosInstance.get('/v1/brand/get-all')
 }
+export const getColors = ({ categoryId }) => {
+   // console.log('color: ', color)
+   // console.log('categoryId: ', categoryId)
+   return axiosInstance.get(`/v1/products/count_color?categoryId=${categoryId}`)
+}
 
 export const filterProductsByCategory = (payload) => {
    console.log('payload: ', payload)
    const requestData = {
-      gadgetType: 'Phone',
+      gadgetType: 'string',
       sorting: 'string',
       brandIds: payload.id.length === 0 ? [0] : payload.id,
       priceStart: payload.minValue,
       priceEnd: payload.maxValue,
       codeColor: ['string'],
       rom: payload.memory.length === 0 ? [0] : payload.memory,
-      ram: [0],
+      ram: payload.memoryRam.length === 0 ? [0] : payload.memoryRam,
       sim: [0],
       processors: ['string'],
       screenResolution: ['string'],
