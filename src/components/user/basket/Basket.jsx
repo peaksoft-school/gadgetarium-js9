@@ -156,8 +156,8 @@ export const Basket = React.memo(() => {
                         variant="contained"
                         fontSize="1rem"
                         padding="11px 21px"
-                        backgroundHover="#E313BF"
-                        backgroundActive="#C90EA9"
+                        backgroundhover="#E313BF"
+                        backgroundactive="#C90EA9"
                         onClick={enterPurchases}
                      >
                         К покупкам
