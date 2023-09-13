@@ -11,7 +11,7 @@ import {
    RECEIVED,
    READY_FOR_DELIVERY,
 } from '../../../../utils/common/constants/globalConstants'
-import { orderByIdRequest } from '../../../../store/order/order.thunk'
+import { orderByIdRequest } from '../../../../store/order/Order.thunk'
 import { SecondProductCard } from '../../UserUI/uiCart/SecondProductCard'
 import { Loading } from '../../../UI/loading/Loading'
 

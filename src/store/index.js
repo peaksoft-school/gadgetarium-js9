@@ -4,7 +4,7 @@ import { authSlice } from './auth/authSlice'
 import { addProductSlice } from './addProduct/addProductPartOne.slice'
 import { favoriteSlice } from './favorite/favorite.slice'
 import { mainPageSlice } from './main.page/main.page.slice'
-import { orderSlice } from './order/order.slice'
+import { orderSlice } from './order/Order.Slice'
 
 export const store = configureStore({
    reducer: {

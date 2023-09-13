@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { favorireRequest } from '../../../../store/order/order.thunk'
+import { favorireRequest } from '../../../../store/order/Order.thunk'
 import { Button } from '../../../UI/Button'
 import { SecondProductCard } from '../../UserUI/uiCart/SecondProductCard'
 

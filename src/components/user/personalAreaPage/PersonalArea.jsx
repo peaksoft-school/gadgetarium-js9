@@ -12,7 +12,7 @@ import { EmptyHistory } from './historyPages/EmptyHistory'
 import { EmptyFavorites } from './favoritesPages/EmptyFavorites'
 import { History } from './historyPages/History'
 import { Favorites } from './favoritesPages/Favorites'
-import { deleteOrderRequest } from '../../../store/order/order.thunk'
+import { deleteOrderRequest } from '../../../store/order/Order.thunk'
 
 function CustomTabPanel(props) {
    const { children, value, index, ...other } = props
