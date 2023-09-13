@@ -25,6 +25,7 @@ export const Header = ({ favorite, comparison, basket }) => {
    const [open, setOpen] = useState(false)
    const [catalogSelect, setCatalogSelect] = useState(false)
    const [inputValue, setInputValue] = useState('')
+
    const { favoriteItems } = useSelector((state) => state.favorite)
    const [hoverFavorite, setHoverFavorite] = useState(false)
    const toggleHoverFavorite = () => {
@@ -88,19 +89,34 @@ export const Header = ({ favorite, comparison, basket }) => {
                </NavBar>
                <UserNumber>
                   <p>{number}</p>
-
                   <div onMouseLeave={openSelect} onMouseEnter={openSelect}>
                      {token !== '' && (
                         <div>
                            {open && (
                               <div style={{ position: 'relative' }}>
                                  <Select2>
-                                    <p>История заказов</p>
-                                    <p>Избранное</p>
-                                    <p>Профиль</p>
-                                    <div onClick={() => dispatch(logOut())}>
-                                       <p style={{ color: '#CB11AB' }}>Выйти</p>
-                                    </div>
+                                    <NavLinkBlock>
+                                       <NavLinkParagraph
+                                          onClick={openSelect}
+                                          to="/personalArea/history"
+                                       >
+                                          История заказов
+                                       </NavLinkParagraph>
+                                       <NavLinkParagraph
+                                          onClick={openSelect}
+                                          to="/personalArea/favorites"
+                                       >
+                                          Избранное
+                                       </NavLinkParagraph>
+                                       <NavLinkParagraph onClick={openSelect}>
+                                          Профиль
+                                       </NavLinkParagraph>
+                                       <div onClick={logOutHandler}>
+                                          <NavLinkParagraph>
+                                             Выйти
+                                          </NavLinkParagraph>
+                                       </div>
+                                    </NavLinkBlock>
                                  </Select2>
                               </div>
                            )}
@@ -130,40 +146,6 @@ export const Header = ({ favorite, comparison, basket }) => {
                         img
                      )}
                   </div>
-
-                  {token !== '' && (
-                     <div>
-                        {open && (
-                           <div style={{ position: 'relative' }}>
-                              <Select2>
-                                 <p>История заказов</p>
-                                 <p>Избранное</p>
-                                 <p>Профиль</p>
-                                 <div onClick={logOutHandler}>
-                                    <p style={{ color: '#CB11AB' }}>Выйти</p>
-                                 </div>
-                              </Select2>
-                           </div>
-                        )}
-                     </div>
-                  )}
-                  {open && token === '' && (
-                     <div style={{ position: 'relative' }}>
-                        <Select>
-                           <SelectParagraph to={routes.SIGN_IN}>
-                              Войти
-                           </SelectParagraph>
-                           <SelectParagraph2 to={routes.SIGN_UP}>
-                              Регистрация
-                           </SelectParagraph2>
-                        </Select>
-                     </div>
-                  )}
-                  {img !== undefined ? (
-                     <User onClick={openSelect} />
-                  ) : (
-                     <User onClick={openSelect} />
-                  )}
                </UserNumber>
             </Caption>
          </CaptionContainer>
@@ -561,7 +543,6 @@ const IconsShoppingCart = styled(ShoppingCart)`
 const User = styled(UserIcons)`
    width: 1.5rem;
    height: 1.5rem;
-   /* margin-left: 1.875rem; */
    cursor: pointer;
 `
 
@@ -622,8 +603,8 @@ const Select = styled('div')`
    background: #fff;
    box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.1);
    z-index: 99999;
-   top: 1rem;
-   left: -7rem;
+   top: 1.3rem;
+   right: 1rem;
    animation: fadeInOut 0.4s ease-in-out;
 
    @keyframes fadeInOut {
@@ -641,10 +622,11 @@ const SelectParagraph = styled(Link)`
    padding: 0;
    margin-top: 1.25rem;
    margin-left: 1.28rem;
-   color: red;
+   color: black;
    cursor: pointer;
    &:hover {
-      background-color: #fff;
+      background: #fff;
+      color: red;
    }
 `
 const SelectParagraph2 = styled(Link)`
@@ -654,25 +636,21 @@ const SelectParagraph2 = styled(Link)`
    color: black;
    cursor: pointer;
    &:hover {
-      background-color: #fff;
+      color: red;
+      background: #fff;
    }
 `
 const Select2 = styled('div')`
    position: absolute;
-   top: 0.8rem;
-   left: -8.8rem;
-   width: 10.8125rem;
+   top: 1.4rem;
+   right: 1rem;
+   width: 11.5rem;
    height: 10.25rem;
    border-radius: 0.25rem;
    background: #fff;
    box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.1);
    z-index: 99999;
    animation: fadeInOut 0.4s ease-in-out;
-   p {
-      color: #292929;
-      cursor: pointer;
-      margin-left: 1.5rem;
-   }
 
    @keyframes fadeInOut {
       0% {
@@ -684,4 +662,19 @@ const Select2 = styled('div')`
          transform: translateY(0);
       }
    }
+`
+const NavLinkParagraph = styled(NavLink)`
+   text-decoration: none;
+   color: #292929;
+   cursor: pointer;
+   &:hover {
+      color: #cb11ab;
+   }
+`
+const NavLinkBlock = styled('div')`
+   display: flex;
+   flex-direction: column;
+   gap: 1rem;
+   margin-top: 1rem;
+   padding-left: 1.5rem;
 `
