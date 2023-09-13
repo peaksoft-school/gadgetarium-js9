@@ -101,15 +101,11 @@ export const postAddProduct = createAsyncThunk(
    'post/postAddProduct',
    async (payload, { rejectWithValue }) => {
       try {
-         const response = await postAddProductRequest(payload.payloadOne)
-
-         payload.payloadTwo({ message: 'Товар успешно добавлен' })
-
-         payload.payloadThree('/')
+         const response = await postAddProductRequest(payload)
 
          return response.data
       } catch (error) {
-         return rejectWithValue
+         return rejectWithValue(error)
       }
    }
 )

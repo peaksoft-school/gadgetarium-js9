@@ -16,6 +16,7 @@ import {
    postFileImg,
    postFilePDF,
 } from '../../../../store/addProduct/addProduct.thunk'
+import { Loading } from '../../../UI/loading/Loading'
 
 const schema = Yup.object().shape({
    videoLink: Yup.string().required('Обязательное поле').url(),
@@ -26,9 +27,14 @@ const schema = Yup.object().shape({
 export const FinishingTouchAddingProduct = memo(() => {
    const dispatch = useDispatch()
    const { snackbarHandler } = useSnackbar()
-   const { newProduct, pathPdf, resultAddProductData } = useSelector(
-      (state) => state.addProduct
-   )
+   const {
+      newProduct,
+      pathPdf,
+      resultAddProductData,
+      isLoading,
+      isError,
+      isSuccessAddProduct,
+   } = useSelector((state) => state.addProduct)
    const navigate = useNavigate()
    const [PDFValues, setPDFValues] = useState()
    const [validPDF, setValidPDF] = useState(false)
@@ -130,14 +136,8 @@ export const FinishingTouchAddingProduct = memo(() => {
       navigate('/')
    }
 
-   const postAddProductHandler = async () => {
-      dispatch(
-         postAddProduct({
-            payloadOne: resultAddProductData,
-            payloadTwo: snackbarHandler,
-            payloadThree: navigate,
-         })
-      )
+   const postAddProductHandler = () => {
+      dispatch(postAddProduct(resultAddProductData))
    }
 
    useEffect(() => {
@@ -146,53 +146,74 @@ export const FinishingTouchAddingProduct = memo(() => {
       }
    }, [resultAddProductData])
 
+   useEffect(() => {
+      if (isSuccessAddProduct !== '') {
+         snackbarHandler({
+            message: 'Товар успешно добавлен',
+            type: 'success',
+         })
+      }
+   }, [isSuccessAddProduct])
+
+   useEffect(() => {
+      if (isError !== '') {
+         snackbarHandler({
+            message: 'Что то произошло не так',
+            type: 'error',
+         })
+      }
+   }, [isError])
+
    return (
-      <Container>
-         <HeaderAddingAProduct title="Описание и обзор" pathNumber={3} />
+      <>
+         {isLoading && <Loading />}
+         <Container>
+            <HeaderAddingAProduct title="Описание и обзор" pathNumber={3} />
 
-         <ContainerInput>
-            <ContainerInputAddVideoAndPDF>
-               <label htmlFor="Загрузите видеообзор">
-                  Загрузите видеообзор
-                  <InputAddProduct
-                     id="Загрузите видеообзор"
-                     placeholder="Вставьте ссылку на видеообзор"
-                     type="url"
-                     value={formik.values.videoLink}
-                     onChange={formik.handleChange}
-                     onBlur={(e) => onBlurHandler(e)}
-                     name="videoLink"
-                     InputProps={{
-                        startAdornment: (
-                           <InputAdornmentStyle position="start">
-                              <DownloadIcon />
-                           </InputAdornmentStyle>
-                        ),
-                     }}
-                  />
-               </label>
+            <ContainerInput>
+               <ContainerInputAddVideoAndPDF>
+                  <label htmlFor="Загрузите видеообзор">
+                     Загрузите видеообзор
+                     <InputAddProduct
+                        id="Загрузите видеообзор"
+                        placeholder="Вставьте ссылку на видеообзор"
+                        type="url"
+                        value={formik.values.videoLink}
+                        onChange={formik.handleChange}
+                        onBlur={(e) => onBlurHandler(e)}
+                        name="videoLink"
+                        InputProps={{
+                           startAdornment: (
+                              <InputAdornmentStyle position="start">
+                                 <DownloadIcon />
+                              </InputAdornmentStyle>
+                           ),
+                        }}
+                     />
+                  </label>
 
-               <InputPDF formik={formik} onDrop={onDrop} />
-            </ContainerInputAddVideoAndPDF>
+                  <InputPDF formik={formik} onDrop={onDrop} />
+               </ContainerInputAddVideoAndPDF>
 
-            <div>
-               <InputDescription formik={formik} />
-            </div>
+               <div>
+                  <InputDescription formik={formik} />
+               </div>
 
-            <ContainerButton>
-               <Button
-                  backgroundHover="#CB11AB"
-                  onClick={onClose}
-                  variant="outlined"
-               >
-                  Отменить
-               </Button>
-               <Button onClick={finishedPartThree} variant="contained">
-                  Добавить
-               </Button>
-            </ContainerButton>
-         </ContainerInput>
-      </Container>
+               <ContainerButton>
+                  <Button
+                     backgroundHover="#CB11AB"
+                     onClick={onClose}
+                     variant="outlined"
+                  >
+                     Отменить
+                  </Button>
+                  <Button onClick={finishedPartThree} variant="contained">
+                     Добавить
+                  </Button>
+               </ContainerButton>
+            </ContainerInput>
+         </Container>
+      </>
    )
 })
 

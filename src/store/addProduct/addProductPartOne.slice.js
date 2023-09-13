@@ -4,9 +4,14 @@ import {
    getAllCategory,
    getBrandAll,
    getSubCategory,
+   postAddProduct,
    postFileImg,
    postFilePDF,
 } from './addProduct.thunk'
+import {
+   categoryProduct,
+   subProductDataCategory,
+} from '../../utils/common/constants/constantsAdminAddNewProduct'
 
 const initialState = {
    allCategory: [],
@@ -14,6 +19,9 @@ const initialState = {
    brandAll: [],
    pathPdf: '',
    resultAddProductData: [],
+   isLoading: false,
+   isError: '',
+   isSuccessAddProduct: '',
 
    newProduct: {
       categoryId: 0,
@@ -551,7 +559,7 @@ export const addProductSlice = createSlice({
       builder.addCase(getAllCategory.fulfilled, (state, { payload }) => {
          const russianSelectData = payload.map((item) => ({
             id: item.id,
-            name: item.title,
+            name: categoryProduct[item.title],
          }))
 
          state.allCategory = russianSelectData
@@ -559,7 +567,7 @@ export const addProductSlice = createSlice({
       builder.addCase(getSubCategory.fulfilled, (state, { payload }) => {
          const newSubCategoryData = payload.map((item) => ({
             id: item.subCategoryId,
-            name: item.title,
+            name: subProductDataCategory[item.title],
          }))
 
          state.subCategories = newSubCategoryData
@@ -567,24 +575,53 @@ export const addProductSlice = createSlice({
       builder.addCase(getBrandAll.fulfilled, (state, { payload }) => {
          state.brandAll = payload
       })
-      builder.addCase(postFilePDF.fulfilled, (state, { payload }) => {
-         state.pathPdf = payload
-      })
-      builder.addCase(postFileImg.fulfilled, (state, { payload }) => {
-         const updatePayloadSubProductRequests = payload.subProductRequests.map(
-            (subProduct) => {
-               const { id, ...rest } = subProduct
-               return rest
+      builder
+         .addCase(postFilePDF.pending, (state) => {
+            state.isLoading = true
+         })
+         .addCase(postFilePDF.fulfilled, (state, { payload }) => {
+            state.pathPdf = payload
+            state.isLoading = false
+         })
+         .addCase(postFilePDF.rejected, (state) => {
+            state.isLoading = false
+         })
+      builder
+         .addCase(postFileImg.pending, (state) => {
+            state.isLoading = true
+         })
+         .addCase(postFileImg.fulfilled, (state, { payload }) => {
+            const updatePayloadSubProductRequests =
+               payload.subProductRequests.map((subProduct) => {
+                  const { id, ...rest } = subProduct
+                  return rest
+               })
+
+            const updatePayload = {
+               ...payload,
+               subProductRequests: updatePayloadSubProductRequests,
             }
-         )
 
-         const updatePayload = {
-            ...payload,
-            subProductRequests: updatePayloadSubProductRequests,
-         }
+            state.resultAddProductData = updatePayload
 
-         state.resultAddProductData = updatePayload
-      })
+            state.isLoading = false
+         })
+         .addCase(postFileImg.rejected, (state) => {
+            state.isLoading = false
+         })
+      builder
+         .addCase(postAddProduct.pending, (state) => {
+            state.isLoading = true
+         })
+         .addCase(postAddProduct.fulfilled, (state) => {
+            state.isLoading = false
+
+            state.isSuccessAddProduct = 'Товар успешно добавлен'
+         })
+         .addCase(postAddProduct.rejected, (state) => {
+            state.isLoading = false
+            state.isError = 'Что то произошло не так'
+         })
    },
 })
 

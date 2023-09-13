@@ -1,35 +1,26 @@
 export const categoryProduct = {
-   Смартфоны: 'Смартфоны',
-   Ноутбук: 'Ноутбук',
-   'Смарт-Часы': 'Смарт-Часы',
-   Планшет: 'Планшет',
+   Phone: 'Смартфоны',
+   Laptop: 'Ноутбук',
+   'Smart Watch': 'Смарт-Часы',
+   Tablet: 'Планшет',
 }
 
-export const subProductDataCategorySmartPhone = {
+export const subProductDataCategory = {
    Android: 'Android',
    iOS: 'iOS',
-   Камерофоны: 'Камерофоны',
-   'Игровые телефоны': 'Игровые телефоны',
-}
-
-export const subProductDataCategoryNoteBook = {
-   Ультрабуки: 'Ультрабуки',
-   'Деловые ноутбуки': 'Деловые ноутбуки',
-   'Сенсорные ноутбуки': 'Сенсорные ноутбуки',
-   Chromebook: 'Chromebook',
-   'Игровые ноутбуки': 'Игровые ноутбуки',
-}
-
-export const subProductDataCategorySmartWatch = {
-   'Фитнес-трекеры': 'Фитнес-трекеры',
-   'Спортивные часы': 'Спортивные часы',
-   'Детские смарт-часы': 'Детские смарт-часы',
-}
-
-export const subProductDataCategoryTablets = {
-   'Планшеты для развлечений': 'Планшеты для развлечений',
-   'Профессиональные планшеты': 'Профессиональные планшеты',
-   'Образовательные планшеты': 'Образовательные планшеты',
+   'Camera Phones': 'Камерофоны',
+   'Gaming Phones': 'Игровые телефоны',
+   Ultrabooks: 'Ультрабуки',
+   'Business Laptops': 'Деловые ноутбуки',
+   'Touchscreen Laptops': 'Сенсорные ноутбуки',
+   Chromebooks: 'Chromebook',
+   'Gaming Laptops': 'Игровые ноутбуки',
+   'Fitness Trackers': 'Фитнес-трекеры',
+   'Sports Watches': 'Спортивные часы',
+   'Children Smart Watches': 'Детские смарт-часы',
+   'Entertainment Tablets': 'Планшеты для развлечений',
+   'Professional Tablets': 'Профессиональные планшеты',
+   'Educational Tablets': 'Образовательные планшеты',
 }
 
 export const dataProductWatch = {
@@ -40,22 +31,22 @@ export const dataProductWatch = {
       { id: '32', name: '32' },
    ],
    bracelet: [
-      { id: 'Силикон', name: 'Силикон' },
-      { id: 'Кожа', name: 'Кожа' },
-      { id: 'Резина', name: 'Резина' },
-      { id: 'Пластик', name: 'Пластик' },
-      { id: 'Нейлон', name: 'Нейлон' },
-      { id: 'Из искусственной кожи ', name: 'Из искусственной кожи' },
-      { id: 'Имитация керамики', name: 'Имитация керамики' },
+      { id: 'SILICONE', name: 'Силикон' },
+      { id: 'LEATHER', name: 'Кожа' },
+      { id: 'RUBBER', name: 'Резина' },
+      { id: 'PLASTIC', name: 'Пластик' },
+      { id: 'NYLON', name: 'Нейлон' },
+      { id: 'IMITATION_LEATHER', name: 'Из искусственной кожи' },
+      { id: 'CERAMIC_IMITATION', name: 'Имитация керамики' },
    ],
    housingMaterial: [
-      { id: 'Акриловый', name: 'Акриловый' },
-      { id: 'Алюминий', name: 'Алюминий' },
-      { id: 'Керамика', name: 'Керамика' },
-      { id: 'Пластик', name: 'Пластик' },
-      { id: 'Металл', name: 'Металл' },
-      { id: 'Нержавейщая сталь', name: 'Нержавейщая сталь' },
-      { id: 'Стекло', name: 'Стекло' },
+      { id: 'ACRYLIC', name: 'Акриловый' },
+      { id: 'ALUMINIUM', name: 'Алюминий' },
+      { id: 'CERAMIC', name: 'Керамика' },
+      { id: 'PLASTIC', name: 'Пластик' },
+      { id: 'METAL', name: 'Металл' },
+      { id: 'STAINLESS_STEEL', name: 'Нержавейщая сталь' },
+      { id: 'GLASS', name: 'Стекло' },
    ],
    display: [
       { id: '1.2', name: '1.2' },
@@ -93,18 +84,18 @@ export const dataProductSmartphones = {
 
 export const dataProductNotebooks = {
    processorNotebooks: [
-      { id: 'Intel Core i3', name: 'Intel Core i3' },
-      { id: 'Intel Core i5', name: 'Intel Core i5' },
-      { id: 'Intel Core i7', name: 'Intel Core i7' },
-      { id: 'Intel Core i9', name: 'Intel Core i9' },
-      { id: 'Intel Celeron', name: 'Intel Celeron' },
-      { id: 'Intel Pentium', name: 'Intel Pentium' },
+      { id: 'INTEL_CORE_I3', name: 'INTEL CORE I3' },
+      { id: 'INTEL_ddd_CORE I5', name: 'INTEL CORE I5' },
+      { id: 'INTEL_CORE_I7', name: 'INTEL CORE I7' },
+      { id: 'INTEL_CORE_I9', name: 'INTEL CORE I9' },
+      { id: 'INTEL_CELERON', name: 'INTEL CELERON' },
+      { id: 'INTEL_PENTIUM', name: 'INTEL PENTIUM' },
       { id: 'AMD', name: 'AMD' },
-      { id: 'Intel Quad Core', name: 'Intel Quad Core' },
-      { id: 'Intel Dual Core', name: 'Intel Dual Core' },
-      { id: 'AMD Ryzen 3 3250U', name: 'AMD Ryzen 3 3250U' },
-      { id: 'Intel Core i7-8565U', name: 'Intel Core i7-8565U' },
-      { id: 'AMD Ryzen 7 4700U', name: 'AMD Ryzen 7 4700U' },
+      { id: 'INTEL_QUAD_CORE', name: 'INTEL QUAD CORE' },
+      { id: 'INTEL_DUAL_CORE', name: 'INTEL DUAL CORE' },
+      { id: 'AMD_RYZEN_3_3250U', name: 'AMD RYZEN 3 3250U' },
+      { id: 'INTEL_CORE_I7-8565U', name: 'INTEL CORE I7-8565U' },
+      { id: 'AMD_RYZEN_7_4700U', name: 'AMD RYZEN 7 4700U' },
    ],
    screenResolutionNotebooks: [
       { id: '1024x600', name: '1024x600' },
@@ -118,12 +109,12 @@ export const dataProductNotebooks = {
       { id: '3840x2160', name: '3840x2160' },
    ],
    purposeNotebooks: [
-      { id: 'Для работы', name: 'Для работы' },
-      { id: 'Мультимедийный', name: 'Мультимедийный' },
-      { id: 'Игровой', name: 'Игровой' },
-      { id: 'Для бизнеса', name: 'Для бизнеса' },
-      { id: 'Для учебы', name: 'Для учебы' },
-      { id: 'Офисный', name: 'Офисный' },
+      { id: 'FOR_WORK', name: 'Для работы' },
+      { id: 'MULTIMEDIA', name: 'Мультимедийный' },
+      { id: 'GAMING', name: 'Игровой' },
+      { id: 'FOR_BUSINESS', name: 'Для бизнеса' },
+      { id: 'FOR_LEARNING', name: 'Для учебы' },
+      { id: 'OFFICE', name: 'Офисный' },
    ],
    videoMemoryNotebooks: [
       { id: '2', name: '2' },
@@ -204,7 +195,7 @@ export const dataProductTablets = {
 
 export const radioData = {
    genderRadioData: [
-      { id: '1', label: 'Унисекс', value: 'UNISEX' },
+      { id: '1', label: 'Унисекс', value: 'UNI' },
       { id: '2', label: 'Женский', value: 'FEMALE' },
       { id: '3', label: 'Мужской', value: 'MALE' },
    ],
