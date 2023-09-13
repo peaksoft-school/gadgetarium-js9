@@ -9,7 +9,6 @@ import {
 import { ProductCard } from '../product.card/ProductCard'
 import { Button } from '../../UI/Button'
 import { CardPhone } from '../card/CardPhone'
-import { Loading } from '../../UI/loading/Loading'
 
 const arrayForSkeleton = [
    { id: 1, name: 'firstCard' },
@@ -23,10 +22,8 @@ export const FilteredProducts = ({ children, array }) => {
    const { stock, novelties, recommend, isLoading } = useSelector(
       (state) => state.mainPage
    )
-   const { isLoadingFavorite } = useSelector((state) => state.favorite)
    const [pageSize, setPageSize] = useState(5)
    const [visibleProducts, setVisibleProducts] = useState([])
-
    const dispatch = useDispatch()
 
    useEffect(() => {
@@ -41,7 +38,6 @@ export const FilteredProducts = ({ children, array }) => {
          default:
             action = getStock
       }
-
       dispatch(action({ page: 1, pageSize }))
    }, [pageSize])
 
@@ -115,8 +111,8 @@ export const FilteredProducts = ({ children, array }) => {
          <Button
             padding="0.78240740vh 4.983073vw"
             variant="outlined"
-            backgroundHover="#CB11AB"
-            backgroundActive="#E313BF"
+            backgroundhover="#CB11AB"
+            backgroundactive="#E313BF"
             onClick={showMore ? showMoreHandler : hideHandler}
          >
             {showMore ? 'Показать ещё' : 'Скрыть'}
@@ -128,14 +124,10 @@ export const FilteredProducts = ({ children, array }) => {
       <Container>
          <Title>{children}</Title>
          <Products>
-            {isLoading && <Loading />}
-            {isLoadingFavorite && !isLoading && <Loading />}
-
-            {renderProductCards(visibleProducts)}
+            {!isLoading && renderProductCards(visibleProducts)}
             {renderNoGoods(visibleProducts)}
-            {isLoading
-               ? arrayForSkeleton.map((el) => <CardPhone key={el.id} />)
-               : null}
+            {isLoading &&
+               arrayForSkeleton.map((el) => <CardPhone key={el.id} />)}
          </Products>
          <ButtonContainer>{renderButton()}</ButtonContainer>
       </Container>
