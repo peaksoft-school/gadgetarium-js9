@@ -48,23 +48,29 @@ export const authSlice = createSlice({
    extraReducers: (builder) => {
       builder
          .addCase(signUpRequest.fulfilled, (state, action) => {
-            return {
-               ...state,
-               isAuthorization: true,
-               token: action.payload.token,
-               role: action.payload.role,
-            }
+            state.isLoading = false
+            state.isAuthorization = true
+            state.token = action.payload.token
+            state.role = action.payload.role
+         })
+         .addCase(signUpRequest.pending, (state) => {
+            state.isLoading = true
+         })
+         .addCase(signUpRequest.rejected, (state) => {
+            state.isLoading = false
          })
          .addCase(signInRequest.fulfilled, (state, action) => {
-            return {
-               ...state,
-               isAuthorization: true,
-               token: action.payload.token,
-               role: action.payload.role,
-            }
+            state.isAuthorization = true
+            state.token = action.payload.token
+            state.role = action.payload.role
+            state.isLoading = false
+         })
+         .addCase(signInRequest.pending, (state) => {
+            state.isLoading = true
          })
          .addCase(signInRequest.rejected, (state, action) => {
-            return { ...state, error: action.payload.message }
+            state.error = action.payload.message
+            state.isLoading = false
          })
          .addCase(getPhoneNumber.fulfilled, (state, action) => {
             const keys = Object.keys(action.payload)

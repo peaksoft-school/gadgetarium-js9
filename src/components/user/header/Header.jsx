@@ -12,25 +12,33 @@ import { ReactComponent as Basket } from '../../../assets/icons/basket-icon.svg'
 import { ReactComponent as Menu } from '../../../assets/icons/catalog-icon.svg'
 import { ReactComponent as UserIcons } from '../../../assets/icons/avatar/default-avatar-icon.svg'
 import { navBarForHeader } from '../../../utils/common/constants/header'
-import { logOut } from '../../../store/auth/authThunk'
 import { routes } from '../../../utils/common/constants/routesConstants'
 import GeneralCategorySelectLayout from '../GeneralCategorySelectLayout'
 import { ProductsModalWhenIsHovered } from '../../UI/ProductsModalWhenIsHovered'
+import { logOut } from '../../../store/auth/authThunk'
+import { AuthorizationModal } from '../AuthorizationModal'
 
-export const Header = ({ favorite, comparison, basket }) => {
+export const Header = ({ favorite, basket, compare }) => {
    const dispatch = useDispatch()
-   const { number, img, token } = useSelector((state) => state.auth)
+   const { number, img, token, isAuthorization } = useSelector(
+      (state) => state.auth
+   )
+   const [hoverCompare, setHoverCompare] = useState(false)
+   const [hoverFavorite, setHoverFavorite] = useState(false)
    const navigate = useNavigate()
+   const { allProducts } = useSelector((state) => state.compare)
+   const { favoriteItems } = useSelector((state) => state.favorite)
+   const toggleHoverCompare = () => {
+      setHoverCompare(!hoverCompare)
+   }
+   const toggleHoverFavorite = () => {
+      setHoverFavorite(!hoverFavorite)
+   }
    const [fixed, setFixed] = useState(false)
    const [open, setOpen] = useState(false)
    const [catalogSelect, setCatalogSelect] = useState(false)
    const [inputValue, setInputValue] = useState('')
-   const { favoriteItems } = useSelector((state) => state.favorite)
-   const [hoverFavorite, setHoverFavorite] = useState(false)
-   const toggleHoverFavorite = () => {
-      setHoverFavorite(!hoverFavorite)
-   }
-
+   const [openModal, setOpenModal] = useState(false)
    const changeHeader = () => {
       if (window.scrollY > 64) {
          setFixed(true)
@@ -43,11 +51,27 @@ export const Header = ({ favorite, comparison, basket }) => {
    const handleChange = (event) => {
       setInputValue(event.target.value)
    }
-
    function onComeBack() {
       navigate('./')
    }
-
+   const navigateToFavorite = () => {
+      if (isAuthorization) {
+         navigate('/favorite')
+      } else {
+         setOpenModal(true)
+      }
+   }
+   const navigateToCompare = () => {
+      if (isAuthorization) {
+         navigate('/compare')
+      } else {
+         setOpenModal(true)
+      }
+   }
+   const logOutHandler = () => {
+      dispatch(logOut())
+      window.location.reload()
+   }
    function openSelect() {
       setOpen((prev) => !prev)
    }
@@ -55,197 +79,199 @@ export const Header = ({ favorite, comparison, basket }) => {
    const toggleCatalogSelect = () => {
       setCatalogSelect(!catalogSelect)
    }
-   const navigateToFavorite = () => {
-      navigate('/favorite')
-   }
-   const navigateToCompare = () => {
-      navigate('/compare')
-   }
-   const logOutHandler = () => {
-      dispatch(logOut())
-      window.location.reload()
+   const toggleModalHandler = () => {
+      setOpenModal(!openModal)
    }
    return (
-      <Headers>
-         <CaptionContainer>
-            <Caption>
-               <Title onClick={onComeBack}>
-                  <GadgeteriumContainer>
-                     <GIcons>G</GIcons>
-                  </GadgeteriumContainer>
-                  <p>adgetarium</p>
-               </Title>
-               <NavBar>
-                  {navBarForHeader.map((el) => (
-                     <Link
-                        key={el.title}
-                        to={el.path}
-                        className={({ isActive }) => (isActive ? 'active' : '')}
-                     >
-                        {el.title}
-                     </Link>
-                  ))}
-               </NavBar>
-               <UserNumber>
-                  <p>{number}</p>
-
-                  <div onMouseLeave={openSelect} onMouseEnter={openSelect}>
-                     {token !== '' && (
-                        <div>
-                           {open && (
-                              <div style={{ position: 'relative' }}>
-                                 <Select2>
-                                    <p>История заказов</p>
-                                    <p>Избранное</p>
-                                    <p>Профиль</p>
-                                    <div onClick={() => dispatch(logOut())}>
-                                       <p style={{ color: '#CB11AB' }}>Выйти</p>
-                                    </div>
-                                 </Select2>
-                              </div>
-                           )}
-                        </div>
-                     )}
-                     {open && token === '' && (
-                        <div
-                           style={{
-                              position: 'relative',
-                           }}
-                        >
-                           <Select>
-                              <SelectParagraph to={routes.SIGN_IN}>
-                                 Войти
-                              </SelectParagraph>
-                              <SelectParagraph2 to={routes.SIGN_UP}>
-                                 Регистрация
-                              </SelectParagraph2>
-                           </Select>
-                        </div>
-                     )}
-                     {img !== undefined ? (
-                        <button>
-                           <User />
-                        </button>
-                     ) : (
-                        img
-                     )}
-                  </div>
-
-                  {token !== '' && (
-                     <div>
-                        {open && (
-                           <div style={{ position: 'relative' }}>
-                              <Select2>
-                                 <p>История заказов</p>
-                                 <p>Избранное</p>
-                                 <p>Профиль</p>
-                                 <div onClick={logOutHandler}>
-                                    <p style={{ color: '#CB11AB' }}>Выйти</p>
-                                 </div>
-                              </Select2>
-                           </div>
-                        )}
-                     </div>
-                  )}
-                  {open && token === '' && (
-                     <div style={{ position: 'relative' }}>
-                        <Select>
-                           <SelectParagraph to={routes.SIGN_IN}>
-                              Войти
-                           </SelectParagraph>
-                           <SelectParagraph2 to={routes.SIGN_UP}>
-                              Регистрация
-                           </SelectParagraph2>
-                        </Select>
-                     </div>
-                  )}
-                  {img !== undefined ? (
-                     <User onClick={openSelect} />
-                  ) : (
-                     <User onClick={openSelect} />
-                  )}
-               </UserNumber>
-            </Caption>
-         </CaptionContainer>
-         <Line fixed={fixed}>
-            <ButtonContainer>
-               <ButtonInputContainer fixed={fixed}>
-                  <TitleFixed onClick={onComeBack} fixed={fixed}>
+      <>
+         {openModal && (
+            <AuthorizationModal
+               openModal={openModal}
+               toggleHandler={toggleModalHandler}
+            />
+         )}
+         <Headers>
+            <CaptionContainer>
+               <Caption>
+                  <Title onClick={onComeBack}>
                      <GadgeteriumContainer>
                         <GIcons>G</GIcons>
                      </GadgeteriumContainer>
-                     <p>adgetarium</p>
-                  </TitleFixed>
-                  <CatalogButtonContainer
-                     onMouseEnter={toggleCatalogSelect}
-                     onMouseLeave={toggleCatalogSelect}
-                  >
-                     <Btn variant="contained">
-                        <Menu />
-                        <p>Каталог</p>
-                     </Btn>
-                     {catalogSelect && (
-                        <CatalogSelect fixed={fixed}>
-                           <GeneralCategorySelectLayout
-                              toggleCatalogSelect={toggleCatalogSelect}
-                           />
-                        </CatalogSelect>
-                     )}
-                  </CatalogButtonContainer>
-                  <Border />
-                  <SearchForm>
-                     <button>
-                        <Input
-                           className={inputValue ? 'hasText' : ''}
-                           value={inputValue}
-                           onChange={handleChange}
-                           placeholder="Поиск по каталогу магазина  "
-                           type="text"
-                        />
-                     </button>
-                     <StyledVector input={inputValue} />
-                  </SearchForm>
-               </ButtonInputContainer>
-               <Massage fixed={fixed}>
-                  <NavLink>
-                     <StyledFaceBookIcon />
-                  </NavLink>
-                  <NavLink to="https://www.instagram.com/peaksoft.house/">
-                     <StyledInstagramIcon />
-                  </NavLink>
-                  <NavLink>
-                     <StyledWhatsAppIcon />
-                  </NavLink>
-               </Massage>
-               <IconsForm>
-                  <MuiBadge badgeContent={comparison} showZero>
-                     <IconsShoppingCart onClick={navigateToCompare} />
-                  </MuiBadge>
-                  <PositionContainer
-                     onMouseEnter={toggleHoverFavorite}
-                     onMouseLeave={toggleHoverFavorite}
-                  >
-                     {hoverFavorite && (
-                        <FavoriteContainer fixed={fixed} hover={hoverFavorite}>
-                           <ProductsModalWhenIsHovered
-                              path="/favorite"
-                              favorite
-                              array={favoriteItems}
-                           />
-                        </FavoriteContainer>
-                     )}
-                     <MuiBadge badgeContent={favorite} showZero>
-                        <IconsHeart onClick={navigateToFavorite} />
-                     </MuiBadge>
-                  </PositionContainer>
+                     <AdgetariumTitle>adgetarium</AdgetariumTitle>
+                  </Title>
+                  <NavBar>
+                     {navBarForHeader.map((el) => (
+                        <Link
+                           key={el.title}
+                           to={el.path}
+                           className={({ isActive }) =>
+                              isActive ? 'active' : ''
+                           }
+                        >
+                           {el.title}
+                        </Link>
+                     ))}
+                  </NavBar>
+                  <UserNumber>
+                     <p>{number}</p>
 
-                  <MuiBadge badgeContent={basket} showZero>
-                     <IconsBasket />
-                  </MuiBadge>
-               </IconsForm>
-            </ButtonContainer>
-         </Line>
-      </Headers>
+                     <div onMouseLeave={openSelect} onMouseEnter={openSelect}>
+                        {token !== '' && (
+                           <div>
+                              {open && (
+                                 <div style={{ position: 'relative' }}>
+                                    <Select2>
+                                       <NavLinkParagraph
+                                          onClick={openSelect}
+                                          to="/personalArea/history"
+                                       >
+                                          История заказов
+                                       </NavLinkParagraph>
+                                       <NavLinkParagraph
+                                          onClick={openSelect}
+                                          to="/personalArea/favorites"
+                                       >
+                                          Избранное
+                                       </NavLinkParagraph>
+                                       <NavLinkParagraph onClick={openSelect}>
+                                          Профиль
+                                       </NavLinkParagraph>
+                                       <div onClick={logOutHandler}>
+                                          <NavLinkParagraph>
+                                             Выйти
+                                          </NavLinkParagraph>
+                                       </div>
+                                    </Select2>
+                                 </div>
+                              )}
+                           </div>
+                        )}
+                        {open && token === '' && (
+                           <div
+                              style={{
+                                 position: 'relative',
+                              }}
+                           >
+                              <Select>
+                                 <SelectParagraph
+                                    onClick={() => navigate(routes.SIGN_IN)}
+                                 >
+                                    Войти
+                                 </SelectParagraph>
+                                 <SelectParagraph2
+                                    onClick={() => navigate(routes.SIGN_UP)}
+                                 >
+                                    Регистрация
+                                 </SelectParagraph2>
+                              </Select>
+                           </div>
+                        )}
+                        {img !== undefined ? (
+                           <button>
+                              <User />
+                           </button>
+                        ) : (
+                           img
+                        )}
+                     </div>
+                  </UserNumber>
+               </Caption>
+            </CaptionContainer>
+            <Line fixed={fixed}>
+               <ButtonContainer>
+                  <ButtonInputContainer fixed={fixed}>
+                     <TitleFixed onClick={onComeBack} fixed={fixed}>
+                        <GadgeteriumContainer>
+                           <GIcons>G</GIcons>
+                        </GadgeteriumContainer>
+                        <AdgetariumTitle>adgetarium</AdgetariumTitle>
+                     </TitleFixed>
+                     <CatalogButtonContainer
+                        onMouseEnter={toggleCatalogSelect}
+                        onMouseLeave={toggleCatalogSelect}
+                     >
+                        <Btn variant="contained">
+                           <Menu />
+                           <p>Каталог</p>
+                        </Btn>
+                        {catalogSelect && (
+                           <CatalogSelect fixed={fixed}>
+                              <GeneralCategorySelectLayout
+                                 toggleCatalogSelect={toggleCatalogSelect}
+                              />
+                           </CatalogSelect>
+                        )}
+                     </CatalogButtonContainer>
+                     <Border />
+                     <SearchForm>
+                        <button>
+                           <Input
+                              className={inputValue ? 'hasText' : ''}
+                              value={inputValue}
+                              onChange={handleChange}
+                              placeholder="Поиск по каталогу магазина  "
+                              type="text"
+                           />
+                        </button>
+                        <StyledVector input={inputValue} />
+                     </SearchForm>
+                  </ButtonInputContainer>
+                  <Massage fixed={fixed}>
+                     <NavLink>
+                        <StyledFaceBookIcon />
+                     </NavLink>
+                     <NavLink to="https://www.instagram.com/peaksoft.house/">
+                        <StyledInstagramIcon />
+                     </NavLink>
+                     <NavLink>
+                        <StyledWhatsAppIcon />
+                     </NavLink>
+                  </Massage>
+                  <IconsForm>
+                     <PositionContainer
+                        onMouseEnter={toggleHoverCompare}
+                        onMouseLeave={toggleHoverCompare}
+                     >
+                        {hoverCompare && (
+                           <CompareContainer fixed={fixed} hover={hoverCompare}>
+                              <ProductsModalWhenIsHovered
+                                 path="/compare"
+                                 array={allProducts}
+                              />
+                           </CompareContainer>
+                        )}
+                        <MuiBadge badgeContent={compare} showZero>
+                           <IconsShoppingCart onClick={navigateToCompare} />
+                        </MuiBadge>
+                     </PositionContainer>
+                     <PositionContainer
+                        onMouseEnter={toggleHoverFavorite}
+                        onMouseLeave={toggleHoverFavorite}
+                     >
+                        {hoverFavorite && (
+                           <FavoriteContainer
+                              fixed={fixed}
+                              hover={hoverFavorite}
+                           >
+                              <ProductsModalWhenIsHovered
+                                 path="/favorite"
+                                 favorite
+                                 array={favoriteItems}
+                              />
+                           </FavoriteContainer>
+                        )}
+                        <MuiBadge badgeContent={favorite} showZero>
+                           <IconsHeart onClick={navigateToFavorite} />
+                        </MuiBadge>
+                     </PositionContainer>
+                     <MuiBadge badgeContent={basket} showZero>
+                        <IconsBasket />
+                     </MuiBadge>
+                  </IconsForm>
+               </ButtonContainer>
+            </Line>
+         </Headers>
+      </>
    )
 }
 const slideIn = keyframes`
@@ -258,7 +284,6 @@ const slideIn = keyframes`
     transform: translateY(0);
   }
 `
-
 const slideOut = keyframes`
   from {
     opacity: 1;
@@ -305,6 +330,12 @@ const Link = styled(NavLink)`
    }
 `
 
+const CompareContainer = styled('div')`
+   animation: ${(props) => (props.hover ? slideIn : slideOut)} 0.3s ease-in-out;
+   position: absolute;
+   right: -37px;
+   top: 36px;
+`
 const CaptionContainer = styled('div')`
    display: flex;
    align-items: center;
@@ -385,37 +416,15 @@ const Title = styled('div')`
    display: flex;
    align-items: center;
    cursor: pointer;
-
-   a {
-      font-family: Orbitron;
-      color: #fff;
-      font-size: 1.75rem;
-      text-decoration: none;
-   }
-
-   p {
-      font-size: 28.49px;
-      color: #ffffff;
-      font-family: 'Orbitron';
-   }
 `
-
+const AdgetariumTitle = styled('div')`
+   font-size: 28.49px;
+   color: #ffffff;
+   font-family: 'Orbitron';
+`
 const TitleFixed = styled('div')`
    display: ${(props) => (props.fixed ? 'flex' : 'none')};
    align-items: center;
-
-   a {
-      font-family: Orbitron;
-      color: #fff;
-      font-size: 1.75rem;
-      text-decoration: none;
-   }
-
-   p {
-      font-size: 28.49px;
-      color: #ffffff;
-      font-family: 'Orbitron';
-   }
 `
 const CatalogSelect = styled('div')`
    position: absolute;
@@ -561,7 +570,6 @@ const IconsShoppingCart = styled(ShoppingCart)`
 const User = styled(UserIcons)`
    width: 1.5rem;
    height: 1.5rem;
-   /* margin-left: 1.875rem; */
    cursor: pointer;
 `
 
@@ -618,12 +626,13 @@ const Select = styled('div')`
    flex-direction: column;
    width: 8.875rem;
    height: 5.875rem;
+   padding: 17px 20px 20px 20px;
    border-radius: 0.25rem;
    background: #fff;
    box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.1);
    z-index: 99999;
    top: 1rem;
-   left: -7rem;
+   right: 1rem;
    animation: fadeInOut 0.4s ease-in-out;
 
    @keyframes fadeInOut {
@@ -637,30 +646,32 @@ const Select = styled('div')`
       }
    }
 `
-const SelectParagraph = styled(Link)`
+const SelectParagraph = styled('p')`
+   margin: 0;
    padding: 0;
-   margin-top: 1.25rem;
-   margin-left: 1.28rem;
-   color: red;
+   border-radius: 0.25rem;
+   color: #292929;
    cursor: pointer;
    &:hover {
-      background-color: #fff;
+      color: #cb11ab;
+      background: none;
    }
 `
-const SelectParagraph2 = styled(Link)`
+const SelectParagraph2 = styled('p')`
+   margin: 0;
    padding: 0;
    margin-top: 1rem;
-   margin-left: 1.28rem;
-   color: black;
+   color: #292929;
    cursor: pointer;
    &:hover {
-      background-color: #fff;
+      color: #cb11ab;
+      background: none;
    }
 `
 const Select2 = styled('div')`
    position: absolute;
    top: 0.8rem;
-   left: -8.8rem;
+   left: -10rem;
    width: 10.8125rem;
    height: 10.25rem;
    border-radius: 0.25rem;
@@ -668,10 +679,18 @@ const Select2 = styled('div')`
    box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.1);
    z-index: 99999;
    animation: fadeInOut 0.4s ease-in-out;
+   display: flex;
+   flex-direction: column;
+   gap: 14px;
+   padding: 16px 20px 20px 20px;
    p {
       color: #292929;
       cursor: pointer;
-      margin-left: 1.5rem;
+      margin: 0;
+      width: 100%;
+      :hover {
+         color: #cb11ab !important;
+      }
    }
 
    @keyframes fadeInOut {
@@ -683,5 +702,13 @@ const Select2 = styled('div')`
          opacity: 1;
          transform: translateY(0);
       }
+   }
+`
+const NavLinkParagraph = styled(NavLink)`
+   text-decoration: none;
+   color: #292929;
+   cursor: pointer;
+   &:hover {
+      color: #cb11ab;
    }
 `

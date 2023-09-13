@@ -61,9 +61,6 @@ export const postFavoriteItem = createAsyncThunk(
                path: '/favorite',
             })
          }
-         snackbarHandler({
-            message: `Товар удален из избранных`,
-         })
       } catch (error) {
          snackbarHandler({ message: error.message, type: 'error' })
          rejectWithValue(error)
