@@ -93,6 +93,9 @@ export const Header = ({ favorite, basket, compare }) => {
    function openSelect() {
       setOpen((prev) => !prev)
    }
+   function closeSelect() {
+      setOpen(false)
+   }
    const handleInputFocus = () => {
       setInputFocused(true)
    }
@@ -142,7 +145,7 @@ export const Header = ({ favorite, basket, compare }) => {
                   <UserNumber>
                      <p>{number}</p>
 
-                     <div onMouseLeave={openSelect} onMouseEnter={openSelect}>
+                     <div onMouseLeave={closeSelect} onClick={openSelect}>
                         {token !== '' && (
                            <div>
                               {open && (

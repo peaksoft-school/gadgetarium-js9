@@ -11,9 +11,9 @@ import { ReactComponent as AddPhotoIcon } from '../../../assets/icons/photo-add/
 import { Modal } from '../../UI/Modal'
 
 const schema = z.object({
+   title: z.string().min(1).max(255),
+   description: z.string().min(1).max(500),
    image: z.string().min(1),
-   mealName: z.string().min(1).max(255),
-   mealDescription: z.string().min(1).max(500),
    startDate: z.date().min(new Date()),
    finishDate: z.date().min(new Date()),
 })
@@ -21,9 +21,9 @@ export const MailingModal = ({ open, handleClose }) => {
    const { register, handleSubmit, getValues, control, reset, watch } = useForm(
       {
          defaultValues: {
+            title: '',
+            description: '',
             image: '',
-            mealName: '',
-            mealDescription: '',
             startDate: new Date(Date.now()),
             finishDate: new Date(),
          },
@@ -80,9 +80,9 @@ export const MailingModal = ({ open, handleClose }) => {
                      Название рассылки <span>*</span>
                   </Label>
                   <InputUi
-                     {...register('mealName')}
+                     {...register('title')}
                      width="100%"
-                     height="3.2407vh"
+                     height="1.823vw"
                      fontSize="0.83333vw"
                      placeholder="Введите название рассылки"
                   />
@@ -92,9 +92,9 @@ export const MailingModal = ({ open, handleClose }) => {
                      Описание рассылки <span>*</span>
                   </Label>
                   <InputUi
-                     {...register('mealDescription')}
+                     {...register('description')}
                      width="100%"
-                     height="3.2407vh"
+                     height="1.823vw"
                      fontSize="0.83333vw"
                      placeholder="Введите описание рассылки"
                   />
@@ -122,7 +122,7 @@ export const MailingModal = ({ open, handleClose }) => {
                                     : undefined
                               }
                               fontSize="0.83333vw"
-                              height="3.2407vh"
+                              height="1.823vw"
                               placeholder="Выберите дату"
                               width="100%"
                            />
@@ -151,7 +151,7 @@ export const MailingModal = ({ open, handleClose }) => {
                               }
                               fontSize="0.83333vw"
                               placeholder="Выберите дату"
-                              height="3.2407vh"
+                              height="1.823vw"
                               width="100%"
                            />
                         )}
@@ -162,9 +162,9 @@ export const MailingModal = ({ open, handleClose }) => {
             <ButtonContainer>
                <Button
                   variant="outlined"
-                  textTransform="uppercase"
-                  backgroundHover="#CB11AB"
-                  backgroundActive="#CB11AB"
+                  texttransform="uppercase"
+                  backgroundhover="#CB11AB"
+                  backgroundactive="#CB11AB"
                   padding="0.69vh 5vw"
                   fontSize="0.791vw"
                   onClick={handleClose}
@@ -173,7 +173,7 @@ export const MailingModal = ({ open, handleClose }) => {
                </Button>
                <Button
                   variant="contained"
-                  textTransform="uppercase"
+                  texttransform="uppercase"
                   padding="0.69vh 5vw"
                   fontSize="0.791vw"
                   type="submit"
@@ -188,7 +188,6 @@ export const MailingModal = ({ open, handleClose }) => {
 
 const Form = styled('form')(() => ({
    width: '28.3334vw',
-   height: '63.334vh',
    padding: '1.66666vw',
    display: 'flex',
    flexDirection: 'column',
