@@ -121,10 +121,26 @@ export const Header = ({ favorite, basket, compare }) => {
                               {open && (
                                  <div style={{ position: 'relative' }}>
                                     <Select2>
-                                       <p>История заказов</p>
-                                       <p>Избранное</p>
-                                       <p>Профиль</p>
-                                       <p onClick={logOutHandler}>Выйти</p>
+                                       <NavLinkParagraph
+                                          onClick={openSelect}
+                                          to="/personalArea/history"
+                                       >
+                                          История заказов
+                                       </NavLinkParagraph>
+                                       <NavLinkParagraph
+                                          onClick={openSelect}
+                                          to="/personalArea/favorites"
+                                       >
+                                          Избранное
+                                       </NavLinkParagraph>
+                                       <NavLinkParagraph onClick={openSelect}>
+                                          Профиль
+                                       </NavLinkParagraph>
+                                       <div onClick={logOutHandler}>
+                                          <NavLinkParagraph>
+                                             Выйти
+                                          </NavLinkParagraph>
+                                       </div>
                                     </Select2>
                                  </div>
                               )}
@@ -554,7 +570,6 @@ const IconsShoppingCart = styled(ShoppingCart)`
 const User = styled(UserIcons)`
    width: 1.5rem;
    height: 1.5rem;
-   /* margin-left: 1.875rem; */
    cursor: pointer;
 `
 
@@ -617,7 +632,7 @@ const Select = styled('div')`
    box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.1);
    z-index: 99999;
    top: 1rem;
-   left: -7.89rem;
+   right: 1rem;
    animation: fadeInOut 0.4s ease-in-out;
 
    @keyframes fadeInOut {
@@ -666,7 +681,6 @@ const Select2 = styled('div')`
    animation: fadeInOut 0.4s ease-in-out;
    display: flex;
    flex-direction: column;
-   align-items: center;
    gap: 14px;
    padding: 16px 20px 20px 20px;
    p {
@@ -688,5 +702,13 @@ const Select2 = styled('div')`
          opacity: 1;
          transform: translateY(0);
       }
+   }
+`
+const NavLinkParagraph = styled(NavLink)`
+   text-decoration: none;
+   color: #292929;
+   cursor: pointer;
+   &:hover {
+      color: #cb11ab;
    }
 `

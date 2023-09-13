@@ -7,6 +7,8 @@ import { Favorite } from '../components/user/favorite/Favorite'
 import { MainPage } from '../components/user/main.page/MainPage'
 import { Compare } from '../components/user/compare/Compare'
 import { Catalog } from '../components/user/catalog/Catalog'
+import { PersonalAreaContainer } from '../components/user/personalAreaPage/PersonalAreaContainer'
+import { HistoryDetailContainer } from '../components/user/personalAreaPage/historyPages/HistoryDetailContainer'
 
 export const userRoutes = [
    { path: routes.USER.index, element: <MainPage /> },
@@ -29,6 +31,18 @@ export const userRoutes = [
    {
       path: routes.USER.favorite,
       element: <Favorite />,
+   },
+   {
+      path: routes.USER.personal.index,
+      element: <PersonalAreaContainer />,
+   },
+   {
+      path: routes.USER.personal.personalDetail,
+      element: <HistoryDetailContainer />,
+   },
+   {
+      path: routes.USER.personalFavorites,
+      element: <PersonalAreaContainer />,
    },
    {
       path: routes.USER.category.index,

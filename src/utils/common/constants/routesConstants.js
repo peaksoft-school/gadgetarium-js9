@@ -24,6 +24,11 @@ export const routes = {
       },
       favorite: 'favorite',
       compare: 'compare',
+      personal: {
+         index: 'personalArea/:tab',
+         personalDetail: 'personalArea/:orderId/details',
+      },
+      personalFavorites: '/personalArea/:tab',
    },
 }
 
