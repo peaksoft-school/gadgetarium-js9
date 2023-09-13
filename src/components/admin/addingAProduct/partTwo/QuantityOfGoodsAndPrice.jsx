@@ -71,10 +71,6 @@ export const QuantityOfGoodsAndPrice = memo(() => {
       }
    }
 
-   const onClose = () => {
-      navigate('/admin/add-products-part-1')
-   }
-
    return (
       <Container>
          <HeaderAddingAProduct
@@ -119,15 +115,6 @@ export const QuantityOfGoodsAndPrice = memo(() => {
             />
 
             <ContainerButton>
-               <Button
-                  backgroundHover="#CB11AB"
-                  onClick={onClose}
-                  variant="outlined"
-                  fontSize="1rem"
-               >
-                  Назад
-               </Button>
-
                <Button
                   onClick={finishedAddPriceAndQuantity}
                   padding="10px 1.5rem"
@@ -179,6 +166,6 @@ const FormStyle = styled('form')`
 const ContainerButton = styled('div')`
    width: 79.688vw;
    display: flex;
-   justify-content: space-between;
+   justify-content: flex-end;
    align-items: center;
 `

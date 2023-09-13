@@ -9,7 +9,10 @@ import { InputPDF } from './inputAddProductPartThree/InputPDF'
 import { InputDescription } from './inputAddProductPartThree/InputDescription'
 import { ReactComponent as DownloadIcon } from '../../../../assets/icons/tools-for-site/download-icon.svg'
 import { useSnackbar } from '../../../../hooks/useSnackbar'
-import { addDescriptionAndOverview } from '../../../../store/addProduct/addProductPartOne.slice'
+import {
+   addDescriptionAndOverview,
+   closeNavigatePartOne,
+} from '../../../../store/addProduct/addProductPartOne.slice'
 import { Button } from '../../../UI/Button'
 import {
    postAddProduct,
@@ -133,7 +136,8 @@ export const FinishingTouchAddingProduct = memo(() => {
    }
 
    const onClose = () => {
-      navigate('/')
+      navigate('/admin/add-products-part-1')
+      dispatch(closeNavigatePartOne())
    }
 
    const postAddProductHandler = () => {
@@ -185,7 +189,7 @@ export const FinishingTouchAddingProduct = memo(() => {
                         InputProps={{
                            startAdornment: (
                               <InputAdornmentStyle position="start">
-                                 <DownloadIcon />
+                                 <DownloadIcon style={{ cursor: 'pointer' }} />
                               </InputAdornmentStyle>
                            ),
                         }}
@@ -201,7 +205,7 @@ export const FinishingTouchAddingProduct = memo(() => {
 
                <ContainerButton>
                   <Button
-                     backgroundHover="#CB11AB"
+                     backgroundhover="#CB11AB"
                      onClick={onClose}
                      variant="outlined"
                   >

@@ -23,6 +23,19 @@ const initialState = {
    isError: '',
    isSuccessAddProduct: '',
 
+   initialStateAddProduct: {
+      categoryId: 0,
+      subCategoryId: 0,
+      brandId: 0,
+      guarantee: '',
+      name: '',
+      dateOfIssue: null,
+      subProductRequests: [],
+      videoLink: '',
+      pdf: '',
+      description: '',
+   },
+
    newProduct: {
       categoryId: 0,
       subCategoryId: 0,
@@ -99,6 +112,10 @@ export const addProductSlice = createSlice({
    initialState,
    reducers: {
       // * newProduct
+
+      closeNavigatePartOne(state) {
+         return { ...state, newProduct: state.initialStateAddProduct }
+      },
 
       collectorProductData(state, { payload }) {
          return {
@@ -650,4 +667,6 @@ export const {
    editNewProductAndReturnNewEditDataHandler,
 
    addDescriptionAndOverview,
+
+   closeNavigatePartOne,
 } = addProductSlice.actions

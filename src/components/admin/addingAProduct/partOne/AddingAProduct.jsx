@@ -125,7 +125,7 @@ export const AddingAProduct = memo(() => {
          {newProduct.categoryId && newProduct.categoryId !== '' && (
             <ContainerButton>
                <Button
-                  backgroundHover="#CB11AB"
+                  backgroundhover="#CB11AB"
                   onClick={onClose}
                   variant="outlined"
                >

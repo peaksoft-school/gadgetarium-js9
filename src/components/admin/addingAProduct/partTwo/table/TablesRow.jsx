@@ -44,7 +44,7 @@ export const TablesRow = ({
    useEffect(() => {
       const dataRow = {
          ...row,
-         category: rows.category,
+         categoryId: rows.categoryId,
       }
 
       collectorRowsDataHandler(dataRow)
