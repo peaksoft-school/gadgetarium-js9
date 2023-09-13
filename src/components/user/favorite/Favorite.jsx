@@ -1,7 +1,7 @@
 import { styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
-import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import React from 'react'
 import { deleteFavoriteItems } from '../../../store/favorite/favorite.thunk'
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/cross/small-cross-icon.svg'
 import favoriteImage from '../../../assets/images/sammy-order-completed-by-a-delivery-girl 1.png'
@@ -45,8 +45,8 @@ export const Favorite = React.memo(() => {
                      variant="contained"
                      fontSize="1rem"
                      padding="11px 21px"
-                     backgroundHover="#E313BF"
-                     backgroundActive="#C90EA9"
+                     backgroundhover="#E313BF"
+                     backgroundactive="#C90EA9"
                      onClick={enterPurchases}
                   >
                      К покупкам
@@ -84,10 +84,10 @@ export const Favorite = React.memo(() => {
                   <ButtonContainer>
                      <Button
                         variant="outlined"
-                        backgroundHover="#CB11AB"
-                        backgroundActive="#E20FBE"
+                        backgroundhover="#CB11AB"
+                        backgroundactive="#E20FBE"
                         padding="8px 20px"
-                        fontSize="1rem"
+                        fontaSize="1rem"
                         onClick={enterPurchases}
                      >
                         Продолжить покупки

@@ -4,7 +4,8 @@ export const routes = {
 
    ADMIN: {
       index: '/admin',
-      addProduct: '/admin/add-products/part-1',
+      addProductPartOne: '/admin/add-products-part-1',
+      addProductPartTwo: '/admin/add-products-part-2',
    },
 
    USER: {
@@ -23,6 +24,12 @@ export const routes = {
       },
       favorite: 'favorite',
       basket: 'basket',
+      compare: 'compare',
+      personal: {
+         index: 'personalArea/:tab',
+         personalDetail: 'personalArea/:orderId/details',
+      },
+      personalFavorites: '/personalArea/:tab',
    },
 }
 

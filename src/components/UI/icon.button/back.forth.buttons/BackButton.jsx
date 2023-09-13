@@ -2,9 +2,14 @@ import { styled } from '@mui/material'
 import React from 'react'
 import { themes } from '../../../../utils/common/styles/themes'
 
-const BackButton = ({ onClick, bigButton }) => {
+const BackButton = ({ onClick, bigButton, ...props }) => {
    return (
-      <StyledButton onClick={onClick} state={bigButton} themes={themes}>
+      <StyledButton
+         onClick={onClick}
+         state={bigButton}
+         themes={themes}
+         {...props}
+      >
          <svg
             width="15"
             height="13"

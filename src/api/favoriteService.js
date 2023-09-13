@@ -12,3 +12,6 @@ export const postFavoriteItemRequest = (id) => {
 export const addAllFavoriteGoodsRequest = (basketArray) => {
    return axiosInstance.post(`/v1/favorite/saveAll`, basketArray)
 }
+export const getOrderByIdRequest = () => {
+   return axiosInstance.get('/order/5')
+}
