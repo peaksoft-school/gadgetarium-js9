@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { favorireRequest, orderByIdRequest, orderRequest } from './order.thunk'
+import { favorireRequest, orderByIdRequest, orderRequest } from './Order.thunk'
 
 const initialState = {
    productOrder: [],

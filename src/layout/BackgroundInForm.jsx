@@ -1,6 +1,6 @@
 import { styled } from '@mui/material'
 import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { CustomToast } from '../components/UI/snackbar/CustomToast'
 import { routes } from '../utils/common/constants/routesConstants'
 
@@ -18,10 +18,7 @@ export const BackgroundInForm = ({ children }) => {
                   <GadgeteriumContainer>
                      <GIcons>G</GIcons>
                   </GadgeteriumContainer>
-
-                  <p>adgetarium</p>
-
-                  <Link to="/">adgetarium</Link>
+                  <AdgetariumTitle>adgetarium</AdgetariumTitle>
                </Title>
             </Letter>
             {children}
@@ -37,39 +34,27 @@ const Container = styled('div')`
    display: flex;
    flex-direction: column;
    align-items: center;
-   display: flex;
-   flex-direction: column;
-   align-items: center;
 `
 
 const Title = styled('div')`
    display: flex;
    align-items: center;
    cursor: pointer;
-
-   a {
-      font-family: Orbitron;
-      color: #fff;
-      font-size: 1.75rem;
-      text-decoration: none;
-   }
-
-   p {
-      font-size: 28.49px;
-      color: #ffffff;
-      font-family: 'Orbitron';
-   }
 `
-
+const AdgetariumTitle = styled('p')`
+   font-size: 28.49px;
+   color: #ffffff;
+   font-family: Orbitron;
+   margin-left: 0.1563rem;
+`
 const Letter = styled('div')`
    display: flex;
-   position: relative;
    top: 1rem;
    right: 40rem;
    align-items: center;
    height: 75.5px;
    width: 79.688vw;
-   margin-right: 17px;
+   margin-right: 16px;
 `
 
 const GadgeteriumContainer = styled('div')`
@@ -85,5 +70,5 @@ const GIcons = styled('p')`
    font-family: Outfit;
    font-size: 32.053px;
    font-style: normal;
-   font-weight: 600;
+   font-weight: 700;
 `

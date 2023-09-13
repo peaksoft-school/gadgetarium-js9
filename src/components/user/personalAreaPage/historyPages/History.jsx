@@ -16,7 +16,7 @@ import {
    RECEIVED,
    READY_FOR_DELIVERY,
 } from '../../../../utils/common/constants/globalConstants'
-import { orderRequest } from '../../../../store/order/order.thunk'
+import { orderRequest } from '../../../../store/order/Order.thunk'
 
 export const History = () => {
    const orders = useSelector((state) => state.order.productOrder)

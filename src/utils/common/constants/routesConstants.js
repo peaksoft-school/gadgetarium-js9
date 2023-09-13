@@ -23,6 +23,7 @@ export const routes = {
          laptops: ':laptops',
       },
       favorite: 'favorite',
+      compare: 'compare',
       personal: {
          index: 'personalArea/:tab',
          personalDetail: 'personalArea/:orderId/details',
