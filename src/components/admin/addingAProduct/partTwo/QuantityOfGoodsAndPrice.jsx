@@ -25,6 +25,7 @@ export const QuantityOfGoodsAndPrice = memo(() => {
    const navigate = useNavigate()
 
    const title = changeBooleanValue ? 'Общая цена' : 'Общая количество'
+   const titleBtn = changeBooleanValue ? 'цену' : 'количество'
 
    const onCollectorPriceAndQuantity = (values) => {
       dispatch(
@@ -104,7 +105,7 @@ export const QuantityOfGoodsAndPrice = memo(() => {
                      width="140px"
                      type="submit"
                   >
-                     Установить цену
+                     Установить {titleBtn}
                   </Button>
                </FormStyle>
             </ContainerTotalPriceAndQuanti>
