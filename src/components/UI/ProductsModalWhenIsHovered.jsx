@@ -1,10 +1,10 @@
 import React from 'react'
-import { styled } from '@mui/material'
+import { CircularProgress, styled } from '@mui/material'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { ReactComponent as DeleteIcon } from '../../assets/icons/cross/small-cross-icon.svg'
 import { ReactComponent as Triangle } from '../../assets/icons/triangle.svg'
-
+import { postCompareProduct } from '../../store/compare/compare.thunk'
 import { postFavoriteItem } from '../../store/favorite/favorite.thunk'
 import { Button } from './Button'
 
@@ -13,21 +13,19 @@ export const ProductsModalWhenIsHovered = React.memo(
       const dispatch = useDispatch()
       const navigate = useNavigate()
       const location = useLocation()
-
-      const deleteFavoriteHandler = async (id) => {
+      const { isLoadingFavorite } = useSelector((state) => state.favorite)
+      const { isLoadingComparison } = useSelector((state) => state.compare)
+      const deleteFavoriteHandler = (id) => {
          if (favorite) {
             dispatch(postFavoriteItem({ id, favoriteState: true, pageSize: 5 }))
          } else {
-            // dispatch(postComparisonItem(id))
-            //    .then(() => {
-            //       dispatch(getComparisonItems())
-            //       snackbarHandler({
-            //          message: `Товар удален из сравнения`,
-            //       })
-            //    })
-            //    .catch((error) => {
-            //       snackbarHandler({ message: error.message, type: 'error' })
-            //    })
+            dispatch(
+               postCompareProduct({
+                  id,
+                  addOrDelete: false,
+                  pageSize: 5,
+               })
+            )
          }
       }
       const navigateToFavorite = () => {
@@ -38,52 +36,65 @@ export const ProductsModalWhenIsHovered = React.memo(
       }
 
       return (
-         <Container length={array?.length}>
-            <StyledTriangle length={array?.length} />
-            <AllProductContainer>
-               {array?.map((el) => {
-                  return (
-                     <Product key={el.subProductId}>
-                        <ProductContainer>
-                           <Image src={el.image} alt="Photo" />
-                           <Title>{el.name}</Title>
-                           <Price>{el.price.toLocaleString()} с</Price>
-                        </ProductContainer>
-                        <StyledDeleteIcon
+         <PositionContainer length={array?.length}>
+            <StyledTriangle />
+            <Container length={array?.length}>
+               <AllProductContainer length={array?.length}>
+                  {array?.map((el) => {
+                     return (
+                        <Product
                            onClick={() =>
-                              deleteFavoriteHandler(el.subProductId)
+                              navigate(favorite ? '/favorite' : '/compare')
                            }
-                        />
-                     </Product>
-                  )
-               })}
-            </AllProductContainer>
-            {favorite ? (
-               <Button
-                  variant="contained"
-                  fontSize="0.833vw"
-                  padding="0.625vw 1.563vw"
-                  backgroundHover="#E313BF"
-                  backgroundActive="#C90EA9"
-                  marginTop="16px"
-                  onClick={navigateToFavorite}
-               >
-                  Перейти в избранное
-               </Button>
-            ) : (
-               <Button
-                  variant="contained"
-                  fontSize="0.833vw"
-                  padding="0.625vw 1.563vw"
-                  backgroundHover="#E313BF"
-                  backgroundActive="#C90EA9"
-                  marginTop="16px"
-                  onClick={navigateToFavorite}
-               >
-                  Сравнить
-               </Button>
-            )}
-         </Container>
+                           key={el.subProductId}
+                        >
+                           <ProductContainer>
+                              <Image src={el.image} alt="Photo" />
+                              <Title>{el.name}</Title>
+                              <Price>{el.price.toLocaleString()} с</Price>
+                           </ProductContainer>
+                           <StyledDeleteIcon
+                              onClick={() =>
+                                 deleteFavoriteHandler(el.subProductId)
+                              }
+                           />
+                        </Product>
+                     )
+                  })}
+               </AllProductContainer>
+               {favorite ? (
+                  <Button
+                     variant="contained"
+                     fontSize="0.833vw"
+                     padding="0.625vw 1.563vw"
+                     backgroundhover="#E313BF"
+                     backgroundactive="#C90EA9"
+                     onClick={navigateToFavorite}
+                  >
+                     {isLoadingFavorite ? (
+                        <CircularProgress size={15} sx={{ color: 'white' }} />
+                     ) : (
+                        'Перейти в избранное'
+                     )}
+                  </Button>
+               ) : (
+                  <Button
+                     variant="contained"
+                     fontSize="0.833vw"
+                     padding="0.625vw 1.563vw"
+                     backgroundhover="#E313BF"
+                     backgroundactive="#C90EA9"
+                     onClick={navigateToFavorite}
+                  >
+                     {isLoadingComparison ? (
+                        <CircularProgress size={15} sx={{ color: 'white' }} />
+                     ) : (
+                        'Сравнить'
+                     )}
+                  </Button>
+               )}
+            </Container>
+         </PositionContainer>
       )
    }
 )
@@ -100,30 +111,28 @@ const Container = styled('div')`
    flex-direction: column;
    align-items: center;
    z-index: 20;
-   display: ${(props) => (props.length === 0 ? 'none' : 'display')};
 `
 const Image = styled('img')`
    width: 60px;
    height: 68px;
 `
+const PositionContainer = styled('div')`
+   display: flex;
+   flex-direction: column;
+   align-items: flex-end;
+   position: relative;
+   bottom: 5px;
+   display: ${(props) => (props.length === 0 ? 'none' : 'display')};
+`
 const StyledTriangle = styled(Triangle)`
    position: absolute;
-   bottom: ${(props) => {
-      switch (props.length) {
-         case 0:
-            return '59px'
-         case 1:
-            return '148px'
-         default:
-            return '237px'
-      }
-   }};
-   left: 327px;
+   top: -26px;
+   margin-right: 25px;
 `
 const AllProductContainer = styled('div')`
    margin-bottom: 1.4815vh;
    width: 100%;
-   height: 177.6px;
+   height: ${(props) => (props.length > 1 ? '177.6px' : 'auto')};
    overflow-y: auto;
    ::-webkit-scrollbar {
       scroll-margin-left: 1px;
@@ -141,6 +150,7 @@ const Price = styled('p')`
 const Product = styled('div')`
    display: flex;
    justify-content: space-between;
+   cursor: pointer;
    width: 100%;
    margin-top: 10px;
    padding-bottom: 10px;

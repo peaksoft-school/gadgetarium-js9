@@ -9,6 +9,9 @@ export const deleteFavoriteItemsRequest = () => {
 export const postFavoriteItemRequest = (id) => {
    return axiosInstance.post(`/v1/favorite/${id}`)
 }
+export const getOrderByIdRequest = () => {
+   return axiosInstance.get('/order/5')
+}
 export const addAllFavoriteGoodsRequest = (basketArray) => {
    return axiosInstance.post(`/v1/favorite/saveAll`, basketArray)
 }

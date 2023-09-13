@@ -1,6 +1,18 @@
+import { AddingAProduct } from '../components/admin/addingAProduct/partOne/AddingAProduct'
+import { FinishingTouchAddingProduct } from '../components/admin/addingAProduct/partThree/FinishingTouchAddingProduct'
+import { QuantityOfGoodsAndPrice } from '../components/admin/addingAProduct/partTwo/QuantityOfGoodsAndPrice'
+
 export const adminRoutes = [
    {
-      path: 'home',
-      element: <h1>Admin Children</h1>,
+      path: '/admin/add-products-part-1',
+      element: <AddingAProduct />,
+   },
+   {
+      path: '/admin/add-products-part-2',
+      element: <QuantityOfGoodsAndPrice />,
+   },
+   {
+      path: '/admin/add-products-part-3',
+      element: <FinishingTouchAddingProduct />,
    },
 ]

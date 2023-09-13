@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { ReactComponent as PaintIcon } from '../../../../assets/icons/paint.svg'
 import { bgColor } from '../../../../utils/common/constants/constantsAdminAddNewProduct'
 
-export const InputColorPalette = ({ productColor, stateColor }) => {
+export const InputColorPalette = ({ productColor, stateColor, error }) => {
    const [showColor, setShowColor] = useState(false)
    const [color, setColor] = useState(stateColor)
 
@@ -40,6 +40,7 @@ export const InputColorPalette = ({ productColor, stateColor }) => {
                <InputUI
                   placeholder="Основной цвет"
                   value={color}
+                  error={error}
                   onChange={onChangeColorHandler}
                   InputProps={{
                      endAdornment: (
