@@ -2,15 +2,24 @@ import { InputAdornment, TextField, styled } from '@mui/material'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import { useNavigate } from 'react-router-dom'
-import { memo } from 'react'
+import { memo, useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { HeaderAddingAProduct } from '../HeaderAddingAProduct'
 import { InputPDF } from './inputAddProductPartThree/InputPDF'
 import { InputDescription } from './inputAddProductPartThree/InputDescription'
 import { ReactComponent as DownloadIcon } from '../../../../assets/icons/tools-for-site/download-icon.svg'
 import { useSnackbar } from '../../../../hooks/useSnackbar'
-import { addDescriptionAndOverview } from '../../../../store/addProduct/addProductPartOne.slice'
+import {
+   addDescriptionAndOverview,
+   closeNavigatePartOne,
+} from '../../../../store/addProduct/addProductPartOne.slice'
 import { Button } from '../../../UI/Button'
+import {
+   postAddProduct,
+   postFileImg,
+   postFilePDF,
+} from '../../../../store/addProduct/addProduct.thunk'
+import { Loading } from '../../../UI/loading/Loading'
 
 const schema = Yup.object().shape({
    videoLink: Yup.string().required('Обязательное поле').url(),
@@ -21,9 +30,17 @@ const schema = Yup.object().shape({
 export const FinishingTouchAddingProduct = memo(() => {
    const dispatch = useDispatch()
    const { snackbarHandler } = useSnackbar()
-   const { newProduct } = useSelector((state) => state.addProduct)
-   console.log('newProduct: ', newProduct)
+   const {
+      newProduct,
+      pathPdf,
+      resultAddProductData,
+      isLoading,
+      isError,
+      isSuccessAddProduct,
+   } = useSelector((state) => state.addProduct)
    const navigate = useNavigate()
+   const [PDFValues, setPDFValues] = useState()
+   const [validPDF, setValidPDF] = useState(false)
 
    const formik = useFormik({
       initialValues: {
@@ -34,6 +51,10 @@ export const FinishingTouchAddingProduct = memo(() => {
       validateOnBlur: true,
       validationSchema: schema,
    })
+
+   const pdfDataChangeHandler = (data) => {
+      setPDFValues(data)
+   }
 
    const onBlurHandler = (e) => {
       formik.handleBlur(e)
@@ -69,69 +90,134 @@ export const FinishingTouchAddingProduct = memo(() => {
       }
 
       formik.setFieldValue('pdf', file.name)
+
+      pdfDataChangeHandler(file)
    }
 
-   const finishedPartThree = () => {
+   useEffect(() => {
+      if (pathPdf === '') {
+         dispatch(
+            addDescriptionAndOverview({
+               videoLink: formik.values.videoLink,
+               pdf: formik.values.pdf,
+               description: formik.values.description,
+            })
+         )
+      }
+
+      if (pathPdf !== '') {
+         setValidPDF(true)
+      }
+
       dispatch(
          addDescriptionAndOverview({
             videoLink: formik.values.videoLink,
-            pdf: formik.values.pdf,
+            pdf: pathPdf,
             description: formik.values.description,
          })
       )
+   }, [pathPdf])
+
+   useEffect(() => {
+      if (validPDF === true) {
+         dispatch(postFileImg(newProduct))
+      }
+   }, [validPDF])
+
+   const finishedPartThree = async () => {
+      if (formik.errors && formik.values.description === '<p></p>') {
+         snackbarHandler({
+            message: 'Bce поле должны быть обязательно заполнены',
+            type: 'error',
+         })
+      } else {
+         dispatch(postFilePDF(PDFValues))
+      }
    }
 
    const onClose = () => {
-      navigate('/')
+      navigate('/admin/add-products-part-1')
+      dispatch(closeNavigatePartOne())
    }
 
+   const postAddProductHandler = () => {
+      dispatch(postAddProduct(resultAddProductData))
+   }
+
+   useEffect(() => {
+      if (resultAddProductData.categoryId) {
+         postAddProductHandler()
+      }
+   }, [resultAddProductData])
+
+   useEffect(() => {
+      if (isSuccessAddProduct !== '') {
+         snackbarHandler({
+            message: 'Товар успешно добавлен',
+            type: 'success',
+         })
+      }
+   }, [isSuccessAddProduct])
+
+   useEffect(() => {
+      if (isError !== '') {
+         snackbarHandler({
+            message: 'Что то произошло не так',
+            type: 'error',
+         })
+      }
+   }, [isError])
+
    return (
-      <Container>
-         <HeaderAddingAProduct title="Описание и обзор" pathNumber={3} />
+      <>
+         {isLoading && <Loading />}
+         <Container>
+            <HeaderAddingAProduct title="Описание и обзор" pathNumber={3} />
 
-         <ContainerInput>
-            <ContainerInputAddVideoAndPDF>
-               <label htmlFor="Загрузите видеообзор">
-                  Загрузите видеообзор
-                  <InputAddProduct
-                     id="Загрузите видеообзор"
-                     placeholder="Вставьте ссылку на видеообзор"
-                     type="url"
-                     value={formik.values.videoLink}
-                     onChange={formik.handleChange}
-                     onBlur={(e) => onBlurHandler(e)}
-                     name="videoLink"
-                     InputProps={{
-                        startAdornment: (
-                           <InputAdornmentStyle position="start">
-                              <DownloadIcon />
-                           </InputAdornmentStyle>
-                        ),
-                     }}
-                  />
-               </label>
+            <ContainerInput>
+               <ContainerInputAddVideoAndPDF>
+                  <label htmlFor="Загрузите видеообзор">
+                     Загрузите видеообзор
+                     <InputAddProduct
+                        id="Загрузите видеообзор"
+                        placeholder="Вставьте ссылку на видеообзор"
+                        type="url"
+                        value={formik.values.videoLink}
+                        onChange={formik.handleChange}
+                        onBlur={(e) => onBlurHandler(e)}
+                        name="videoLink"
+                        InputProps={{
+                           startAdornment: (
+                              <InputAdornmentStyle position="start">
+                                 <DownloadIcon style={{ cursor: 'pointer' }} />
+                              </InputAdornmentStyle>
+                           ),
+                        }}
+                     />
+                  </label>
 
-               <InputPDF formik={formik} onDrop={onDrop} />
-            </ContainerInputAddVideoAndPDF>
+                  <InputPDF formik={formik} onDrop={onDrop} />
+               </ContainerInputAddVideoAndPDF>
 
-            <div>
-               <InputDescription formik={formik} />
-            </div>
+               <div>
+                  <InputDescription formik={formik} />
+               </div>
 
-            <ContainerButton>
-               <Button
-                  backgroundHover="#CB11AB"
-                  onClick={onClose}
-                  variant="outlined"
-               >
-                  Отменить
-               </Button>
-               <Button onClick={finishedPartThree} variant="contained">
-                  Добавить
-               </Button>
-            </ContainerButton>
-         </ContainerInput>
-      </Container>
+               <ContainerButton>
+                  <Button
+                     backgroundhover="#CB11AB"
+                     onClick={onClose}
+                     variant="outlined"
+                  >
+                     Отменить
+                  </Button>
+                  <Button onClick={finishedPartThree} variant="contained">
+                     Добавить
+                  </Button>
+               </ContainerButton>
+            </ContainerInput>
+         </Container>
+      </>
    )
 })
 

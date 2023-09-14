@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { styled } from '@mui/material'
 import Category from '../UI/category.select/CategorySelect'
 import { ReactComponent as Smartphone } from '../../assets/icons/goods/mobile-android-two-icon.svg'
-import { ReactComponent as Headphone } from '../../assets/icons/goods/headphones-icon.svg'
 import { ReactComponent as Desktop } from '../../assets/icons/goods/desktop-two-icon.svg'
 import { ReactComponent as Watch } from '../../assets/icons/goods/watch-icon.svg'
 
@@ -25,7 +24,6 @@ const GeneralCategorySelectLayout = ({ toggleCatalogSelect }) => {
          smartphone: categoryName === 'smartphone',
          desktop: categoryName === 'desktop',
          watch: categoryName === 'watch',
-         headphone: categoryName === 'headphone',
       })
    }
    const handleCategoryClose = () => {
@@ -33,7 +31,6 @@ const GeneralCategorySelectLayout = ({ toggleCatalogSelect }) => {
          smartphone: false,
          desktop: false,
          watch: false,
-         headphone: false,
       })
       toggleCatalogSelect()
    }
@@ -48,7 +45,7 @@ const GeneralCategorySelectLayout = ({ toggleCatalogSelect }) => {
                         key={category.id}
                         index={index + 1}
                         componentIcon={Desktop}
-                        isMenuOpen={categoryStates.desktop}
+                        open={categoryStates.desktop}
                         handleCategoryOpen={() => handleCategoryOpen('desktop')}
                         handleCategoryClose={handleCategoryClose}
                      >
@@ -61,23 +58,8 @@ const GeneralCategorySelectLayout = ({ toggleCatalogSelect }) => {
                         key={category.id}
                         index={index + 1}
                         componentIcon={Watch}
-                        isMenuOpen={categoryStates.watch}
+                        open={categoryStates.watch}
                         handleCategoryOpen={() => handleCategoryOpen('watch')}
-                        handleCategoryClose={handleCategoryClose}
-                     >
-                        {category.title}
-                     </Category>
-                  )
-               case 3:
-                  return (
-                     <Category
-                        key={category.id}
-                        index={index + 1}
-                        componentIcon={Headphone}
-                        isMenuOpen={categoryStates.headphone}
-                        handleCategoryOpen={() =>
-                           handleCategoryOpen('headphone')
-                        }
                         handleCategoryClose={handleCategoryClose}
                      >
                         {category.title}
@@ -89,7 +71,7 @@ const GeneralCategorySelectLayout = ({ toggleCatalogSelect }) => {
                         key={category.id}
                         index={index + 1}
                         componentIcon={Smartphone}
-                        isMenuOpen={categoryStates.smartphone}
+                        open={categoryStates.smartphone}
                         handleCategoryOpen={() =>
                            handleCategoryOpen('smartphone')
                         }
@@ -113,7 +95,7 @@ const Container = styled('div')`
    justify-content: center;
    background-color: white;
    width: 372px;
-   height: 186px;
+   height: 146px;
    border-radius: 4px 0px 0px 4px;
    padding: 0px 8px 0px 8px;
    /* box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.1); */

@@ -48,16 +48,16 @@ const Category = ({
    products = smartphones,
    handleCategoryOpen,
    handleCategoryClose,
-   isMenuOpen,
+   open,
    index,
 }) => {
    const StyledIcon = Icon
-      ? styled(Icon)(({ isMenuOpen }) => ({
+      ? styled(Icon)(({ open }) => ({
            path: {
               transition: 'fill 0.3s, stroke 0.3s',
-              fill: isMenuOpen ? 'white' : '#91969E',
-              stroke: isMenuOpen ? 'white' : '#91969E',
-              opacity: isMenuOpen ? 1 : 0.8,
+              fill: open ? 'white' : '#91969E',
+              stroke: open ? 'white' : '#91969E',
+              opacity: open ? 1 : 0.8,
            },
         }))
       : null
@@ -70,17 +70,17 @@ const Category = ({
          <StyledSelectButton
             onClick={handleCategoryOpen}
             themes={themes}
-            isMenuOpen={isMenuOpen}
+            open={open}
             aria-controls="category-menu"
             aria-haspopup="true"
          >
-            {Icon && <StyledIcon isMenuOpen={isMenuOpen} />}
+            {Icon && <StyledIcon open={open} />}
             <Container>
                {children}
-               <StyledArrow isMenuOpen={isMenuOpen} />
+               <StyledArrow open={open} />
             </Container>
          </StyledSelectButton>
-         {isMenuOpen && (
+         {open && (
             <Menu index={index}>
                {children}
                {products.map((el) => {
@@ -101,7 +101,7 @@ const Category = ({
 }
 
 export default Category
-const StyledSelectButton = styled(Button)(({ isMenuOpen, themes }) => ({
+const StyledSelectButton = styled(Button)(({ open, themes }) => ({
    fontSize: '16px',
    fontFamily: 'Inter',
    width: '346px',
@@ -116,19 +116,19 @@ const StyledSelectButton = styled(Button)(({ isMenuOpen, themes }) => ({
    alignItems: 'center',
    justifyContent: 'space-between',
    transition: 'color 0.3  s, background-color 0.3s',
-   color: isMenuOpen ? 'white' : 'black',
-   backgroundColor: isMenuOpen ? themes.palette.primary.main : 'transparent',
+   color: open ? 'white' : 'black',
+   backgroundColor: open ? themes.palette.primary.main : 'transparent',
 
    '&:hover': {
       backgroundColor: themes.palette.primary.main,
       color: 'white',
    },
 }))
-const StyledArrow = styled(Arrow)(({ isMenuOpen }) => ({
+const StyledArrow = styled(Arrow)(({ open }) => ({
    path: {
       transition: 'fill 0.3s, stroke 0.3s',
-      fill: isMenuOpen ? 'white' : 'black',
-      stroke: isMenuOpen ? 'white' : 'black',
+      fill: open ? 'white' : 'black',
+      stroke: open ? 'white' : 'black',
    },
 }))
 const Container = styled('div')({

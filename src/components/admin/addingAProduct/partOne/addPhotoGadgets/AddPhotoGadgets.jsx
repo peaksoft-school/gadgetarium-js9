@@ -39,6 +39,7 @@ export const AddPhotoGadgets = ({
          const data = {
             id: Date.now().toString(),
             img: imgUrl,
+            imgObg: smartphonePhoto,
          }
 
          setContainerImg((prevContainerImg) => [...prevContainerImg, data])
