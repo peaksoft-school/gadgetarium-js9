@@ -11,16 +11,13 @@ export const TablesHeadPartTwo = ({ subProduct }) => {
             {subProduct.rom && (
                <TableCellStyle width="10vw">Объем памяти</TableCellStyle>
             )}
-            {subProduct.category !== 'Планшеты' && subProduct.screenSize && (
+            {subProduct.categoryId !== 4 && subProduct.screenSize && (
                <TableCellStyle width="10vw">Размер экрана</TableCellStyle>
             )}
-            {subProduct.category === 'Планшеты' &&
-               subProduct.screenResolution && (
-                  <TableCellStyle width="12vw">
-                     Разрешение экрана
-                  </TableCellStyle>
-               )}
-            {subProduct.category !== 'Планшеты' && subProduct.ram && (
+            {subProduct.categoryId === 4 && subProduct.screenResolution && (
+               <TableCellStyle width="12vw">Разрешение экрана</TableCellStyle>
+            )}
+            {subProduct.categoryId !== 4 && subProduct.ram && (
                <TableCellStyle width="12vw">Оперативная память</TableCellStyle>
             )}
             {subProduct.processor && (

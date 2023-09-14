@@ -9,6 +9,11 @@ import { filterResComponent } from '../../../../utils/helpers/AddFilterResCompon
 import { Button } from '../../../UI/Button'
 import { filterCategorySubProduct } from '../../../../store/addProduct/addProductPartOne.slice'
 import { useSnackbar } from '../../../../hooks/useSnackbar'
+import {
+   getAllCategory,
+   getBrandAll,
+   getSubCategory,
+} from '../../../../store/addProduct/addProduct.thunk'
 
 export const AddingAProduct = memo(() => {
    const dispatch = useDispatch()
@@ -19,10 +24,19 @@ export const AddingAProduct = memo(() => {
    const [errorCategory, setErrorCategory] = useState(false)
 
    useEffect(() => {
-      if (newProduct.category) {
+      dispatch(getAllCategory())
+      dispatch(getBrandAll())
+   }, [])
+
+   useEffect(() => {
+      dispatch(getSubCategory(newProduct.categoryId))
+   }, [newProduct.categoryId])
+
+   useEffect(() => {
+      if (newProduct.categoryId) {
          dispatch(filterCategorySubProduct())
       }
-   }, [newProduct.category])
+   }, [newProduct.categoryId])
 
    const onCloseModalAddNewBrand = () => {
       openModalAddNewBrand.delete('AddingAProduct')
@@ -108,10 +122,10 @@ export const AddingAProduct = memo(() => {
 
          <div>{filterResComponent(newProduct, errorCategory)}</div>
 
-         {newProduct.category && newProduct.category !== '' && (
+         {newProduct.categoryId && newProduct.categoryId !== '' && (
             <ContainerButton>
                <Button
-                  backgroundHover="#CB11AB"
+                  backgroundhover="#CB11AB"
                   onClick={onClose}
                   variant="outlined"
                >
