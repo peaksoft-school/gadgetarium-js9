@@ -19,7 +19,7 @@ export const PopUpPage = () => {
    }, [])
    return (
       <Container>
-         <BlockCross to="/phones">
+         <BlockCross to="/phone">
             <Cross />
          </BlockCross>
          <CarouselStyle

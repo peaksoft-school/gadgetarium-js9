@@ -8,9 +8,12 @@ import { useSelector } from 'react-redux'
 import { ReactComponent as Arrow } from '../../../../assets/icons/arrowSlide.svg'
 
 export const Сharacteristics = () => {
-   const { brandName, name, rom, screenResolution, category } = useSelector(
-      (state) => state.phone.infoPhone
-   )
+   const infoPhone = useSelector((state) => state.phone.infoPhone)
+
+   console.log('infoPhone', infoPhone)
+
+   const { brandName, name, rom, screenResolution, category } = infoPhone
+
    return (
       <Container>
          <Accordion>
@@ -21,7 +24,7 @@ export const Сharacteristics = () => {
             </AccordionSummary>
             <AccordionDetails>
                <Typography>
-                  {category === 'Ноутбук' && 'Phone' ? (
+                  {category === 'Laptop' && 'Phone' ? (
                      <TypographyBlock>
                         <div>
                            <p>Бренд:</p>
@@ -31,7 +34,11 @@ export const Сharacteristics = () => {
                         <div>
                            <p>{brandName}</p>
                            <p>{name}</p>
-                           <p>{screenResolution}</p>
+                           <p>
+                              {screenResolution === null
+                                 ? '1520 x 1020'
+                                 : screenResolution}
+                           </p>
                         </div>
                      </TypographyBlock>
                   ) : (
@@ -44,7 +51,7 @@ export const Сharacteristics = () => {
                            <p>Название:</p>
                            <p>
                               {screenResolution === null
-                                 ? ''
+                                 ? 'Расширение экрана'
                                  : screenResolution}
                            </p>
                         </div>
@@ -53,7 +60,7 @@ export const Сharacteristics = () => {
                            <p>{name}</p>
                            <p>
                               {screenResolution === null
-                                 ? ''
+                                 ? '1520 x 1020'
                                  : screenResolution}
                            </p>
                         </div>
@@ -111,14 +118,8 @@ const Container = styled('div')`
    .MuiTypography-root {
       line-height: 3rem;
    }
-   .MuiAccordionSummary-root.Mui-expanded {
-      height: 1rem;
-      min-height: 1px;
-   }
    .MuiAccordionSummary-content {
       margin: 0;
-   }
-   .MuiAccordion-root {
    }
 `
 

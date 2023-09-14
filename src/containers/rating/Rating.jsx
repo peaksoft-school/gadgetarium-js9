@@ -5,7 +5,7 @@ import { Button } from '../../components/UI/Button'
 import { LeaveYourFeedback } from './LeaveYourFeedback'
 import { getReviwesProduct } from '../../store/informationPhone/infoPageThunk'
 
-export const Rating = ({ id = 1 }) => {
+export const Rating = ({ id = 12 }) => {
    const { rating, totalReviews, five, four, three, two, one } = useSelector(
       (state) => state.phone.getReviews
    )

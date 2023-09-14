@@ -1,67 +1,78 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { styled } from '@mui/material'
+import { format } from 'date-fns'
+
+const formatDate = (dateString) => {
+   const date = new Date(dateString)
+   return format(date, 'yyyy-MM-dd')
+}
 
 export const Сharacteristics = () => {
-   const { screenResolution, rom, category } = useSelector(
-      (state) => state.phone.infoPhone
-   )
+   const { screenResolution, rom, category, dataOfIssue, brandName, name } =
+      useSelector((state) => state.phone.infoPhone)
+
+   console.log('infoPhone', brandName, name)
    return (
       <div>
          <strong>Коротко о товаре:</strong>
-         {category === 'Смарт часы' ? (
+         {category === 'Smart watch' ? (
             <Product>
                <Key>
-                  <p>ПЗУ..............................................</p>
-                  <p>Дата выпуска..............................</p>
-                  <p>Операционная система............</p>
-                  <p>Память.........................................</p>
+                  <p>ПЗУ</p>
+                  <p>Дата выпуска</p>
                </Key>
                <Value>
                   <p>{rom}</p>
-                  <p>Март 2022</p>
-                  <p>Android 12</p>
-                  <p>128GB</p>
+                  <p>{formatDate(dataOfIssue)}</p>
                </Value>
             </Product>
          ) : (
             ''
          )}
-         {category === 'Ноутбук' ? (
+         {category === 'Laptop' ? (
             <Product>
                <Key>
-                  <p>Экран............................................</p>
-                  <p>ПЗУ..............................................</p>
-                  <p>Дата выпуска..............................</p>
-                  <p>Операционная система............</p>
-                  <p>Память.........................................</p>
+                  <p>Бренд:</p>
+                  <p>Название:</p>
+                  <p>Экран</p>
+                  <p>ПЗУ</p>
+                  <p>Дата выпуска</p>
                </Key>
                <Value>
-                  <p>{screenResolution}</p>
+                  <p>
+                     <p>{brandName}</p>
+                     <p>{name}</p>
+                     {screenResolution === null
+                        ? ' 13-, 14- и 16-дюймовый экран.'
+                        : screenResolution}
+                  </p>
                   <p>{rom}</p>
-                  <p>Март 2022</p>
-                  <p>Android 12</p>
-                  <p>128GB</p>
+                  <p>{formatDate(dataOfIssue)}</p>
                </Value>
             </Product>
          ) : (
             ''
          )}
-         {category === 'Смартфоны' ? (
+         {category === 'Phone' ? (
             <Product>
                <Key>
-                  <p>{screenResolution === null ? '' : screenResolution}</p>
-                  <p>ПЗУ..............................................</p>
-                  <p>Дата выпуска..............................</p>
-                  <p>Операционная система............</p>
-                  <p>Память.........................................</p>
+                  <p>Бренд:</p>
+                  <p>Название:</p>
+                  <p>Экран</p>
+                  <p>ПЗУ</p>
+                  <p>Дата выпуска</p>
                </Key>
                <Value>
-                  <p>{screenResolution === null ? '' : screenResolution}</p>
+                  <p>{brandName}</p>
+                  <p>{name}</p>
+                  <p>
+                     {screenResolution === null
+                        ? '2532 × 1170'
+                        : screenResolution}
+                  </p>
                   <p>{rom}</p>
-                  <p>Март 2022</p>
-                  <p>Android 12</p>
-                  <p>128GB</p>
+                  <p>{formatDate(dataOfIssue)}</p>
                </Value>
             </Product>
          ) : (
@@ -72,6 +83,8 @@ export const Сharacteristics = () => {
 }
 const Product = styled('div')`
    display: flex;
+   width: 80%;
+   justify-content: space-between;
    margin-top: 0.5rem;
 `
 const Key = styled('div')`

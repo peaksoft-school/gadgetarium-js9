@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from '@emotion/styled'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { format } from 'date-fns'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
@@ -9,7 +9,7 @@ import { Button } from '../../../UI/Button'
 import Feedback from '../../reviews/Feedback'
 import { Rating } from '../../../../containers/rating/Rating'
 import { InputUi } from '../../../UI/Input'
-import { deleteReviewsPhone } from '../../../../store/informationPhone/infoPageThunk'
+// import { deleteReviewsPhone } from '../../../../store/informationPhone/infoPageThunk'
 
 const formatDate = (dateString) => {
    const date = new Date(dateString)
@@ -17,18 +17,16 @@ const formatDate = (dateString) => {
 }
 
 export const Reviews = () => {
-   const dispatch = useDispatch()
+   // const dispatch = useDispatch()
    const reviews = useSelector((state) => state.phone.infoPhone.reviews)
-   console.log(reviews, 'reviews')
 
    const [open, setOpen] = useState(false)
    const handleOpen = () => setOpen(true)
    const handleClose = () => setOpen(false)
 
-   const deleteProductRequest = () => {
-      dispatch(deleteReviewsPhone())
-      console.log('delete')
-   }
+   // const deleteProductRequest = () => {
+   //    dispatch(deleteReviewsPhone())
+   // }
 
    const style = {
       width: '28%',
@@ -70,7 +68,7 @@ export const Reviews = () => {
                            stars={review.grade}
                            timePublication={formatDate(review.dateOfCreatAd)}
                            reviewId={review.reviewId}
-                           deleteProductRequest={deleteProductRequest}
+                           // deleteProductRequest={deleteProductRequest}
                            canUserEdit={review.my}
                         />
                      )

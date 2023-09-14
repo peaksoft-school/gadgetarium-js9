@@ -14,8 +14,8 @@ export const routes = {
       faq: 'faq',
       contacts: 'contacts',
       phones: {
-         index: '/phones',
-         fullPicture: '/phones/fullPicture',
+         index: '/phone',
+         fullPicture: '/phone/fullPicture',
       },
    },
 }

@@ -7,7 +7,7 @@ import { Button } from '../../components/UI/Button'
 import { SuccessModal } from './SuccessModal'
 import { postReviewsPhone } from '../../store/informationPhone/infoPageThunk'
 
-export const LeaveYourFeedback = ({ rating, onClose, subProductId = 1 }) => {
+export const LeaveYourFeedback = ({ rating, onClose, subProductId = 12 }) => {
    const [myStar, setMyStar] = useState(0)
    const [comment, setComment] = useState('')
    const [img, setImg] = useState('')

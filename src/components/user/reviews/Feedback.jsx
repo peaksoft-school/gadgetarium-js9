@@ -15,7 +15,6 @@ const Feedback = ({
    stars,
    canUserEdit,
    adminState,
-   deleteProductRequest,
 }) => {
    const [openModal, setOpenModal] = useSearchParams()
    const [adminText, setAdminText] = useState('')
@@ -74,7 +73,7 @@ const Feedback = ({
          {canUserEdit && (
             <ToolContainer>
                <EditIcon />
-               <DeleteIcon onClick={deleteProductRequest} />
+               <DeleteIcon />
             </ToolContainer>
          )}
          {adminState && (
