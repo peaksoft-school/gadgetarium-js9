@@ -52,8 +52,17 @@ export const nestedContentFunction = (
          return null
       }
       return (
-         <CheckboxInput bgColor="black" onClick={() => checkboxHandler(id)} />
+         <StyledCheckboxInput
+            bgColor="black"
+            onClick={() => checkboxHandler(id)}
+         />
       )
    }
    return index + 1
 }
+const StyledCheckboxInput = styled(CheckboxInput)`
+   .MuiSvgIcon-root {
+      width: 1.458vw;
+      height: 1.458vw;
+   }
+`

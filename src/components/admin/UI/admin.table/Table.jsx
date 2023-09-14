@@ -8,57 +8,43 @@ import { TableItem } from './TableItem'
 
 const tables = [
    [
-      { name: 'ID', width: '4.125rem', paddingLeft: '1.25rem' },
-      { name: 'Фото', width: '6.625rem ' },
-      { name: 'Артикул', width: '8.6875rem' },
-      { name: 'Наименование товара', width: '15rem' },
-      { name: 'Дата создания', width: '10.875rem' },
-      { name: 'Кол-во', width: '9.0625rem' },
-      { name: 'Цена товара', width: '9.875rem' },
-      { name: 'Текущея цена', width: '11.375rem' },
-      { name: 'Действия', edit: true, width: '5.9375rem' },
+      { name: 'ID', width: '3.438vw', paddingLeft: '1.042vw' },
+      { name: 'Фото', width: '5.521vw ' },
+      { name: 'Артикул', width: '7.24vw' },
+      { name: 'Наименование товара', width: '12.5vw' },
+      { name: 'Дата создания', width: '9.063vw' },
+      { name: 'Кол-во', width: '7.552vw' },
+      { name: 'Цена товара', width: '8.229vw' },
+      { name: 'Текущея цена', width: '9.479vw' },
+      { name: 'Действия', edit: true, width: '4.948vw' },
    ],
    [
-      { name: 'ID', width: '4.125rem', paddingLeft: '1.25rem' },
-      { name: 'Фото', width: '6.625rem ' },
-      { name: 'Наименование товара', width: '16.5625rem' },
-      { name: 'Цвет', width: '9.75rem' },
-      { name: 'Кол-во SIM-карт', width: '11.25rem' },
-      { name: 'ОЗУ', width: '7.125rem' },
-      { name: 'ПЗУ', width: '7.3125rem' },
-      { name: 'Количество', width: '9.75rem' },
-      { name: 'Цена', width: '9.0625rem' },
+      { name: 'ID', width: '3.438vw', paddingLeft: '1.042vw' },
+      { name: 'Фото', width: '5.521vw ' },
+      { name: 'Наименование товара', width: '13.802vw' },
+      { name: 'Цвет', width: '8.125vw' },
+      { name: 'Кол-во SIM-карт', width: '9.375vw' },
+      { name: 'ОЗУ', width: '5.938vw' },
+      { name: 'ПЗУ', width: '6.094vw' },
+      { name: 'Количество', width: '8.125vw' },
+      { name: 'Цена', width: '7.552vw' },
    ],
    [
-      { name: 'ID', width: '4.125rem', paddingLeft: '1.25rem' },
-      { name: 'ФИО', width: '14.75rem' },
-      { name: 'Номер/Дата', width: '13.0625rem' },
-      { name: 'Кол-во', width: '8.625rem' },
-      { name: 'Общая сумма', width: '11.625rem' },
-      { name: 'Оформление заказа', width: '12.75rem' },
-      { name: 'Статус', width: '10.5625rem' },
-      { name: 'Действия', edit: false, width: '5.9375rem' },
-   ],
-   [
-      { name: 'Бренд', width: '12.3125rem', paddingLeft: '1.25rem' },
-      { name: 'Цвет', width: '10rem' },
-      { name: 'Объем памяти', width: '12.0625rem' },
-      { name: 'Оперативная память', width: '15.25rem' },
-      { name: 'Кол-во SIM-карт', width: '14.6875rem' },
-      { name: 'Дата выпуска', width: '22.875rem' },
-      { name: 'Кол-во товара', width: '10rem', paddingLeft: '1.25rem' },
-      { name: 'Цена', width: '10.3125rem', paddingLeft: '1.25rem' },
+      { name: 'ID', width: '3.438vw', paddingLeft: '1.042vw' },
+      { name: 'ФИО', width: '12.292vw' },
+      { name: 'Номер/Дата', width: '10.885vw' },
+      { name: 'Кол-во', width: '7.188vw' },
+      { name: 'Общая сумма', width: '9.688vw' },
+      { name: 'Оформление заказа', width: '10.625vw' },
+      { name: 'Статус', width: '8.802vw' },
+      { name: 'Действия', edit: false, width: '4.948vw' },
    ],
 ]
 export function AdminTable({ indexForTable, itemTableArray }) {
    const textInCenter =
       indexForTable === 1 || indexForTable === 3 ? 'true' : 'false'
    return (
-      <StyledTable
-         index={indexForTable}
-         sx={{ minWidth: 400 }}
-         aria-label="simple table"
-      >
+      <StyledTable index={indexForTable} aria-label="simple table">
          <TableHead>
             <StyledTableRow>
                {tables[indexForTable].map((el) => {
@@ -92,8 +78,8 @@ export function AdminTable({ indexForTable, itemTableArray }) {
    )
 }
 
-const StyledTable = styled(Table)(({ index }) => ({
-   width: index === 3 ? '107.5rem' : '81.5625rem',
+const StyledTable = styled(Table)(() => ({
+   width: '67.969vw',
 }))
 
 const StyledTableRow = styled(TableRow)`
@@ -106,11 +92,11 @@ const StyledTableCell = styled(TableCell)`
    color: #fff;
    border-bottom: none;
    font-family: Inter;
-   font-size: 0.875rem;
+   font-size: 0.729vw;
    font-style: normal;
    font-weight: 600;
    line-height: normal;
-   letter-spacing: 0.0625rem;
+   letter-spacing: 0.052vw;
    padding: 0;
 `
 

@@ -28,7 +28,6 @@ export const TableItem = ({
    const toggleHoveredHandler = () => {
       setIsHovered((prev) => !prev)
    }
-   const [quantityOfGoodsInput, setQuantityOfGoodsInput] = useState(1)
    const [productPriceInput, setProductPriceInput] = useState(item.productPrice)
    const getProductPrice = (e) => {
       if (Number(e.target.value) < 0) {
@@ -36,12 +35,7 @@ export const TableItem = ({
       }
       return setProductPriceInput(e.target.value)
    }
-   const getQuantityOfGoods = (e) => {
-      if (Number(e.target.value) < 0) {
-         return null
-      }
-      return setQuantityOfGoodsInput(e.target.value)
-   }
+
    const deleteHandler = (id) => {
       console.log(id, 'id')
       return id
@@ -78,15 +72,12 @@ export const TableItem = ({
       >
          {tables.map((el) => {
             if (el.name === 'ID') {
-               if (indexForTable === 3) {
-                  return null
-               }
                return (
                   <StyledTableCell
                      center={textInCenter}
                      sx={{
-                        width: '4.125rem',
-                        paddingLeft: isHovered ? '0.3125rem' : '1.25rem',
+                        width: '3.438vw',
+                        paddingLeft: isHovered ? '0.26vw' : '1.042vw',
                      }}
                      key={el.name}
                   >
@@ -134,10 +125,10 @@ export const TableItem = ({
                      center={textInCenter}
                      key={el.name}
                   >
-                     {el.width === '15rem'
+                     {el.width === '12.5vw'
                         ? `Кол-во товара ${item.quantityOfGoods}шт.`
                         : `${abbreviatedModelName}...`}
-                     {el.width === '15rem' && (
+                     {el.width === '12.5vw' && (
                         <ModelName>{`${abbreviatedModelName}...`}</ModelName>
                      )}
                   </StyledTableCell>
@@ -216,7 +207,7 @@ export const TableItem = ({
                      center={textInCenter}
                      key={el.name}
                   >
-                     {item.quantity} {el.width === 138 && 'шт.'}
+                     {item.quantity} {el.width === '7.188vw' && 'шт.'}
                   </StyledTableCell>
                )
             }
@@ -258,17 +249,6 @@ export const TableItem = ({
                   </StyledTableCell>
                )
             }
-            if (el.name === 'Бренд') {
-               return (
-                  <StyledTableCell
-                     sx={{ width: el.width, paddingLeft: '1.25rem' }}
-                     center={textInCenter}
-                     key={el.name}
-                  >
-                     {item.brand}
-                  </StyledTableCell>
-               )
-            }
             if (el.name === 'Цвет') {
                return (
                   <StyledTableCell
@@ -279,28 +259,6 @@ export const TableItem = ({
                      key={el.name}
                   >
                      {item.color}
-                  </StyledTableCell>
-               )
-            }
-            if (el.name === 'Объем памяти') {
-               return (
-                  <StyledTableCell
-                     sx={{ width: el.width }}
-                     center={textInCenter}
-                     key={el.name}
-                  >
-                     {item.memory} ГБ
-                  </StyledTableCell>
-               )
-            }
-            if (el.name === 'Оперативная память') {
-               return (
-                  <StyledTableCell
-                     sx={{ width: el.width }}
-                     center={textInCenter}
-                     key={el.name}
-                  >
-                     RAM {item.RAM}ГБ
                   </StyledTableCell>
                )
             }
@@ -315,39 +273,6 @@ export const TableItem = ({
                   </StyledTableCell>
                )
             }
-            if (el.name === 'Дата выпуска') {
-               return (
-                  <StyledTableCell
-                     sx={{ width: el.width }}
-                     center={textInCenter}
-                     key={el.name}
-                  >
-                     {date}
-                  </StyledTableCell>
-               )
-            }
-            if (el.name === 'Кол-во товара') {
-               return (
-                  <StyledTableCell
-                     sx={{
-                        width: el.width,
-                        background: 'rgba(203, 17, 171, 0.10)',
-                        height: '100%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        paddingLeft: indexForTable === 3 && '1.25rem',
-                     }}
-                     center={textInCenter}
-                     key={el.name}
-                  >
-                     <StyledInput
-                        value={quantityOfGoodsInput}
-                        onChange={getQuantityOfGoods}
-                        type="number"
-                     />
-                  </StyledTableCell>
-               )
-            }
             if (el.name === 'Цена') {
                return (
                   <StyledTableCell
@@ -359,7 +284,7 @@ export const TableItem = ({
                         height: '100%',
                         display: 'flex',
                         alignItems: 'center',
-                        paddingLeft: indexForTable === 3 && '1.25rem',
+                        paddingLeft: indexForTable === 3 && '1.042vw',
                      }}
                      center={textInCenter}
                      key={el.name}
@@ -440,7 +365,7 @@ export const TableItem = ({
 }
 const StyledTableRow = styled(TableRow)(
    ({ theme, hovered, center, index }) => ({
-      width: index === 3 ? '107.5rem' : '81.5625rem',
+      width: index === 3 ? '89.583vw' : '67.969vw',
       height: '4.75rem',
       background: calculateBackgroundColor(hovered, index),
       borderRadius: '0.375rem',
@@ -455,7 +380,7 @@ const StyledTableRow = styled(TableRow)(
 const StyledTableCell = styled(TableCell)(({ center }) => ({
    fontFamily: 'Inter',
    fontStyle: 'normal',
-   fontSize: '1rem',
+   fontSize: '0.833vw',
    fontWeight: 500,
    marginTop: center === 'true' ? '0' : '18px',
    lineHeight: 'normal',
@@ -466,19 +391,7 @@ const StyledTableCell = styled(TableCell)(({ center }) => ({
    minWidth: 0,
    maxWidth: 'none',
 }))
-const StyledInput = styled('input')`
-   background: none;
-   border: none;
-   font-family: 'Inter';
-   font-size: 1rem;
-   font-weight: 500;
-   font-style: normal;
-   letter-spacing: 0.0625rem;
-   max-width: 140px;
-   :focus {
-      outline: none;
-   }
-`
+
 const PersentDiscount = styled('p')`
    color: #f10000;
    margin: 0;
@@ -487,7 +400,7 @@ const PersentDiscount = styled('p')`
 const ModelName = styled('p')`
    color: #909cb5;
    font-family: Inter;
-   font-size: 0.875rem;
+   font-size: 0.729vw;
    font-style: normal;
    font-weight: 400;
    margin: 0;
@@ -501,7 +414,9 @@ const Time = styled('p')`
 `
 const StyledDeleteIcon = styled(DeleteIcon)`
    cursor: pointer;
-   margin-left: 1.25rem;
+   margin-left: 1.042vw;
+   width: 1.042vw;
+   height: 1.042vw;
    :hover {
       path {
          fill: #f10000;
@@ -509,6 +424,8 @@ const StyledDeleteIcon = styled(DeleteIcon)`
    }
 `
 const StyledEditIcon = styled(EditIcon)`
+   width: 1.042vw;
+   height: 1.042vw;
    cursor: pointer;
    :hover {
       path {
@@ -517,7 +434,7 @@ const StyledEditIcon = styled(EditIcon)`
    }
 `
 const StyledArrowDown = styled(ArrowDown)`
-   width: 1rem;
-   margin-left: 0.375rem;
-   height: 1rem;
+   width: 0.833vw;
+   margin-left: 0.313vw;
+   height: 0.833vw;
 `
