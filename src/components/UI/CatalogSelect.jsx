@@ -7,6 +7,7 @@ import { ArrowIcon } from './Arrow'
 import CheckboxInput from './icon.input/CheckboxInput'
 
 export const CatalogSelect = ({ items, onToggleCheckbox, title }) => {
+   console.log('items: ', items)
    const { allCate } = useSelector((state) => state.category)
    const [cate, setCate] = useState()
    const dispatch = useDispatch()
@@ -30,15 +31,17 @@ export const CatalogSelect = ({ items, onToggleCheckbox, title }) => {
          </CategorySelectContainer>
          {cate && (
             <div className="content">
-               {items?.map((el) => (
-                  <div key={el.id}>
-                     <CheckboxInputStyled
-                        isChecked={el.checked}
-                        onClick={() => onToggleCheckbox(el.id, el)}
-                     />
-                     <span>{el.title || el.name}</span>
-                  </div>
-               ))}
+               {items?.map((el) => {
+                  return (
+                     <div key={el.id}>
+                        <CheckboxInputStyled
+                           isChecked={el.checked}
+                           onClick={() => onToggleCheckbox(el.id, el)}
+                        />
+                        <span>{el.title || el.name || el.codeColor}</span>
+                     </div>
+                  )
+               })}
             </div>
          )}
       </Container>

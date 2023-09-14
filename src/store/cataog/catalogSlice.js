@@ -1,8 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit'
+// import { useParams } from 'react-router-dom'
 import {
    memoryRamConstants,
    memoryCapacityConstants,
    simConstants,
+   ProcessorsLaptop,
+   screenResolutionLaptop,
+   laptopPuproses,
+   laptopScreenSize,
 } from '../../utils/common/constants/constants'
 import {
    getCategory,
@@ -10,6 +15,8 @@ import {
    sendSelectedCategories,
 } from './categoryThunk'
 
+// const params = useParams()
+// console.log('params: ', params)
 const initialState = {
    isLoading: false,
 
@@ -32,6 +39,15 @@ const initialState = {
    memoryRamArray: memoryRamConstants,
    simPhoneArray: [],
    simPhone: simConstants,
+
+   processorArray: [],
+   processor: ProcessorsLaptop,
+   screenArray: [],
+   screen: screenResolutionLaptop,
+   puprosesArray: [],
+   puproses: laptopPuproses,
+   screenSizeArray: [],
+   screenSize: laptopScreenSize,
    allCate: true,
 }
 
@@ -131,6 +147,7 @@ export const categorySlice = createSlice({
             }
             return el
          })
+
          const updatedSelectedCategories = state.selectedCategories.filter(
             (el) => el.id !== action.payload
          )
@@ -192,6 +209,12 @@ export const categorySlice = createSlice({
          const memoryRam = []
          state.memoryRamArray.map((el) => {
             if (el.checked === true) {
+               if (Object.values(params)[0] === 'Laptop') {
+                  memoryRamConstants.push(
+                     { title: 32, id: 6, checked: false },
+                     { title: 36, id: 7, checked: false }
+                  )
+               }
                memoryRam.push(el.title)
             }
             return el
@@ -226,16 +249,86 @@ export const categorySlice = createSlice({
          })
          state.simPhone = updatedMemory
       },
-      // colors: (state) => {
-      //    const itemsColors = []
-      //    state.itemsColors.map((el) => {
-      //       if (el.checked === true) {
-      //          itemsColors.push(el.title)
-      //       }
-      //       return el
-      //    })
-      //    return { ...state, itemsColors }
-      // },
+
+      laptopProcessor: (state) => {
+         const processorArray = []
+         state.processor.map((el) => {
+            if (el.checked === true) {
+               processorArray.push(el.title)
+            }
+            return el
+         })
+         return { ...state, processorArray }
+      },
+      laptopChangeProcessor: (state, action) => {
+         const updatedMemory = state.processor.map((el) => {
+            if (el.id === action.payload) {
+               return { ...el, checked: !el.checked }
+            }
+            return el
+         })
+         state.processor = updatedMemory
+      },
+
+      laptopScreen: (state) => {
+         const screenArray = []
+         state.screen.map((el) => {
+            if (el.checked === true) {
+               screenArray.push(el.title)
+            }
+            return el
+         })
+         return { ...state, screenArray }
+      },
+      laptopChangeScreen: (state, action) => {
+         const updatedMemory = state.screen.map((el) => {
+            if (el.id === action.payload) {
+               return { ...el, checked: !el.checked }
+            }
+            return el
+         })
+         state.screen = updatedMemory
+      },
+
+      laptopPuproses: (state) => {
+         const puprosesArray = []
+         state.puproses.map((el) => {
+            if (el.checked === true) {
+               puprosesArray.push(el.title)
+            }
+            return el
+         })
+         return { ...state, puprosesArray }
+      },
+      laptopChangePuproses: (state, action) => {
+         const updatedMemory = state.puproses.map((el) => {
+            if (el.id === action.payload) {
+               return { ...el, checked: !el.checked }
+            }
+            return el
+         })
+         state.puproses = updatedMemory
+      },
+
+      laptopScreenSize: (state) => {
+         const screenSizeArray = []
+         state.screenSize.map((el) => {
+            if (el.checked === true) {
+               screenSizeArray.push(el.title)
+            }
+            return el
+         })
+         return { ...state, screenSizeArray }
+      },
+      laptopChangeScreenSize: (state, action) => {
+         const updatedMemory = state.screenSize.map((el) => {
+            if (el.id === action.payload) {
+               return { ...el, checked: !el.checked }
+            }
+            return el
+         })
+         state.screenSize = updatedMemory
+      },
    },
 
    extraReducers: (builder) => {

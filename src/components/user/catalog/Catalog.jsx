@@ -1,6 +1,7 @@
 import { styled } from '@mui/material'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
 import { Products } from './Properties/Products'
 import { categoryActions } from '../../../store/cataog/catalogSlice'
 import { ReactComponent as Cancel } from '../../../assets/icons/cross/small-cross-icon.svg'
@@ -16,7 +17,15 @@ export const Catalog = () => {
       showMore,
       plusPageSize,
    } = useSelector((state) => state.category)
+
    const dispatch = useDispatch()
+   const category = useParams()
+
+   const categoryName = {
+      Phone: 'Cмартфоны и Планшеты',
+      Laptop: 'Ноутбуки',
+      'Smart Watch': 'Смарт-часы и браслеты',
+   }
 
    const deleteCancel = (id) => {
       dispatch(categoryActions.deleteItem(id))
@@ -26,6 +35,8 @@ export const Catalog = () => {
       dispatch(categoryActions.setPageSize(pageSize + 8))
       dispatch(categoryActions.setPlusPageSize(8))
    }
+
+   const categoryValues = Object.values(category)
 
    const showLessHandler = () => {
       dispatch(categoryActions.setPageSize(pageSize - plusPageSize))
@@ -43,7 +54,7 @@ export const Catalog = () => {
    return (
       <Conteiner>
          <SecondContainer>
-            <h1>Cмартфоны</h1>
+            <h1>{categoryName[categoryValues]}</h1>
 
             <Container>
                <ToolContainer>

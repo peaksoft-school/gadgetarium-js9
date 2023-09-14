@@ -3,25 +3,24 @@ import { useDispatch, useSelector } from 'react-redux'
 import { categoryActions } from '../../../../store/cataog/catalogSlice'
 import { CatalogSelect } from '../../../UI/CatalogSelect'
 
-export const Sim = () => {
-   const { simPhone } = useSelector((state) => state.category)
-   console.log('simPhoneArray: ', simPhone)
+export const Puproses = () => {
+   const { puproses } = useSelector((state) => state.category)
+
    const dispatch = useDispatch()
 
    const postTitle = (id) => {
-      dispatch(categoryActions.changeSimPhone(id))
+      dispatch(categoryActions.laptopChangePuproses(id))
    }
 
    useEffect(() => {
-      dispatch(categoryActions.simPhoneThunk())
-   }, [simPhone])
-   // simPhoneArray
+      dispatch(categoryActions.laptopPuproses())
+   }, [puproses])
 
    return (
       <CatalogSelect
-         title="Кол-во SIM-карт"
+         title="Назначение"
          onToggleCheckbox={postTitle}
-         items={simPhone}
+         items={puproses}
       />
    )
 }

@@ -1,5 +1,4 @@
 import { styled } from '@mui/material'
-import React from 'react'
 import { pathNumberTrueColorPinkBackgroundColorAndColor } from '../../../utils/helpers/AddFilterResComponent'
 
 export const HeaderAddingAProduct = ({ title, pathNumber }) => {
@@ -99,7 +98,7 @@ const Text = styled('p')(({ theme }) => ({
    lineHeight: '110%',
    paddingBottom: '1.875rem',
    borderBottom: `1px solid ${theme.palette.secondary.main}`,
-   width: '79.6875vw',
+   width: '82vw',
    marginBottom: '2.5rem',
 }))
 

@@ -1,11 +1,10 @@
-import React from 'react'
+import { Outlet } from 'react-router-dom'
 import { CustomToast } from '../../components/UI/snackbar/CustomToast'
-import { AddingAProduct } from '../../components/admin/addingAProduct/AddingAProduct'
 
 export const AdminLayout = () => {
    return (
       <div>
-         <AddingAProduct />
+         <Outlet />
 
          <CustomToast />
       </div>
