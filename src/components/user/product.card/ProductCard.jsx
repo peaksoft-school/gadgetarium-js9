@@ -24,6 +24,7 @@ export const ProductCard = ({
    countOfReviews = 56,
    favoriteState,
    comparisonState,
+   basketState,
    pageSize,
    id = '1',
    ...props
@@ -132,15 +133,26 @@ export const ProductCard = ({
                      </DiscountPrice>
                   )}
                </PriceContainer>
-               <Button
-                  padding="1.1111vh 0.99vw"
-                  variant="contained"
-                  texttransform="uppercase"
-                  fontSize="0.73vw"
-                  onClick={postProductToBasket}
-               >
-                  <StyledBasketIcon /> В корзину
-               </Button>
+               {basketState ? (
+                  <StyledButton
+                     padding="1.1111vh 0.99vw"
+                     variant="contained"
+                     texttransform="uppercase"
+                     fontSize="0.73vw"
+                  >
+                     <StyledBasketIcon /> В корзинe
+                  </StyledButton>
+               ) : (
+                  <Button
+                     padding="1.1111vh 0.99vw"
+                     variant="contained"
+                     texttransform="uppercase"
+                     fontSize="0.73vw"
+                     onClick={postProductToBasket}
+                  >
+                     <StyledBasketIcon /> В корзину
+                  </Button>
+               )}
             </ButtonContainerTwo>
          </Container>
       </Card>
@@ -158,6 +170,16 @@ const StyledFilledFavoriteIcon = styled(FilledFavoriteIcon)`
    width: 1.25vw;
    height: 1.25vw;
    cursor: pointer;
+`
+const StyledButton = styled(Button)`
+   background: #2fc509;
+   cursor: default;
+   :hover {
+      background: #2fc509;
+   }
+   :active {
+      background: #2fc509;
+   }
 `
 const Card = styled('div')`
    background-color: white;

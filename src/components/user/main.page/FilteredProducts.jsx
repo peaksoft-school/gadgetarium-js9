@@ -74,6 +74,7 @@ export const FilteredProducts = ({ children, array }) => {
                favoriteState={el.favorite}
                comparisonState={el.comparison}
                pageSize={pageSize}
+               basketState={el.inBasket}
                newState={array === 'novelties'}
                recomendationState={array === 'recommend'}
             />
