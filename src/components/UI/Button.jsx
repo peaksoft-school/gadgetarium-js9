@@ -59,6 +59,7 @@ const StyledButton = styled(ButtonMui)(({ variant, ...props }) => {
 
                '&:active': {
                   background: props.backgroundactive,
+                  border: `1px solid ${props.backgroundactive}`,
                   color: 'white',
                },
             },

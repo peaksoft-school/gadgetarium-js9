@@ -92,11 +92,11 @@ const StyledTableCell = styled(TableCell)`
    color: #fff;
    border-bottom: none;
    font-family: Inter;
-   font-size: 0.729vw;
+   font-size: 0.781vw;
    font-style: normal;
    font-weight: 600;
    line-height: normal;
-   letter-spacing: 0.052vw;
+   letter-spacing: 0.078vw;
    padding: 0;
 `
 
