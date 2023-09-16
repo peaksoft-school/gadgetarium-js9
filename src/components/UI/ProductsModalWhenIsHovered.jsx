@@ -8,97 +8,100 @@ import { postCompareProduct } from '../../store/compare/compare.thunk'
 import { postFavoriteItem } from '../../store/favorite/favorite.thunk'
 import { Button } from './Button'
 
-export const ProductsModalWhenIsHovered = React.memo(
-   ({ path, favorite, array }) => {
-      const dispatch = useDispatch()
-      const navigate = useNavigate()
-      const location = useLocation()
-      const { isLoadingFavorite } = useSelector((state) => state.favorite)
-      const { isLoadingComparison } = useSelector((state) => state.compare)
-      const deleteFavoriteHandler = (id) => {
-         if (favorite) {
-            dispatch(postFavoriteItem({ id, favoriteState: true, pageSize: 5 }))
-         } else {
-            dispatch(
-               postCompareProduct({
-                  id,
-                  addOrDelete: false,
-                  pageSize: 5,
-               })
-            )
-         }
+export const ProductsModalWhenIsHovered = ({
+   path,
+   favorite,
+   array,
+   onClose,
+}) => {
+   const dispatch = useDispatch()
+   const navigate = useNavigate()
+   const location = useLocation()
+   const { isLoadingFavorite } = useSelector((state) => state.favorite)
+   const { isLoadingComparison } = useSelector((state) => state.compare)
+   const deleteFavoriteHandler = (id) => {
+      if (favorite) {
+         dispatch(postFavoriteItem({ id, favoriteState: true, pageSize: 5 }))
+      } else {
+         dispatch(
+            postCompareProduct({
+               id,
+               addOrDelete: false,
+               pageSize: 5,
+            })
+         )
       }
-      const navigateToFavorite = () => {
-         navigate(path)
-      }
-      if (location.pathname === path) {
-         return null
-      }
-
-      return (
-         <PositionContainer length={array?.length}>
-            <StyledTriangle />
-            <Container length={array?.length}>
-               <AllProductContainer length={array?.length}>
-                  {array?.map((el) => {
-                     return (
-                        <Product
-                           onClick={() =>
-                              navigate(favorite ? '/favorite' : '/compare')
-                           }
-                           key={el.subProductId}
-                        >
-                           <ProductContainer>
-                              <Image src={el.image} alt="Photo" />
-                              <Title>{el.name}</Title>
-                              <Price>{el.price.toLocaleString()} с</Price>
-                           </ProductContainer>
-                           <StyledDeleteIcon
-                              onClick={() =>
-                                 deleteFavoriteHandler(el.subProductId)
-                              }
-                           />
-                        </Product>
-                     )
-                  })}
-               </AllProductContainer>
-               {favorite ? (
-                  <Button
-                     variant="contained"
-                     fontSize="0.833vw"
-                     padding="0.625vw 1.563vw"
-                     backgroundhover="#E313BF"
-                     backgroundactive="#C90EA9"
-                     onClick={navigateToFavorite}
-                  >
-                     {isLoadingFavorite ? (
-                        <CircularProgress size={15} sx={{ color: 'white' }} />
-                     ) : (
-                        'Перейти в избранное'
-                     )}
-                  </Button>
-               ) : (
-                  <Button
-                     variant="contained"
-                     fontSize="0.833vw"
-                     padding="0.625vw 1.563vw"
-                     backgroundhover="#E313BF"
-                     backgroundactive="#C90EA9"
-                     onClick={navigateToFavorite}
-                  >
-                     {isLoadingComparison ? (
-                        <CircularProgress size={15} sx={{ color: 'white' }} />
-                     ) : (
-                        'Сравнить'
-                     )}
-                  </Button>
-               )}
-            </Container>
-         </PositionContainer>
-      )
    }
-)
-ProductsModalWhenIsHovered.displayName = 'ProductsModalWhenIsHovered'
+   const navigateToFavorite = () => {
+      onClose()
+      navigate(path)
+   }
+   if (location.pathname === path) {
+      return null
+   }
+
+   return (
+      <PositionContainer length={array?.length}>
+         <StyledTriangle />
+         <Container length={array?.length}>
+            <AllProductContainer length={array?.length}>
+               {array?.map((el) => {
+                  return (
+                     <Product
+                        onClick={() =>
+                           navigate(favorite ? '/favorite' : '/compare')
+                        }
+                        key={el.subProductId}
+                     >
+                        <ProductContainer>
+                           <Image src={el.image} alt="Photo" />
+                           <Title>{el.name}</Title>
+                           <Price>{el.price.toLocaleString()} с</Price>
+                        </ProductContainer>
+                        <StyledDeleteIcon
+                           onClick={() =>
+                              deleteFavoriteHandler(el.subProductId)
+                           }
+                        />
+                     </Product>
+                  )
+               })}
+            </AllProductContainer>
+            {favorite ? (
+               <Button
+                  variant="contained"
+                  fontSize="0.833vw"
+                  padding="0.625vw 1.563vw"
+                  backgroundhover="#E313BF"
+                  backgroundactive="#C90EA9"
+                  onClick={navigateToFavorite}
+               >
+                  {isLoadingFavorite ? (
+                     <CircularProgress size={15} sx={{ color: 'white' }} />
+                  ) : (
+                     'Перейти в избранное'
+                  )}
+               </Button>
+            ) : (
+               <Button
+                  variant="contained"
+                  fontSize="0.833vw"
+                  padding="0.625vw 1.563vw"
+                  backgroundhover="#E313BF"
+                  backgroundactive="#C90EA9"
+                  onClick={navigateToFavorite}
+               >
+                  {isLoadingComparison ? (
+                     <CircularProgress size={15} sx={{ color: 'white' }} />
+                  ) : (
+                     'Сравнить'
+                  )}
+               </Button>
+            )}
+         </Container>
+      </PositionContainer>
+   )
+}
 const Container = styled('div')`
    width: 26.042vw;
    height: min-content;

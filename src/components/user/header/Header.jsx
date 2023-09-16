@@ -240,6 +240,7 @@ export const Header = ({ favorite, basket, compare }) => {
                               <ProductsModalWhenIsHovered
                                  path="/compare"
                                  array={allProducts}
+                                 onClose={toggleHoverCompare}
                               />
                            </CompareContainer>
                         )}
@@ -260,6 +261,7 @@ export const Header = ({ favorite, basket, compare }) => {
                                  path="/favorite"
                                  favorite
                                  array={favoriteItems}
+                                 onClose={toggleHoverFavorite}
                               />
                            </FavoriteContainer>
                         )}

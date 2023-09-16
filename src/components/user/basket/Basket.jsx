@@ -77,10 +77,26 @@ export const Basket = React.memo(() => {
                               <StyledCheckboxInput
                                  isChecked={isCheckedAll}
                                  onClick={() =>
-                                    dispatch(basketActions.cancelEverything())
+                                    dispatch(
+                                       basketActions.toggleCheckEverything(
+                                          false
+                                       )
+                                    )
                                  }
                               />
                               Отменить все
+                           </Tools>
+                        )}
+                        {!isCheckedAll && (
+                           <Tools>
+                              <StyledCheckboxInput
+                                 onClick={() =>
+                                    dispatch(
+                                       basketActions.toggleCheckEverything(true)
+                                    )
+                                 }
+                              />
+                              Отметить все
                            </Tools>
                         )}
 

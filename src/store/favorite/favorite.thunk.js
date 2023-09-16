@@ -42,13 +42,13 @@ export const postFavoriteItem = createAsyncThunk(
    async ({ id, favoriteState, pageSize }, { rejectWithValue, dispatch }) => {
       try {
          await postFavoriteItemRequest(id)
-         dispatch(
-            getNovelities({
-               page: 1,
-               pageSize: pageSize || 5,
-            })
-         )
          if (pageSize) {
+            dispatch(
+               getNovelities({
+                  page: 1,
+                  pageSize,
+               })
+            )
             dispatch(getRecommend({ page: 1, pageSize }))
             dispatch(getStock({ page: 1, pageSize }))
          }

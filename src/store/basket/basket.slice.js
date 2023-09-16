@@ -44,9 +44,9 @@ export const basketSlice = createSlice({
          }
          return state
       },
-      cancelEverything: (state) => {
+      toggleCheckEverything: (state, action) => {
          const updatedBasketResponses = state.basketResponses.map((el) => {
-            return { ...el, isChecked: false }
+            return { ...el, isChecked: action.payload }
          })
          state.basketResponses = updatedBasketResponses
       },

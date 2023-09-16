@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Rating, styled } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 import { ReactComponent as Comparison } from '../../../assets/icons/comparison-icon.svg'
 import { ReactComponent as Favourite } from '../../../assets/icons/favourites-icon.svg'
 import { ReactComponent as BasketIcon } from '../../../assets/icons/basket-icon.svg'
@@ -33,6 +34,7 @@ export const ProductCard = ({
 
    const [openModal, setOpenModal] = useState(false)
    const dispatch = useDispatch()
+   const navigate = useNavigate()
    const discountPrice = price - (price * discount) / 100
    const toggleFavoriteHandler = async () => {
       if (isAuthorization) {
@@ -65,7 +67,7 @@ export const ProductCard = ({
    }
    const postProductToBasket = async () => {
       if (isAuthorization) {
-         dispatch(postBasketById({ id, needSnackbar: true }))
+         dispatch(postBasketById({ id, needSnackbar: true, pageSize: 100 }))
       } else {
          setOpenModal(!openModal)
       }
@@ -139,6 +141,7 @@ export const ProductCard = ({
                      variant="contained"
                      texttransform="uppercase"
                      fontSize="0.73vw"
+                     onClick={() => navigate('/basket')}
                   >
                      <StyledBasketIcon /> В корзинe
                   </StyledButton>
@@ -173,7 +176,6 @@ const StyledFilledFavoriteIcon = styled(FilledFavoriteIcon)`
 `
 const StyledButton = styled(Button)`
    background: #2fc509;
-   cursor: default;
    :hover {
       background: #2fc509;
    }

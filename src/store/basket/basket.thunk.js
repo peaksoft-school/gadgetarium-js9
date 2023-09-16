@@ -7,6 +7,11 @@ import {
 } from '../../api/basket.service'
 import { addAllFavoriteGoodsRequest } from '../../api/favoriteService'
 import { useSnackbar } from '../../hooks/useSnackbar'
+import {
+   getNovelities,
+   getRecommend,
+   getStock,
+} from '../main.page/main.page.thunk'
 
 const { snackbarHandler } = useSnackbar()
 export const getBasket = createAsyncThunk(
@@ -22,9 +27,19 @@ export const getBasket = createAsyncThunk(
 )
 export const postBasketById = createAsyncThunk(
    'basket/postBasketById',
-   async ({ id, needSnackbar }, { rejectWithValue, dispatch }) => {
+   async ({ id, needSnackbar, pageSize }, { rejectWithValue, dispatch }) => {
       try {
          await postBasketByIdRequest(id)
+         if (pageSize) {
+            dispatch(
+               getNovelities({
+                  page: 1,
+                  pageSize,
+               })
+            )
+            dispatch(getRecommend({ page: 1, pageSize }))
+            dispatch(getStock({ page: 1, pageSize }))
+         }
          if (needSnackbar) {
             snackbarHandler({
                message: 'Товар успешно добавлен в корзину',
