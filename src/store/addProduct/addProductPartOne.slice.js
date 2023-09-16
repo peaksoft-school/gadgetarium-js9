@@ -1,11 +1,45 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { format } from 'date-fns'
+import {
+   getAllCategory,
+   getBrandAll,
+   getSubCategory,
+   postAddProduct,
+   postFileImg,
+   postFilePDF,
+} from './addProduct.thunk'
+import {
+   categoryProduct,
+   subProductDataCategory,
+} from '../../utils/common/constants/constantsAdminAddNewProduct'
 
 const initialState = {
+   allCategory: [],
+   subCategories: [],
+   brandAll: [],
+   pathPdf: '',
+   resultAddProductData: [],
+   isLoading: false,
+   isError: '',
+   isSuccessAddProduct: '',
+
+   initialStateAddProduct: {
+      categoryId: 0,
+      subCategoryId: 0,
+      brandId: 0,
+      guarantee: '',
+      name: '',
+      dateOfIssue: null,
+      subProductRequests: [],
+      videoLink: '',
+      pdf: '',
+      description: '',
+   },
+
    newProduct: {
-      category: '',
-      subcategory: '',
-      brand: '',
+      categoryId: 0,
+      subCategoryId: 0,
+      brandId: 0,
       guarantee: '',
       name: '',
       dateOfIssue: null,
@@ -79,17 +113,21 @@ export const addProductSlice = createSlice({
    reducers: {
       // * newProduct
 
+      closeNavigatePartOne(state) {
+         return { ...state, newProduct: state.initialStateAddProduct }
+      },
+
       collectorProductData(state, { payload }) {
          return {
             ...state,
             newProduct: {
                ...state.newProduct,
-               category: payload.category,
-               brand: payload.brand,
+               categoryId: payload.categoryId,
+               brandId: payload.brandId,
                dateOfIssue: new Date(payload.dateOfIssue).toString(),
                guarantee: payload.guarantee,
                name: payload.name,
-               subcategory: payload.subcategory,
+               subCategoryId: payload.subCategoryId,
             },
          }
       },
@@ -147,9 +185,9 @@ export const addProductSlice = createSlice({
 
       filterCategorySubProduct(state) {
          const newData = {
-            category: state.newProduct.category,
-            subcategory: '',
-            brand: '',
+            categoryId: state.newProduct.categoryId,
+            subCategoryId: 0,
+            brandId: 0,
             guarantee: '',
             name: '',
             dateOfIssue: null,
@@ -158,7 +196,7 @@ export const addProductSlice = createSlice({
 
          let data
 
-         if (state.newProduct.category === 'Смартфоны') {
+         if (state.newProduct.categoryId === 1) {
             data = [
                {
                   id: 0,
@@ -181,7 +219,7 @@ export const addProductSlice = createSlice({
             }
          }
 
-         if (state.newProduct.category === 'Смарт-часы и браслеты') {
+         if (state.newProduct.categoryId === 3) {
             data = [
                {
                   id: 0,
@@ -209,7 +247,7 @@ export const addProductSlice = createSlice({
             }
          }
 
-         if (state.newProduct.category === 'Ноутбуки') {
+         if (state.newProduct.categoryId === 2) {
             data = [
                {
                   id: 0,
@@ -235,7 +273,7 @@ export const addProductSlice = createSlice({
             }
          }
 
-         if (state.newProduct.category === 'Планшеты') {
+         if (state.newProduct.categoryId === 4) {
             data = [
                {
                   id: 0,
@@ -456,17 +494,14 @@ export const addProductSlice = createSlice({
       },
 
       editNewProductAndReturnNewEditDataHandler(state, { payload }) {
-         const { category, subProductRequests, ...rest } = payload
+         const { categoryId, subProductRequests, ...rest } = payload
 
          const formattedSubProducts = subProductRequests.map((subProduct) => {
-            const formattedImages = subProduct.images.map((image) => image.img)
-
             let formattedSubProduct = {
                ...subProduct,
-               images: formattedImages,
             }
 
-            if (category === 'Смартфоны') {
+            if (categoryId === 1) {
                formattedSubProduct = {
                   ...formattedSubProduct,
                   rom: +subProduct.rom,
@@ -475,7 +510,7 @@ export const addProductSlice = createSlice({
                   sim: +subProduct.sim,
                   price: +subProduct.price,
                }
-            } else if (category === 'Планшеты') {
+            } else if (categoryId === 4) {
                formattedSubProduct = {
                   ...formattedSubProduct,
                   screenSize: +subProduct.screenSize,
@@ -484,7 +519,7 @@ export const addProductSlice = createSlice({
                   price: +subProduct.price,
                   quantity: +subProduct.quantity,
                }
-            } else if (category === 'Смарт-часы и браслеты') {
+            } else if (categoryId === 3) {
                formattedSubProduct = {
                   ...formattedSubProduct,
                   rom: +subProduct.rom,
@@ -492,7 +527,7 @@ export const addProductSlice = createSlice({
                   price: +subProduct.price,
                   quantity: +subProduct.quantity,
                }
-            } else if (category === 'Ноутбуки') {
+            } else if (categoryId === 2) {
                formattedSubProduct = {
                   ...formattedSubProduct,
                   videoMemory: +subProduct.videoMemory,
@@ -506,17 +541,19 @@ export const addProductSlice = createSlice({
             return formattedSubProduct
          })
 
-         const formattedDate = format(new Date(rest.dateOfIssue), 'dd.MM.yyyy')
+         const formattedDate = format(new Date(rest.dateOfIssue), 'yyyy-MM-dd')
 
          state.newProduct = {
             ...rest,
             dateOfIssue: formattedDate,
+            categoryId,
             subProductRequests: formattedSubProducts,
          }
 
          state.transformedProduct = {
             ...rest,
             dateOfIssue: formattedDate,
+            categoryId,
             subProductRequests: formattedSubProducts,
          }
       },
@@ -534,6 +571,74 @@ export const addProductSlice = createSlice({
             },
          }
       },
+   },
+   extraReducers: (builder) => {
+      builder.addCase(getAllCategory.fulfilled, (state, { payload }) => {
+         const russianSelectData = payload.map((item) => ({
+            id: item.id,
+            name: categoryProduct[item.title],
+         }))
+
+         state.allCategory = russianSelectData
+      })
+      builder.addCase(getSubCategory.fulfilled, (state, { payload }) => {
+         const newSubCategoryData = payload.map((item) => ({
+            id: item.subCategoryId,
+            name: subProductDataCategory[item.title],
+         }))
+
+         state.subCategories = newSubCategoryData
+      })
+      builder.addCase(getBrandAll.fulfilled, (state, { payload }) => {
+         state.brandAll = payload
+      })
+      builder
+         .addCase(postFilePDF.pending, (state) => {
+            state.isLoading = true
+         })
+         .addCase(postFilePDF.fulfilled, (state, { payload }) => {
+            state.pathPdf = payload
+            state.isLoading = false
+         })
+         .addCase(postFilePDF.rejected, (state) => {
+            state.isLoading = false
+         })
+      builder
+         .addCase(postFileImg.pending, (state) => {
+            state.isLoading = true
+         })
+         .addCase(postFileImg.fulfilled, (state, { payload }) => {
+            const updatePayloadSubProductRequests =
+               payload.subProductRequests.map((subProduct) => {
+                  const { id, ...rest } = subProduct
+                  return rest
+               })
+
+            const updatePayload = {
+               ...payload,
+               subProductRequests: updatePayloadSubProductRequests,
+            }
+
+            state.resultAddProductData = updatePayload
+
+            state.isLoading = false
+         })
+         .addCase(postFileImg.rejected, (state) => {
+            state.isLoading = false
+         })
+      builder
+         .addCase(postAddProduct.pending, (state) => {
+            state.isLoading = true
+         })
+         .addCase(postAddProduct.fulfilled, (state) => {
+            state.isLoading = false
+
+            state.isSuccessAddProduct = 'Товар успешно добавлен'
+         })
+         .addCase(postAddProduct.rejected, (state) => {
+            state.isLoading = false
+            state.isError = 'Что то произошло не так'
+         })
    },
 })
 
@@ -562,4 +667,6 @@ export const {
    editNewProductAndReturnNewEditDataHandler,
 
    addDescriptionAndOverview,
+
+   closeNavigatePartOne,
 } = addProductSlice.actions
