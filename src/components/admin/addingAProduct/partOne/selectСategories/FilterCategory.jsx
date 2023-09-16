@@ -1,41 +1,29 @@
 import { useFormik } from 'formik'
 import { styled } from '@mui/material'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { CategoryFilterSelect } from './CategoryFilterSelect'
 import { InputUi } from '../../../../UI/Input'
-import { categoryProduct } from '../../../../../utils/common/constants/constantsAdminAddNewProduct'
 import { ReactComponent as SelectLabelIcons } from '../../../../../assets/icons/photo-add/add-photo-icon.svg'
 import { Calendar } from '../../../../UI/calendarFolder/Calendar'
 import { collectorProductData } from '../../../../../store/addProduct/addProductPartOne.slice'
 import { useSnackbar } from '../../../../../hooks/useSnackbar'
 import { schema } from '../../../../../utils/helpers/filterCategory'
 
-export const FilterCategory = ({
-   onOpenModalAddNewBrand,
-   value,
-   errorCategory,
-}) => {
+export const FilterCategory = ({ onOpenModalAddNewBrand, errorCategory }) => {
    const dispatch = useDispatch()
    const { snackbarHandler } = useSnackbar()
-
-   const subcategorySelectOne =
-      value && value.category === 'Смартфоны'
-         ? categoryProduct.subcategorySmartphones
-         : categoryProduct.subcategorySmartWatch
-
-   const subcategorySelect =
-      value && value.category === 'Ноутбуки'
-         ? categoryProduct.subcategoryNotebooks
-         : subcategorySelectOne
+   const { allCategory, newProduct, subCategories, brandAll } = useSelector(
+      (state) => state.addProduct
+   )
 
    const { values, handleChange, errors, handleBlur, setFieldValue } =
       useFormik({
          initialValues: {
-            category: '',
-            brand: '',
+            categoryId: '',
+            brandId: '',
             name: '',
-            subcategory: '',
+            subCategoryId: '',
             guarantee: '',
             dateOfIssue: null,
          },
@@ -50,6 +38,10 @@ export const FilterCategory = ({
    const onChangeValueDateHandler = (event) => {
       setFieldValue('dateOfIssue', new Date(event.$d))
    }
+
+   useEffect(() => {
+      setFieldValue('subcategory', '')
+   }, [newProduct.categoryId])
 
    useEffect(() => {
       if (errorCategory) {
@@ -84,14 +76,16 @@ export const FilterCategory = ({
             <CategoryFilterSelect
                label="Выбрать"
                title="Выберите категорию"
-               selectData={categoryProduct.category}
+               selectData={allCategory}
                value={
-                  values.category === undefined || null ? '' : values.category
+                  values.categoryId === undefined || null
+                     ? ''
+                     : values.categoryId
                }
                onChange={handleChange}
                onBlur={(e) => onBlurAndErrorSnackbar(e)}
-               name="category"
-               error={Boolean(errors.category)}
+               name="categoryId"
+               error={Boolean(errors.categoryId)}
                star
                errorcategory={errorCategory ? 'true' : 'false'}
             />
@@ -103,15 +97,15 @@ export const FilterCategory = ({
                      <SelectLabelIconsStyle /> Выберите бренд товара
                   </BoxIconSelect>
                }
-               value={values.brand}
+               value={values.brandId}
                onChange={handleChange}
                newBrand
-               name="brand"
+               name="brandId"
                image
                title="Бренд"
-               selectData={categoryProduct.brand}
+               selectData={brandAll}
                star
-               error={Boolean(errors.brand)}
+               error={Boolean(errors.brandId)}
                onBlur={(e) => onBlurAndErrorSnackbar(e)}
                errorcategory={errorCategory ? 'true' : 'false'}
             />
@@ -138,18 +132,14 @@ export const FilterCategory = ({
             <CategoryFilterSelect
                title="Выберите подкатегорию"
                label="Выбрать"
-               selectData={
-                  value.category === 'Планшеты'
-                     ? categoryProduct.subcategoryTablets
-                     : subcategorySelect
-               }
-               value={values.subcategory}
-               name="subcategory"
+               selectData={subCategories}
+               value={values.subCategoryId}
+               name="subCategoryId"
                onBlur={(e) => onBlurAndErrorSnackbar(e)}
                star
                onChange={handleChange}
                errorcategory={errorCategory ? 'true' : 'false'}
-               error={Boolean(errors.subcategory)}
+               error={Boolean(errors.subCategoryId)}
             />
 
             <BoxLabel>

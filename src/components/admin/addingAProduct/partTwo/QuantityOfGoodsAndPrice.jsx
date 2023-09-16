@@ -25,6 +25,7 @@ export const QuantityOfGoodsAndPrice = memo(() => {
    const navigate = useNavigate()
 
    const title = changeBooleanValue ? 'Общая цена' : 'Общая количество'
+   const titleBtn = changeBooleanValue ? 'цену' : 'количество'
 
    const onCollectorPriceAndQuantity = (values) => {
       dispatch(
@@ -71,10 +72,6 @@ export const QuantityOfGoodsAndPrice = memo(() => {
       }
    }
 
-   const onClose = () => {
-      navigate('/admin/add-products-part-1')
-   }
-
    return (
       <Container>
          <HeaderAddingAProduct
@@ -108,7 +105,7 @@ export const QuantityOfGoodsAndPrice = memo(() => {
                      width="140px"
                      type="submit"
                   >
-                     Установить цену
+                     Установить {titleBtn}
                   </Button>
                </FormStyle>
             </ContainerTotalPriceAndQuanti>
@@ -119,15 +116,6 @@ export const QuantityOfGoodsAndPrice = memo(() => {
             />
 
             <ContainerButton>
-               <Button
-                  backgroundHover="#CB11AB"
-                  onClick={onClose}
-                  variant="outlined"
-                  fontSize="1rem"
-               >
-                  Назад
-               </Button>
-
                <Button
                   onClick={finishedAddPriceAndQuantity}
                   padding="10px 1.5rem"
@@ -179,6 +167,6 @@ const FormStyle = styled('form')`
 const ContainerButton = styled('div')`
    width: 79.688vw;
    display: flex;
-   justify-content: space-between;
+   justify-content: flex-end;
    align-items: center;
 `
