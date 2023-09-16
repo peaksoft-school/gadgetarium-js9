@@ -9,6 +9,7 @@ import { Compare } from '../components/user/compare/Compare'
 import { Catalog } from '../components/user/catalog/Catalog'
 import { PersonalAreaContainer } from '../components/user/personalAreaPage/PersonalAreaContainer'
 import { HistoryDetailContainer } from '../components/user/personalAreaPage/historyPages/HistoryDetailContainer'
+import { PlacingAnOrder } from '../components/user/payment/PlacingAnOrder'
 
 export const userRoutes = [
    { path: routes.USER.index, element: <MainPage /> },
@@ -57,5 +58,9 @@ export const userRoutes = [
    {
       path: routes.USER.compare,
       element: <Compare />,
+   },
+   {
+      path: routes.USER.payment,
+      element: <PlacingAnOrder />,
    },
 ]

@@ -28,7 +28,7 @@ export const routes = {
          index: 'personalArea/:tab',
          personalDetail: 'personalArea/:orderId/details',
       },
-      personalFavorites: '/personalArea/:tab',
+      payment: '/payment/placing-an-order',
    },
 }
 
