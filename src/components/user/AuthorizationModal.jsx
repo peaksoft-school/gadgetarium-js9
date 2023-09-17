@@ -51,6 +51,7 @@ export const AuthorizationModal = ({ openModal, toggleHandler }) => {
                navigate('admin')
             }
          })
+         .catch((error) => console.error(error))
    }
 
    const combinedError = formState.errors.email || formState.errors.password

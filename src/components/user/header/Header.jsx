@@ -79,6 +79,9 @@ export const Header = ({ favorite, basket, compare }) => {
    const toggleCatalogSelect = () => {
       setCatalogSelect(!catalogSelect)
    }
+   const navigateToBasket = () => {
+      navigate('/basket')
+   }
    const toggleModalHandler = () => {
       setOpenModal(!openModal)
    }
@@ -237,6 +240,7 @@ export const Header = ({ favorite, basket, compare }) => {
                               <ProductsModalWhenIsHovered
                                  path="/compare"
                                  array={allProducts}
+                                 onClose={toggleHoverCompare}
                               />
                            </CompareContainer>
                         )}
@@ -257,6 +261,7 @@ export const Header = ({ favorite, basket, compare }) => {
                                  path="/favorite"
                                  favorite
                                  array={favoriteItems}
+                                 onClose={toggleHoverFavorite}
                               />
                            </FavoriteContainer>
                         )}
@@ -265,7 +270,7 @@ export const Header = ({ favorite, basket, compare }) => {
                         </MuiBadge>
                      </PositionContainer>
                      <MuiBadge badgeContent={basket} showZero>
-                        <IconsBasket />
+                        <IconsBasket onClick={navigateToBasket} />
                      </MuiBadge>
                   </IconsForm>
                </ButtonContainer>

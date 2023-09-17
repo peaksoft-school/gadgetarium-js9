@@ -87,7 +87,7 @@ export const Favorite = React.memo(() => {
                         backgroundhover="#CB11AB"
                         backgroundactive="#E20FBE"
                         padding="8px 20px"
-                        fontaSize="1rem"
+                        fontSize="1rem"
                         onClick={enterPurchases}
                      >
                         Продолжить покупки
