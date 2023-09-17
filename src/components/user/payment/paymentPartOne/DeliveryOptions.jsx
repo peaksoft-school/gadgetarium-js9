@@ -63,8 +63,7 @@ const ContainerBox = styled('div')`
    display: flex;
    gap: 1.875rem;
 
-   width: 688px;
-   /* width: 45.2vw; */
+   width: 45.2vw;
 
    padding-bottom: 2.5rem;
    border-bottom-width: 1;

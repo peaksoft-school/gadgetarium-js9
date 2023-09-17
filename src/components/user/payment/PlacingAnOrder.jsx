@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { styled } from '@mui/material'
 import { BreadCrumbs } from '../../UI/breadCrumbs/BreadCrumbs'
 import { StepPayment } from './StepPayment'
 import { DeliveryOptions } from './paymentPartOne/DeliveryOptions'
+import { MiniBasketOrderPrice } from './UIPayment/miniBasket/MiniBasketOrderPrice'
 
 export const breadcrumbs = [
    { path: '/', label: 'Главная' },
@@ -14,15 +15,42 @@ export const breadcrumbs = [
 ]
 
 export const PlacingAnOrder = () => {
+   const [page, setPage] = useState([0])
+
+   const onBackHandler = () => {
+      const newPage = page.slice(0, page.length - 1)
+
+      if (page.length !== 1) {
+         setPage(newPage)
+      }
+   }
+
+   const onNextHandler = () => {
+      const newPage = page.length
+
+      if (page.length !== 0 && page.length !== 3) {
+         setPage([...page, newPage])
+      }
+   }
+
    return (
       <Container>
+         <button onClick={onBackHandler}>Back</button>
+         <button onClick={onNextHandler}>Next</button>
+
          <div>
             <BreadCrumbs breadcrumbs={breadcrumbs} />
             <BoxTitle>
                <p>Оформление заказа</p>
             </BoxTitle>
 
-            <StepPayment />
+            <ContainerStepper>
+               <StepPayment page={page} />
+
+               <div>
+                  <MiniBasketOrderPrice />
+               </div>
+            </ContainerStepper>
 
             <div>
                <DeliveryOptions />
@@ -54,6 +82,8 @@ export const BoxTitle = styled('div')`
    }
 `
 
-export const ContainerStepper = styled('div')`
-   width: 41.6875rem;
+const ContainerStepper = styled('div')`
+   display: flex;
+   width: 100%;
+   justify-content: space-between;
 `

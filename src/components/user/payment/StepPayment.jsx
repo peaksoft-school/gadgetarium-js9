@@ -22,25 +22,27 @@ const step = [
    },
 ]
 
-export const StepPayment = () => {
-   const page = true
-
+export const StepPayment = ({ page }) => {
    return (
       <div>
          <Container>
-            {step.map((item) => (
-               <div key={item.id}>
-                  <BoxStepHead>
-                     <Circle page={page}>{item.id}</Circle>
-                     {item.line && <Line page={page} />}
-                  </BoxStepHead>
-                  <BoxLabel>
-                     <LabelStep page={page} index={item.id} {...item}>
-                        {item.label}
-                     </LabelStep>
-                  </BoxLabel>
-               </div>
-            ))}
+            {step.map((item, index) => {
+               const successPage = index === page[index]
+
+               return (
+                  <div key={item.id}>
+                     <BoxStepHead>
+                        <Circle page={successPage}>{item.id}</Circle>
+                        {item.line && <Line page={successPage} />}
+                     </BoxStepHead>
+                     <BoxLabel>
+                        <LabelStep page={successPage} index={item.id} {...item}>
+                           {item.label}
+                        </LabelStep>
+                     </BoxLabel>
+                  </div>
+               )
+            })}
          </Container>
       </div>
    )

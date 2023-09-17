@@ -12,44 +12,26 @@ export const PersonalData = () => {
                <BoxInput>
                   <Label>
                      <span className="label-text">Имя</span>
-                     <InputUi
-                        padding="0"
-                        background="#ffffff"
-                        type="text"
-                        placeholder="Напишите ваше имя"
-                        width="22.1vw"
-                     />
+                     <Input type="text" placeholder="Напишите ваше имя" />
                   </Label>
 
                   <Label>
                      <span className="label-text">Фамилия</span>
-                     <InputUi
-                        background="#ffffff"
-                        type="text"
-                        placeholder="Напишите вашу фамилию"
-                        width="22.1vw"
-                     />
+                     <Input type="text" placeholder="Напишите вашу фамилию" />
                   </Label>
                </BoxInput>
 
                <BoxInput>
                   <Label>
                      <span className="label-text">E-mail</span>
-                     <InputUi
-                        background="#ffffff"
-                        type="email"
-                        placeholder="Напишите ваш email"
-                        width="22.1vw"
-                     />
+                     <Input type="email" placeholder="Напишите ваш email" />
                   </Label>
 
                   <Label>
                      <span className="label-text">Телефон</span>
-                     <InputUi
-                        background="#ffffff"
+                     <Input
                         type="tel"
                         placeholder="+996 (_ _ _) _ _  _ _  _ _"
-                        width="22.1vw"
                      />
                   </Label>
                </BoxInput>
@@ -57,8 +39,7 @@ export const PersonalData = () => {
                <div>
                   <Label>
                      <span className="label-text">Адрес доставки</span>
-                     <InputUi
-                        background="#ffffff"
+                     <Input
                         type="text"
                         placeholder="ул.Московская 120, кв 4, дом 9"
                         width="45vw"
@@ -133,6 +114,22 @@ const Label = styled('div')`
          font-style: normal;
          font-weight: 400;
          line-height: 150%;
+      }
+   }
+`
+
+const Input = styled(InputUi)`
+   padding: 0;
+   background-color: #ffffff;
+   width: ${(props) => (props.width ? props.width : '22.1vw')};
+   border-radius: 0.375rem;
+
+   input {
+      padding: 0.6rem 0.715rem;
+      font-size: 1rem;
+
+      ::placeholder {
+         color: #000000;
       }
    }
 `
