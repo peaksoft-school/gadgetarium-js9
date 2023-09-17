@@ -1,11 +1,16 @@
 import { styled } from '@mui/material'
 import { useSearchParams } from 'react-router-dom'
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+
 import { ReactComponent as EditIcon } from '../../../assets/icons/tools-for-site/edit-icon.svg'
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/tools-for-site/delete-icon.svg'
 import FeedbackStars from './FeedbackStars'
 import { ReactComponent as DefaultIcon } from '../../../assets/icons/avatar/default-avatar-icon.svg'
 import FeedbackModal from '../../admin/feedback/FeedbackModal'
+import { deleteReviewsRequest } from '../../../store/informationPhone/infoPageThunk'
+import { EditModal } from './EditModal'
+import { infoPageActions } from '../../../store/informationPhone/infoPageSlice'
 
 const Feedback = ({
    userName,
@@ -15,14 +20,19 @@ const Feedback = ({
    stars,
    canUserEdit,
    adminState,
+   reviewId,
 }) => {
+   const dispatch = useDispatch()
    const [openModal, setOpenModal] = useSearchParams()
    const [adminText, setAdminText] = useState('')
    const [modalText, setModalText] = useState('')
    const [adminReviewState, setAdminReviewState] = useState(false)
+   const [open, setOpen] = useState(false)
+
    const getAdminText = (e) => {
       setModalText(e.target.value)
    }
+
    const saveTextHandler = () => {
       if (modalText === '') {
          if (adminReviewState === true) {
@@ -37,6 +47,11 @@ const Feedback = ({
       setOpenModal(false)
       setAdminText(modalText)
       return null
+   }
+
+   const toggleUserHandler = () => {
+      dispatch(infoPageActions.getUserComment(reviewId))
+      setOpen(!open)
    }
    const closeModalHandler = () => {
       openModal.delete('openModal')
@@ -72,8 +87,10 @@ const Feedback = ({
          </UserReviewContainer>
          {canUserEdit && (
             <ToolContainer>
-               <EditIcon />
-               <DeleteIcon />
+               <EditIcon onClick={toggleUserHandler} />
+               <DeleteIcon
+                  onClick={() => dispatch(deleteReviewsRequest(reviewId))}
+               />
             </ToolContainer>
          )}
          {adminState && (
@@ -92,6 +109,13 @@ const Feedback = ({
                   />
                )}
             </AdminButtonContainer>
+         )}
+         {open && (
+            <EditModal
+               reviewId={reviewId}
+               open={open}
+               onClose={toggleUserHandler}
+            />
          )}
       </Container>
    )

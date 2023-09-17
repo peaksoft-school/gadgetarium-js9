@@ -4,25 +4,33 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Button } from '../../components/UI/Button'
 import { LeaveYourFeedback } from './LeaveYourFeedback'
 import { getReviwesProduct } from '../../store/informationPhone/infoPageThunk'
+import { AuthorizationModal } from '../../components/user/AuthorizationModal'
 
-export const Rating = ({ id = 12 }) => {
+export const Rating = ({ subProductId }) => {
    const { rating, totalReviews, five, four, three, two, one } = useSelector(
-      (state) => state.phone.getReviews
+      (state) => state.product.getReviews
    )
+
+   const { isAuthorization } = useSelector((state) => state.auth)
+
+   const [authorizationModalOpen, setAuthorizationModalOpen] = useState(false)
 
    const dispatch = useDispatch()
 
    useEffect(() => {
-      dispatch(getReviwesProduct(id))
+      dispatch(getReviwesProduct(subProductId))
    }, [])
 
    const [ratings, setRating] = useState(false)
    const role = 'USER'
 
    const onOpenNodal = () => {
-      setRating(true)
+      if (!isAuthorization) {
+         setAuthorizationModalOpen(true)
+      } else {
+         setRating(true)
+      }
    }
-
    const onClose = () => {
       setRating(false)
    }
@@ -76,7 +84,18 @@ export const Rating = ({ id = 12 }) => {
                </Button>
             ) : null}
 
-            <LeaveYourFeedback rating={ratings} onClose={onClose} />
+            {authorizationModalOpen && (
+               <AuthorizationModal
+                  openModal={authorizationModalOpen}
+                  toggleHandler={() => setAuthorizationModalOpen(false)}
+               />
+            )}
+
+            <LeaveYourFeedback
+               subProductId={subProductId}
+               rating={ratings}
+               onClose={onClose}
+            />
          </Container>
       </div>
    )

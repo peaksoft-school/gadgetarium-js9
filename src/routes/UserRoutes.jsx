@@ -3,10 +3,14 @@ import { AboutShop } from '../components/user/aboutShop/AboutShop'
 import { Delivery } from '../components/user/delivery/Delivery'
 import { routes } from '../utils/common/constants/routesConstants'
 import { Contacts } from '../components/user/contacts/Contacts'
+import { Favorite } from '../components/user/favorite/Favorite'
 import { MainPage } from '../components/user/main.page/MainPage'
-import { PhoneContainer } from '../components/user/productIdPages/infoPhone/PhoneContainer'
 import { PopUpPage } from '../components/user/UserUI/PopUp/PopUpPage'
-import { InfoPagesContainer } from '../components/user/productIdPages/informationPage/InfoPagesContainer'
+import { Compare } from '../components/user/compare/Compare'
+import { Catalog } from '../components/user/catalog/Catalog'
+import { PersonalAreaContainer } from '../components/user/personalAreaPage/PersonalAreaContainer'
+import { HistoryDetailContainer } from '../components/user/personalAreaPage/historyPages/HistoryDetailContainer'
+import { ContainerProductId } from '../components/user/productIdPages/Container'
 
 export const userRoutes = [
    { path: routes.USER.index, element: <MainPage /> },
@@ -27,13 +31,44 @@ export const userRoutes = [
       element: <Contacts />,
    },
    {
+      path: routes.USER.favorite,
+      element: <Favorite />,
+   },
+   {
+      path: routes.USER.personal.index,
+      element: <PersonalAreaContainer />,
+   },
+   {
+      path: routes.USER.personal.personalDetail,
+      element: <HistoryDetailContainer />,
+   },
+   {
+      path: routes.USER.personalFavorites,
+      element: <PersonalAreaContainer />,
+   },
+   {
+      path: routes.USER.category.index,
+      element: <Catalog />,
+      children: [
+         { path: routes.USER.category.smartphone, element: <Catalog /> },
+         { path: routes.USER.category.smartWatch, element: <Catalog /> },
+         { path: routes.USER.category.tablets, element: <Catalog /> },
+         { path: routes.USER.category.laptops, element: <Catalog /> },
+      ],
+   },
+   {
+      path: routes.USER.compare,
+      element: <Compare />,
+   },
+   {
       path: routes.USER.phones.index,
       element: (
          <div>
-            <PhoneContainer /> <InfoPagesContainer />
+            <ContainerProductId />
          </div>
       ),
    },
+
    {
       path: routes.USER.phones.fullPicture,
       element: <PopUpPage />,

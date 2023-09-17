@@ -11,13 +11,15 @@ function CheckboxInput({ isChecked, onChange, bgColor, onClick, ...props }) {
          onClick={onClick}
          {...props}
          color="primary"
+         {...props}
       />
    )
 }
 export default CheckboxInput
 
-const StyledCheckbox = styled(Checkbox)(({ backgroundcolor }) => ({
+const StyledCheckbox = styled(Checkbox)(({ backgroundcolor, ...props }) => ({
    color: 'gray',
+   width: props.width || 'auto',
    '&:hover': {
       background: 'none',
       color: backgroundcolor,

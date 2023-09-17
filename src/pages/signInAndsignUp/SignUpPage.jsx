@@ -1,9 +1,9 @@
-import { Button, styled } from '@mui/material'
+import { Button, CircularProgress, styled } from '@mui/material'
 import React, { useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { ReactComponent as CloseIcon } from '../../assets/icons/cross/big-cross-icon.svg'
 import { InputUi } from '../../components/UI/Input'
 import { getPhoneNumber, signUpRequest } from '../../store/auth/authThunk'
@@ -16,6 +16,8 @@ export const SignUp = () => {
    const { snackbarHandler } = useSnackbar()
    const dispatch = useDispatch()
    const navigate = useNavigate()
+   const { isLoading } = useSelector((state) => state.auth)
+
    const [focusedField, setFocusedField] = useState('')
 
    const {
@@ -71,7 +73,7 @@ export const SignUp = () => {
          <ContainerChilde>
             <Container>
                <MuiCloseIcon onClick={onCloseHandler} />
-               <h2>Регистрация</h2>
+               <Title>Регистрация</Title>
                <Form onSubmit={handleSubmit(onSubmit)}>
                   {signUpInputArray.map((el) => {
                      const error = errors[el.key]?.message
@@ -98,7 +100,11 @@ export const SignUp = () => {
                      </div>
                   )}
                   <ButtonUi type="submit" variant="contained">
-                     Войти
+                     {isLoading ? (
+                        <CircularProgress size={27} sx={{ color: 'white' }} />
+                     ) : (
+                        'Создать аккаунт'
+                     )}
                   </ButtonUi>
                </Form>
                <Block>
@@ -114,6 +120,9 @@ export const SignUp = () => {
 
 const Container = styled('div')`
    position: relative;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
    width: 36.25rem;
    height: 44rem;
    border-radius: 0.25rem;
@@ -123,7 +132,18 @@ const Container = styled('div')`
       text-align: center;
    }
 `
-
+const Title = styled('p')`
+   color: #292929;
+   text-align: center;
+   font-family: Inter;
+   font-size: 28px;
+   font-style: normal;
+   font-weight: 500;
+   line-height: normal;
+   margin: 0;
+   margin-bottom: 24px;
+   margin-top: 14.5px;
+`
 const ContainerChilde = styled('div')`
    position: absolute;
    bottom: 30px;
@@ -133,18 +153,19 @@ const ButtonUi = styled(Button)`
    width: 29.5rem;
    height: 2.9375rem;
    color: #fff;
-   margin-left: 3.75rem;
+   font-family: Inter;
+   font-size: 16px;
+   text-transform: none;
 `
 const Block = styled('div')`
    display: flex;
-   margin-left: 9.75rem;
    margin-bottom: 1rem;
    a {
       text-decoration: none;
    }
 `
 const Input = styled(InputUi)`
-   margin-left: 3.78rem;
+   padding-right: 0;
 `
 const Form = styled('form')`
    display: flex;
@@ -152,8 +173,8 @@ const Form = styled('form')`
    gap: 1.25rem;
 `
 const MuiCloseIcon = styled(CloseIcon)`
-   margin-top: 1.5rem;
-   margin-left: 33.5rem;
+   margin-top: 1.2rem;
+   margin-left: 33.4rem;
    cursor: pointer;
 `
 

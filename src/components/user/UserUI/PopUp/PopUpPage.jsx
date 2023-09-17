@@ -3,15 +3,15 @@ import { styled } from '@mui/material'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { Carousel } from 'react-responsive-carousel'
 import { useDispatch, useSelector } from 'react-redux'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useParams } from 'react-router-dom'
 import BackButton from '../../../UI/icon.button/back.forth.buttons/BackButton'
 import ForthButton from '../../../UI/icon.button/back.forth.buttons/ForthButton'
 import { ReactComponent as Cross } from '../../../../assets/icons/cross/big-cross-icon.svg'
 import { getInfoPage } from '../../../../store/informationPhone/infoPageThunk'
 
 export const PopUpPage = () => {
-   const infoPhone = useSelector((state) => state.phone.infoPhone)
-
+   const infoPhone = useSelector((state) => state.product.infoPhone)
+   const { productId } = useParams()
    const dispatch = useDispatch()
 
    useEffect(() => {
@@ -19,7 +19,7 @@ export const PopUpPage = () => {
    }, [])
    return (
       <Container>
-         <BlockCross to="/phone">
+         <BlockCross to={`/product/${productId}/details`}>
             <Cross />
          </BlockCross>
          <CarouselStyle

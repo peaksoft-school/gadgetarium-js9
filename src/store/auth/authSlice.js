@@ -16,7 +16,7 @@ const getInitialState = () => {
       : null
    if (json) {
       const userData = JSON.parse(json)
-      const keys = Object.keys(phoneNumber)
+      const keys = phoneNumber ? Object.keys(phoneNumber) : ''
       const firstkey = keys[0]
       const secondKey = keys[1] || ''
       return {
@@ -25,6 +25,7 @@ const getInitialState = () => {
          role: userData.role,
          number: firstkey,
          img: secondKey,
+         isLoading: false,
       }
    }
    return {
@@ -34,6 +35,7 @@ const getInitialState = () => {
       error: '',
       number: '',
       img: '',
+      isLoading: false,
    }
 }
 
@@ -46,34 +48,53 @@ export const authSlice = createSlice({
    extraReducers: (builder) => {
       builder
          .addCase(signUpRequest.fulfilled, (state, action) => {
+            state.isLoading = false
             state.isAuthorization = true
             state.token = action.payload.token
             state.role = action.payload.role
+         })
+         .addCase(signUpRequest.pending, (state) => {
+            state.isLoading = true
+         })
+         .addCase(signUpRequest.rejected, (state) => {
+            state.isLoading = false
          })
          .addCase(signInRequest.fulfilled, (state, action) => {
             state.isAuthorization = true
             state.token = action.payload.token
             state.role = action.payload.role
+            state.isLoading = false
+         })
+         .addCase(signInRequest.pending, (state) => {
+            state.isLoading = true
          })
          .addCase(signInRequest.rejected, (state, action) => {
             state.error = action.payload.message
+            state.isLoading = false
          })
          .addCase(getPhoneNumber.fulfilled, (state, action) => {
-            const responce = action.payload
-            const keys = Object.keys(responce)
+            const keys = Object.keys(action.payload)
             if (keys.length > 0) {
-               const firstkey = keys[0]
+               const firstKey = keys[0]
                const secondKey = keys[1] || ''
-               state.number = firstkey
-               state.img = secondKey
+               return {
+                  ...state,
+                  number: firstKey,
+                  img: secondKey,
+               }
             }
+
+            return state
          })
          .addCase(logOut.fulfilled, (state) => {
-            state.isAuthorization = false
-            state.token = ''
-            state.role = USER_ROLE.GUEST
-            state.number = ''
-            state.img = ''
+            return {
+               ...state,
+               isAuthorization: false,
+               token: '',
+               role: USER_ROLE.GUEST,
+               number: '',
+               img: '',
+            }
          })
    },
 })

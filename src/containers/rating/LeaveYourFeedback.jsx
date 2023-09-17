@@ -6,12 +6,16 @@ import { Modal } from '../../components/UI/Modal'
 import { Button } from '../../components/UI/Button'
 import { SuccessModal } from './SuccessModal'
 import { postReviewsPhone } from '../../store/informationPhone/infoPageThunk'
+import { ErrorModal } from './ErrorModal'
 
-export const LeaveYourFeedback = ({ rating, onClose, subProductId = 12 }) => {
+export const LeaveYourFeedback = ({ rating, onClose, subProductId }) => {
    const [myStar, setMyStar] = useState(0)
    const [comment, setComment] = useState('')
+   const [errorMessage, setErrorMessage] = useState('')
+
    const [img, setImg] = useState('')
    const [successModal, setSuccessModal] = useState(false)
+   const [errorModal, setErrorModal] = useState(false)
 
    const dispatch = useDispatch()
 
@@ -21,17 +25,21 @@ export const LeaveYourFeedback = ({ rating, onClose, subProductId = 12 }) => {
       setSuccessModal(true)
    }
 
-   const onCreateReview = () => {
+   const onOpenErrorModal = (message) => {
+      setErrorMessage(message)
+      setErrorModal(true)
+   }
+
+   const onCreateReview = async () => {
       const data = {
          subProductId,
          star: myStar,
          comment,
          img: imgUrl,
       }
-      console.log(data)
-      dispatch(postReviewsPhone(data))
+      dispatch(postReviewsPhone({ data, onOpenSuccessModal, onOpenErrorModal }))
+
       onClose()
-      onOpenSuccessModal()
       setMyStar(0)
       setComment('')
       setImg('')
@@ -60,14 +68,21 @@ export const LeaveYourFeedback = ({ rating, onClose, subProductId = 12 }) => {
          time = setTimeout(() => {
             setSuccessModal(false)
          }, 3000)
+      } else if (errorModal) {
+         time = setTimeout(() => {
+            setErrorModal(false)
+         }, 3000)
       }
 
       return () => clearTimeout(time)
-   }, [successModal])
+   }, [successModal, errorModal])
 
    return (
       <>
          {successModal && <SuccessModal successModal={successModal} />}
+         {errorModal && (
+            <ErrorModal errorModal={errorModal} errorMessage={errorMessage} />
+         )}
          <Modal open={rating} onClose={onClose} padding="1.5rem 1.8rem">
             <Container>
                <ContainerGrade>
@@ -75,7 +90,6 @@ export const LeaveYourFeedback = ({ rating, onClose, subProductId = 12 }) => {
 
                   <BoxGrade>
                      <p>Оценка</p>
-
                      <div>
                         <RatingMui
                            value={myStar}

@@ -1,66 +1,33 @@
 import React from 'react'
 import { Button, styled } from '@mui/material'
+import { useDispatch, useSelector } from 'react-redux'
 import { ReactComponent as Arrow } from '../../../assets/icons/arrows/right-icon.svg'
 import { themes } from '../../../utils/common/styles/themes'
 import CategoryMenuItem from './CategoryMenuItem'
+import { getSubCatalogRequest } from '../../../store/informationPhone/infoPageThunk'
 
-const smartphones = [
-   {
-      name: 'Айфон 11',
-      id: 1,
-   },
-   {
-      name: 'Айфон 11',
-      id: 2,
-   },
-   {
-      name: 'Айфон 11',
-      id: 3,
-   },
-   {
-      name: 'Айфон 11',
-      id: 4,
-   },
-   {
-      name: 'Айфон 11',
-      id: 5,
-   },
-   {
-      name: 'Айфон 11',
-      id: 6,
-   },
-   {
-      name: 'Айфон 11',
-      id: 7,
-   },
-   {
-      name: 'Айфон 12',
-      id: 8,
-   },
-   {
-      name: 'Айфон 11',
-      id: 9,
-   },
-]
 const Category = ({
    children,
    componentIcon: Icon,
-   products = smartphones,
    handleCategoryOpen,
    handleCategoryClose,
-   isMenuOpen,
+   open,
    index,
+   id,
 }) => {
    const StyledIcon = Icon
-      ? styled(Icon)(({ isMenuOpen }) => ({
+      ? styled(Icon)(({ open }) => ({
            path: {
               transition: 'fill 0.3s, stroke 0.3s',
-              fill: isMenuOpen ? 'white' : '#91969E',
-              stroke: isMenuOpen ? 'white' : '#91969E',
-              opacity: isMenuOpen ? 1 : 0.8,
+              fill: open ? 'white' : '#91969E',
+              stroke: open ? 'white' : '#91969E',
+              opacity: open ? 1 : 0.8,
            },
         }))
       : null
+   const subCatalog = useSelector((state) => state.product.subCategories)
+
+   const dispatch = useDispatch()
 
    return (
       <div
@@ -69,28 +36,29 @@ const Category = ({
       >
          <StyledSelectButton
             onClick={handleCategoryOpen}
+            onMouseEnter={() => dispatch(getSubCatalogRequest(id))}
             themes={themes}
-            isMenuOpen={isMenuOpen}
+            open={open}
             aria-controls="category-menu"
             aria-haspopup="true"
          >
-            {Icon && <StyledIcon isMenuOpen={isMenuOpen} />}
+            {Icon && <StyledIcon open={open} />}
             <Container>
                {children}
-               <StyledArrow isMenuOpen={isMenuOpen} />
+               <StyledArrow open={open} />
             </Container>
          </StyledSelectButton>
-         {isMenuOpen && (
+         {open && (
             <Menu index={index}>
                {children}
-               {products.map((el) => {
+               {subCatalog?.map((el) => {
                   return (
                      <CategoryMenuItem
                         onClick={handleCategoryClose}
-                        id={el.id}
-                        key={el.id}
+                        id={el.subCategoryId}
+                        key={el.subCategoryId}
                      >
-                        {el.name}
+                        {el.title}
                      </CategoryMenuItem>
                   )
                })}
@@ -101,7 +69,7 @@ const Category = ({
 }
 
 export default Category
-const StyledSelectButton = styled(Button)(({ isMenuOpen, themes }) => ({
+const StyledSelectButton = styled(Button)(({ open, themes }) => ({
    fontSize: '16px',
    fontFamily: 'Inter',
    width: '346px',
@@ -116,19 +84,19 @@ const StyledSelectButton = styled(Button)(({ isMenuOpen, themes }) => ({
    alignItems: 'center',
    justifyContent: 'space-between',
    transition: 'color 0.3  s, background-color 0.3s',
-   color: isMenuOpen ? 'white' : 'black',
-   backgroundColor: isMenuOpen ? themes.palette.primary.main : 'transparent',
+   color: open ? 'white' : 'black',
+   backgroundColor: open ? themes.palette.primary.main : 'transparent',
 
    '&:hover': {
       backgroundColor: themes.palette.primary.main,
       color: 'white',
    },
 }))
-const StyledArrow = styled(Arrow)(({ isMenuOpen }) => ({
+const StyledArrow = styled(Arrow)(({ open }) => ({
    path: {
       transition: 'fill 0.3s, stroke 0.3s',
-      fill: isMenuOpen ? 'white' : 'black',
-      stroke: isMenuOpen ? 'white' : 'black',
+      fill: open ? 'white' : 'black',
+      stroke: open ? 'white' : 'black',
    },
 }))
 const Container = styled('div')({

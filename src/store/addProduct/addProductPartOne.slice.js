@@ -1,14 +1,52 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { format } from 'date-fns'
+import {
+   getAllCategory,
+   getBrandAll,
+   getSubCategory,
+   postAddProduct,
+   postFileImg,
+   postFilePDF,
+} from './addProduct.thunk'
+import {
+   categoryProduct,
+   subProductDataCategory,
+} from '../../utils/common/constants/constantsAdminAddNewProduct'
 
 const initialState = {
-   newProduct: {
-      category: '',
-      subcategory: '',
-      brand: '',
+   allCategory: [],
+   subCategories: [],
+   brandAll: [],
+   pathPdf: '',
+   resultAddProductData: [],
+   isLoading: false,
+   isError: '',
+   isSuccessAddProduct: '',
+
+   initialStateAddProduct: {
+      categoryId: 0,
+      subCategoryId: 0,
+      brandId: 0,
       guarantee: '',
       name: '',
       dateOfIssue: null,
       subProductRequests: [],
+      videoLink: '',
+      pdf: '',
+      description: '',
+   },
+
+   newProduct: {
+      categoryId: 0,
+      subCategoryId: 0,
+      brandId: 0,
+      guarantee: '',
+      name: '',
+      dateOfIssue: null,
+      subProductRequests: [],
+      videoLink: '',
+      pdf: '',
+      description: '',
    },
 
    productSmartphone: {
@@ -16,10 +54,10 @@ const initialState = {
       codeColor: '',
       rom: '',
       ram: '',
-      quantity: '',
+      quantity: 0,
       sim: '',
       images: [],
-      price: '',
+      price: 0,
    },
 
    productTablets: {
@@ -28,12 +66,12 @@ const initialState = {
       screenResolution: '',
       screenSize: '',
       rom: '',
-      quantity: '',
+      quantity: 0,
       ram: '',
       diagonalScreen: '',
       batteryCapacity: '',
       images: [],
-      price: '',
+      price: 0,
    },
 
    productWatch: {
@@ -44,11 +82,11 @@ const initialState = {
       housingMaterial: '',
       display: '',
       gender: '',
-      quantity: '',
+      quantity: 0,
       waterproof: '',
       anInterface: '',
       hullShape: '',
-      price: '',
+      price: 0,
       images: [],
    },
 
@@ -60,13 +98,13 @@ const initialState = {
       purpose: '',
       videoMemory: '',
       ram: '',
-      quantity: '',
+      quantity: 0,
       screenSize: '',
       images: [],
-      price: '',
+      price: 0,
    },
 
-   resultProductPartOneData: null,
+   transformedProduct: {},
 }
 
 export const addProductSlice = createSlice({
@@ -75,17 +113,21 @@ export const addProductSlice = createSlice({
    reducers: {
       // * newProduct
 
+      closeNavigatePartOne(state) {
+         return { ...state, newProduct: state.initialStateAddProduct }
+      },
+
       collectorProductData(state, { payload }) {
          return {
             ...state,
             newProduct: {
                ...state.newProduct,
-               category: payload.category,
-               brand: payload.brand,
+               categoryId: payload.categoryId,
+               brandId: payload.brandId,
                dateOfIssue: new Date(payload.dateOfIssue).toString(),
                guarantee: payload.guarantee,
                name: payload.name,
-               subcategory: payload.subcategory,
+               subCategoryId: payload.subCategoryId,
             },
          }
       },
@@ -143,9 +185,9 @@ export const addProductSlice = createSlice({
 
       filterCategorySubProduct(state) {
          const newData = {
-            category: state.newProduct.category,
-            subcategory: '',
-            brand: '',
+            categoryId: state.newProduct.categoryId,
+            subCategoryId: 0,
+            brandId: 0,
             guarantee: '',
             name: '',
             dateOfIssue: null,
@@ -154,7 +196,7 @@ export const addProductSlice = createSlice({
 
          let data
 
-         if (state.newProduct.category === 'Смартфоны') {
+         if (state.newProduct.categoryId === 1) {
             data = [
                {
                   id: 0,
@@ -163,8 +205,8 @@ export const addProductSlice = createSlice({
                   ram: '',
                   sim: '',
                   images: [],
-                  quantity: '',
-                  price: '',
+                  quantity: 0,
+                  price: 0,
                },
             ]
 
@@ -177,7 +219,7 @@ export const addProductSlice = createSlice({
             }
          }
 
-         if (state.newProduct.category === 'Смарт-часы и браслеты') {
+         if (state.newProduct.categoryId === 3) {
             data = [
                {
                   id: 0,
@@ -190,8 +232,8 @@ export const addProductSlice = createSlice({
                   waterproof: '',
                   anInterface: '',
                   hullShape: '',
-                  quantity: '',
-                  price: '',
+                  quantity: 0,
+                  price: 0,
                   images: [],
                },
             ]
@@ -205,7 +247,7 @@ export const addProductSlice = createSlice({
             }
          }
 
-         if (state.newProduct.category === 'Ноутбуки') {
+         if (state.newProduct.categoryId === 2) {
             data = [
                {
                   id: 0,
@@ -217,8 +259,8 @@ export const addProductSlice = createSlice({
                   ram: '',
                   screenSize: '',
                   images: [],
-                  quantity: '',
-                  price: '',
+                  quantity: 0,
+                  price: 0,
                },
             ]
 
@@ -231,7 +273,7 @@ export const addProductSlice = createSlice({
             }
          }
 
-         if (state.newProduct.category === 'Планшеты') {
+         if (state.newProduct.categoryId === 4) {
             data = [
                {
                   id: 0,
@@ -243,8 +285,8 @@ export const addProductSlice = createSlice({
                   diagonalScreen: '',
                   batteryCapacity: '',
                   images: [],
-                  quantity: '',
-                  price: '',
+                  quantity: 0,
+                  price: 0,
                },
             ]
 
@@ -306,96 +348,6 @@ export const addProductSlice = createSlice({
          }
       },
 
-      furtherCollectorProductPartOne(state, { payload }) {
-         const updatedSubProductRequests =
-            state.newProduct.subProductRequests.map((item) => {
-               const resImg = item.images.map((imageItem) => imageItem.img)
-               let updatedItem = {}
-
-               if (state.newProduct.category === 'Смартфон') {
-                  updatedItem = {
-                     codeColor: item.codeColor,
-                     rom: +item.rom,
-                     ram: +item.ram,
-                     quantity: +item.quantity,
-                     sim: +item.sim,
-                     images: resImg,
-                     price: +item.price,
-                  }
-
-                  return updatedItem
-               }
-               if (state.newProduct.category === 'Ноутбук') {
-                  updatedItem = {
-                     codeColor: item.codeColor,
-                     processor: item.processor,
-                     screenResolution: item.screenResolution,
-                     purpose: item.purpose,
-                     videoMemory: item.videoMemory,
-                     ram: +item.ram,
-                     quantity: +item.quantity,
-                     screenSize: +item.screenSize,
-                     images: resImg,
-                     price: +item.price,
-                  }
-
-                  return updatedItem
-               }
-
-               if (state.newProduct.category === 'Смарт-часы и браслеты') {
-                  updatedItem = {
-                     codeColor: item.codeColor,
-                     quantity: +item.quantity,
-                     images: resImg,
-                     price: +item.price,
-                     rom: +item.rom,
-                     materialBracelet: item.materialBracelet,
-                     housingMaterial: item.housingMaterial,
-                     display: item.display,
-                     gender: item.gender,
-                     waterproof: item.waterproof,
-                     anInterface: item.anInterface,
-                     hullShape: item.hullShape,
-                  }
-
-                  return updatedItem
-               }
-
-               if (state.newProduct.category === 'Планшеты') {
-                  updatedItem = {
-                     codeColor: item.codeColor,
-                     screenResolution: item.screenResolution,
-                     ram: +item.ram,
-                     quantity: +item.quantity,
-                     screenSize: +item.screenSize,
-                     images: resImg,
-                     price: +item.price,
-                     rom: +item.rom,
-                     diagonalScreen: item.diagonalScreen,
-                     batteryCapacity: item.batteryCapacity,
-                  }
-
-                  return updatedItem
-               }
-               return updatedItem
-            })
-
-         return {
-            ...state,
-            resultProductPartOneData: {
-               dateOfIssue: payload.date,
-               category: state.newProduct.category,
-               subcategory: state.newProduct.subcategory,
-               brand: state.newProduct.brand,
-               guarantee: state.newProduct.guarantee,
-               name: state.newProduct.name,
-               subProductRequests: updatedSubProductRequests,
-            },
-         }
-      },
-
-      // * productSmartphone
-
       collectorSmartphoneParameters(state) {
          return {
             ...state,
@@ -423,12 +375,12 @@ export const addProductSlice = createSlice({
                screenResolution: '',
                screenSize: '',
                rom: '',
-               quantity: '',
+               quantity: 0,
                ram: '',
                diagonalScreen: '',
                batteryCapacity: '',
                images: [],
-               price: '',
+               price: 0,
             },
          }
       },
@@ -446,11 +398,11 @@ export const addProductSlice = createSlice({
                housingMaterial: '',
                display: '',
                gender: '',
-               quantity: '',
+               quantity: 0,
                waterproof: '',
                anInterface: '',
                hullShape: '',
-               price: '',
+               price: 0,
                images: [],
             },
          }
@@ -469,13 +421,224 @@ export const addProductSlice = createSlice({
                purpose: '',
                videoMemory: '',
                ram: '',
-               quantity: '',
+               quantity: 0,
                screenSize: '',
                images: [],
-               price: '',
+               price: 0,
             },
          }
       },
+
+      // * AddProductPart - 2
+
+      addAllPriceAndQuantity(state, { payload }) {
+         const addPriceAndQuantity = state.newProduct.subProductRequests.map(
+            (item) => {
+               return {
+                  ...item,
+                  price: +payload.price,
+                  quantity: +payload.quantity,
+               }
+            }
+         )
+
+         return {
+            ...state,
+            newProduct: {
+               ...state.newProduct,
+               subProductRequests: addPriceAndQuantity,
+            },
+         }
+      },
+
+      addAndEditPrice(state, { payload }) {
+         const addPrice = state.newProduct.subProductRequests.map((item) => {
+            if (item.id === payload.id) {
+               return {
+                  ...item,
+                  price: payload.price,
+               }
+            }
+
+            return item
+         })
+
+         return {
+            ...state,
+            newProduct: {
+               ...state.newProduct,
+               subProductRequests: addPrice,
+            },
+         }
+      },
+
+      addAndEditQuantity(state, { payload }) {
+         const addPrice = state.newProduct.subProductRequests.map((item) => {
+            if (item.id === payload.id) {
+               return {
+                  ...item,
+                  quantity: payload.quantity,
+               }
+            }
+
+            return item
+         })
+
+         return {
+            ...state,
+            newProduct: {
+               ...state.newProduct,
+               subProductRequests: addPrice,
+            },
+         }
+      },
+
+      editNewProductAndReturnNewEditDataHandler(state, { payload }) {
+         const { categoryId, subProductRequests, ...rest } = payload
+
+         const formattedSubProducts = subProductRequests.map((subProduct) => {
+            let formattedSubProduct = {
+               ...subProduct,
+            }
+
+            if (categoryId === 1) {
+               formattedSubProduct = {
+                  ...formattedSubProduct,
+                  rom: +subProduct.rom,
+                  ram: +subProduct.ram,
+                  quantity: +subProduct.quantity,
+                  sim: +subProduct.sim,
+                  price: +subProduct.price,
+               }
+            } else if (categoryId === 4) {
+               formattedSubProduct = {
+                  ...formattedSubProduct,
+                  screenSize: +subProduct.screenSize,
+                  rom: +subProduct.rom,
+                  ram: +subProduct.ram,
+                  price: +subProduct.price,
+                  quantity: +subProduct.quantity,
+               }
+            } else if (categoryId === 3) {
+               formattedSubProduct = {
+                  ...formattedSubProduct,
+                  rom: +subProduct.rom,
+                  displayDiscount: +subProduct.display,
+                  price: +subProduct.price,
+                  quantity: +subProduct.quantity,
+               }
+            } else if (categoryId === 2) {
+               formattedSubProduct = {
+                  ...formattedSubProduct,
+                  videoMemory: +subProduct.videoMemory,
+                  ram: +subProduct.ram,
+                  screenSize: +subProduct.screenSize,
+                  price: +subProduct.price,
+                  quantity: +subProduct.quantity,
+               }
+            }
+
+            return formattedSubProduct
+         })
+
+         const formattedDate = format(new Date(rest.dateOfIssue), 'yyyy-MM-dd')
+
+         state.newProduct = {
+            ...rest,
+            dateOfIssue: formattedDate,
+            categoryId,
+            subProductRequests: formattedSubProducts,
+         }
+
+         state.transformedProduct = {
+            ...rest,
+            dateOfIssue: formattedDate,
+            categoryId,
+            subProductRequests: formattedSubProducts,
+         }
+      },
+
+      // * AddProductPart - 3
+
+      addDescriptionAndOverview(state, { payload }) {
+         return {
+            ...state,
+            newProduct: {
+               ...state.newProduct,
+               videoLink: payload.videoLink,
+               pdf: payload.pdf,
+               description: payload.description,
+            },
+         }
+      },
+   },
+   extraReducers: (builder) => {
+      builder.addCase(getAllCategory.fulfilled, (state, { payload }) => {
+         const russianSelectData = payload.map((item) => ({
+            id: item.id,
+            name: categoryProduct[item.title],
+         }))
+
+         state.allCategory = russianSelectData
+      })
+      builder.addCase(getSubCategory.fulfilled, (state, { payload }) => {
+         const newSubCategoryData = payload.map((item) => ({
+            id: item.subCategoryId,
+            name: subProductDataCategory[item.title],
+         }))
+
+         state.subCategories = newSubCategoryData
+      })
+      builder.addCase(getBrandAll.fulfilled, (state, { payload }) => {
+         state.brandAll = payload
+      })
+      builder
+         .addCase(postFilePDF.pending, (state) => {
+            state.isLoading = true
+         })
+         .addCase(postFilePDF.fulfilled, (state, { payload }) => {
+            state.pathPdf = payload
+            state.isLoading = false
+         })
+         .addCase(postFilePDF.rejected, (state) => {
+            state.isLoading = false
+         })
+      builder
+         .addCase(postFileImg.pending, (state) => {
+            state.isLoading = true
+         })
+         .addCase(postFileImg.fulfilled, (state, { payload }) => {
+            const updatePayloadSubProductRequests =
+               payload.subProductRequests.map((subProduct) => {
+                  const { id, ...rest } = subProduct
+                  return rest
+               })
+
+            const updatePayload = {
+               ...payload,
+               subProductRequests: updatePayloadSubProductRequests,
+            }
+
+            state.resultAddProductData = updatePayload
+
+            state.isLoading = false
+         })
+         .addCase(postFileImg.rejected, (state) => {
+            state.isLoading = false
+         })
+      builder
+         .addCase(postAddProduct.pending, (state) => {
+            state.isLoading = true
+         })
+         .addCase(postAddProduct.fulfilled, (state) => {
+            state.isLoading = false
+
+            state.isSuccessAddProduct = 'Товар успешно добавлен'
+         })
+         .addCase(postAddProduct.rejected, (state) => {
+            state.isLoading = false
+            state.isError = 'Что то произошло не так'
+         })
    },
 })
 
@@ -494,8 +657,16 @@ export const {
 
    collectorNotebooksParameters,
 
-   furtherCollectorProductPartOne,
-
    addCodeColorSubProductRequests,
    addPhotoSubProductRequests,
+
+   addAllPriceAndQuantity,
+   addAndEditPrice,
+   addAndEditQuantity,
+
+   editNewProductAndReturnNewEditDataHandler,
+
+   addDescriptionAndOverview,
+
+   closeNavigatePartOne,
 } = addProductSlice.actions

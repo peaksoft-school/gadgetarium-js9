@@ -1,32 +1,33 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { styled } from '@mui/material'
+import { useDispatch, useSelector } from 'react-redux'
 import Category from '../UI/category.select/CategorySelect'
 import { ReactComponent as Smartphone } from '../../assets/icons/goods/mobile-android-two-icon.svg'
-import { ReactComponent as Headphone } from '../../assets/icons/goods/headphones-icon.svg'
 import { ReactComponent as Desktop } from '../../assets/icons/goods/desktop-two-icon.svg'
 import { ReactComponent as Watch } from '../../assets/icons/goods/watch-icon.svg'
-
-const categories = [
-   { id: 1, title: 'Смартфоны', icon: Smartphone },
-   { id: 2, title: 'Ноутбуки и планшеты', icon: Desktop },
-   { id: 3, title: 'Смарт-часы и браслеты', icon: Watch },
-   { id: 4, title: 'Аксессуары', icon: Headphone },
-]
+import { getCatalogRequest } from '../../store/informationPhone/infoPageThunk'
 
 const GeneralCategorySelectLayout = ({ toggleCatalogSelect }) => {
+   const catalogProduct = useSelector((state) => state.product.allCategory)
+   const dispatch = useDispatch()
+
    const [categoryStates, setCategoryStates] = useState({
       smartphone: false,
       desktop: false,
       watch: false,
-      headphone: false,
+      tablet: false,
    })
+
+   useEffect(() => {
+      dispatch(getCatalogRequest())
+   }, [])
 
    const handleCategoryOpen = (categoryName) => {
       setCategoryStates({
          smartphone: categoryName === 'smartphone',
          desktop: categoryName === 'desktop',
          watch: categoryName === 'watch',
-         headphone: categoryName === 'headphone',
+         tablet: categoryName === 'tablet',
       })
    }
    const handleCategoryClose = () => {
@@ -34,69 +35,67 @@ const GeneralCategorySelectLayout = ({ toggleCatalogSelect }) => {
          smartphone: false,
          desktop: false,
          watch: false,
-         headphone: false,
+         tablet: false,
       })
       toggleCatalogSelect()
    }
 
    return (
       <Container onMouseLeave={handleCategoryClose}>
-         {categories.map((category, index) => {
+         {catalogProduct?.map((title, index) => {
             switch (index) {
                case 1:
                   return (
                      <Category
-                        key={category.id}
+                        id={title.id}
                         index={index + 1}
                         componentIcon={Desktop}
-                        isMenuOpen={categoryStates.desktop}
+                        open={categoryStates.desktop}
                         handleCategoryOpen={() => handleCategoryOpen('desktop')}
                         handleCategoryClose={handleCategoryClose}
                      >
-                        {category.title}
+                        {title.title}
                      </Category>
                   )
                case 2:
                   return (
                      <Category
-                        key={category.id}
+                        id={title.id}
                         index={index + 1}
                         componentIcon={Watch}
-                        isMenuOpen={categoryStates.watch}
+                        open={categoryStates.watch}
                         handleCategoryOpen={() => handleCategoryOpen('watch')}
                         handleCategoryClose={handleCategoryClose}
                      >
-                        {category.title}
+                        {title.title}
                      </Category>
                   )
                case 3:
                   return (
                      <Category
-                        key={category.id}
+                        id={title.id}
                         index={index + 1}
-                        componentIcon={Headphone}
-                        isMenuOpen={categoryStates.headphone}
-                        handleCategoryOpen={() =>
-                           handleCategoryOpen('headphone')
-                        }
+                        componentIcon={Desktop}
+                        open={categoryStates.tablet}
+                        handleCategoryOpen={() => handleCategoryOpen('tablet')}
                         handleCategoryClose={handleCategoryClose}
                      >
-                        {category.title}
+                        {title.title}
                      </Category>
                   )
                default:
                   return (
                      <Category
-                        key={category.id}
+                        id={title.id}
                         index={index + 1}
                         componentIcon={Smartphone}
-                        isMenuOpen={categoryStates.smartphone}
+                        open={categoryStates.smartphone}
                         handleCategoryOpen={() =>
                            handleCategoryOpen('smartphone')
                         }
                         handleCategoryClose={handleCategoryClose}
                      >
-                        {category.title}
+                        {title.title}
                      </Category>
                   )
             }
@@ -114,8 +113,7 @@ const Container = styled('div')`
    justify-content: center;
    background-color: white;
    width: 372px;
-   height: 186px;
+   height: 196px;
    border-radius: 4px 0px 0px 4px;
-   padding: 0px 8px 0px 8px;
-   /* box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.1); */
+   padding: 0px 12px 0px 12px;
 `

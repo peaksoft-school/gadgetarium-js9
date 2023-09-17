@@ -4,7 +4,8 @@ export const routes = {
 
    ADMIN: {
       index: '/admin',
-      addProduct: '/admin/add-products/part-1',
+      addProductPartOne: '/admin/add-products-part-1',
+      addProductPartTwo: '/admin/add-products-part-2',
    },
 
    USER: {
@@ -14,9 +15,24 @@ export const routes = {
       faq: 'faq',
       contacts: 'contacts',
       phones: {
-         index: '/phone',
-         fullPicture: '/phone/fullPicture',
+         index: '/product/:productId/details',
+         fullPicture: '/product/:productId/details/fullPicture',
       },
+
+      category: {
+         index: 'category/',
+         smartphone: ':smartphone',
+         smartWatch: ':smartWatch',
+         tablets: ':tablets',
+         laptops: ':laptops',
+      },
+      favorite: 'favorite',
+      compare: 'compare',
+      personal: {
+         index: 'personalArea/:tab',
+         personalDetail: 'personalArea/:orderId/details',
+      },
+      personalFavorites: '/personalArea/:tab',
    },
 }
 
