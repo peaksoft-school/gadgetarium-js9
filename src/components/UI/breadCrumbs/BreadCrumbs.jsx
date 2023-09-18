@@ -36,4 +36,10 @@ export const BreadCrumbs = ({ breadcrumbs }) => {
 
 const Container = styled('div')`
    margin-top: 3.75rem;
+
+   /* font-family: Inter; */
+   /* font-size: 0.875rem; */
+   /* font-style: normal; */
+   /* font-weight: 400; */
+   /* line-height: 140%; */
 `

@@ -1,9 +1,20 @@
 import { Checkbox, styled } from '@mui/material'
 import React from 'react'
 
-export const Box = ({ children, width, check, paddingBottom = '1.875rem' }) => {
+export const Box = ({
+   children,
+   width,
+   check,
+   paddingBottom = '1.875rem',
+   onClick,
+}) => {
    return (
-      <Container width={width} check={check} paddingbottom={paddingBottom}>
+      <Container
+         onClick={onClick}
+         width={width}
+         check={check}
+         paddingbottom={paddingBottom}
+      >
          <div>
             <CheckboxStyle checked={check} color="success" size="small" />
          </div>

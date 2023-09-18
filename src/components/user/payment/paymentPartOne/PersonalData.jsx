@@ -1,8 +1,9 @@
 import { styled } from '@mui/material'
+import InputMask from 'react-input-mask'
 import { InputUi } from '../../../UI/Input'
 import { Button } from '../../../UI/Button'
 
-export const PersonalData = () => {
+export const PersonalData = ({ onNextHandler, formik, delivery }) => {
    return (
       <Container>
          <p>Личные данные</p>
@@ -12,47 +13,83 @@ export const PersonalData = () => {
                <BoxInput>
                   <Label>
                      <span className="label-text">Имя</span>
-                     <Input type="text" placeholder="Напишите ваше имя" />
+                     <Input
+                        value={formik.values.lastName}
+                        onChange={formik.handleChange}
+                        type="text"
+                        name="lastName"
+                        placeholder="Напишите ваше имя"
+                     />
                   </Label>
 
                   <Label>
                      <span className="label-text">Фамилия</span>
-                     <Input type="text" placeholder="Напишите вашу фамилию" />
+                     <Input
+                        value={formik.values.firstName}
+                        onChange={formik.handleChange}
+                        type="text"
+                        name="firstName"
+                        placeholder="Напишите вашу фамилию"
+                     />
                   </Label>
                </BoxInput>
 
                <BoxInput>
                   <Label>
                      <span className="label-text">E-mail</span>
-                     <Input type="email" placeholder="Напишите ваш email" />
+                     <Input
+                        value={formik.values.email}
+                        onChange={formik.handleChange}
+                        type="email"
+                        name="email"
+                        placeholder="Напишите ваш email"
+                     />
                   </Label>
 
                   <Label>
                      <span className="label-text">Телефон</span>
-                     <Input
-                        type="tel"
-                        placeholder="+996 (_ _ _) _ _  _ _  _ _"
-                     />
+
+                     <InputMask
+                        mask="+999 (999) 99-99-99"
+                        value={formik.values.telephone}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                     >
+                        {(inputProps) => (
+                           <Input
+                              {...inputProps}
+                              id="telephone"
+                              name="telephone"
+                              placeholder="+996 (_ _ _) _ _  _ _  _ _"
+                           />
+                        )}
+                     </InputMask>
                   </Label>
                </BoxInput>
 
-               <div>
-                  <Label>
-                     <span className="label-text">Адрес доставки</span>
-                     <Input
-                        type="text"
-                        placeholder="ул.Московская 120, кв 4, дом 9"
-                        width="45vw"
-                     />
-                  </Label>
-               </div>
+               {!delivery && (
+                  <div>
+                     <Label>
+                        <span className="label-text">Адрес доставки</span>
+                        <Input
+                           value={formik.values.address}
+                           onChange={formik.handleChange}
+                           type="text"
+                           name="address"
+                           placeholder="ул.Московская 120, кв 4, дом 9"
+                           width="45vw"
+                        />
+                     </Label>
+                  </div>
+               )}
             </ContainerInput>
 
             <div>
                <Button
                   variant="contained"
-                  padding="0.75rem 21.51rem"
+                  padding="0.75rem 20.2vw"
                   fontSize="1rem"
+                  onClick={onNextHandler}
                >
                   Продолжить
                </Button>

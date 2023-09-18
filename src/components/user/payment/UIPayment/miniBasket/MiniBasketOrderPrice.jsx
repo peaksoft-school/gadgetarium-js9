@@ -1,7 +1,18 @@
 import { styled } from '@mui/material'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { MiniBasketOrdersProduct } from './MiniBasketOrdersProduct'
 
 export const MiniBasketOrderPrice = () => {
+   const { basket } = useSelector((state) => state.basket)
+   const navigate = useNavigate()
+
+   const onEditAndNavigateBasketHandler = () => {
+      navigate('/basket')
+   }
+
+   const toPay = basket?.toPay === 0 ? basket?.totalPrice : basket?.toPay
+
    return (
       <Container>
          <div className="box">
@@ -9,30 +20,35 @@ export const MiniBasketOrderPrice = () => {
                <BoxOrderPrice>
                   <p className="order-price">Сумма заказа</p>
 
-                  <p className="edit">Изменить</p>
+                  <div onClick={onEditAndNavigateBasketHandler}>
+                     <p className="edit">Изменить</p>
+                  </div>
                </BoxOrderPrice>
                <ProductsPriceInformationContainer>
                   <p>
                      <span>Количество товаров:</span>
-                     <span>3 шт.</span>
+                     <span>{basket?.quantitySubProducts} шт.</span>
                   </p>
                   <p>
                      <span>Ваша скидка:</span>
                      <span className="discount">
-                        - 20 000 <span className="c">c</span>
+                        - {basket?.totalDiscount?.toLocaleString('ru-RU')}
+                        <span className="c"> c</span>
                      </span>
                   </p>
                   <p>
                      <span>Сумма:</span>
                      <span>
-                        220 900 <span className="c">c</span>
+                        {basket?.totalPrice?.toLocaleString('ru-RU')}
+                        <span className="c"> c</span>
                      </span>
                   </p>
 
                   <p>
                      <span className="total">Итого</span>
                      <span className="total">
-                        200 900 <span className="c">c</span>
+                        {toPay.toLocaleString('ru-RU')}
+                        <span className="c"> c</span>
                      </span>
                   </p>
                </ProductsPriceInformationContainer>
@@ -47,6 +63,7 @@ export const MiniBasketOrderPrice = () => {
 }
 
 const Container = styled('div')`
+   position: absolute;
    width: 22.6vw;
 
    box {

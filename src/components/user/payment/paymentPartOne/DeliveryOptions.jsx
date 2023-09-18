@@ -2,8 +2,14 @@ import { styled } from '@mui/material'
 import { Box } from '../UIPayment/Box'
 import { PersonalData } from './PersonalData'
 
-export const DeliveryOptions = () => {
-   const check = true
+export const DeliveryOptions = ({
+   onNextHandler,
+   delivery,
+   onDeliveryHandler,
+   onPickupHandler,
+   formik,
+}) => {
+   const check = delivery
 
    return (
       <Container>
@@ -11,7 +17,11 @@ export const DeliveryOptions = () => {
 
          <FormContainer>
             <ContainerBox>
-               <Box check={check} width="19vw">
+               <Box
+                  onClick={onPickupHandler}
+                  check={check === true}
+                  width="19vw"
+               >
                   <BoxContainer>
                      <BoxTitle>
                         <span>Самовывоз из магазина</span>
@@ -24,7 +34,11 @@ export const DeliveryOptions = () => {
                   </BoxContainer>
                </Box>
 
-               <Box check={false} width="19vw">
+               <Box
+                  check={check === false}
+                  width="19vw"
+                  onClick={onDeliveryHandler}
+               >
                   <BoxContainer>
                      <BoxTitle>
                         <span>Доставка курьером</span>
@@ -39,7 +53,11 @@ export const DeliveryOptions = () => {
                </Box>
             </ContainerBox>
 
-            <PersonalData />
+            <PersonalData
+               onNextHandler={onNextHandler}
+               delivery={delivery}
+               formik={formik}
+            />
          </FormContainer>
       </Container>
    )
