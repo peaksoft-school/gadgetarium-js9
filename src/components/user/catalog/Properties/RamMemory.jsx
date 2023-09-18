@@ -12,7 +12,8 @@ export const RamMemory = () => {
    const dispatch = useDispatch()
 
    const updatedRamArray =
-      Object.values(category)[0] === 'Phone'
+      Object.values(category)[0] === 'Phone' ||
+      Object.values(category)[0] === 'Tablet'
          ? memoryRamArray.slice(0, 5)
          : memoryRamArray
 

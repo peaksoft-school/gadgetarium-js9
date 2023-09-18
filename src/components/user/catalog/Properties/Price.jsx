@@ -10,7 +10,7 @@ export const Price = () => {
       (state) => state.category
    )
    const dispatch = useDispatch()
-   const [cate, setCate] = useState(false)
+   const [cate, setCate] = useState(true)
    const handleMinChange = (event) => {
       dispatch(categoryActions.setMinValue(event.target.value))
    }

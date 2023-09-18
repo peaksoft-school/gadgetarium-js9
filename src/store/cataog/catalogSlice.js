@@ -8,19 +8,31 @@ import {
    screenResolutionLaptop,
    laptopPuproses,
    laptopScreenSize,
+   watchInterfaces,
+   watchShapes,
+   watchMaterialBracelets,
+   watchMaterialHousing,
+   watchFloor,
+   watchWaterProof,
+   watchDisplayDiagonal,
+   laptopVideoMemory,
+   tabletBatteryCapacity,
 } from '../../utils/common/constants/constants'
 import {
    getCategory,
    getColorsCatalog,
+   getColorsTransformationFunction,
    sendSelectedCategories,
 } from './categoryThunk'
 
-// const params = useParams()
-// console.log('params: ', params)
 const initialState = {
    isLoading: false,
 
+   itemsColorsTransformation: [],
+
    itemsColors: [],
+   itemsColorsId: [],
+
    items: [],
    filteredProducts: [],
    selectedCategories: [],
@@ -42,12 +54,33 @@ const initialState = {
 
    processorArray: [],
    processor: ProcessorsLaptop,
+   videoMemoryArray: [],
+   videoMemory: laptopVideoMemory,
    screenArray: [],
    screen: screenResolutionLaptop,
    puprosesArray: [],
    puproses: laptopPuproses,
    screenSizeArray: [],
    screenSize: laptopScreenSize,
+
+   interfacesArray: [],
+   interfaces: watchInterfaces,
+   shapesArray: [],
+   shapes: watchShapes,
+   materialBraceletsArray: [],
+   materialBracelets: watchMaterialBracelets,
+   materialHousingArray: [],
+   materialHousing: watchMaterialHousing,
+   floorArray: [],
+   floor: watchFloor,
+   waterProofArray: [],
+   waterProof: watchWaterProof,
+   displayDiagonalArray: [],
+   displayDiagonal: watchDisplayDiagonal,
+
+   tabletBatteryCapacityArray: [],
+   tabletBattery: tabletBatteryCapacity,
+
    allCate: true,
 }
 
@@ -55,6 +88,29 @@ export const categorySlice = createSlice({
    name: 'category',
    initialState,
    reducers: {
+      colors: (state) => {
+         const itemsColorsId = []
+         state.itemsColors?.map((el) => {
+            if (el.checked === true) {
+               itemsColorsId.push(el.codeColor)
+            }
+
+            return el
+         })
+         console.log('itemsColorsId: ', itemsColorsId)
+         state.itemsColorsId = itemsColorsId
+      },
+      changeColor: (state, action) => {
+         const updatedMemory = state.itemsColors?.map((el) => {
+            if (el.codeColor === action.payload) {
+               return { ...el, checked: !el.checked }
+            }
+            return el
+         })
+
+         state.itemsColors = updatedMemory
+      },
+
       addSelectedCategories: (state, action) => {
          if (
             state.selectedCategories.some((el) => el.id === action.payload.id)
@@ -209,12 +265,6 @@ export const categorySlice = createSlice({
          const memoryRam = []
          state.memoryRamArray.map((el) => {
             if (el.checked === true) {
-               if (Object.values(params)[0] === 'Laptop') {
-                  memoryRamConstants.push(
-                     { title: 32, id: 6, checked: false },
-                     { title: 36, id: 7, checked: false }
-                  )
-               }
                memoryRam.push(el.title)
             }
             return el
@@ -268,6 +318,25 @@ export const categorySlice = createSlice({
             return el
          })
          state.processor = updatedMemory
+      },
+      laptopVideoMemory: (state) => {
+         const videoMemoryArray = []
+         state.videoMemory.map((el) => {
+            if (el.checked === true) {
+               videoMemoryArray.push(el.title)
+            }
+            return el
+         })
+         return { ...state, videoMemoryArray }
+      },
+      laptopChangeVideoMemory: (state, action) => {
+         const updatedMemory = state.videoMemory.map((el) => {
+            if (el.id === action.payload) {
+               return { ...el, checked: !el.checked }
+            }
+            return el
+         })
+         state.videoMemory = updatedMemory
       },
 
       laptopScreen: (state) => {
@@ -329,6 +398,160 @@ export const categorySlice = createSlice({
          })
          state.screenSize = updatedMemory
       },
+
+      watchInterfaces: (state) => {
+         const iunterfacesArray = []
+         state.interfaces.map((el) => {
+            if (el.checked === true) {
+               iunterfacesArray.push(el.title)
+            }
+            return el
+         })
+         return { ...state, iunterfacesArray }
+      },
+      changeInterfaces: (state, action) => {
+         const updatedMemory = state.interfaces.map((el) => {
+            if (el.id === action.payload) {
+               return { ...el, checked: !el.checked }
+            }
+            return el
+         })
+         state.interfaces = updatedMemory
+      },
+      watchShapes: (state) => {
+         const shapesArray = []
+         state.shapes.map((el) => {
+            if (el.checked === true) {
+               shapesArray.push(el.title)
+            }
+            return el
+         })
+         return { ...state, shapesArray }
+      },
+      changeShapes: (state, action) => {
+         const updatedMemory = state.shapes.map((el) => {
+            if (el.id === action.payload) {
+               return { ...el, checked: !el.checked }
+            }
+            return el
+         })
+         state.shapes = updatedMemory
+      },
+      watchMaterialBracelets: (state) => {
+         const materialBraceletsArray = []
+         state.shapes.map((el) => {
+            if (el.checked === true) {
+               materialBraceletsArray.push(el.title)
+            }
+            return el
+         })
+         return { ...state, materialBraceletsArray }
+      },
+      changeMaterialBracelets: (state, action) => {
+         const updatedMemory = state.materialBracelets.map((el) => {
+            if (el.id === action.payload) {
+               return { ...el, checked: !el.checked }
+            }
+            return el
+         })
+         state.materialBracelets = updatedMemory
+      },
+      watchMaterialHousing: (state) => {
+         const materialHousingArray = []
+         state.materialHousing.map((el) => {
+            if (el.checked === true) {
+               materialHousingArray.push(el.title)
+            }
+            return el
+         })
+         return { ...state, materialHousingArray }
+      },
+      changeMaterialHousing: (state, action) => {
+         const updatedMemory = state.materialHousing.map((el) => {
+            if (el.id === action.payload) {
+               return { ...el, checked: !el.checked }
+            }
+            return el
+         })
+         state.materialHousing = updatedMemory
+      },
+      watchFloor: (state) => {
+         const floorArray = []
+         state.floor.map((el) => {
+            if (el.checked === true) {
+               floorArray.push(el.title)
+            }
+            return el
+         })
+         return { ...state, floorArray }
+      },
+      changeFloor: (state, action) => {
+         const updatedMemory = state.floor.map((el) => {
+            if (el.id === action.payload) {
+               return { ...el, checked: !el.checked }
+            }
+            return el
+         })
+         state.floor = updatedMemory
+      },
+      watchWaterProof: (state) => {
+         const waterProofArray = []
+         state.waterProof.map((el) => {
+            if (el.checked === true) {
+               waterProofArray.push(el.title)
+            }
+            return el
+         })
+         return { ...state, waterProofArray }
+      },
+      changeWaterProof: (state, action) => {
+         const updatedMemory = state.waterProof.map((el) => {
+            if (el.id === action.payload) {
+               return { ...el, checked: !el.checked }
+            }
+            return el
+         })
+         state.waterProof = updatedMemory
+      },
+      watchDisplayDiagonal: (state) => {
+         const displayDiagonalArray = []
+         state.displayDiagonal.map((el) => {
+            if (el.checked === true) {
+               displayDiagonalArray.push(el.title)
+            }
+            return el
+         })
+         return { ...state, displayDiagonalArray }
+      },
+      changeDisplayDiagonal: (state, action) => {
+         const updatedMemory = state.displayDiagonal.map((el) => {
+            if (el.id === action.payload) {
+               return { ...el, checked: !el.checked }
+            }
+            return el
+         })
+         state.displayDiagonal = updatedMemory
+      },
+
+      tabletBattery: (state) => {
+         const tabletBatteryCapacityArray = []
+         state.tabletBattery.map((el) => {
+            if (el.checked === true) {
+               tabletBatteryCapacityArray.push(el.title)
+            }
+            return el
+         })
+         return { ...state, tabletBatteryCapacityArray }
+      },
+      changeBattery: (state, action) => {
+         const updatedMemory = state.tabletBattery.map((el) => {
+            if (el.id === action.payload) {
+               return { ...el, checked: !el.checked }
+            }
+            return el
+         })
+         state.tabletBattery = updatedMemory
+      },
    },
 
    extraReducers: (builder) => {
@@ -363,11 +586,22 @@ export const categorySlice = createSlice({
             return { ...state, isLoading: true }
          })
          .addCase(getColorsCatalog.fulfilled, (state, action) => {
-            return { ...state, itemsColors: action.payload }
+            const itemsColors = action.payload.map((el) => {
+               return { ...el, checked: false }
+            })
+
+            return { ...state, itemsColors }
          })
          .addCase(getColorsCatalog.rejected, (state) => {
             return { ...state, isLoading: false }
          })
+         .addCase(
+            getColorsTransformationFunction.fulfilled,
+            (state, action) => {
+               return { ...state, itemsColorsTransformation: action.payload }
+            }
+         )
    },
 })
+
 export const categoryActions = categorySlice.actions

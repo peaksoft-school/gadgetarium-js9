@@ -3,25 +3,23 @@ import { useDispatch, useSelector } from 'react-redux'
 import { categoryActions } from '../../../../store/cataog/catalogSlice'
 import { CatalogSelect } from '../../../UI/CatalogSelect'
 
-export const Sim = () => {
-   const { simPhone } = useSelector((state) => state.category)
-   console.log('simPhoneArray: ', simPhone)
+export const MaterialBracelets = () => {
+   const { materialBracelets } = useSelector((state) => state.category)
    const dispatch = useDispatch()
 
    const postTitle = (id) => {
-      dispatch(categoryActions.changeSimPhone(id))
+      dispatch(categoryActions.changeMaterialBracelets(id))
    }
 
    useEffect(() => {
-      dispatch(categoryActions.simPhoneThunk())
-   }, [simPhone])
-   // simPhoneArray
+      dispatch(categoryActions.watchMaterialBracelets())
+   }, [materialBracelets])
 
    return (
       <CatalogSelect
-         title="Кол-во SIM-карт"
+         title="Материал браслета/ремешка"
          onToggleCheckbox={postTitle}
-         items={simPhone}
+         items={materialBracelets}
       />
    )
 }

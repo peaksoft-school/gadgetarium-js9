@@ -19,6 +19,7 @@ export const routes = {
          index: 'category/',
          smartphone: ':smartphone',
          smartWatch: ':smartWatch',
+         tablets: ':tablets',
          laptops: ':laptops',
       },
       favorite: 'favorite',

@@ -1,5 +1,5 @@
 import { styled } from '@mui/material'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { Products } from './Properties/Products'
@@ -8,6 +8,7 @@ import { ReactComponent as Cancel } from '../../../assets/icons/cross/small-cros
 import { Button } from '../../UI/Button'
 import { Options } from './Options'
 import { ArrowIcon } from '../../UI/Arrow'
+import { Sort } from './Sort'
 
 export const Catalog = () => {
    const {
@@ -18,13 +19,19 @@ export const Catalog = () => {
       plusPageSize,
    } = useSelector((state) => state.category)
 
+   const [cateSort, setCateSort] = useState(false)
    const dispatch = useDispatch()
    const category = useParams()
 
    const categoryName = {
-      Phone: 'Cмартфоны и Планшеты',
+      Phone: 'Cмартфоны',
       Laptop: 'Ноутбуки',
       'Smart Watch': 'Смарт-часы и браслеты',
+      Tablet: 'Планшеты',
+   }
+
+   const openSort = () => {
+      setCateSort((prev) => !prev)
    }
 
    const deleteCancel = (id) => {
@@ -75,9 +82,12 @@ export const Catalog = () => {
                            )
                         })}
                      </FilterContainerTitle>
-                     <Sorting>
-                        Сортировать <ArrowIconStyled />
-                     </Sorting>
+                     <PositionContainer>
+                        <Sorting>
+                           Сортировать <ArrowIconStyled onClick={openSort} />
+                        </Sorting>
+                        {cateSort && <Sort openSort={cateSort} />}
+                     </PositionContainer>
                   </SortingContainer>
                </ToolContainer>
 
@@ -120,6 +130,13 @@ export const Catalog = () => {
    )
 }
 
+const Conteiner = styled('div')`
+   width: 100%;
+   display: flex;
+   justify-content: center;
+   margin-bottom: 7.5rem;
+`
+
 const ButtonStyled = styled(Button)`
    margin-top: 3.7037vh;
 `
@@ -128,12 +145,6 @@ const SecondProductsContainer = styled('div')`
    display: flex;
    align-items: center;
    flex-direction: column;
-`
-
-const Conteiner = styled('div')`
-   width: 100%;
-   display: flex;
-   justify-content: center;
 `
 
 const ButtonContainer = styled('div')`
@@ -221,6 +232,11 @@ const CancelStyled = styled(Cancel)`
    path {
       fill: #292929;
    }
+`
+const PositionContainer = styled('div')`
+   display: flex;
+   flex-direction: column;
+   position: relative;
 `
 
 const Sorting = styled('div')`

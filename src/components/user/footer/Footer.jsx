@@ -10,9 +10,8 @@ export const Footer = () => {
                <NavList>
                   <span>Каталог</span>
                   <Gadget>
-                     <NavLink to="/category/Phone">
-                        Смартфоны и Планшеты
-                     </NavLink>
+                     <NavLink to="/category/Phone">Смартфоны</NavLink>
+                     <NavLink to="/category/Tablet">Планшеты</NavLink>
                      <NavLink to="/category/Laptop">Ноутбуки</NavLink>
                      <NavLink to="/category/Smart Watch">
                         Смарт-часы и браслеты

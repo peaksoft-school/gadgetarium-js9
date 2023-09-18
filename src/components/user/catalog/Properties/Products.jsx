@@ -20,9 +20,21 @@ export const Products = () => {
       simPhoneArray,
       processorArray,
       screenArray,
+      videoMemoryArray,
       puprosesArray,
       screenSizeArray,
+      itemsColorsId,
+      iunterfacesArray,
+      shapesArray,
+      materialBraceletsArray,
+      materialHousingArray,
+      floorArray,
+      waterProofArray,
+      displayDiagonalArray,
+      interfacesArray,
+      tabletBatteryCapacityArray,
    } = useSelector((state) => state.category)
+
    const category = useParams()
    const dispatch = useDispatch()
 
@@ -41,6 +53,16 @@ export const Products = () => {
          screenArray,
          puprosesArray,
          screenSizeArray,
+         itemsColorsId,
+         interfacesArray,
+         shapesArray,
+         materialBraceletsArray,
+         materialHousingArray,
+         floorArray,
+         waterProofArray,
+         displayDiagonalArray,
+         videoMemoryArray,
+         tabletBatteryCapacityArray,
       }
       dispatch(sendSelectedCategories(dataCategory))
    }, [
@@ -56,12 +78,23 @@ export const Products = () => {
       screenArray,
       puprosesArray,
       screenSizeArray,
+      itemsColorsId,
+      iunterfacesArray,
+      shapesArray,
+      materialBraceletsArray,
+      materialHousingArray,
+      floorArray,
+      waterProofArray,
+      displayDiagonalArray,
+      interfacesArray,
+      videoMemoryArray,
+      tabletBatteryCapacityArray,
    ])
 
    return (
       <Container>
-         {filteredProducts?.map((product) =>
-            isLoading ? (
+         {filteredProducts?.map((product) => {
+            return isLoading ? (
                <CardStyled key={product.id} />
             ) : (
                <ProductCardStyled
@@ -70,7 +103,7 @@ export const Products = () => {
                   {...product}
                />
             )
-         )}
+         })}
          {filteredProducts.length === 0 && (
             <Warnings>
                Извините, на данный момент товаров нет в наличии. Мы работаем над

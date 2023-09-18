@@ -129,6 +129,14 @@ export const screenResolutionLaptop = [
    { title: '3840x2160', id: 10, checked: false },
 ]
 
+export const laptopVideoMemory = [
+   { title: 2, id: 1, checked: false },
+   { title: 4, id: 2, checked: false },
+   { title: 6, id: 3, checked: false },
+   { title: 8, id: 4, checked: false },
+   { title: 16, id: 5, checked: false },
+]
+
 export const laptopPuproses = [
    { title: 'Для работы', id: 1, checked: false },
    { title: 'Мультимедийный', id: 2, checked: false },
@@ -182,3 +190,40 @@ export const watchMaterialHousing = [
    { title: 'Нержавейщая сталь', id: 6, checked: false },
    { title: 'Стекло', id: 7, checked: false },
 ]
+
+export const watchFloor = [
+   { title: 'Унисекс ', id: 1, checked: false },
+   { title: 'Женский', id: 2, checked: false },
+   { title: 'Мужской', id: 3, checked: false },
+]
+
+export const watchWaterProof = [
+   { title: 'Да ', id: 1, checked: false },
+   { title: 'Нет', id: 2, checked: false },
+]
+
+export const watchDisplayDiagonal = [
+   { title: '1.2', id: 1, checked: false },
+   { title: '1.22', id: 2, checked: false },
+   { title: '13', id: 3, checked: false },
+   { title: '1.4', id: 4, checked: false },
+   { title: '1.41', id: 5, checked: false },
+   { title: '1.44', id: 6, checked: false },
+   { title: '1.54', id: 7, checked: false },
+]
+
+export const tabletBatteryCapacity = [
+   { title: '0 – 2399 мА/час', id: 1, checked: false },
+   { title: '2400 – 4799 мА/час', id: 2, checked: false },
+   { title: '4800 – 7199 мА/час', id: 3, checked: false },
+   { title: '7200 – 9599 мА/ч', id: 4, checked: false },
+   { title: '9600 – 12000 мА/ч', id: 5, checked: false },
+]
+
+// export const SortProducts = [
+//    { title: 'Новинки', id: 1, checked: false },
+//    { title: 'По акции', id: 2, checked: false },
+//    { title: 'Рекомендуемые', id: 3, checked: false },
+//    { title: 'По увеличению цены', id: 4, checked: false },
+//    { title: 'По уменьшению цены', id: 5, checked: false },
+// ]
