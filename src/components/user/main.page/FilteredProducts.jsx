@@ -22,8 +22,6 @@ export const FilteredProducts = ({ children, array }) => {
    const { stock, novelties, recommend, isLoading } = useSelector(
       (state) => state.mainPage
    )
-   const { isLoadingFavorite } = useSelector((state) => state.favorite)
-   const { isLoadingComparison } = useSelector((state) => state.compare)
    const [pageSize, setPageSize] = useState(5)
    const [visibleProducts, setVisibleProducts] = useState([])
    const dispatch = useDispatch()
@@ -40,8 +38,8 @@ export const FilteredProducts = ({ children, array }) => {
          default:
             action = getStock
       }
-      dispatch(action({ page: 1, pageSize }))
-   }, [pageSize])
+      dispatch(action({ page: 1, pageSize: 100 }))
+   }, [])
 
    useEffect(() => {
       let visible
@@ -58,7 +56,10 @@ export const FilteredProducts = ({ children, array }) => {
    }, [stock, novelties, recommend, pageSize, array])
 
    const renderProductCards = (productArray) => {
-      return productArray?.map((el) => {
+      return productArray?.map((el, index) => {
+         if (index > pageSize - 1) {
+            return null
+         }
          return (
             <ProductCard
                id={el.subProductId}
@@ -73,6 +74,7 @@ export const FilteredProducts = ({ children, array }) => {
                favoriteState={el.favorite}
                comparisonState={el.comparison}
                pageSize={pageSize}
+               basketState={el.inBasket}
                newState={array === 'novelties'}
                recomendationState={array === 'recommend'}
             />
@@ -81,12 +83,7 @@ export const FilteredProducts = ({ children, array }) => {
    }
 
    const renderNoGoods = (productArray) => {
-      if (
-         !isLoading &&
-         !isLoadingComparison &&
-         !isLoadingFavorite &&
-         productArray.length === 0
-      ) {
+      if (!isLoading && productArray.length === 0) {
          return <NoGoods>Здесь нет товаров</NoGoods>
       }
       return null
@@ -115,15 +112,31 @@ export const FilteredProducts = ({ children, array }) => {
          visibleProducts.length >= 5 && visibleProducts.length >= pageSize
 
       return (
-         <Button
-            padding="0.78240740vh 4.983073vw"
-            variant="outlined"
-            backgroundhover="#CB11AB"
-            backgroundactive="#E313BF"
-            onClick={showMore ? showMoreHandler : hideHandler}
-         >
-            {showMore ? 'Показать ещё' : 'Скрыть'}
-         </Button>
+         <>
+            {showMore && (
+               <Button
+                  padding="0.78240740vh 4.983073vw"
+                  variant="outlined"
+                  backgroundhover="#CB11AB"
+                  backgroundactive="#E313BF"
+                  onClick={showMoreHandler}
+               >
+                  Показать ещё
+               </Button>
+            )}
+
+            {pageSize > 5 && (
+               <Button
+                  padding="0.78240740vh 4.983073vw"
+                  variant="outlined"
+                  backgroundhover="#CB11AB"
+                  backgroundactive="#E313BF"
+                  onClick={hideHandler}
+               >
+                  Скрыть
+               </Button>
+            )}
+         </>
       )
    }
 
@@ -131,11 +144,10 @@ export const FilteredProducts = ({ children, array }) => {
       <Container>
          <Title>{children}</Title>
          <Products>
-            {renderProductCards(visibleProducts)}
+            {!isLoading && renderProductCards(visibleProducts)}
             {renderNoGoods(visibleProducts)}
-            {isLoading || isLoadingComparison || isLoadingFavorite
-               ? arrayForSkeleton.map((el) => <CardPhone key={el.id} />)
-               : null}
+            {isLoading &&
+               arrayForSkeleton.map((el) => <CardPhone key={el.id} />)}
          </Products>
          <ButtonContainer>{renderButton()}</ButtonContainer>
       </Container>
@@ -149,6 +161,7 @@ const ButtonContainer = styled('div')`
    width: 100%;
    display: flex;
    justify-content: center;
+   gap: 1rem;
    margin-top: 2.5rem;
 `
 const NoGoods = styled('p')`

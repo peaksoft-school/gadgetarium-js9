@@ -16,22 +16,17 @@ import {
 import { Loading } from '../../UI/loading/Loading'
 import ForthButton from '../../UI/icon.button/back.forth.buttons/ForthButton'
 import BackButton from '../../UI/icon.button/back.forth.buttons/BackButton'
-
+import { categoryMappings } from '../../../utils/common/constants/compare.constants'
 import { useSnackbar } from '../../../hooks/useSnackbar'
 import sammyFinance from '../../../assets/images/sammy-finance-image.png'
-import { categoryMappings } from '../../../utils/common/constants/compare.constants'
 import { useCustomSearchParams } from '../../../hooks/useCustomSearchParams'
 
 export const Compare = () => {
-   const {
-      products,
-      isLoadingComparison,
-      countProducts,
-      productName,
-      deleteAll,
-   } = useSelector((state) => state.compare)
+   const { products, isLoadingComparison, countProducts, deleteAll } =
+      useSelector((state) => state.compare)
    const { snackbarHandler } = useSnackbar()
    const [startPosition, setStartPosition] = useState(0)
+   const [productName, setProductName] = useState('Laptop')
    const [openLeftButton, setOpenLeftButton] = useState({
       open: false,
       count: 0,
@@ -40,17 +35,8 @@ export const Compare = () => {
    const { setParam } = useCustomSearchParams()
    const dispatch = useDispatch()
    const navigate = useNavigate()
-   const changeProductNameToLaptop = () => {
-      dispatch(compareActions.getProductNameHandler('Laptop'))
-   }
-   const changeProductNameToSmartphone = () => {
-      dispatch(compareActions.getProductNameHandler('Phone'))
-   }
-   const changeProductNameToSmartWatch = () => {
-      dispatch(compareActions.getProductNameHandler('Smart Watch'))
-   }
-   const changeProductNameToTablet = () => {
-      dispatch(compareActions.getProductNameHandler('Tablet'))
+   const changeProductName = (value) => {
+      setProductName(value)
    }
    const toggleIsChecked = () => {
       setIsChecked(!isChecked)
@@ -102,11 +88,7 @@ export const Compare = () => {
    }, [])
    useEffect(() => {
       if (countProducts?.length > 0) {
-         dispatch(
-            compareActions.getProductNameHandler(
-               countProducts[0]?.categoryTitle
-            )
-         )
+         setProductName(countProducts[0]?.categoryTitle)
          setParam('productName', countProducts[0]?.categoryTitle)
       }
    }, [countProducts.length])
@@ -154,22 +136,7 @@ export const Compare = () => {
                               prodname: productName,
                               key: el.categoryTitle,
                               onClick: () => {
-                                 switch (el.categoryTitle) {
-                                    case 'Phone':
-                                       changeProductNameToSmartphone()
-                                       break
-                                    case 'Tablet':
-                                       changeProductNameToTablet()
-                                       break
-                                    case 'Laptop':
-                                       changeProductNameToLaptop()
-                                       break
-                                    case 'Smart Watch':
-                                       changeProductNameToSmartWatch()
-                                       break
-                                    default:
-                                       break
-                                 }
+                                 changeProductName(el.categoryTitle)
                               },
                            }
 
@@ -329,28 +296,12 @@ const WidthContainer = styled('div')`
 `
 const Products = styled('div')`
    display: flex;
-   gap: 1.563vw;
+   gap: 1.5vw;
    margin-top: 34px;
    width: 100%;
-   justify-content: flex-end;
+   justify-content: ${(props) => (props.array > 6 ? 'flex-end' : 'none')};
    position: relative;
-   padding-left: 9.896vw;
-   margin-right: ${(props) => {
-      switch (props.array) {
-         case 1:
-            return '128.5vw'
-         case 2:
-            return '102.3vw'
-         case 3:
-            return '76.8vw'
-         case 4:
-            return '50.3vw'
-         case 5:
-            return '24.5vw'
-         default:
-            return '0'
-      }
-   }};
+   padding-left: 23.232vw;
 `
 const SecondWidthContainer = styled('div')`
    width: 79.688vw;

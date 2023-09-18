@@ -6,24 +6,24 @@ import { WatchAdvancedOptions } from '../../components/admin/addingAProduct/part
 export const filterResComponent = (value, errorCategory) => {
    let resComponent
 
-   switch (value.category) {
-      case 'Смартфоны':
+   switch (value.categoryId) {
+      case 1:
          resComponent = (
             <SmartphoneAdvancedOptions errorCategory={errorCategory} />
          )
 
          return resComponent
-      case 'Смарт-часы и браслеты':
+      case 3:
          resComponent = <WatchAdvancedOptions errorCategory={errorCategory} />
 
          return resComponent
 
-      case 'Ноутбуки':
+      case 2:
          resComponent = <NotebooksOptions errorCategory={errorCategory} />
 
          return resComponent
 
-      case 'Планшеты':
+      case 4:
          resComponent = <TabletsOptions errorCategory={errorCategory} />
 
          return resComponent
