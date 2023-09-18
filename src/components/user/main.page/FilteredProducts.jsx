@@ -9,9 +9,8 @@ import {
 import { ProductCard } from '../product.card/ProductCard'
 import { Button } from '../../UI/Button'
 import { CardPhone } from '../card/CardPhone'
-import { Loading } from '../../UI/loading/Loading'
 
-const arrayForSceleton = [
+const arrayForSkeleton = [
    { id: 1, name: 'firstCard' },
    { id: 2, name: 'secondCard' },
    { id: 3, name: 'thirdCard' },
@@ -23,140 +22,138 @@ export const FilteredProducts = ({ children, array }) => {
    const { stock, novelties, recommend, isLoading } = useSelector(
       (state) => state.mainPage
    )
-   const [stockPageSize, setStockPageSize] = useState(5)
-   const [noveltiesPageSize, setNoveltiesPageSize] = useState(5)
-   const [recommendPageSize, setRecommendPageSize] = useState(5)
-
+   const [pageSize, setPageSize] = useState(5)
+   const [visibleProducts, setVisibleProducts] = useState([])
    const dispatch = useDispatch()
 
-   const showMoreHandler = () => {
+   useEffect(() => {
+      let action
       switch (array) {
          case 'novelties':
-            setNoveltiesPageSize(noveltiesPageSize + 5)
-            dispatch(getNovelities({ page: 1, pageSize: noveltiesPageSize }))
+            action = getNovelities
             break
          case 'recommend':
-            setRecommendPageSize(recommendPageSize + 5)
-            dispatch(getRecommend({ page: 1, pageSize: recommendPageSize }))
+            action = getRecommend
             break
          default:
-            setStockPageSize(stockPageSize + 5)
-            dispatch(getStock({ page: 1, pageSize: stockPageSize }))
+            action = getStock
+      }
+      dispatch(action({ page: 1, pageSize: 100 }))
+   }, [])
+
+   useEffect(() => {
+      let visible
+      if (array === 'stock') {
+         visible = stock
+      }
+      if (array === 'novelties') {
+         visible = novelties
+      }
+      if (array === 'recommend') {
+         visible = recommend
+      }
+      setVisibleProducts(visible.slice(0, pageSize))
+   }, [stock, novelties, recommend, pageSize, array])
+
+   const renderProductCards = (productArray) => {
+      return productArray?.map((el, index) => {
+         if (index > pageSize - 1) {
+            return null
+         }
+         return (
+            <ProductCard
+               id={el.subProductId}
+               key={el.subProductId}
+               discount={el.discount}
+               prodName={el.prodName}
+               image={el.image}
+               quantity={el.quantity}
+               countOfReviews={el.countOfReviews}
+               price={el.price}
+               rating={el.rating}
+               favoriteState={el.favorite}
+               comparisonState={el.comparison}
+               pageSize={pageSize}
+               basketState={el.inBasket}
+               newState={array === 'novelties'}
+               recomendationState={array === 'recommend'}
+            />
+         )
+      })
+   }
+
+   const renderNoGoods = (productArray) => {
+      if (!isLoading && productArray.length === 0) {
+         return <NoGoods>Здесь нет товаров</NoGoods>
+      }
+      return null
+   }
+   const updatePageSize = (action) => {
+      if (action === 'increase') {
+         setPageSize(pageSize + 5)
+      } else if (action === 'decrease') {
+         setPageSize(pageSize - 5)
       }
    }
-   useEffect(() => {
-      switch (array) {
-         case 'novelties':
-            dispatch(getNovelities({ page: 1, pageSize: noveltiesPageSize }))
-            break
-         case 'recommend':
-            dispatch(getRecommend({ page: 1, pageSize: recommendPageSize }))
-            break
-         default:
-            dispatch(getStock({ page: 1, pageSize: stockPageSize }))
+
+   const showMoreHandler = () => {
+      updatePageSize('increase')
+   }
+
+   const hideHandler = () => {
+      updatePageSize('decrease')
+   }
+
+   const renderButton = () => {
+      if (visibleProducts.length < 5) {
+         return null
       }
-   }, [])
+      const showMore =
+         visibleProducts.length >= 5 && visibleProducts.length >= pageSize
+
+      return (
+         <>
+            {showMore && (
+               <Button
+                  padding="0.78240740vh 4.983073vw"
+                  variant="outlined"
+                  backgroundhover="#CB11AB"
+                  backgroundactive="#E313BF"
+                  onClick={showMoreHandler}
+               >
+                  Показать ещё
+               </Button>
+            )}
+
+            {pageSize > 5 && (
+               <Button
+                  padding="0.78240740vh 4.983073vw"
+                  variant="outlined"
+                  backgroundhover="#CB11AB"
+                  backgroundactive="#E313BF"
+                  onClick={hideHandler}
+               >
+                  Скрыть
+               </Button>
+            )}
+         </>
+      )
+   }
+
    return (
       <Container>
          <Title>{children}</Title>
          <Products>
-            {isLoading && <Loading />}
-            {array === 'stock' &&
-               stock.map((el) => (
-                  <ProductCard
-                     id={el.subProductId}
-                     key={el.subProductId}
-                     discount={el.discount}
-                     prodName={el.prodName}
-                     image={el.image}
-                     quantity={el.quantity}
-                     countOfReviews={el.countOfReviews}
-                     price={el.price}
-                     rating={el.rating}
-                  />
-               ))}
-            {array === 'stock' && !isLoading && stock.length === 0 && (
-               <NoGoods>Здесь нет товаров</NoGoods>
-            )}
-            {array === 'novelties' && !isLoading && novelties.length === 0 && (
-               <NoGoods>Здесь нет товаров</NoGoods>
-            )}
-            {array === 'recommend' && !isLoading && recommend.length === 0 && (
-               <NoGoods>Здесь нет товаров</NoGoods>
-            )}
-            {array === 'novelties' &&
-               novelties.map((el) => (
-                  <ProductCard
-                     id={el.subProductId}
-                     key={el.subProductId}
-                     discount={el.discount}
-                     prodName={el.prodName}
-                     image={el.image}
-                     quantity={el.quantity}
-                     countOfReviews={el.countOfReviews}
-                     price={el.price}
-                     rating={el.rating}
-                  />
-               ))}
-
-            {array === 'recommend' &&
-               recommend.map((el) => (
-                  <ProductCard
-                     id={el.subProductId}
-                     key={el.subProductId}
-                     discount={el.discount}
-                     prodName={el.prodName}
-                     image={el.image}
-                     quantity={el.quantity}
-                     countOfReviews={el.countOfReviews}
-                     price={el.price}
-                     rating={el.rating}
-                  />
-               ))}
-            {isLoading
-               ? arrayForSceleton.map((el) => {
-                    return <CardPhone key={el.id} />
-                 })
-               : null}
+            {!isLoading && renderProductCards(visibleProducts)}
+            {renderNoGoods(visibleProducts)}
+            {isLoading &&
+               arrayForSkeleton.map((el) => <CardPhone key={el.id} />)}
          </Products>
-         <ButtonContainer>
-            {array === 'stock' && stock?.length >= 5 && (
-               <Button
-                  padding="0.78240740vh 4.983073vw"
-                  variant="outlined"
-                  backgroundHover="#CB11AB"
-                  backgroundActive="#E313BF"
-                  onClick={showMoreHandler}
-               >
-                  Показать ещё
-               </Button>
-            )}
-            {array === 'novelties' && novelties?.length >= 5 && (
-               <Button
-                  padding="0.78240740vh 4.983073vw"
-                  variant="outlined"
-                  backgroundHover="#CB11AB"
-                  backgroundActive="#E313BF"
-                  onClick={showMoreHandler}
-               >
-                  Показать ещё
-               </Button>
-            )}
-            {array === 'recommend' && recommend?.length >= 5 && (
-               <Button
-                  padding="0.78240740vh 4.983073vw"
-                  variant="outlined"
-                  backgroundHover="#CB11AB"
-                  backgroundActive="#E313BF"
-                  onClick={showMoreHandler}
-               >
-                  Показать ещё
-               </Button>
-            )}
-         </ButtonContainer>
+         <ButtonContainer>{renderButton()}</ButtonContainer>
       </Container>
    )
 }
+
 const Container = styled('div')`
    margin-top: 11.111111vh;
 `
@@ -164,6 +161,7 @@ const ButtonContainer = styled('div')`
    width: 100%;
    display: flex;
    justify-content: center;
+   gap: 1rem;
    margin-top: 2.5rem;
 `
 const NoGoods = styled('p')`

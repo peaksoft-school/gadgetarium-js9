@@ -1,33 +1,34 @@
 import { IconButton, InputAdornment, TextField, styled } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { ReactComponent as PaintIcon } from '../../../../assets/icons/paint.svg'
 import { bgColor } from '../../../../utils/common/constants/constantsAdminAddNewProduct'
+import { ReactComponent as PaintIcon } from '../../../../assets/icons/paint.svg'
 
-export const InputColorPalette = ({ productColor, stateColor }) => {
+export const InputColorPalette = ({ productColor, stateColor, error }) => {
    const [showColor, setShowColor] = useState(false)
    const [color, setColor] = useState(stateColor)
 
    useEffect(() => {
       if (stateColor === '') {
          setColor('')
+      } else {
+         setColor(stateColor)
       }
-
-      setColor(stateColor)
    }, [stateColor])
 
    const onChangeColorHandler = (e) => {
-      setColor(e.target.value)
+      const newColor = e.target.value
 
-      productColor(color)
+      setColor(newColor)
+      productColor(newColor)
    }
 
    const onShowPalette = () => {
       setShowColor((prev) => !prev)
    }
 
-   const onHandleColorClick = (color) => {
-      productColor(color)
-      setColor(color)
+   const onHandleColorClick = (newColor) => {
+      productColor(newColor)
+      setColor(newColor)
       setShowColor((prev) => !prev)
    }
 
@@ -36,10 +37,10 @@ export const InputColorPalette = ({ productColor, stateColor }) => {
          <div>
             <BoxLabel>
                <p>Основной цвет</p>
-
                <InputUI
                   placeholder="Основной цвет"
                   value={color}
+                  error={error}
                   onChange={onChangeColorHandler}
                   InputProps={{
                      endAdornment: (

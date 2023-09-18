@@ -19,7 +19,7 @@ export const injectStoreFile = (_store) => {
 
 axiosFileInstance.interceptors.request.use((config) => {
    const updatedConfig = { ...config }
-   const token = store.getState().login.accessToken
+   const { token } = store.getState().auth
 
    if (token) {
       updatedConfig.headers.Authorization = `Bearer ${token}`

@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { signIn, signUp, signUpPhoneNumber } from '../../api/authServise'
+import { signIn, signUp, signUpPhoneNumber } from '../../api/auth.service'
 import {
    NUMBER_IMG,
    LOGIN_USER_KEY,
@@ -7,13 +7,22 @@ import {
 
 export const signInRequest = createAsyncThunk(
    'auth/signIn',
-   async (data, { rejectWithValue }) => {
+   async ({ data, snackbarHandler }, { rejectWithValue }) => {
       try {
          const response = await signIn(data)
-
          localStorage.setItem(LOGIN_USER_KEY, JSON.stringify(response.data))
+
+         snackbarHandler({
+            message: 'Вход успешно выполнен',
+            type: 'success',
+         })
          return response.data
       } catch (error) {
+         snackbarHandler({
+            message:
+               'Неправильный email или пароль. Пожалуйста, попробуйте еще раз.',
+            type: 'error',
+         })
          return rejectWithValue(error)
       }
    }

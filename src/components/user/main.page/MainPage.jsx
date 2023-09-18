@@ -1,9 +1,10 @@
+import React from 'react'
 import { styled } from '@mui/material'
 import { BannerCarousel } from './Banner'
 import { FilteredProducts } from './FilteredProducts'
 import { arrayForTools } from '../../../utils/common/constants/constants'
 
-export const MainPage = () => {
+export const MainPage = React.memo(() => {
    return (
       <Container>
          <BannerCarousel />
@@ -30,7 +31,9 @@ export const MainPage = () => {
          </ToolsContainer>
       </Container>
    )
-}
+})
+MainPage.displayName = 'MainPage'
+
 const Container = styled('div')`
    display: flex;
    flex-direction: column;

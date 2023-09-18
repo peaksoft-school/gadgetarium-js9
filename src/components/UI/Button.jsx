@@ -3,12 +3,7 @@ import { Button as ButtonMui, styled } from '@mui/material'
 
 export const Button = ({ children, onClick, variant, type, ...props }) => {
    return (
-      <StyledButton
-         type={type}
-         onClick={onClick}
-         props={props}
-         variant={variant}
-      >
+      <StyledButton type={type} onClick={onClick} variant={variant} {...props}>
          {children}
       </StyledButton>
    )
@@ -30,7 +25,7 @@ const StyledButton = styled(ButtonMui)(({ variant, ...props }) => {
                justifyContent: 'center',
                alignItems: 'center',
                gap: '6px',
-               borderRadius: props.borderRadius || '4px',
+               borderRadius: props.borderradius || '4px',
                lineHeight: 'normal',
 
                '&:hover': {
@@ -46,7 +41,7 @@ const StyledButton = styled(ButtonMui)(({ variant, ...props }) => {
          return {
             '&.MuiButtonBase-root': {
                padding: props.padding,
-               fontSize: props.fontSize,
+               fontSize: props.fontsize,
                display: 'flex',
                justifyContent: 'center',
                alignItems: 'center',
@@ -54,7 +49,7 @@ const StyledButton = styled(ButtonMui)(({ variant, ...props }) => {
                textTransform: props.texttransform || 'none',
                fontFamily: 'Inter',
                color: '#CB11AB',
-               backgroundColor: props.backgroundColor,
+               backgroundColor: props.backgroundcolor,
 
                '&:hover': {
                   background: props.backgroundhover,

@@ -1,14 +1,17 @@
-import { Rating, styled } from '@mui/material'
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { Rating, styled } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 import { ReactComponent as Comparison } from '../../../assets/icons/comparison-icon.svg'
 import { ReactComponent as Favourite } from '../../../assets/icons/favourites-icon.svg'
 import { ReactComponent as BasketIcon } from '../../../assets/icons/basket-icon.svg'
 import { ReactComponent as Recommendation } from '../../../assets/icons/recommendation.svg'
 import { ReactComponent as FilledFavoriteIcon } from '../../../assets/icons/filled-favorite-icon.svg'
 import { Button } from '../../UI/Button'
+import { postFavoriteItem } from '../../../store/favorite/favorite.thunk'
 import { postBasketById } from '../../../store/basket/basket.thunk'
-import { useSnackbar } from '../../../hooks/useSnackbar'
+import { AuthorizationModal } from '../AuthorizationModal'
+import { postCompareProduct } from '../../../store/compare/compare.thunk'
 
 export const ProductCard = ({
    recomendationState = false,
@@ -20,56 +23,66 @@ export const ProductCard = ({
    rating = 1,
    discount = 20,
    countOfReviews = 56,
+   favoriteState,
+   comparisonState,
+   basketState,
+   pageSize,
    id = '1',
    ...props
 }) => {
-   const [favorite, setFavorite] = useState(false)
-   const [comparison, setComparison] = useState(false)
+   const { isAuthorization } = useSelector((state) => state.auth)
+
+   const [openModal, setOpenModal] = useState(false)
    const dispatch = useDispatch()
-   const { snackbarHandler } = useSnackbar()
+   const navigate = useNavigate()
    const discountPrice = price - (price * discount) / 100
-   const toggleFavoriteHandler = () => {
-      setFavorite(!favorite)
+   const toggleFavoriteHandler = async () => {
+      if (isAuthorization) {
+         dispatch(
+            postFavoriteItem({
+               id,
+               favoriteState,
+               pageSize,
+            })
+         )
+      } else {
+         setOpenModal(!openModal)
+      }
    }
    const toggleComparisonHandler = () => {
-      setComparison(!comparison)
-      //  Сашка потом сам сделает сравнение
-      //    dispatch(postComparisonItem(id)).then(() => {
-      //       dispatch(getComparisonItems())
-      //       if (favorite) {
-      //          snackbarHandler({
-      //             message: 'Товар удален из сравнения',
-      //          })
-      //       } else {
-      //          snackbarHandler({
-      //             message: 'Товар добавлен в сравнения',
-      //             linkText: 'Перейти в избранное ',
-      //             path: '/favorite',
-      //          })
-      //       }
-      //    })
+      if (isAuthorization) {
+         dispatch(
+            postCompareProduct({
+               id,
+               addOrDelete: !comparisonState,
+               pageSize,
+            })
+         )
+      } else {
+         setOpenModal(!openModal)
+      }
    }
    const cardHandler = (id) => {
       console.log(id)
    }
    const postProductToBasket = async () => {
-      dispatch(postBasketById(id))
-         .then(() => {
-            snackbarHandler({
-               message: 'Товар успешно добавлен в корзину',
-               linkText: 'Перейти в корзину',
-               path: '/basket',
-            })
-         })
-         .catch(() => {
-            snackbarHandler({
-               message: 'Товар не добавлен в корзину',
-               type: 'error',
-            })
-         })
+      if (isAuthorization) {
+         dispatch(postBasketById({ id, needSnackbar: true, pageSize: 100 }))
+      } else {
+         setOpenModal(!openModal)
+      }
+   }
+   const toggleHandler = () => {
+      setOpenModal(!openModal)
    }
    return (
-      <Card key={id} onClick={() => cardHandler(id)} {...props}>
+      <Card onClick={() => cardHandler(id)} {...props}>
+         {openModal && (
+            <AuthorizationModal
+               openModal={openModal}
+               toggleHandler={toggleHandler}
+            />
+         )}
          <ButtonContainer>
             <CircleContainer>
                {discount === 0 &&
@@ -86,10 +99,10 @@ export const ProductCard = ({
 
             <IconContainer>
                <StyledComparison
-                  comparison={comparison ? 'true' : 'false'}
+                  comparison={comparisonState ? 'true' : 'false'}
                   onClick={toggleComparisonHandler}
                />
-               {favorite ? (
+               {favoriteState ? (
                   <StyledFilledFavoriteIcon onClick={toggleFavoriteHandler} />
                ) : (
                   <StyledFavourite onClick={toggleFavoriteHandler} />
@@ -122,15 +135,27 @@ export const ProductCard = ({
                      </DiscountPrice>
                   )}
                </PriceContainer>
-               <Button
-                  padding="1.1111vh 0.99vw"
-                  variant="contained"
-                  texttransform="uppercase"
-                  fontSize="0.73vw"
-                  onClick={postProductToBasket}
-               >
-                  <StyledBasketIcon /> В корзину
-               </Button>
+               {basketState ? (
+                  <StyledButton
+                     padding="1.1111vh 0.99vw"
+                     variant="contained"
+                     texttransform="uppercase"
+                     fontSize="0.73vw"
+                     onClick={() => navigate('/basket')}
+                  >
+                     <StyledBasketIcon /> В корзинe
+                  </StyledButton>
+               ) : (
+                  <Button
+                     padding="1.1111vh 0.99vw"
+                     variant="contained"
+                     texttransform="uppercase"
+                     fontSize="0.73vw"
+                     onClick={postProductToBasket}
+                  >
+                     <StyledBasketIcon /> В корзину
+                  </Button>
+               )}
             </ButtonContainerTwo>
          </Container>
       </Card>
@@ -149,6 +174,15 @@ const StyledFilledFavoriteIcon = styled(FilledFavoriteIcon)`
    height: 1.25vw;
    cursor: pointer;
 `
+const StyledButton = styled(Button)`
+   background: #2fc509;
+   :hover {
+      background: #2fc509;
+   }
+   :active {
+      background: #2fc509;
+   }
+`
 const Card = styled('div')`
    background-color: white;
    user-select: none;
@@ -165,6 +199,7 @@ const Card = styled('div')`
       box-shadow: 0px 8px 25px 0px rgba(0, 0, 0, 0.1),
          0px -8px 25px 0px rgba(0, 0, 0, 0.1);
    }
+   background: white;
 `
 const RatingContainer = styled('div')`
    display: flex;

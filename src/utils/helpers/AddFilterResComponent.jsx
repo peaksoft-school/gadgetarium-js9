@@ -1,31 +1,30 @@
-import { NotebooksOptions } from '../../components/admin/addingAProduct/advancedOptions/NotebooksOptions'
-import { SmartphoneAdvancedOptions } from '../../components/admin/addingAProduct/advancedOptions/SmartphoneAdvancedOptions'
-import { TabletsOptions } from '../../components/admin/addingAProduct/advancedOptions/TabletsOptions'
-import { WatchAdvancedOptions } from '../../components/admin/addingAProduct/advancedOptions/WatchAdvancedOptions'
+import { NotebooksOptions } from '../../components/admin/addingAProduct/partOne/advancedOptions/NotebooksOptions'
+import { SmartphoneAdvancedOptions } from '../../components/admin/addingAProduct/partOne/advancedOptions/SmartphoneAdvancedOptions'
+import { TabletsOptions } from '../../components/admin/addingAProduct/partOne/advancedOptions/TabletsOptions'
+import { WatchAdvancedOptions } from '../../components/admin/addingAProduct/partOne/advancedOptions/WatchAdvancedOptions'
 
-export const filterResComponent = (value) => {
+export const filterResComponent = (value, errorCategory) => {
    let resComponent
 
-   // eslint-disable-next-line no-debugger
-   // debugger
-
-   switch (value.category) {
-      case 'Смартфоны':
-         resComponent = <SmartphoneAdvancedOptions />
-
-         return resComponent
-      case 'Смарт-часы и браслеты':
-         resComponent = <WatchAdvancedOptions />
+   switch (value.categoryId) {
+      case 1:
+         resComponent = (
+            <SmartphoneAdvancedOptions errorCategory={errorCategory} />
+         )
 
          return resComponent
-
-      case 'Ноутбуки':
-         resComponent = <NotebooksOptions />
+      case 3:
+         resComponent = <WatchAdvancedOptions errorCategory={errorCategory} />
 
          return resComponent
 
-      case 'Планшеты':
-         resComponent = <TabletsOptions />
+      case 2:
+         resComponent = <NotebooksOptions errorCategory={errorCategory} />
+
+         return resComponent
+
+      case 4:
+         resComponent = <TabletsOptions errorCategory={errorCategory} />
 
          return resComponent
       default:

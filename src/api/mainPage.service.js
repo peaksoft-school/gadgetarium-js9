@@ -15,6 +15,7 @@ export const getRecommendRequest = (page, pageSize) => {
       `/v1/products/recommended?page=${page}&pageSize=${pageSize}`
    )
 }
-export const postBasketByIdRequest = (id) => {
-   return axiosInstance.post(`/v1/basket/${id}`)
+
+export const getBannersRequest = () => {
+   return axiosInstance.get(`/v1/banners`)
 }

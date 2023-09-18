@@ -77,7 +77,7 @@ export function AdminTable({ indexForTable, itemTableArray }) {
             </StyledTableRow>
          </TableHead>
          <TableBody>
-            {itemTableArray.map((item, index) => (
+            {itemTableArray?.map((item, index) => (
                <TableItem
                   key={item.id}
                   tables={tables[indexForTable]}
