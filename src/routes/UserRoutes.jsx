@@ -10,7 +10,8 @@ import { Compare } from '../components/user/compare/Compare'
 import { Catalog } from '../components/user/catalog/Catalog'
 import { PersonalAreaContainer } from '../components/user/personalAreaPage/PersonalAreaContainer'
 import { HistoryDetailContainer } from '../components/user/personalAreaPage/historyPages/HistoryDetailContainer'
-import { ContainerProductId } from '../components/user/productIdPages/Container'
+// import { ContainerProductId } from '../components/user/productIdPages/Container'
+import { PhonePage } from '../components/user/productIdPages/productIdDetail/PhonePage'
 
 export const userRoutes = [
    { path: routes.USER.index, element: <MainPage /> },
@@ -64,7 +65,8 @@ export const userRoutes = [
       path: routes.USER.phones.index,
       element: (
          <div>
-            <ContainerProductId />
+            <PhonePage />
+            {/* <ContainerProductId /> */}
          </div>
       ),
    },

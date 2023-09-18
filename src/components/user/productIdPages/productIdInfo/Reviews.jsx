@@ -68,6 +68,7 @@ export const Reviews = () => {
                            timePublication={formatDate(review.dateOfCreatAd)}
                            reviewId={review.reviewId}
                            canUserEdit={review.my}
+                           adminState
                         />
                      )
                   })}

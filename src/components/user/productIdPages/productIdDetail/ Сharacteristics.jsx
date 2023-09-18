@@ -57,6 +57,7 @@ export const Сharacteristics = () => {
             <Product>
                <Key>
                   <p>Бренд:</p>
+
                   <p>Название:</p>
                   <p>Экран</p>
                   <p>ПЗУ</p>
@@ -82,7 +83,7 @@ export const Сharacteristics = () => {
 }
 const Product = styled('div')`
    display: flex;
-   width: 80%;
+   width: 60%;
    justify-content: space-between;
    margin-top: 0.5rem;
 `

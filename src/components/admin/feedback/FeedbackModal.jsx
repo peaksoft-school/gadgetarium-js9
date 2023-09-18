@@ -37,7 +37,7 @@ const FeedbackModal = ({
                   padding="0.625rem 4.6825rem"
                   type="onSubmit"
                >
-                  {adminReviewState ? 'Сохронить' : 'Добавить'}
+                  {adminReviewState ? 'Сохранить' : 'Добавить'}
                </Button>
             </ButtonContainer>
          </StyledBox>

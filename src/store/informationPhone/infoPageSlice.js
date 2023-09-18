@@ -5,6 +5,7 @@ import {
    getReviwesProduct,
    getSubCatalogRequest,
    putReviesRequest,
+   putReviewsAdminAnswer,
 } from './infoPageThunk'
 
 const initialState = {
@@ -15,6 +16,7 @@ const initialState = {
    subProductColor: '',
    userComment: {},
    updateComment: {},
+   updateAdminComment: {},
 }
 
 export const infoPageSlice = createSlice({
@@ -53,6 +55,9 @@ export const infoPageSlice = createSlice({
       })
       builder.addCase(putReviesRequest.fulfilled, (state, action) => {
          state.updateComment = action.payload
+      })
+      builder.addCase(putReviewsAdminAnswer.fulfilled, (state, action) => {
+         state.updateAdminComment = action.payload
       })
    },
 })

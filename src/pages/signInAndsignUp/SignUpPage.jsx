@@ -48,7 +48,6 @@ export const SignUp = () => {
          dispatch(getPhoneNumber(data)).unwrap()
          navigate('/')
       } catch (error) {
-         console.log('error.response.data.message', error.response.data.message)
          snackbarHandler({
             message: error.response.data.message,
             type: 'error',
@@ -136,17 +135,17 @@ const Title = styled('p')`
    color: #292929;
    text-align: center;
    font-family: Inter;
-   font-size: 28px;
+   font-size: 1.75rem;
    font-style: normal;
    font-weight: 500;
    line-height: normal;
    margin: 0;
-   margin-bottom: 24px;
-   margin-top: 14.5px;
+   margin-bottom: 1.5rem;
+   margin-top: 0.9063rem;
 `
 const ContainerChilde = styled('div')`
    position: absolute;
-   bottom: 30px;
+   bottom: 1.875rem;
 `
 
 const ButtonUi = styled(Button)`
@@ -154,7 +153,7 @@ const ButtonUi = styled(Button)`
    height: 2.9375rem;
    color: #fff;
    font-family: Inter;
-   font-size: 16px;
+   font-size: 1rem;
    text-transform: none;
 `
 const Block = styled('div')`

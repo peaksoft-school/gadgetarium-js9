@@ -23,3 +23,14 @@ export const deleteReviewsProductRequest = (reviewId) => {
 export const putReviewsProductRequest = (data) => {
    return axiosInstance.put('/reviews/update-comment', data)
 }
+
+export const putAdminReviewsRequest = (data) => {
+   return axiosInstance.put('/reviews', data)
+}
+
+export const postBasketCounterProductRequest = (data) => {
+   console.log('data', data)
+   return axiosInstance.post(
+      `/v1/basket/add-sub-products-for-basket?subProductId=${data.subProductId}&quantity=${data.quantity}`
+   )
+}

@@ -4,6 +4,7 @@ import {
    getByIdPhoneRequest,
    getReviwesProductRequest,
    postReviewsProductRequest,
+   putAdminReviewsRequest,
    putReviewsProductRequest,
 } from '../../api/getById.service'
 import {
@@ -95,7 +96,18 @@ export const putReviesRequest = createAsyncThunk(
       try {
          const response = await putReviewsProductRequest(data)
          dispatch(getInfoPage(getPayload))
-         console.log(getPayload, 'putReviesRequest')
+         return response.data
+      } catch (error) {
+         return rejectWithValue(error)
+      }
+   }
+)
+
+export const putReviewsAdminAnswer = createAsyncThunk(
+   'product/putReviewsAdminAnswer',
+   async (data, { rejectWithValue }) => {
+      try {
+         const response = await putAdminReviewsRequest(data)
          return response.data
       } catch (error) {
          return rejectWithValue(error)

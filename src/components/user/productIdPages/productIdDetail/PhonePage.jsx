@@ -1,71 +1,288 @@
-import React, { useEffect } from 'react'
+// import React, { useEffect, useState } from 'react'
+// import { styled } from '@mui/material'
+
+// import { useDispatch, useSelector } from 'react-redux'
+// import { useParams } from 'react-router-dom'
+// import Tabs from '@mui/material/Tabs'
+// import Tab from '@mui/material/Tab'
+// import Typography from '@mui/material/Typography'
+// import Box from '@mui/material/Box'
+// import { getInfoPage } from '../../../../store/informationPhone/infoPageThunk'
+// import { ProductDetails } from '../ProductDetails'
+// import { ContainerProductId } from '../Container'
+
+// function CustomTabPanel(props) {
+//    const { children, value, index, ...other } = props
+
+//    return (
+//       <div
+//          role="tabpanel"
+//          hidden={value !== index}
+//          id={`simple-tabpanel-${index}`}
+//          aria-labelledby={`simple-tab-${index}`}
+//          {...other}
+//       >
+//          {value === index && (
+//             <Box sx={{ p: 3 }}>
+//                <Typography>{children}</Typography>
+//             </Box>
+//          )}
+//       </div>
+//    )
+// }
+
+// function a11yProps(index) {
+//    return {
+//       id: `simple-tab-${index}`,
+//       'aria-controls': `simple-tabpanel-${index}`,
+//    }
+// }
+
+// export const PhonePage = () => {
+//    const { infoPhone, subProductColor } = useSelector((state) => state.product)
+//    const { productId } = useParams()
+//    const dispatch = useDispatch()
+
+//    useEffect(() => {
+//       dispatch(getInfoPage({ productId, colour: subProductColor }))
+//    }, [])
+
+//    const [value, setValue] = useState(0)
+
+//    const handleChange = (event, newValue) => {
+//       setValue(newValue)
+//    }
+
+//    const role = 'ADMIN'
+
+//    return (
+//       <Container>
+//          <BrandNameBlock>
+//             <BrandName>{infoPhone?.brandName?.toUpperCase()}</BrandName>
+//          </BrandNameBlock>
+
+//          {role === 'USER' ? (
+//             <ContainerProductId />
+//          ) : (
+//             <>
+//                <BoxBlock>
+//                   <Tabs
+//                      value={value}
+//                      onChange={handleChange}
+//                      aria-label="basic tabs example"
+//                   >
+//                      <Tab label="Товар" {...a11yProps(0)} />
+//                      <Tab label="Детали товара" {...a11yProps(1)} />
+//                   </Tabs>
+//                </BoxBlock>
+//                <CustomTabPanel value={value} index={0}>
+//                   <ContainerProductId />
+//                </CustomTabPanel>
+//                <CustomTabPanel value={value} index={1}>
+//                   <ProductDetails />
+//                </CustomTabPanel>
+//             </>
+//          )}
+//       </Container>
+//    )
+// }
+
+// const Container = styled('div')`
+//    .MuiBox-root {
+//       padding: 0;
+//    }
+//    .MuiTab-root.Mui-selected {
+//       background-color: #384255;
+//       color: #fff;
+//    }
+//    .MuiTab-root {
+//       height: 2.125rem;
+//       border-radius: 4px;
+//       color: #384255;
+//       min-height: 0;
+//       background-color: #e0e2e7;
+//       padding: 0px 20px 0px 20px;
+//       text-transform: none;
+//    }
+//    .MuiTabs-root {
+//       width: 79.888vw;
+//       min-height: auto;
+//    }
+
+//    .MuiTabs-indicator {
+//       display: none;
+//    }
+
+//    .MuiTabs-flexContainer {
+//       display: flex;
+//       gap: 0.75rem;
+//    }
+// `
+
+// const BrandNameBlock = styled('div')`
+//    display: flex;
+//    justify-content: center;
+//    margin-top: 3rem;
+// `
+
+// const BrandName = styled('h1')`
+//    width: 79.888vw;
+//    color: blue;
+//    font-family: Orbitron;
+//    padding-bottom: 20px;
+//    border-bottom: 1px solid #cdcdcd;
+// `
+
+// const BoxBlock = styled('div')`
+//    display: flex;
+//    justify-content: center;
+// `
+import React, { useEffect, useState } from 'react'
 import { styled } from '@mui/material'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { NavLink, useParams } from 'react-router-dom'
-import { PopUpMain } from '../../UserUI/PopUp/PopUpMain'
-import { PhoneDeital } from './PhoneDeital'
+import { useParams } from 'react-router-dom'
+import Tabs from '@mui/material/Tabs'
+import Tab from '@mui/material/Tab'
+import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box'
 import { getInfoPage } from '../../../../store/informationPhone/infoPageThunk'
+import { ProductDetails } from '../ProductDetails'
+import { ContainerProductId } from '../Container'
+
+function CustomTabPanel(props) {
+   const { children, value, index, ...other } = props
+
+   return (
+      <div
+         role="tabpanel"
+         hidden={value !== index}
+         id={`simple-tabpanel-${index}`}
+         aria-labelledby={`simple-tab-${index}`}
+         {...other}
+      >
+         {value === index && (
+            <Box sx={{ p: 3 }}>
+               <Typography>{children}</Typography>
+            </Box>
+         )}
+      </div>
+   )
+}
+
+function a11yProps(index) {
+   return {
+      id: `simple-tab-${index}`,
+      'aria-controls': `simple-tabpanel-${index}`,
+   }
+}
 
 export const PhonePage = () => {
    const { infoPhone, subProductColor } = useSelector((state) => state.product)
    const { productId } = useParams()
    const dispatch = useDispatch()
 
-   const role = 'USER'
-
    useEffect(() => {
       dispatch(getInfoPage({ productId, colour: subProductColor }))
    }, [])
 
+   const [value, setValue] = useState(0)
+
+   const handleChange = (event, newValue) => {
+      setValue(newValue)
+   }
+
+   const role = 'ADMIN'
+
    return (
       <Container>
-         <BrandName>{infoPhone?.brandName}</BrandName>
-         {role === 'ADMIN' && (
-            <BlockTab>
-               <NavLinkStyle>Товар</NavLinkStyle>
-               <NavLinkStyle>Детали товара</NavLinkStyle>
-            </BlockTab>
+         <BrandNameBlock>
+            <BrandName>{infoPhone?.brandName?.toUpperCase()}</BrandName>
+         </BrandNameBlock>
+
+         {role === 'USER' ? (
+            <ContainerProductId />
+         ) : (
+            <>
+               <BoxBlock>
+                  <TabsStyle
+                     value={value}
+                     onChange={handleChange}
+                     aria-label="basic tabs example"
+                  >
+                     <TabStyle
+                        className="Mui-selected-style"
+                        label="Товар"
+                        {...a11yProps(0)}
+                     />
+                     <TabStyle
+                        className="Mui-selected-style"
+                        label="Детали товара"
+                        {...a11yProps(1)}
+                     />
+                  </TabsStyle>
+               </BoxBlock>
+               <CustomTabPanel value={value} index={0}>
+                  <ContainerProductId />
+               </CustomTabPanel>
+               <CustomTabPanel value={value} index={1}>
+                  <ProductDetails />
+               </CustomTabPanel>
+            </>
          )}
-         <ConatinerChilde>
-            <PopUpMain />
-            <PhoneDeital />
-         </ConatinerChilde>
       </Container>
    )
 }
 
 const Container = styled('div')`
-   margin-top: 1rem;
-   margin-bottom: 7.5rem;
+   .MuiBox-root {
+      padding: 0;
+   }
+   .MuiTab-root.Mui-selected.Mui-selected-style {
+      background-color: #384255;
+      color: #fff;
+   }
+
+   .MuiTabs-indicator {
+      display: none;
+   }
+
+   .MuiTabs-flexContainer {
+      display: flex;
+      gap: 0.75rem;
+   }
+`
+
+const TabsStyle = styled(Tabs)`
+   width: 79.888vw;
+   min-height: auto;
+`
+
+const TabStyle = styled(Tab)`
+   height: 2.125rem;
+   border-radius: 4px;
+   color: #384255;
+   min-height: 0;
+   background-color: #e0e2e7;
+   padding: 0px 20px 0px 20px;
+   text-transform: none;
+`
+
+const BrandNameBlock = styled('div')`
+   display: flex;
+   justify-content: center;
+   margin-top: 3rem;
 `
 
 const BrandName = styled('h1')`
+   width: 79.888vw;
    color: blue;
    font-family: Orbitron;
    padding-bottom: 20px;
    border-bottom: 1px solid #cdcdcd;
 `
-const ConatinerChilde = styled('div')`
-   display: flex;
-   justify-content: space-between;
-   width: 79.888vw;
-`
-const BlockTab = styled('div')`
-   display: flex;
-   gap: 12px;
-`
-const NavLinkStyle = styled(NavLink)`
-   padding: 8px 20px 9px 20px;
-   cursor: pointer;
-   text-decoration: none;
-   color: #384255;
-   border-radius: 4px;
-   background-color: #e0e2e7;
 
-   &:hover {
-      color: #fff;
-      border-radius: 4px;
-      background: #384255;
-   }
+const BoxBlock = styled('div')`
+   display: flex;
+   justify-content: center;
 `

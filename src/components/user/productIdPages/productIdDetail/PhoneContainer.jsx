@@ -1,12 +1,11 @@
 import React from 'react'
 import { styled } from '@mui/material'
-
-import { PhonePage } from './PhonePage'
+import { TemprovPages } from '../TemprovPages'
 
 export const PhoneContainer = () => {
    return (
       <Container>
-         <PhonePage />
+         <TemprovPages />
       </Container>
    )
 }
