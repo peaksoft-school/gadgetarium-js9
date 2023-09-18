@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { styled } from '@mui/material'
 import { FagChild } from './FagChild'
-import { FagData } from '../../../utils/common/constants/Fag'
+import { FagData } from '../../../../utils/common/constants/Fag'
 
 export const FAQ = () => {
    const [selectedId, setSelectedId] = useState(null)
