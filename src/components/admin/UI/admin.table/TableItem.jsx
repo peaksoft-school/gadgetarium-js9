@@ -16,14 +16,9 @@ export const TableItem = ({
    index,
    ...item
 }) => {
-   const time = item.purchaseTime ? item.purchaseTime.split(' ')[1] : null
-   const date = item.purchaseTime ? item.purchaseTime.split(' ')[0] : null
-   const discountAmount =
-      item.discount && (item.productPrice * item.discount) / 100
-   const finalPrice = item.discount
-      ? item.productPrice - discountAmount
-      : item.productPrice
-   const abbreviatedModelName = item.modelName && item.modelName.slice(0, 18)
+   const time = item.createdAt ? item.createdAt.split(' ')[1] : null
+   const date = item.createdAt ? item.createdAt.split(' ')[0] : null
+   const abbreviatedModelName = item.name && item.name.slice(0, 18)
    const [isHovered, setIsHovered] = useState(false)
    const toggleHoveredHandler = () => {
       setIsHovered((prev) => !prev)
@@ -48,7 +43,7 @@ export const TableItem = ({
       console.log(id, 'id')
       return id
    }
-   const StyledPhoto = item.photo
+   const StyledPhoto = item.image
       ? styled('img')`
            width: 4rem;
            height: 4rem;
@@ -101,7 +96,7 @@ export const TableItem = ({
                      }}
                      key={el.name}
                   >
-                     <StyledPhoto src={item.photo} />
+                     <StyledPhoto src={item.image} />
                   </StyledTableCell>
                )
             }
@@ -112,7 +107,7 @@ export const TableItem = ({
                      center={textInCenter}
                      key={el.name}
                   >
-                     {item.vendorCode}
+                     {item.articleNumber}
                   </StyledTableCell>
                )
             }
@@ -126,7 +121,7 @@ export const TableItem = ({
                      key={el.name}
                   >
                      {el.width === '12.5vw'
-                        ? `Кол-во товара ${item.quantityOfGoods}шт.`
+                        ? `Кол-во товара ${item.quantity}шт.`
                         : `${abbreviatedModelName}...`}
                      {el.width === '12.5vw' && (
                         <ModelName>{`${abbreviatedModelName}...`}</ModelName>
@@ -170,7 +165,10 @@ export const TableItem = ({
                      center={textInCenter}
                      key={el.name}
                   >
-                     {finalPrice ? finalPrice.toLocaleString() : 0}с
+                     {item.currentPrice
+                        ? item.currentPrice.toLocaleString()
+                        : 0}
+                     с
                   </StyledTableCell>
                )
             }

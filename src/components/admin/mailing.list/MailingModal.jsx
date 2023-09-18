@@ -10,27 +10,35 @@ import { InputUi } from '../../UI/Input'
 import { ReactComponent as AddPhotoIcon } from '../../../assets/icons/photo-add/add-photo-icon.svg'
 import { Modal } from '../../UI/Modal'
 
+const today = new Date()
+today.setHours(0, 0, 0, 0)
 const schema = z.object({
    title: z.string().min(1).max(255),
    description: z.string().min(1).max(500),
    image: z.string().min(1),
-   startDate: z.date().min(new Date()),
-   finishDate: z.date().min(new Date()),
+   startDate: z.date().min(today),
+   finishDate: z.date().min(today),
 })
 export const MailingModal = ({ open, handleClose }) => {
-   const { register, handleSubmit, getValues, control, reset, watch } = useForm(
-      {
-         defaultValues: {
-            title: '',
-            description: '',
-            image: '',
-            startDate: new Date(Date.now()),
-            finishDate: new Date(),
-         },
-         mode: 'onBlur',
-         resolver: zodResolver(schema),
-      }
-   )
+   const {
+      register,
+      handleSubmit,
+      getValues,
+      control,
+      reset,
+      watch,
+      formState,
+   } = useForm({
+      defaultValues: {
+         title: '',
+         description: '',
+         image: '',
+         startDate: new Date(Date.now()),
+         finishDate: null,
+      },
+      mode: 'onBlur',
+      resolver: zodResolver(schema),
+   })
    const [firstDateSelected, setFirstDateSelected] = useState(false)
    const startDate = watch('startDate')
    const finishDate = watch('finishDate')
@@ -84,6 +92,8 @@ export const MailingModal = ({ open, handleClose }) => {
                      width="100%"
                      height="1.823vw"
                      fontSize="0.83333vw"
+                     classpadding="true"
+                     error={!!formState.errors.title}
                      placeholder="Введите название рассылки"
                   />
                </InputLabelContainer>
@@ -95,7 +105,9 @@ export const MailingModal = ({ open, handleClose }) => {
                      {...register('description')}
                      width="100%"
                      height="1.823vw"
+                     classpadding="true"
                      fontSize="0.83333vw"
+                     error={!!formState.errors.description}
                      placeholder="Введите описание рассылки"
                   />
                </InputLabelContainer>
@@ -122,6 +134,7 @@ export const MailingModal = ({ open, handleClose }) => {
                                     : undefined
                               }
                               fontSize="0.83333vw"
+                              error={!!formState.errors.startDate}
                               height="1.823vw"
                               placeholder="Выберите дату"
                               width="100%"
@@ -149,7 +162,9 @@ export const MailingModal = ({ open, handleClose }) => {
                                     ? dayjs(startDate)
                                     : undefined
                               }
+                              value={field.value}
                               fontSize="0.83333vw"
+                              error={!!formState.errors.finishDate}
                               placeholder="Выберите дату"
                               height="1.823vw"
                               width="100%"

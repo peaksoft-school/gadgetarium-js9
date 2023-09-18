@@ -9,10 +9,13 @@ import { Calendar } from '../../UI/calendarFolder/Calendar'
 import { InputUi } from '../../UI/Input'
 import { Modal } from '../../UI/Modal'
 
+const today = new Date()
+today.setHours(0, 0, 0, 0)
+
 const schema = z.object({
-   amountOfDiscount: z.string(),
-   discountStartDate: z.date().min(new Date()),
-   discountEndDate: z.date().min(new Date()),
+   amountOfDiscount: z.string().min(1),
+   discountStartDate: z.date().min(today),
+   discountEndDate: z.date().min(today),
 })
 export const DiscountModal = ({ open, handleClose }) => {
    const {
@@ -21,13 +24,14 @@ export const DiscountModal = ({ open, handleClose }) => {
       getValues,
       control,
       reset,
+      formState,
       watch,
       setValue,
    } = useForm({
       defaultValues: {
          amountOfDiscount: '',
          discountStartDate: new Date(Date.now()),
-         discountEndDate: '',
+         discountEndDate: null,
       },
       mode: 'onBlur',
       resolver: zodResolver(schema),
@@ -35,7 +39,6 @@ export const DiscountModal = ({ open, handleClose }) => {
    const [firstDateSelected, setFirstDateSelected] = useState(false)
    const discountStartDate = watch('discountStartDate')
    const discountEndDate = watch('discountEndDate')
-
    const submitHandler = () => {
       const data = getValues()
       console.log('data: ', data)
@@ -88,7 +91,8 @@ export const DiscountModal = ({ open, handleClose }) => {
                      height="1.823vw"
                      fontSize="0.83333vw"
                      placeholder="0%"
-                     classpadding
+                     error={!!formState.errors.amountOfDiscount}
+                     classpadding="true"
                      onChange={handleamountOfDiscountChange}
                      onKeyDown={handleKeyDown}
                   />
@@ -104,7 +108,7 @@ export const DiscountModal = ({ open, handleClose }) => {
                         render={({ field }) => (
                            <Calendar
                               onChange={(newDate) => {
-                                 field.onChange(newDate.$d)
+                                 field.onChange(new Date(newDate))
                                  if (!firstDateSelected) {
                                     setFirstDateSelected(true)
                                  }
@@ -117,6 +121,7 @@ export const DiscountModal = ({ open, handleClose }) => {
                               }
                               fontSize="0.83333vw"
                               height="1.823vw"
+                              error={!!formState.errors.discountStartDate}
                               placeholder="Выберите дату"
                               width="100%"
                            />
@@ -143,8 +148,10 @@ export const DiscountModal = ({ open, handleClose }) => {
                                     ? dayjs(discountStartDate)
                                     : undefined
                               }
+                              value={field.value}
                               fontSize="0.83333vw"
                               placeholder="Выберите дату"
+                              error={!!formState.errors.discountEndDate}
                               height="1.823vw"
                               width="100%"
                            />

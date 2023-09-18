@@ -4,11 +4,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState, memo } from 'react'
 import { HeaderAddingAProduct } from '../HeaderAddingAProduct'
 import { FilterCategory } from './selectСategories/FilterCategory'
-import { AddNewBrandModal } from './selectСategories/AddNewBrandModal'
 import { filterResComponent } from '../../../../utils/helpers/AddFilterResComponent'
 import { Button } from '../../../UI/Button'
 import { filterCategorySubProduct } from '../../../../store/addProduct/addProductPartOne.slice'
 import { useSnackbar } from '../../../../hooks/useSnackbar'
+import { AddNewBrandModal } from '../../UI/AddNewBrandModal'
 
 export const AddingAProduct = memo(() => {
    const dispatch = useDispatch()
@@ -90,7 +90,9 @@ export const AddingAProduct = memo(() => {
          {openModalAddNewBrand.has('AddingAProduct') && (
             <div>
                <AddNewBrandModal
-                  openModalAddNewBrand={openModalAddNewBrand}
+                  openModalAddNewBrand={openModalAddNewBrand.has(
+                     'AddingAProduct'
+                  )}
                   onClose={onCloseModalAddNewBrand}
                />
             </div>

@@ -65,7 +65,7 @@ export function AdminTable({ indexForTable, itemTableArray }) {
          <TableBody>
             {itemTableArray?.map((item, index) => (
                <TableItem
-                  key={item.id}
+                  key={item.subProductId}
                   tables={tables[indexForTable]}
                   textInCenter={textInCenter}
                   indexForTable={indexForTable}

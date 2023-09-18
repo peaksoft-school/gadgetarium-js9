@@ -1,15 +1,12 @@
 import { styled } from '@mui/material'
-import { Modal } from '../../../../UI/Modal'
-import { InputUi } from '../../../../UI/Input'
-import { Button } from '../../../../UI/Button'
-import PhotoUploader from './PhotoUploader'
+import { Modal } from '../../UI/Modal'
+import { InputUi } from '../../UI/Input'
+import { Button } from '../../UI/Button'
+import PhotoUploader from '../addingAProduct/partOne/selectСategories/PhotoUploader'
 
 export const AddNewBrandModal = ({ openModalAddNewBrand, onClose }) => {
    return (
-      <Modal
-         open={openModalAddNewBrand.has('AddingAProduct')}
-         onClose={onClose}
-      >
+      <Modal open={openModalAddNewBrand} onClose={onClose}>
          <Container>
             <ModalBoxHeaderContent>
                <p>Добавление бренда</p>
