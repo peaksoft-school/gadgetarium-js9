@@ -1,6 +1,6 @@
 import React from 'react'
 import { styled } from '@mui/material'
-import { ReactComponent as Arrowsvg } from '../../../assets/icons/fagArrow.svg'
+import { ReactComponent as Arrowsvg } from '../../../../assets/icons/fagArrow.svg'
 
 export const FagChild = ({ item, isSelected, onIconClick }) => {
    const handleIconClick = () => {
@@ -27,6 +27,13 @@ const Container = styled('div')`
    box-shadow: 0 0.125rem 0.625rem 0 rgba(48, 60, 51, 0.05);
    border-radius: 0.125rem;
    margin-top: 1.25rem;
+   background-color: white;
+
+   .ul {
+      display: flex;
+      flex-direction: column;
+      gap: 0.625rem;
+   }
 `
 
 const ContentContainer = styled('div')`
@@ -62,7 +69,7 @@ const IdContainer = styled('p')(({ theme, isSelected }) => ({
 }))
 
 const Description = styled('p')(() => ({
-   margin: '0.86rem 1.25rem 1.25rem 6.37rem',
+   margin: '-20px 1.25rem 1.25rem 6rem',
    fontSize: '1rem',
    fontStyle: 'normal',
    fontWeight: '400',

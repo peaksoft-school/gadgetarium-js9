@@ -1,7 +1,7 @@
 import { styled } from '@mui/material'
 import React, { useState } from 'react'
-import { Button } from '../../UI/Button'
-import { InputUi } from '../../UI/Input'
+import { Button } from '../../../UI/Button'
+import { InputUi } from '../../../UI/Input'
 
 export const UserInfo = () => {
    const [all, setAll] = useState({
@@ -113,6 +113,7 @@ export const UserInfo = () => {
             <Button
                variant="contained"
                padding="0.88rem 0 1rem 0"
+               texttransform="uppercase"
                onClick={onAllResetHandler}
             >
                Отправить
@@ -178,16 +179,25 @@ const Container = styled('div')(({ theme }) => ({
       },
 
       textarea: {
-         width: '99%',
+         width: '100%',
          height: '9.375rem',
          resize: 'none',
          borderRadius: '0.375rem',
          padding: '0.75rem 0.625rem',
          fontSize: '1rem',
+         border: '1px solid #CDCDCD',
+
+         fontStyle: 'normal',
+         fontHeight: '400',
+         lineHeight: '150%',
 
          '&:focus': {
             outline: 'none',
             border: '2px solid #CB11AB',
+         },
+
+         '&::placeholder': {
+            color: '#91969E',
          },
       },
 
