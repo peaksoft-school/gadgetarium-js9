@@ -1,6 +1,6 @@
 import { styled, Button, Badge, keyframes } from '@mui/material'
 import { NavLink, useNavigate } from 'react-router-dom'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ReactComponent as Instagram } from '../../../assets/icons/messangers/instagram-icon.svg'
 import { ReactComponent as SearchIcon } from '../../../assets/icons/search-icon.svg'
@@ -69,6 +69,9 @@ export const Header = ({ favorite, basket, compare }) => {
 
       setDebounceTimeout(newDebounceTimeout)
    }
+   useEffect(() => {
+      dispatch(getGlobalSearch(inputValue))
+   }, [])
    function onComeBack() {
       navigate('./')
    }
