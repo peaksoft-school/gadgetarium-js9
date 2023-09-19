@@ -29,7 +29,6 @@ export const Options = () => {
 
    useEffect(() => {
       const container = containerRef.current
-      console.log('container: ', container)
       if (container) {
          const hasScrollbar = container.scrollHeight > container.clientHeight
          if (!hasScrollbar) {
@@ -88,6 +87,7 @@ export const Options = () => {
                   <Interfaces />
                   <MaterialBracelets />
                   <MaterialHousing />
+                  <MemoryСapacity />
                   <WaterProof />
                   <Floor />
                   <Shapes />
@@ -116,6 +116,7 @@ const Content = styled('div')`
       overflow-y: auto;
 
       position: absolute;
+      z-index: 1;
       right: -0.5rem;
       padding-right: 1.6rem;
       top: 0;

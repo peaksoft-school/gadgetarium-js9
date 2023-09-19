@@ -17,7 +17,10 @@ export const Catalog = () => {
       pageSize,
       showMore,
       plusPageSize,
+      sort,
    } = useSelector((state) => state.category)
+   console.log('selectedCategories: ', selectedCategories)
+   console.log('filteredProducts: ', filteredProducts)
 
    const [cateSort, setCateSort] = useState(false)
    const dispatch = useDispatch()
@@ -30,8 +33,18 @@ export const Catalog = () => {
       Tablet: 'Планшеты',
    }
 
+   const getSortType = (value) => {
+      if (value === 'По акции') {
+         return null
+      }
+      return dispatch(categoryActions.sort(value))
+   }
+
    const openSort = () => {
       setCateSort((prev) => !prev)
+   }
+   const closeSort = () => {
+      setCateSort(false)
    }
 
    const deleteCancel = (id) => {
@@ -82,11 +95,17 @@ export const Catalog = () => {
                            )
                         })}
                      </FilterContainerTitle>
-                     <PositionContainer>
-                        <Sorting>
-                           Сортировать <ArrowIconStyled onClick={openSort} />
+                     <PositionContainer onMouseLeave={closeSort}>
+                        <Sorting onClick={openSort}>
+                           Сортировать <ArrowIconStyled />
                         </Sorting>
-                        {cateSort && <Sort openSort={cateSort} />}
+                        {cateSort && (
+                           <Sort
+                              sort={sort}
+                              getSortType={getSortType}
+                              openSort={cateSort}
+                           />
+                        )}
                      </PositionContainer>
                   </SortingContainer>
                </ToolContainer>
@@ -248,6 +267,7 @@ const Sorting = styled('div')`
    line-height: 130%;
    font-style: normal;
    align-items: center;
+   cursor: pointer;
 `
 
 const ArrowIconStyled = styled(ArrowIcon)`

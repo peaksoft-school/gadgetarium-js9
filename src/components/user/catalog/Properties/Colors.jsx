@@ -9,18 +9,9 @@ export const Colors = () => {
    const { itemsColors, itemsColorsTransformation } = useSelector(
       (state) => state.category
    )
-   console.log('itemsColorsTranformation: ', itemsColorsTransformation)
-   console.log('itemsColors: ', itemsColors)
+
    const category = useParams()
    const dispatch = useDispatch()
-
-   const dd = itemsColors.map((el) => {
-      return {
-         ...el,
-         codeColor: Object.values(itemsColorsTransformation)[0 + 1],
-      }
-   })
-   console.log('dd: ', dd)
    const categoryValues = Object.values(category)[0]
 
    const categoryName = {
@@ -29,6 +20,7 @@ export const Colors = () => {
       'Smart Watch': 3,
       Tablet: 4,
    }
+
    const postTitle = (_, data) => {
       dispatch(categoryActions.changeColor(data.codeColor))
    }
@@ -36,8 +28,20 @@ export const Colors = () => {
    useEffect(() => {
       dispatch(getColorsCatalog({ categoryId: categoryName[categoryValues] }))
    }, [categoryName[categoryValues]])
+
    useEffect(() => {
       dispatch(categoryActions.colors())
-   }, [])
-   return <CatalogSelect title="Цвет" onToggleCheckbox={postTitle} items={dd} />
+   }, [itemsColors])
+
+   const updatedItemsColors = itemsColors?.map((el) => ({
+      ...el,
+      codeColorTransform: itemsColorsTransformation[el.codeColor],
+   }))
+   return (
+      <CatalogSelect
+         title="Цвет"
+         onToggleCheckbox={postTitle}
+         items={updatedItemsColors}
+      />
+   )
 }

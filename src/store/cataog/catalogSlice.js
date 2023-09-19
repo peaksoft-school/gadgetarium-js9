@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-// import { useParams } from 'react-router-dom'
 import {
    memoryRamConstants,
    memoryCapacityConstants,
@@ -32,6 +31,8 @@ const initialState = {
 
    itemsColors: [],
    itemsColorsId: [],
+
+   sort: '',
 
    items: [],
    filteredProducts: [],
@@ -88,17 +89,8 @@ export const categorySlice = createSlice({
    name: 'category',
    initialState,
    reducers: {
-      colors: (state) => {
-         const itemsColorsId = []
-         state.itemsColors?.map((el) => {
-            if (el.checked === true) {
-               itemsColorsId.push(el.codeColor)
-            }
-
-            return el
-         })
-         console.log('itemsColorsId: ', itemsColorsId)
-         state.itemsColorsId = itemsColorsId
+      sort: (state, action) => {
+         return { ...state, sort: action.payload }
       },
       changeColor: (state, action) => {
          const updatedMemory = state.itemsColors?.map((el) => {
@@ -109,6 +101,17 @@ export const categorySlice = createSlice({
          })
 
          state.itemsColors = updatedMemory
+      },
+      colors: (state) => {
+         const itemsColorsId = []
+         state.itemsColors?.map((el) => {
+            if (el.checked === true) {
+               itemsColorsId.push(el.codeColor)
+            }
+
+            return el
+         })
+         state.itemsColorsId = itemsColorsId
       },
 
       addSelectedCategories: (state, action) => {

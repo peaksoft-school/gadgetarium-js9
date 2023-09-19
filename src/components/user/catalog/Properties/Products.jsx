@@ -33,6 +33,7 @@ export const Products = () => {
       displayDiagonalArray,
       interfacesArray,
       tabletBatteryCapacityArray,
+      sort,
    } = useSelector((state) => state.category)
 
    const category = useParams()
@@ -63,6 +64,7 @@ export const Products = () => {
          displayDiagonalArray,
          videoMemoryArray,
          tabletBatteryCapacityArray,
+         sort,
       }
       dispatch(sendSelectedCategories(dataCategory))
    }, [
@@ -89,16 +91,17 @@ export const Products = () => {
       interfacesArray,
       videoMemoryArray,
       tabletBatteryCapacityArray,
+      sort,
    ])
 
    return (
       <Container>
          {filteredProducts?.map((product) => {
             return isLoading ? (
-               <CardStyled key={product.id} />
+               <CardStyled key={product.subProductId} />
             ) : (
                <ProductCardStyled
-                  key={product.id}
+                  key={product.subProductId}
                   prodName={product.name}
                   {...product}
                />

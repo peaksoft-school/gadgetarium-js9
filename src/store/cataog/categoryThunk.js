@@ -38,7 +38,6 @@ export const getColorsTransformationFunction = createAsyncThunk(
    async (payload, { rejectWithValue }) => {
       try {
          const response = await getColorsTransformation(payload)
-         console.log('response: ', response)
          return response.data
       } catch (error) {
          return rejectWithValue(error)

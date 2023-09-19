@@ -88,6 +88,7 @@ export const memoryRamConstants = [
 ]
 
 export const memoryCapacityConstants = [
+   { title: 4, id: 1, checked: false },
    { title: 8, id: 1, checked: false },
    { title: 16, id: 2, checked: false },
    { title: 32, id: 3, checked: false },
@@ -219,11 +220,3 @@ export const tabletBatteryCapacity = [
    { title: '7200 – 9599 мА/ч', id: 4, checked: false },
    { title: '9600 – 12000 мА/ч', id: 5, checked: false },
 ]
-
-// export const SortProducts = [
-//    { title: 'Новинки', id: 1, checked: false },
-//    { title: 'По акции', id: 2, checked: false },
-//    { title: 'Рекомендуемые', id: 3, checked: false },
-//    { title: 'По увеличению цены', id: 4, checked: false },
-//    { title: 'По уменьшению цены', id: 5, checked: false },
-// ]

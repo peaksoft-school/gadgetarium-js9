@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { memo, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { categoryActions } from '../../../../store/cataog/catalogSlice'
 import { CatalogSelect } from '../../../UI/CatalogSelect'
 
-export const VideoMemory = () => {
+export const VideoMemory = memo(() => {
    const { videoMemory } = useSelector((state) => state.category)
 
    const dispatch = useDispatch()
@@ -23,4 +23,5 @@ export const VideoMemory = () => {
          items={videoMemory}
       />
    )
-}
+})
+VideoMemory.displayName = 'VideoMemory'

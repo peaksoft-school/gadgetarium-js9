@@ -23,3 +23,4 @@ export const Sim = () => {
       />
    )
 }
+Sim.dispatch = 'Sim'

@@ -39,7 +39,7 @@ const saleArray = [
    },
 ]
 
-export const Sort = ({ openSort, sort, getSortType, onClick }) => {
+export const Sort = ({ openSort, sort, getSortType }) => {
    const [saleArrayOpen, setSaleArrayOpen] = useState(false)
 
    const toggleArrayOpen = (value, isSortInArray) => {
@@ -51,7 +51,6 @@ export const Sort = ({ openSort, sort, getSortType, onClick }) => {
 
    const getSortTypeValue = (value) => {
       getSortType(value)
-      onClick()
       setSaleArrayOpen(false)
    }
 

@@ -22,7 +22,7 @@ export const getColors = ({ categoryId }) => {
 export const filterProductsByCategory = (payload) => {
    const requestData = {
       gadgetType: payload.gadgetType[0],
-      sorting: 'string',
+      sorting: payload.sort ? payload.sort : 'string',
       subCategoryIds: [0],
       brandIds: payload.id.length === 0 ? [0] : payload.id,
       priceStart: payload.minValue,

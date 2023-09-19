@@ -40,7 +40,9 @@ export const CatalogSelect = ({ items, onToggleCheckbox, title }) => {
                            onClick={() => onToggleCheckbox(el.id, el)}
                         />
 
-                        <span>{el.title || el.name || el.codeColor}</span>
+                        <span>
+                           {el.title || el.name || el.codeColorTransform}
+                        </span>
 
                         <span>
                            {el?.countColor ? `(${el.countColor})` : ''}

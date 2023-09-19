@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { memo, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { categoryActions } from '../../../../store/cataog/catalogSlice'
 import { CatalogSelect } from '../../../UI/CatalogSelect'
 
-export const Puproses = () => {
+export const Puproses = memo(() => {
    const { puproses } = useSelector((state) => state.category)
 
    const dispatch = useDispatch()
@@ -23,4 +23,6 @@ export const Puproses = () => {
          items={puproses}
       />
    )
-}
+})
+
+Puproses.displayName = 'Puproses'

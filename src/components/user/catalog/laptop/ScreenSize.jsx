@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { memo, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { categoryActions } from '../../../../store/cataog/catalogSlice'
 import { CatalogSelect } from '../../../UI/CatalogSelect'
 
-export const ScreenSize = () => {
+export const ScreenSize = memo(() => {
    const category = useParams()
 
    const { screenSize } = useSelector((state) => state.category)
@@ -31,4 +31,5 @@ export const ScreenSize = () => {
          items={updatedRamArray}
       />
    )
-}
+})
+ScreenSize.displayName = 'ScreenSize'

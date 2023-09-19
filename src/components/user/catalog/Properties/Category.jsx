@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { memo, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getCategory } from '../../../../store/cataog/categoryThunk'
 import { categoryActions } from '../../../../store/cataog/catalogSlice'
 import { CatalogSelect } from '../../../UI/CatalogSelect'
 
-export const Category = () => {
+export const Category = memo(() => {
    const dispatch = useDispatch()
    const { items } = useSelector((state) => state.category)
 
@@ -25,4 +25,6 @@ export const Category = () => {
          items={items}
       />
    )
-}
+})
+
+Category.dispatch = 'Category'
