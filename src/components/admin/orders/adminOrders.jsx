@@ -5,6 +5,7 @@ import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
 import { InputUi } from '../../UI/Input'
 import { Calendar } from '../../UI/calendarFolder/Calendar'
+import { AdminTable } from '../UI/admin.table/Table'
 
 function a11yProps(index) {
    return {
@@ -48,6 +49,8 @@ export const AdminOrders = () => {
             <Calendar />
             <Calendar />
          </CalendarBlock>
+
+         <AdminTable />
       </Container>
    )
 }

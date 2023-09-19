@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Rating, styled } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 import { ReactComponent as Comparison } from '../../../assets/icons/comparison-icon.svg'
 import { ReactComponent as Favourite } from '../../../assets/icons/favourites-icon.svg'
 import { ReactComponent as BasketIcon } from '../../../assets/icons/basket-icon.svg'
@@ -9,8 +10,8 @@ import { ReactComponent as FilledFavoriteIcon } from '../../../assets/icons/fill
 import { Button } from '../../UI/Button'
 import { postFavoriteItem } from '../../../store/favorite/favorite.thunk'
 import { postBasketById } from '../../../store/basket/basket.thunk'
-import { useSnackbar } from '../../../hooks/useSnackbar'
 import { AuthorizationModal } from '../AuthorizationModal'
+import { postCompareProduct } from '../../../store/compare/compare.thunk'
 
 export const ProductCard = ({
    recomendationState = false,
@@ -24,15 +25,16 @@ export const ProductCard = ({
    countOfReviews = 56,
    favoriteState,
    comparisonState,
+   basketState,
    pageSize,
    id = '1',
    ...props
 }) => {
-   const { snackbarHandler } = useSnackbar()
    const { isAuthorization } = useSelector((state) => state.auth)
 
    const [openModal, setOpenModal] = useState(false)
    const dispatch = useDispatch()
+   const navigate = useNavigate()
    const discountPrice = price - (price * discount) / 100
    const toggleFavoriteHandler = async () => {
       if (isAuthorization) {
@@ -47,34 +49,25 @@ export const ProductCard = ({
          setOpenModal(!openModal)
       }
    }
-
    const toggleComparisonHandler = () => {
-      // dispatch(postCompareProduct({ id, addOrDelete: !comparisonState }))
-      //    .unwrap()
-      //    .then(() => {
-      //       dispatch(getNovelities({ page: 1, pageSize: noveltiesPageSize }))
-      //       dispatch(getRecommend({ page: 1, pageSize: recommendPageSize }))
-      //       dispatch(getStock({ page: 1, pageSize: stockPageSize }))
-      //       dispatch(getCompare())
-      //       if (comparisonState) {
-      //          snackbarHandler({
-      //             message: 'Товар удален из сравнения',
-      //          })
-      //       } else {
-      //          snackbarHandler({
-      //             message: 'Товар добавлен в сравнения',
-      //             linkText: 'Перейти в избранное ',
-      //             path: '/favorite',
-      //          })
-      //       }
-      //    })
+      if (isAuthorization) {
+         dispatch(
+            postCompareProduct({
+               id,
+               addOrDelete: !comparisonState,
+               pageSize,
+            })
+         )
+      } else {
+         setOpenModal(!openModal)
+      }
    }
    const cardHandler = (id) => {
       console.log(id)
    }
    const postProductToBasket = async () => {
       if (isAuthorization) {
-         dispatch(postBasketById({ id, snackbarHandler }))
+         dispatch(postBasketById({ id, needSnackbar: true, pageSize: 100 }))
       } else {
          setOpenModal(!openModal)
       }
@@ -142,15 +135,27 @@ export const ProductCard = ({
                      </DiscountPrice>
                   )}
                </PriceContainer>
-               <Button
-                  padding="1.1111vh 0.99vw"
-                  variant="contained"
-                  texttransform="uppercase"
-                  fontSize="0.73vw"
-                  onClick={postProductToBasket}
-               >
-                  <StyledBasketIcon /> В корзину
-               </Button>
+               {basketState ? (
+                  <StyledButton
+                     padding="1.1111vh 0.99vw"
+                     variant="contained"
+                     texttransform="uppercase"
+                     fontSize="0.73vw"
+                     onClick={() => navigate('/basket')}
+                  >
+                     <StyledBasketIcon /> В корзинe
+                  </StyledButton>
+               ) : (
+                  <Button
+                     padding="1.1111vh 0.99vw"
+                     variant="contained"
+                     texttransform="uppercase"
+                     fontSize="0.73vw"
+                     onClick={postProductToBasket}
+                  >
+                     <StyledBasketIcon /> В корзину
+                  </Button>
+               )}
             </ButtonContainerTwo>
          </Container>
       </Card>
@@ -168,6 +173,15 @@ const StyledFilledFavoriteIcon = styled(FilledFavoriteIcon)`
    width: 1.25vw;
    height: 1.25vw;
    cursor: pointer;
+`
+const StyledButton = styled(Button)`
+   background: #2fc509;
+   :hover {
+      background: #2fc509;
+   }
+   :active {
+      background: #2fc509;
+   }
 `
 const Card = styled('div')`
    background-color: white;

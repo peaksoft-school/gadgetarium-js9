@@ -1,11 +1,15 @@
-import { FAQ } from '../components/user/fag/Fag'
-import { AboutShop } from '../components/user/aboutShop/AboutShop'
-import { Delivery } from '../components/user/delivery/Delivery'
+import { FAQ } from '../components/user/storeInformation/fag/Fag'
+import { Delivery } from '../components/user/storeInformation/delivery/Delivery'
+import { Contacts } from '../components/user/storeInformation/contacts/Contacts'
 import { routes } from '../utils/common/constants/routesConstants'
-import { Contacts } from '../components/user/contacts/Contacts'
+import { AboutShop } from '../components/user/storeInformation/aboutShop/AboutShop'
 import { Favorite } from '../components/user/favorite/Favorite'
 import { MainPage } from '../components/user/main.page/MainPage'
+import { Basket } from '../components/user/basket/Basket'
+import { Compare } from '../components/user/compare/Compare'
 import { Catalog } from '../components/user/catalog/Catalog'
+import { PersonalAreaContainer } from '../components/user/personalAreaPage/PersonalAreaContainer'
+import { HistoryDetailContainer } from '../components/user/personalAreaPage/historyPages/HistoryDetailContainer'
 
 export const userRoutes = [
    { path: routes.USER.index, element: <MainPage /> },
@@ -30,6 +34,22 @@ export const userRoutes = [
       element: <Favorite />,
    },
    {
+      path: routes.USER.basket,
+      element: <Basket />,
+   },
+   {
+      path: routes.USER.personal.index,
+      element: <PersonalAreaContainer />,
+   },
+   {
+      path: routes.USER.personal.personalDetail,
+      element: <HistoryDetailContainer />,
+   },
+   {
+      path: routes.USER.personalFavorites,
+      element: <PersonalAreaContainer />,
+   },
+   {
       path: routes.USER.category.index,
       element: <Catalog />,
       children: [
@@ -38,5 +58,9 @@ export const userRoutes = [
          { path: routes.USER.category.tablets, element: <Catalog /> },
          { path: routes.USER.category.laptops, element: <Catalog /> },
       ],
+   },
+   {
+      path: routes.USER.compare,
+      element: <Compare />,
    },
 ]

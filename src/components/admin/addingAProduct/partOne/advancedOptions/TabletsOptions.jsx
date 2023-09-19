@@ -7,6 +7,7 @@ import { InputColorPalette } from '../../../UI/color/InputColorPalette'
 import { CategoryFilterSelect } from '../selectСategories/CategoryFilterSelect'
 import { AddPhotoGadgets } from '../addPhotoGadgets/AddPhotoGadgets'
 import {
+   addCodeColorSubProductRequests,
    addPhotoSubProductRequests,
    collectorTabletsParameters,
    createNewProduct,

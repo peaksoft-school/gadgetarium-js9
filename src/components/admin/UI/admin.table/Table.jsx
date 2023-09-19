@@ -61,7 +61,7 @@ export function AdminTable({ indexForTable, itemTableArray }) {
       >
          <TableHead>
             <StyledTableRow>
-               {tables[indexForTable].map((el) => {
+               {tables[indexForTable]?.map((el) => {
                   return (
                      <StyledTableCell
                         key={el.name}

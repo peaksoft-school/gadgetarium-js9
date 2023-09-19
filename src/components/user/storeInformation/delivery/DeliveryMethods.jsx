@@ -1,24 +1,7 @@
 import { styled } from '@mui/material'
-import { ReactComponent as Truck } from '../../../assets/icons/truck.svg'
-import { ReactComponent as Wallet } from '../../../assets/icons/wallet.svg'
-
-const infoDelivery = [
-   {
-      id: '1',
-      title: 'Самовывоз co склада',
-      text: 'Забрать в течение 14 дней',
-   },
-   {
-      id: '2',
-      title: 'Самовывоз из магазина',
-      text: 'Забрать в течение 14 дней',
-   },
-   {
-      id: '3',
-      title: 'Доставка',
-      text: 'По городу 200coм, по регионам Бесплатная доставка при покупках свыше — 10 000с.',
-   },
-]
+import { ReactComponent as Truck } from '../../../../assets/icons/truck.svg'
+import { ReactComponent as Wallet } from '../../../../assets/icons/wallet.svg'
+import { infoDelivery } from '../../../../utils/common/constants/storeInformation'
 
 export const DeliveryMethods = () => {
    return (

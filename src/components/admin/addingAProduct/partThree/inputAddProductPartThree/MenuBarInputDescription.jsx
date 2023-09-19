@@ -7,7 +7,7 @@ import FormatUnderlinedIcon from '@mui/icons-material/FormatUnderlined'
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted'
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered'
 
-export const MenuBar = ({ formik }) => {
+export const MenuBar = ({ onCollectorValue, formik }) => {
    const { editor } = useCurrentEditor()
 
    if (!editor) {
@@ -15,6 +15,11 @@ export const MenuBar = ({ formik }) => {
    }
 
    const content = editor.getHTML()
+   const value = editor.getText()
+
+   useEffect(() => {
+      onCollectorValue(value)
+   }, [content])
 
    useEffect(() => {
       formik.setFieldValue('description', content)
@@ -68,7 +73,7 @@ const ContainerButton = styled('div')`
    button {
       margin: 0;
       border-radius: 1px;
-      padding: 0px;
+      padding: 0;
    }
 
    .is-active {
