@@ -62,6 +62,10 @@ const Feedback = ({
       setOpenModal(openModal)
    }
 
+   const role = 'ADMIN'
+
+   console.log(modalText, 'modalText')
+
    return (
       <Container>
          <UserContainer>
@@ -93,13 +97,14 @@ const Feedback = ({
                />
             </ToolContainer>
          )}
-         {adminState && (
+         {adminState && role === 'ADMIN' && (
             <AdminButtonContainer>
                <AdminButton onClick={openModalHandler}>
                   {adminReviewState ? 'Редактировать' : 'Ответить'}
                </AdminButton>
                {openModal.has('openModal') && (
                   <FeedbackModal
+                     reviewId={reviewId}
                      modalText={modalText}
                      getAdminText={getAdminText}
                      saveTextHandler={saveTextHandler}

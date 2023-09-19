@@ -8,6 +8,7 @@ import { Description } from './Description'
 import { Reviews } from './Reviews'
 import { Delivery } from './Delivery'
 import { Сharacteristics } from './Сharacteristics'
+import { ReactComponent as DownloadIcons } from '../../../../assets/icons/tools-for-site/Download.svg'
 
 function CustomTabPanel(props) {
    const { children, value, index, ...other } = props
@@ -56,6 +57,12 @@ export const Attribute = () => {
                   <Tab label="Характеристики" {...a11yProps(1)} />
                   <Tab label="Отзывы" {...a11yProps(2)} />
                   <Tab label="Доставка и оплата" {...a11yProps(3)} />
+                  <DownloadBlock>
+                     <a href="/документ.pdf" download>
+                        <DownloadIcons />
+                        Скачать документ.pdf
+                     </a>
+                  </DownloadBlock>
                </Tabs>
             </Box>
             <CustomTabPanel value={value} index={0}>
@@ -76,7 +83,7 @@ export const Attribute = () => {
 }
 
 const Container = styled('div')`
-   width: 80vw;
+   width: 79.888vw;
    padding-bottom: 10rem;
    margin-top: 4.75rem;
 
@@ -85,5 +92,22 @@ const Container = styled('div')`
    }
    .MuiTab-root {
       padding: 0;
+   }
+`
+
+const DownloadBlock = styled('div')`
+   display: flex;
+   width: 100%;
+   justify-content: flex-end;
+   align-items: center;
+   cursor: pointer;
+   a {
+      display: flex;
+      align-items: center;
+      color: #384255;
+      font-family: Inter;
+      font-size: 1rem;
+      font-weight: 400;
+      text-decoration: none;
    }
 `

@@ -57,12 +57,7 @@ const Block = styled('div')`
       width: 13.125rem;
       cursor: pointer;
    }
-   .MuiCard-root:hover {
-      transform: scale(1.05);
-      transition: transform 0.3s ease;
-      box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.2);
-      cursor: pointer;
-   }
+
    .MuiCardContent-root {
       height: 9rem;
       padding: 0 0 16px 16px;

@@ -1,8 +1,8 @@
 import { AddingAProduct } from '../components/admin/addingAProduct/partOne/AddingAProduct'
 import { FinishingTouchAddingProduct } from '../components/admin/addingAProduct/partThree/FinishingTouchAddingProduct'
 import { QuantityOfGoodsAndPrice } from '../components/admin/addingAProduct/partTwo/QuantityOfGoodsAndPrice'
-import { ContainerProductId } from '../components/user/productIdPages/Container'
 import { ProductDetails } from '../components/user/productIdPages/ProductDetails'
+import { PhonePage } from '../components/user/productIdPages/productIdDetail/PhonePage'
 
 export const adminRoutes = [
    {
@@ -19,7 +19,7 @@ export const adminRoutes = [
    },
    {
       path: '/admin/product/:productId',
-      element: <ContainerProductId />,
+      element: <PhonePage />,
    },
    {
       path: '/admin/product/:productId/details',

@@ -10,7 +10,6 @@ import { ReactComponent as FilledFavoriteIcon } from '../../../assets/icons/fill
 import { Button } from '../../UI/Button'
 import { postFavoriteItem } from '../../../store/favorite/favorite.thunk'
 import { postBasketById } from '../../../store/basket/basket.thunk'
-import { useSnackbar } from '../../../hooks/useSnackbar'
 import { AuthorizationModal } from '../AuthorizationModal'
 import { postCompareProduct } from '../../../store/compare/compare.thunk'
 import { infoPageActions } from '../../../store/informationPhone/infoPageSlice'
@@ -27,13 +26,13 @@ export const ProductCard = ({
    countOfReviews = 56,
    favoriteState,
    comparisonState,
+   basketState,
    pageSize,
    color,
    id = '1',
    productId,
    ...props
 }) => {
-   const { snackbarHandler } = useSnackbar()
    const { isAuthorization } = useSelector((state) => state.auth)
    const navigate = useNavigate()
    const [openModal, setOpenModal] = useState(false)
@@ -71,7 +70,7 @@ export const ProductCard = ({
    }
    const postProductToBasket = async () => {
       if (isAuthorization) {
-         dispatch(postBasketById({ id, snackbarHandler }))
+         dispatch(postBasketById({ id, needSnackbar: true, pageSize: 100 }))
       } else {
          setOpenModal(!openModal)
       }
@@ -139,15 +138,27 @@ export const ProductCard = ({
                      </DiscountPrice>
                   )}
                </PriceContainer>
-               <Button
-                  padding="1.1111vh 0.99vw"
-                  variant="contained"
-                  texttransform="uppercase"
-                  fontSize="0.73vw"
-                  onClick={postProductToBasket}
-               >
-                  <StyledBasketIcon /> В корзину
-               </Button>
+               {basketState ? (
+                  <StyledButton
+                     padding="1.1111vh 0.99vw"
+                     variant="contained"
+                     texttransform="uppercase"
+                     fontSize="0.73vw"
+                     onClick={() => navigate('/basket')}
+                  >
+                     <StyledBasketIcon /> В корзинe
+                  </StyledButton>
+               ) : (
+                  <Button
+                     padding="1.1111vh 0.99vw"
+                     variant="contained"
+                     texttransform="uppercase"
+                     fontSize="0.73vw"
+                     onClick={postProductToBasket}
+                  >
+                     <StyledBasketIcon /> В корзину
+                  </Button>
+               )}
             </ButtonContainerTwo>
          </Container>
       </Card>
@@ -165,6 +176,15 @@ const StyledFilledFavoriteIcon = styled(FilledFavoriteIcon)`
    width: 1.25vw;
    height: 1.25vw;
    cursor: pointer;
+`
+const StyledButton = styled(Button)`
+   background: #2fc509;
+   :hover {
+      background: #2fc509;
+   }
+   :active {
+      background: #2fc509;
+   }
 `
 const Card = styled('div')`
    background-color: white;

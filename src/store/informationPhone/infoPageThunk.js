@@ -3,6 +3,7 @@ import {
    deleteReviewsProductRequest,
    getByIdPhoneRequest,
    getReviwesProductRequest,
+   getViewedProductRequest,
    postReviewsProductRequest,
    putAdminReviewsRequest,
    putReviewsProductRequest,
@@ -109,6 +110,19 @@ export const putReviewsAdminAnswer = createAsyncThunk(
       try {
          const response = await putAdminReviewsRequest(data)
          return response.data
+      } catch (error) {
+         return rejectWithValue(error)
+      }
+   }
+)
+
+export const getRecentlyViewedProduct = createAsyncThunk(
+   'product/getRecentlyViewedProduct',
+   async (_, { rejectWithValue }) => {
+      try {
+         const responce = await getViewedProductRequest()
+         console.log(responce.data)
+         return responce.data
       } catch (error) {
          return rejectWithValue(error)
       }

@@ -6,11 +6,11 @@ import { Contacts } from '../components/user/contacts/Contacts'
 import { Favorite } from '../components/user/favorite/Favorite'
 import { MainPage } from '../components/user/main.page/MainPage'
 import { PopUpPage } from '../components/user/UserUI/PopUp/PopUpPage'
+import { Basket } from '../components/user/basket/Basket'
 import { Compare } from '../components/user/compare/Compare'
 import { Catalog } from '../components/user/catalog/Catalog'
 import { PersonalAreaContainer } from '../components/user/personalAreaPage/PersonalAreaContainer'
 import { HistoryDetailContainer } from '../components/user/personalAreaPage/historyPages/HistoryDetailContainer'
-// import { ContainerProductId } from '../components/user/productIdPages/Container'
 import { PhonePage } from '../components/user/productIdPages/productIdDetail/PhonePage'
 
 export const userRoutes = [
@@ -34,6 +34,10 @@ export const userRoutes = [
    {
       path: routes.USER.favorite,
       element: <Favorite />,
+   },
+   {
+      path: routes.USER.basket,
+      element: <Basket />,
    },
    {
       path: routes.USER.personal.index,
@@ -66,7 +70,6 @@ export const userRoutes = [
       element: (
          <div>
             <PhonePage />
-            {/* <ContainerProductId /> */}
          </div>
       ),
    },

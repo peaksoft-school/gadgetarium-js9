@@ -12,20 +12,20 @@ export const SecondProductCard = ({ el }) => {
          <CardMedia
             onClick={() => console.log(el.subProductId)}
             sx={{ width: 210, height: 210 }}
-            image={el?.image}
+            image={el.image}
          />
          <CardContent>
             <Typography variant="h5" component="div">
-               {el?.name}
-               {el?.productName}
+               {el.name}
+               {el.productName}
             </Typography>
             <BlockRating>
                <p>Рейтинг</p>
-               <Rating name="read-only" value={el?.rating} readOnly />
-               <p> ({el?.rating})</p>
+               <Rating name="read-only" value={el.rating} readOnly />
+               <p> ({el.rating})</p>
             </BlockRating>
             <Price>
-               {el?.price?.toLocaleString()} <Сurrency>c</Сurrency>
+               {el.price?.toLocaleString()} <Сurrency>c</Сurrency>
             </Price>
          </CardContent>
       </CardStyled>
@@ -38,6 +38,12 @@ const CardStyled = styled(Card)`
       font-family: Inter;
       font-size: 0.875rem;
       font-weight: 500;
+   }
+   &:hover {
+      transform: scale(1.05);
+      transition: transform 0.3s ease;
+      box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
    }
 `
 

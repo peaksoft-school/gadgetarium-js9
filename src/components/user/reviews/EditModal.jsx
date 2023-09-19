@@ -30,7 +30,7 @@ export const EditModal = ({ open, onClose, reviewId }) => {
          comment,
          imageLink: imgUrl,
       }
-      console.log(data, infoPhone)
+
       dispatch(
          putReviesRequest({
             data,

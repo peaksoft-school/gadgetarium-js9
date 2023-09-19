@@ -20,7 +20,6 @@ export const Reviews = () => {
       (state) => state.product.infoPhone
    )
    const reviewMy = reviews.map((el) => el.my)
-   console.log(reviewMy, 'reviews.my')
 
    const [open, setOpen] = useState(false)
 

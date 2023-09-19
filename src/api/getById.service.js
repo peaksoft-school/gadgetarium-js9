@@ -29,8 +29,11 @@ export const putAdminReviewsRequest = (data) => {
 }
 
 export const postBasketCounterProductRequest = (data) => {
-   console.log('data', data)
    return axiosInstance.post(
       `/v1/basket/add-sub-products-for-basket?subProductId=${data.subProductId}&quantity=${data.quantity}`
    )
+}
+
+export const getViewedProductRequest = () => {
+   return axiosInstance.get('/v1/products/recently-viewed')
 }

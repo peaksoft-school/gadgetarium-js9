@@ -7,7 +7,10 @@ import { ReactComponent as DeleteButton } from '../../../assets/icons/tools-for-
 import { ReactComponent as FavoriteButton } from '../../../assets/icons/favourites-icon.svg'
 import { BasketCard } from './BasketCard'
 import { Button } from '../../UI/Button'
-
+import {
+   addAllFavoriteGoods,
+   deleteAllBasketGoods,
+} from '../../../store/basket/basket.thunk'
 import { basketActions } from '../../../store/basket/basket.slice'
 import { useSnackbar } from '../../../hooks/useSnackbar'
 import { Loading } from '../../UI/loading/Loading'

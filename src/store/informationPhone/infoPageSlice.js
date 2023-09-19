@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import {
    getCatalogRequest,
    getInfoPage,
+   getRecentlyViewedProduct,
    getReviwesProduct,
    getSubCatalogRequest,
    putReviesRequest,
@@ -17,6 +18,7 @@ const initialState = {
    userComment: {},
    updateComment: {},
    updateAdminComment: {},
+   viewedProduct: [],
 }
 
 export const infoPageSlice = createSlice({
@@ -58,6 +60,9 @@ export const infoPageSlice = createSlice({
       })
       builder.addCase(putReviewsAdminAnswer.fulfilled, (state, action) => {
          state.updateAdminComment = action.payload
+      })
+      builder.addCase(getRecentlyViewedProduct.fulfilled, (state, action) => {
+         state.viewedProduct = action.payload
       })
    },
 })

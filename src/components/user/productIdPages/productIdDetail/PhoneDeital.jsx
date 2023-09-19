@@ -25,11 +25,10 @@ export const PhoneDeital = () => {
       color,
       productId,
       subProductId,
+      inBasket,
    } = useSelector((state) => state.product.infoPhone)
 
-   // const { role } = useSelector((state) => state.auth)
-
-   const role = 'USER'
+   const { role } = useSelector((state) => state.auth)
 
    const { snackbarHandler } = useSnackbar()
 
@@ -72,7 +71,9 @@ export const PhoneDeital = () => {
          subProductId,
          quantity: count,
       }
+      setCount(1)
       dispatch(postBasketQuantity({ data, snackbarHandler }))
+      setChangePrice(price)
    }
 
    const discount = (discountOfProduct / 100) * changePrice
@@ -131,7 +132,7 @@ export const PhoneDeital = () => {
                <BlockPrice>
                   {discountOfProduct === 0 ? (
                      <strong>
-                        {price} <span>c</span>
+                        {changePrice} <span>c</span>
                      </strong>
                   ) : (
                      <>
@@ -139,7 +140,8 @@ export const PhoneDeital = () => {
                            <p>-{discountOfProduct}%</p>
                         </Discount>
                         <strong>
-                           {result?.toLocaleString()} <span>c</span>
+                           {result?.toLocaleString()}
+                           <span>c</span>
                         </strong>
                         <DiscountPrice>
                            {changePrice?.toLocaleString()} с
@@ -155,10 +157,21 @@ export const PhoneDeital = () => {
                            className={favorite ? 'HeartIsRed' : 'HeartIsGray'}
                         />
                      </HeartStyle>
-                     <ButtonUi onClick={postQuantityBasket} variant="contained">
-                        <BasketStyle />
-                        <p>В корзину</p>
-                     </ButtonUi>
+                     {inBasket ? (
+                        <ButtonUiGreen
+                           onClick={postQuantityBasket}
+                           variant="contained"
+                        >
+                           <BasketStyle />В корзине
+                        </ButtonUiGreen>
+                     ) : (
+                        <ButtonUi
+                           onClick={postQuantityBasket}
+                           variant="contained"
+                        >
+                           <BasketStyle />В корзину
+                        </ButtonUi>
+                     )}
                   </BlockUi>
                ) : (
                   <BlockUi>
@@ -323,6 +336,15 @@ const BasketStyle = styled(Basket)`
 const ButtonUi = styled(Button)`
    width: 12.25rem;
    height: 2.8125rem;
+`
+
+const ButtonUiGreen = styled(Button)`
+   width: 12.25rem;
+   height: 2.8125rem;
+   background-color: #2fc509;
+   &:hover {
+      background-color: #2fc509;
+   }
 `
 
 const BorderColor = styled('div')`

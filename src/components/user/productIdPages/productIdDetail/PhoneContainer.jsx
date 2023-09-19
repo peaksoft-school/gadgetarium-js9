@@ -1,19 +1,20 @@
 import React from 'react'
 import { styled } from '@mui/material'
-import { TemprovPages } from '../TemprovPages'
+import { PopUpMain } from '../../UserUI/PopUp/PopUpMain'
+import { PhoneDeital } from './PhoneDeital'
 
 export const PhoneContainer = () => {
    return (
-      <Container>
-         <TemprovPages />
-      </Container>
+      <ConatinerChilde>
+         <PopUpMain />
+         <PhoneDeital />
+      </ConatinerChilde>
    )
 }
 
-const Container = styled('div')`
-   width: 100%;
+const ConatinerChilde = styled('div')`
    display: flex;
-   flex-direction: column;
-   justify-content: center;
-   align-items: center;
+   justify-content: space-between;
+   width: 79.888vw;
+   margin-bottom: 7.5rem;
 `
