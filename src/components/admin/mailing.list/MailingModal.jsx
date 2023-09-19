@@ -4,11 +4,17 @@ import { z } from 'zod'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import dayjs from 'dayjs'
+import { useDispatch } from 'react-redux'
 import { Button } from '../../UI/Button'
 import { Calendar } from '../../UI/calendarFolder/Calendar'
 import { InputUi } from '../../UI/Input'
 import { ReactComponent as AddPhotoIcon } from '../../../assets/icons/photo-add/add-photo-icon.svg'
 import { Modal } from '../../UI/Modal'
+import {
+   postMailingList,
+   postS3File,
+} from '../../../store/admin.goods/admin.goods.thunk'
+import { useSnackbar } from '../../../hooks/useSnackbar'
 
 const today = new Date()
 today.setHours(0, 0, 0, 0)
@@ -39,13 +45,20 @@ export const MailingModal = ({ open, handleClose }) => {
       mode: 'onBlur',
       resolver: zodResolver(schema),
    })
+   const dispatch = useDispatch()
+   const { snackbarHandler } = useSnackbar()
    const [firstDateSelected, setFirstDateSelected] = useState(false)
    const startDate = watch('startDate')
    const finishDate = watch('finishDate')
 
    const submitHandler = () => {
       const data = getValues()
-      console.log('data: ', data)
+      const updatedData = {
+         ...data,
+         startDate: dayjs(startDate).format('YYYY-MM-DD'),
+         finishDate: dayjs(finishDate).format('YYYY-MM-DD'),
+      }
+      dispatch(postMailingList({ data: updatedData, snackbarHandler }))
       handleClose()
       reset()
    }
@@ -71,8 +84,13 @@ export const MailingModal = ({ open, handleClose }) => {
                                  type="file"
                                  {...field}
                                  onChange={(e) => {
-                                    field.onChange(
-                                       URL.createObjectURL(e.target.files[0])
+                                    const formData = new FormData()
+                                    formData.append('file', e.target.files[0])
+                                    dispatch(
+                                       postS3File({
+                                          data: formData,
+                                          field,
+                                       })
                                     )
                                  }}
                               />

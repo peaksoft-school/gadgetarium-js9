@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import { keyframes, styled } from '@mui/material'
-import { useDispatch } from 'react-redux'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { navBarForAdminHeader } from '../../../utils/common/constants/header'
 import { MailingList } from '../mailing.list/MailingList'
 import { ReactComponent as ArrowBottom } from '../../../assets/icons/arrows/down-icon.svg'
 import { Modal } from '../../UI/Modal'
 import { Button } from '../../UI/Button'
 import { logOut } from '../../../store/auth/authThunk'
+import { Loading } from '../../UI/loading/Loading'
 
 export const AdminHeader = () => {
    const navigate = useNavigate()
@@ -17,6 +18,8 @@ export const AdminHeader = () => {
    const onComeBack = () => {
       navigate('/admin')
    }
+   const location = useLocation()
+   const { isLoading } = useSelector((state) => state.adminGoods)
    const toggleHandler = () => {
       setOpenExit(!openExit)
    }
@@ -28,6 +31,7 @@ export const AdminHeader = () => {
    }
    return (
       <>
+         {isLoading && location.pathname !== '/admin' && <Loading />}
          <Container>
             <WidthContainer>
                <Title onClick={onComeBack}>

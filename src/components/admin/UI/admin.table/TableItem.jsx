@@ -1,5 +1,7 @@
 import { TableCell, TableRow, styled } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { ReactComponent as EditIcon } from '../../../../assets/icons/tools-for-site/edit-icon.svg'
 import { ReactComponent as DeleteIcon } from '../../../../assets/icons/tools-for-site/delete-icon.svg'
 import { ReactComponent as ArrowDown } from '../../../../assets/icons/arrows/down-icon.svg'
@@ -8,6 +10,8 @@ import {
    nestedContentFunction,
    nestedStyledInput,
 } from '../../../../utils/helpers/functions'
+import { adminGoodsActions } from '../../../../store/admin.goods/admin.goods.slice'
+import { deleteProduct } from '../../../../store/admin.goods/admin.goods.thunk'
 
 export const TableItem = ({
    tables,
@@ -20,9 +24,8 @@ export const TableItem = ({
    const date = item.createdAt ? item.createdAt.split(' ')[0] : null
    const abbreviatedModelName = item.name && item.name.slice(0, 18)
    const [isHovered, setIsHovered] = useState(false)
-   const toggleHoveredHandler = () => {
-      setIsHovered((prev) => !prev)
-   }
+   const navigate = useNavigate()
+   const dispatch = useDispatch()
    const [productPriceInput, setProductPriceInput] = useState(item.productPrice)
    const getProductPrice = (e) => {
       if (Number(e.target.value) < 0) {
@@ -31,17 +34,26 @@ export const TableItem = ({
       return setProductPriceInput(e.target.value)
    }
 
+   const closeHoveredHandler = () => {
+      if (item.isChecked) {
+         return null
+      }
+      return setIsHovered(false)
+   }
+   const openHoveredHandler = () => {
+      setIsHovered(true)
+   }
    const deleteHandler = (id) => {
-      console.log(id, 'id')
+      dispatch(deleteProduct(id))
       return id
    }
    const editHandler = (id) => {
-      console.log(id, 'id')
+      navigate(`/admin/edit-product/${id}`)
       return id
    }
    const checkboxHandler = (id) => {
-      console.log(id, 'id')
-      return id
+      dispatch(adminGoodsActions.changeChecked(id))
+      setIsHovered(true)
    }
    const StyledPhoto = item.image
       ? styled('img')`
@@ -62,8 +74,8 @@ export const TableItem = ({
          center={textInCenter}
          index={indexForTable}
          sx={{ marginTop: '0.625rem' }}
-         onMouseEnter={toggleHoveredHandler}
-         onMouseLeave={toggleHoveredHandler}
+         onMouseEnter={openHoveredHandler}
+         onMouseLeave={closeHoveredHandler}
       >
          {tables.map((el) => {
             if (el.name === 'ID') {
@@ -81,7 +93,8 @@ export const TableItem = ({
                         indexForTable,
                         index,
                         checkboxHandler,
-                        item.id
+                        item.subProductId,
+                        item.isChecked
                      )}
                   </StyledTableCell>
                )
@@ -151,9 +164,9 @@ export const TableItem = ({
                      center={textInCenter}
                      key={el.name}
                   >
-                     {item.productPrice && item.productPrice.toLocaleString()}с
+                     {item.price && item.price.toLocaleString()}с
                      <PersentDiscount>
-                        {item.discount ? `${item.discount}%` : '0%'}
+                        {item.sale ? `${item.sale}%` : '0%'}
                      </PersentDiscount>
                   </StyledTableCell>
                )
@@ -167,7 +180,7 @@ export const TableItem = ({
                   >
                      {item.currentPrice
                         ? item.currentPrice.toLocaleString()
-                        : 0}
+                        : item.price.toLocaleString()}
                      с
                   </StyledTableCell>
                )
@@ -343,13 +356,13 @@ export const TableItem = ({
                      {el.edit && (
                         <StyledEditIcon
                            onClick={() => {
-                              deleteHandler(item.id)
+                              editHandler(item.subProductId)
                            }}
                         />
                      )}
                      <StyledDeleteIcon
                         onClick={() => {
-                           editHandler(item.id)
+                           deleteHandler(item.subProductId)
                         }}
                         style={{ marginLeft: el.edit === false && '0' }}
                      />

@@ -1,13 +1,41 @@
+import { useState } from 'react'
 import { styled } from '@mui/material'
+import { useDispatch } from 'react-redux'
 import { Modal } from '../../UI/Modal'
 import { Button } from '../../UI/Button'
 import { AddImageBanner } from './add.image.banner/AddImageBanner'
+import { postBanners } from '../../../store/admin.goods/admin.goods.thunk'
+import { useSnackbar } from '../../../hooks/useSnackbar'
 
 export const BannerModal = ({ open, onClose }) => {
+   const [containerImg, setContainerImg] = useState([])
+   const changeContainerImg = (value) => {
+      setContainerImg(value)
+   }
+   const dispatch = useDispatch()
+   const { snackbarHandler } = useSnackbar()
+   const submitHandler = () => {
+      if (containerImg.length === 0) {
+         snackbarHandler({
+            message: 'Выберите баннер чтобы загрузить',
+            type: 'warning',
+         })
+      } else {
+         const bannerImages = containerImg.map((el) => {
+            return el.img
+         })
+         dispatch(postBanners({ data: { bannerImages }, snackbarHandler }))
+         onClose()
+         setContainerImg([])
+      }
+   }
    return (
       <StyledModal open={open} onClose={onClose} padding="2.083vw 1.667vw">
          <Title>Загрузить баннер</Title>
-         <AddImageBanner />
+         <AddImageBanner
+            containerImg={containerImg}
+            changeContainerImg={changeContainerImg}
+         />
          <ButtonContainer>
             <Button
                variant="outlined"
@@ -25,7 +53,7 @@ export const BannerModal = ({ open, onClose }) => {
                texttransform="uppercase"
                padding="0.9259vh 5vw"
                fontSize="0.791vw"
-               type="submit"
+               onClick={submitHandler}
             >
                Загрузить
             </Button>

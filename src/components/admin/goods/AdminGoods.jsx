@@ -9,11 +9,18 @@ import { Button } from '../../UI/Button'
 import { DiscountModal } from './DiscountModal'
 import { useCustomSearchParams } from '../../../hooks/useCustomSearchParams'
 import { ReactComponent as ClipIcon } from '../../../assets/icons/clip.svg'
+import { ReactComponent as DeleteButton } from '../../../assets/icons/tools-for-site/delete-icon.svg'
 import { BannerModal } from './BannerModal'
 import { Calendar } from '../../UI/calendarFolder/Calendar'
-import { getAllFilteredProducts } from '../../../store/admin.goods/admin.goods.thunk'
+import {
+   deleteAllProducts,
+   getAllFilteredProducts,
+} from '../../../store/admin.goods/admin.goods.thunk'
 import { ReactComponent as ArrowBottom } from '../../../assets/icons/arrows/down-icon.svg'
 import { SortPopUp } from './sort.popup/SortPopUp'
+import { useSnackbar } from '../../../hooks/useSnackbar'
+import { adminGoodsActions } from '../../../store/admin.goods/admin.goods.slice'
+import { Loading } from '../../UI/loading/Loading'
 
 function a11yProps(index) {
    return {
@@ -24,9 +31,8 @@ function a11yProps(index) {
 
 export const AdminGoods = () => {
    const [inputValue, setInputValue] = useState('')
-   const { filteredProducts, countOfProducts } = useSelector(
-      (state) => state.adminGoods
-   )
+   const { filteredProducts, countOfProducts, checkedProducts, isLoading } =
+      useSelector((state) => state.adminGoods)
    const [tabValue, setTabValue] = useState(0)
    const [productType, setProductType] = useState('Все товары')
    const [startDate, setStartDate] = useState()
@@ -35,8 +41,12 @@ export const AdminGoods = () => {
    const { params, setParam, deleteParam } = useCustomSearchParams()
    const [debounceTimeout, setDebounceTimeout] = useState(null)
    const [sort, setSort] = useState('')
+   const [filter, setFilter] = useState('')
    const [openSort, setOpenSort] = useState(false)
+   const { snackbarHandler } = useSnackbar()
    const dispatch = useDispatch()
+   const navigate = useNavigate()
+
    const getStartDate = (e) => {
       setStartDate(e)
    }
@@ -44,7 +54,42 @@ export const AdminGoods = () => {
       setEndDate(e)
    }
    const getSortType = (value) => {
-      setSort(value)
+      if (value === 'По акции') {
+         return null
+      }
+      return setSort(value)
+   }
+   const getAllFilteredProductsHandler = () => {
+      dispatch(
+         getAllFilteredProducts({
+            keyword: inputValue,
+            productType,
+            startDate: dayjs(startDate).format('YYYY-MM-DD'),
+            endDate: endDate ? dayjs(endDate).format('YYYY-MM-DD') : '',
+            filter,
+            sort,
+            pageSize: 7,
+            pageNumber: page,
+         })
+      )
+   }
+   const deleteAllHandler = () => {
+      if (checkedProducts.length === 0) {
+         snackbarHandler({
+            type: 'error',
+            message: 'Выберите товар чтобы удалить!',
+         })
+      } else {
+         dispatch(
+            deleteAllProducts({
+               checkedProducts,
+               getAllFilteredProductsHandler,
+            })
+         )
+      }
+   }
+   const getFilterType = (value) => {
+      setFilter(value)
    }
    const getInputValue = (event) => {
       setInputValue(event.target.value)
@@ -56,22 +101,11 @@ export const AdminGoods = () => {
          clearTimeout(debounceTimeout)
       }
       const newDebounceTimeout = setTimeout(() => {
-         dispatch(
-            getAllFilteredProducts({
-               keyword: inputValue,
-               productType,
-               startDate: dayjs(startDate).format('YYYY-MM-DD'),
-               // endDate: dayjs(endDate).format('YYYY-MM-DD'),
-               endDate: '2023-09-17',
-               pageSize: 7,
-               pageNumber: page,
-            })
-         )
+         getAllFilteredProductsHandler()
       }, 500)
 
       setDebounceTimeout(newDebounceTimeout)
    }
-   const navigate = useNavigate()
 
    const closeModalHandler = () => {
       deleteParam('openModalDiscount')
@@ -79,6 +113,10 @@ export const AdminGoods = () => {
    const toggleSortHandler = () => {
       setOpenSort(!openSort)
    }
+   const closeSortHandler = () => {
+      setOpenSort(false)
+   }
+
    useEffect(() => {
       if (tabValue === 0) {
          setProductType('Все товары')
@@ -94,17 +132,11 @@ export const AdminGoods = () => {
       }
    }, [tabValue])
    useEffect(() => {
-      dispatch(
-         getAllFilteredProducts({
-            keyword: inputValue,
-            productType,
-            startDate: dayjs(startDate).format('YYYY-MM-DD'),
-            endDate: '2023-09-17',
-            pageSize: 7,
-            pageNumber: page,
-         })
-      )
-   }, [startDate, endDate, productType, page])
+      dispatch(adminGoodsActions.onChangeGoodsChecked())
+   }, [filteredProducts])
+   useEffect(() => {
+      getAllFilteredProductsHandler()
+   }, [startDate, endDate, productType, page, sort, filter])
    const getPage = (event, page) => {
       setPage(page)
    }
@@ -121,125 +153,141 @@ export const AdminGoods = () => {
       setTabValue(newValue)
    }
    return (
-      <Container>
-         <WidthContainer>
-            <ProductsToolContainer>
-               <ButtonInputContainer>
-                  <SearchForm>
-                     <Input
-                        value={inputValue}
-                        onChange={getInputValue}
-                        placeholder="Поиск по артикулу или ..."
-                        type="text"
-                     />
-                     <StyledVector input={inputValue} />
-                  </SearchForm>
-                  <ButtonContainer>
-                     <StyledButton
-                        padding="1.1111vh 1.979vw"
-                        variant="outlined"
-                        backgroundhover="#CB11AB"
-                        backgroundactive="#E313BF"
-                        onClick={() => navigate('/admin/add-products-part-1')}
+      <>
+         {isLoading && <Loading />}
+         <Container>
+            <WidthContainer>
+               <ProductsToolContainer>
+                  <ButtonInputContainer>
+                     <SearchForm>
+                        <Input
+                           value={inputValue}
+                           onChange={getInputValue}
+                           placeholder="Поиск по артикулу или ..."
+                           type="text"
+                        />
+                        <StyledVector input={inputValue} />
+                     </SearchForm>
+                     <ButtonContainer>
+                        <StyledButton
+                           padding="1.1111vh 1.979vw"
+                           variant="outlined"
+                           backgroundhover="#CB11AB"
+                           backgroundactive="#E313BF"
+                           onClick={() =>
+                              navigate('/admin/add-products-part-1')
+                           }
+                        >
+                           Добавить товар
+                        </StyledButton>
+                        <StyledButton
+                           padding="1.1111vh 1.979vw"
+                           variant="outlined"
+                           backgroundhover="#CB11AB"
+                           backgroundactive="#E313BF"
+                           onClick={openModalHandler}
+                        >
+                           Создать скидку
+                        </StyledButton>
+                        <DiscountModal
+                           onClick={getAllFilteredProductsHandler}
+                           open={params}
+                           handleClose={closeModalHandler}
+                        />
+                     </ButtonContainer>
+                  </ButtonInputContainer>
+                  <TabsButtonContainer>
+                     <Tabs
+                        value={tabValue}
+                        onChange={handleChange}
+                        aria-label="basic tabs example"
                      >
-                        Добавить товар
-                     </StyledButton>
-                     <StyledButton
-                        padding="1.1111vh 1.979vw"
-                        variant="outlined"
-                        backgroundhover="#CB11AB"
-                        backgroundactive="#E313BF"
-                        onClick={openModalHandler}
-                     >
-                        Создать скидку
-                     </StyledButton>
-                     <DiscountModal
-                        open={params}
-                        handleClose={closeModalHandler}
+                        <Tab label="Все товары" {...a11yProps(0)} />
+                        <Tab label="В продаже" {...a11yProps(1)} />
+                        <Tab label="В избранном" {...a11yProps(2)} />
+                        <Tab label="В корзине" {...a11yProps(3)} />
+                     </Tabs>
+                     <BannerButton onClick={openBannerModalHandler}>
+                        <ClipIcon />
+                        Загрузить баннер
+                     </BannerButton>
+                     <BannerModal
+                        open={params.has('openModalBanner')}
+                        onClose={closeBannerModalHandler}
                      />
-                  </ButtonContainer>
-               </ButtonInputContainer>
-               <TabsButtonContainer>
-                  <Tabs
-                     value={tabValue}
-                     onChange={handleChange}
-                     aria-label="basic tabs example"
-                  >
-                     <Tab label="Все товары" {...a11yProps(0)} />
-                     <Tab label="В продаже" {...a11yProps(1)} />
-                     <Tab label="В избранном" {...a11yProps(2)} />
-                     <Tab label="В корзине" {...a11yProps(3)} />
-                  </Tabs>
-                  <BannerButton onClick={openBannerModalHandler}>
-                     <ClipIcon />
-                     Загрузить баннер
-                  </BannerButton>
-                  <BannerModal
-                     open={params.has('openModalBanner')}
-                     onClose={closeBannerModalHandler}
-                  />
-               </TabsButtonContainer>
-               <CalendarContainer>
-                  <Calendar
-                     onChange={getStartDate}
-                     value={dayjs(startDate)}
-                     maxDate={dayjs(endDate)}
-                     fontSize="14px"
-                     height="35px"
-                     placeholder="От"
-                     width="100%"
-                  />
-                  <Calendar
-                     onChange={getEndDate}
-                     value={endDate}
-                     minDate={dayjs(startDate)}
-                     fontSize="14px"
-                     marginTop="-9px"
-                     height="35px"
-                     placeholder="До"
-                     width="100%"
-                  />
-               </CalendarContainer>
-               <TableContainer>
-                  <SortAndCountOfProductsContainer>
-                     <CountOfProducts>
-                        Найдено {countOfProducts} товаров
-                     </CountOfProducts>
-                     <PositionContainer>
-                        <Sort onClick={toggleSortHandler}>
-                           Сортировать
-                           <StyledArrowBottom
-                              style={{
-                                 transform: openSort
-                                    ? 'rotate(180deg)'
-                                    : 'rotate(0deg)',
-                              }}
-                           />
-                        </Sort>
-                        {openSort && (
-                           <SortPopUp
-                              sort={sort}
-                              getSortType={getSortType}
-                              onClick={toggleSortHandler}
-                              openSort={openSort}
-                           />
-                        )}
-                     </PositionContainer>
-                  </SortAndCountOfProductsContainer>
-                  <AdminTable
-                     indexForTable={0}
-                     itemTableArray={filteredProducts}
-                  />
-                  <PaginationContainer>
-                     <Pagination
-                        count={Math.ceil(countOfProducts / 7)}
-                        onChange={getPage}
+                  </TabsButtonContainer>
+                  <CalendarContainer>
+                     <Calendar
+                        onChange={getStartDate}
+                        value={dayjs(startDate)}
+                        maxDate={dayjs(endDate)}
+                        fontSize="14px"
+                        height="35px"
+                        placeholder="От"
+                        width="100%"
                      />
-                  </PaginationContainer>
-               </TableContainer>
-            </ProductsToolContainer>
-         </WidthContainer>
-      </Container>
+                     <Calendar
+                        onChange={getEndDate}
+                        value={endDate}
+                        minDate={dayjs(startDate)}
+                        fontSize="14px"
+                        marginTop="-9px"
+                        height="35px"
+                        placeholder="До"
+                        width="100%"
+                     />
+                     <Tools onClick={deleteAllHandler}>
+                        <StyledDeleteButton />
+                        Удалить
+                     </Tools>
+                  </CalendarContainer>
+                  {countOfProducts === 0 ? (
+                     <NoGoods>Здесь нет товаров!</NoGoods>
+                  ) : (
+                     <TableContainer>
+                        <SortAndCountOfProductsContainer>
+                           <CountOfProducts>
+                              Найдено {countOfProducts} товаров
+                           </CountOfProducts>
+                           <PositionContainer onMouseLeave={closeSortHandler}>
+                              <Sort onClick={toggleSortHandler}>
+                                 Сортировать
+                                 <StyledArrowBottom
+                                    style={{
+                                       transform: openSort
+                                          ? 'rotate(180deg)'
+                                          : 'rotate(0deg)',
+                                    }}
+                                 />
+                              </Sort>
+                              {openSort && (
+                                 <SortPopUp
+                                    sort={sort}
+                                    filter={filter}
+                                    getFilterType={getFilterType}
+                                    getSortType={getSortType}
+                                    onClick={toggleSortHandler}
+                                    openSort={openSort}
+                                 />
+                              )}
+                           </PositionContainer>
+                        </SortAndCountOfProductsContainer>
+                        <AdminTable
+                           indexForTable={0}
+                           itemTableArray={filteredProducts}
+                        />
+                        <PaginationContainer>
+                           <Pagination
+                              count={Math.ceil(countOfProducts / 7)}
+                              onChange={getPage}
+                           />
+                        </PaginationContainer>
+                     </TableContainer>
+                  )}
+               </ProductsToolContainer>
+            </WidthContainer>
+         </Container>
+      </>
    )
 }
 const Container = styled('div')`
@@ -255,6 +303,26 @@ const PaginationContainer = styled('div')`
    .Mui-selected {
       background-color: #cb11ab !important;
       color: #f7fafc;
+   }
+`
+const Tools = styled('p')`
+   color: #292929;
+   font-family: Inter;
+   font-size: 0.938vw;
+   font-style: normal;
+   font-weight: 400;
+   line-height: 110%;
+   margin: 0;
+   display: flex;
+   align-items: center;
+   cursor: pointer;
+`
+const StyledDeleteButton = styled(DeleteButton)`
+   margin-right: 0.313vw;
+   width: 18px;
+   height: 18px;
+   path {
+      fill: #384255;
    }
 `
 const ButtonContainer = styled('div')`
@@ -282,6 +350,12 @@ const Sort = styled('button')`
    align-items: center;
    gap: 6px;
 `
+const NoGoods = styled('p')`
+   font-size: 20px;
+   font-family: Inter;
+   color: #384255;
+   text-align: center;
+`
 const CountOfProducts = styled('p')`
    color: #384255;
    text-align: center;
@@ -304,7 +378,7 @@ const TableContainer = styled('div')`
 const CalendarContainer = styled('div')`
    display: flex;
    gap: 1.042vw;
-   width: 298px;
+   width: 388px;
    margin-bottom: 3.125vw;
 `
 const StyledArrowBottom = styled(ArrowBottom)`

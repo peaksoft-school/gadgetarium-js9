@@ -1,57 +1,46 @@
 import { styled } from '@mui/material'
 import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { AddImageBannerWhenManyImages } from './AddImageBannerWhenManyImages'
 import { ReactComponent as AddPhotoIcon } from '../../../../assets/icons/photo-add/add-photo-icon.svg'
+import { postS3File } from '../../../../store/admin.goods/admin.goods.thunk'
 
-export const AddImageBanner = () => {
+export const AddImageBanner = ({ containerImg, changeContainerImg }) => {
    const [smartphonePhoto, setSmartphonePhoto] = useState(null)
-   const [containerImg, setContainerImg] = useState([])
+   const dispatch = useDispatch()
    const deleteHandler = (id) => {
       const filteredContainerImg = containerImg.filter((item) => item.id !== id)
-      setContainerImg(filteredContainerImg)
+      changeContainerImg(filteredContainerImg)
    }
 
-   const imgUrl = smartphonePhoto && URL.createObjectURL(smartphonePhoto)
-
    useEffect(() => {
-      if (smartphonePhoto && containerImg.length !== 10) {
+      if (smartphonePhoto && containerImg.length !== 6) {
          const data = {
             id: Date.now().toString(),
-            img: imgUrl,
+            img: smartphonePhoto,
          }
 
-         setContainerImg((prevContainerImg) => [...prevContainerImg, data])
+         changeContainerImg((prevContainerImg) => [...prevContainerImg, data])
       }
    }, [smartphonePhoto])
 
    const handleFileChangeFromDrop = (file) => {
-      if (file) {
-         const image = new Image()
-         const reader = new FileReader()
-
-         reader.onload = (e) => {
-            image.onload = () => {
-               setSmartphonePhoto(file)
-            }
-
-            image.src = e.target.result
-         }
-
-         reader.readAsDataURL(file)
-      }
+      setSmartphonePhoto(file)
    }
 
    const handleFileChange = (event) => {
       const file = event.target.files[0]
-
-      handleFileChangeFromDrop(file)
+      const formData = new FormData()
+      formData.append('file', file)
+      dispatch(postS3File({ data: formData, handleFileChangeFromDrop }))
    }
 
    const handleDrop = (e) => {
       e.preventDefault()
       const file = e.dataTransfer.files[0]
-
-      handleFileChangeFromDrop(file)
+      const formData = new FormData()
+      formData.append('file', file)
+      dispatch(postS3File({ data: formData, handleFileChangeFromDrop }))
    }
 
    return (

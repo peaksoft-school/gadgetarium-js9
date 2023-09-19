@@ -45,7 +45,8 @@ export const nestedContentFunction = (
    indexForTable,
    index,
    checkboxHandler,
-   id
+   id,
+   isChecked
 ) => {
    if (isHovered === true) {
       if (indexForTable === 2) {
@@ -54,6 +55,7 @@ export const nestedContentFunction = (
       return (
          <StyledCheckboxInput
             bgColor="black"
+            isChecked={isChecked}
             onClick={() => checkboxHandler(id)}
          />
       )

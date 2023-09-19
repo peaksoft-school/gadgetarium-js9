@@ -2,11 +2,16 @@ import { AddingAProduct } from '../components/admin/addingAProduct/partOne/Addin
 import { FinishingTouchAddingProduct } from '../components/admin/addingAProduct/partThree/FinishingTouchAddingProduct'
 import { QuantityOfGoodsAndPrice } from '../components/admin/addingAProduct/partTwo/QuantityOfGoodsAndPrice'
 import { AdminGoods } from '../components/admin/goods/AdminGoods'
+import { EditProduct } from '../components/admin/goods/edit-product/EditProduct'
 
 export const adminRoutes = [
    {
       path: '/admin',
       element: <AdminGoods />,
+   },
+   {
+      path: '/admin/edit-product/:subProductId',
+      element: <EditProduct />,
    },
    {
       path: '/admin/add-products-part-1',

@@ -39,7 +39,14 @@ const saleArray = [
    },
 ]
 
-export const SortPopUp = ({ openSort, sort, getSortType, onClick }) => {
+export const SortPopUp = ({
+   openSort,
+   sort,
+   getSortType,
+   onClick,
+   filter,
+   getFilterType,
+}) => {
    const [saleArrayOpen, setSaleArrayOpen] = useState(false)
 
    const toggleArrayOpen = (value, isSortInArray) => {
@@ -52,6 +59,11 @@ export const SortPopUp = ({ openSort, sort, getSortType, onClick }) => {
    const getSortTypeValue = (value) => {
       getSortType(value)
       onClick()
+      getFilterType('')
+   }
+   const getFilterTypeValue = (value) => {
+      getFilterType(value)
+      onClick()
       setSaleArrayOpen(false)
    }
 
@@ -59,7 +71,7 @@ export const SortPopUp = ({ openSort, sort, getSortType, onClick }) => {
       <PositionContainer className={openSort ? 'open' : 'close'}>
          <Container>
             {array.map((el) => {
-               const isSortInArray = saleArray.some((el) => el.name === sort)
+               const isSortInArray = saleArray.some((el) => el.name === filter)
                const isCurrentType = sort === el.name
                if (el.name === 'По акции') {
                   return (
@@ -84,20 +96,22 @@ export const SortPopUp = ({ openSort, sort, getSortType, onClick }) => {
                )
             })}
          </Container>
-         <SaleContainer className={saleArrayOpen ? 'open' : 'close'}>
-            {saleArray.map((el) => {
-               const isCurrentType = sort === el.name
-               return (
-                  <Option
-                     onClick={() => getSortTypeValue(el.name)}
-                     highlighted={isCurrentType && 'true'}
-                     key={el.id}
-                  >
-                     {el.name}
-                  </Option>
-               )
-            })}
-         </SaleContainer>
+         {saleArrayOpen && (
+            <SaleContainer className={saleArrayOpen ? 'open' : 'close'}>
+               {saleArray.map((el) => {
+                  const isCurrentType = filter === el.name
+                  return (
+                     <Option
+                        onClick={() => getFilterTypeValue(el.name)}
+                        highlighted={isCurrentType && 'true'}
+                        key={el.id}
+                     >
+                        {el.name}
+                     </Option>
+                  )
+               })}
+            </SaleContainer>
+         )}
       </PositionContainer>
    )
 }

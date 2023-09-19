@@ -3,11 +3,15 @@ import React, { useState } from 'react'
 import { z } from 'zod'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useDispatch, useSelector } from 'react-redux'
 import dayjs from 'dayjs'
 import { Button } from '../../UI/Button'
 import { Calendar } from '../../UI/calendarFolder/Calendar'
 import { InputUi } from '../../UI/Input'
 import { Modal } from '../../UI/Modal'
+import { adminGoodsActions } from '../../../store/admin.goods/admin.goods.slice'
+import { postDiscount } from '../../../store/admin.goods/admin.goods.thunk'
+import { useSnackbar } from '../../../hooks/useSnackbar'
 
 const today = new Date()
 today.setHours(0, 0, 0, 0)
@@ -17,7 +21,7 @@ const schema = z.object({
    discountStartDate: z.date().min(today),
    discountEndDate: z.date().min(today),
 })
-export const DiscountModal = ({ open, handleClose }) => {
+export const DiscountModal = ({ open, handleClose, onClick }) => {
    const {
       register,
       handleSubmit,
@@ -37,13 +41,30 @@ export const DiscountModal = ({ open, handleClose }) => {
       resolver: zodResolver(schema),
    })
    const [firstDateSelected, setFirstDateSelected] = useState(false)
+   const { checkedProducts } = useSelector((state) => state.adminGoods)
+   const dispatch = useDispatch()
    const discountStartDate = watch('discountStartDate')
    const discountEndDate = watch('discountEndDate')
+   const { snackbarHandler } = useSnackbar()
    const submitHandler = () => {
       const data = getValues()
-      console.log('data: ', data)
-      handleClose()
-      reset()
+      const updatedData = {
+         discountStartDate: dayjs(data.discountStartDate).format('YYYY-MM-DD'),
+         discountEndDate: dayjs(data.discountEndDate).format('YYYY-MM-DD'),
+         amountOfDiscount: parseInt(data.amountOfDiscount, 10),
+         subProductIds: checkedProducts,
+      }
+      dispatch(adminGoodsActions.falseAllChecked())
+      if (checkedProducts.length === 0) {
+         snackbarHandler({
+            type: 'error',
+            message: 'Выберите товар чтобы добвить скидку!',
+         })
+      } else {
+         dispatch(postDiscount({ data: updatedData, snackbarHandler, onClick }))
+         handleClose()
+         reset()
+      }
    }
    const handleamountOfDiscountChange = (e) => {
       let value = e.target.value.replace(/\D/g, '')
@@ -75,9 +96,12 @@ export const DiscountModal = ({ open, handleClose }) => {
          }
       }
    }
-
+   const closeModalHandler = () => {
+      handleClose()
+      reset()
+   }
    return (
-      <Modal open={open.has('openModalDiscount')} onClose={handleClose}>
+      <Modal open={open.has('openModalDiscount')} onClose={closeModalHandler}>
          <Form onSubmit={handleSubmit(submitHandler)}>
             <AnswerToComment>Создать скидку</AnswerToComment>
             <InputContainer>
@@ -135,27 +159,29 @@ export const DiscountModal = ({ open, handleClose }) => {
                      <Controller
                         name="discountEndDate"
                         control={control}
-                        render={({ field }) => (
-                           <Calendar
-                              onChange={(newDate) => {
-                                 field.onChange(newDate.$d)
-                                 if (!firstDateSelected) {
-                                    setFirstDateSelected(true)
+                        render={({ field }) => {
+                           return (
+                              <Calendar
+                                 onChange={(newDate) => {
+                                    field.onChange(newDate.$d)
+                                    if (!firstDateSelected) {
+                                       setFirstDateSelected(true)
+                                    }
+                                 }}
+                                 minDate={
+                                    firstDateSelected
+                                       ? dayjs(discountStartDate)
+                                       : undefined
                                  }
-                              }}
-                              minDate={
-                                 firstDateSelected
-                                    ? dayjs(discountStartDate)
-                                    : undefined
-                              }
-                              value={field.value}
-                              fontSize="0.83333vw"
-                              placeholder="Выберите дату"
-                              error={!!formState.errors.discountEndDate}
-                              height="1.823vw"
-                              width="100%"
-                           />
-                        )}
+                                 value={field.value}
+                                 fontSize="0.83333vw"
+                                 placeholder="Выберите дату"
+                                 error={!!formState.errors.discountEndDate}
+                                 height="1.823vw"
+                                 width="100%"
+                              />
+                           )
+                        }}
                      />
                   </InputLabelContainer>
                </CalendarContainer>
@@ -168,7 +194,7 @@ export const DiscountModal = ({ open, handleClose }) => {
                   backgroundactive="#CB11AB"
                   padding="0.69vh 5vw"
                   fontSize="0.791vw"
-                  onClick={handleClose}
+                  onClick={closeModalHandler}
                >
                   Отменить
                </Button>
