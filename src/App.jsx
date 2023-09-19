@@ -1,10 +1,12 @@
 import { CustomToast } from './components/UI/snackbar/CustomToast'
-import { UserLayout } from './layout/user/UserLayout'
+import { AdminOrders } from './components/admin/orders/adminOrders'
+// import { UserLayout } from './layout/user/UserLayout'
 
 function App() {
    return (
       <div>
-         <UserLayout />
+         <AdminOrders />
+         {/* <UserLayout /> */}
          <CustomToast />
       </div>
    )
