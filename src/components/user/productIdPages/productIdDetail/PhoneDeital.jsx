@@ -1,9 +1,10 @@
 import { styled, Button } from '@mui/material'
 import Rating from '@mui/material/Rating'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
+import { useNavigate } from 'react-router-dom'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import { ReactComponent as Delete } from '../../../../assets/icons/tools-for-site/delete-icon.svg'
 import { ReactComponent as Basket } from '../../../../assets/icons/basket-icon.svg'
@@ -30,10 +31,13 @@ export const PhoneDeital = () => {
 
    const { role } = useSelector((state) => state.auth)
 
+   const navigate = useNavigate()
+
    const { snackbarHandler } = useSnackbar()
 
    const [count, setCount] = useState(1)
 
+   const [changePrice, setChangePrice] = useState(price)
    const dispatch = useDispatch()
 
    const postFavoriteHandler = () => {
@@ -49,10 +53,9 @@ export const PhoneDeital = () => {
          })
    }
    const handleColorClick = (el) => {
+      setCount(1)
       dispatch(getInfoPage({ productId, colour: el }))
    }
-
-   const [changePrice, setChangePrice] = useState(price)
 
    const countMinus = () => {
       if (count !== 1) {
@@ -60,6 +63,9 @@ export const PhoneDeital = () => {
          setChangePrice((prevChangePrice) => prevChangePrice - price)
       }
    }
+   useEffect(() => {
+      setChangePrice(price)
+   }, [price])
 
    const countPlus = () => {
       setCount((prev) => prev + 1)
@@ -159,7 +165,7 @@ export const PhoneDeital = () => {
                      </HeartStyle>
                      {inBasket ? (
                         <ButtonUiGreen
-                           onClick={postQuantityBasket}
+                           onClick={() => navigate('/basket')}
                            variant="contained"
                         >
                            <BasketStyle />В корзине

@@ -105,10 +105,10 @@ export const addAllFavoriteGoods = createAsyncThunk(
 )
 export const postBasketQuantity = createAsyncThunk(
    'product/postBasketQuantity',
-   async ({ data, snackbarHandler }, { dispatch, rejectWithValue }) => {
+   async ({ data, snackbarHandler }, { rejectWithValue }) => {
       try {
          const responce = await postBasketCounterProductRequest(data)
-         dispatch(getBasket())
+
          snackbarHandler({
             message: 'Товар успешно добавлен в корзину',
             linkText: 'Перейти в корзину',

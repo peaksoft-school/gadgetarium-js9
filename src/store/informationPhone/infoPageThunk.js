@@ -121,7 +121,6 @@ export const getRecentlyViewedProduct = createAsyncThunk(
    async (_, { rejectWithValue }) => {
       try {
          const responce = await getViewedProductRequest()
-         console.log(responce.data)
          return responce.data
       } catch (error) {
          return rejectWithValue(error)
