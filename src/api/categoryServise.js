@@ -10,8 +10,6 @@ export const getColorsTransformation = (hashCodes) => {
       params.append(`names`, el.codeColor)
    })
 
-   console.log('params: ', params.toString())
-
    return axiosInstance.get(`/v1/products/colors?${params.toString()}`)
 }
 
