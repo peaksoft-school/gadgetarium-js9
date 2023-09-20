@@ -19,8 +19,6 @@ export const Catalog = () => {
       plusPageSize,
       sort,
    } = useSelector((state) => state.category)
-   console.log('selectedCategories: ', selectedCategories)
-   console.log('filteredProducts: ', filteredProducts)
 
    const [cateSort, setCateSort] = useState(false)
    const dispatch = useDispatch()

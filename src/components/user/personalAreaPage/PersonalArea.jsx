@@ -88,7 +88,11 @@ export const PersonalArea = () => {
                      label="Избранное"
                      {...a11yProps(1)}
                   />
-                  <Tab label="Профиль" {...a11yProps(2)} />
+                  <Tab
+                     onClick={() => navigate('/personalArea/profile')}
+                     label="Профиль"
+                     {...a11yProps(2)}
+                  />
                </Tabs>
 
                {value === 0 && productOrder.length > 0 ? (
