@@ -39,9 +39,7 @@ export const Сharacteristics = () => {
                            </p>
                         </div>
                      </TypographyBlock>
-                  ) : (
-                     ''
-                  )}
+                  ) : null}
                   {category === 'Phone' ? (
                      <TypographyBlock>
                         <div>
@@ -63,9 +61,7 @@ export const Сharacteristics = () => {
                            </p>
                         </div>
                      </TypographyBlock>
-                  ) : (
-                     ''
-                  )}
+                  ) : null}
                   {category === 'Smart Watch' ? (
                      <TypographyBlock>
                         <div>
@@ -77,17 +73,13 @@ export const Сharacteristics = () => {
                            <p>{name}</p>
                         </div>
                      </TypographyBlock>
-                  ) : (
-                     ''
-                  )}
+                  ) : null}
                </Typography>
             </AccordionDetails>
          </Accordion>
          <Accordion>
             <AccordionSummary expandIcon={<ArrowStyle />}>
-               <Typography>
-                  <h4>Процессор</h4>
-               </Typography>
+               <h4>Процессор</h4>
             </AccordionSummary>
             <AccordionDetails>
                <Typography>

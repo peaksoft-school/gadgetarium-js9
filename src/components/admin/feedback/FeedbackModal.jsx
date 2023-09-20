@@ -2,7 +2,10 @@ import { Box, Modal, styled } from '@mui/material'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { Button } from '../../UI/Button'
-import { putReviewsAdminAnswer } from '../../../store/informationPhone/infoPageThunk'
+import {
+   postReviewsAdminAnswer,
+   putReviewsAdminAnswer,
+} from '../../../store/informationPhone/infoPageThunk'
 
 const FeedbackModal = ({
    open,
@@ -12,6 +15,8 @@ const FeedbackModal = ({
    adminReviewState,
    saveTextHandler,
    reviewId,
+   isEditing,
+   setIsEditing,
 }) => {
    const dispatch = useDispatch()
 
@@ -20,7 +25,12 @@ const FeedbackModal = ({
          reviewId,
          replyToComment: modalText,
       }
-      dispatch(putReviewsAdminAnswer(data))
+
+      if (isEditing) {
+         dispatch(putReviewsAdminAnswer(data))
+      } else {
+         dispatch(postReviewsAdminAnswer(data))
+      }
    }
 
    return (
@@ -45,7 +55,10 @@ const FeedbackModal = ({
                   Отменить
                </Button>
                <Button
-                  onClick={saveAdminAnswer}
+                  onClick={() => {
+                     setIsEditing(true)
+                     saveAdminAnswer()
+                  }}
                   variant="contained"
                   textTransform="uppercase"
                   padding="0.625rem 4.6825rem"

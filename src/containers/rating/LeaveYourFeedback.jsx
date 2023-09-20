@@ -7,6 +7,7 @@ import { Button } from '../../components/UI/Button'
 import { SuccessModal } from './SuccessModal'
 import { postReviewsPhone } from '../../store/informationPhone/infoPageThunk'
 import { ErrorModal } from './ErrorModal'
+import { useSnackbar } from '../../hooks/useSnackbar'
 
 export const LeaveYourFeedback = ({ rating, onClose, subProductId }) => {
    const [myStar, setMyStar] = useState(0)
@@ -16,6 +17,8 @@ export const LeaveYourFeedback = ({ rating, onClose, subProductId }) => {
    const [img, setImg] = useState('')
    const [successModal, setSuccessModal] = useState(false)
    const [errorModal, setErrorModal] = useState(false)
+
+   const { snackbarHandler } = useSnackbar()
 
    const dispatch = useDispatch()
 
@@ -31,18 +34,26 @@ export const LeaveYourFeedback = ({ rating, onClose, subProductId }) => {
    }
 
    const onCreateReview = async () => {
-      const data = {
-         subProductId,
-         star: myStar,
-         comment,
-         img: imgUrl,
+      if (myStar > 0) {
+         const data = {
+            subProductId,
+            star: myStar,
+            comment,
+            img: imgUrl,
+         }
+         dispatch(
+            postReviewsPhone({ data, onOpenSuccessModal, onOpenErrorModal })
+         )
+         onClose()
+         setMyStar(0)
+         setComment('')
+         setImg('')
+      } else {
+         snackbarHandler({
+            message: 'Оставьте свою оценку',
+            type: 'error',
+         })
       }
-      dispatch(postReviewsPhone({ data, onOpenSuccessModal, onOpenErrorModal }))
-
-      onClose()
-      setMyStar(0)
-      setComment('')
-      setImg('')
    }
 
    const handleFileChange = (event) => {

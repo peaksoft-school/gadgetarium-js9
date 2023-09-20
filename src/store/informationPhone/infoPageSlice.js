@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
    getCatalogRequest,
+   getDownloadPdfFiles,
    getInfoPage,
    getRecentlyViewedProduct,
    getReviwesProduct,
@@ -17,8 +18,9 @@ const initialState = {
    subProductColor: '',
    userComment: {},
    updateComment: {},
-   updateAdminComment: {},
    viewedProduct: [],
+   updateAdminComment: [],
+   getPdfFiles: [],
 }
 
 export const infoPageSlice = createSlice({
@@ -58,11 +60,14 @@ export const infoPageSlice = createSlice({
       builder.addCase(putReviesRequest.fulfilled, (state, action) => {
          state.updateComment = action.payload
       })
+      builder.addCase(getRecentlyViewedProduct.fulfilled, (state, action) => {
+         state.viewedProduct = action.payload
+      })
       builder.addCase(putReviewsAdminAnswer.fulfilled, (state, action) => {
          state.updateAdminComment = action.payload
       })
-      builder.addCase(getRecentlyViewedProduct.fulfilled, (state, action) => {
-         state.viewedProduct = action.payload
+      builder.addCase(getDownloadPdfFiles.fulfilled, (state, action) => {
+         state.getPdfFiles = action.payload
       })
    },
 })

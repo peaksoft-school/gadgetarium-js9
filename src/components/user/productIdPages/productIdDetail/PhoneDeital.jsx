@@ -8,7 +8,6 @@ import { useNavigate } from 'react-router-dom'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import { ReactComponent as Delete } from '../../../../assets/icons/tools-for-site/delete-icon.svg'
 import { ReactComponent as Basket } from '../../../../assets/icons/basket-icon.svg'
-import { Сharacteristics } from './ Сharacteristics'
 import { getInfoPage } from '../../../../store/informationPhone/infoPageThunk'
 import { postFavoriteItem } from '../../../../store/favorite/favorite.thunk'
 import { postBasketQuantity } from '../../../../store/basket/basket.thunk'
@@ -191,7 +190,6 @@ export const PhoneDeital = () => {
                )}
             </BlockDiscount>
          </Block2>
-         <Сharacteristics />
       </Container>
    )
 }

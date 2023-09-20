@@ -38,6 +38,7 @@ export const Сharacteristics = () => {
                   <p>ПЗУ</p>
                   <p>Дата выпуска</p>
                </Key>
+
                <Value>
                   <p>
                      <p>{brandName}</p>
@@ -63,6 +64,7 @@ export const Сharacteristics = () => {
                   <p>ПЗУ</p>
                   <p>Дата выпуска</p>
                </Key>
+
                <Value>
                   <p>{brandName}</p>
                   <p>{name}</p>

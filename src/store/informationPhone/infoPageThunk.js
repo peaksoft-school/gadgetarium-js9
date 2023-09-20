@@ -2,8 +2,10 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import {
    deleteReviewsProductRequest,
    getByIdPhoneRequest,
+   getDownloadPdfFilesRequest,
    getReviwesProductRequest,
    getViewedProductRequest,
+   postAdminReviewsRequest,
    postReviewsProductRequest,
    putAdminReviewsRequest,
    putReviewsProductRequest,
@@ -82,9 +84,10 @@ export const getSubCatalogRequest = createAsyncThunk(
 
 export const deleteReviewsRequest = createAsyncThunk(
    'product/deleteReviewsRequest',
-   async (id, { rejectWithValue }) => {
+   async (id, { dispatch, rejectWithValue }) => {
       try {
          await deleteReviewsProductRequest(id)
+         dispatch(getInfoPage())
       } catch (error) {
          rejectWithValue(error)
       }
@@ -104,11 +107,24 @@ export const putReviesRequest = createAsyncThunk(
    }
 )
 
-export const putReviewsAdminAnswer = createAsyncThunk(
-   'product/putReviewsAdminAnswer',
-   async (data, { rejectWithValue }) => {
+export const getRecentlyViewedProduct = createAsyncThunk(
+   'product/getRecentlyViewedProduct',
+   async (_, { rejectWithValue }) => {
       try {
-         const response = await putAdminReviewsRequest(data)
+         const responce = await getViewedProductRequest()
+         return responce.data
+      } catch (error) {
+         return rejectWithValue(error)
+      }
+   }
+)
+
+export const postReviewsAdminAnswer = createAsyncThunk(
+   'product/putReviewsAdminAnswer',
+   async (data, { dispatch, rejectWithValue }) => {
+      try {
+         const response = await postAdminReviewsRequest(data)
+         dispatch(getInfoPage())
          return response.data
       } catch (error) {
          return rejectWithValue(error)
@@ -116,11 +132,23 @@ export const putReviewsAdminAnswer = createAsyncThunk(
    }
 )
 
-export const getRecentlyViewedProduct = createAsyncThunk(
-   'product/getRecentlyViewedProduct',
+export const putReviewsAdminAnswer = createAsyncThunk(
+   'product/putReviewsAdminAnswer',
+   async (data, { rejectWithValue }) => {
+      try {
+         const responce = await putAdminReviewsRequest(data)
+         return responce.data
+      } catch (error) {
+         return rejectWithValue(error)
+      }
+   }
+)
+
+export const getDownloadPdfFiles = createAsyncThunk(
+   'product/getDownloadPdfFiles',
    async (_, { rejectWithValue }) => {
       try {
-         const responce = await getViewedProductRequest()
+         const responce = await getDownloadPdfFilesRequest()
          return responce.data
       } catch (error) {
          return rejectWithValue(error)

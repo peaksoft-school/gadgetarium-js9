@@ -2,7 +2,6 @@ import { styled } from '@mui/material'
 import { useSearchParams } from 'react-router-dom'
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-
 import { ReactComponent as EditIcon } from '../../../assets/icons/tools-for-site/edit-icon.svg'
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/tools-for-site/delete-icon.svg'
 import FeedbackStars from './FeedbackStars'
@@ -21,6 +20,7 @@ const Feedback = ({
    canUserEdit,
    adminState,
    reviewId,
+   subProductId,
 }) => {
    const dispatch = useDispatch()
    const [openModal, setOpenModal] = useSearchParams()
@@ -28,6 +28,7 @@ const Feedback = ({
    const [modalText, setModalText] = useState('')
    const [adminReviewState, setAdminReviewState] = useState(false)
    const [open, setOpen] = useState(false)
+   const [isEditing, setIsEditing] = useState(false)
 
    const getAdminText = (e) => {
       setModalText(e.target.value)
@@ -59,12 +60,11 @@ const Feedback = ({
    }
    const openModalHandler = () => {
       openModal.set('openModal', 'true')
+      setIsEditing(adminReviewState)
       setOpenModal(openModal)
    }
 
    const role = 'ADMIN'
-
-   console.log(modalText, 'modalText')
 
    return (
       <Container>
@@ -104,6 +104,9 @@ const Feedback = ({
                </AdminButton>
                {openModal.has('openModal') && (
                   <FeedbackModal
+                     isEditing={isEditing}
+                     setIsEditing={setIsEditing}
+                     subProductId={subProductId}
                      reviewId={reviewId}
                      modalText={modalText}
                      getAdminText={getAdminText}

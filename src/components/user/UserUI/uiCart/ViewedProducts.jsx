@@ -17,7 +17,7 @@ export const ViewedProducts = () => {
          <ViewedTitle>Просмотренные товары</ViewedTitle>
          <ProductCard>
             {productViewed.map((el) => (
-               <SecondProductCard key={el} el={el} />
+               <SecondProductCard key={1} el={el} />
             ))}
          </ProductCard>
       </Container>

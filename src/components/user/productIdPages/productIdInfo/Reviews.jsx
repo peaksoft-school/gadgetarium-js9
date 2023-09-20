@@ -68,6 +68,7 @@ export const Reviews = () => {
                            reviewId={review.reviewId}
                            canUserEdit={review.my}
                            adminState
+                           subProductId={subProductId}
                         />
                      )
                   })}

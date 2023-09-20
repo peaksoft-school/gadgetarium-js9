@@ -1,5 +1,7 @@
 import { styled } from '@mui/material'
 import React from 'react'
+// eslint-disable-next-line import/no-extraneous-dependencies
+import ReactPlayer from 'react-player'
 import { useSelector } from 'react-redux'
 
 export const Description = () => {
@@ -9,17 +11,16 @@ export const Description = () => {
 
    return (
       <Container>
-         <iframe
-            width="560"
-            height="315"
-            src={
+         <ReactPlayer
+            url={
                videoLink === 'link'
                   ? 'https://www.youtube.com/embed/-0_VUeaM-vA?si=7-7dFg6Xf15eKaDv'
                   : videoLink
             }
-            title="YouTube video player"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen
+            width="560"
+            height="315"
+            controls
+            playing
          />
 
          <div dangerouslySetInnerHTML={{ __html: description }} />

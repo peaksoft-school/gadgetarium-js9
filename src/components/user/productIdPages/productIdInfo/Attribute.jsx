@@ -4,11 +4,13 @@ import Tab from '@mui/material/Tab'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import styled from '@emotion/styled'
+import { useDispatch } from 'react-redux'
 import { Description } from './Description'
 import { Reviews } from './Reviews'
 import { Delivery } from './Delivery'
 import { Сharacteristics } from './Сharacteristics'
 import { ReactComponent as DownloadIcons } from '../../../../assets/icons/tools-for-site/Download.svg'
+import { getDownloadPdfFiles } from '../../../../store/informationPhone/infoPageThunk'
 
 function CustomTabPanel(props) {
    const { children, value, index, ...other } = props
@@ -38,6 +40,11 @@ function a11yProps(index) {
 }
 
 export const Attribute = () => {
+   const dispatch = useDispatch()
+
+   const onClickGetPdfFiles = () => {
+      dispatch(getDownloadPdfFiles())
+   }
    const [value, setValue] = useState(0)
 
    const handleChange = (event, newValue) => {
@@ -57,11 +64,11 @@ export const Attribute = () => {
                   <Tab label="Характеристики" {...a11yProps(1)} />
                   <Tab label="Отзывы" {...a11yProps(2)} />
                   <Tab label="Доставка и оплата" {...a11yProps(3)} />
-                  <DownloadBlock>
-                     <a href="/документ.pdf" download>
+                  <DownloadBlock onClick={onClickGetPdfFiles}>
+                     <p>
                         <DownloadIcons />
                         Скачать документ.pdf
-                     </a>
+                     </p>
                   </DownloadBlock>
                </Tabs>
             </Box>
@@ -87,6 +94,11 @@ const Container = styled('div')`
    padding-bottom: 10rem;
    margin-top: 4.75rem;
 
+   .MuiTabs-flexContainer {
+      display: flex;
+      gap: 3.31rem;
+   }
+
    .MuiTabs-indicator {
       display: block;
    }
@@ -101,13 +113,12 @@ const DownloadBlock = styled('div')`
    justify-content: flex-end;
    align-items: center;
    cursor: pointer;
-   a {
+   p {
       display: flex;
       align-items: center;
       color: #384255;
       font-family: Inter;
       font-size: 1rem;
       font-weight: 400;
-      text-decoration: none;
    }
 `

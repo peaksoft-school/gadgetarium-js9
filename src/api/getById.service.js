@@ -24,10 +24,6 @@ export const putReviewsProductRequest = (data) => {
    return axiosInstance.put('/reviews/update-comment', data)
 }
 
-export const putAdminReviewsRequest = (data) => {
-   return axiosInstance.put('/reviews', data)
-}
-
 export const postBasketCounterProductRequest = (data) => {
    return axiosInstance.post(
       `/v1/basket/add-sub-products-for-basket?subProductId=${data.subProductId}&quantity=${data.quantity}`
@@ -36,4 +32,16 @@ export const postBasketCounterProductRequest = (data) => {
 
 export const getViewedProductRequest = () => {
    return axiosInstance.get('/v1/products/recently-viewed')
+}
+
+export const postAdminReviewsRequest = (data) => {
+   return axiosInstance.post('/reviews/reply', data)
+}
+
+export const putAdminReviewsRequest = (data) => {
+   return axiosInstance.put('/reviews', data)
+}
+
+export const getDownloadPdfFilesRequest = () => {
+   return axiosInstance.get('/v1/files/download')
 }
