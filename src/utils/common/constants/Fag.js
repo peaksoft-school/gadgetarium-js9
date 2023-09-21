@@ -2,31 +2,103 @@ export const FagData = [
    {
       id: '1',
       title: 'Как можно оплатить заказ?',
-      description:
-         'Urna aliquet dignissim pharetra consectetur commodo pellentesque at tellus. Odio eget scelerisque faucibus ut. Cras amet, diam vel, sollicitudin gravida quis augue. Bibendum et nulla accumsan sollicitudin aliquet velit viverra risus. Eget molestie enim quisque sodales habitant nulla tincidunt. Ullamcorper tincidunt purus sed facilisis. Ullamcorper aliquam gravida aliquet felis iaculis urna diam dui id. Consectetur in sagittis, sagittis, diam fames ac morbi convallis. Convallis vitae vel luctus erat tempus.Proin feugiat nisl egestas neque facilisi porta ipsum. At diam ut diam euismod sit fames tellus amet. In tortor placerat dictum faucibus id. Amet facilisis blandit dignissim sed nisl fermentum molestie pretium non',
+      description: (
+         <div className="order">
+            <p>
+               Вы можете оплатить ваш заказ в проекте Gadgetarium следующими
+               способами:
+            </p>
+            <ul className="ul">
+               <li>
+                  Оплата картой онлайн: Вы можете использовать вашу банковскую
+                  карту для моментальной онлайн-оплаты нашего товара.
+               </li>
+               <li>
+                  Наличными при получении: Вы можете оплатить заказ наличными
+                  деньгами, когда получите его. Этот способ оплаты доступен для
+                  самовывоза из магазина и при доставке по городу.
+               </li>
+               <li>
+                  Оплата картой при получении: Если вы предпочитаете оплату
+                  банковской картой, вы можете сделать это при получении заказа.
+                  Этот вариант также доступен для самовывоза из магазина и при
+                  доставке.
+               </li>
+            </ul>
+            <p>
+               Помимо этого, мы также предоставляем удобные варианты доставки в
+               городе Бишкек и регионах. В городе доставка стоит 200 сомов, но
+               при покупке свыше 10 000 сомов она бесплатна.
+            </p>
+            <p>
+               Примечание: Предоплата не требуется, что делает процесс заказа
+               удобным и безопасным для наших клиентов.
+            </p>
+         </div>
+      ),
    },
    {
       id: '2',
       title: 'Какой мининимальный заказ?',
       description:
-         'Urna aliquet dignissim pharetra consectetur commodo pellentesque at tellus. Odio eget scelerisque faucibus ut. Cras amet, diam vel, sollicitudin gravida quis augue. Bibendum et nulla accumsan sollicitudin aliquet velit viverra risus. Eget molestie enim quisque sodales habitant nulla tincidunt. Ullamcorper tincidunt purus sed facilisis. Ullamcorper aliquam gravida aliquet felis iaculis urna diam dui id. Consectetur in sagittis, sagittis, diam fames ac morbi convallis. Convallis vitae vel luctus erat tempus.Proin feugiat nisl egestas neque facilisi porta ipsum. At diam ut diam euismod sit fames tellus amet. In tortor placerat dictum faucibus id. Amet facilisis blandit dignissim sed nisl fermentum molestie pretium non',
+         'Минимальный заказ не установлен. Вы можете делать заказы на любую сумму, которая соответствует вашим потребностям и предпочтениям. Мы не накладываем ограничений на минимальную сумму заказа, чтобы сделать покупки у нас максимально удобными для наших клиентов.',
    },
    {
       id: '3',
-      title: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit?',
+      title: 'Moгy ли я вернуть или обменять товар, если он не удовлетворяет моим ожиданиям?',
       description:
-         'Urna aliquet dignissim pharetra consectetur commodo pellentesque at tellus. Odio eget scelerisque faucibus ut. Cras amet, diam vel, sollicitudin gravida quis augue. Bibendum et nulla accumsan sollicitudin aliquet velit viverra risus. Eget molestie enim quisque sodales habitant nulla tincidunt. Ullamcorper tincidunt purus sed facilisis. Ullamcorper aliquam gravida aliquet felis iaculis urna diam dui id. Consectetur in sagittis, sagittis, diam fames ac morbi convallis. Convallis vitae vel luctus erat tempus.Proin feugiat nisl egestas neque facilisi porta ipsum. At diam ut diam euismod sit fames tellus amet. In tortor placerat dictum faucibus id. Amet facilisis blandit dignissim sed nisl fermentum molestie pretium non',
+         'Да, конечно. Если вы обнаружите какие-либо дефекты или неудовлетворительное качество товара, свяжитесь с нашей службой поддержки клиентов в течение 14 дней после получения заказа. Мы рассмотрим ваш запрос на возврат или обмен и предоставим вам необходимую помощь. Убедитесь, что товар остается в исходной упаковке и имеет все заводские ярлыки.',
    },
    {
       id: '4',
-      title: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit?',
+      title: 'Каковы сроки доставки заказов?',
       description:
-         'Urna aliquet dignissim pharetra consectetur commodo pellentesque at tellus. Odio eget scelerisque faucibus ut. Cras amet, diam vel, sollicitudin gravida quis augue. Bibendum et nulla accumsan sollicitudin aliquet velit viverra risus. Eget molestie enim quisque sodales habitant nulla tincidunt. Ullamcorper tincidunt purus sed facilisis. Ullamcorper aliquam gravida aliquet felis iaculis urna diam dui id. Consectetur in sagittis, sagittis, diam fames ac morbi convallis. Convallis vitae vel luctus erat tempus.Proin feugiat nisl egestas neque facilisi porta ipsum. At diam ut diam euismod sit fames tellus amet. In tortor placerat dictum faucibus id. Amet facilisis blandit dignissim sed nisl fermentum molestie pretium non',
+         'Мы стремимся обеспечить быструю доставку вашего заказа. Время доставки может варьироваться в зависимости от вашего местоположения. В городе Бишкек мы обычно доставляем заказы в течение 1-2 рабочих дней. Для регионов Кыргызстана сроки могут быть немного дольше. Мы также предоставляем бесплатную доставку при покупках свыше 10 000 сомов.',
    },
    {
       id: '5',
-      title: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit?',
-      description:
-         'Urna aliquet dignissim pharetra consectetur commodo pellentesque at tellus. Odio eget scelerisque faucibus ut. Cras amet, diam vel, sollicitudin gravida quis augue. Bibendum et nulla accumsan sollicitudin aliquet velit viverra risus. Eget molestie enim quisque sodales habitant nulla tincidunt. Ullamcorper tincidunt purus sed facilisis. Ullamcorper aliquam gravida aliquet felis iaculis urna diam dui id. Consectetur in sagittis, sagittis, diam fames ac morbi convallis. Convallis vitae vel luctus erat tempus.Proin feugiat nisl egestas neque facilisi porta ipsum. At diam ut diam euismod sit fames tellus amet. In tortor placerat dictum faucibus id. Amet facilisis blandit dignissim sed nisl fermentum molestie pretium non',
+      title: 'Как связаться c вашей службой поддержки клиентов?',
+      description: (
+         <div>
+            <p>
+               Вы можете связаться c нашей службой поддержки клиентов по
+               следующим контактам:
+            </p>
+
+            <ul>
+               <li>
+                  Телефон: <b>+996 (400) 00 00 00</b>
+               </li>
+               <li>
+                  Электронная почта: <b>gadgetarium.kg</b>
+               </li>
+            </ul>
+
+            <p>
+               Наши специалисты готовы ответить на ваши вопросы и предоставить
+               необходимую помощь c понедельника по пятницу c 10:00 до 21:00.
+            </p>
+         </div>
+      ),
    },
 ]
+
+// `Вы можете оплатить ваш заказ в проекте Gadgetarium следующими способами:
+
+//    Оплата картой онлайн: Вы можете использовать вашу банков
+// скую карту для моментальной онлайн-оплаты нашего товара.
+
+//    Наличными при получении: Вы можете оплатить заказ н
+// аличными деньгами, когда получите его. Этот способ оплаты доступен д
+// ля самовывоза из магазина и при доставке по городу.
+
+//    Оплата картой при получении: Если вы предпочитаете оплату банковской кар
+// той, вы можете сделать это при получении заказа. Этот вариант также доступен
+// для самовывоза из магазина и при доставке.
+
+//    Помимо этого, мы также предоставляем удобные варианты доставк
+// и в городе Бишкек и регионах. В городе доставк
+// а стоит 200 сомов, но при покупке свыше 10 000 сомов она бесплатна.
+
+//    Примечание: Предоплата не требуется, что делает процесс з
+// аказа удобным и безопасным для наших клиентов.`,
