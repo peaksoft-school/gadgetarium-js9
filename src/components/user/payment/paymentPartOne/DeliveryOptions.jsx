@@ -1,15 +1,83 @@
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { styled } from '@mui/material'
 import { Box } from '../UIPayment/Box'
 import { PersonalData } from './PersonalData'
+import {
+   collectorDataPartOne,
+   validForm,
+} from '../../../../store/payment/payment.slice'
+import { useSnackbar } from '../../../../hooks/useSnackbar'
 
 export const DeliveryOptions = ({
-   onNextHandler,
    delivery,
    onDeliveryHandler,
    onPickupHandler,
    formik,
+   nextHandler,
 }) => {
+   const dispatch = useDispatch()
    const check = delivery
+   const { validBoolean } = useSelector((state) => state.payment)
+   const navigate = useNavigate()
+   const { snackbarHandler } = useSnackbar()
+
+   const valid = formik.isValid
+
+   const onNextPartTwoHandler = () => {
+      const deliveryOptions = {
+         true: 'PICKUP',
+         false: 'DELIVERY',
+      }
+
+      const data = {
+         typeDelivery: deliveryOptions[check],
+         firstName: formik.values.firstName,
+         lastName: formik.values.lastName,
+         email: formik.values.email,
+         phoneNumber: formik.values.telephone,
+         address: formik.values.address,
+      }
+
+      if (valid) {
+         dispatch(collectorDataPartOne({ data, delivery }))
+
+         nextHandler()
+
+         dispatch(validForm(true))
+      }
+
+      if (valid === false) {
+         snackbarHandler({
+            message: 'Bce поле должны быть заполнены',
+            type: 'error',
+         })
+
+         dispatch(validForm(false))
+      }
+
+      if (formik.values.address === '') {
+         if (delivery === false) {
+            snackbarHandler({
+               message: 'Bce поле должны быть заполнены',
+               type: 'error',
+            })
+
+            dispatch(validForm(false))
+         }
+      } else if (formik.values.address !== '' && delivery === false) {
+         // if (delivery === false) {
+         dispatch(validForm(true))
+         // }
+      }
+
+      if (validBoolean) {
+         navigate()
+         nextHandler()
+
+         // onNextHandler()
+      }
+   }
 
    return (
       <Container>
@@ -54,7 +122,7 @@ export const DeliveryOptions = ({
             </ContainerBox>
 
             <PersonalData
-               onNextHandler={onNextHandler}
+               onNextHandler={onNextPartTwoHandler}
                delivery={delivery}
                formik={formik}
             />

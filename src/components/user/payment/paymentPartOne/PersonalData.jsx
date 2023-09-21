@@ -1,9 +1,41 @@
 import { styled } from '@mui/material'
-import InputMask from 'react-input-mask'
+import { useEffect } from 'react'
 import { InputUi } from '../../../UI/Input'
 import { Button } from '../../../UI/Button'
 
 export const PersonalData = ({ onNextHandler, formik, delivery }) => {
+   const formatTelephone = (value) => {
+      const formattedValue = value.replace(/\D/g, '') // Удалить все нецифровые символы
+      if (formattedValue.length >= 1) {
+         return `+${formattedValue.slice(0, 3)} (${formattedValue.slice(
+            3,
+            6
+         )}) ${formattedValue.slice(6, 8)}-${formattedValue.slice(
+            8,
+            10
+         )}-${formattedValue.slice(10)}`
+      }
+      return ''
+   }
+
+   const handleTelephoneChange = (e) => {
+      const formattedValue = formatTelephone(e.target.value)
+      formik.handleChange(e)
+      formik.setFieldValue('telephone', formattedValue, false)
+   }
+
+   useEffect(() => {
+      const formattedValue = formatTelephone(formik.values.telephone)
+
+      if (formattedValue !== formik.values.telephone) {
+         formik.setFieldValue('telephone', formattedValue, false)
+      }
+   }, [formik.values.telephone])
+
+   const { firstName, lastName, email, telephone } = formik.errors
+
+   const address = delivery === false ? formik.values.address === '' : false
+
    return (
       <Container>
          <p>Личные данные</p>
@@ -19,6 +51,7 @@ export const PersonalData = ({ onNextHandler, formik, delivery }) => {
                         type="text"
                         name="lastName"
                         placeholder="Напишите ваше имя"
+                        error={Boolean(lastName)}
                      />
                   </Label>
 
@@ -30,6 +63,7 @@ export const PersonalData = ({ onNextHandler, formik, delivery }) => {
                         type="text"
                         name="firstName"
                         placeholder="Напишите вашу фамилию"
+                        error={Boolean(firstName)}
                      />
                   </Label>
                </BoxInput>
@@ -43,27 +77,21 @@ export const PersonalData = ({ onNextHandler, formik, delivery }) => {
                         type="email"
                         name="email"
                         placeholder="Напишите ваш email"
+                        error={Boolean(email)}
                      />
                   </Label>
 
                   <Label>
                      <span className="label-text">Телефон</span>
 
-                     <InputMask
-                        mask="+999 (999) 99-99-99"
+                     <Input
                         value={formik.values.telephone}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                     >
-                        {(inputProps) => (
-                           <Input
-                              {...inputProps}
-                              id="telephone"
-                              name="telephone"
-                              placeholder="+996 (_ _ _) _ _  _ _  _ _"
-                           />
-                        )}
-                     </InputMask>
+                        onChange={handleTelephoneChange}
+                        id="telephone"
+                        name="telephone"
+                        placeholder="+996 (_ _ _) _ _  _ _  _ _"
+                        error={Boolean(telephone)}
+                     />
                   </Label>
                </BoxInput>
 
@@ -78,6 +106,7 @@ export const PersonalData = ({ onNextHandler, formik, delivery }) => {
                            name="address"
                            placeholder="ул.Московская 120, кв 4, дом 9"
                            width="45vw"
+                           error={address}
                         />
                      </Label>
                   </div>

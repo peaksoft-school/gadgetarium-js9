@@ -27,7 +27,7 @@ export const MiniBasketOrdersProduct = () => {
 }
 
 const Container = styled('div')`
-   max-height: 454px; // специально сделал px
+   max-height: 229px; // специально сделал px
 
    overflow: auto;
 

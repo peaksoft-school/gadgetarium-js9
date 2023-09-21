@@ -47,7 +47,7 @@ export const MiniBasketOrderPrice = () => {
                   <p>
                      <span className="total">Итого</span>
                      <span className="total">
-                        {toPay.toLocaleString('ru-RU')}
+                        {toPay?.toLocaleString('ru-RU')}
                         <span className="c"> c</span>
                      </span>
                   </p>

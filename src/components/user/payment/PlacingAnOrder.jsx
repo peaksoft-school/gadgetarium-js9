@@ -1,40 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import { styled } from '@mui/material'
 import { useFormik } from 'formik'
-import * as Yup from 'yup'
 import { useDispatch, useSelector } from 'react-redux'
 import { BreadCrumbs } from '../../UI/breadCrumbs/BreadCrumbs'
-import { StepPayment } from './StepPayment'
-import { DeliveryOptions } from './paymentPartOne/DeliveryOptions'
-import { MiniBasketOrderPrice } from './UIPayment/miniBasket/MiniBasketOrderPrice'
 import { getBasket } from '../../../store/basket/basket.thunk'
 import { getUserData } from '../../../store/payment/payment.thunk'
-
-export const breadcrumbs = [
-   { path: '/', label: 'Главная' },
-   {
-      path: '/basket',
-      label: 'Корзина',
-   },
-   { label: 'Оформление заказа' },
-]
-
-export const schema = Yup.object().shape({
-   lastName: Yup.string().required('Обязательное поле'),
-   firstName: Yup.string().required('Обязательное поле'),
-   email: Yup.string().required('Обязательное поле'),
-   telephone: Yup.string()
-      .matches(/^\+996 \(\d{3}\) \d{2}-\d{2}-\d{2}$/, 'Неверный формат номера')
-      .required('Обязательное поле'),
-   address: Yup.string(),
-})
+import { breadcrumbs, schema } from '../../../utils/common/constants/paymant'
+import { LayoutPartOnePayment } from './paymentPartOne/LayoutPartOnePayment'
+import { StepPayment } from './StepPayment'
+import { PaymentMethod } from './paymentPartTwo/PaymentMethod'
+import { OrderOverview } from './paymentPartThree/OrderOverview'
+import { FinishModal } from './FinishModal'
 
 export const PlacingAnOrder = () => {
    const dispatch = useDispatch()
    const [page, setPage] = useState([0])
    const [delivery, setDelivery] = useState(true)
    const { user } = useSelector((state) => state.payment)
-   console.log('user: ', user)
 
    useEffect(() => {
       dispatch(getUserData())
@@ -53,23 +35,12 @@ export const PlacingAnOrder = () => {
       validationSchema: schema,
    })
 
-   console.log('ERROR: ', formik.errors)
-   console.log('VALUE: ', formik.values)
-
    useEffect(() => {
       formik.setFieldValue('lastName', user?.lastName || '')
       formik.setFieldValue('firstName', user?.firstName || '')
       formik.setFieldValue('email', user?.email || '')
       formik.setFieldValue('telephone', user?.phoneNumber || '')
    }, [user])
-
-   const onNextHandler = () => {
-      const newPage = page.length
-
-      if (page.length !== 0 && page.length !== 3) {
-         setPage([...page, newPage])
-      }
-   }
 
    const onPickupHandler = () => {
       setDelivery(true)
@@ -83,6 +54,21 @@ export const PlacingAnOrder = () => {
       dispatch(getBasket())
    }, [])
 
+   const nextHandler = () => {
+      const newPage = page.length
+      if (page.length !== 0 && page.length !== 3) {
+         setPage([...page, newPage])
+      }
+   }
+
+   const navigatePartOneHandler = () => {
+      setPage([0])
+   }
+
+   const navigatePartTwoHandler = () => {
+      setPage([0, 1])
+   }
+
    return (
       <Container>
          <div>
@@ -91,23 +77,31 @@ export const PlacingAnOrder = () => {
                <p>Оформление заказа</p>
             </BoxTitle>
 
-            <ContainerStepper>
-               <StepPayment page={page} />
+            <FinishModal />
 
-               <ContainerMiniBasket>
-                  <MiniBasketOrderPrice />
-               </ContainerMiniBasket>
-            </ContainerStepper>
+            {page.length === 2 && <StepPayment page={page} />}
 
-            <div>
-               <DeliveryOptions
-                  delivery={delivery}
+            {page.length === 1 && (
+               <LayoutPartOnePayment
                   onPickupHandler={onPickupHandler}
                   onDeliveryHandler={onDeliveryHandler}
-                  onNextHandler={onNextHandler}
+                  setPage={setPage}
+                  delivery={delivery}
+                  page={page}
                   formik={formik}
+                  nextHandler={nextHandler}
                />
-            </div>
+            )}
+
+            {page.length === 2 && <PaymentMethod nextHandler={nextHandler} />}
+
+            {page.length === 3 && (
+               <OrderOverview
+                  page={page}
+                  navigatePartOneHandler={navigatePartOneHandler}
+                  navigatePartTwoHandler={navigatePartTwoHandler}
+               />
+            )}
          </div>
       </Container>
    )
@@ -133,14 +127,4 @@ export const BoxTitle = styled('div')`
       margin: 0;
       border-bottom: 0.0625rem solid #cdcdcd;
    }
-`
-
-const ContainerMiniBasket = styled('div')`
-   position: relative;
-`
-
-const ContainerStepper = styled('div')`
-   display: flex;
-   width: 100%;
-   gap: 8vw;
 `
