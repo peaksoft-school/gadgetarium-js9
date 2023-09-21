@@ -59,6 +59,7 @@ export const Reviews = () => {
                   {reviews?.map((review) => {
                      return (
                         <Feedback
+                           answer={review.answer}
                            key={review.reviewId}
                            handleOpen={handleOpen}
                            userName={review.userFullName}

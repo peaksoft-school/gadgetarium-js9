@@ -14,7 +14,6 @@ export const ReasonForSuccess = () => {
                   scelerisque elit fermentum nullam rhoncus adipiscing. Sem
                   tortor molestie odio.
                </p>
-
                <p>
                   Adipiscing etiam vitae in semper sed eget nec aliquet aliquam.
                   Morbi integer quis tincidunt vitae penatibus. Feugiat quis
@@ -26,7 +25,6 @@ export const ReasonForSuccess = () => {
                   tortor molestie odio.
                </p>
             </div>
-
             <div>
                <p>
                   Non ultricies sollicitudin nisi quisque. Morbi integer quis

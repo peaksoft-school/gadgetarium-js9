@@ -21,12 +21,13 @@ const Feedback = ({
    adminState,
    reviewId,
    subProductId,
+   answer,
 }) => {
    const dispatch = useDispatch()
    const [openModal, setOpenModal] = useSearchParams()
-   const [adminText, setAdminText] = useState('')
-   const [modalText, setModalText] = useState('')
-   const [adminReviewState, setAdminReviewState] = useState(false)
+   const [adminText, setAdminText] = useState(answer)
+   const [modalText, setModalText] = useState(adminText)
+   const [adminReviewState, setAdminReviewState] = useState(!!answer)
    const [open, setOpen] = useState(false)
    const [isEditing, setIsEditing] = useState(false)
 

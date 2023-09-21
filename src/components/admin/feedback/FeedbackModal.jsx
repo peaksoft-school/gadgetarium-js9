@@ -1,6 +1,6 @@
 import { Box, Modal, styled } from '@mui/material'
-import React from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Button } from '../../UI/Button'
 import {
    postReviewsAdminAnswer,
@@ -19,6 +19,20 @@ const FeedbackModal = ({
    setIsEditing,
 }) => {
    const dispatch = useDispatch()
+
+   const [answer, setAnswer] = useState('')
+
+   const { reviews } = useSelector((state) => state.product.infoPhone)
+
+   useEffect(() => {
+      reviews?.map((el) => {
+         if (el.reviewId === reviewId) {
+            setAnswer(el.answer)
+         }
+         return el
+      })
+      console.log(answer)
+   }, [reviews])
 
    const saveAdminAnswer = () => {
       const data = {

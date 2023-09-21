@@ -34,6 +34,7 @@ export const SecondProductCard = ({ el }) => {
 
 const CardStyled = styled(Card)`
    width: 13.125rem;
+
    .MuiTypography-root {
       font-family: Inter;
       font-size: 0.875rem;
