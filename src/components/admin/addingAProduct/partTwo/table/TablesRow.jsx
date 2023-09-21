@@ -106,7 +106,7 @@ export const TablesRow = ({
          <TableCellStyle width="11vw">
             <InputBox>
                <InputUi
-                  height="67px"
+                  height="10.7vh"
                   border="1px solid #CDCDCD"
                   borderradius="0"
                   fontSize="1rem"
@@ -120,14 +120,15 @@ export const TablesRow = ({
                />
             </InputBox>
          </TableCellStyle>
-         <TableCellStyle width="12.1vw">
+         <TableCellStyle width="11.9vw">
             <InputBox>
                <InputUi
-                  height="67px"
+                  height="10.7vh"
                   border="1px solid #CDCDCD"
-                  borderradius="0 6px 6px 0"
+                  borderradius="0 0.375rem 0.375rem 0"
                   value={values.price}
                   name="price"
+                  width="12.1vw"
                   onChange={handleChangeNoMinus}
                   fontSize="1rem"
                   type="number"

@@ -674,10 +674,9 @@ const SelectParagraph2 = styled('p')`
 `
 const Select2 = styled('div')`
    position: absolute;
-   top: 0.8rem;
+   top: 1.5rem;
    left: -10rem;
    width: 10.8125rem;
-   height: 10.25rem;
    border-radius: 0.25rem;
    background: #fff;
    box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.1);
@@ -686,7 +685,7 @@ const Select2 = styled('div')`
    display: flex;
    flex-direction: column;
    gap: 14px;
-   padding: 16px 20px 20px 20px;
+   padding: 20px 20px 20px 20px;
    p {
       color: #292929;
       cursor: pointer;

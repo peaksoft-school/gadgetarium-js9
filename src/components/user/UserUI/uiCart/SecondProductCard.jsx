@@ -5,12 +5,25 @@ import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import Rating from '@mui/material/Rating'
 import { styled } from '@mui/material'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { postRecentlyViewedProduct } from '../../../../store/informationPhone/infoPageThunk'
 
 export const SecondProductCard = ({ el }) => {
+   const dispatch = useDispatch()
+
+   const navigate = useNavigate()
+
+   const addViwedProduct = () => {
+      dispatch(postRecentlyViewedProduct(el.subProductId))
+
+      navigate(`/product/${productId}/details`)
+   }
+
    return (
       <CardStyled>
          <CardMedia
-            onClick={() => console.log(el.subProductId)}
+            onClick={addViwedProduct}
             sx={{ width: 210, height: 210 }}
             image={el.image}
          />

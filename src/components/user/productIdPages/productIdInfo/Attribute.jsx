@@ -4,7 +4,7 @@ import Tab from '@mui/material/Tab'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import styled from '@emotion/styled'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Description } from './Description'
 import { Reviews } from './Reviews'
 import { Delivery } from './Delivery'
@@ -42,6 +42,8 @@ function a11yProps(index) {
 export const Attribute = () => {
    const dispatch = useDispatch()
 
+   const { role } = useSelector((state) => state.auth)
+
    const onClickGetPdfFiles = () => {
       dispatch(getDownloadPdfFiles())
    }
@@ -53,38 +55,73 @@ export const Attribute = () => {
 
    return (
       <Container>
-         <Box sx={{ width: '100%' }}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-               <Tabs
-                  value={value}
-                  onChange={handleChange}
-                  aria-label="basic tabs example"
-               >
-                  <Tab label="Описание" {...a11yProps(0)} />
-                  <Tab label="Характеристики" {...a11yProps(1)} />
-                  <Tab label="Отзывы" {...a11yProps(2)} />
-                  <Tab label="Доставка и оплата" {...a11yProps(3)} />
-                  <DownloadBlock onClick={onClickGetPdfFiles}>
-                     <p>
-                        <DownloadIcons />
-                        Скачать документ.pdf
-                     </p>
-                  </DownloadBlock>
-               </Tabs>
-            </Box>
-            <CustomTabPanel value={value} index={0}>
-               <Description />
-            </CustomTabPanel>
-            <CustomTabPanel value={value} index={1}>
-               <Сharacteristics />
-            </CustomTabPanel>
-            <CustomTabPanel value={value} index={2}>
-               <Reviews />
-            </CustomTabPanel>
-            <CustomTabPanel value={value} index={3}>
-               <Delivery />
-            </CustomTabPanel>
-         </Box>
+         {role === 'USER' ? (
+            <div>
+               <Box sx={{ width: '100%' }}>
+                  <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                     <Tabs
+                        value={value}
+                        onChange={handleChange}
+                        aria-label="basic tabs example"
+                     >
+                        <Tab label="Описание" {...a11yProps(0)} />
+                        <Tab label="Характеристики" {...a11yProps(1)} />
+                        <Tab label="Отзывы" {...a11yProps(2)} />
+                        <Tab label="Доставка и оплата" {...a11yProps(3)} />
+                        <DownloadBlock onClick={onClickGetPdfFiles}>
+                           <p>
+                              <DownloadIcons />
+                              Скачать документ.pdf
+                           </p>
+                        </DownloadBlock>
+                     </Tabs>
+                  </Box>
+                  <CustomTabPanel value={value} index={0}>
+                     <Description />
+                  </CustomTabPanel>
+                  <CustomTabPanel value={value} index={1}>
+                     <Сharacteristics />
+                  </CustomTabPanel>
+                  <CustomTabPanel value={value} index={2}>
+                     <Reviews />
+                  </CustomTabPanel>
+                  <CustomTabPanel value={value} index={3}>
+                     <Delivery />
+                  </CustomTabPanel>
+               </Box>
+            </div>
+         ) : (
+            <div>
+               <Box sx={{ width: '100%' }}>
+                  <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                     <Tabs
+                        value={value}
+                        onChange={handleChange}
+                        aria-label="basic tabs example"
+                     >
+                        <Tab label="Описание" {...a11yProps(0)} />
+                        <Tab label="Характеристики" {...a11yProps(1)} />
+                        <Tab label="Отзывы" {...a11yProps(2)} />
+                        <DownloadBlock onClick={onClickGetPdfFiles}>
+                           <p>
+                              <DownloadIcons />
+                              Скачать документ.pdf
+                           </p>
+                        </DownloadBlock>
+                     </Tabs>
+                  </Box>
+                  <CustomTabPanel value={value} index={0}>
+                     <Description />
+                  </CustomTabPanel>
+                  <CustomTabPanel value={value} index={1}>
+                     <Сharacteristics />
+                  </CustomTabPanel>
+                  <CustomTabPanel value={value} index={2}>
+                     <Reviews />
+                  </CustomTabPanel>
+               </Box>
+            </div>
+         )}
       </Container>
    )
 }
@@ -96,13 +133,20 @@ const Container = styled('div')`
 
    .MuiTabs-flexContainer {
       display: flex;
-      gap: 3.31rem;
+      gap: 3rem;
    }
 
    .MuiTabs-indicator {
       display: block;
    }
    .MuiTab-root {
+      text-align: center;
+      text-transform: none;
+      font-family: Inter;
+      font-size: 1.125rem;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
       padding: 0;
    }
 `

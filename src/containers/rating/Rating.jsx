@@ -11,7 +11,7 @@ export const Rating = ({ subProductId }) => {
       (state) => state.product.getReviews
    )
 
-   const { isAuthorization } = useSelector((state) => state.auth)
+   const { isAuthorization, role } = useSelector((state) => state.auth)
 
    const [authorizationModalOpen, setAuthorizationModalOpen] = useState(false)
 
@@ -22,7 +22,6 @@ export const Rating = ({ subProductId }) => {
    }, [])
 
    const [ratings, setRating] = useState(false)
-   const role = 'USER'
 
    const onOpenNodal = () => {
       if (!isAuthorization) {
@@ -31,6 +30,7 @@ export const Rating = ({ subProductId }) => {
          setRating(true)
       }
    }
+
    const onClose = () => {
       setRating(false)
    }

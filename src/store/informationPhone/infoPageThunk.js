@@ -7,6 +7,7 @@ import {
    getViewedProductRequest,
    postAdminReviewsRequest,
    postReviewsProductRequest,
+   postViewedProductRequest,
    putAdminReviewsRequest,
    putReviewsProductRequest,
 } from '../../api/getById.service'
@@ -107,18 +108,6 @@ export const putReviesRequest = createAsyncThunk(
    }
 )
 
-export const getRecentlyViewedProduct = createAsyncThunk(
-   'product/getRecentlyViewedProduct',
-   async (_, { rejectWithValue }) => {
-      try {
-         const responce = await getViewedProductRequest()
-         return responce.data
-      } catch (error) {
-         return rejectWithValue(error)
-      }
-   }
-)
-
 export const postReviewsAdminAnswer = createAsyncThunk(
    'product/putReviewsAdminAnswer',
    async (data, { dispatch, rejectWithValue }) => {
@@ -152,6 +141,29 @@ export const getDownloadPdfFiles = createAsyncThunk(
          return responce.data
       } catch (error) {
          return rejectWithValue(error)
+      }
+   }
+)
+
+export const getRecentlyViewedProduct = createAsyncThunk(
+   'product/getRecentlyViewedProduct',
+   async (_, { rejectWithValue }) => {
+      try {
+         const responce = await getViewedProductRequest()
+         return responce.data
+      } catch (error) {
+         return rejectWithValue(error)
+      }
+   }
+)
+
+export const postRecentlyViewedProduct = createAsyncThunk(
+   'product/postRecentlyViewedProduct',
+   async (subProductId, { rejectWithValue }) => {
+      try {
+         await postViewedProductRequest(subProductId)
+      } catch (error) {
+         rejectWithValue(error)
       }
    }
 )

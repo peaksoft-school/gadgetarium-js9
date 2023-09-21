@@ -22,7 +22,7 @@ export const Сharacteristics = () => {
             </AccordionSummary>
             <AccordionDetails>
                <Typography>
-                  {category === 'Laptop' && 'Phone' ? (
+                  {category === 'Laptop' ? (
                      <TypographyBlock>
                         <div>
                            <p>Бренд:</p>
@@ -41,6 +41,28 @@ export const Сharacteristics = () => {
                      </TypographyBlock>
                   ) : null}
                   {category === 'Phone' ? (
+                     <TypographyBlock>
+                        <div>
+                           <p>Бренд:</p>
+                           <p>Название:</p>
+                           <p>
+                              {screenResolution === null
+                                 ? 'Расширение экрана'
+                                 : screenResolution}
+                           </p>
+                        </div>
+                        <div>
+                           <p>{brandName}</p>
+                           <p>{name}</p>
+                           <p>
+                              {screenResolution === null
+                                 ? '1520 x 1020'
+                                 : screenResolution}
+                           </p>
+                        </div>
+                     </TypographyBlock>
+                  ) : null}
+                  {category === 'Tablet' ? (
                      <TypographyBlock>
                         <div>
                            <p>Бренд:</p>
@@ -85,7 +107,7 @@ export const Сharacteristics = () => {
                <Typography>
                   <TypographyBlock>
                      <div>
-                        <p>ПЗУ</p>
+                        <p>ОЗУ:</p>
                      </div>
                      <div>
                         <p>{rom}</p>

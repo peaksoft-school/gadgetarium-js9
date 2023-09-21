@@ -1,7 +1,6 @@
 import { styled } from '@mui/material'
-import { useSearchParams } from 'react-router-dom'
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { ReactComponent as EditIcon } from '../../../assets/icons/tools-for-site/edit-icon.svg'
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/tools-for-site/delete-icon.svg'
 import FeedbackStars from './FeedbackStars'
@@ -24,7 +23,10 @@ const Feedback = ({
    answer,
 }) => {
    const dispatch = useDispatch()
-   const [openModal, setOpenModal] = useSearchParams()
+
+   const { role } = useSelector((state) => state.auth)
+
+   const [openModal, setOpenModal] = useState()
    const [adminText, setAdminText] = useState(answer)
    const [modalText, setModalText] = useState(adminText)
    const [adminReviewState, setAdminReviewState] = useState(!!answer)
@@ -56,16 +58,12 @@ const Feedback = ({
       setOpen(!open)
    }
    const closeModalHandler = () => {
-      openModal.delete('openModal')
-      setOpenModal(openModal)
+      setOpenModal(false)
    }
    const openModalHandler = () => {
-      openModal.set('openModal', 'true')
       setIsEditing(adminReviewState)
-      setOpenModal(openModal)
+      setOpenModal(true)
    }
-
-   const role = 'ADMIN'
 
    return (
       <Container>
@@ -103,7 +101,7 @@ const Feedback = ({
                <AdminButton onClick={openModalHandler}>
                   {adminReviewState ? 'Редактировать' : 'Ответить'}
                </AdminButton>
-               {openModal.has('openModal') && (
+               {openModal && (
                   <FeedbackModal
                      isEditing={isEditing}
                      setIsEditing={setIsEditing}

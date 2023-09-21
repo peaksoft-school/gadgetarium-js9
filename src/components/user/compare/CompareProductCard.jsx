@@ -1,10 +1,12 @@
 import { styled } from '@mui/material'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { Button } from '../../UI/Button'
 import DeleteButton from '../../UI/icon.button/DeleteButton'
 import { ReactComponent as BasketIcon } from '../../../assets/icons/basket-icon.svg'
 import { postBasketById } from '../../../store/basket/basket.thunk'
 import { useSnackbar } from '../../../hooks/useSnackbar'
+import { infoPageActions } from '../../../store/informationPhone/infoPageSlice'
 
 export const CompareProductCard = ({
    prodName,
@@ -12,19 +14,23 @@ export const CompareProductCard = ({
    image,
    id,
    deleteHandler,
+   productId,
+   color,
    ...props
 }) => {
    const dispatch = useDispatch()
    const { snackbarHandler } = useSnackbar()
-   const cardHandler = (id) => {
-      console.log(id)
+   const navigate = useNavigate()
+   const cardHandler = () => {
+      navigate(`/product/${productId}/details`)
+      dispatch(infoPageActions.changeSubProductColor(color))
    }
    return (
-      <Container {...props} onClick={cardHandler}>
+      <Container {...props}>
          <DeleteContainer>
             <DeleteButton onClick={() => deleteHandler(id)} />
          </DeleteContainer>
-         <Image src={image} alt="" />
+         <Image onClick={cardHandler} src={image} alt="" />
          <Title>{prodName}</Title>
          <Price>
             {price.toLocaleString()} <span>с</span>

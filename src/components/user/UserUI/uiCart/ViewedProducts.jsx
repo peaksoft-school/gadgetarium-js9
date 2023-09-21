@@ -1,46 +1,3 @@
-// import { styled } from '@mui/material'
-// import React, { useEffect } from 'react'
-// import { useDispatch, useSelector } from 'react-redux'
-// import { SecondProductCard } from './SecondProductCard'
-// import { getRecentlyViewedProduct } from '../../../../store/informationPhone/infoPageThunk'
-
-// export const ViewedProducts = () => {
-//    const dispatch = useDispatch()
-
-//    const productViewed = useSelector((state) => state.product.viewedProduct)
-
-//    useEffect(() => {
-//       dispatch(getRecentlyViewedProduct())
-//    }, [])
-//    return (
-//       <Container>
-//          <ViewedTitle>Просмотренные товары</ViewedTitle>
-//          <ProductCard>
-//             {productViewed.map((el) => (
-//                <SecondProductCard key={1} el={el} />
-//             ))}
-//          </ProductCard>
-//       </Container>
-//    )
-// }
-
-// const Container = styled('div')`
-//    width: 79.888vw;
-//    height: 80.69rem;
-// `
-// const ViewedTitle = styled('p')`
-//    color: #292929;
-//    font-family: Ubuntu;
-//    font-size: 1.875rem;
-//    font-weight: 500;
-//    margin-top: 7rem;
-// `
-
-// const ProductCard = styled('div')`
-//    display: flex;
-//    gap: 1rem;
-// `
-
 import { styled } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import Pagination from '@mui/material/Pagination'
@@ -75,13 +32,18 @@ export const ViewedProducts = () => {
    return (
       <Container>
          <ViewedTitle>Просмотренные товары</ViewedTitle>
-         <ProductCard>{renderProductsOnPage()}</ProductCard>
-
-         <Pagination
-            count={Math.ceil(productViewed.length / itemsPerPage)}
-            page={currentPage}
-            onChange={handlePageChange}
-         />
+         {productViewed.length === 0 ? (
+            ''
+         ) : (
+            <>
+               <ProductCard>{renderProductsOnPage()}</ProductCard>
+               <Pagination
+                  count={Math.ceil(productViewed.length / itemsPerPage)}
+                  page={currentPage}
+                  onChange={handlePageChange}
+               />
+            </>
+         )}
       </Container>
    )
 }

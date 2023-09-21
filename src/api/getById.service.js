@@ -45,3 +45,7 @@ export const putAdminReviewsRequest = (data) => {
 export const getDownloadPdfFilesRequest = () => {
    return axiosInstance.get('/v1/files/download')
 }
+
+export const postViewedProductRequest = (subProductIdId) => {
+   return axiosInstance.post(`/v1/products/get-product/${subProductIdId}`)
+}

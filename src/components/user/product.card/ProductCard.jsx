@@ -13,6 +13,7 @@ import { postBasketById } from '../../../store/basket/basket.thunk'
 import { AuthorizationModal } from '../AuthorizationModal'
 import { postCompareProduct } from '../../../store/compare/compare.thunk'
 import { infoPageActions } from '../../../store/informationPhone/infoPageSlice'
+import { postRecentlyViewedProduct } from '../../../store/informationPhone/infoPageThunk'
 
 export const ProductCard = ({
    recomendationState = false,
@@ -67,6 +68,7 @@ export const ProductCard = ({
    const cardHandler = () => {
       navigate(`/product/${productId}/details`)
       dispatch(infoPageActions.changeSubProductColor(color))
+      dispatch(postRecentlyViewedProduct(id))
    }
    const postProductToBasket = async () => {
       if (isAuthorization) {

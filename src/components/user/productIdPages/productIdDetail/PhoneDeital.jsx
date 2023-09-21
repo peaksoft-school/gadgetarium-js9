@@ -6,6 +6,7 @@ import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
 import { useNavigate } from 'react-router-dom'
 import FavoriteIcon from '@mui/icons-material/Favorite'
+import { ProductChracteristics } from './ProductChracter'
 import { ReactComponent as Delete } from '../../../../assets/icons/tools-for-site/delete-icon.svg'
 import { ReactComponent as Basket } from '../../../../assets/icons/basket-icon.svg'
 import { getInfoPage } from '../../../../store/informationPhone/infoPageThunk'
@@ -83,6 +84,7 @@ export const PhoneDeital = () => {
 
    const discount = (discountOfProduct / 100) * changePrice
    const result = changePrice - discount
+   const resultPrice = Math.floor(result)
 
    const formattedRating = rating ? Math.round(rating * 2) / 2 : 0
 
@@ -91,12 +93,20 @@ export const PhoneDeital = () => {
          <ProductName>{name}</ProductName>
          <Line>
             <Block1>
-               <Stock>В наличии (36шт)</Stock>
-               <p>Артикул: {articleNumber}</p>
-               <RatingBlock>
-                  <Rating name="half-rating" value={formattedRating} readOnly />
-                  <p>({rating})</p>
-               </RatingBlock>
+               <Stock>В наличии (9шт)</Stock>
+               <Article>
+                  <p>Артикул: {articleNumber}</p>
+               </Article>
+               <RatingBlockParent>
+                  <RatingBlock>
+                     <Rating
+                        name="half-rating"
+                        value={formattedRating}
+                        readOnly
+                     />
+                     <p>({rating})</p>
+                  </RatingBlock>
+               </RatingBlockParent>
             </Block1>
          </Line>
 
@@ -133,28 +143,30 @@ export const PhoneDeital = () => {
                   </>
                )}
             </BlockCounter>
-            <BlockDiscount>
-               <BlockPrice>
-                  {discountOfProduct === 0 ? (
-                     <strong>
-                        {changePrice} <span>c</span>
-                     </strong>
-                  ) : (
-                     <>
-                        <Discount>
-                           <p>-{discountOfProduct}%</p>
-                        </Discount>
-                        <strong>
-                           {result?.toLocaleString()}
-                           <span>c</span>
-                        </strong>
-                        <DiscountPrice>
-                           {changePrice?.toLocaleString()} с
-                        </DiscountPrice>
-                     </>
-                  )}
-               </BlockPrice>
 
+            <ContainerChildren>
+               <BlockDiscount>
+                  <BlockPrice>
+                     {discountOfProduct === 0 ? (
+                        <strong>
+                           {changePrice} <span>c</span>
+                        </strong>
+                     ) : (
+                        <>
+                           <Discount>
+                              <p>-{discountOfProduct}%</p>
+                           </Discount>
+                           <strong>
+                              {resultPrice?.toLocaleString()}
+                              <span>c</span>
+                           </strong>
+                           <DiscountPrice>
+                              {changePrice?.toLocaleString()} с
+                           </DiscountPrice>
+                        </>
+                     )}
+                  </BlockPrice>
+               </BlockDiscount>
                {role === 'USER' ? (
                   <BlockUi>
                      <HeartStyle onClick={postFavoriteHandler}>
@@ -188,8 +200,9 @@ export const PhoneDeital = () => {
                      </ButtonUi>
                   </BlockUi>
                )}
-            </BlockDiscount>
+            </ContainerChildren>
          </Block2>
+         <ProductChracteristics />
       </Container>
    )
 }
@@ -208,12 +221,12 @@ const Stock = styled('p')`
 
 const Block1 = styled('div')`
    display: flex;
-   width: 47.5vw;
+   width: 31rem;
    justify-content: space-between;
 `
 const RatingBlock = styled('div')`
    display: flex;
-   margin-right: 6rem;
+   position: relative;
    justify-content: space-between;
    align-items: center;
 `
@@ -311,6 +324,7 @@ const BlockUi = styled('div')`
    width: 17rem;
    justify-content: space-between;
    align-items: center;
+   padding-top: 1.25rem;
 `
 const HeartStyle = styled('div')`
    width: 48px;
@@ -372,9 +386,7 @@ const BlockColors = styled('div')`
 const BlockDiscount = styled('div')`
    display: flex;
    position: relative;
-   left: 2.2rem;
    gap: 0.75rem;
-   flex-direction: column;
 `
 const BlockCounter = styled('div')`
    display: flex;
@@ -389,4 +401,20 @@ const ProductName = styled('p')`
    font-size: 1.875rem;
    font-weight: 500;
    color: #1a1a25;
+`
+const ContainerChildren = styled('div')`
+   display: flex;
+   flex-direction: column;
+   width: 16.875rem;
+   justify-content: flex-start;
+`
+const RatingBlockParent = styled('div')`
+   display: flex;
+   width: 7.5rem;
+   justify-content: flex-start;
+`
+const Article = styled('div')`
+   display: flex;
+   width: 7.5rem;
+   justify-content: flex-start;
 `

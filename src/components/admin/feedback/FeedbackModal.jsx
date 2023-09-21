@@ -19,11 +19,12 @@ const FeedbackModal = ({
    setIsEditing,
 }) => {
    const dispatch = useDispatch()
-
-   const [answer, setAnswer] = useState('')
-
+   const [answer, setAnswer] = useState(modalText)
    const { reviews } = useSelector((state) => state.product.infoPhone)
-
+   const getAnswer = (e) => {
+      setAnswer(e.target.value)
+      getAdminText(e)
+   }
    useEffect(() => {
       reviews?.map((el) => {
          if (el.reviewId === reviewId) {
@@ -31,13 +32,12 @@ const FeedbackModal = ({
          }
          return el
       })
-      console.log(answer)
-   }, [reviews])
+   }, [reviewId])
 
    const saveAdminAnswer = () => {
       const data = {
          reviewId,
-         replyToComment: modalText,
+         replyToComment: answer,
       }
 
       if (isEditing) {
@@ -49,21 +49,21 @@ const FeedbackModal = ({
 
    return (
       <Modal
-         open={open.has('openModal')}
+         open={open}
          onClose={handleClose}
          aria-labelledby="modal-modal-title"
          aria-describedby="modal-modal-description"
       >
          <StyledBox component="form" onSubmit={saveTextHandler}>
             <AnswerToComment>Ответ на комментарий</AnswerToComment>
-            <StyledTextarea value={modalText} onChange={getAdminText} />
+            <StyledTextarea value={answer} onChange={getAnswer} />
             <ButtonContainer>
                <Button
                   variant="outlined"
-                  textTransform="uppercase"
-                  backgroundHover="#CB11AB"
-                  backgroundActive="#CB11AB"
-                  padding="0.625rem 4.6825rem"
+                  texttransform="uppercase"
+                  backgroundhover="#CB11AB"
+                  backgroundactive="#CB11AB"
+                  padding="8px 4.6825rem"
                   onClick={handleClose}
                >
                   Отменить
@@ -74,8 +74,8 @@ const FeedbackModal = ({
                      saveAdminAnswer()
                   }}
                   variant="contained"
-                  textTransform="uppercase"
-                  padding="0.625rem 4.6825rem"
+                  texttransform="uppercase"
+                  padding="8px 4.6825rem"
                   type="onSubmit"
                >
                   {adminReviewState ? 'Сохранить' : 'Добавить'}
@@ -88,8 +88,8 @@ const FeedbackModal = ({
 
 export default FeedbackModal
 const StyledBox = styled(Box)(() => ({
-   width: '28%',
-   height: '32.5%',
+   width: '34rem',
+   height: ' 21.8125rem',
    padding: '2rem',
    display: 'flex',
    flexDirection: 'column',
@@ -114,6 +114,7 @@ const StyledTextarea = styled('textarea')`
 const ButtonContainer = styled('div')`
    width: 100%;
    margin-top: 2rem;
+   gap: 1.25rem;
    display: flex;
    justify-content: space-between;
 `
