@@ -37,7 +37,7 @@ export const FinishModal = () => {
          <Modal open={open} onClose={onHandlerClose} padding="1.875rem">
             <Container>
                <BoxCross>
-                  <IconButton onClick={onHandlerClose}>
+                  <IconButton onClick={onFinishClickHandler}>
                      <Cross />
                   </IconButton>
                </BoxCross>

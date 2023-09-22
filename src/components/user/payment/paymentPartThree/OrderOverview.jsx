@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { StepPayment } from '../StepPayment'
@@ -9,6 +10,7 @@ import {
    postPayment,
 } from '../../../../store/payment/payment.thunk'
 import { FinishModal } from '../FinishModal'
+import { useSnackbar } from '../../../../hooks/useSnackbar'
 
 export const OrderOverview = ({
    page,
@@ -16,10 +18,11 @@ export const OrderOverview = ({
    navigatePartOneHandler,
 }) => {
    const dispatch = useDispatch()
-   const { orderData, token, user, openSuccessModal } = useSelector(
+   const { orderData, token, user, openSuccessModal, isError } = useSelector(
       (state) => state.payment
    )
    const { basket } = useSelector((state) => state.basket)
+   const { snackbarHandler } = useSnackbar()
 
    const typePaymentConst = orderData.typePayment
 
@@ -53,6 +56,12 @@ export const OrderOverview = ({
 
    const valueDelivery =
       orderData.typeDelivery === 'DELIVERY' ? orderData.address : 'Самовызов'
+
+   useEffect(() => {
+      if (isError) {
+         snackbarHandler({ message: 'Что To пошло не так', type: 'error' })
+      }
+   }, [isError])
 
    return (
       <>

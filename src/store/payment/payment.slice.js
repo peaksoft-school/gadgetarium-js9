@@ -5,7 +5,7 @@ const initialState = {
    isLoading: false,
    user: {},
    dataPartOne: {},
-   isError: '',
+   isError: false,
    validBoolean: false,
    orderData: {},
    token: '',
@@ -73,6 +73,11 @@ export const paymentSlice = createSlice({
          })
          .addCase(postOrderUserData.pending, (state) => {
             state.isLoading = true
+         })
+         .addCase(postOrderUserData.rejected, (state) => {
+            state.isLoading = false
+
+            state.isError = true
          })
    },
 })
