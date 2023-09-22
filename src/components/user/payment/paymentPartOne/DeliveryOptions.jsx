@@ -66,16 +66,12 @@ export const DeliveryOptions = ({
             dispatch(validForm(false))
          }
       } else if (formik.values.address !== '' && delivery === false) {
-         // if (delivery === false) {
          dispatch(validForm(true))
-         // }
       }
 
       if (validBoolean) {
          navigate()
          nextHandler()
-
-         // onNextHandler()
       }
    }
 

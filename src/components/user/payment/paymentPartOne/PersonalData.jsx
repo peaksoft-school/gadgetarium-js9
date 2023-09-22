@@ -46,24 +46,24 @@ export const PersonalData = ({ onNextHandler, formik, delivery }) => {
                   <Label>
                      <span className="label-text">Имя</span>
                      <Input
-                        value={formik.values.lastName}
-                        onChange={formik.handleChange}
-                        type="text"
-                        name="lastName"
-                        placeholder="Напишите ваше имя"
-                        error={Boolean(lastName)}
-                     />
-                  </Label>
-
-                  <Label>
-                     <span className="label-text">Фамилия</span>
-                     <Input
                         value={formik.values.firstName}
                         onChange={formik.handleChange}
                         type="text"
                         name="firstName"
                         placeholder="Напишите вашу фамилию"
                         error={Boolean(firstName)}
+                     />
+                  </Label>
+
+                  <Label>
+                     <span className="label-text">Фамилия</span>
+                     <Input
+                        value={formik.values.lastName}
+                        onChange={formik.handleChange}
+                        type="text"
+                        name="lastName"
+                        placeholder="Напишите ваше имя"
+                        error={Boolean(lastName)}
                      />
                   </Label>
                </BoxInput>
