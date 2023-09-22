@@ -2,14 +2,11 @@ import React, { useState } from 'react'
 import { styled } from '@mui/material'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
-import Box from '@mui/material/Box'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
-import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
-import Paper from '@mui/material/Paper'
 import { InputUi } from '../../UI/Input'
 import { Calendar } from '../../UI/calendarFolder/Calendar'
 
@@ -47,46 +44,35 @@ export const AdminOrders = () => {
             placeholder="Поиск по артикулу или ..."
          />
 
-         <Box sx={{ width: '81.5625vw' }}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-               <Tabs
-                  value={value}
-                  onChange={handleChange}
-                  aria-label="basic tabs example"
-               >
-                  <Tab label="В ожидании" {...a11yProps(0)} />
-                  <Tab label="В обработке" {...a11yProps(1)} />
-                  <Tab label="Курьер в пути" {...a11yProps(2)} />
-                  <Tab label="Доставлены" {...a11yProps(3)} />
-                  <Tab label="Отменены" {...a11yProps(4)} />
-               </Tabs>
-            </Box>
-         </Box>
+         <TabsStyle value={value} onChange={handleChange}>
+            <Tab label="В ожидании" {...a11yProps(0)} />
+            <Tab label="В обработке" {...a11yProps(1)} />
+            <Tab label="Курьер в пути" {...a11yProps(2)} />
+            <Tab label="Доставлены" {...a11yProps(3)} />
+            <Tab label="Отменены" {...a11yProps(4)} />
+         </TabsStyle>
 
          <CalendarBlock>
             <Calendar value={null} placeholder="от" />
             <Calendar value={null} placeholder="до" />
          </CalendarBlock>
 
-         <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+         <TableContainer>
+            <Table>
                <TableHead>
-                  <TableRow>
-                     <TableCell>Dessert (100g serving)</TableCell>
-                     <TableCell align="right">Calories</TableCell>
-                     <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                     <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-                     <TableCell align="right">Protein&nbsp;(g)</TableCell>
-                  </TableRow>
+                  <TableCell>ID</TableCell>
+                  <TableCell align="right">ФИО</TableCell>
+                  <TableCell align="right">Номер/дата</TableCell>
+                  <TableCell align="right">Кол-во</TableCell>
+                  <TableCell align="right">Общая сумма</TableCell>
+                  <TableCell align="right">Оформление заказа</TableCell>
+                  <TableCell align="right">Статус</TableCell>
+                  <TableCell align="right">Действия</TableCell>
                </TableHead>
+
                <TableBody>
                   {rows.map((row) => (
-                     <TableRow
-                        key={row.name}
-                        sx={{
-                           '&:last-child td, &:last-child th': { border: 0 },
-                        }}
-                     >
+                     <TableRow key={row.name}>
                         <TableCell component="th" scope="row">
                            {row.name}
                         </TableCell>
@@ -105,9 +91,13 @@ export const AdminOrders = () => {
 
 const Container = styled('div')`
    margin-top: 2.5rem;
+
+   .MuiTableCell-root {
+      border-bottom: none;
+   }
+
    .MuiBox-root {
       padding: 0;
-      margin-top: 2.5rem;
    }
    .MuiTab-root.Mui-selected {
       background-color: #cb11ab;
@@ -140,6 +130,34 @@ const Container = styled('div')`
       color: #292929;
       padding-bottom: 1.25rem;
    }
+
+   .MuiTableHead-root {
+      background: rgba(56, 66, 85, 0.9);
+   }
+
+   .MuiTableContainer-root {
+      width: 81.5625rem;
+      border-radius: 0;
+   }
+   .MuiTableRow-root {
+      border: 1px solid gray;
+   }
+   .MuiTableRow-root {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      margin-top: 0.5rem;
+      border-radius: 0.375rem;
+   }
+`
+
+const TabsStyle = styled(Tabs)`
+   margin-top: 3.16rem;
+`
+
+const TableHead = styled(TableRow)`
+   background: rgba(56, 66, 85, 0.9);
+   color: #fff;
 `
 const CalendarBlock = styled('div')`
    display: flex;
