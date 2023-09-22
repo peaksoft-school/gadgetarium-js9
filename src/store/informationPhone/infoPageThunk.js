@@ -49,7 +49,6 @@ export const postReviewsPhone = createAsyncThunk(
    ) => {
       try {
          await postReviewsProductRequest(data)
-         dispatch(getInfoPage(data.subProductId))
          onOpenSuccessModal()
          dispatch(getReviwesProduct(data.subProductId))
       } catch (error) {
@@ -85,10 +84,9 @@ export const getSubCatalogRequest = createAsyncThunk(
 
 export const deleteReviewsRequest = createAsyncThunk(
    'product/deleteReviewsRequest',
-   async (id, { dispatch, rejectWithValue }) => {
+   async (id, { rejectWithValue }) => {
       try {
          await deleteReviewsProductRequest(id)
-         dispatch(getInfoPage())
       } catch (error) {
          rejectWithValue(error)
       }
@@ -110,10 +108,9 @@ export const putReviesRequest = createAsyncThunk(
 
 export const postReviewsAdminAnswer = createAsyncThunk(
    'product/putReviewsAdminAnswer',
-   async (data, { dispatch, rejectWithValue }) => {
+   async (data, { rejectWithValue }) => {
       try {
          const response = await postAdminReviewsRequest(data)
-         dispatch(getInfoPage())
          return response.data
       } catch (error) {
          return rejectWithValue(error)
@@ -128,7 +125,7 @@ export const putReviewsAdminAnswer = createAsyncThunk(
          const responce = await putAdminReviewsRequest(data)
          return responce.data
       } catch (error) {
-         return rejectWithValue(error)
+         return rejectWithValue(errorMessage)
       }
    }
 )

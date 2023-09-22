@@ -9,10 +9,13 @@ import FavoriteIcon from '@mui/icons-material/Favorite'
 import { ProductChracteristics } from './ProductChracter'
 import { ReactComponent as Delete } from '../../../../assets/icons/tools-for-site/delete-icon.svg'
 import { ReactComponent as Basket } from '../../../../assets/icons/basket-icon.svg'
-import { getInfoPage } from '../../../../store/informationPhone/infoPageThunk'
 import { postFavoriteItem } from '../../../../store/favorite/favorite.thunk'
-import { postBasketQuantity } from '../../../../store/basket/basket.thunk'
+import {
+   getBasket,
+   postBasketQuantity,
+} from '../../../../store/basket/basket.thunk'
 import { useSnackbar } from '../../../../hooks/useSnackbar'
+import { getInfoPage } from '../../../../store/informationPhone/infoPageThunk'
 
 export const PhoneDeital = () => {
    const {
@@ -27,6 +30,7 @@ export const PhoneDeital = () => {
       productId,
       subProductId,
       inBasket,
+      quantity,
    } = useSelector((state) => state.product.infoPhone)
 
    const { role } = useSelector((state) => state.auth)
@@ -68,8 +72,10 @@ export const PhoneDeital = () => {
    }, [price])
 
    const countPlus = () => {
-      setCount((prev) => prev + 1)
-      setChangePrice((prevChangePrice) => prevChangePrice + price)
+      if (quantity > count) {
+         setCount((prev) => prev + 1)
+         setChangePrice((prevChangePrice) => prevChangePrice + price)
+      }
    }
 
    const postQuantityBasket = () => {
@@ -78,10 +84,16 @@ export const PhoneDeital = () => {
          quantity: count,
       }
       setCount(1)
-      dispatch(postBasketQuantity({ data, snackbarHandler }))
+      dispatch(
+         postBasketQuantity({
+            data,
+            snackbarHandler,
+         })
+      )
          .unwrap()
          .then(() => {
-            dispatch(getInfoPage({ productId, colour: color }))
+            dispatch(getInfoPage({ productId, colours }))
+            dispatch(getBasket())
          })
       setChangePrice(price)
    }
@@ -93,11 +105,11 @@ export const PhoneDeital = () => {
    const formattedRating = rating ? Math.round(rating * 2) / 2 : 0
 
    return (
-      <Container>
+      <div>
          <ProductName>{name}</ProductName>
          <Line>
             <Block1>
-               <Stock>В наличии (9шт)</Stock>
+               <Stock>В наличии ({quantity}шт)</Stock>
                <Article>
                   <p>Артикул: {articleNumber}</p>
                </Article>
@@ -113,7 +125,6 @@ export const PhoneDeital = () => {
                </RatingBlockParent>
             </Block1>
          </Line>
-
          <Block2>
             <BlockColors>
                <strong>Цвет товара:</strong>
@@ -207,13 +218,10 @@ export const PhoneDeital = () => {
             </ContainerChildren>
          </Block2>
          <ProductChracteristics />
-      </Container>
+      </div>
    )
 }
 
-const Container = styled('div')`
-   margin-top: 2.5rem;
-`
 const Line = styled('div')`
    width: 100%;
    border-bottom: 1px solid #cdcdcd;

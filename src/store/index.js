@@ -8,6 +8,7 @@ import { infoPageSlice } from './informationPhone/infoPageSlice'
 import { basketSlice } from './basket/basket.slice'
 import { orderSlice } from './order/Order.Slice'
 import { compareSlice } from './compare/compare.slice'
+import { paymentSlice } from './payment/payment.slice'
 
 export const store = configureStore({
    reducer: {
@@ -20,5 +21,6 @@ export const store = configureStore({
       [basketSlice.name]: basketSlice.reducer,
       [compareSlice.name]: compareSlice.reducer,
       [orderSlice.name]: orderSlice.reducer,
+      [paymentSlice.name]: paymentSlice.reducer,
    },
 })

@@ -20,7 +20,7 @@ export const Description = () => {
             width="560"
             height="315"
             controls
-            playing
+            playing={false}
          />
 
          <div dangerouslySetInnerHTML={{ __html: description }} />

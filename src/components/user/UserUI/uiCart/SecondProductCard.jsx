@@ -17,7 +17,7 @@ export const SecondProductCard = ({ el }) => {
    const addViwedProduct = () => {
       dispatch(postRecentlyViewedProduct(el.subProductId))
 
-      navigate(`/product/${productId}/details`)
+      navigate(`/product/${el.productId}/details`)
    }
 
    return (

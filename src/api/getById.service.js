@@ -17,7 +17,7 @@ export const postReviewsProductRequest = (data) => {
 }
 
 export const deleteReviewsProductRequest = (reviewId) => {
-   return axiosInstance.delete(`/reviews/${reviewId}`)
+   return axiosInstance.delete(`/reviews/delete-comment/${reviewId}`)
 }
 
 export const putReviewsProductRequest = (data) => {

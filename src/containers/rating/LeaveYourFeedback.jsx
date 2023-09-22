@@ -1,15 +1,22 @@
 import { useState, useEffect } from 'react'
 import { styled, Rating as RatingMui } from '@mui/material'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { RatingPhoto } from './RatingPhoto'
 import { Modal } from '../../components/UI/Modal'
 import { Button } from '../../components/UI/Button'
 import { SuccessModal } from './SuccessModal'
-import { postReviewsPhone } from '../../store/informationPhone/infoPageThunk'
+import {
+   getInfoPage,
+   postReviewsPhone,
+} from '../../store/informationPhone/infoPageThunk'
 import { ErrorModal } from './ErrorModal'
 import { useSnackbar } from '../../hooks/useSnackbar'
 
 export const LeaveYourFeedback = ({ rating, onClose, subProductId }) => {
+   const { colours, productId } = useSelector(
+      (state) => state.product.infoPhone
+   )
+
    const [myStar, setMyStar] = useState(0)
    const [comment, setComment] = useState('')
    const [errorMessage, setErrorMessage] = useState('')
@@ -37,13 +44,17 @@ export const LeaveYourFeedback = ({ rating, onClose, subProductId }) => {
       if (myStar > 0) {
          const data = {
             subProductId,
-            star: myStar,
+            grade: myStar,
             comment,
             img: imgUrl,
          }
          dispatch(
             postReviewsPhone({ data, onOpenSuccessModal, onOpenErrorModal })
          )
+            .unwrap()
+            .then(() => {
+               dispatch(getInfoPage({ productId, colours }))
+            })
          onClose()
          setMyStar(0)
          setComment('')

@@ -9,8 +9,6 @@ import { SecondProductCard } from '../../UserUI/uiCart/SecondProductCard'
 export const Favorites = () => {
    const favoritesOrders = useSelector((state) => state.order.favorite)
 
-   console.log(favoritesOrders, 'favoritesOrders')
-
    const navigate = useNavigate()
 
    const homePage = () => {

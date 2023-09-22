@@ -69,10 +69,8 @@ export const Attribute = () => {
                         <Tab label="Отзывы" {...a11yProps(2)} />
                         <Tab label="Доставка и оплата" {...a11yProps(3)} />
                         <DownloadBlock onClick={onClickGetPdfFiles}>
-                           <p>
-                              <DownloadIcons />
-                              Скачать документ.pdf
-                           </p>
+                           <DownloadIcons />
+                           <p> Скачать документ.pdf</p>
                         </DownloadBlock>
                      </Tabs>
                   </Box>
@@ -103,10 +101,7 @@ export const Attribute = () => {
                         <Tab label="Характеристики" {...a11yProps(1)} />
                         <Tab label="Отзывы" {...a11yProps(2)} />
                         <DownloadBlock onClick={onClickGetPdfFiles}>
-                           <p>
-                              <DownloadIcons />
-                              Скачать документ.pdf
-                           </p>
+                           <DownloadIcons /> <p> Скачать документ.pdf</p>
                         </DownloadBlock>
                      </Tabs>
                   </Box>
@@ -164,5 +159,6 @@ const DownloadBlock = styled('div')`
       font-family: Inter;
       font-size: 1rem;
       font-weight: 400;
+      margin-left: 0.75rem;
    }
 `

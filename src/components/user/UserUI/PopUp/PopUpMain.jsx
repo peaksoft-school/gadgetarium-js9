@@ -4,9 +4,9 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { Carousel } from 'react-responsive-carousel'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import { getInfoPage } from '../../../../store/informationPhone/infoPageThunk'
-import { ReactComponent as ArrowLeft } from '../../../../assets/icons/arrows/left-icon.svg'
-import { ReactComponent as ArrowRight } from '../../../../assets/icons/arrows/right-icon.svg'
 
 export const PopUpMain = () => {
    const infoPhone = useSelector((state) => state.product.infoPhone)
@@ -39,11 +39,8 @@ export const PopUpMain = () => {
       }
    }
    return (
-      <Container>
-         <ButtonBlock>
-            <LeftBtn onClick={handlePreviousClick} />
-            <RightBtn onClick={handleNextClick} />
-         </ButtonBlock>
+      <ButtonBlock>
+         <LeftBtn onClick={handlePreviousClick} />
          <CarouselStyle
             infiniteLoop
             selectedItem={currentIndex}
@@ -60,14 +57,10 @@ export const PopUpMain = () => {
                </div>
             ))}
          </CarouselStyle>
-      </Container>
+         <RightBtn onClick={handleNextClick} />
+      </ButtonBlock>
    )
 }
-
-const Container = styled('div')`
-   display: flex;
-   flex-direction: column;
-`
 
 const CarouselStyle = styled(Carousel)(({ theme }) => ({
    '& .thumb.selected': {
@@ -82,12 +75,15 @@ const CarouselStyle = styled(Carousel)(({ theme }) => ({
       margin: '0px',
    },
    '& .carousel .slide img': {
-      width: '80%',
       height: '56vh',
    },
 
    '& .thumb:hover': {
       border: `1px solid ${theme.palette.primary.main}`,
+   },
+   '& .carousel .thumb': {
+      marginRight: '0px',
+      padding: '0px',
    },
 
    img: {
@@ -112,21 +108,17 @@ const CarouselStyle = styled(Carousel)(({ theme }) => ({
 }))
 const ButtonBlock = styled('div')`
    display: flex;
-   width: 98%;
-   justify-content: space-between;
-   align-items: center;
-   position: relative;
-   top: 34.5rem;
+   align-items: flex-end;
 `
-const LeftBtn = styled(ArrowLeft)`
+const LeftBtn = styled(ArrowBackIosNewIcon)`
    z-index: 2;
-   width: 1.8525rem;
-   height: 1.8525rem;
+   height: 10rem;
    cursor: pointer;
+   color: #909cb5;
 `
-const RightBtn = styled(ArrowRight)`
+const RightBtn = styled(ArrowForwardIosIcon)`
    z-index: 2;
-   width: 1.8525rem;
-   height: 1.8525rem;
+   height: 10rem;
    cursor: pointer;
+   color: #909cb5;
 `

@@ -12,6 +12,7 @@ import { Catalog } from '../components/user/catalog/Catalog'
 import { PersonalAreaContainer } from '../components/user/personalAreaPage/PersonalAreaContainer'
 import { HistoryDetailContainer } from '../components/user/personalAreaPage/historyPages/HistoryDetailContainer'
 import { PhonePage } from '../components/user/productIdPages/productIdDetail/PhonePage'
+import { PlacingAnOrder } from '../components/user/payment/PlacingAnOrder'
 
 export const userRoutes = [
    { path: routes.USER.index, element: <MainPage /> },
@@ -77,5 +78,9 @@ export const userRoutes = [
    {
       path: routes.USER.phones.fullPicture,
       element: <PopUpPage />,
+   },
+   {
+      path: routes.USER.payment,
+      element: <PlacingAnOrder />,
    },
 ]

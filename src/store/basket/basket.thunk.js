@@ -108,12 +108,12 @@ export const postBasketQuantity = createAsyncThunk(
    async ({ data, snackbarHandler }, { rejectWithValue }) => {
       try {
          const responce = await postBasketCounterProductRequest(data)
-
          snackbarHandler({
             message: 'Товар успешно добавлен в корзину',
             linkText: 'Перейти в корзину',
             path: '/basket',
          })
+
          return responce.data
       } catch (error) {
          snackbarHandler({

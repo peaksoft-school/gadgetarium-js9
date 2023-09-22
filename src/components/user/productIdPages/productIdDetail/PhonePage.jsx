@@ -9,6 +9,8 @@ import Box from '@mui/material/Box'
 import { getInfoPage } from '../../../../store/informationPhone/infoPageThunk'
 import { ProductDetails } from '../ProductDetails'
 import { ContainerProductId } from '../Container'
+import { BreadCrumbs } from '../../../UI/breadCrumbs/BreadCrumbs'
+import { getByIdBreadcrumbs } from '../../../../utils/common/constants/paymant'
 
 function CustomTabPanel(props) {
    const { children, value, index, ...other } = props
@@ -56,6 +58,12 @@ export const PhonePage = () => {
 
    return (
       <Container>
+         <BreadCrumbsContainer>
+            <BreadCrumbsBlock>
+               <BreadCrumbs breadcrumbs={getByIdBreadcrumbs} />
+               <Name>{infoPhone?.name}</Name>
+            </BreadCrumbsBlock>
+         </BreadCrumbsContainer>
          <BrandNameBlock>
             <BrandName>{infoPhone?.brandName?.toUpperCase()}</BrandName>
          </BrandNameBlock>
@@ -131,13 +139,12 @@ const TabStyle = styled(Tab)`
 const BrandNameBlock = styled('div')`
    display: flex;
    justify-content: center;
-   margin-top: 3rem;
 `
 
 const BrandName = styled('h1')`
    width: 79.888vw;
    color: blue;
-   font-family: Orbitron;
+   font-family: Ubuntu;
    padding-bottom: 20px;
    border-bottom: 1px solid #cdcdcd;
 `
@@ -145,4 +152,18 @@ const BrandName = styled('h1')`
 const BoxBlock = styled('div')`
    display: flex;
    justify-content: center;
+`
+
+const BreadCrumbsContainer = styled('div')`
+   display: flex;
+   justify-content: center;
+   align-items: center;
+`
+const BreadCrumbsBlock = styled('div')`
+   display: flex;
+   align-items: center;
+   width: 79.888vw;
+`
+const Name = styled('p')`
+   margin-top: 4.8rem;
 `

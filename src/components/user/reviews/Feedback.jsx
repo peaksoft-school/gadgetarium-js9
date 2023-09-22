@@ -6,9 +6,13 @@ import { ReactComponent as DeleteIcon } from '../../../assets/icons/tools-for-si
 import FeedbackStars from './FeedbackStars'
 import { ReactComponent as DefaultIcon } from '../../../assets/icons/avatar/default-avatar-icon.svg'
 import FeedbackModal from '../../admin/feedback/FeedbackModal'
-import { deleteReviewsRequest } from '../../../store/informationPhone/infoPageThunk'
+import {
+   deleteReviewsRequest,
+   getInfoPage,
+} from '../../../store/informationPhone/infoPageThunk'
 import { EditModal } from './EditModal'
 import { infoPageActions } from '../../../store/informationPhone/infoPageSlice'
+import { useSnackbar } from '../../../hooks/useSnackbar'
 
 const Feedback = ({
    userName,
@@ -24,7 +28,13 @@ const Feedback = ({
 }) => {
    const dispatch = useDispatch()
 
+   const { snackbarHandler } = useSnackbar()
+
    const { role } = useSelector((state) => state.auth)
+
+   const { productId, colours } = useSelector(
+      (state) => state.product.infoPhone
+   )
 
    const [openModal, setOpenModal] = useState()
    const [adminText, setAdminText] = useState(answer)
@@ -92,7 +102,16 @@ const Feedback = ({
             <ToolContainer>
                <EditIcon onClick={toggleUserHandler} />
                <DeleteIcon
-                  onClick={() => dispatch(deleteReviewsRequest(reviewId))}
+                  onClick={() =>
+                     dispatch(deleteReviewsRequest(reviewId))
+                        .unwrap()
+                        .then(() => {
+                           snackbarHandler({
+                              message: 'Товар успешно удален',
+                           })
+                           dispatch(getInfoPage({ productId, colours }))
+                        })
+                  }
                />
             </ToolContainer>
          )}
