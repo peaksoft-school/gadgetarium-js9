@@ -79,6 +79,10 @@ export const PhoneDeital = () => {
       }
       setCount(1)
       dispatch(postBasketQuantity({ data, snackbarHandler }))
+         .unwrap()
+         .then(() => {
+            dispatch(getInfoPage({ productId, colour: color }))
+         })
       setChangePrice(price)
    }
 
