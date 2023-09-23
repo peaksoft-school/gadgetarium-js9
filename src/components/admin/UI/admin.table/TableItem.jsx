@@ -1,5 +1,7 @@
 import { TableCell, TableRow, styled } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { ReactComponent as EditIcon } from '../../../../assets/icons/tools-for-site/edit-icon.svg'
 import { ReactComponent as DeleteIcon } from '../../../../assets/icons/tools-for-site/delete-icon.svg'
 import { ReactComponent as ArrowDown } from '../../../../assets/icons/arrows/down-icon.svg'
@@ -8,6 +10,8 @@ import {
    nestedContentFunction,
    nestedStyledInput,
 } from '../../../../utils/helpers/functions'
+import { adminGoodsActions } from '../../../../store/admin.goods/admin.goods.slice'
+import { deleteProduct } from '../../../../store/admin.goods/admin.goods.thunk'
 
 export const TableItem = ({
    tables,
@@ -16,19 +20,12 @@ export const TableItem = ({
    index,
    ...item
 }) => {
-   const time = item.purchaseTime ? item.purchaseTime.split(' ')[1] : null
-   const date = item.purchaseTime ? item.purchaseTime.split(' ')[0] : null
-   const discountAmount =
-      item.discount && (item.productPrice * item.discount) / 100
-   const finalPrice = item.discount
-      ? item.productPrice - discountAmount
-      : item.productPrice
-   const abbreviatedModelName = item.modelName && item.modelName.slice(0, 18)
+   const time = item.createdAt ? item.createdAt.split(' ')[1] : null
+   const date = item.createdAt ? item.createdAt.split(' ')[0] : null
+   const abbreviatedModelName = item.name && item.name.slice(0, 18)
    const [isHovered, setIsHovered] = useState(false)
-   const toggleHoveredHandler = () => {
-      setIsHovered((prev) => !prev)
-   }
-   const [quantityOfGoodsInput, setQuantityOfGoodsInput] = useState(1)
+   const navigate = useNavigate()
+   const dispatch = useDispatch()
    const [productPriceInput, setProductPriceInput] = useState(item.productPrice)
    const getProductPrice = (e) => {
       if (Number(e.target.value) < 0) {
@@ -36,25 +33,29 @@ export const TableItem = ({
       }
       return setProductPriceInput(e.target.value)
    }
-   const getQuantityOfGoods = (e) => {
-      if (Number(e.target.value) < 0) {
+
+   const closeHoveredHandler = () => {
+      if (item.isChecked) {
          return null
       }
-      return setQuantityOfGoodsInput(e.target.value)
+      return setIsHovered(false)
+   }
+   const openHoveredHandler = () => {
+      setIsHovered(true)
    }
    const deleteHandler = (id) => {
-      console.log(id, 'id')
+      dispatch(deleteProduct(id))
       return id
    }
    const editHandler = (id) => {
-      console.log(id, 'id')
+      navigate(`/admin/edit-product/${id}`)
       return id
    }
    const checkboxHandler = (id) => {
-      console.log(id, 'id')
-      return id
+      dispatch(adminGoodsActions.changeChecked(id))
+      setIsHovered(true)
    }
-   const StyledPhoto = item.photo
+   const StyledPhoto = item.image
       ? styled('img')`
            width: 4rem;
            height: 4rem;
@@ -73,20 +74,17 @@ export const TableItem = ({
          center={textInCenter}
          index={indexForTable}
          sx={{ marginTop: '0.625rem' }}
-         onMouseEnter={toggleHoveredHandler}
-         onMouseLeave={toggleHoveredHandler}
+         onMouseEnter={openHoveredHandler}
+         onMouseLeave={closeHoveredHandler}
       >
          {tables.map((el) => {
             if (el.name === 'ID') {
-               if (indexForTable === 3) {
-                  return null
-               }
                return (
                   <StyledTableCell
                      center={textInCenter}
                      sx={{
-                        width: '4.125rem',
-                        paddingLeft: isHovered ? '0.3125rem' : '1.25rem',
+                        width: '3.438vw',
+                        paddingLeft: isHovered ? '0.26vw' : '1.042vw',
                      }}
                      key={el.name}
                   >
@@ -95,7 +93,8 @@ export const TableItem = ({
                         indexForTable,
                         index,
                         checkboxHandler,
-                        item.id
+                        item.subProductId,
+                        item.isChecked
                      )}
                   </StyledTableCell>
                )
@@ -110,7 +109,7 @@ export const TableItem = ({
                      }}
                      key={el.name}
                   >
-                     <StyledPhoto src={item.photo} />
+                     <StyledPhoto src={item.image} />
                   </StyledTableCell>
                )
             }
@@ -121,7 +120,7 @@ export const TableItem = ({
                      center={textInCenter}
                      key={el.name}
                   >
-                     {item.vendorCode}
+                     {item.articleNumber}
                   </StyledTableCell>
                )
             }
@@ -134,10 +133,10 @@ export const TableItem = ({
                      center={textInCenter}
                      key={el.name}
                   >
-                     {el.width === '15rem'
-                        ? `Кол-во товара ${item.quantityOfGoods}шт.`
+                     {el.width === '12.5vw'
+                        ? `Кол-во товара ${item.quantity}шт.`
                         : `${abbreviatedModelName}...`}
-                     {el.width === '15rem' && (
+                     {el.width === '12.5vw' && (
                         <ModelName>{`${abbreviatedModelName}...`}</ModelName>
                      )}
                   </StyledTableCell>
@@ -165,9 +164,9 @@ export const TableItem = ({
                      center={textInCenter}
                      key={el.name}
                   >
-                     {item.productPrice && item.productPrice.toLocaleString()}с
+                     {item.price && item.price.toLocaleString()}с
                      <PersentDiscount>
-                        {item.discount ? `${item.discount}%` : '0%'}
+                        {item.sale ? `${item.sale}%` : '0%'}
                      </PersentDiscount>
                   </StyledTableCell>
                )
@@ -179,7 +178,10 @@ export const TableItem = ({
                      center={textInCenter}
                      key={el.name}
                   >
-                     {finalPrice ? finalPrice.toLocaleString() : 0}с
+                     {item.currentPrice
+                        ? item.currentPrice.toLocaleString()
+                        : item.price.toLocaleString()}
+                     с
                   </StyledTableCell>
                )
             }
@@ -216,7 +218,7 @@ export const TableItem = ({
                      center={textInCenter}
                      key={el.name}
                   >
-                     {item.quantity} {el.width === 138 && 'шт.'}
+                     {item.quantity} {el.width === '7.188vw' && 'шт.'}
                   </StyledTableCell>
                )
             }
@@ -258,17 +260,6 @@ export const TableItem = ({
                   </StyledTableCell>
                )
             }
-            if (el.name === 'Бренд') {
-               return (
-                  <StyledTableCell
-                     sx={{ width: el.width, paddingLeft: '1.25rem' }}
-                     center={textInCenter}
-                     key={el.name}
-                  >
-                     {item.brand}
-                  </StyledTableCell>
-               )
-            }
             if (el.name === 'Цвет') {
                return (
                   <StyledTableCell
@@ -279,28 +270,6 @@ export const TableItem = ({
                      key={el.name}
                   >
                      {item.color}
-                  </StyledTableCell>
-               )
-            }
-            if (el.name === 'Объем памяти') {
-               return (
-                  <StyledTableCell
-                     sx={{ width: el.width }}
-                     center={textInCenter}
-                     key={el.name}
-                  >
-                     {item.memory} ГБ
-                  </StyledTableCell>
-               )
-            }
-            if (el.name === 'Оперативная память') {
-               return (
-                  <StyledTableCell
-                     sx={{ width: el.width }}
-                     center={textInCenter}
-                     key={el.name}
-                  >
-                     RAM {item.RAM}ГБ
                   </StyledTableCell>
                )
             }
@@ -315,39 +284,6 @@ export const TableItem = ({
                   </StyledTableCell>
                )
             }
-            if (el.name === 'Дата выпуска') {
-               return (
-                  <StyledTableCell
-                     sx={{ width: el.width }}
-                     center={textInCenter}
-                     key={el.name}
-                  >
-                     {date}
-                  </StyledTableCell>
-               )
-            }
-            if (el.name === 'Кол-во товара') {
-               return (
-                  <StyledTableCell
-                     sx={{
-                        width: el.width,
-                        background: 'rgba(203, 17, 171, 0.10)',
-                        height: '100%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        paddingLeft: indexForTable === 3 && '1.25rem',
-                     }}
-                     center={textInCenter}
-                     key={el.name}
-                  >
-                     <StyledInput
-                        value={quantityOfGoodsInput}
-                        onChange={getQuantityOfGoods}
-                        type="number"
-                     />
-                  </StyledTableCell>
-               )
-            }
             if (el.name === 'Цена') {
                return (
                   <StyledTableCell
@@ -359,7 +295,7 @@ export const TableItem = ({
                         height: '100%',
                         display: 'flex',
                         alignItems: 'center',
-                        paddingLeft: indexForTable === 3 && '1.25rem',
+                        paddingLeft: indexForTable === 3 && '1.042vw',
                      }}
                      center={textInCenter}
                      key={el.name}
@@ -420,13 +356,13 @@ export const TableItem = ({
                      {el.edit && (
                         <StyledEditIcon
                            onClick={() => {
-                              deleteHandler(item.id)
+                              editHandler(item.subProductId)
                            }}
                         />
                      )}
                      <StyledDeleteIcon
                         onClick={() => {
-                           editHandler(item.id)
+                           deleteHandler(item.subProductId)
                         }}
                         style={{ marginLeft: el.edit === false && '0' }}
                      />
@@ -440,7 +376,7 @@ export const TableItem = ({
 }
 const StyledTableRow = styled(TableRow)(
    ({ theme, hovered, center, index }) => ({
-      width: index === 3 ? '107.5rem' : '81.5625rem',
+      width: index === 3 ? '89.583vw' : '67.969vw',
       height: '4.75rem',
       background: calculateBackgroundColor(hovered, index),
       borderRadius: '0.375rem',
@@ -455,7 +391,7 @@ const StyledTableRow = styled(TableRow)(
 const StyledTableCell = styled(TableCell)(({ center }) => ({
    fontFamily: 'Inter',
    fontStyle: 'normal',
-   fontSize: '1rem',
+   fontSize: '0.833vw',
    fontWeight: 500,
    marginTop: center === 'true' ? '0' : '18px',
    lineHeight: 'normal',
@@ -466,19 +402,7 @@ const StyledTableCell = styled(TableCell)(({ center }) => ({
    minWidth: 0,
    maxWidth: 'none',
 }))
-const StyledInput = styled('input')`
-   background: none;
-   border: none;
-   font-family: 'Inter';
-   font-size: 1rem;
-   font-weight: 500;
-   font-style: normal;
-   letter-spacing: 0.0625rem;
-   max-width: 140px;
-   :focus {
-      outline: none;
-   }
-`
+
 const PersentDiscount = styled('p')`
    color: #f10000;
    margin: 0;
@@ -487,7 +411,7 @@ const PersentDiscount = styled('p')`
 const ModelName = styled('p')`
    color: #909cb5;
    font-family: Inter;
-   font-size: 0.875rem;
+   font-size: 0.729vw;
    font-style: normal;
    font-weight: 400;
    margin: 0;
@@ -501,7 +425,9 @@ const Time = styled('p')`
 `
 const StyledDeleteIcon = styled(DeleteIcon)`
    cursor: pointer;
-   margin-left: 1.25rem;
+   margin-left: 1.042vw;
+   width: 1.042vw;
+   height: 1.042vw;
    :hover {
       path {
          fill: #f10000;
@@ -509,6 +435,8 @@ const StyledDeleteIcon = styled(DeleteIcon)`
    }
 `
 const StyledEditIcon = styled(EditIcon)`
+   width: 1.042vw;
+   height: 1.042vw;
    cursor: pointer;
    :hover {
       path {
@@ -517,7 +445,7 @@ const StyledEditIcon = styled(EditIcon)`
    }
 `
 const StyledArrowDown = styled(ArrowDown)`
-   width: 1rem;
-   margin-left: 0.375rem;
-   height: 1rem;
+   width: 0.833vw;
+   margin-left: 0.313vw;
+   height: 0.833vw;
 `

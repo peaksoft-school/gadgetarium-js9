@@ -1,10 +1,21 @@
 import { AddingAProduct } from '../components/admin/addingAProduct/partOne/AddingAProduct'
 import { FinishingTouchAddingProduct } from '../components/admin/addingAProduct/partThree/FinishingTouchAddingProduct'
 import { QuantityOfGoodsAndPrice } from '../components/admin/addingAProduct/partTwo/QuantityOfGoodsAndPrice'
+
 import { ProductDetails } from '../components/user/productIdPages/ProductDetails'
 import { PhonePage } from '../components/user/productIdPages/productIdDetail/PhonePage'
+import { AdminGoods } from '../components/admin/goods/AdminGoods'
+import { EditProduct } from '../components/admin/goods/edit-product/EditProduct'
 
 export const adminRoutes = [
+   {
+      path: '/admin',
+      element: <AdminGoods />,
+   },
+   {
+      path: '/admin/edit-product/:subProductId',
+      element: <EditProduct />,
+   },
    {
       path: '/admin/add-products-part-1',
       element: <AddingAProduct />,

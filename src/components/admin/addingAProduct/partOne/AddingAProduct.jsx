@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState, memo } from 'react'
 import { HeaderAddingAProduct } from '../HeaderAddingAProduct'
 import { FilterCategory } from './selectСategories/FilterCategory'
-import { AddNewBrandModal } from './selectСategories/AddNewBrandModal'
 import { filterResComponent } from '../../../../utils/helpers/AddFilterResComponent'
 import { Button } from '../../../UI/Button'
 import { filterCategorySubProduct } from '../../../../store/addProduct/addProductPartOne.slice'
@@ -14,6 +13,8 @@ import {
    getBrandAll,
    getSubCategory,
 } from '../../../../store/addProduct/addProduct.thunk'
+import { AddNewBrandModal } from '../../UI/AddNewBrandModal'
+import { BreadCrumbs } from '../../../UI/breadCrumbs/BreadCrumbs'
 
 export const AddingAProduct = memo(() => {
    const dispatch = useDispatch()
@@ -101,46 +102,60 @@ export const AddingAProduct = memo(() => {
 
    return (
       <Container>
-         {openModalAddNewBrand.has('AddingAProduct') && (
+         <WidthContainer>
+            {openModalAddNewBrand.has('AddingAProduct') && (
+               <div>
+                  <AddNewBrandModal
+                     openModalAddNewBrand={openModalAddNewBrand.has(
+                        'AddingAProduct'
+                     )}
+                     onClose={onCloseModalAddNewBrand}
+                  />
+               </div>
+            )}
+            <BreadCrumbs
+               breadcrumbs={[
+                  { path: '/admin', label: 'Товары' },
+
+                  { label: 'Добавление товара' },
+               ]}
+            />
+            <HeaderAddingAProduct title="Добавление товара" pathNumber={1} />
+
             <div>
-               <AddNewBrandModal
-                  openModalAddNewBrand={openModalAddNewBrand}
-                  onClose={onCloseModalAddNewBrand}
+               <FilterCategory
+                  onOpenModalAddNewBrand={onOpenModalAddNewBrand}
+                  value={newProduct}
+                  errorCategory={errorCategory}
                />
             </div>
-         )}
 
-         <HeaderAddingAProduct title="Добавление товара" pathNumber={1} />
+            <div>{filterResComponent(newProduct, errorCategory)}</div>
 
-         <div>
-            <FilterCategory
-               onOpenModalAddNewBrand={onOpenModalAddNewBrand}
-               value={newProduct}
-               errorCategory={errorCategory}
-            />
-         </div>
+            {newProduct.categoryId && newProduct.categoryId !== '' && (
+               <ContainerButton>
+                  <Button
+                     variant="outlined"
+                     padding="8px 24px"
+                     fontSize="16px"
+                     backgroundhover="#CB11AB"
+                     backgroundactive="#E313BF"
+                     onClick={onClose}
+                  >
+                     Назад
+                  </Button>
 
-         <div>{filterResComponent(newProduct, errorCategory)}</div>
-
-         {newProduct.categoryId && newProduct.categoryId !== '' && (
-            <ContainerButton>
-               <Button
-                  backgroundhover="#CB11AB"
-                  onClick={onClose}
-                  variant="outlined"
-               >
-                  Назад
-               </Button>
-
-               <Button
-                  onClick={onFilterFinishHandler}
-                  variant="contained"
-                  padding="0.62rem 1.5rem"
-               >
-                  Далее
-               </Button>
-            </ContainerButton>
-         )}
+                  <Button
+                     onClick={onFilterFinishHandler}
+                     variant="contained"
+                     padding="8px 24px"
+                     fontSize="16px"
+                  >
+                     Далее
+                  </Button>
+               </ContainerButton>
+            )}
+         </WidthContainer>
       </Container>
    )
 })
@@ -148,15 +163,17 @@ export const AddingAProduct = memo(() => {
 AddingAProduct.displayName = 'AddingAProduct'
 
 const Container = styled('div')(({ theme }) => ({
-   paddingLeft: '6.25rem',
-   marginTop: '1.88rem',
    fontFamily: theme.typography.mainFontFamily,
+   display: 'flex',
+   justifyContent: 'center',
+   marginBottom: '120px',
 }))
+const WidthContainer = styled('div')`
+   width: 89.583vw;
+`
 
 const ContainerButton = styled('div')`
-   margin-bottom: 8.38rem;
+   width: 396px;
    display: flex;
    justify-content: space-between;
-   align-items: center;
-   width: 25.8vw;
 `

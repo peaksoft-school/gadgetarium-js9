@@ -12,6 +12,7 @@ import {
    addAllPriceAndQuantity,
    editNewProductAndReturnNewEditDataHandler,
 } from '../../../../store/addProduct/addProductPartOne.slice'
+import { BreadCrumbs } from '../../../UI/breadCrumbs/BreadCrumbs'
 
 const schema = Yup.object().shape({
    price: Yup.number().required('Обязательное поле'),
@@ -74,58 +75,69 @@ export const QuantityOfGoodsAndPrice = memo(() => {
 
    return (
       <Container>
-         <HeaderAddingAProduct
-            title="Установка цены и количества товара"
-            pathNumber={2}
-         />
+         <WidthContainer>
+            <BreadCrumbs
+               breadcrumbs={[
+                  { path: '/admin', label: 'Товары' },
 
-         <div className="box">
-            <ContainerTotalPriceAndQuanti>
-               <p>{title}</p>
-
-               <FormStyle onSubmit={handleSubmit}>
-                  <InputUi
-                     fontSize="1.2rem"
-                     borderradius="6px"
-                     height="40px"
-                     width="9.1vw"
-                     type="number"
-                     value={
-                        changeBooleanValue === true
-                           ? values.price
-                           : values.quantity
-                     }
-                     name={changeBooleanValue === true ? 'price' : 'quantity'}
-                     onChange={handleChangeNoMinus}
-                  />
-                  <Button
-                     variant="contained"
-                     fontSize="1rem"
-                     padding="0.75rem 1.625rem"
-                     width="140px"
-                     type="submit"
-                  >
-                     Установить {titleBtn}
-                  </Button>
-               </FormStyle>
-            </ContainerTotalPriceAndQuanti>
-            <TablesPartTwo
-               onChangeBooleanValuePrice={onChangeBooleanValuePrice}
-               onChangeBooleanValueQuantity={onChangeBooleanValueQuantity}
-               changeBooleanValue={changeBooleanValue}
+                  { label: 'Установление цены и количества' },
+               ]}
+            />
+            <HeaderAddingAProduct
+               title="Установка цены и количества товара"
+               pathNumber={2}
             />
 
-            <ContainerButton>
-               <Button
-                  onClick={finishedAddPriceAndQuantity}
-                  padding="10px 1.5rem"
-                  fontSize="1rem"
-                  variant="contained"
-               >
-                  Далее
-               </Button>
-            </ContainerButton>
-         </div>
+            <div className="box">
+               <ContainerTotalPriceAndQuanti>
+                  <p>{title}</p>
+
+                  <FormStyle onSubmit={handleSubmit}>
+                     <InputUi
+                        fontSize="1.2rem"
+                        borderradius="6px"
+                        width="9.1vw"
+                        height="47px"
+                        type="number"
+                        value={
+                           changeBooleanValue === true
+                              ? values.price
+                              : values.quantity
+                        }
+                        name={
+                           changeBooleanValue === true ? 'price' : 'quantity'
+                        }
+                        onChange={handleChangeNoMinus}
+                     />
+                     <Button
+                        variant="contained"
+                        fontSize="1rem"
+                        padding="0.75rem 1.625rem"
+                        width="140px"
+                        type="submit"
+                     >
+                        Установить {titleBtn}
+                     </Button>
+                  </FormStyle>
+               </ContainerTotalPriceAndQuanti>
+               <TablesPartTwo
+                  onChangeBooleanValuePrice={onChangeBooleanValuePrice}
+                  onChangeBooleanValueQuantity={onChangeBooleanValueQuantity}
+                  changeBooleanValue={changeBooleanValue}
+               />
+
+               <ContainerButton>
+                  <Button
+                     onClick={finishedAddPriceAndQuantity}
+                     padding="10px 1.5rem"
+                     fontSize="1rem"
+                     variant="contained"
+                  >
+                     Далее
+                  </Button>
+               </ContainerButton>
+            </div>
+         </WidthContainer>
       </Container>
    )
 })
@@ -133,8 +145,8 @@ export const QuantityOfGoodsAndPrice = memo(() => {
 QuantityOfGoodsAndPrice.displayName = 'QuantityOfGoodsAndPrice'
 
 const Container = styled('div')`
-   margin-left: 6.25rem;
-
+   display: flex;
+   justify-content: center;
    .box {
       display: flex;
       flex-direction: column;
@@ -143,7 +155,9 @@ const Container = styled('div')`
 
    margin-bottom: 3.125rem;
 `
-
+const WidthContainer = styled('div')`
+   width: 89.583vw;
+`
 const ContainerTotalPriceAndQuanti = styled('div')`
    display: flex;
    flex-direction: column;
@@ -165,7 +179,6 @@ const FormStyle = styled('form')`
 `
 
 const ContainerButton = styled('div')`
-   width: 79.688vw;
    display: flex;
    justify-content: flex-end;
    align-items: center;
