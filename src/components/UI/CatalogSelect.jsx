@@ -44,7 +44,7 @@ export const CatalogSelect = ({ items, onToggleCheckbox, title }) => {
                            {el.title || el.name || el.codeColorTransform}
                         </span>
 
-                        <span>
+                        <span className="countColor">
                            {el?.countColor ? `(${el.countColor})` : ''}
                         </span>
                      </div>
@@ -60,6 +60,9 @@ const Container = styled('div')`
    border-bottom: 1px solid #e8e8e8;
    padding-bottom: 1.8519vh;
 
+   .countColor {
+      color: #91969e;
+   }
    .content {
       display: flex;
       flex-direction: column;

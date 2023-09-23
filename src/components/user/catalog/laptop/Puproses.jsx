@@ -16,11 +16,24 @@ export const Puproses = memo(() => {
       dispatch(categoryActions.laptopPuproses())
    }, [puproses])
 
+   const transformPeproses = {
+      FOR_WORK: 'Для работы',
+      MULTIMEDIA: 'Мультимедийный',
+      GAMING: 'Игровой',
+      FOR_BUSINESS: 'Для бизнеса',
+      FOR_LEARNING: 'Для учебы',
+      OFFICE: 'Офисный',
+   }
+
+   const update = puproses.map((el) => {
+      return { ...el, title: transformPeproses[el.title] }
+   })
+
    return (
       <CatalogSelect
          title="Назначение"
          onToggleCheckbox={postTitle}
-         items={puproses}
+         items={update}
       />
    )
 })

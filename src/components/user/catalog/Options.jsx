@@ -16,7 +16,6 @@ import { ScreenSize } from './laptop/ScreenSize'
 import { Interfaces } from './watch/Interfaces'
 import { MaterialBracelets } from './watch/MaterialBracelets'
 import { MaterialHousing } from './watch/MaterialHousing'
-import { WaterProof } from './watch/WaterProof'
 import { Floor } from './watch/Floor'
 import { DisplayDiagonal } from './watch/DisplayDiagonal'
 import { Shapes } from './watch/Shapes'
@@ -27,6 +26,7 @@ export const Options = () => {
    const dispatch = useDispatch()
    const containerRef = useRef(null)
 
+   const params = useParams()
    useEffect(() => {
       const container = containerRef.current
       if (container) {
@@ -37,12 +37,10 @@ export const Options = () => {
             container.style.paddingRight = '1.6rem'
          }
       }
-   }, [])
+   }, [params])
    const resetAllFilters = () => {
       dispatch(categoryActions.resetChecked())
    }
-
-   const params = useParams()
 
    return (
       <Content>
@@ -66,6 +64,7 @@ export const Options = () => {
                <div>
                   <BatteryCapacity />
                   <ScreenSize />
+                  <ScreenResolution />
                   <MemoryСapacity />
                   <RamMemory />
                </div>
@@ -88,7 +87,6 @@ export const Options = () => {
                   <MaterialBracelets />
                   <MaterialHousing />
                   <MemoryСapacity />
-                  <WaterProof />
                   <Floor />
                   <Shapes />
                   <DisplayDiagonal />
@@ -101,28 +99,19 @@ export const Options = () => {
 
 const Content = styled('div')`
    flex-shrink: 0;
-   padding: 1.875rem;
+   padding: 1.875rem 0 1.875rem 1.875rem;
    padding-top: 0;
    width: 18.28125vw;
-   padding-right: 1.6rem;
    border-radius: 0.25rem 0rem 0rem 0.25rem;
    background-color: #ffffff;
-   position: relative;
-
-   height: 76vw;
 
    .box-options {
       max-height: 74vw;
       overflow-y: auto;
 
-      position: absolute;
-      z-index: 1;
-      right: -0.5rem;
-      padding-right: 1.6rem;
-      top: 0;
-
       &::-webkit-scrollbar {
          width: 0.5rem;
+         margin-right: -1.6rem;
       }
 
       &::-webkit-scrollbar-thumb {

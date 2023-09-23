@@ -78,25 +78,27 @@ export const slideOut = keyframes`
      `
 
 export const memoryRamConstants = [
-   { title: 3, id: 1, checked: false },
+   { title: 2, id: 1, checked: false },
+   { title: 3, id: 9, checked: false },
    { title: 4, id: 2, checked: false },
    { title: 6, id: 3, checked: false },
    { title: 8, id: 4, checked: false },
-   { title: 16, id: 5, checked: false },
-   { title: 32, id: 6, checked: false },
-   { title: 36, id: 7, checked: false },
+   { title: 12, id: 5, checked: false },
+   { title: 16, id: 6, checked: false },
+   { title: 32, id: 7, checked: false },
+   { title: 36, id: 8, checked: false },
 ]
 
 export const memoryCapacityConstants = [
    { title: 4, id: 1, checked: false },
-   { title: 8, id: 1, checked: false },
-   { title: 16, id: 2, checked: false },
-   { title: 32, id: 3, checked: false },
-   { title: 64, id: 4, checked: false },
-   { title: 128, id: 5, checked: false },
-   { title: 256, id: 6, checked: false },
-   { title: 512, id: 7, checked: false },
-   { title: 1024, id: 8, checked: false },
+   { title: 8, id: 2, checked: false },
+   { title: 16, id: 3, checked: false },
+   { title: 32, id: 4, checked: false },
+   { title: 64, id: 5, checked: false },
+   { title: 128, id: 6, checked: false },
+   { title: 256, id: 7, checked: false },
+   { title: 512, id: 8, checked: false },
+   { title: 1024, id: 9, checked: false },
 ]
 export const simConstants = [
    { title: 1, id: 1, checked: false },
@@ -104,30 +106,29 @@ export const simConstants = [
 ]
 
 export const ProcessorsLaptop = [
-   { title: 'Intel Core i3', id: 1, checked: false },
-   { title: 'Intel Core i5', id: 2, checked: false },
-   { title: 'Intel Core i7', id: 3, checked: false },
-   { title: 'Intel Core i9', id: 4, checked: false },
-   { title: 'Intel Celeron', id: 5, checked: false },
-   { title: 'Intel Pentium', id: 6, checked: false },
+   { title: 'INTEL_CORE_I3', id: 1, checked: false },
+   { title: 'INTEL_CORE_I5', id: 2, checked: false },
+   { title: 'INTEL_CORE_I7', id: 3, checked: false },
+   { title: 'INTEL_CORE_I9', id: 4, checked: false },
+   { title: 'INTEL_CELERON', id: 5, checked: false },
+   { title: 'INTEL_PENTIUM', id: 6, checked: false },
    { title: 'AMD', id: 7, checked: false },
-   { title: 'Intel Quad Core', id: 8, checked: false },
-   { title: 'Intel Dual Core', id: 9, checked: false },
-   { title: 'AMD Ryzen 3 3250U', id: 10, checked: false },
-   { title: 'Intel Core i7-8565U', id: 11, checked: false },
-   { title: 'AMD Ryzen 7 4700U', id: 12, checked: false },
+   { title: 'INTEL_QUAD_CORE', id: 8, checked: false },
+   { title: 'INTEL_DUAL_CORE', id: 9, checked: false },
+   { title: 'AMD_RYZEN_3_3250U', id: 10, checked: false },
+   { title: 'INTEL_CORE_I7_8565U', id: 11, checked: false },
+   { title: 'AMD_RYZEN_7_4700U', id: 12, checked: false },
 ]
 export const screenResolutionLaptop = [
    { title: '1024x600', id: 1, checked: false },
    { title: '1280x800', id: 2, checked: false },
    { title: '1366x768', id: 3, checked: false },
    { title: '1600x900', id: 4, checked: false },
-   { title: '1366x768', id: 5, checked: false },
-   { title: '1920x1080', id: 6, checked: false },
-   { title: '2160x1440', id: 7, checked: false },
-   { title: '2560x1600', id: 8, checked: false },
-   { title: '3072x1920', id: 9, checked: false },
-   { title: '3840x2160', id: 10, checked: false },
+   { title: '1920x1080', id: 5, checked: false },
+   { title: '2160x1440', id: 6, checked: false },
+   { title: '2560x1600', id: 7, checked: false },
+   { title: '3072x1920', id: 8, checked: false },
+   { title: '3840x2160', id: 9, checked: false },
 ]
 
 export const laptopVideoMemory = [
@@ -139,12 +140,12 @@ export const laptopVideoMemory = [
 ]
 
 export const laptopPuproses = [
-   { title: 'Для работы', id: 1, checked: false },
-   { title: 'Мультимедийный', id: 2, checked: false },
-   { title: 'Игровой', id: 3, checked: false },
-   { title: 'Для бизнеса', id: 4, checked: false },
-   { title: 'Для учебы', id: 5, checked: false },
-   { title: 'Офисный', id: 6, checked: false },
+   { title: 'FOR_WORK', id: 1, checked: false },
+   { title: 'MULTIMEDIA', id: 2, checked: false },
+   { title: 'GAMING', id: 3, checked: false },
+   { title: 'FOR_BUSINESS', id: 4, checked: false },
+   { title: 'FOR_LEARNING', id: 5, checked: false },
+   { title: 'OFFICE', id: 6, checked: false },
 ]
 
 export const laptopScreenSize = [
@@ -159,48 +160,43 @@ export const laptopScreenSize = [
 ]
 
 export const watchInterfaces = [
-   { title: 'Bluetooth', id: 1, checked: false },
-   { title: 'Wi-Fi', id: 2, checked: false },
+   { title: 'BLUETOOTH', id: 1, checked: false },
+   { title: 'WIFI', id: 2, checked: false },
    { title: 'GPS', id: 3, checked: false },
    { title: 'NFC', id: 4, checked: false },
 ]
 
 export const watchShapes = [
-   { title: 'Квадратная', id: 1, checked: false },
-   { title: 'Круглая', id: 2, checked: false },
-   { title: 'Овальная', id: 3, checked: false },
-   { title: 'Прямоугольная', id: 4, checked: false },
+   { title: 'SQUARE', id: 1, checked: false },
+   { title: 'ROUND', id: 2, checked: false },
+   { title: 'OVAL', id: 3, checked: false },
+   { title: 'RECTANGULAR', id: 4, checked: false },
 ]
 
 export const watchMaterialBracelets = [
-   { title: 'Силикон', id: 1, checked: false },
-   { title: 'Кожа', id: 2, checked: false },
-   { title: 'Резина', id: 3, checked: false },
-   { title: 'Пластик', id: 4, checked: false },
-   { title: 'Нейлон', id: 5, checked: false },
-   { title: 'Из искусственной кожи', id: 6, checked: false },
-   { title: 'Имитация керамики', id: 7, checked: false },
+   { title: 'SILICONE', id: 1, checked: false },
+   { title: 'LEATHER', id: 2, checked: false },
+   { title: 'RUBBER', id: 3, checked: false },
+   { title: 'PLASTIC', id: 4, checked: false },
+   { title: 'NYLON', id: 5, checked: false },
+   { title: 'IMITATION_LEATHER', id: 6, checked: false },
+   { title: 'CERAMIC_IMITATION', id: 7, checked: false },
 ]
 
 export const watchMaterialHousing = [
-   { title: 'Акриловый', id: 1, checked: false },
-   { title: 'Алюминий', id: 2, checked: false },
-   { title: 'Керамика', id: 3, checked: false },
-   { title: 'Пластик', id: 4, checked: false },
-   { title: 'Металл', id: 5, checked: false },
-   { title: 'Нержавейщая сталь', id: 6, checked: false },
-   { title: 'Стекло', id: 7, checked: false },
+   { title: 'ACRYLIC', id: 1, checked: false },
+   { title: 'ALUMINIUM', id: 2, checked: false },
+   { title: 'CERAMIC', id: 3, checked: false },
+   { title: 'PLASTIC', id: 4, checked: false },
+   { title: 'METAL', id: 5, checked: false },
+   { title: 'STAINLESS_STEEL', id: 6, checked: false },
+   { title: 'GLASS', id: 7, checked: false },
 ]
 
 export const watchFloor = [
-   { title: 'Унисекс ', id: 1, checked: false },
-   { title: 'Женский', id: 2, checked: false },
-   { title: 'Мужской', id: 3, checked: false },
-]
-
-export const watchWaterProof = [
-   { title: 'Да ', id: 1, checked: false },
-   { title: 'Нет', id: 2, checked: false },
+   { title: 'UNI', id: 1, checked: false },
+   { title: 'FEMALE', id: 2, checked: false },
+   { title: 'MALE', id: 3, checked: false },
 ]
 
 export const watchDisplayDiagonal = [

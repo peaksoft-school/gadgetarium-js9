@@ -12,7 +12,6 @@ import {
    watchMaterialBracelets,
    watchMaterialHousing,
    watchFloor,
-   watchWaterProof,
    watchDisplayDiagonal,
    laptopVideoMemory,
    tabletBatteryCapacity,
@@ -74,8 +73,6 @@ const initialState = {
    materialHousing: watchMaterialHousing,
    floorArray: [],
    floor: watchFloor,
-   waterProofArray: [],
-   waterProof: watchWaterProof,
    displayDiagonalArray: [],
    displayDiagonal: watchDisplayDiagonal,
 
@@ -403,14 +400,14 @@ export const categorySlice = createSlice({
       },
 
       watchInterfaces: (state) => {
-         const iunterfacesArray = []
+         const interfacesArray = []
          state.interfaces.map((el) => {
             if (el.checked === true) {
-               iunterfacesArray.push(el.title)
+               interfacesArray.push(el.title)
             }
             return el
          })
-         return { ...state, iunterfacesArray }
+         return { ...state, interfacesArray }
       },
       changeInterfaces: (state, action) => {
          const updatedMemory = state.interfaces.map((el) => {
@@ -442,7 +439,7 @@ export const categorySlice = createSlice({
       },
       watchMaterialBracelets: (state) => {
          const materialBraceletsArray = []
-         state.shapes.map((el) => {
+         state.materialBracelets.map((el) => {
             if (el.checked === true) {
                materialBraceletsArray.push(el.title)
             }
@@ -496,25 +493,6 @@ export const categorySlice = createSlice({
             return el
          })
          state.floor = updatedMemory
-      },
-      watchWaterProof: (state) => {
-         const waterProofArray = []
-         state.waterProof.map((el) => {
-            if (el.checked === true) {
-               waterProofArray.push(el.title)
-            }
-            return el
-         })
-         return { ...state, waterProofArray }
-      },
-      changeWaterProof: (state, action) => {
-         const updatedMemory = state.waterProof.map((el) => {
-            if (el.id === action.payload) {
-               return { ...el, checked: !el.checked }
-            }
-            return el
-         })
-         state.waterProof = updatedMemory
       },
       watchDisplayDiagonal: (state) => {
          const displayDiagonalArray = []
@@ -578,7 +556,7 @@ export const categorySlice = createSlice({
          .addCase(sendSelectedCategories.fulfilled, (state, action) => {
             return {
                ...state,
-               filteredProducts: action.payload.responseList,
+               filteredProducts: action.payload,
                isLoading: false,
             }
          })

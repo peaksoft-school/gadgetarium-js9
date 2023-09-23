@@ -11,9 +11,10 @@ export const MemoryСapacity = () => {
    const dispatch = useDispatch()
 
    const updatedRamArray =
-      Object.values(category)[0] === 'Tablet'
-         ? memoryCapacity.slice(0, 6)
-         : memoryCapacity
+      (Object.values(category)[0] === 'Tablet' && memoryCapacity.slice(1, 7)) ||
+      (Object.values(category)[0] === 'Phone' && memoryCapacity.slice(1, 8)) ||
+      (Object.values(category)[0] === 'Smart Watch' &&
+         memoryCapacity.slice(0, 4))
 
    const postTitle = (id) => {
       dispatch(categoryActions.changeMemory(id))

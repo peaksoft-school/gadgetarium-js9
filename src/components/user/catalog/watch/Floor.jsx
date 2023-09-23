@@ -11,11 +11,21 @@ export const Floor = () => {
       dispatch(categoryActions.changeFloor(id))
    }
 
+   const transformFloor = {
+      UNI: 'Унисекс',
+      MALE: 'Мужской',
+      FEMALE: 'Женский',
+   }
+
+   const update = floor.map((el) => {
+      return { ...el, title: transformFloor[el.title] }
+   })
+
    useEffect(() => {
       dispatch(categoryActions.watchFloor())
    }, [floor])
 
    return (
-      <CatalogSelect title="Пол" onToggleCheckbox={postTitle} items={floor} />
+      <CatalogSelect title="Пол" onToggleCheckbox={postTitle} items={update} />
    )
 }

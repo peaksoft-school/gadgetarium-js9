@@ -11,6 +11,20 @@ export const MaterialHousing = () => {
       dispatch(categoryActions.changeMaterialHousing(id))
    }
 
+   const transformMaterialHousing = {
+      ACRYLIC: 'Акриловый',
+      ALUMINIUM: 'Алюминий',
+      CERAMIC: 'Керамика',
+      PLASTIC: 'Пластик',
+      METAL: 'Метал',
+      STAINLESS_STEEL: 'Нержавеющая сталь',
+      GLASS: 'Стекло',
+   }
+
+   const update = materialHousing.map((el) => {
+      return { ...el, title: transformMaterialHousing[el.title] }
+   })
+
    useEffect(() => {
       dispatch(categoryActions.watchMaterialHousing())
    }, [materialHousing])
@@ -19,7 +33,7 @@ export const MaterialHousing = () => {
       <CatalogSelect
          title="Материал корпуса"
          onToggleCheckbox={postTitle}
-         items={materialHousing}
+         items={update}
       />
    )
 }

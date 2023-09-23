@@ -13,6 +13,14 @@ export const getColorsTransformation = (hashCodes) => {
    return axiosInstance.get(`/v1/products/colors?${params.toString()}`)
 }
 
+export const getAllCategoryRequest = () => {
+   return axiosInstance.get('/v1/category')
+}
+
+export const getSubCategoryRequest = (id) => {
+   return axiosInstance.get(`/v1/category/get-sub-categories?categoryId=${id}`)
+}
+
 export const getColors = ({ categoryId }) => {
    return axiosInstance.get(`/v1/products/count-color?categoryId=${categoryId}`)
 }
@@ -21,7 +29,8 @@ export const filterProductsByCategory = (payload) => {
    const requestData = {
       gadgetType: payload.gadgetType[0],
       sorting: payload.sort ? payload.sort : 'string',
-      subCategoryIds: [0],
+      subCategoryIds:
+         payload.subCategoriesId.length === 0 ? [0] : [payload.subCategoriesId],
       brandIds: payload.id.length === 0 ? [0] : payload.id,
       priceStart: payload.minValue,
       priceEnd: payload.maxValue,
