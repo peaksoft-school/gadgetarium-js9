@@ -60,11 +60,9 @@ export const deleteOrderRequest = createAsyncThunk(
 
 export const orderIsAdminThunk = createAsyncThunk(
    'order/orderIsAdminThunk',
-   async (_, { rejectWithValue }) => {
+   async (data, { rejectWithValue }) => {
       try {
-         const responce = await getAdminOrderRequest()
-         console.log('responce', responce.data)
-
+         const responce = await getAdminOrderRequest(data)
          return responce.data
       } catch (error) {
          return rejectWithValue(error)

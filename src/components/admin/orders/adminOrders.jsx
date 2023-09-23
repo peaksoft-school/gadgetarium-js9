@@ -6,7 +6,10 @@ import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
+import dayjs from 'dayjs'
 import { useDispatch, useSelector } from 'react-redux'
+import Pagination from '@mui/material/Pagination'
+import Stack from '@mui/material/Stack'
 import TableRow from '@mui/material/TableRow'
 import { ReactComponent as SearchIcon } from '../../../assets/icons/search-icon.svg'
 import { ReactComponent as DeleteTable } from '../../../assets/icons/tools-for-site/delete-icon.svg'
@@ -27,7 +30,7 @@ const rows = [
    },
    {
       id: '2',
-      name: 'Айзат Жумагулова',
+      name: 'Мстители финал',
       number: '000000-455247',
       quantity: '2 шт.',
       total: '90 000с',
@@ -49,23 +52,46 @@ export const AdminOrders = () => {
    const orderIsAdmins = useSelector((state) => state.order.orderIsAdmin)
    const [value, setValue] = useState(0)
 
+   const [valueTab, setValueTab] = useState('В ожидании')
+
    console.log('orderIsAdmin', orderIsAdmins)
 
    const handleChange = (event, newValue) => {
       setValue(newValue)
+
+      if (value === 0) {
+         setValueTab('В ожидании')
+      } else if (value === 1) {
+         setValueTab('В обработке')
+      } else if (value === 2) {
+         setValueTab('Курьер в пути')
+      } else if (value === 3) {
+         setValueTab('Доставлены')
+      } else if (value === 4) {
+         setValueTab('Отменены')
+      }
+   }
+   const [dateStart, setDateStart] = useState()
+   const [dateEnd, setDateEnd] = useState()
+
+   const startDate = dayjs(dateStart).format('DD.MM.YYYY')
+   const endDate = dayjs(dateEnd).format('DD.MM.YYYY')
+
+   const onChangeCalendar = (newValue) => {
+      setDateStart(newValue)
+   }
+   const onChangeCalendarEnd = (newValue) => {
+      setDateEnd(newValue)
    }
 
    useEffect(() => {
-      dispatch(orderIsAdminThunk())
-   }, [])
-
-   const statusTable = 'DELIVER'
-
-   useEffect(() => {
-      if (statusTable === 'DELIVER') {
-         setValue(1)
+      const data = {
+         startDate,
+         endDate,
+         valueTab,
       }
-   }, [orderIsAdmins.delivered])
+      dispatch(orderIsAdminThunk(data))
+   }, [startDate, endDate, valueTab])
 
    return (
       <Container>
@@ -87,8 +113,16 @@ export const AdminOrders = () => {
          </TabsStyle>
 
          <CalendarBlock>
-            <Calendar value={null} placeholder="от" />
-            <Calendar value={null} placeholder="до" />
+            <Calendar
+               value={dateStart}
+               onChange={onChangeCalendar}
+               placeholder="от"
+            />
+            <Calendar
+               value={dateEnd}
+               onChange={onChangeCalendarEnd}
+               placeholder="до"
+            />
          </CalendarBlock>
 
          <TableContainer>
@@ -120,6 +154,10 @@ export const AdminOrders = () => {
                </TableBody>
             </Table>
          </TableContainer>
+
+         <Stack spacing={2}>
+            <Pagination count={10} />
+         </Stack>
       </Container>
    )
 }
