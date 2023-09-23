@@ -20,6 +20,7 @@ import {
    postFilePDF,
 } from '../../../../store/addProduct/addProduct.thunk'
 import { Loading } from '../../../UI/loading/Loading'
+import { BreadCrumbs } from '../../../UI/breadCrumbs/BreadCrumbs'
 
 const schema = Yup.object().shape({
    videoLink: Yup.string().required('Обязательное поле').url(),
@@ -183,50 +184,64 @@ export const FinishingTouchAddingProduct = memo(() => {
       <>
          {isLoading && <Loading />}
          <Container>
-            <HeaderAddingAProduct title="Описание и обзор" pathNumber={3} />
+            <WidthContainer>
+               <div className="bread">
+                  <BreadCrumbs
+                     breadcrumbs={[
+                        { path: '/admin', label: 'Товары' },
 
-            <ContainerInput>
-               <ContainerInputAddVideoAndPDF>
-                  <label htmlFor="Загрузите видеообзор">
-                     Загрузите видеообзор
-                     <InputAddProduct
-                        id="Загрузите видеообзор"
-                        placeholder="Вставьте ссылку на видеообзор"
-                        type="url"
-                        value={formik.values.videoLink}
-                        onChange={formik.handleChange}
-                        onBlur={(e) => onBlurHandler(e)}
-                        name="videoLink"
-                        InputProps={{
-                           startAdornment: (
-                              <InputAdornmentStyle position="start">
-                                 <DownloadIcon style={{ cursor: 'pointer' }} />
-                              </InputAdornmentStyle>
-                           ),
-                        }}
-                     />
-                  </label>
-
-                  <InputPDF formik={formik} onDrop={onDrop} />
-               </ContainerInputAddVideoAndPDF>
-
-               <div>
-                  <InputDescription formik={formik} />
+                        { label: 'Описание и обзор' },
+                     ]}
+                  />
                </div>
 
-               <ContainerButton>
-                  <Button
-                     backgroundhover="#CB11AB"
-                     onClick={onClose}
-                     variant="outlined"
-                  >
-                     Отменить
-                  </Button>
-                  <Button onClick={finishedPartThree} variant="contained">
-                     Добавить
-                  </Button>
-               </ContainerButton>
-            </ContainerInput>
+               <HeaderAddingAProduct title="Описание и обзор" pathNumber={3} />
+
+               <ContainerInput>
+                  <ContainerInputAddVideoAndPDF>
+                     <label htmlFor="Загрузите видеообзор">
+                        Загрузите видеообзор
+                        <InputAddProduct
+                           id="Загрузите видеообзор"
+                           placeholder="Вставьте ссылку на видеообзор"
+                           type="url"
+                           value={formik.values.videoLink}
+                           onChange={formik.handleChange}
+                           onBlur={(e) => onBlurHandler(e)}
+                           name="videoLink"
+                           InputProps={{
+                              startAdornment: (
+                                 <InputAdornmentStyle position="start">
+                                    <DownloadIcon
+                                       style={{ cursor: 'pointer' }}
+                                    />
+                                 </InputAdornmentStyle>
+                              ),
+                           }}
+                        />
+                     </label>
+
+                     <InputPDF formik={formik} onDrop={onDrop} />
+                  </ContainerInputAddVideoAndPDF>
+
+                  <div>
+                     <InputDescription formik={formik} />
+                  </div>
+
+                  <ContainerButton>
+                     <Button
+                        backgroundhover="#CB11AB"
+                        onClick={onClose}
+                        variant="outlined"
+                     >
+                        Отменить
+                     </Button>
+                     <Button onClick={finishedPartThree} variant="contained">
+                        Добавить
+                     </Button>
+                  </ContainerButton>
+               </ContainerInput>
+            </WidthContainer>
          </Container>
       </>
    )
@@ -235,8 +250,8 @@ export const FinishingTouchAddingProduct = memo(() => {
 FinishingTouchAddingProduct.displayName = 'FinishingTouchAddingProduct'
 
 const Container = styled('div')`
-   margin-left: 6.25rem;
-
+   display: flex;
+   justify-content: center;
    ul {
       list-style: disc;
       padding-left: 1rem;
@@ -246,10 +261,17 @@ const Container = styled('div')`
       list-style-type: decimal;
       padding-left: 1rem;
    }
+   .bread {
+      ol {
+         padding-left: 0;
+      }
+   }
 
    margin-bottom: 3.125rem;
 `
-
+const WidthContainer = styled('div')`
+   width: 89.583vw;
+`
 const ContainerInput = styled('div')`
    margin-top: 3.75rem;
    display: flex;

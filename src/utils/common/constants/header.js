@@ -39,3 +39,17 @@ export const navBarForHeader = [
       title: 'Контакты',
    },
 ]
+export const navBarForAdminHeader = [
+   {
+      path: '/admin',
+      title: 'Товары',
+   },
+   {
+      path: '/admin/orders',
+      title: 'Заказы',
+   },
+   {
+      path: '/admin/reviewsAndRating',
+      title: 'Отзывы и рейтинг',
+   },
+]
