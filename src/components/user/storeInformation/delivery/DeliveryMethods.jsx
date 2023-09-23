@@ -51,6 +51,7 @@ const InfoDeliveryContainer = styled('div')`
 const Box = styled('div')`
    display: flex;
    flex-direction: column;
+   justify-content: space-between;
    gap: 0.75rem;
 `
 const BoxDelivery = styled('div')`
@@ -64,7 +65,7 @@ const BoxDeliveryText = styled('div')`
    gap: 0.3125rem;
 
    .title {
-      width: 15.5625rem;
+      width: 15rem;
    }
 
    p {
