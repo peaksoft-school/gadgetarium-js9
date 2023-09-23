@@ -100,6 +100,8 @@ const NextButton = styled('div')`
    display: flex;
    align-items: center;
    cursor: pointer;
+
+   z-index: 0;
 `
 
 const PrevButton = styled('div')`
@@ -110,6 +112,6 @@ const PrevButton = styled('div')`
    display: flex;
    align-items: center;
 
-   z-index: 100;
+   z-index: 5;
    cursor: pointer;
 `

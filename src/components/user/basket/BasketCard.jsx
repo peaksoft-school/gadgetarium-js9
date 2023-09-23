@@ -66,7 +66,7 @@ export const BasketCard = ({
                   <GoodCode>Код товара: {articleNumber}</GoodCode>
                   <FavoriteDeleteContainer>
                      {favorite ? (
-                        <ToolFavoriteAndDelete cursor={false}>
+                        <ToolFavoriteAndDelete cursor="false">
                            <StyledFilledFavoriteButton />В избранном
                         </ToolFavoriteAndDelete>
                      ) : (
@@ -85,7 +85,7 @@ export const BasketCard = ({
                      )}
 
                      <ToolFavoriteAndDelete
-                        cursor
+                        cursor="true"
                         onClick={() => dispatch(deleteAllBasketGoods([id]))}
                      >
                         <StyledCrossButton />
@@ -124,7 +124,7 @@ const ToolFavoriteAndDelete = styled('p')`
    line-height: 140%;
    display: flex;
    align-items: center;
-   cursor: ${(props) => props.cursor && 'pointer'};
+   cursor: ${(props) => props.cursor === 'true' && 'pointer'};
    margin: 0;
 `
 const GoodCode = styled('div')`
