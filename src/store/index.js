@@ -9,6 +9,8 @@ import { orderSlice } from './order/Order.Slice'
 import { compareSlice } from './compare/compare.slice'
 import { paymentSlice } from './payment/payment.slice'
 import { globalSearchSlice } from './globalSearch/global.search.slice'
+import { adminGoodsSlice } from './admin.goods/admin.goods.slice'
+import { editProductSlice } from './edit.product/edit.product.slice'
 
 export const store = configureStore({
    reducer: {
@@ -20,6 +22,8 @@ export const store = configureStore({
       [basketSlice.name]: basketSlice.reducer,
       [compareSlice.name]: compareSlice.reducer,
       [globalSearchSlice.name]: globalSearchSlice.reducer,
+      [adminGoodsSlice.name]: adminGoodsSlice.reducer,
+      [editProductSlice.name]: editProductSlice.reducer,
       [orderSlice.name]: orderSlice.reducer,
       [paymentSlice.name]: paymentSlice.reducer,
    },

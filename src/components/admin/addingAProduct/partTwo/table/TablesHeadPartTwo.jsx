@@ -1,53 +1,69 @@
 import { TableCell, TableHead, TableRow, styled } from '@mui/material'
 
-export const TablesHeadPartTwo = ({ subProduct }) => {
+export const TablesHeadPartTwo = ({ subProduct, newProduct }) => {
    return (
-      <TableHead sx={{ marginBottom: '10px' }}>
+      <StyledTableHead sx={{ marginBottom: '10px' }}>
          <TableRow sx={{ display: 'flex' }}>
-            <TableCellStyle sx={{ paddingLeft: '1.25rem' }} width="5.4vw">
+            <TableCellStyle sx={{ paddingLeft: '1.25rem' }} width="10.26vw">
                Бренд
             </TableCellStyle>
-            <TableCellStyle width="8vw">Цвет</TableCellStyle>
+            <TableCellStyle width="8.333vw">Цвет</TableCellStyle>
             {subProduct.rom && (
-               <TableCellStyle width="10vw">Объем памяти</TableCellStyle>
+               <TableCellStyle width="10.052vw">Объем памяти</TableCellStyle>
             )}
-            {subProduct.categoryId !== 4 && subProduct.screenSize && (
+            {subProduct.screenResolution && (
+               <TableCellStyle width="11.306vw">
+                  Разрешение экрана
+               </TableCellStyle>
+            )}
+            {subProduct.screenSize && (
                <TableCellStyle width="10vw">Размер экрана</TableCellStyle>
             )}
-            {subProduct.categoryId === 4 && subProduct.screenResolution && (
-               <TableCellStyle width="12vw">Разрешение экрана</TableCellStyle>
-            )}
-            {subProduct.categoryId !== 4 && subProduct.ram && (
-               <TableCellStyle width="12vw">Оперативная память</TableCellStyle>
+            {subProduct.ram && (
+               <TableCellStyle width="12.708vw">
+                  Оперативная память
+               </TableCellStyle>
             )}
             {subProduct.processor && (
-               <TableCellStyle width="11.1vw">Процессор</TableCellStyle>
+               <TableCellStyle width="10vw">Процессор</TableCellStyle>
             )}
             {subProduct.sim && (
-               <TableCellStyle width="11vw">Кол-во SIM-карт</TableCellStyle>
+               <TableCellStyle width="12.24vw">Кол-во SIM-карт</TableCellStyle>
             )}
-            {subProduct.housingMaterial && (
+            {subProduct.materialBracelet ? (
                <TableCellStyle width="12vw">Материал браслета</TableCellStyle>
+            ) : (
+               ''
             )}
-            {subProduct.diagonalScreen && (
-               <TableCellStyle width="11vw">Диагональ экрана</TableCellStyle>
+            {subProduct.housingMaterial ? (
+               <TableCellStyle width="12vw">Материал корпуса</TableCellStyle>
+            ) : (
+               ''
             )}
-            {subProduct.gender && (
-               <TableCellStyle width="11vw">Пол</TableCellStyle>
-            )}
-            <TableCellStyle width="10vw">Дата выпуска</TableCellStyle>
-            <TableCellStyle width="11vw">Кол-во товара</TableCellStyle>
-            <TableCellStyle width="12.1vw">Цена</TableCellStyle>
+            <TableCellStyle
+               width={newProduct.categoryId === 1 ? '19.063vw' : '10vw'}
+            >
+               Дата выпуска
+            </TableCellStyle>
+            <TableCellStyle width="8.333vw" sx={{ paddingLeft: '1.042vw' }}>
+               Кол-во товара
+            </TableCellStyle>
+            <TableCellStyle width="8.594vw" sx={{ paddingLeft: '1.042vw' }}>
+               Цена
+            </TableCellStyle>
          </TableRow>
-      </TableHead>
+      </StyledTableHead>
    )
 }
 
+const StyledTableHead = styled(TableHead)`
+   background-color: #384255e5;
+   margin-bottom: 10px;
+`
 const TableCellStyle = styled(TableCell)(({ theme, width }) => ({
-   backgroundColor: '#384255e5',
    color: '#fff',
    fontFamily: theme.typography.mainFontFamily,
-   fontSize: '14px',
+   fontSize: '0.781vw',
    fontStyle: 'normal',
    fontWeight: '600',
    lineHeight: 'normal',
@@ -57,6 +73,6 @@ const TableCellStyle = styled(TableCell)(({ theme, width }) => ({
    padding: 0,
    display: 'flex',
    alignItems: 'center',
-   height: '40px',
-   // border: '1px solid #000',
+   height: '2.5rem',
+   border: 'none',
 }))

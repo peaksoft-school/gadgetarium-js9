@@ -19,14 +19,12 @@ import { logOut } from '../../../store/auth/authThunk'
 import { AuthorizationModal } from '../AuthorizationModal'
 import { getGlobalSearch } from '../../../store/globalSearch/global.search.thunk'
 import { GlobalSearch } from '../globalSearch/GlobalSearch'
-import { useCustomSearchParams } from '../../../hooks/useCustomSearchParams'
 
 export const Header = ({ favorite, basket, compare }) => {
    const dispatch = useDispatch()
    const { number, img, token, isAuthorization } = useSelector(
       (state) => state.auth
    )
-   const { setParam, deleteParam } = useCustomSearchParams()
    const [hoverCompare, setHoverCompare] = useState(false)
    const [hoverFavorite, setHoverFavorite] = useState(false)
    const navigate = useNavigate()
@@ -56,10 +54,6 @@ export const Header = ({ favorite, basket, compare }) => {
 
    const handleChange = (event) => {
       setInputValue(event.target.value)
-      setParam('keyword', event.target.value)
-      if (event.target.value.length === 0) {
-         deleteParam('keyword')
-      }
       if (debounceTimeout) {
          clearTimeout(debounceTimeout)
       }
@@ -749,6 +743,12 @@ const Select2 = styled('div')`
       }
    }
 `
+const PositionContainerForInput = styled('div')`
+   position: relative;
+   display: flex;
+   flex-direction: column;
+   gap: 8px;
+`
 const NavLinkParagraph = styled(NavLink)`
    text-decoration: none;
    color: #292929;
@@ -756,10 +756,4 @@ const NavLinkParagraph = styled(NavLink)`
    &:hover {
       color: #cb11ab;
    }
-`
-const PositionContainerForInput = styled('div')`
-   position: relative;
-   display: flex;
-   flex-direction: column;
-   gap: 8px;
 `

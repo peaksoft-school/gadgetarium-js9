@@ -18,10 +18,9 @@ export const MailingList = () => {
          <Button
             variant="contained"
             background="#CB11AB"
-            padding="1.11111vh 1.04164vw"
-            fontSize="0.833333vw"
-            borderRadius="2.875rem"
-            textTransform="none"
+            padding="12px 20px"
+            borderradius="2.875rem"
+            texttransform="none"
             onClick={openModalHandler}
          >
             Создать рассылку
