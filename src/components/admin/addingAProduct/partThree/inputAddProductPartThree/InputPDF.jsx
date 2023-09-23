@@ -29,7 +29,7 @@ export const InputPDF = ({ formik, onDrop }) => {
                   InputProps={{
                      startAdornment: (
                         <InputAdornmentStyle position="start">
-                           <DownloadIcon />
+                           <DownloadIcon style={{ cursor: 'pointer' }} />
                         </InputAdornmentStyle>
                      ),
                   }}

@@ -44,7 +44,7 @@ export const TablesRow = ({
    useEffect(() => {
       const dataRow = {
          ...row,
-         category: rows.category,
+         categoryId: rows.categoryId,
       }
 
       collectorRowsDataHandler(dataRow)
@@ -71,19 +71,19 @@ export const TablesRow = ({
    return (
       <TableRowStyle hover role="checkbox" tabIndex={-1} key={row.id}>
          <TableCellStyle width="5.4vw" sx={{ paddingLeft: '1.25rem' }}>
-            {rows.brand}
+            {rows.brandId}
          </TableCellStyle>
          <TableCellStyle color={color} width="8vw">
             {row.codeColor}
          </TableCellStyle>
          {row.rom && <TableCellStyle width="10vw">{row.rom}ГБ</TableCellStyle>}
-         {rows.category !== 'Планшеты' && row.screenSize && (
+         {rows.categoryId !== 4 && row.screenSize && (
             <TableCellStyle width="10vw">{row.screenSize}</TableCellStyle>
          )}
-         {rows.category === 'Планшеты' && row.screenResolution && (
+         {rows.categoryId === 4 && row.screenResolution && (
             <TableCellStyle width="12vw">{row.screenResolution}</TableCellStyle>
          )}
-         {rows.category !== 'Планшеты'
+         {rows.categoryId !== 4
             ? row.ram && (
                  <TableCellStyle width="12vw">RAM {row.ram}ГБ</TableCellStyle>
               )
@@ -106,7 +106,7 @@ export const TablesRow = ({
          <TableCellStyle width="11vw">
             <InputBox>
                <InputUi
-                  height="67px"
+                  height="10.7vh"
                   border="1px solid #CDCDCD"
                   borderradius="0"
                   fontSize="1rem"
@@ -120,14 +120,15 @@ export const TablesRow = ({
                />
             </InputBox>
          </TableCellStyle>
-         <TableCellStyle width="12.1vw">
+         <TableCellStyle width="11.9vw">
             <InputBox>
                <InputUi
-                  height="67px"
+                  height="10.7vh"
                   border="1px solid #CDCDCD"
-                  borderradius="0 6px 6px 0"
+                  borderradius="0 0.375rem 0.375rem 0"
                   value={values.price}
                   name="price"
+                  width="12.1vw"
                   onChange={handleChangeNoMinus}
                   fontSize="1rem"
                   type="number"

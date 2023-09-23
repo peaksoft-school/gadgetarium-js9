@@ -1,10 +1,14 @@
 import { styled } from '@mui/material'
 import { pathNumberTrueColorPinkBackgroundColorAndColor } from '../../../../utils/helpers/AddFilterResComponent'
 
-export const StageOfEditProduct = ({ title, pathNumber }) => {
+export const StageOfEditProduct = ({ pathNumber }) => {
    return (
       <Container>
-         <Text>{title}</Text>
+         <Text>
+            {pathNumber === 1 && 'Редактирование товара'}
+            {pathNumber === 2 && 'Установка цены и количества товара'}
+            {pathNumber === 3 && 'Описание и обзор'}
+         </Text>
 
          <Box>
             <BoxInfoPage>
@@ -12,7 +16,7 @@ export const StageOfEditProduct = ({ title, pathNumber }) => {
                   <span>1</span>
                </RoundNumber>
                <PageText pathNumber={pathNumber} num={1}>
-                  Добавление товара
+                  Редактирование товара
                </PageText>
                <Line />
             </BoxInfoPage>

@@ -22,7 +22,10 @@ export const getAllFilteredProducts = createAsyncThunk(
 )
 export const postS3File = createAsyncThunk(
    'adminGoods/postS3File',
-   async ({ data, field, handleFileChangeFromDrop }, { rejectWithValue }) => {
+   async (
+      { data, field, handleFileChangeFromDrop, getSmartphonePhoto },
+      { rejectWithValue }
+   ) => {
       try {
          const response = await postMailingListFileRequest(data)
          if (field) {
@@ -30,6 +33,9 @@ export const postS3File = createAsyncThunk(
          }
          if (handleFileChangeFromDrop) {
             handleFileChangeFromDrop(response.data)
+         }
+         if (getSmartphonePhoto) {
+            getSmartphonePhoto(response.data)
          }
          return null
       } catch (error) {

@@ -1,7 +1,7 @@
 import { styled } from '@mui/material'
-import { ReactComponent as PaymentByCard } from '../../../assets/icons/paymentByCard.svg'
-import { ReactComponent as CashUponReceipt } from '../../../assets/icons/cashUponReceipt.svg'
-import { ReactComponent as CardUponReceipt } from '../../../assets/icons/cardUponReceipt.svg'
+import { ReactComponent as PaymentByCard } from '../../../../assets/icons/paymentByCard.svg'
+import { ReactComponent as CashUponReceipt } from '../../../../assets/icons/cashUponReceipt.svg'
+import { ReactComponent as CardUponReceipt } from '../../../../assets/icons/cardUponReceipt.svg'
 
 export const PaymentMethods = () => {
    return (

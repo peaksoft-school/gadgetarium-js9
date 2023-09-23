@@ -8,41 +8,51 @@ import { postCompareProduct } from '../../store/compare/compare.thunk'
 import { postFavoriteItem } from '../../store/favorite/favorite.thunk'
 import { Button } from './Button'
 
-export const ProductsModalWhenIsHovered = React.memo(
-   ({ path, favorite, array }) => {
-      const dispatch = useDispatch()
-      const navigate = useNavigate()
-      const location = useLocation()
-      const { isLoadingFavorite } = useSelector((state) => state.favorite)
-      const { isLoadingComparison } = useSelector((state) => state.compare)
-      const deleteFavoriteHandler = (id) => {
-         if (favorite) {
-            dispatch(postFavoriteItem({ id, favoriteState: true }))
-         } else {
-            dispatch(
-               postCompareProduct({
-                  id,
-                  addOrDelete: false,
-                  comparisonState: true,
-                  pageSize: 5,
-               })
-            )
-         }
+export const ProductsModalWhenIsHovered = ({
+   path,
+   favorite,
+   array,
+   onClose,
+}) => {
+   const dispatch = useDispatch()
+   const navigate = useNavigate()
+   const location = useLocation()
+   const { isLoadingFavorite } = useSelector((state) => state.favorite)
+   const { isLoadingComparison } = useSelector((state) => state.compare)
+   const deleteFavoriteHandler = (id) => {
+      if (favorite) {
+         dispatch(postFavoriteItem({ id, favoriteState: true, pageSize: 5 }))
+      } else {
+         dispatch(
+            postCompareProduct({
+               id,
+               addOrDelete: false,
+               pageSize: 5,
+            })
+         )
       }
-      const navigateToFavorite = () => {
-         navigate(path)
-      }
-      if (location.pathname === path) {
-         return null
-      }
+   }
+   const navigateToFavorite = () => {
+      onClose()
+      navigate(path)
+   }
+   if (location.pathname === path) {
+      return null
+   }
 
-      return (
+   return (
+      <PositionContainer length={array?.length}>
+         <StyledTriangle />
          <Container length={array?.length}>
-            <StyledTriangle length={array?.length} />
             <AllProductContainer length={array?.length}>
                {array?.map((el) => {
                   return (
-                     <Product key={el.subProductId}>
+                     <Product
+                        onClick={() =>
+                           navigate(favorite ? '/favorite' : '/compare')
+                        }
+                        key={el.subProductId}
+                     >
                         <ProductContainer>
                            <Image src={el.image} alt="Photo" />
                            <Title>{el.name}</Title>
@@ -89,10 +99,9 @@ export const ProductsModalWhenIsHovered = React.memo(
                </Button>
             )}
          </Container>
-      )
-   }
-)
-ProductsModalWhenIsHovered.displayName = 'ProductsModalWhenIsHovered'
+      </PositionContainer>
+   )
+}
 const Container = styled('div')`
    width: 26.042vw;
    height: min-content;
@@ -105,25 +114,23 @@ const Container = styled('div')`
    flex-direction: column;
    align-items: center;
    z-index: 20;
-   display: ${(props) => (props.length === 0 ? 'none' : 'display')};
 `
 const Image = styled('img')`
    width: 60px;
    height: 68px;
 `
+const PositionContainer = styled('div')`
+   display: flex;
+   flex-direction: column;
+   align-items: flex-end;
+   position: relative;
+   bottom: 5px;
+   display: ${(props) => (props.length === 0 ? 'none' : 'display')};
+`
 const StyledTriangle = styled(Triangle)`
    position: absolute;
-   bottom: ${(props) => {
-      switch (props.length) {
-         case 0:
-            return '59px'
-         case 1:
-            return '148px'
-         default:
-            return '237px'
-      }
-   }};
-   left: 327px;
+   top: -26px;
+   margin-right: 25px;
 `
 const AllProductContainer = styled('div')`
    margin-bottom: 1.4815vh;
@@ -146,6 +153,7 @@ const Price = styled('p')`
 const Product = styled('div')`
    display: flex;
    justify-content: space-between;
+   cursor: pointer;
    width: 100%;
    margin-top: 10px;
    padding-bottom: 10px;

@@ -18,6 +18,12 @@ export const BrandSelect = ({ array, label, value, onChange }) => {
    useEffect(() => {
       onChange(select)
    }, [select])
+   useEffect(() => {
+      if (value) {
+         return setSelect(value)
+      }
+      return setSelect('')
+   }, [value])
 
    return (
       <Container>

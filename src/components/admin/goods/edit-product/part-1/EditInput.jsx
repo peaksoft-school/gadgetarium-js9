@@ -1,22 +1,27 @@
 import { styled } from '@mui/material'
 import { InputUi } from '../../../../UI/Input'
 
-export const EditInput = ({ label, type, handleChange, error, value }) => {
+export const EditInput = ({
+   label,
+   type,
+   handleChange,
+   error,
+   value,
+   name,
+}) => {
    return (
       <Container>
          <BoxLabel>
             {label} <span>*</span>
          </BoxLabel>
-         <InputUi
+         <StyledInputUi
             type={type}
             padding="0.5rem 0"
-            placeholder="Введите гарантию товара"
+            placeholder={label}
             width="24.75rem"
             height="39px"
-            min={1}
-            max={3}
             value={value}
-            name="guarantee"
+            name={name}
             onChange={handleChange}
             error={error}
          />
@@ -38,5 +43,22 @@ const BoxLabel = styled('p')`
    margin: 0;
    span {
       color: #ff0000;
+   }
+`
+const StyledInputUi = styled(InputUi)`
+   font-family: Inter;
+   color: #292929;
+   font-weight: 400;
+   font-size: 1rem;
+   line-height: 1.4375em;
+   input {
+      ::placeholder {
+         font-family: Inter;
+         color: #292929;
+         opacity: 0.8;
+         font-weight: 400;
+         font-size: 1rem;
+         line-height: 1.4375em;
+      }
    }
 `

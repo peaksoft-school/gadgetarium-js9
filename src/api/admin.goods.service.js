@@ -24,3 +24,11 @@ export const deleteAllProductsRequest = (subProductIds) => {
       data: subProductIds,
    })
 }
+export const getProductToEditRequest = (subProductId) => {
+   return axiosInstance.get(
+      `/v1/products/all-information?supProductId=${subProductId}`
+   )
+}
+export const putProductRequest = ({ product, subProductId }) => {
+   return axiosInstance.put(`/v1/products/${subProductId}`, product)
+}

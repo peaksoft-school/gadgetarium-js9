@@ -52,10 +52,10 @@ export const CategoryFilterSelect = ({
 
          <div>
             <StyledFormControl size="small">
-               {name === 'brand'
+               {name === 'brandId'
                   ? selectData.map((item) => {
                        return (
-                          item.name === value && (
+                          item.id === value && (
                              <BoxIconSelectBrand key={item.id}>
                                 <div className="box">
                                    <img src={item.image} alt="images" />
@@ -67,12 +67,18 @@ export const CategoryFilterSelect = ({
                   : null}
                <SelectStyle
                   name={name}
-                  value={selectValue === '' ? labelFocused : selectValue}
+                  value={labelFocused}
                   onChange={onChange}
                   image={image === true ? 'true' : 'false'}
                   onFocus={handleSelectFocus}
                   onBlur={(event) => handleSelectBlur(event)}
-                  renderValue={(selected) => selected || label}
+                  renderValue={(selected) => {
+                     const selectedName = selectData.find(
+                        (item) => item.id === selected
+                     )?.name
+
+                     return selectedName || label
+                  }}
                   error={errorcategory === 'true' ? error : false}
                   labelblur={labelblur ? 'true' : 'false'}
                   MenuProps={{
@@ -83,25 +89,27 @@ export const CategoryFilterSelect = ({
                      },
                   }}
                >
-                  {selectData.map((item) => (
-                     <StyledMenuItem
-                        key={item.id}
-                        value={item.name}
-                        selected={value === item.name}
-                     >
-                        <MenuItemContent>
-                           {item.image && (
-                              <div className="box-img">
-                                 <img
-                                    src={item.image}
-                                    alt="icon brand photos"
-                                 />
-                              </div>
-                           )}
-                           <span>{item.name}</span>
-                        </MenuItemContent>
-                     </StyledMenuItem>
-                  ))}
+                  {selectData.map((item) => {
+                     return (
+                        <StyledMenuItem
+                           key={item.id}
+                           value={item.id}
+                           selected={value === item.id}
+                        >
+                           <MenuItemContent>
+                              {item.image && (
+                                 <div className="box-img">
+                                    <img
+                                       src={item.image}
+                                       alt="icon brand photos"
+                                    />
+                                 </div>
+                              )}
+                              <span>{item.name}</span>
+                           </MenuItemContent>
+                        </StyledMenuItem>
+                     )
+                  })}
                   {newBrand && (
                      <StyledMenuItem
                         onClick={onSelectValue}

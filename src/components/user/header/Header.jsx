@@ -109,6 +109,9 @@ export const Header = ({ favorite, basket, compare }) => {
    const toggleCatalogSelect = () => {
       setCatalogSelect(!catalogSelect)
    }
+   const navigateToBasket = () => {
+      navigate('/basket')
+   }
    const toggleModalHandler = () => {
       setOpenModal(!openModal)
    }
@@ -151,10 +154,26 @@ export const Header = ({ favorite, basket, compare }) => {
                               {open && (
                                  <div style={{ position: 'relative' }}>
                                     <Select2>
-                                       <p>История заказов</p>
-                                       <p>Избранное</p>
-                                       <p>Профиль</p>
-                                       <p onClick={logOutHandler}>Выйти</p>
+                                       <NavLinkParagraph
+                                          onClick={openSelect}
+                                          to="/personalArea/history"
+                                       >
+                                          История заказов
+                                       </NavLinkParagraph>
+                                       <NavLinkParagraph
+                                          onClick={openSelect}
+                                          to="/personalArea/favorites"
+                                       >
+                                          Избранное
+                                       </NavLinkParagraph>
+                                       <NavLinkParagraph onClick={openSelect}>
+                                          Профиль
+                                       </NavLinkParagraph>
+                                       <div onClick={logOutHandler}>
+                                          <NavLinkParagraph>
+                                             Выйти
+                                          </NavLinkParagraph>
+                                       </div>
                                     </Select2>
                                  </div>
                               )}
@@ -254,6 +273,7 @@ export const Header = ({ favorite, basket, compare }) => {
                               <ProductsModalWhenIsHovered
                                  path="/compare"
                                  array={allProducts}
+                                 onClose={toggleHoverCompare}
                               />
                            </CompareContainer>
                         )}
@@ -274,6 +294,7 @@ export const Header = ({ favorite, basket, compare }) => {
                                  path="/favorite"
                                  favorite
                                  array={favoriteItems}
+                                 onClose={toggleHoverFavorite}
                               />
                            </FavoriteContainer>
                         )}
@@ -282,7 +303,7 @@ export const Header = ({ favorite, basket, compare }) => {
                         </MuiBadge>
                      </PositionContainer>
                      <MuiBadge badgeContent={basket} showZero>
-                        <IconsBasket />
+                        <IconsBasket onClick={navigateToBasket} />
                      </MuiBadge>
                   </IconsForm>
                </ButtonContainer>
@@ -654,7 +675,7 @@ const Select = styled('div')`
    box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.1);
    z-index: 99999;
    top: 1rem;
-   left: -7.89rem;
+   right: 1rem;
    animation: fadeInOut 0.4s ease-in-out;
 
    @keyframes fadeInOut {
@@ -703,7 +724,6 @@ const Select2 = styled('div')`
    animation: fadeInOut 0.4s ease-in-out;
    display: flex;
    flex-direction: column;
-   align-items: center;
    gap: 14px;
    padding: 16px 20px 20px 20px;
    p {
@@ -732,4 +752,12 @@ const PositionContainerForInput = styled('div')`
    display: flex;
    flex-direction: column;
    gap: 8px;
+`
+const NavLinkParagraph = styled(NavLink)`
+   text-decoration: none;
+   color: #292929;
+   cursor: pointer;
+   &:hover {
+      color: #cb11ab;
+   }
 `

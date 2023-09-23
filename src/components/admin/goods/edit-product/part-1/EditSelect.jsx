@@ -1,11 +1,23 @@
 import { useEffect, useState } from 'react'
+// import { useSelector } from 'react-redux'
+// import { useParams } from 'react-router-dom'
 import { FormControl, MenuItem, Select, styled } from '@mui/material'
 import { ReactComponent as ArrowIcon } from '../../../../../assets/icons/arrows/down-icon.svg'
 
-export const EditSelect = ({ array, label, value, onChange }) => {
+export const EditSelect = ({
+   array,
+   label,
+   value,
+   onChange,
+   star,
+   name,
+   onChangeEvent,
+}) => {
    const [select, setSelect] = useState(value)
-
    const handleChange = (event) => {
+      if (onChangeEvent) {
+         onChangeEvent(event)
+      }
       const newValue = event.target.value
       if (newValue !== select) {
          setSelect(newValue)
@@ -17,23 +29,27 @@ export const EditSelect = ({ array, label, value, onChange }) => {
       margin-right: 4px;
    `
    useEffect(() => {
-      onChange(select)
+      if (!onChangeEvent) {
+         onChange(select)
+      }
    }, [select])
    useEffect(() => {
-      if (!array.some((el) => el.name === select)) {
-         setSelect('')
+      if (value) {
+         return setSelect(value)
       }
-   }, [array])
+      return setSelect('')
+   }, [value])
 
    return (
       <Container>
          <BoxLabel>
-            {label} <span>*</span>
+            {label} {star && <span>*</span>}
          </BoxLabel>
          <StyledFormControl>
             <StyledSelect
                placeholder={label}
                value={select}
+               name={name}
                onChange={handleChange}
                MenuProps={{
                   PaperProps: {
