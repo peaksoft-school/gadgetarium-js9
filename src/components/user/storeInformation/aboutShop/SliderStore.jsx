@@ -3,8 +3,8 @@ import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import Slider from 'react-slick'
 import { styled } from '@mui/material'
-import { ReactComponent as ArrowSlide } from '../../../assets/icons/arrowSlide.svg'
-import { slidePhotos } from '../../../utils/common/constants/constants'
+import { ReactComponent as ArrowSlide } from '../../../../assets/icons/arrowSlide.svg'
+import { slidePhotos } from '../../../../utils/common/constants/constants'
 
 function SampleNextArrow({ onClick }) {
    return (
@@ -100,6 +100,8 @@ const NextButton = styled('div')`
    display: flex;
    align-items: center;
    cursor: pointer;
+
+   z-index: 0;
 `
 
 const PrevButton = styled('div')`
@@ -110,6 +112,6 @@ const PrevButton = styled('div')`
    display: flex;
    align-items: center;
 
-   z-index: 100;
+   z-index: 5;
    cursor: pointer;
 `

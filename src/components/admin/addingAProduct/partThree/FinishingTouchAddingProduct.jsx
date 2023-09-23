@@ -125,13 +125,24 @@ export const FinishingTouchAddingProduct = memo(() => {
    }, [validPDF])
 
    const finishedPartThree = async () => {
-      if (formik.errors && formik.values.description === '<p></p>') {
+      const valid =
+         newProduct.pdf !== '' && newProduct.description !== '<p></p>'
+
+      if (valid) {
+         if (newProduct.videoLink.includes('http')) {
+            dispatch(postFilePDF(PDFValues))
+         } else {
+            snackbarHandler({
+               message:
+                  'Загрузите видеообзор должен быть действительным URL-адресом',
+               type: 'error',
+            })
+         }
+      } else {
          snackbarHandler({
             message: 'Bce поле должны быть обязательно заполнены',
             type: 'error',
          })
-      } else {
-         dispatch(postFilePDF(PDFValues))
       }
    }
 
@@ -251,7 +262,7 @@ const ContainerInput = styled('div')`
       gap: 0.375rem;
       color: #384255;
       font-family: Inter;
-      font-size: 14px;
+      font-size: 0.875rem;
       font-style: normal;
       font-weight: 400;
       line-height: normal;
@@ -264,25 +275,25 @@ const ContainerInputAddVideoAndPDF = styled('div')`
 `
 
 export const InputAddProduct = styled(TextField)`
-   border-radius: 6px;
+   border-radius: 0.375rem;
    width: 22vw;
    margin: 0;
    padding: 0;
 
    input {
-      font-size: 16px;
+      font-size: 1rem;
       font-style: normal;
       font-weight: 300;
       padding: 0.5rem 0;
 
       ::placeholder {
-         color: #91969e;
+         color: #000000;
       }
    }
 `
 
 export const InputAdornmentStyle = styled(InputAdornment)`
-   margin: 0 10px 0 0;
+   margin: 0 0.625rem 0 0;
    padding: 0;
 `
 

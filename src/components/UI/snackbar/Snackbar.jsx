@@ -1,5 +1,6 @@
 import { styled } from '@mui/material'
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 import 'react-toastify/dist/ReactToastify.css'
 import { CloseButton } from './CloseButton'
 
@@ -35,7 +36,7 @@ const Title = styled('p')(() => ({
    marginBottom: '1.25rem',
 }))
 
-const StyledLink = styled('a')(() => ({
+const StyledLink = styled(NavLink)(() => ({
    textDecoration: 'none',
    fontWeight: 700,
    fontSize: '1.125rem',

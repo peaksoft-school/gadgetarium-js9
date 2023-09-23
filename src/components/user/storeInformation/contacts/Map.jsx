@@ -1,10 +1,13 @@
 import { styled } from '@mui/material'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps'
 
 export const MapComponent = () => {
-   const [clickedCoordinates, setClickedCoordinates] = useState(null)
+   const [clickedCoordinates, setClickedCoordinates] = useState([
+      42.875903, 74.628396,
+   ])
    const [isMouseDown, setIsMouseDown] = useState(false)
+
    const handleMouseDown = () => {
       setIsMouseDown(true)
    }
@@ -16,6 +19,27 @@ export const MapComponent = () => {
       const clickedCoords = e.get('coords')
       setClickedCoordinates(clickedCoords)
    }
+
+   useEffect(() => {
+      if (!navigator.geolocation) {
+         setError('Геолокация не поддерживается вашим браузером.')
+      } else {
+         navigator.geolocation.getCurrentPosition(
+            (position) => {
+               const { latitude, longitude } = position.coords
+               setClickedCoordinates([latitude, longitude])
+            },
+            (error) => {
+               setError(error.message)
+            },
+            {
+               enableHighAccuracy: true,
+               timeout: 5000,
+               maximumAge: 0,
+            }
+         )
+      }
+   }, [])
 
    return (
       <Container
@@ -35,13 +59,14 @@ export const MapComponent = () => {
             >
                {clickedCoordinates && (
                   <Placemark
-                     options={{
-                        iconLayout: 'default#image',
-                        iconImageHref:
-                           'https://lh3.googleusercontent.com/lHYSx9W9Uf4UTe-BOa30s_91w4GTOy4pvjclDbx2oVXFP0Xf5Wm49ivYEXPc2Rh5G0V79bKrQpfaFcpJdNQTZ9AkabMjNAV1IraqfmT7',
-                        iconImageSize: [20, 28],
-                     }}
                      geometry={clickedCoordinates}
+                     properties={{
+                        hintContent: 'Ваше местоположение', // Подсказка при наведении на маркер
+                        balloonContent: 'Вы находитесь здесь', // Содержимое балуна (всплывающей подсказки)
+                     }}
+                     options={{
+                        preset: 'islands#redIcon', // Стиль маркера (синий флажок)
+                     }}
                   />
                )}
             </Map>
@@ -54,9 +79,6 @@ const Container = styled('div')`
    margin-bottom: 7.5rem;
    outline: 1px solid #c4c5c6;
 
-   .ymaps-2-1-79-events-pane {
-      cursor: default !important;
-   }
    .ymaps-2-1-79-gototech {
       display: none;
    }
