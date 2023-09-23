@@ -49,7 +49,7 @@ export const AdminOrders = () => {
    const orderIsAdmins = useSelector((state) => state.order.orderIsAdmin)
    const [value, setValue] = useState(0)
 
-   console.log('orderIsAdmin', orderIsAdmins.delivered)
+   console.log('orderIsAdmin', orderIsAdmins)
 
    const handleChange = (event, newValue) => {
       setValue(newValue)
@@ -58,6 +58,14 @@ export const AdminOrders = () => {
    useEffect(() => {
       dispatch(orderIsAdminThunk())
    }, [])
+
+   const statusTable = 'DELIVER'
+
+   useEffect(() => {
+      if (statusTable === 'DELIVER') {
+         setValue(1)
+      }
+   }, [orderIsAdmins.delivered])
 
    return (
       <Container>
