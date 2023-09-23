@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button } from '../../UI/Button'
 import {
-   getInfoPage,
    postReviewsAdminAnswer,
    putReviewsAdminAnswer,
 } from '../../../store/informationPhone/infoPageThunk'
@@ -21,9 +20,7 @@ const FeedbackModal = ({
 }) => {
    const dispatch = useDispatch()
    const [answer, setAnswer] = useState(modalText)
-   const { reviews, colours, productId } = useSelector(
-      (state) => state.product.infoPhone
-   )
+   const { reviews } = useSelector((state) => state.product.infoPhone)
    const getAnswer = (e) => {
       setAnswer(e.target.value)
       getAdminText(e)
@@ -45,10 +42,6 @@ const FeedbackModal = ({
 
       if (isEditing) {
          dispatch(putReviewsAdminAnswer(data))
-            .unwrap()
-            .then(() => {
-               dispatch(getInfoPage({ colours, productId }))
-            })
       } else {
          dispatch(postReviewsAdminAnswer(data))
       }
