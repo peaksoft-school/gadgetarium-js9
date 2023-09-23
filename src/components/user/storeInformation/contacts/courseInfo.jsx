@@ -6,7 +6,7 @@ export const CourseInfo = () => {
       <Container>
          <h3>Магазин Gadgetarium</h3>
 
-         <h3>АДРЕС:</h3>
+         <h3>Адрес:</h3>
          <p>г. Бишкек, ул. Гражданская 119</p>
 
          <h3>Телефон:</h3>
