@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { styled } from '@mui/material'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
@@ -6,16 +6,18 @@ import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
+import { useDispatch, useSelector } from 'react-redux'
 import TableRow from '@mui/material/TableRow'
 import { InputUi } from '../../UI/Input'
 import { Calendar } from '../../UI/calendarFolder/Calendar'
+import { orderIsAdminThunk } from '../../../store/orderIsAdmin/OrderAdmin.thunk'
 
 function createData(name, calories, fat, carbs, protein) {
    return { name, calories, fat, carbs, protein }
 }
 
 const rows = [
-   createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
+   createData('Frozen yoghurt', 159, 6.0, 24, 4.0, 6.0, 24, 4.0),
    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
    createData('Eclair', 262, 16.0, 24, 6.0),
    createData('Cupcake', 305, 3.7, 67, 4.3),
@@ -30,11 +32,21 @@ function a11yProps(index) {
 }
 
 export const AdminOrders = () => {
+   const orderIsAdmin = useSelector((state) => state.orderAdmin)
+
+   console.log(orderIsAdmin.isLoading)
+
+   const dispatch = useDispatch()
+
    const [value, setValue] = useState(0)
 
    const handleChange = (event, newValue) => {
       setValue(newValue)
    }
+
+   useEffect(() => {
+      dispatch(orderIsAdminThunk())
+   }, [])
 
    return (
       <Container>
@@ -61,7 +73,7 @@ export const AdminOrders = () => {
             <Table>
                <TableHead>
                   <TableCell>ID</TableCell>
-                  <TableCell align="right">ФИО</TableCell>
+                  <TableCell align="right">mkm</TableCell>
                   <TableCell align="right">Номер/дата</TableCell>
                   <TableCell align="right">Кол-во</TableCell>
                   <TableCell align="right">Общая сумма</TableCell>
@@ -80,6 +92,8 @@ export const AdminOrders = () => {
                         <TableCell align="right">{row.fat}</TableCell>
                         <TableCell align="right">{row.carbs}</TableCell>
                         <TableCell align="right">{row.protein}</TableCell>
+                        <TableCell align="right">{row.fat}</TableCell>
+                        <TableCell align="right">{row.carbs}</TableCell>
                      </TableRow>
                   ))}
                </TableBody>
@@ -138,6 +152,7 @@ const Container = styled('div')`
    .MuiTableContainer-root {
       width: 81.5625rem;
       border-radius: 0;
+      margin-top: 4.62rem;
    }
    .MuiTableRow-root {
       border: 1px solid gray;

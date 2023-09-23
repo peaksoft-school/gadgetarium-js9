@@ -7,6 +7,7 @@ import { mainPageSlice } from './main.page/main.page.slice'
 import { basketSlice } from './basket/basket.slice'
 import { orderSlice } from './order/Order.Slice'
 import { compareSlice } from './compare/compare.slice'
+import { orderIsAdminSlice } from './orderIsAdmin/OrderIsAdmin.slice'
 
 export const store = configureStore({
    reducer: {
@@ -18,5 +19,6 @@ export const store = configureStore({
       [basketSlice.name]: basketSlice.reducer,
       [compareSlice.name]: compareSlice.reducer,
       [orderSlice.name]: orderSlice.reducer,
+      [orderIsAdminSlice.name]: orderSlice.reducer,
    },
 })
