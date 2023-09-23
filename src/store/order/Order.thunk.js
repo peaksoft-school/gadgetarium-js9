@@ -6,6 +6,7 @@ import {
    getOrderByIdRequest,
    getOrderInfoRequest,
 } from '../../api/order.Servise'
+import { getAdminOrderRequest } from '../../api/orderAdmin.service'
 
 export const orderRequest = createAsyncThunk(
    'order/orderRequest',
@@ -53,6 +54,20 @@ export const deleteOrderRequest = createAsyncThunk(
          dispatch(orderRequest())
       } catch (error) {
          rejectWithValue(error)
+      }
+   }
+)
+
+export const orderIsAdminThunk = createAsyncThunk(
+   'order/orderIsAdminThunk',
+   async (_, { rejectWithValue }) => {
+      try {
+         const responce = await getAdminOrderRequest()
+         console.log('responce', responce.data)
+
+         return responce.data
+      } catch (error) {
+         return rejectWithValue(error)
       }
    }
 )

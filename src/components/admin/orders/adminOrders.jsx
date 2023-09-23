@@ -8,20 +8,33 @@ import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import { useDispatch, useSelector } from 'react-redux'
 import TableRow from '@mui/material/TableRow'
+import { ReactComponent as SearchIcon } from '../../../assets/icons/search-icon.svg'
+import { ReactComponent as DeleteTable } from '../../../assets/icons/tools-for-site/delete-icon.svg'
 import { InputUi } from '../../UI/Input'
 import { Calendar } from '../../UI/calendarFolder/Calendar'
-import { orderIsAdminThunk } from '../../../store/orderIsAdmin/OrderAdmin.thunk'
-
-function createData(name, calories, fat, carbs, protein) {
-   return { name, calories, fat, carbs, protein }
-}
+import { orderIsAdminThunk } from '../../../store/order/Order.thunk'
 
 const rows = [
-   createData('Frozen yoghurt', 159, 6.0, 24, 4.0, 6.0, 24, 4.0),
-   createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-   createData('Eclair', 262, 16.0, 24, 6.0),
-   createData('Cupcake', 305, 3.7, 67, 4.3),
-   createData('Gingerbread', 356, 16.0, 49, 3.9),
+   {
+      id: '1',
+      name: 'Айзат Жумагулова',
+      number: '000000-455247',
+      quantity: '2 шт.',
+      total: '90 000с',
+      order: 'Самовывоз',
+      status: 'В обработке',
+      actions: <DeleteTable />,
+   },
+   {
+      id: '2',
+      name: 'Айзат Жумагулова',
+      number: '000000-455247',
+      quantity: '2 шт.',
+      total: '90 000с',
+      order: 'Самовывоз',
+      status: 'В обработке',
+      actions: <DeleteTable />,
+   },
 ]
 
 function a11yProps(index) {
@@ -32,13 +45,11 @@ function a11yProps(index) {
 }
 
 export const AdminOrders = () => {
-   const orderIsAdmin = useSelector((state) => state.orderAdmin)
-
-   console.log(orderIsAdmin.isLoading)
-
    const dispatch = useDispatch()
-
+   const orderIsAdmins = useSelector((state) => state.order.orderIsAdmin)
    const [value, setValue] = useState(0)
+
+   console.log('orderIsAdmin', orderIsAdmins.delivered)
 
    const handleChange = (event, newValue) => {
       setValue(newValue)
@@ -50,11 +61,14 @@ export const AdminOrders = () => {
 
    return (
       <Container>
-         <InputUi
-            width="34.9375rem"
-            height="2.4375rem"
-            placeholder="Поиск по артикулу или ..."
-         />
+         <SearchBlock>
+            <InputUi
+               width="34.9375rem"
+               height="2.4375rem"
+               placeholder="Поиск по артикулу или ..."
+            />
+            <SearchIconStyle />
+         </SearchBlock>
 
          <TabsStyle value={value} onChange={handleChange}>
             <Tab label="В ожидании" {...a11yProps(0)} />
@@ -73,27 +87,26 @@ export const AdminOrders = () => {
             <Table>
                <TableHead>
                   <TableCell>ID</TableCell>
-                  <TableCell align="right">mkm</TableCell>
-                  <TableCell align="right">Номер/дата</TableCell>
-                  <TableCell align="right">Кол-во</TableCell>
-                  <TableCell align="right">Общая сумма</TableCell>
-                  <TableCell align="right">Оформление заказа</TableCell>
-                  <TableCell align="right">Статус</TableCell>
-                  <TableCell align="right">Действия</TableCell>
+                  <TableCell>ФИО</TableCell>
+                  <NumberAndDate>Номер/дата</NumberAndDate>
+                  <Quantity>Кол-во</Quantity>
+                  <Total>Общая сумма</Total>
+                  <Order>Оформление заказа</Order>
+                  <StatusHeader>Статус</StatusHeader>
+                  <TableCell>Действия</TableCell>
                </TableHead>
 
                <TableBody>
                   {rows.map((row) => (
                      <TableRow key={row.name}>
-                        <TableCell component="th" scope="row">
-                           {row.name}
-                        </TableCell>
-                        <TableCell align="right">{row.calories}</TableCell>
-                        <TableCell align="right">{row.fat}</TableCell>
-                        <TableCell align="right">{row.carbs}</TableCell>
-                        <TableCell align="right">{row.protein}</TableCell>
-                        <TableCell align="right">{row.fat}</TableCell>
-                        <TableCell align="right">{row.carbs}</TableCell>
+                        <TableCell>{row.id}</TableCell>
+                        <TableCell>{row.name}</TableCell>
+                        <NumberTable>{row.number}</NumberTable>
+                        <TableCell>{row.quantity}</TableCell>
+                        <TableCell>{row.total}</TableCell>
+                        <OrderTable>{row.order}</OrderTable>
+                        <Status>{row.status}</Status>
+                        <Delete>{row.actions}</Delete>
                      </TableRow>
                   ))}
                </TableBody>
@@ -168,6 +181,7 @@ const Container = styled('div')`
 
 const TabsStyle = styled(Tabs)`
    margin-top: 3.16rem;
+   border-bottom: 1px solid #d4d4d4;
 `
 
 const TableHead = styled(TableRow)`
@@ -178,4 +192,53 @@ const CalendarBlock = styled('div')`
    display: flex;
    gap: 1.25rem;
    margin-top: 1.25rem;
+`
+
+const SearchBlock = styled('div')`
+   display: flex;
+   position: relative;
+   align-items: center;
+`
+const Status = styled(TableCell)`
+   color: #f99808;
+`
+const NumberAndDate = styled(TableCell)`
+   position: relative;
+   left: 5.5rem;
+`
+const Quantity = styled(TableCell)`
+   position: relative;
+   left: 6.5rem;
+`
+const Total = styled(TableCell)`
+   position: relative;
+   left: 5.4rem;
+`
+const Order = styled(TableCell)`
+   position: relative;
+   left: 2.2rem;
+`
+const StatusHeader = styled(TableCell)`
+   position: relative;
+   right: 0.2rem;
+`
+const Delete = styled(TableCell)`
+   position: relative;
+   right: 1rem;
+   cursor: pointer;
+`
+const SearchIconStyle = styled(SearchIcon)`
+   position: absolute;
+   left: 33rem;
+   path {
+      fill: #91969e;
+   }
+   cursor: pointer;
+`
+const OrderTable = styled(TableCell)`
+   position: relative;
+   right: 1.4rem;
+`
+const NumberTable = styled(TableCell)`
+   color: #2c68f5;
 `
