@@ -92,6 +92,7 @@ const Container = styled('div')`
    align-items: flex-start;
    gap: 3rem;
    margin-top: 5.5556vh;
+   margin-bottom: 120px;
 `
 const ButtonContainer = styled('div')`
    width: 396px;

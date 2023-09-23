@@ -12,10 +12,16 @@ import {
 import { Loading } from '../../../UI/loading/Loading'
 import { EditProductPartTwo } from './part-2/EditProductPartTwo'
 import { EditProductPartThree } from './part-3/EditProductPartThree'
+import { BreadCrumbs } from '../../../UI/breadCrumbs/BreadCrumbs'
 
 export const EditProduct = () => {
    const { subProductId } = useParams()
    const { isLoading } = useSelector((state) => state.editProduct)
+   const [breadcrumbs, setBreadCrumbs] = useState([
+      { path: '/admin', label: 'Товары' },
+
+      { label: 'Редактирование товара' },
+   ])
    const [part, setPart] = useState(1)
    const changePartPlus = () => {
       setPart(part + 1)
@@ -29,6 +35,29 @@ export const EditProduct = () => {
       dispatch(getBrandAll())
    }, [])
    useEffect(() => {
+      if (part === 1) {
+         setBreadCrumbs([
+            { path: '/admin', label: 'Товары' },
+
+            { label: 'Редактирование товара' },
+         ])
+      }
+      if (part === 2) {
+         setBreadCrumbs([
+            { path: '/admin', label: 'Товары' },
+
+            { label: 'Установка цены и количества' },
+         ])
+      }
+      if (part === 3) {
+         setBreadCrumbs([
+            { path: '/admin', label: 'Товары' },
+
+            { label: 'Описание и обзор' },
+         ])
+      }
+   }, [part])
+   useEffect(() => {
       dispatch(getProductToEdit(subProductId))
    }, [subProductId])
    return (
@@ -36,6 +65,7 @@ export const EditProduct = () => {
          {isLoading && <Loading />}
          <Container>
             <WidthContainer>
+               <BreadCrumbs breadcrumbs={breadcrumbs} />
                <StageOfEditProduct pathNumber={part} />
                {part === 1 && (
                   <EditProductPartOne changePart={changePartPlus} />
@@ -57,7 +87,6 @@ export const EditProduct = () => {
 const Container = styled('div')`
    display: flex;
    justify-content: center;
-   margin-top: 5.5556vh;
 `
 const WidthContainer = styled('div')`
    width: 89.583vw;

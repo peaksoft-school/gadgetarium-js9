@@ -391,6 +391,7 @@ export const backgroundColors = [
    { name: 'Светло-синий', color: '#035FE4' },
    { name: 'Светло-синий', color: '#0370CB' },
    { name: 'Светло-фиолетовый', color: '#E8BEFF' },
+   { name: 'Фиолетовый', color: '#cb11ab' },
    { name: 'Фиолетовый', color: '#C500FF' },
    { name: 'Фиолетовый', color: '#A900E6' },
    { name: 'Фиолетовый', color: '#8400A8' },

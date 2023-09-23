@@ -46,6 +46,7 @@ const Container = styled('div')`
    display: flex;
    flex-direction: column;
    gap: 3.7037vh;
+   margin-top: 1.563vw;
 `
 
 const Box = styled('div')`

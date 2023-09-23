@@ -468,6 +468,7 @@ const AdgetariumTitle = styled('div')`
 const TitleFixed = styled('div')`
    display: ${(props) => (props.fixed ? 'flex' : 'none')};
    align-items: center;
+   cursor: pointer;
 `
 const CatalogSelect = styled('div')`
    position: absolute;
