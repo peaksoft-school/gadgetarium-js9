@@ -38,3 +38,13 @@ export const getByIdBreadcrumbs = [
       label: '',
    },
 ]
+export const userOrdersBreadcrumbs = [
+   { path: '/', label: 'Личный кабинет' },
+   {
+      path: '/category/Cмартфоны и Планшеты',
+      label: 'Смартфоны',
+   },
+   {
+      label: '',
+   },
+]

@@ -13,6 +13,8 @@ import { EmptyFavorites } from './favoritesPages/EmptyFavorites'
 import { History } from './historyPages/History'
 import { Favorites } from './favoritesPages/Favorites'
 import { deleteOrderRequest } from '../../../store/order/Order.thunk'
+import { userOrdersBreadcrumbs } from '../../../utils/common/constants/paymant'
+import { BreadCrumbs } from '../../UI/breadCrumbs/BreadCrumbs'
 
 function CustomTabPanel(props) {
    const { children, value, index, ...other } = props
@@ -40,12 +42,22 @@ export const PersonalArea = () => {
    const navigate = useNavigate()
    const [value, setValue] = useState(0)
 
+   const [name, setName] = useState('')
+
    const deleteOrder = () => {
       dispatch(deleteOrderRequest(orderById))
    }
 
    const handleChange = (event, newValue) => {
       setValue(newValue)
+
+      if (value === 0) {
+         setName('История заказов')
+      } else if (value === 1) {
+         setName('Избранное')
+      } else if (value === 2) {
+         setName('Профиль')
+      }
    }
    const { tab } = useParams()
    function a11yProps(index) {
@@ -66,15 +78,19 @@ export const PersonalArea = () => {
 
    return (
       <Container>
+         <BreadCrumbsBlock>
+            <BreadCrumbs breadcrumbs={userOrdersBreadcrumbs} />
+            <Name>{name}</Name>
+         </BreadCrumbsBlock>
          <Box sx={{ width: '100%' }}>
             <CustomTabPanel value={value} index={0}>
-               История заказов
+               <CustomTabPanelStyle>История заказов</CustomTabPanelStyle>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
-               Избранное
+               <CustomTabPanelStyle>Избранное</CustomTabPanelStyle>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={2}>
-               Профиль
+               <CustomTabPanelStyle>Профиль</CustomTabPanelStyle>
             </CustomTabPanel>
             <TabsHeader>
                <Tabs value={value} onChange={handleChange}>
@@ -108,7 +124,11 @@ export const PersonalArea = () => {
 
             {value === 1 && (
                <div value={value}>
-                  {subProductById === 0 ? <EmptyFavorites /> : <Favorites />}
+                  {subProductById.length === 0 ? (
+                     <EmptyFavorites />
+                  ) : (
+                     <Favorites />
+                  )}
                </div>
             )}
             {value === 2 && (
@@ -123,7 +143,7 @@ export const PersonalArea = () => {
 const Container = styled('div')`
    width: 79.888vw;
    display: flex;
-   margin-top: 2.88rem;
+   flex-direction: column;
    justify-content: center;
    h2 {
       font-family: Ubuntu;
@@ -160,13 +180,13 @@ const Container = styled('div')`
       display: flex;
       gap: 0.75rem;
    }
-   .MuiTypography-root {
-      font-family: Ubuntu;
-      font-size: 1.875rem;
-      font-weight: 500;
-      color: #292929;
-      padding-bottom: 1.25rem;
-   }
+`
+
+const CustomTabPanelStyle = styled('p')`
+   font-family: Ubuntu;
+   font-size: 1.875rem;
+   font-weight: 500;
+   color: #292929;
 `
 
 const Delete = styled('div')`
@@ -184,7 +204,14 @@ const TabsHeader = styled('div')`
    display: flex;
    align-items: center;
    justify-content: space-between;
-
    border-top: 2px solid #e0e2e7;
    padding-top: 2.5rem;
+`
+const BreadCrumbsBlock = styled('div')`
+   display: flex;
+   align-items: center;
+`
+const Name = styled('p')`
+   position: relative;
+   top: 1.8rem;
 `
