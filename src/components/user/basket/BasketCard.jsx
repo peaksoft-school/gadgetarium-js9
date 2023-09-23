@@ -28,6 +28,7 @@ export const BasketCard = ({
    favorite,
 }) => {
    const dispatch = useDispatch()
+
    return (
       <Container>
          <StyledCheckboxInput

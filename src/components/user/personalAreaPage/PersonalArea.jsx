@@ -42,22 +42,12 @@ export const PersonalArea = () => {
    const navigate = useNavigate()
    const [value, setValue] = useState(0)
 
-   const [name, setName] = useState('')
-
    const deleteOrder = () => {
       dispatch(deleteOrderRequest(orderById))
    }
 
    const handleChange = (event, newValue) => {
       setValue(newValue)
-
-      if (value === 0) {
-         setName('История заказов')
-      } else if (value === 1) {
-         setName('Избранное')
-      } else if (value === 2) {
-         setName('Профиль')
-      }
    }
    const { tab } = useParams()
    function a11yProps(index) {
@@ -80,7 +70,9 @@ export const PersonalArea = () => {
       <Container>
          <BreadCrumbsBlock>
             <BreadCrumbs breadcrumbs={userOrdersBreadcrumbs} />
-            <Name>{name}</Name>
+            {value === 0 && <Name>История заказов</Name>}
+            {value === 1 && <Name>Избранное</Name>}
+            {value === 2 && <Name>Профиль</Name>}
          </BreadCrumbsBlock>
          <Box sx={{ width: '100%' }}>
             <CustomTabPanel value={value} index={0}>

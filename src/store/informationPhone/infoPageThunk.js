@@ -132,9 +132,9 @@ export const putReviewsAdminAnswer = createAsyncThunk(
 
 export const getDownloadPdfFiles = createAsyncThunk(
    'product/getDownloadPdfFiles',
-   async (_, { rejectWithValue }) => {
+   async (productId, { rejectWithValue }) => {
       try {
-         const responce = await getDownloadPdfFilesRequest()
+         const responce = await getDownloadPdfFilesRequest(productId)
          return responce.data
       } catch (error) {
          return rejectWithValue(error)

@@ -11,6 +11,7 @@ import { Delivery } from './Delivery'
 import { Сharacteristics } from './Сharacteristics'
 import { ReactComponent as DownloadIcons } from '../../../../assets/icons/tools-for-site/Download.svg'
 import { getDownloadPdfFiles } from '../../../../store/informationPhone/infoPageThunk'
+import { useSnackbar } from '../../../../hooks/useSnackbar'
 
 function CustomTabPanel(props) {
    const { children, value, index, ...other } = props
@@ -44,8 +45,19 @@ export const Attribute = () => {
 
    const { role } = useSelector((state) => state.auth)
 
+   const { productId } = useSelector((state) => state.product.infoPhone)
+
+   const { snackbarHandler } = useSnackbar()
+
    const onClickGetPdfFiles = () => {
-      dispatch(getDownloadPdfFiles())
+      dispatch(getDownloadPdfFiles(productId))
+         .unwrap()
+         .then(() => {
+            snackbarHandler({
+               message: 'Товар успешно скачен',
+               type: 'success',
+            })
+         })
    }
    const [value, setValue] = useState(0)
 
