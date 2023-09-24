@@ -69,50 +69,48 @@ export const SignUp = () => {
 
    return (
       <BackgroundInForm>
-         <ContainerChilde>
-            <Container>
-               <MuiCloseIcon onClick={onCloseHandler} />
-               <Title>Регистрация</Title>
-               <Form onSubmit={handleSubmit(onSubmit)}>
-                  {signUpInputArray.map((el) => {
-                     const error = errors[el.key]?.message
-                     return (
-                        <div key={el.key}>
-                           <Input
-                              width="29.5rem"
-                              {...register(el.key)}
-                              placeholder={el.placeholder}
-                              type={el.type}
-                              error={!!error}
-                              onBlur={() => handleFieldBlur(el.key)}
-                           />
-                        </div>
-                     )
-                  })}
-                  {errorMessages.length > 0 && (
-                     <div>
-                        {errorMessages.map((errorMessage) => (
-                           <ErrorMessage key={errorMessage}>
-                              {errorMessage}
-                           </ErrorMessage>
-                        ))}
+         <Container>
+            <MuiCloseIcon onClick={onCloseHandler} />
+            <Title>Регистрация</Title>
+            <Form onSubmit={handleSubmit(onSubmit)}>
+               {signUpInputArray.map((el) => {
+                  const error = errors[el.key]?.message
+                  return (
+                     <div key={el.key}>
+                        <Input
+                           width="29.5rem"
+                           {...register(el.key)}
+                           placeholder={el.placeholder}
+                           type={el.type}
+                           error={!!error}
+                           onBlur={() => handleFieldBlur(el.key)}
+                        />
                      </div>
+                  )
+               })}
+               {errorMessages.length > 0 && (
+                  <div>
+                     {errorMessages.map((errorMessage) => (
+                        <ErrorMessage key={errorMessage}>
+                           {errorMessage}
+                        </ErrorMessage>
+                     ))}
+                  </div>
+               )}
+               <ButtonUi type="submit" variant="contained">
+                  {isLoading ? (
+                     <CircularProgress size={27} sx={{ color: 'white' }} />
+                  ) : (
+                     'Создать аккаунт'
                   )}
-                  <ButtonUi type="submit" variant="contained">
-                     {isLoading ? (
-                        <CircularProgress size={27} sx={{ color: 'white' }} />
-                     ) : (
-                        'Создать аккаунт'
-                     )}
-                  </ButtonUi>
-               </Form>
-               <Block>
-                  <p>
-                     У вас уже есть аккаунт? <Link to="/signin">Войти</Link>
-                  </p>
-               </Block>
-            </Container>
-         </ContainerChilde>
+               </ButtonUi>
+            </Form>
+            <Block>
+               <p>
+                  У вас уже есть аккаунт? <Link to="/signin">Войти</Link>
+               </p>
+            </Block>
+         </Container>
       </BackgroundInForm>
    )
 }

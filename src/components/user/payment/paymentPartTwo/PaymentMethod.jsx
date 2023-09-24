@@ -42,7 +42,7 @@ export const PaymentMethod = ({ nextHandler }) => {
 
          <ContainerBox>
             <Box
-               width="18.9vw"
+               width="290px"
                onClick={onCardOnlineHandlerTypePayment}
                check={typePayment === 'CARD_ONLINE'}
             >
@@ -63,7 +63,7 @@ export const PaymentMethod = ({ nextHandler }) => {
                </div>
             </Box>
             <Box
-               width="18.9vw"
+               width="290px"
                onClick={onCardOnReceiptHandlerTypePayment}
                check={typePayment === 'CARD_ON_RECEIPT'}
             >
@@ -87,7 +87,7 @@ export const PaymentMethod = ({ nextHandler }) => {
                </div>
             </Box>
             <Box
-               width="18.9vw"
+               width="290px"
                onClick={onCashHandlerTypePayment}
                check={typePayment === 'CASH'}
             >
@@ -149,7 +149,6 @@ const HeadTitle = styled('div')`
 const ContainerBox = styled('div')`
    display: flex;
    gap: 1.875rem;
-
    .box {
       display: flex;
       flex-direction: column;
@@ -186,8 +185,7 @@ const ContainerCheckout = styled('div')`
 
    .box-payment-text {
       p {
-         width: 24vw;
-
+         width: 440px;
          margin: 0;
          color: #384255;
          font-size: 1rem;

@@ -11,7 +11,15 @@ export const GlobalSearch = () => {
    ) {
       return null
    }
-
+   const brandHandler = (value) => {
+      console.log('value: ', value)
+   }
+   const categoryHandler = (value) => {
+      console.log('value: ', value)
+   }
+   const subProductHandler = (value) => {
+      console.log('value: ', value)
+   }
    return (
       <Container
          length={
@@ -21,18 +29,31 @@ export const GlobalSearch = () => {
          }
       >
          {globalSearch.brandList?.map((el) => {
-            return <GlobalSearchItem key={el.id}>{el.name}</GlobalSearchItem>
+            return (
+               <GlobalSearchItem
+                  onClick={() => brandHandler(el.id)}
+                  key={el.id}
+               >
+                  {el.name}
+               </GlobalSearchItem>
+            )
          })}
          {globalSearch.categoryList?.map((el) => {
             return (
-               <GlobalSearchItem key={el.categoryId}>
+               <GlobalSearchItem
+                  onClick={() => categoryHandler(el.categoryId)}
+                  key={el.categoryId}
+               >
                   {el.title}
                </GlobalSearchItem>
             )
          })}
          {globalSearch.subProductResponses?.map((el) => {
             return (
-               <GlobalSearchItem key={el.subProductId}>
+               <GlobalSearchItem
+                  onClick={() => subProductHandler(el.subProductId)}
+                  key={el.subProductId}
+               >
                   <ImageTitleContainer>
                      <Image src={el.image} />
                      {el.name}
@@ -90,6 +111,15 @@ const GlobalSearchItem = styled('div')`
    line-height: normal;
    margin: 0;
    cursor: pointer;
+   :hover {
+      color: #cb11ab !important;
+      p {
+         color: #cb11ab !important;
+         span {
+            border-bottom: 1.6px solid #cb11ab;
+         }
+      }
+   }
 `
 const Image = styled('img')`
    width: 19px;

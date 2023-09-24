@@ -118,7 +118,7 @@ export const ProductCard = ({
          <Container>
             <InStock>В наличии ({quantity})</InStock>
             <Title>
-               {prodName.length > 45 ? `${prodName.slice(0, 45)}...` : prodName}
+               {prodName.length > 45 ? `${prodName.slice(0, 20)}...` : prodName}
             </Title>
             <RatingContainer>
                Рейтинг <StyledRating readOnly value={rating} precision={0.5} />(

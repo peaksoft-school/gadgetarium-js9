@@ -22,3 +22,6 @@ export const getBannersRequest = () => {
 export const getGlobalSearchRequest = (keyword) => {
    return axiosInstance.get(`/globalSearch?keyword=${keyword}`)
 }
+export const followMailRequest = (email) => {
+   return axiosInstance.post(`/v1/mailings/follow?email=${email}`)
+}
