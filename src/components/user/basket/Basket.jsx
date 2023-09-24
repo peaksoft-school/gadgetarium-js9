@@ -15,6 +15,9 @@ import { basketActions } from '../../../store/basket/basket.slice'
 import { useSnackbar } from '../../../hooks/useSnackbar'
 import { Loading } from '../../UI/loading/Loading'
 import sammyShopping from '../../../assets/images/sammy-shopping.png'
+import { BreadCrumbs } from '../../UI/breadCrumbs/BreadCrumbs'
+
+const breadcrumbs = [{ path: '/', label: 'Главная' }, { label: 'Корзина' }]
 
 export const Basket = React.memo(() => {
    const dispatch = useDispatch()
@@ -61,6 +64,11 @@ export const Basket = React.memo(() => {
    const enterPurchases = () => {
       navigate('/')
    }
+
+   const onNavigateGoToCheckoutHandler = () => {
+      navigate('/payment/placing-an-order')
+   }
+
    return (
       <>
          {isLoading && <Loading />}
@@ -68,6 +76,8 @@ export const Basket = React.memo(() => {
 
          <Container>
             <WidthContaniner>
+               <BreadCrumbs breadcrumbs={breadcrumbs} />
+
                <Title>Товары в корзине</Title>
                {basketResponses?.length !== 0 ? (
                   <AllContainer>
@@ -157,7 +167,10 @@ export const Basket = React.memo(() => {
                                  {basket.toPay?.toLocaleString()} <span>с</span>
                               </span>
                            </TotalAmount>
-                           <StyledButton variant="contained">
+                           <StyledButton
+                              variant="contained"
+                              onClick={onNavigateGoToCheckoutHandler}
+                           >
                               Перейти к оформлению
                            </StyledButton>
                         </OrderAmount>
@@ -218,7 +231,7 @@ const Paragraph = styled('p')`
    margin-bottom: 2.2222vh;
 `
 const SecondTitle = styled('p')`
-   color: var(--black-292929, #292929);
+   color: #292929;
    font-family: Inter;
    font-size: 1.25vw;
    font-style: normal;

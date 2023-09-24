@@ -8,37 +8,13 @@ import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import dayjs from 'dayjs'
 import { useDispatch, useSelector } from 'react-redux'
-import Pagination from '@mui/material/Pagination'
-import Stack from '@mui/material/Stack'
+// import Pagination from '@mui/material/Pagination'
+// import Stack from '@mui/material/Stack'
 import TableRow from '@mui/material/TableRow'
 import { ReactComponent as SearchIcon } from '../../../assets/icons/search-icon.svg'
-import { ReactComponent as DeleteTable } from '../../../assets/icons/tools-for-site/delete-icon.svg'
 import { InputUi } from '../../UI/Input'
 import { Calendar } from '../../UI/calendarFolder/Calendar'
 import { orderIsAdminThunk } from '../../../store/order/Order.thunk'
-
-const rows = [
-   {
-      id: '1',
-      name: 'Айзат Жумагулова',
-      number: '000000-455247',
-      quantity: '2 шт.',
-      total: '90 000с',
-      order: 'Самовывоз',
-      status: 'В обработке',
-      actions: <DeleteTable />,
-   },
-   {
-      id: '2',
-      name: 'Мстители финал',
-      number: '000000-455247',
-      quantity: '2 шт.',
-      total: '90 000с',
-      order: 'Самовывоз',
-      status: 'В обработке',
-      actions: <DeleteTable />,
-   },
-]
 
 function a11yProps(index) {
    return {
@@ -49,12 +25,15 @@ function a11yProps(index) {
 
 export const AdminOrders = () => {
    const dispatch = useDispatch()
-   const orderIsAdmins = useSelector((state) => state.order.orderIsAdmin)
+   const { responseAdminList } = useSelector(
+      (state) => state.order.orderIsAdmin
+   )
+
+   console.log(responseAdminList)
+
    const [value, setValue] = useState(0)
 
    const [valueTab, setValueTab] = useState('В ожидании')
-
-   console.log('orderIsAdmin', orderIsAdmins)
 
    const handleChange = (event, newValue) => {
       setValue(newValue)
@@ -71,11 +50,12 @@ export const AdminOrders = () => {
          setValueTab('Отменены')
       }
    }
+
    const [dateStart, setDateStart] = useState()
    const [dateEnd, setDateEnd] = useState()
 
-   const startDate = dayjs(dateStart).format('DD.MM.YYYY')
-   const endDate = dayjs(dateEnd).format('DD.MM.YYYY')
+   const startDate = dayjs(dateStart).format('YYYY-MM-DD')
+   const endDate = dayjs(dateEnd).format('YYYY-MM-DD')
 
    const onChangeCalendar = (newValue) => {
       setDateStart(newValue)
@@ -86,9 +66,11 @@ export const AdminOrders = () => {
 
    useEffect(() => {
       const data = {
+         status: valueTab,
+         pageSize: 5,
+         page: 1,
          startDate,
          endDate,
-         valueTab,
       }
       dispatch(orderIsAdminThunk(data))
    }, [startDate, endDate, valueTab])
@@ -129,41 +111,41 @@ export const AdminOrders = () => {
             <Table>
                <TableHead>
                   <TableCell>ID</TableCell>
-                  <TableCell>ФИО</TableCell>
-                  <NumberAndDate>Номер/дата</NumberAndDate>
-                  <Quantity>Кол-во</Quantity>
-                  <Total>Общая сумма</Total>
-                  <Order>Оформление заказа</Order>
-                  <StatusHeader>Статус</StatusHeader>
+                  <TableNameHeader>ФИО</TableNameHeader>
+                  <TableCellHead>Номер/дата</TableCellHead>
+                  <TableQuantity>Кол-во</TableQuantity>
+                  <TableTotal>Общая сумма</TableTotal>
+                  <TableOrder>Оформление заказа</TableOrder>
+                  <TableCell>Статус</TableCell>
                   <TableCell>Действия</TableCell>
                </TableHead>
 
                <TableBody>
-                  {rows.map((row) => (
-                     <TableRow key={row.name}>
-                        <TableCell>{row.id}</TableCell>
-                        <TableCell>{row.name}</TableCell>
-                        <NumberTable>{row.number}</NumberTable>
-                        <TableCell>{row.quantity}</TableCell>
-                        <TableCell>{row.total}</TableCell>
-                        <OrderTable>{row.order}</OrderTable>
-                        <Status>{row.status}</Status>
-                        <Delete>{row.actions}</Delete>
+                  {responseAdminList?.map((row) => (
+                     <TableRow key={row.orderId}>
+                        <TableId>{row.orderId}</TableId>
+                        <TableCellName>{row.fullName}</TableCellName>
+                        <NumberTable>{row.orderNumber}</NumberTable>
+                        <Quantity>{row.quantity}</Quantity>
+                        <Total>{row.totalPrice}</Total>
+                        <TableCell>{row.typeDelivery}</TableCell>
+                        <TableCell>{row.status}</TableCell>
+                        <TableDelete>delete</TableDelete>
                      </TableRow>
                   ))}
                </TableBody>
             </Table>
          </TableContainer>
 
-         <Stack spacing={2}>
+         {/* <Stack spacing={2}>
             <Pagination count={10} />
-         </Stack>
+         </Stack> */}
       </Container>
    )
 }
 
 const Container = styled('div')`
-   margin-top: 2.5rem;
+   width: 67.969vw;
 
    .MuiTableCell-root {
       border-bottom: none;
@@ -209,7 +191,7 @@ const Container = styled('div')`
    }
 
    .MuiTableContainer-root {
-      width: 81.5625rem;
+      width: 67.969vw;
       border-radius: 0;
       margin-top: 4.62rem;
    }
@@ -223,6 +205,14 @@ const Container = styled('div')`
       margin-top: 0.5rem;
       border-radius: 0.375rem;
    }
+   .MuiPagination-root {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+   }
+   .MuiTableCell-root {
+      padding: 1rem 0px 1rem 0px;
+   }
 `
 
 const TabsStyle = styled(Tabs)`
@@ -233,6 +223,11 @@ const TabsStyle = styled(Tabs)`
 const TableHead = styled(TableRow)`
    background: rgba(56, 66, 85, 0.9);
    color: #fff;
+`
+
+const TableCellHead = styled(TableCell)`
+   position: relative;
+   left: 4rem;
 `
 const CalendarBlock = styled('div')`
    display: flex;
@@ -245,34 +240,7 @@ const SearchBlock = styled('div')`
    position: relative;
    align-items: center;
 `
-const Status = styled(TableCell)`
-   color: #f99808;
-`
-const NumberAndDate = styled(TableCell)`
-   position: relative;
-   left: 5.5rem;
-`
-const Quantity = styled(TableCell)`
-   position: relative;
-   left: 6.5rem;
-`
-const Total = styled(TableCell)`
-   position: relative;
-   left: 5.4rem;
-`
-const Order = styled(TableCell)`
-   position: relative;
-   left: 2.2rem;
-`
-const StatusHeader = styled(TableCell)`
-   position: relative;
-   right: 0.2rem;
-`
-const Delete = styled(TableCell)`
-   position: relative;
-   right: 1rem;
-   cursor: pointer;
-`
+
 const SearchIconStyle = styled(SearchIcon)`
    position: absolute;
    left: 33rem;
@@ -281,10 +249,46 @@ const SearchIconStyle = styled(SearchIcon)`
    }
    cursor: pointer;
 `
-const OrderTable = styled(TableCell)`
-   position: relative;
-   right: 1.4rem;
-`
+
 const NumberTable = styled(TableCell)`
+   position: relative;
+   right: 4rem;
    color: #2c68f5;
+`
+
+const TableCellName = styled(TableCell)`
+   width: 12vw;
+   position: relative;
+   right: 2rem;
+`
+const TableNameHeader = styled(TableCell)``
+
+const TableId = styled(TableCell)`
+   margin-left: 1rem;
+`
+const TableDelete = styled(TableCell)`
+   margin-right: 1rem;
+`
+
+const TableQuantity = styled(TableCell)`
+   position: relative;
+   left: 4.5rem;
+`
+const TableOrder = styled(TableCell)`
+   position: relative;
+   left: 2rem;
+`
+
+const TableTotal = styled(TableCell)`
+   position: relative;
+   left: 3rem;
+`
+const Quantity = styled(TableCell)`
+   position: relative;
+   right: 4rem;
+`
+
+const Total = styled(TableCell)`
+   position: relative;
+   right: 4rem;
 `
