@@ -65,6 +65,7 @@ export const InputUi = forwardRef(
    }
 )
 InputUi.displayName = 'Input'
+
 const InputOutlained = styled(OutlinedInput)(
    ({
       width,
@@ -74,6 +75,7 @@ const InputOutlained = styled(OutlinedInput)(
       background,
       borderradius,
       border,
+      ...props
    }) => ({
       width,
       height,
@@ -82,6 +84,9 @@ const InputOutlained = styled(OutlinedInput)(
       background,
       borderRadius: borderradius,
       border,
+      '.MuiInputBase-input': {
+         padding: props.classpadding === 'true' && '3px 14px',
+      },
    })
 )
 

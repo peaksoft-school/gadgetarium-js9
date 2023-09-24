@@ -19,3 +19,6 @@ export const getRecommendRequest = (page, pageSize) => {
 export const getBannersRequest = () => {
    return axiosInstance.get(`/v1/banners`)
 }
+export const getGlobalSearchRequest = (keyword) => {
+   return axiosInstance.get(`/globalSearch?keyword=${keyword}`)
+}
