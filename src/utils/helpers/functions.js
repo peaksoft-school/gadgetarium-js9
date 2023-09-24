@@ -68,3 +68,13 @@ const StyledCheckboxInput = styled(CheckboxInput)`
       height: 1.458vw;
    }
 `
+export function formatPhoneNumber(phoneNumber) {
+   const cleaned = phoneNumber.replace(/\D/g, '')
+
+   const formatted = `+${cleaned.slice(0, 3)} (${cleaned.slice(
+      3,
+      6
+   )}) ${cleaned.slice(6, 8)}-${cleaned.slice(8, 10)}-${cleaned.slice(10)}`
+
+   return formatted
+}

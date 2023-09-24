@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { z } from 'zod'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
@@ -16,6 +16,7 @@ export const Footer = () => {
    const dispatch = useDispatch()
    const [openModal, setOpenModal] = useState(false)
    const [message, setMessage] = useState('')
+   const navigate = useNavigate()
    const [messageTimeout, setMessageTimeout] = useState(null)
    const { isAuthorization } = useSelector((state) => state.auth)
    const { register, handleSubmit, reset, formState } = useForm({
@@ -27,6 +28,13 @@ export const Footer = () => {
    })
    const toggleMessageHandler = (value) => {
       setMessage(value)
+   }
+   const scrollToTop = () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+   }
+   const scrollToTopMain = (top) => {
+      navigate('/')
+      window.scrollTo({ top, behavior: 'smooth' })
    }
    const onSubmit = (data) => {
       if (isAuthorization) {
@@ -74,11 +82,11 @@ export const Footer = () => {
                   <NavList>
                      <span>Будь с нами</span>
                      <Stock>
-                        <a href="/акции">Акции</a>
-                        <a href="./новинки">Новинки</a>
-                        <a href="./популярные категории">
-                           Популярные категории{' '}
-                        </a>
+                        <p onClick={() => scrollToTopMain(450)}>Акции</p>
+                        <p onClick={() => scrollToTopMain(1050)}>Новинки</p>
+                        <p onClick={() => scrollToTopMain(1650)}>
+                           Мы рекомендуем
+                        </p>
                      </Stock>
                   </NavList>
                   <NavList>
@@ -88,6 +96,7 @@ export const Footer = () => {
                            <Link
                               key={el.title}
                               to={el.path}
+                              onClick={scrollToTop}
                               className={({ isActive }) =>
                                  isActive ? 'active' : ''
                               }
@@ -292,9 +301,10 @@ const Stock = styled('div')`
    flex-direction: column;
    margin-top: 1.875rem;
 
-   a {
+   p {
       text-decoration: none;
       color: #858fa4;
+      margin: 0;
       margin-top: 0.75rem;
       cursor: pointer;
       &:hover {

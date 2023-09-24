@@ -95,7 +95,6 @@ const Container = styled('div')`
    display: flex;
    flex-direction: column;
    align-items: center;
-   margin-top: 8rem;
    padding-bottom: 2.5rem;
    border-radius: 0.25rem;
    background: #fff;
