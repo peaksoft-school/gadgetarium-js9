@@ -30,11 +30,12 @@ function a11yProps(index) {
 
 export const AdminOrders = () => {
    const dispatch = useDispatch()
-   const { responseAdminList, page } = useSelector(
+
+   const { responseAdminList, delivered } = useSelector(
       (state) => state.order.orderIsAdmin
    )
 
-   console.log(responseAdminList)
+   const { orderIsAdmin } = useSelector((state) => state.order)
 
    const [value, setValue] = useState(0)
 
@@ -45,12 +46,14 @@ export const AdminOrders = () => {
    }
    useEffect(() => {
       if (value === 0) {
-         setValueTab('В обработке')
+         setValueTab('В ожидании')
       } else if (value === 1) {
-         setValueTab('Курьер в пути')
+         setValueTab('В обработке')
       } else if (value === 2) {
-         setValueTab('Доставлен')
+         setValueTab('Курьер в пути')
       } else if (value === 3) {
+         setValueTab('Доставлен')
+      } else if (value === 4) {
          setValueTab('Отменить')
       }
    }, [value])
@@ -80,80 +83,97 @@ export const AdminOrders = () => {
 
    return (
       <Container>
-         <SearchBlock>
-            <InputUi
-               width="34.9375rem"
-               height="2.4375rem"
-               placeholder="Поиск по артикулу или ..."
-            />
-            <SearchIconStyle />
-         </SearchBlock>
+         <ContainerChilde>
+            <SearchBlock>
+               <InputUi
+                  width="34.9375rem"
+                  height="2.4375rem"
+                  placeholder="Поиск по артикулу или ..."
+               />
+               <SearchIconStyle />
+            </SearchBlock>
 
-         <TabsStyle value={value} onChange={handleChange}>
-            <Tab label="В обработке" {...a11yProps(0)} />
-            <Tab label="Курьер в пути" {...a11yProps(1)} />
-            <Tab label="Доставлены" {...a11yProps(2)} />
-            <Tab label="Отменены" {...a11yProps(3)} />
-         </TabsStyle>
+            <TabsStyle value={value} onChange={handleChange}>
+               <Tab label="В ожидании" {...a11yProps(0)} />
+               <Tab
+                  label={<p>В обработке ({orderIsAdmin.in_PROCESSING})</p>}
+                  {...a11yProps(1)}
+               />
+               <Tab
+                  label={
+                     <p>Курьер в пути ({orderIsAdmin.ready_FOR_DELIVERY})</p>
+                  }
+                  {...a11yProps(2)}
+               />
+               <Tab label={<p>Доставлены ({delivered})</p>} {...a11yProps(3)} />
+               <Tab label="Отменены" {...a11yProps(4)} />
+            </TabsStyle>
 
-         <CalendarBlock>
-            <Calendar
-               value={dateStart}
-               onChange={onChangeCalendar}
-               placeholder="от"
-            />
-            <Calendar
-               value={dateEnd}
-               onChange={onChangeCalendarEnd}
-               placeholder="до"
-            />
-         </CalendarBlock>
+            <CalendarBlock>
+               <Calendar
+                  value={dateStart === undefined ? null : dateStart}
+                  onChange={onChangeCalendar}
+                  placeholder="от"
+               />
+               <Calendar
+                  value={dateEnd === undefined ? null : dateEnd}
+                  onChange={onChangeCalendarEnd}
+                  placeholder="до"
+               />
+            </CalendarBlock>
 
-         <TableContainer>
-            <Table>
-               <TableHead>
-                  <TableCell>ID</TableCell>
-                  <TableNameHeader>ФИО</TableNameHeader>
-                  <TableCellHead>Номер/дата</TableCellHead>
-                  <TableQuantity>Кол-во</TableQuantity>
-                  <TableTotal>Общая сумма</TableTotal>
-                  <TableOrder>Оформление заказа</TableOrder>
-                  <TableCell>Статус</TableCell>
-                  <TableCell>Действия</TableCell>
-               </TableHead>
+            <TableContainer>
+               <Table>
+                  <TableHead>
+                     <TableHeaderId>ID</TableHeaderId>
+                     <TableNameHeader>ФИО</TableNameHeader>
+                     <TableCellHead>Номер/дата</TableCellHead>
+                     <TableQuantity>Кол-во</TableQuantity>
+                     <TableTotal>Общая сумма</TableTotal>
+                     <TableOrder>Оформление заказа</TableOrder>
+                     <TableCell>Статус</TableCell>
+                     <TableHeaderAction>Действия</TableHeaderAction>
+                  </TableHead>
 
-               <TableBody>
-                  {responseAdminList?.map((row) => (
-                     <TableRow key={row.orderId}>
-                        <TableId>{row.orderId}</TableId>
-                        <TableCellName>{row.fullName}</TableCellName>
-                        <NumberTable>{row.orderNumber}</NumberTable>
-                        <Quantity>{row.quantity}</Quantity>
-                        <Total>{row.totalPrice}</Total>
-                        <TableCell>{row.typeDelivery}</TableCell>
-                        <TableCell>{statusTranslate[row.status]}</TableCell>
-                        <TableDelete
-                           onClick={() =>
-                              dispatch(deleteIsAdminThunk(row.orderId))
-                           }
-                        >
-                           <DeleteTable />
-                        </TableDelete>
-                     </TableRow>
-                  ))}
-               </TableBody>
-            </Table>
-         </TableContainer>
+                  <TableBody>
+                     {responseAdminList?.map((row) => (
+                        <TableRow key={row.orderId}>
+                           <TableId>{row.orderId}</TableId>
+                           <TableCellName>{row.fullName}</TableCellName>
+                           <NumberTable>{row.orderNumber}</NumberTable>
+                           <Quantity>{row.quantity}</Quantity>
+                           <Total>{row.totalPrice}</Total>
+                           <TableCell>{row.typeDelivery}</TableCell>
+                           <TableCell>{statusTranslate[row.status]}</TableCell>
+                           <TableDelete
+                              onClick={() =>
+                                 dispatch(deleteIsAdminThunk(row.orderId))
+                                    .unwrap()
+                                    .then(() => {
+                                       dispatch(orderIsAdminThunk())
+                                    })
+                              }
+                           >
+                              <DeleteTable />
+                           </TableDelete>
+                        </TableRow>
+                     ))}
+                  </TableBody>
+               </Table>
+            </TableContainer>
 
-         <Stack>
-            <Pagination count={page} />
-         </Stack>
+            <StackStyle>
+               <Stack>
+                  <Pagination count={2} color="primary" />
+               </Stack>
+            </StackStyle>
+         </ContainerChilde>
       </Container>
    )
 }
 
 const Container = styled('div')`
-   width: 67.969vw;
+   width: 89.583vw;
 
    .MuiTableCell-root {
       border-bottom: none;
@@ -221,6 +241,10 @@ const Container = styled('div')`
    .MuiTableCell-root {
       padding: 1rem 0px 1rem 0px;
    }
+`
+
+const ContainerChilde = styled('div')`
+   width: 67.969vw;
 `
 
 const TabsStyle = styled(Tabs)`
@@ -299,4 +323,19 @@ const Quantity = styled(TableCell)`
 const Total = styled(TableCell)`
    position: relative;
    right: 4rem;
+`
+
+const TableHeaderId = styled(TableCell)`
+   position: relative;
+   left: 1rem;
+`
+const TableHeaderAction = styled(TableCell)`
+   position: relative;
+   right: 1rem;
+`
+const StackStyle = styled('div')`
+   display: flex;
+   height: 38vh;
+   justify-content: center;
+   align-items: flex-end;
 `

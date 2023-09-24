@@ -29,6 +29,7 @@ const Container = styled('div')`
    padding: 1.875rem;
    border-radius: 0.25rem;
    margin-left: 18rem;
+   width: 30rem;
 
    h3 {
       border-bottom: 1px solid black;
