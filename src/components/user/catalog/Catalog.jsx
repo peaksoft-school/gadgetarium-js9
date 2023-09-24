@@ -101,6 +101,7 @@ export const Catalog = () => {
                         </Sorting>
                         {cateSort && (
                            <Sort
+                              onClose={closeSort}
                               sort={sort}
                               getSortType={getSortType}
                               openSort={cateSort}
@@ -221,6 +222,7 @@ const Container = styled('div')(({ theme }) => ({
 const ProductContainer = styled('div')`
    display: flex;
    justify-content: space-between;
+   /* align-items: flex-start; */
 `
 
 const Title = styled('p')`

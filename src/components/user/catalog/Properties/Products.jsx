@@ -33,9 +33,9 @@ export const Products = () => {
       interfacesArray,
       tabletBatteryCapacityArray,
       sort,
+      subCategoriesId,
    } = useSelector((state) => state.category)
 
-   const { subCategoriesId } = useSelector((state) => state.allCategory)
    const category = useParams()
    const dispatch = useDispatch()
 

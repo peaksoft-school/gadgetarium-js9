@@ -28,19 +28,14 @@ export const Price = () => {
    }
 
    useEffect(() => {
-      if (cate) {
-         dispatch(categoryActions.changeAllCate())
-      }
-      if (!allCate) {
-         setCate(allCate)
-      }
+      setCate(allCate)
    }, [allCate])
 
    return (
       <Container>
-         <CategorySelectContainer>
+         <CategorySelectContainer onClick={openHandler}>
             <h5>Стоимость</h5>
-            <ArrowIcon checked={cate} onClick={openHandler} />
+            <ArrowIcon checked={cate} />
          </CategorySelectContainer>
          {cate && (
             <InfoPrice checked={cate}>
@@ -85,6 +80,7 @@ const CategorySelectContainer = styled('div')`
    align-items: center;
    justify-content: space-between;
    margin-bottom: 1.2963vh;
+   cursor: pointer;
    h5 {
       font-size: 1rem;
       font-style: normal;

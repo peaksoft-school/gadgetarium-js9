@@ -1,8 +1,15 @@
+import { useDispatch } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import { Button, styled } from '@mui/material'
 import { navBarForHeader } from '../../../utils/common/constants/header'
+import { categoryActions } from '../../../store/cataog/catalogSlice'
 
 export const Footer = () => {
+   const dispatch = useDispatch()
+   const handleButtonClick = () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      dispatch(categoryActions.reset())
+   }
    return (
       <Container>
          <Block1>
@@ -10,10 +17,19 @@ export const Footer = () => {
                <NavList>
                   <span>Каталог</span>
                   <Gadget>
-                     <NavLink to="/category/Phone">Смартфоны</NavLink>
-                     <NavLink to="/category/Tablet">Планшеты</NavLink>
-                     <NavLink to="/category/Laptop">Ноутбуки</NavLink>
-                     <NavLink to="/category/Smart Watch">
+                     <NavLink onClick={handleButtonClick} to="/category/Phone">
+                        Смартфоны
+                     </NavLink>
+                     <NavLink onClick={handleButtonClick} to="/category/Tablet">
+                        Планшеты
+                     </NavLink>
+                     <NavLink onClick={handleButtonClick} to="/category/Laptop">
+                        Ноутбуки
+                     </NavLink>
+                     <NavLink
+                        onClick={handleButtonClick}
+                        to="/category/Smart Watch"
+                     >
                         Смарт-часы и браслеты
                      </NavLink>
                   </Gadget>

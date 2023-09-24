@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ReactComponent as Arrow } from '../../../assets/icons/arrows/right-icon.svg'
 import { themes } from '../../../utils/common/styles/themes'
 import CategoryMenuItem from './CategoryMenuItem'
-import { getSubCatalogRequest } from '../../../store/informationPhone/infoPageThunk'
+import { getSubCatalogRequest } from '../../../store/cataog/categoryThunk'
 
 const Category = ({
    children,
@@ -25,7 +25,7 @@ const Category = ({
            },
         }))
       : null
-   const subCatalog = useSelector((state) => state.allCategory.subCategories)
+   const subCatalog = useSelector((state) => state.category.subCategories)
 
    const dispatch = useDispatch()
 

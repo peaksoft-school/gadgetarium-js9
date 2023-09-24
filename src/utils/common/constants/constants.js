@@ -216,3 +216,8 @@ export const tabletBatteryCapacity = [
    { title: '7200 – 9599 мА/ч', id: 4, checked: false },
    { title: '9600 – 12000 мА/ч', id: 5, checked: false },
 ]
+
+export const smartWaterProof = [
+   { title: 'TRUE', id: 1, checked: false },
+   { title: 'FALSE', id: 2, checked: false },
+]

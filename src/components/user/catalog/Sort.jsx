@@ -39,7 +39,7 @@ const saleArray = [
    },
 ]
 
-export const Sort = ({ openSort, sort, getSortType }) => {
+export const Sort = ({ openSort, sort, getSortType, onClose }) => {
    const [saleArrayOpen, setSaleArrayOpen] = useState(false)
 
    const toggleArrayOpen = (value, isSortInArray) => {
@@ -52,10 +52,30 @@ export const Sort = ({ openSort, sort, getSortType }) => {
    const getSortTypeValue = (value) => {
       getSortType(value)
       setSaleArrayOpen(false)
+      onClose()
    }
 
    return (
-      <PositionContainer className={openSort ? 'open' : 'close'}>
+      <PositionContainer
+         open={saleArrayOpen}
+         className={openSort ? 'open' : 'close'}
+      >
+         {saleArrayOpen && (
+            <SaleContainer className={saleArrayOpen ? 'open' : 'close'}>
+               {saleArray.map((el) => {
+                  const isCurrentType = sort === el.name
+                  return (
+                     <Option
+                        onClick={() => getSortTypeValue(el.name)}
+                        highlighted={isCurrentType && 'true'}
+                        key={el.id}
+                     >
+                        {el.name}
+                     </Option>
+                  )
+               })}
+            </SaleContainer>
+         )}
          <Container>
             {array.map((el) => {
                const isSortInArray = saleArray.some((el) => el.name === sort)
@@ -83,22 +103,6 @@ export const Sort = ({ openSort, sort, getSortType }) => {
                )
             })}
          </Container>
-         {saleArrayOpen && (
-            <SaleContainer className={saleArrayOpen ? 'open' : 'close'}>
-               {saleArray.map((el) => {
-                  const isCurrentType = sort === el.name
-                  return (
-                     <Option
-                        onClick={() => getSortTypeValue(el.name)}
-                        highlighted={isCurrentType && 'true'}
-                        key={el.id}
-                     >
-                        {el.name}
-                     </Option>
-                  )
-               })}
-            </SaleContainer>
-         )}
       </PositionContainer>
    )
 }
@@ -149,6 +153,8 @@ const Container = styled('div')`
 const PositionContainer = styled('div')`
    position: absolute;
    top: 18px;
+   /* left: -120px; */
+   left: ${(props) => props.open && '-121px'};
    display: flex;
    align-items: center;
    &.open {

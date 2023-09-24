@@ -6,11 +6,11 @@ import Category from '../UI/category.select/CategorySelect'
 import { ReactComponent as Smartphone } from '../../assets/icons/goods/mobile-android-two-icon.svg'
 import { ReactComponent as Desktop } from '../../assets/icons/goods/desktop-two-icon.svg'
 import { ReactComponent as Watch } from '../../assets/icons/goods/watch-icon.svg'
-import { getCatalogRequest } from '../../store/informationPhone/infoPageThunk'
-import { infoPageActions } from '../../store/informationPhone/infoPageSlice'
+import { categoryActions } from '../../store/cataog/catalogSlice'
+import { getCatalogRequest } from '../../store/cataog/categoryThunk'
 
 const GeneralCategorySelectLayout = ({ toggleCatalogSelect }) => {
-   const catalogProduct = useSelector((state) => state.allCategory)
+   const catalogProduct = useSelector((state) => state.category)
    const dispatch = useDispatch()
    const navigate = useNavigate()
 
@@ -47,23 +47,8 @@ const GeneralCategorySelectLayout = ({ toggleCatalogSelect }) => {
 
       toggleCatalogSelect()
 
-      dispatch(infoPageActions.changeInfoPage({ id }))
-      // dispatch(
-      //    infoPageActions.changeSubCategories({
-      //       id,
-      //       title,
-      //    })
-      // )
+      dispatch(categoryActions.changeInfoPage({ id }))
    }
-
-   // const tt = () => {
-   //    setCategoryStates({
-   //       smartphone: false,
-   //       desktop: false,
-   //       watch: false,
-   //       tablet: false,
-   //    })
-   // }
 
    return (
       <Container>

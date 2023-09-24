@@ -1,7 +1,6 @@
 import { styled } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { categoryActions } from '../../store/cataog/catalogSlice'
+import { useSelector } from 'react-redux'
 import { slideIn, slideOut } from '../../utils/common/constants/constants'
 import { ArrowIcon } from './Arrow'
 import CheckboxInput from './icon.input/CheckboxInput'
@@ -9,24 +8,18 @@ import CheckboxInput from './icon.input/CheckboxInput'
 export const CatalogSelect = ({ items, onToggleCheckbox, title }) => {
    const { allCate } = useSelector((state) => state.category)
    const [cate, setCate] = useState(true)
-   const dispatch = useDispatch()
    const openHandler = () => {
       setCate((prev) => !prev)
    }
    useEffect(() => {
-      if (cate) {
-         dispatch(categoryActions.changeAllCate())
-      }
-      if (!allCate) {
-         setCate(allCate)
-      }
+      setCate(allCate)
    }, [allCate])
 
    return (
       <Container checked={cate}>
-         <CategorySelectContainer>
+         <CategorySelectContainer onClick={openHandler}>
             <h5>{title}</h5>
-            <ArrowIcon checked={cate} onClick={openHandler} />
+            <ArrowIcon checked={cate} />
          </CategorySelectContainer>
          {cate && (
             <div className="content">
@@ -89,6 +82,7 @@ const CategorySelectContainer = styled('div')`
    align-items: center;
    justify-content: space-between;
    margin-bottom: 1.2963vh;
+   cursor: pointer;
 
    h5 {
       width: 13.75vw;

@@ -21,78 +21,81 @@ import { DisplayDiagonal } from './watch/DisplayDiagonal'
 import { Shapes } from './watch/Shapes'
 import { VideoMemory } from './laptop/VideoMemory'
 import { BatteryCapacity } from './tablet/BatteryCapacity'
+import { WaterProof } from './watch/WaterProof'
 
 export const Options = () => {
    const dispatch = useDispatch()
    const containerRef = useRef(null)
 
    const params = useParams()
+   const paramsFilter = Object.values(params)[0]
    useEffect(() => {
       const container = containerRef.current
-      if (container) {
-         const hasScrollbar = container.scrollHeight > container.clientHeight
-         if (!hasScrollbar) {
-            container.style.paddingRight = '2.1rem'
-         } else {
-            container.style.paddingRight = '1.6rem'
-         }
+
+      const hasScrollbar = container.scrollHeight > container.clientHeight
+      if (!hasScrollbar) {
+         container.style.paddingRight = '2.1rem'
+      } else {
+         container.style.paddingRight = '1.6rem'
       }
-   }, [params])
+   }, [paramsFilter])
+
    const resetAllFilters = () => {
       dispatch(categoryActions.resetChecked())
    }
 
    return (
-      <Content>
-         <div ref={containerRef} className="box-options">
-            <ButtonStyled onClick={resetAllFilters}>
-               Сбросить все фильтры
-            </ButtonStyled>
-            <Category />
-            <Price />
-            <Colors />
+      <Content ref={containerRef}>
+         {/* <div  className="box-options"> */}
+         <ButtonStyled onClick={resetAllFilters}>
+            Сбросить все фильтры
+         </ButtonStyled>
+         <Category />
+         <Price />
+         <Colors />
 
-            {Object.values(params)[0] === 'Phone' ? (
-               <div>
-                  <Sim />
-                  <MemoryСapacity />
-                  <RamMemory />
-               </div>
-            ) : null}
+         {paramsFilter === 'Phone' ? (
+            <div>
+               <Sim />
+               <MemoryСapacity />
+               <RamMemory />
+            </div>
+         ) : null}
 
-            {Object.values(params)[0] === 'Tablet' ? (
-               <div>
-                  <BatteryCapacity />
-                  <ScreenSize />
-                  <ScreenResolution />
-                  <MemoryСapacity />
-                  <RamMemory />
-               </div>
-            ) : null}
+         {paramsFilter === 'Tablet' ? (
+            <div>
+               <BatteryCapacity />
+               <ScreenSize />
+               <ScreenResolution />
+               <MemoryСapacity />
+               <RamMemory />
+            </div>
+         ) : null}
 
-            {Object.values(params)[0] === 'Laptop' ? (
-               <div>
-                  <Processor />
-                  <ScreenResolution />
-                  <Puproses />
-                  <ScreenSize />
-                  <VideoMemory />
-                  <RamMemory />
-               </div>
-            ) : null}
+         {paramsFilter === 'Laptop' ? (
+            <div>
+               <Processor />
+               <ScreenResolution />
+               <Puproses />
+               <ScreenSize />
+               <VideoMemory />
+               <RamMemory />
+            </div>
+         ) : null}
 
-            {Object.values(params)[0] === 'Smart Watch' ? (
-               <div>
-                  <Interfaces />
-                  <MaterialBracelets />
-                  <MaterialHousing />
-                  <MemoryСapacity />
-                  <Floor />
-                  <Shapes />
-                  <DisplayDiagonal />
-               </div>
-            ) : null}
-         </div>
+         {paramsFilter === 'Smart Watch' ? (
+            <div>
+               <Interfaces />
+               <MaterialBracelets />
+               <MaterialHousing />
+               <MemoryСapacity />
+               <Floor />
+               <Shapes />
+               <WaterProof />
+               <DisplayDiagonal />
+            </div>
+         ) : null}
+         {/* </div> */}
       </Content>
    )
 }
@@ -105,25 +108,22 @@ const Content = styled('div')`
    border-radius: 0.25rem 0rem 0rem 0.25rem;
    background-color: #ffffff;
 
-   .box-options {
-      max-height: 74vw;
-      overflow-y: auto;
+   overflow-y: auto;
 
-      &::-webkit-scrollbar {
-         width: 0.5rem;
-         margin-right: -1.6rem;
-      }
+   &::-webkit-scrollbar {
+      width: 0.5rem;
+      margin-right: -1.6rem;
+   }
 
-      &::-webkit-scrollbar-thumb {
-         background-color: #91969e7f;
-         border-radius: 0.25rem;
-      }
+   &::-webkit-scrollbar-thumb {
+      background-color: #91969e7f;
+      border-radius: 0.25rem;
+   }
 
-      &::-webkit-scrollbar-track {
-         height: 20px;
-         background-color: #e8e8e8;
-         border-radius: 0.25rem;
-      }
+   &::-webkit-scrollbar-track {
+      height: 20px;
+      background-color: #e8e8e8;
+      border-radius: 0.25rem;
    }
 `
 
