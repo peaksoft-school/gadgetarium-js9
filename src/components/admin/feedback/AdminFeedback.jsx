@@ -7,61 +7,79 @@ import { ReactComponent as ArrowDown } from '../../../assets/icons/arrows/down-i
 import { Button } from '../../UI/Button'
 
 const imagesArray = [1, 2, 3, 4, 5]
+
 const AdminFeedback = ({
-   index = 1,
+   index,
    stars,
-   // userText,
-   // userName,
-   // modelName,
-   // images = imagesArray,
-   // time,
-   // userEmail,
+   userText,
+   userName,
+   modelName,
+   images = imagesArray,
+   time,
+   userEmail,
+   art,
+   productImage,
+   productName,
+   userAvatar,
+   id,
 }) => {
    const [expanded, setExpanded] = useState(false)
    const [answerState, setAnswerState] = useState(false)
    const [adminAnswer, setAdminAnswer] = useState('')
    const [temporaryAnswer, setTemporaryAnswer] = useState('')
    const [checked, setChecked] = useState(false)
+
    const getAdminAnswer = (e) => {
       setTemporaryAnswer(e.target.value)
    }
+
    const answerToggleHandler = () => {
       setAnswerState((prev) => !prev)
    }
+
    const saveAnswerHandler = () => {
       setAdminAnswer(temporaryAnswer)
       setAnswerState(false)
    }
+
    const cancelAnswerHandler = () => {
       setTemporaryAnswer(adminAnswer)
       setAnswerState(false)
    }
-   const deleteHandler = (id) => {
+
+   const deleteHandler = () => {
       console.log(id)
    }
-   deleteHandler(1)
-   const text =
-      'Эрсултан, красавчик! Эрсултан, красавчик! Эрсултан, красавчик! Эрсултан, красавчик! Эрсултан, красавчик! Эрсултан, красавчик! Эрсултан, красавчик! Эрсултан, красавчик! Эрсултан, красавчик! Эрсултан, красавчик! Эрсултан, красавчик! Эрсултан, красавчик! Эрсултан, красавчик! Эрсултан, красавчик! Эрсултан, красавчик!'
+
+   const text = `${userText}`
+
+   // чик! Эрсултан, красавчик! Эрсултан, красавчик!'
+
    const handleToggle = () => {
       if (!checked) {
          setChecked((prevState) => !prevState)
       }
       setExpanded(true)
    }
+
    const handleClose = () => {
       setExpanded(false)
    }
+
    const displayText = expanded ? text : text.slice(0, 123)
+
    return (
       <AdminReviewContainer>
          <ModelReviewContainer>
             <ModelContainer>
                <Index>{index}</Index>
-               <StyledIcon />
+               <BoxPhotoProduct>
+                  <Photo src={productImage} alt="" />
+               </BoxPhotoProduct>
                <ModelDescription>
-                  <h5>Asus</h5>
-                  <p>Модель</p>
-                  <p>Арт. 1212121212</p>
+                  <h5>{productName}</h5>
+                  <p>{modelName}</p>
+                  <p>Арт. {art}</p>
                </ModelDescription>
             </ModelContainer>
 
@@ -70,10 +88,12 @@ const AdminFeedback = ({
                   {displayText}
                   {!expanded && text.length > 123 && '...'}
                </UserText>
-               <Time>20.06.22 - 14:15</Time>
+
+               <Time>{time}</Time>
+
                {expanded && (
                   <ImageContainer expanded={expanded}>
-                     {imagesArray.map((el) => (
+                     {images.map((el) => (
                         <StyledImage key={el.id}>{el}</StyledImage>
                      ))}
                   </ImageContainer>
@@ -85,14 +105,17 @@ const AdminFeedback = ({
                <StyledRating name="read-only" value={stars} readOnly />
                <UserContainer>
                   <UserAvatar>
-                     <StyledUserIcon />
+                     {userAvatar !== '' && <img src={userAvatar} alt="" />}
+
+                     {userAvatar === '' && <StyledUserIcon />}
                   </UserAvatar>
                   <UserDescription>
-                     <h5>Адыл Бакытов</h5>
-                     <p>Adyl@mail.ru</p>
+                     <h5>{userName}</h5>
+                     <p>{userEmail}</p>
                   </UserDescription>
                   <ToolIconContainer>
-                     <StyledDeleteIcon />
+                     <StyledDeleteIcon onClick={deleteHandler} />
+
                      {expanded ? (
                         <StyledArrowUp
                            onClick={handleClose}
@@ -322,6 +345,7 @@ const ModelDescription = styled('div')(({ theme }) => ({
    flexDirection: 'column',
    gap: '0.185vh',
    marginLeft: '1.40625vw',
+
    h5: {
       fontFamily: 'Inter',
       color: theme.palette.primary.mainContrastText,
@@ -349,12 +373,19 @@ const ImageContainer = styled('div')`
    margin-top: 0.926vh;
    width: 95%;
 `
-const StyledIcon = styled('div')(({ theme }) => ({
+
+const Photo = styled('img')`
+   width: 100%;
+   height: 100%;
+`
+
+const BoxPhotoProduct = styled('div')(({ theme }) => ({
    width: '2.9167vw',
    height: '3.23vw',
    background: theme.palette.secondary.main,
    marginLeft: '1.5625rem',
 }))
+
 const UserReviewContainer = styled('div')`
    margin-left: 3.28125vw;
    width: 60.2%;
@@ -372,6 +403,10 @@ const StyledRating = styled(Rating)`
    && .MuiSvgIcon-root {
       font-size: 1.04167vw;
    }
+
+   & .MuiRating-iconEmpty {
+      color: #faaf00;
+   }
 `
 const UserAvatar = styled('div')`
    display: flex;
@@ -385,6 +420,7 @@ const UserAvatar = styled('div')`
 `
 const UserDescription = styled('div')(({ theme }) => ({
    marginRight: '2.03125vw',
+
    h5: {
       fontFamily: 'Inter',
       color: theme.palette.primary.mainContrastText,
