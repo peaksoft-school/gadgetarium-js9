@@ -1,4 +1,4 @@
-import { Paper, Table, TableBody, TableContainer, styled } from '@mui/material'
+import { Table, TableBody, styled } from '@mui/material'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { TablesRow } from './TablesRow'
@@ -20,36 +20,25 @@ export const TablesPartTwo = ({
    const rows = newProduct
 
    return (
-      <PaperStyle>
-         <TableContainer>
-            <Table>
-               <TablesHeadPartTwo subProduct={dataRows} />
-               <TableBodyStyle>
-                  {rows.subProductRequests.map((row) => (
-                     <TablesRow
-                        collectorRowsDataHandler={collectorRowsDataHandler}
-                        key={row.id}
-                        rows={rows}
-                        row={row}
-                        onChangeBooleanValueQuantity={
-                           onChangeBooleanValueQuantity
-                        }
-                        onChangeBooleanValuePrice={onChangeBooleanValuePrice}
-                        allPriceAndQuantity={allPriceAndQuantity}
-                        changeBooleanValue={changeBooleanValue}
-                     />
-                  ))}
-               </TableBodyStyle>
-            </Table>
-         </TableContainer>
-      </PaperStyle>
+      <Table>
+         <TablesHeadPartTwo subProduct={dataRows} newProduct={newProduct} />
+         <TableBodyStyle>
+            {rows.subProductRequests.map((row) => (
+               <TablesRow
+                  collectorRowsDataHandler={collectorRowsDataHandler}
+                  key={row.id}
+                  rows={rows}
+                  row={row}
+                  onChangeBooleanValueQuantity={onChangeBooleanValueQuantity}
+                  onChangeBooleanValuePrice={onChangeBooleanValuePrice}
+                  allPriceAndQuantity={allPriceAndQuantity}
+                  changeBooleanValue={changeBooleanValue}
+               />
+            ))}
+         </TableBodyStyle>
+      </Table>
    )
 }
-
-const PaperStyle = styled(Paper)`
-   width: 79.688vw;
-   box-shadow: none;
-`
 
 const TableBodyStyle = styled(TableBody)`
    display: flex;

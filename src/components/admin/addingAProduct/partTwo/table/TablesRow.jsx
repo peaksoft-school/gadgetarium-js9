@@ -2,12 +2,16 @@ import { TableCell, TableRow, styled } from '@mui/material'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { InputUi } from '../../../../UI/Input'
+import { useDispatch, useSelector } from 'react-redux'
 import {
    addAndEditPrice,
    addAndEditQuantity,
 } from '../../../../../store/addProduct/addProductPartOne.slice'
+import {
+   backgroundColors,
+   dataProductNotebooks,
+   radioData,
+} from '../../../../../utils/common/constants/constantsAdminAddNewProduct'
 
 const schema = Yup.object().shape({
    price: Yup.number().required('Обязательное поле'),
@@ -23,6 +27,7 @@ export const TablesRow = ({
    changeBooleanValue,
 }) => {
    const dispatch = useDispatch()
+   const { brandAll } = useSelector((state) => state.addProduct)
    const { values, setFieldValue } = useFormik({
       initialValues: {
          price: row.price,
@@ -66,77 +71,112 @@ export const TablesRow = ({
       dispatch(addAndEditQuantity({ id: row.id, quantity: +values.quantity }))
    }
 
-   const color = row.codeColor === '#FFFFFF' ? '#000' : row.codeColor
+   const housingMaterial = row.housingMaterial
+      ? dataProductWatch.housingMaterial.find(
+           (item) => item.id === row?.housingMaterial
+        )
+      : ''
 
+   const materialBracelet = row.materialBracelet
+      ? dataProductWatch.bracelet.find(
+           (item) => item.id === row?.materialBracelet
+        )
+      : ''
+
+   const gender =
+      row.gender &&
+      radioData.genderRadioData.find((item) => item.value === row?.gender)
+
+   const color = row.codeColor
+      ? backgroundColors.find((item) => item.color === row?.codeColor)
+      : ''
+
+   const brand = rows.brandId
+      ? brandAll?.find((item) => item.id === rows.brandId)
+      : ''
+   const processor =
+      row.processor &&
+      dataProductNotebooks.processorNotebooks.find(
+         (item) => item.id === row.processor
+      )
    return (
       <TableRowStyle hover role="checkbox" tabIndex={-1} key={row.id}>
-         <TableCellStyle width="5.4vw" sx={{ paddingLeft: '1.25rem' }}>
-            {rows.brandId}
+         <TableCellStyle sx={{ paddingLeft: '1.042vw' }} width="10.26vw">
+            {brand.name || ''}
          </TableCellStyle>
-         <TableCellStyle color={color} width="8vw">
-            {row.codeColor}
-         </TableCellStyle>
-         {row.rom && <TableCellStyle width="10vw">{row.rom}ГБ</TableCellStyle>}
-         {rows.categoryId !== 4 && row.screenSize && (
+         <TableCellStyle width="8.333vw">{color.name || ''}</TableCellStyle>
+         {row.rom && (
+            <TableCellStyle width="10.052vw">{row.rom} ГБ</TableCellStyle>
+         )}
+         {row.screenResolution && (
+            <TableCellStyle width="11.306vw">
+               {row.screenResolution}
+            </TableCellStyle>
+         )}
+         {row.screenSize && (
             <TableCellStyle width="10vw">{row.screenSize}</TableCellStyle>
          )}
-         {rows.categoryId === 4 && row.screenResolution && (
-            <TableCellStyle width="12vw">{row.screenResolution}</TableCellStyle>
+         {row.ram && (
+            <TableCellStyle width="12.708vw">RAM {row.ram}ГБ</TableCellStyle>
          )}
-         {rows.categoryId !== 4
-            ? row.ram && (
-                 <TableCellStyle width="12vw">RAM {row.ram}ГБ</TableCellStyle>
-              )
-            : null}
          {row.processor && (
-            <TableCellStyle width="11vw">{row.processor}</TableCellStyle>
+            <TableCellStyle width="10vw">{processor.name}</TableCellStyle>
          )}
-         {row.sim && <TableCellStyle width="11vw">{row.sim}</TableCellStyle>}
-         {row.housingMaterial && (
-            <TableCellStyle width="12vw">{row.housingMaterial}</TableCellStyle>
+         {row.sim && <TableCellStyle width="12.24vw">{row.sim}</TableCellStyle>}
+         {row.materialBracelet ? (
+            <TableCellStyle width="12vw">
+               {materialBracelet.name || ''}
+            </TableCellStyle>
+         ) : (
+            ''
          )}
-         {row.diagonalScreen && (
-            <TableCellStyle width="11vw">{row.diagonalScreen}</TableCellStyle>
+         {row.housingMaterial ? (
+            <TableCellStyle width="12vw">
+               {housingMaterial.name || ''}
+            </TableCellStyle>
+         ) : (
+            ''
          )}
          {row.gender && (
-            <TableCellStyle width="11vw">{row.gender}</TableCellStyle>
+            <TableCellStyle width="10vw">{gender.label || ''}</TableCellStyle>
          )}
-         <TableCellStyle width="10vw">{rows.dateOfIssue}</TableCellStyle>
-
-         <TableCellStyle width="11vw">
-            <InputBox>
-               <InputUi
-                  height="10.7vh"
-                  border="1px solid #CDCDCD"
-                  borderradius="0"
-                  fontSize="1rem"
-                  type="number"
-                  onChange={handleChangeNoMinus}
-                  onFocus={onChangeBooleanValueQuantity}
-                  value={values.quantity}
-                  name="quantity"
-                  background="#cb11ab19"
-                  onBlur={onAddAndEditQuantityHandler}
-               />
-            </InputBox>
+         <TableCellStyle width={rows.categoryId === 1 ? '19.063vw' : '10vw'}>
+            {rows.dateOfIssue}
          </TableCellStyle>
-         <TableCellStyle width="11.9vw">
-            <InputBox>
-               <InputUi
-                  height="10.7vh"
-                  border="1px solid #CDCDCD"
-                  borderradius="0 0.375rem 0.375rem 0"
-                  value={values.price}
-                  name="price"
-                  width="12.1vw"
-                  onChange={handleChangeNoMinus}
-                  fontSize="1rem"
-                  type="number"
-                  background="#cb11ab19"
-                  onFocus={onChangeBooleanValuePrice}
-                  onBlur={onAddAndEditPriceHandler}
-               />
-            </InputBox>
+
+         <TableCellStyle
+            width="8.333vw"
+            sx={{
+               background: 'rgba(203, 17, 171, 0.10)',
+               paddingLeft: '1.042vw',
+            }}
+         >
+            <StyledInput
+               value={values.quantity}
+               onChange={handleChangeNoMinus}
+               type="number"
+               onBlur={onAddAndEditQuantityHandler}
+               name="quantity"
+               width="7.291vw"
+               onFocus={onChangeBooleanValueQuantity}
+            />
+         </TableCellStyle>
+         <TableCellStyle
+            width="8.594vw"
+            sx={{
+               background: 'rgba(203, 17, 171, 0.10)',
+               paddingLeft: '1.042vw',
+            }}
+         >
+            <StyledInput
+               value={values.price}
+               onChange={handleChangeNoMinus}
+               onBlur={onAddAndEditPriceHandler}
+               type="number"
+               name="price"
+               width="7.552vw"
+               onFocus={onChangeBooleanValuePrice}
+            />
          </TableCellStyle>
       </TableRowStyle>
    )
@@ -146,14 +186,13 @@ const TableRowStyle = styled(TableRow)(({ theme }) => ({
    borderRadius: '0.375rem',
    border: `1px solid ${theme.palette.secondary.main}`,
    display: 'flex',
-   width: '79.688vw',
+   height: '4.625rem',
 }))
 
-const TableCellStyle = styled(TableCell)(({ theme, width, color }) => ({
+const TableCellStyle = styled(TableCell)(({ theme, width }) => ({
    fontFamily: theme.typography.mainFontFamily,
    fontSize: '1rem',
-   color: color || '#292929',
-   height: '4.625rem',
+   color: '#292929',
    padding: '0',
    width,
    display: 'flex',
@@ -161,6 +200,16 @@ const TableCellStyle = styled(TableCell)(({ theme, width, color }) => ({
    margin: 0,
 }))
 
-const InputBox = styled('div')`
-   margin-right: -2.1px;
+const StyledInput = styled('input')`
+   background: none;
+   border: none;
+   font-family: Inter;
+   width: ${(props) => props.width};
+   font-size: 1rem;
+   font-weight: 500;
+   font-style: normal;
+   letter-spacing: 0.0625rem;
+   :focus {
+      outline: none;
+   }
 `

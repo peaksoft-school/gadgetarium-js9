@@ -4,21 +4,21 @@ import { Link as RouterLink } from 'react-router-dom'
 export const BreadCrumbs = ({ breadcrumbs }) => {
    return (
       <Container>
-         <Breadcrumbs separator="»" aria-label="breadcrumb">
+         <StyledBreadcrumbs separator="»" aria-label="breadcrumb">
             {breadcrumbs.map((breadcrumb, index) => {
                const isLast = index === breadcrumbs.length - 1
                const { path, label } = breadcrumb
 
                if (isLast) {
                   return (
-                     <Typography key={label} color="text.primary">
+                     <StyledTypography key={label} color="text.primary">
                         {label}
-                     </Typography>
+                     </StyledTypography>
                   )
                }
 
                return (
-                  <Link
+                  <StyledLink
                      underline="hover"
                      key={label}
                      color="inherit"
@@ -26,20 +26,42 @@ export const BreadCrumbs = ({ breadcrumbs }) => {
                      to={path}
                   >
                      {label}
-                  </Link>
+                  </StyledLink>
                )
             })}
-         </Breadcrumbs>
+         </StyledBreadcrumbs>
       </Container>
    )
 }
 
 const Container = styled('div')`
    margin-top: 3.75rem;
-
-   /* font-family: Inter; */
-   /* font-size: 0.875rem; */
-   /* font-style: normal; */
-   /* font-weight: 400; */
-   /* line-height: 140%; */
+`
+const StyledBreadcrumbs = styled(Breadcrumbs)`
+   .MuiBreadcrumbs-ol {
+      display: flex;
+      align-items: center;
+      .MuiBreadcrumbs-separator {
+         margin-bottom: 2px;
+      }
+      li {
+         height: 19px;
+         display: flex;
+         align-items: center;
+      }
+   }
+`
+const StyledLink = styled(Link)`
+   font-family: Inter;
+   font-size: 0.875rem;
+   font-style: normal;
+   font-weight: 400;
+   line-height: 140%;
+`
+const StyledTypography = styled(Typography)`
+   font-family: Inter;
+   font-size: 0.875rem;
+   font-style: normal;
+   font-weight: 400;
+   line-height: 140%;
 `

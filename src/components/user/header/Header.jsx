@@ -17,12 +17,16 @@ import GeneralCategorySelectLayout from '../GeneralCategorySelectLayout'
 import { ProductsModalWhenIsHovered } from '../../UI/ProductsModalWhenIsHovered'
 import { logOut } from '../../../store/auth/authThunk'
 import { AuthorizationModal } from '../AuthorizationModal'
+import { getGlobalSearch } from '../../../store/globalSearch/global.search.thunk'
+import { GlobalSearch } from '../globalSearch/GlobalSearch'
+import { useCustomSearchParams } from '../../../hooks/useCustomSearchParams'
 
 export const Header = ({ favorite, basket, compare }) => {
    const dispatch = useDispatch()
    const { number, img, token, isAuthorization } = useSelector(
       (state) => state.auth
    )
+   const { setParam, deleteParam } = useCustomSearchParams()
    const [hoverCompare, setHoverCompare] = useState(false)
    const [hoverFavorite, setHoverFavorite] = useState(false)
    const navigate = useNavigate()
@@ -39,6 +43,8 @@ export const Header = ({ favorite, basket, compare }) => {
    const [catalogSelect, setCatalogSelect] = useState(false)
    const [inputValue, setInputValue] = useState('')
    const [openModal, setOpenModal] = useState(false)
+   const [debounceTimeout, setDebounceTimeout] = useState(null)
+   const [isInputFocused, setInputFocused] = useState(false)
    const changeHeader = () => {
       if (window.scrollY > 64) {
          setFixed(true)
@@ -50,6 +56,18 @@ export const Header = ({ favorite, basket, compare }) => {
 
    const handleChange = (event) => {
       setInputValue(event.target.value)
+      setParam('keyword', event.target.value)
+      if (event.target.value.length === 0) {
+         deleteParam('keyword')
+      }
+      if (debounceTimeout) {
+         clearTimeout(debounceTimeout)
+      }
+      const newDebounceTimeout = setTimeout(() => {
+         dispatch(getGlobalSearch(event.target.value))
+      }, 500)
+
+      setDebounceTimeout(newDebounceTimeout)
    }
    function onComeBack() {
       navigate('./')
@@ -75,7 +93,19 @@ export const Header = ({ favorite, basket, compare }) => {
    function openSelect() {
       setOpen((prev) => !prev)
    }
+   function closeSelect() {
+      setOpen(false)
+   }
+   const handleInputFocus = () => {
+      setInputFocused(true)
+   }
 
+   const handleInputBlur = () => {
+      if (inputValue.length > 0) {
+         return setInputFocused(true)
+      }
+      return setInputFocused(false)
+   }
    const toggleCatalogSelect = () => {
       setCatalogSelect(!catalogSelect)
    }
@@ -118,7 +148,7 @@ export const Header = ({ favorite, basket, compare }) => {
                   <UserNumber>
                      <p>{number}</p>
 
-                     <div onMouseLeave={openSelect} onMouseEnter={openSelect}>
+                     <div onMouseLeave={closeSelect} onClick={openSelect}>
                         {token !== '' && (
                            <div>
                               {open && (
@@ -206,18 +236,21 @@ export const Header = ({ favorite, basket, compare }) => {
                         )}
                      </CatalogButtonContainer>
                      <Border />
-                     <SearchForm>
-                        <button>
+                     <PositionContainerForInput>
+                        <SearchForm>
                            <Input
                               className={inputValue ? 'hasText' : ''}
                               value={inputValue}
                               onChange={handleChange}
                               placeholder="Поиск по каталогу магазина  "
                               type="text"
+                              onFocus={handleInputFocus}
+                              onBlur={handleInputBlur}
                            />
-                        </button>
-                        <StyledVector input={inputValue} />
-                     </SearchForm>
+                           <StyledVector input={inputValue} />
+                        </SearchForm>
+                        {isInputFocused && <GlobalSearch />}
+                     </PositionContainerForInput>
                   </ButtonInputContainer>
                   <Massage fixed={fixed}>
                      <NavLink>
@@ -385,13 +418,6 @@ const SearchForm = styled('form')`
       border: 0;
       background: none;
    }
-
-   &.hasText {
-      input {
-         background-color: white;
-      }
-   }
-
    :hover {
       input {
          transition: background-color 0.4s ease;
@@ -403,6 +429,18 @@ const SearchForm = styled('form')`
 
       svg {
          path {
+            fill: gray;
+         }
+      }
+   }
+   input {
+      :focus {
+         transition: background-color 0.4s ease;
+         background-color: #fff;
+         ::placeholder {
+            color: gray;
+         }
+         ~ svg path {
             fill: gray;
          }
       }
@@ -474,7 +512,7 @@ const Input = styled('input')`
    height: 2.5rem;
    border-radius: 0.625rem;
    border: 1px solid #fff;
-   padding: 0.5rem 1.125rem 0.5rem 1.125rem;
+   padding: 0.5rem 2.7rem 0.5rem 1.125rem;
    background-color: #1a1a25;
    color: black;
    outline: none;
@@ -709,6 +747,12 @@ const Select2 = styled('div')`
          transform: translateY(0);
       }
    }
+`
+const PositionContainerForInput = styled('div')`
+   position: relative;
+   display: flex;
+   flex-direction: column;
+   gap: 8px;
 `
 const NavLinkParagraph = styled(NavLink)`
    text-decoration: none;
