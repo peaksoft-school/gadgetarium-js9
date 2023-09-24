@@ -11,7 +11,6 @@ import { Delivery } from './Delivery'
 import { Сharacteristics } from './Сharacteristics'
 import { ReactComponent as DownloadIcons } from '../../../../assets/icons/tools-for-site/Download.svg'
 import { getDownloadPdfFiles } from '../../../../store/informationPhone/infoPageThunk'
-import { useSnackbar } from '../../../../hooks/useSnackbar'
 
 function CustomTabPanel(props) {
    const { children, value, index, ...other } = props
@@ -47,18 +46,12 @@ export const Attribute = () => {
 
    const { productId } = useSelector((state) => state.product.infoPhone)
 
-   const { snackbarHandler } = useSnackbar()
+   const donwnload = useSelector((state) => state.product.getPdfFiles)
 
-   const onClickGetPdfFiles = () => {
+   const onDownloadPadfFile = () => {
       dispatch(getDownloadPdfFiles(productId))
-         .unwrap()
-         .then(() => {
-            snackbarHandler({
-               message: 'Товар успешно скачен',
-               type: 'success',
-            })
-         })
    }
+
    const [value, setValue] = useState(0)
 
    const handleChange = (event, newValue) => {
@@ -80,9 +73,12 @@ export const Attribute = () => {
                         <Tab label="Характеристики" {...a11yProps(1)} />
                         <Tab label="Отзывы" {...a11yProps(2)} />
                         <Tab label="Доставка и оплата" {...a11yProps(3)} />
-                        <DownloadBlock onClick={onClickGetPdfFiles}>
+
+                        <DownloadBlock onClick={onDownloadPadfFile}>
                            <DownloadIcons />
-                           <p> Скачать документ.pdf</p>
+                           <a href="/" download={donwnload}>
+                              Скачать документ.pdf
+                           </a>
                         </DownloadBlock>
                      </Tabs>
                   </Box>
@@ -112,8 +108,12 @@ export const Attribute = () => {
                         <Tab label="Описание" {...a11yProps(0)} />
                         <Tab label="Характеристики" {...a11yProps(1)} />
                         <Tab label="Отзывы" {...a11yProps(2)} />
-                        <DownloadBlock onClick={onClickGetPdfFiles}>
-                           <DownloadIcons /> <p> Скачать документ.pdf</p>
+                        <DownloadBlock onClick={onDownloadPadfFile}>
+                           <DownloadIcons />
+                           <a href="/" download={donwnload}>
+                              <DownloadIcons />
+                              Скачать документ.pdf
+                           </a>
                         </DownloadBlock>
                      </Tabs>
                   </Box>
@@ -164,13 +164,13 @@ const DownloadBlock = styled('div')`
    justify-content: flex-end;
    align-items: center;
    cursor: pointer;
-   p {
+   a {
       display: flex;
       align-items: center;
       color: #384255;
       font-family: Inter;
       font-size: 1rem;
       font-weight: 400;
-      margin-left: 0.75rem;
+      text-decoration: none;
    }
 `

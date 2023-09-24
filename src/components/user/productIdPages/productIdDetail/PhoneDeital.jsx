@@ -110,9 +110,11 @@ export const PhoneDeital = () => {
          <Line>
             <Block1>
                <Stock>В наличии ({quantity}шт)</Stock>
-               <Article>
-                  <p>Артикул: {articleNumber}</p>
-               </Article>
+               <ArticleContainer>
+                  <Article>
+                     <p>Артикул: {articleNumber}</p>
+                  </Article>
+               </ArticleContainer>
                <RatingBlockParent>
                   <RatingBlock>
                      <Rating
@@ -141,23 +143,25 @@ export const PhoneDeital = () => {
                </StyleColors>
             </BlockColors>
 
-            <BlockCounter>
-               {role === 'USER' && (
-                  <>
-                     <strong>Количество:</strong>
+            <CounterContainer>
+               <BlockCounter>
+                  {role === 'USER' && (
+                     <>
+                        <strong>Количество:</strong>
 
-                     <Counter>
-                        <Button1 onClick={countMinus}>
-                           <RemoveIcon />
-                        </Button1>
-                        <p>{count}</p>
-                        <Button2 onClick={countPlus}>
-                           <AddIcon />
-                        </Button2>
-                     </Counter>
-                  </>
-               )}
-            </BlockCounter>
+                        <Counter>
+                           <Button1 onClick={countMinus}>
+                              <RemoveIcon />
+                           </Button1>
+                           <p>{count}</p>
+                           <Button2 onClick={countPlus}>
+                              <AddIcon />
+                           </Button2>
+                        </Counter>
+                     </>
+                  )}
+               </BlockCounter>
+            </CounterContainer>
 
             <ContainerChildren>
                <BlockDiscount>
@@ -233,7 +237,7 @@ const Stock = styled('p')`
 
 const Block1 = styled('div')`
    display: flex;
-   width: 31rem;
+   width: 32rem;
    justify-content: space-between;
 `
 const RatingBlock = styled('div')`
@@ -245,10 +249,12 @@ const RatingBlock = styled('div')`
 
 const Block2 = styled('div')`
    display: flex;
-   width: 45vw;
+   /* width: 40.5vw; */
+   width: 41rem;
    justify-content: space-between;
    margin-top: 1.88rem;
 `
+
 const BlockPrice = styled('div')`
    display: flex;
    width: 17rem;
@@ -329,6 +335,7 @@ const Color = styled('p')`
    width: 1.625rem;
    height: 1.625rem;
    border-radius: 100%;
+   box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
    background: ${(props) => props.bgcolor && props.bgcolor};
 `
 const BlockUi = styled('div')`
@@ -372,6 +379,7 @@ const ButtonUiGreen = styled(Button)`
    width: 12.25rem;
    height: 2.8125rem;
    background-color: #2fc509;
+
    &:hover {
       background-color: #2fc509;
    }
@@ -405,6 +413,13 @@ const BlockCounter = styled('div')`
    flex-direction: column;
    gap: 0.3rem;
 `
+
+const CounterContainer = styled('div')`
+   display: flex;
+   width: 7.5rem;
+   justify-content: flex-start;
+`
+
 const DeleteIcon = styled(Delete)`
    cursor: pointer;
 `
@@ -427,6 +442,8 @@ const RatingBlockParent = styled('div')`
 `
 const Article = styled('div')`
    display: flex;
-   width: 7.5rem;
-   justify-content: flex-start;
+   width: 11rem;
+   justify-content: flex-end;
 `
+
+const ArticleContainer = styled('div')``

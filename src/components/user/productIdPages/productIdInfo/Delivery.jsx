@@ -122,7 +122,7 @@ const Сurrency = styled('span')`
 const Block2 = styled('div')`
    &:not(:first-child) {
       display: flex;
-      width: 69rem;
+      width: 63rem;
       justify-content: space-between;
       align-items: center;
    }

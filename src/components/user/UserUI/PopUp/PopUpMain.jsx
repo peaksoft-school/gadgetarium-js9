@@ -39,8 +39,7 @@ export const PopUpMain = () => {
       }
    }
    return (
-      <ButtonBlock>
-         <LeftBtn onClick={handlePreviousClick} />
+      <Container>
          <CarouselStyle
             infiniteLoop
             selectedItem={currentIndex}
@@ -57,12 +56,18 @@ export const PopUpMain = () => {
                </div>
             ))}
          </CarouselStyle>
-         <RightBtn onClick={handleNextClick} />
-      </ButtonBlock>
+         <ButtonBlock>
+            <ButtonBlockChilde>
+               <LeftBtn onClick={handlePreviousClick} />
+               <RightBtn onClick={handleNextClick} />
+            </ButtonBlockChilde>
+         </ButtonBlock>
+      </Container>
    )
 }
 
 const CarouselStyle = styled(Carousel)(({ theme }) => ({
+   width: '30vw',
    '& .thumb.selected': {
       border: `1px solid ${theme.palette.primary.main}`,
    },
@@ -106,19 +111,36 @@ const CarouselStyle = styled(Carousel)(({ theme }) => ({
       display: 'none',
    },
 }))
+
+const Container = styled('div')`
+   display: flex;
+   flex-direction: column;
+`
+
 const ButtonBlock = styled('div')`
    display: flex;
-   align-items: flex-end;
+   justify-content: center;
+   position: relative;
+   bottom: 6rem;
 `
+
+const ButtonBlockChilde = styled('div')`
+   display: flex;
+   justify-content: space-between;
+   width: 28.125rem;
+`
+
 const LeftBtn = styled(ArrowBackIosNewIcon)`
+   position: relative;
+   left: 5rem;
    z-index: 2;
-   height: 10rem;
    cursor: pointer;
    color: #909cb5;
 `
 const RightBtn = styled(ArrowForwardIosIcon)`
+   position: relative;
+   right: 5rem;
    z-index: 2;
-   height: 10rem;
    cursor: pointer;
    color: #909cb5;
 `
