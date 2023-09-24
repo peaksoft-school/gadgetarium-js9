@@ -1,10 +1,11 @@
 import { AddingAProduct } from '../components/admin/addingAProduct/partOne/AddingAProduct'
 import { FinishingTouchAddingProduct } from '../components/admin/addingAProduct/partThree/FinishingTouchAddingProduct'
 import { QuantityOfGoodsAndPrice } from '../components/admin/addingAProduct/partTwo/QuantityOfGoodsAndPrice'
-import { AdminGoods } from '../components/admin/goods/AdminGoods'
-import { EditProduct } from '../components/admin/goods/edit-product/EditProduct'
+
 import { ProductDetails } from '../components/user/productIdPages/ProductDetails'
 import { PhonePage } from '../components/user/productIdPages/productIdDetail/PhonePage'
+import { AdminGoods } from '../components/admin/goods/AdminGoods'
+import { EditProduct } from '../components/admin/goods/edit-product/EditProduct'
 
 export const adminRoutes = [
    {
