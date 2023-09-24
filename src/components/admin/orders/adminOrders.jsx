@@ -8,13 +8,18 @@ import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import dayjs from 'dayjs'
 import { useDispatch, useSelector } from 'react-redux'
-// import Pagination from '@mui/material/Pagination'
-// import Stack from '@mui/material/Stack'
+import Pagination from '@mui/material/Pagination'
+import Stack from '@mui/material/Stack'
 import TableRow from '@mui/material/TableRow'
+import { ReactComponent as DeleteTable } from '../../../assets/icons/tools-for-site/delete-icon.svg'
 import { ReactComponent as SearchIcon } from '../../../assets/icons/search-icon.svg'
 import { InputUi } from '../../UI/Input'
 import { Calendar } from '../../UI/calendarFolder/Calendar'
-import { orderIsAdminThunk } from '../../../store/order/Order.thunk'
+import {
+   deleteIsAdminThunk,
+   orderIsAdminThunk,
+} from '../../../store/order/Order.thunk'
+import { statusTranslate } from '../../../utils/common/constants/constantsAdminAddNewProduct'
 
 function a11yProps(index) {
    return {
@@ -25,7 +30,7 @@ function a11yProps(index) {
 
 export const AdminOrders = () => {
    const dispatch = useDispatch()
-   const { responseAdminList } = useSelector(
+   const { responseAdminList, page } = useSelector(
       (state) => state.order.orderIsAdmin
    )
 
@@ -33,24 +38,22 @@ export const AdminOrders = () => {
 
    const [value, setValue] = useState(0)
 
-   const [valueTab, setValueTab] = useState('В ожидании')
+   const [valueTab, setValueTab] = useState('В обработке')
 
    const handleChange = (event, newValue) => {
       setValue(newValue)
-
-      if (value === 0) {
-         setValueTab('В ожидании')
-      } else if (value === 1) {
-         setValueTab('В обработке')
-      } else if (value === 2) {
-         setValueTab('Курьер в пути')
-      } else if (value === 3) {
-         setValueTab('Доставлены')
-      } else if (value === 4) {
-         setValueTab('Отменены')
-      }
    }
-
+   useEffect(() => {
+      if (value === 0) {
+         setValueTab('В обработке')
+      } else if (value === 1) {
+         setValueTab('Курьер в пути')
+      } else if (value === 2) {
+         setValueTab('Доставлен')
+      } else if (value === 3) {
+         setValueTab('Отменить')
+      }
+   }, [value])
    const [dateStart, setDateStart] = useState()
    const [dateEnd, setDateEnd] = useState()
 
@@ -87,11 +90,10 @@ export const AdminOrders = () => {
          </SearchBlock>
 
          <TabsStyle value={value} onChange={handleChange}>
-            <Tab label="В ожидании" {...a11yProps(0)} />
-            <Tab label="В обработке" {...a11yProps(1)} />
-            <Tab label="Курьер в пути" {...a11yProps(2)} />
-            <Tab label="Доставлены" {...a11yProps(3)} />
-            <Tab label="Отменены" {...a11yProps(4)} />
+            <Tab label="В обработке" {...a11yProps(0)} />
+            <Tab label="Курьер в пути" {...a11yProps(1)} />
+            <Tab label="Доставлены" {...a11yProps(2)} />
+            <Tab label="Отменены" {...a11yProps(3)} />
          </TabsStyle>
 
          <CalendarBlock>
@@ -129,17 +131,23 @@ export const AdminOrders = () => {
                         <Quantity>{row.quantity}</Quantity>
                         <Total>{row.totalPrice}</Total>
                         <TableCell>{row.typeDelivery}</TableCell>
-                        <TableCell>{row.status}</TableCell>
-                        <TableDelete>delete</TableDelete>
+                        <TableCell>{statusTranslate[row.status]}</TableCell>
+                        <TableDelete
+                           onClick={() =>
+                              dispatch(deleteIsAdminThunk(row.orderId))
+                           }
+                        >
+                           <DeleteTable />
+                        </TableDelete>
                      </TableRow>
                   ))}
                </TableBody>
             </Table>
          </TableContainer>
 
-         {/* <Stack spacing={2}>
-            <Pagination count={10} />
-         </Stack> */}
+         <Stack>
+            <Pagination count={page} />
+         </Stack>
       </Container>
    )
 }
@@ -264,7 +272,7 @@ const TableCellName = styled(TableCell)`
 const TableNameHeader = styled(TableCell)``
 
 const TableId = styled(TableCell)`
-   margin-left: 1rem;
+   cursor: pointer;
 `
 const TableDelete = styled(TableCell)`
    margin-right: 1rem;
