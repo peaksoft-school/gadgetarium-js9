@@ -54,6 +54,7 @@ export const DeliveryOptions = ({
          })
 
          dispatch(validForm(false))
+         return
       }
 
       if (formik.values.address === '') {
@@ -64,9 +65,8 @@ export const DeliveryOptions = ({
             })
 
             dispatch(validForm(false))
+            return
          }
-      } else if (formik.values.address !== '' && delivery === false) {
-         dispatch(validForm(true))
       }
 
       if (validBoolean) {
@@ -84,7 +84,7 @@ export const DeliveryOptions = ({
                <Box
                   onClick={onPickupHandler}
                   check={check === true}
-                  width="19vw"
+                  width="290px"
                >
                   <BoxContainer>
                      <BoxTitle>
@@ -100,7 +100,7 @@ export const DeliveryOptions = ({
 
                <Box
                   check={check === false}
-                  width="19vw"
+                  width="290px"
                   onClick={onDeliveryHandler}
                >
                   <BoxContainer>
@@ -138,19 +138,15 @@ const FormContainer = styled('div')`
    display: flex;
    flex-direction: column;
    gap: 2.5rem;
+   width: 688px;
 `
 
 const ContainerBox = styled('div')`
    margin-top: 1.875rem;
    display: flex;
    gap: 1.875rem;
-
-   width: 45.2vw;
-
    padding-bottom: 2.5rem;
-   border-bottom-width: 1;
-   border-color: #cdcdcd;
-   border-bottom-style: solid;
+   border-bottom: 1px solid #cdcdcd;
 `
 
 const Title = styled('p')`
@@ -165,6 +161,7 @@ const BoxContainer = styled('div')`
    display: flex;
    flex-direction: column;
    gap: 0.625rem;
+   height: 129.8px;
 `
 
 const BoxTitle = styled('div')`

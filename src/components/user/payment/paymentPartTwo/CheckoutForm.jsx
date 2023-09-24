@@ -168,7 +168,7 @@ const Container = styled('div')`
    background-color: #ffffff;
    padding: 1.625rem 1.5rem;
    border-radius: 0.25rem;
-   width: 26vw;
+   width: 446px;
 `
 
 const ContainerPaymentIcon = styled('div')`
@@ -202,7 +202,7 @@ const CardNumberElementStyle = styled(CardNumberElement)`
 const Box = styled('div')`
    display: flex;
    margin-top: 1.5rem;
-   gap: 10vw;
+   justify-content: space-between;
 `
 
 const CardExpiryElementStyle = styled(CardExpiryElement)`
@@ -239,8 +239,8 @@ const BoxBtn = styled('div')`
 `
 
 const Btn = styled(Button)`
-   padding: 0.75rem 10.7vw;
-
+   width: 446px;
+   height: 44px;
    color: #fff;
    font-size: 1rem;
    font-style: normal;
