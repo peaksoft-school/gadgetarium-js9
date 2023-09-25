@@ -5,6 +5,7 @@ import { ReactComponent as Arrow } from '../../../assets/icons/arrows/right-icon
 import { themes } from '../../../utils/common/styles/themes'
 import CategoryMenuItem from './CategoryMenuItem'
 import { getSubCatalogRequest } from '../../../store/informationPhone/infoPageThunk'
+import { getSubCatalogRequest } from '../../../store/cataog/categoryThunk'
 
 const Category = ({
    children,
@@ -26,6 +27,7 @@ const Category = ({
         }))
       : null
    const subCatalog = useSelector((state) => state.product.subCategories)
+   const subCatalog = useSelector((state) => state.category.subCategories)
 
    const dispatch = useDispatch()
 
@@ -57,6 +59,9 @@ const Category = ({
                         onClick={handleCategoryClose}
                         id={el.subCategoryId}
                         key={el.subCategoryId}
+                        onClick={() => handleCategoryClose(el.id, el.title)}
+                        id={el.id}
+                        key={el.id}
                      >
                         {el.title}
                      </CategoryMenuItem>
@@ -116,17 +121,16 @@ const Menu = styled('div')`
    top: ${(props) => {
       switch (props.index) {
          case 2:
-            return '-53px'
+            return '-58px'
          case 3:
-            return '-93px'
+            return '-98px'
          case 4:
-            return '-133px'
+            return '-138px'
          default:
-            return '-13px'
+            return '-18px'
       }
    }};
    background-color: white;
-   /* box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); */
    padding: 1.125rem;
    z-index: 1000;
 `

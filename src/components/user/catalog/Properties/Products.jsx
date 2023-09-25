@@ -7,10 +7,39 @@ import { CardPhone } from '../../card/CardPhone'
 import { ProductCard } from '../../product.card/ProductCard'
 
 export const Products = () => {
-   const { filteredProducts, isLoading, brandsId, items, pageSize } =
-      useSelector((state) => state.category)
+   const {
+      filteredProducts,
+      isLoading,
+      brandsId,
+      items,
+      pageSize,
+      minValue,
+      maxValue,
+      memory,
+      memoryRam,
+      simPhoneArray,
+      processorArray,
+      screenArray,
+      videoMemoryArray,
+      puprosesArray,
+      screenSizeArray,
+      itemsColorsId,
+      shapesArray,
+      materialBraceletsArray,
+      materialHousingArray,
+      floorArray,
+      waterProofString,
+      displayDiagonalArray,
+      interfacesArray,
+      tabletBatteryCapacityArray,
+      sort,
+      subCategoriesId,
+   } = useSelector((state) => state.category)
+
    const category = useParams()
    const dispatch = useDispatch()
+
+   const filterProducts = filteredProducts?.responseList
 
    useEffect(() => {
       const dataCategory = {
@@ -18,24 +47,70 @@ export const Products = () => {
          pageSize,
          pageNumber: 1,
          gadgetType: Object.values(category),
+         minValue,
+         maxValue,
+         memory,
+         memoryRam,
+         simPhoneArray,
+         processorArray,
+         screenArray,
+         puprosesArray,
+         screenSizeArray,
+         itemsColorsId,
+         interfacesArray,
+         shapesArray,
+         materialBraceletsArray,
+         materialHousingArray,
+         floorArray,
+         waterProofString,
+         displayDiagonalArray,
+         videoMemoryArray,
+         tabletBatteryCapacityArray,
+         sort,
+         subCategoriesId,
       }
       dispatch(sendSelectedCategories(dataCategory))
-   }, [items, category])
+   }, [
+      items,
+      category,
+      minValue,
+      maxValue,
+      memory,
+      pageSize,
+      memoryRam,
+      simPhoneArray,
+      processorArray,
+      screenArray,
+      puprosesArray,
+      screenSizeArray,
+      itemsColorsId,
+      shapesArray,
+      materialBraceletsArray,
+      materialHousingArray,
+      floorArray,
+      waterProofString,
+      displayDiagonalArray,
+      interfacesArray,
+      videoMemoryArray,
+      tabletBatteryCapacityArray,
+      sort,
+      subCategoriesId,
+   ])
 
    return (
       <Container>
-         {filteredProducts?.map((product) =>
-            isLoading ? (
-               <CardStyled key={product.id} />
+         {filterProducts?.map((product) => {
+            return isLoading ? (
+               <CardStyled key={product.subProductId} />
             ) : (
                <ProductCardStyled
-                  key={product.id}
+                  key={product.subProductId}
                   prodName={product.name}
                   {...product}
                />
             )
-         )}
-         {filteredProducts.length === 0 && (
+         })}
+         {filterProducts?.length === 0 && (
             <Warnings>
                Извините, на данный момент товаров нет в наличии. Мы работаем над
                обновлением ассортимента. Загляните позже!

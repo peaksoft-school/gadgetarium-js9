@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { styled } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Category from '../UI/category.select/CategorySelect'
 import { ReactComponent as Smartphone } from '../../assets/icons/goods/mobile-android-two-icon.svg'
@@ -10,6 +11,13 @@ import { getCatalogRequest } from '../../store/informationPhone/infoPageThunk'
 const GeneralCategorySelectLayout = ({ toggleCatalogSelect }) => {
    const catalogProduct = useSelector((state) => state.product.allCategory)
    const dispatch = useDispatch()
+import { categoryActions } from '../../store/cataog/catalogSlice'
+import { getCatalogRequest } from '../../store/cataog/categoryThunk'
+
+const GeneralCategorySelectLayout = ({ toggleCatalogSelect }) => {
+   const catalogProduct = useSelector((state) => state.category)
+   const dispatch = useDispatch()
+   const navigate = useNavigate()
 
    const [categoryStates, setCategoryStates] = useState({
       smartphone: false,
@@ -37,16 +45,33 @@ const GeneralCategorySelectLayout = ({ toggleCatalogSelect }) => {
          watch: false,
          tablet: false,
       })
+
+   const handleCategoryClose = (id) => {
+      if (id < 5) {
+         navigate('/category/Phone')
+      } else if (id >= 5 && id <= 9) {
+         navigate('/category/Laptop')
+      } else if (id >= 10 && id <= 12) {
+         navigate('/category/Smart Watch')
+      } else if (id >= 13 && id <= 15) {
+         navigate('/category/Tablet')
+      }
+
       toggleCatalogSelect()
+
+      dispatch(categoryActions.changeInfoPage({ id }))
    }
 
    return (
       <Container onMouseLeave={handleCategoryClose}>
          {catalogProduct?.map((title, index) => {
+      <Container>
+         {catalogProduct?.allCategory?.map((title, index) => {
             switch (index) {
                case 1:
                   return (
                      <Category
+                        key={title.id}
                         id={title.id}
                         index={index + 1}
                         componentIcon={Desktop}
@@ -60,6 +85,7 @@ const GeneralCategorySelectLayout = ({ toggleCatalogSelect }) => {
                case 2:
                   return (
                      <Category
+                        key={title.id}
                         id={title.id}
                         index={index + 1}
                         componentIcon={Watch}
@@ -73,6 +99,7 @@ const GeneralCategorySelectLayout = ({ toggleCatalogSelect }) => {
                case 3:
                   return (
                      <Category
+                        key={title.id}
                         id={title.id}
                         index={index + 1}
                         componentIcon={Desktop}
@@ -86,6 +113,7 @@ const GeneralCategorySelectLayout = ({ toggleCatalogSelect }) => {
                default:
                   return (
                      <Category
+                        key={title.id}
                         id={title.id}
                         index={index + 1}
                         componentIcon={Smartphone}
