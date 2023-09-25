@@ -1,25 +1,120 @@
+// import {
+//    deleteIsAdminThunk,
+//    orderIsAdminThunk,
+// } from '../../../store/order/Order.thunk'
+// import { statusTranslate } from '../../../utils/common/constants/constantsAdminAddNewProduct'
+
+// export const AdminOrders = () => {
+// const dispatch = useDispatch()
+
+// const { responseAdminList, delivered } = useSelector(
+//    (state) => state.order.orderIsAdmin
+// )
+
+//    return (
+//       <Container>
+//          <ContainerChilde>
+
+//             <TableContainer>
+//                <Table>
+
+//                   <TableBody>
+//                      {responseAdminList?.map((row) => (
+//                         <TableRow key={row.orderId}>
+//                            <TableId>{row.orderId}</TableId>
+//                            <TableCellName>{row.fullName}</TableCellName>
+//                            <NumberTable>{row.orderNumber}</NumberTable>
+//                            <Quantity>{row.quantity}</Quantity>
+//                            <Total>{row.totalPrice}</Total>
+//                            <TableCell>{row.typeDelivery}</TableCell>
+//                            <TableCell>{statusTranslate[row.status]}</TableCell>
+//                            <TableDelete
+//                               onClick={() =>
+//                                  dispatch(deleteIsAdminThunk(row.orderId))
+//                                     .unwrap()
+//                                     .then(() => {
+//                                        dispatch(orderIsAdminThunk())
+//                                     })
+//                               }
+//                            >
+//                               <DeleteTable />
+//                            </TableDelete>
+//                         </TableRow>
+//                      ))}
+//                   </TableBody>
+//                </Table>
+//             </TableContainer>
+
+// </ContainerChilde>
+//       </Container>
+//    )
+// }
+
+// const ContainerChilde = styled('div')`
+//    width: 67.969vw;
+// `
+
 import React, { useEffect, useState } from 'react'
-import { styled } from '@mui/material'
+import Table from '@mui/material/Table'
+import TableCell from '@mui/material/TableCell'
+import TableHead from '@mui/material/TableHead'
+import TableRow from '@mui/material/TableRow'
+import { TableBody, styled } from '@mui/material'
+import dayjs from 'dayjs'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
-import Table from '@mui/material/Table'
-import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
-import TableContainer from '@mui/material/TableContainer'
-import dayjs from 'dayjs'
-import { useDispatch, useSelector } from 'react-redux'
 import Pagination from '@mui/material/Pagination'
 import Stack from '@mui/material/Stack'
-import TableRow from '@mui/material/TableRow'
-import { ReactComponent as DeleteTable } from '../../../assets/icons/tools-for-site/delete-icon.svg'
-import { ReactComponent as SearchIcon } from '../../../assets/icons/search-icon.svg'
-import { InputUi } from '../../UI/Input'
+import { useDispatch, useSelector } from 'react-redux'
+import { AdminOrderItem } from './AdminOrdersItem'
 import { Calendar } from '../../UI/calendarFolder/Calendar'
-import {
-   deleteIsAdminThunk,
-   orderIsAdminThunk,
-} from '../../../store/order/Order.thunk'
-import { statusTranslate } from '../../../utils/common/constants/constantsAdminAddNewProduct'
+import { InputUi } from '../../UI/Input'
+import { ReactComponent as SearchIcon } from '../../../assets/icons/search-icon.svg'
+import { orderIsAdminThunk } from '../../../store/order/Order.thunk'
+
+const tables = [
+   { name: 'ID', width: '3.438vw', paddingLeft: '1.042vw' },
+   { name: 'ФИО', width: '12.292vw' },
+   { name: 'Номер/Дата', width: '10.885vw' },
+   { name: 'Кол-во', width: '7.188vw' },
+   { name: 'Общая сумма', width: '9.688vw' },
+   { name: 'Оформление заказа', width: '10.625vw' },
+   { name: 'Статус', width: '8.802vw' },
+   { name: 'Действия', edit: false, width: '4.948vw' },
+]
+
+const itemTableArray = [
+   {
+      id: '1',
+      orderId: '2',
+      fullName: 'Kasymbekov',
+      number: 'nknkjnk',
+      quantity: '9',
+      totalSum: '87897',
+      ordering: 'PICKUP',
+      status: 'delivered',
+   },
+   {
+      id: '2',
+      orderId: '3',
+      fullName: 'Kasymbekov',
+      number: 'nknkjnk',
+      quantity: '9',
+      totalSum: '87897',
+      ordering: 'PICKUP',
+      status: 'delivered',
+   },
+   {
+      id: '3',
+      orderId: '4',
+      fullName: 'Kasymbekov',
+      number: 'nknkjnk',
+      quantity: '9',
+      totalSum: '87897',
+      ordering: 'PICKUP',
+      status: 'delivered',
+   },
+]
 
 function a11yProps(index) {
    return {
@@ -28,22 +123,29 @@ function a11yProps(index) {
    }
 }
 
-export const AdminOrders = () => {
+export function AdminOrders() {
    const dispatch = useDispatch()
-
-   const { responseAdminList, delivered } = useSelector(
-      (state) => state.order.orderIsAdmin
-   )
-
-   const { orderIsAdmin } = useSelector((state) => state.order)
-
+   const [dateStart, setDateStart] = useState()
+   const [dateEnd, setDateEnd] = useState()
    const [value, setValue] = useState(0)
-
    const [valueTab, setValueTab] = useState('В обработке')
 
+   const { orderIsAdmin } = useSelector((state) => state.order)
+   const { delivered } = useSelector((state) => state.order.orderIsAdmin)
+
+   const startDate = dayjs(dateStart).format('YYYY-MM-DD')
+   const endDate = dayjs(dateEnd).format('YYYY-MM-DD')
+
+   const onChangeCalendar = (newValue) => {
+      setDateStart(newValue)
+   }
+   const onChangeCalendarEnd = (newValue) => {
+      setDateEnd(newValue)
+   }
    const handleChange = (event, newValue) => {
       setValue(newValue)
    }
+
    useEffect(() => {
       if (value === 0) {
          setValueTab('В ожидании')
@@ -57,23 +159,11 @@ export const AdminOrders = () => {
          setValueTab('Отменить')
       }
    }, [value])
-   const [dateStart, setDateStart] = useState()
-   const [dateEnd, setDateEnd] = useState()
-
-   const startDate = dayjs(dateStart).format('YYYY-MM-DD')
-   const endDate = dayjs(dateEnd).format('YYYY-MM-DD')
-
-   const onChangeCalendar = (newValue) => {
-      setDateStart(newValue)
-   }
-   const onChangeCalendarEnd = (newValue) => {
-      setDateEnd(newValue)
-   }
 
    useEffect(() => {
       const data = {
          status: valueTab,
-         pageSize: 5,
+         pageSize: 3,
          page: 1,
          startDate,
          endDate,
@@ -121,46 +211,37 @@ export const AdminOrders = () => {
                   placeholder="до"
                />
             </CalendarBlock>
-
-            <TableContainer>
-               <Table>
-                  <TableHead>
-                     <TableHeaderId>ID</TableHeaderId>
-                     <TableNameHeader>ФИО</TableNameHeader>
-                     <TableCellHead>Номер/дата</TableCellHead>
-                     <TableQuantity>Кол-во</TableQuantity>
-                     <TableTotal>Общая сумма</TableTotal>
-                     <TableOrder>Оформление заказа</TableOrder>
-                     <TableCell>Статус</TableCell>
-                     <TableHeaderAction>Действия</TableHeaderAction>
-                  </TableHead>
-
-                  <TableBody>
-                     {responseAdminList?.map((row) => (
-                        <TableRow key={row.orderId}>
-                           <TableId>{row.orderId}</TableId>
-                           <TableCellName>{row.fullName}</TableCellName>
-                           <NumberTable>{row.orderNumber}</NumberTable>
-                           <Quantity>{row.quantity}</Quantity>
-                           <Total>{row.totalPrice}</Total>
-                           <TableCell>{row.typeDelivery}</TableCell>
-                           <TableCell>{statusTranslate[row.status]}</TableCell>
-                           <TableDelete
-                              onClick={() =>
-                                 dispatch(deleteIsAdminThunk(row.orderId))
-                                    .unwrap()
-                                    .then(() => {
-                                       dispatch(orderIsAdminThunk())
-                                    })
-                              }
+            <StyledTable aria-label="simple table">
+               <TableHead>
+                  <StyledTableRow>
+                     {tables.map((el) => {
+                        return (
+                           <StyledTableCell
+                              key={el.name}
+                              sx={{
+                                 width: el.width,
+                                 paddingLeft: el.paddingLeft
+                                    ? el.paddingLeft
+                                    : 0,
+                              }}
                            >
-                              <DeleteTable />
-                           </TableDelete>
-                        </TableRow>
-                     ))}
-                  </TableBody>
-               </Table>
-            </TableContainer>
+                              {el.name}
+                           </StyledTableCell>
+                        )
+                     })}
+                  </StyledTableRow>
+               </TableHead>
+               <TableBody>
+                  {itemTableArray?.map((item, index) => (
+                     <AdminOrderItem
+                        key={item.subProductId}
+                        tables={tables}
+                        index={index}
+                        {...item}
+                     />
+                  ))}
+               </TableBody>
+            </StyledTable>
 
             <StackStyle>
                <Stack>
@@ -214,59 +295,40 @@ const Container = styled('div')`
       padding-bottom: 1.25rem;
    }
 
-   .MuiTableHead-root {
-      background: rgba(56, 66, 85, 0.9);
-   }
-
-   .MuiTableContainer-root {
-      width: 67.969vw;
-      border-radius: 0;
-      margin-top: 4.62rem;
-   }
-   .MuiTableRow-root {
-      border: 1px solid gray;
-   }
-   .MuiTableRow-root {
-      display: flex;
-      width: 100%;
-      justify-content: space-between;
-      margin-top: 0.5rem;
-      border-radius: 0.375rem;
-   }
    .MuiPagination-root {
       display: flex;
       justify-content: center;
       align-items: flex-end;
    }
-   .MuiTableCell-root {
-      padding: 1rem 0px 1rem 0px;
-   }
 `
 
-const ContainerChilde = styled('div')`
-   width: 67.969vw;
-`
+const StyledTable = styled(Table)(() => ({
+   width: '67.969vw',
+   marginTop: '4.62rem',
+}))
 
-const TabsStyle = styled(Tabs)`
-   margin-top: 3.16rem;
-   border-bottom: 1px solid #d4d4d4;
-`
-
-const TableHead = styled(TableRow)`
+const StyledTableRow = styled(TableRow)`
    background: rgba(56, 66, 85, 0.9);
-   color: #fff;
+   height: 2.5rem;
+   display: flex;
+   align-items: center;
 `
-
-const TableCellHead = styled(TableCell)`
-   position: relative;
-   left: 4rem;
+const StyledTableCell = styled(TableCell)`
+   color: #fff;
+   border-bottom: none;
+   font-family: Inter;
+   font-size: 0.781vw;
+   font-style: normal;
+   font-weight: 600;
+   line-height: normal;
+   letter-spacing: 0.078vw;
+   padding: 0;
 `
 const CalendarBlock = styled('div')`
    display: flex;
    gap: 1.25rem;
    margin-top: 1.25rem;
 `
-
 const SearchBlock = styled('div')`
    display: flex;
    position: relative;
@@ -281,61 +343,16 @@ const SearchIconStyle = styled(SearchIcon)`
    }
    cursor: pointer;
 `
-
-const NumberTable = styled(TableCell)`
-   position: relative;
-   right: 4rem;
-   color: #2c68f5;
-`
-
-const TableCellName = styled(TableCell)`
-   width: 12vw;
-   position: relative;
-   right: 2rem;
-`
-const TableNameHeader = styled(TableCell)``
-
-const TableId = styled(TableCell)`
-   cursor: pointer;
-`
-const TableDelete = styled(TableCell)`
-   margin-right: 1rem;
-`
-
-const TableQuantity = styled(TableCell)`
-   position: relative;
-   left: 4.5rem;
-`
-const TableOrder = styled(TableCell)`
-   position: relative;
-   left: 2rem;
-`
-
-const TableTotal = styled(TableCell)`
-   position: relative;
-   left: 3rem;
-`
-const Quantity = styled(TableCell)`
-   position: relative;
-   right: 4rem;
-`
-
-const Total = styled(TableCell)`
-   position: relative;
-   right: 4rem;
-`
-
-const TableHeaderId = styled(TableCell)`
-   position: relative;
-   left: 1rem;
-`
-const TableHeaderAction = styled(TableCell)`
-   position: relative;
-   right: 1rem;
+const TabsStyle = styled(Tabs)`
+   margin-top: 3.16rem;
+   border-bottom: 1px solid #d4d4d4;
 `
 const StackStyle = styled('div')`
    display: flex;
-   height: 38vh;
+   height: 10vh;
    justify-content: center;
    align-items: flex-end;
+`
+const ContainerChilde = styled('div')`
+   width: 67.969vw;
 `
