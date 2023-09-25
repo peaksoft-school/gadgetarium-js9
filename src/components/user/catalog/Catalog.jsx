@@ -1,32 +1,50 @@
 import { styled } from '@mui/material'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { Category } from './Properties/Category'
 import { Products } from './Properties/Products'
-import { ReactComponent as Strelka } from '../../../assets/icons/arrows/up-icon.svg'
 import { categoryActions } from '../../../store/cataog/catalogSlice'
 import { ReactComponent as Cancel } from '../../../assets/icons/cross/small-cross-icon.svg'
 import { Button } from '../../UI/Button'
-import { sendSelectedCategories } from '../../../store/cataog/categoryThunk'
+import { Options } from './Options'
+import { ArrowIcon } from '../../UI/Arrow'
+import { Sort } from './Sort'
 
 export const Catalog = () => {
    const {
       selectedCategories,
-      brandsId,
       filteredProducts,
       pageSize,
       showMore,
       plusPageSize,
+      sort,
    } = useSelector((state) => state.category)
 
+   const [cateSort, setCateSort] = useState(false)
    const dispatch = useDispatch()
    const category = useParams()
 
    const categoryName = {
-      Phone: 'Cмартфоны и Планшеты',
+      Phone: 'Cмартфоны',
       Laptop: 'Ноутбуки',
       'Smart Watch': 'Смарт-часы и браслеты',
+      Tablet: 'Планшеты',
+   }
+
+   const getSortType = (value) => {
+      if (value === 'По акции') {
+         return null
+      }
+      return dispatch(categoryActions.sort(value))
+   }
+
+   const filterProducts = filteredProducts?.responseList
+
+   const openSort = () => {
+      setCateSort((prev) => !prev)
+   }
+   const closeSort = () => {
+      setCateSort(false)
    }
 
    const deleteCancel = (id) => {
@@ -43,25 +61,15 @@ export const Catalog = () => {
    const showLessHandler = () => {
       dispatch(categoryActions.setPageSize(pageSize - plusPageSize))
    }
-
    useEffect(() => {
-      const dataCategory = {
-         id: brandsId,
-         pageSize,
-         pageNumber: 1,
-      }
-      dispatch(sendSelectedCategories(dataCategory))
-   }, [pageSize])
-
-   useEffect(() => {
-      if (pageSize > filteredProducts.length) {
+      if (pageSize > filterProducts?.length) {
          dispatch(categoryActions.setShowMore(false))
-      } else if (pageSize === filteredProducts.length) {
+      } else if (pageSize === filterProducts?.length) {
          dispatch(categoryActions.setShowMore(true))
-      } else if (pageSize < filteredProducts.length) {
+      } else if (pageSize < filterProducts?.length) {
          dispatch(categoryActions.setShowMore(true))
       }
-   }, [pageSize, filteredProducts])
+   }, [pageSize, filterProducts])
 
    return (
       <Conteiner>
@@ -71,8 +79,9 @@ export const Catalog = () => {
             <Container>
                <ToolContainer>
                   <HeaderTitle>
-                     Найдено {filteredProducts.length} товаров
+                     Найдено {filteredProducts?.quantity} товаров
                   </HeaderTitle>
+
                   <SortingContainer>
                      <FilterContainerTitle>
                         {selectedCategories?.map((el) => {
@@ -86,19 +95,30 @@ export const Catalog = () => {
                            )
                         })}
                      </FilterContainerTitle>
-                     <Sorting>
-                        Сортировать <Strelka className="strelka" />
-                     </Sorting>
+                     <PositionContainer onMouseLeave={closeSort}>
+                        <Sorting onClick={openSort}>
+                           Сортировать <ArrowIconStyled />
+                        </Sorting>
+                        {cateSort && (
+                           <Sort
+                              onClose={closeSort}
+                              sort={sort}
+                              getSortType={getSortType}
+                              openSort={cateSort}
+                           />
+                        )}
+                     </PositionContainer>
                   </SortingContainer>
                </ToolContainer>
+
                <ProductContainer>
-                  <Content>
-                     <Category />
-                  </Content>
+                  <Options />
+
                   <SecondProductsContainer>
                      <Products />
+
                      <ButtonContainer>
-                        {filteredProducts?.length >= 12 && showMore && (
+                        {filterProducts?.length >= 12 && showMore && (
                            <ButtonStyled
                               padding="0.78240740vh 4.983073vw"
                               variant="outlined"
@@ -109,7 +129,8 @@ export const Catalog = () => {
                               Показать ещё
                            </ButtonStyled>
                         )}
-                        {filteredProducts?.length >= 12 && !showMore && (
+
+                        {filterProducts?.length >= 12 && !showMore && (
                            <ButtonStyled
                               padding="0.78240740vh 4.983073vw"
                               variant="outlined"
@@ -129,6 +150,13 @@ export const Catalog = () => {
    )
 }
 
+const Conteiner = styled('div')`
+   width: 100%;
+   display: flex;
+   justify-content: center;
+   margin-bottom: 7.5rem;
+`
+
 const ButtonStyled = styled(Button)`
    margin-top: 3.7037vh;
 `
@@ -137,12 +165,6 @@ const SecondProductsContainer = styled('div')`
    display: flex;
    align-items: center;
    flex-direction: column;
-`
-
-const Conteiner = styled('div')`
-   width: 100%;
-   display: flex;
-   justify-content: center;
 `
 
 const ButtonContainer = styled('div')`
@@ -190,14 +212,6 @@ const SortingContainer = styled('div')`
    justify-content: space-between;
 `
 
-const Content = styled('div')`
-   flex-shrink: 0;
-   padding: 1.875rem;
-   height: 139.4444vh;
-   padding-right: 1.375rem;
-   border-radius: 0.25rem 0rem 0rem 0.25rem;
-`
-
 const Container = styled('div')(({ theme }) => ({
    display: 'flex',
    flexDirection: 'column',
@@ -208,6 +222,7 @@ const Container = styled('div')(({ theme }) => ({
 const ProductContainer = styled('div')`
    display: flex;
    justify-content: space-between;
+   /* align-items: flex-start; */
 `
 
 const Title = styled('p')`
@@ -239,6 +254,11 @@ const CancelStyled = styled(Cancel)`
       fill: #292929;
    }
 `
+const PositionContainer = styled('div')`
+   display: flex;
+   flex-direction: column;
+   position: relative;
+`
 
 const Sorting = styled('div')`
    gap: 9px;
@@ -249,7 +269,9 @@ const Sorting = styled('div')`
    line-height: 130%;
    font-style: normal;
    align-items: center;
-   .strelka {
-      transform: rotate(180deg);
-   }
+   cursor: pointer;
+`
+
+const ArrowIconStyled = styled(ArrowIcon)`
+   transform: rotate(180deg);
 `
