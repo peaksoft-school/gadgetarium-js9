@@ -30,6 +30,7 @@ export const FinishModal = () => {
 
    const onFinishClickHandler = () => {
       navigate('/')
+      setOpen(false)
    }
 
    return (

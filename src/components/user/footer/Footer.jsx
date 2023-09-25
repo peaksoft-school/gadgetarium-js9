@@ -232,7 +232,7 @@ const GIcons = styled('p')`
 `
 const NavListContainer = styled('div')`
    display: flex;
-   width: 50%;
+   width: 53%;
    justify-content: space-between;
 `
 const Block1 = styled('div')`
@@ -267,13 +267,12 @@ const Input = styled('input')`
    height: 2.4375rem;
    border-radius: 0.35rem;
    border: none;
+   outline: none;
    padding-left: 1rem;
 `
 const ButtonFooter = styled(Button)`
    text-transform: none;
-   border-radius: 0 !important;
-   border-bottom-right-radius: 0.35rem !important;
-   border-top-right-radius: 0.35rem !important;
+   border-radius: 0rem 0.35rem 0.35rem 0rem !important;
 
    margin-left: -10.125rem;
    background-color: #cb11ab;

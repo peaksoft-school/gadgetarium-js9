@@ -6,6 +6,11 @@ import Category from '../UI/category.select/CategorySelect'
 import { ReactComponent as Smartphone } from '../../assets/icons/goods/mobile-android-two-icon.svg'
 import { ReactComponent as Desktop } from '../../assets/icons/goods/desktop-two-icon.svg'
 import { ReactComponent as Watch } from '../../assets/icons/goods/watch-icon.svg'
+import { getCatalogRequest } from '../../store/informationPhone/infoPageThunk'
+
+const GeneralCategorySelectLayout = ({ toggleCatalogSelect }) => {
+   const catalogProduct = useSelector((state) => state.product.allCategory)
+   const dispatch = useDispatch()
 import { categoryActions } from '../../store/cataog/catalogSlice'
 import { getCatalogRequest } from '../../store/cataog/categoryThunk'
 
@@ -33,6 +38,13 @@ const GeneralCategorySelectLayout = ({ toggleCatalogSelect }) => {
          tablet: categoryName === 'tablet',
       })
    }
+   const handleCategoryClose = () => {
+      setCategoryStates({
+         smartphone: false,
+         desktop: false,
+         watch: false,
+         tablet: false,
+      })
 
    const handleCategoryClose = (id) => {
       if (id < 5) {
@@ -51,6 +63,8 @@ const GeneralCategorySelectLayout = ({ toggleCatalogSelect }) => {
    }
 
    return (
+      <Container onMouseLeave={handleCategoryClose}>
+         {catalogProduct?.map((title, index) => {
       <Container>
          {catalogProduct?.allCategory?.map((title, index) => {
             switch (index) {

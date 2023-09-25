@@ -44,24 +44,20 @@ const Container = styled('div')`
 `
 
 const Block = styled('div')`
-   display: grid;
-   grid-template-columns: repeat(5, 12.5rem);
-   gap: 2rem;
+   display: flex;
+   flex-wrap: wrap;
+   gap: 25px;
+
    .MuiTypography-root {
       color: #292929;
-      font-size: 14px;
+      font-size: 0.875rem;
       margin-top: 1.25rem;
    }
    .MuiCard-root {
       width: 13.125rem;
       cursor: pointer;
    }
-   .MuiCard-root:hover {
-      transform: scale(1.05);
-      transition: transform 0.3s ease;
-      box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.2);
-      cursor: pointer;
-   }
+
    .MuiCardContent-root {
       height: 9rem;
       padding: 0 0 16px 16px;

@@ -21,6 +21,7 @@ export const BackgroundInForm = ({ children }) => {
                   <AdgetariumTitle>adgetarium</AdgetariumTitle>
                </Title>
             </Letter>
+            <Children>{children}</Children>
             <ChildrenContainer>{children}</ChildrenContainer>
          </Container>
          <CustomToast />
@@ -33,7 +34,6 @@ const Container = styled('div')`
    height: 100vh;
    display: flex;
    flex-direction: column;
-   align-items: center;
 `
 
 const Title = styled('div')`
@@ -49,24 +49,20 @@ const ChildrenContainer = styled('div')`
    justify-content: center;
 `
 const AdgetariumTitle = styled('p')`
-   font-size: 28.49px;
+   font-size: 1.7806rem;
    color: #ffffff;
    font-family: Orbitron;
    margin-left: 0.1563rem;
 `
 const Letter = styled('div')`
    display: flex;
-   top: 1rem;
-   right: 40rem;
-   align-items: center;
-   height: 75.5px;
-   width: 79.688vw;
-   margin-right: 16px;
+   width: 20vw;
+   justify-content: center;
 `
 
 const GadgeteriumContainer = styled('div')`
-   width: 35px;
-   height: 35px;
+   width: 2.1875rem;
+   height: 2.1875rem;
    display: flex;
    background-color: #cb11ab;
    align-items: center;
@@ -75,7 +71,12 @@ const GadgeteriumContainer = styled('div')`
 const GIcons = styled('p')`
    color: #fff;
    font-family: Outfit;
-   font-size: 32.053px;
+   font-size: 2.0033rem;
    font-style: normal;
    font-weight: 700;
+`
+const Children = styled('div')`
+   display: flex;
+   justify-content: center;
+   align-items: center;
 `
