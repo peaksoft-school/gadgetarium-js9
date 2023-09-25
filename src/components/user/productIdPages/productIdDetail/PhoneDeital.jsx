@@ -16,6 +16,7 @@ import {
 } from '../../../../store/basket/basket.thunk'
 import { useSnackbar } from '../../../../hooks/useSnackbar'
 import { getInfoPage } from '../../../../store/informationPhone/infoPageThunk'
+import { AuthorizationModal } from '../../AuthorizationModal'
 
 export const PhoneDeital = () => {
    const {
@@ -33,10 +34,10 @@ export const PhoneDeital = () => {
       quantity,
    } = useSelector((state) => state.product.infoPhone)
 
-   const { role } = useSelector((state) => state.auth)
+   const { role, isAuthorization } = useSelector((state) => state.auth)
 
    const navigate = useNavigate()
-
+   const [openModal, setOpenModal] = useState()
    const { snackbarHandler } = useSnackbar()
 
    const [count, setCount] = useState(1)
@@ -45,16 +46,23 @@ export const PhoneDeital = () => {
    const dispatch = useDispatch()
 
    const postFavoriteHandler = () => {
-      dispatch(
-         postFavoriteItem({
-            id: subProductId,
-            favoriteState: favorite,
-         })
-      )
-         .unwrap()
-         .then(() => {
-            dispatch(getInfoPage({ productId, colour: color }))
-         })
+      if (isAuthorization) {
+         dispatch(
+            postFavoriteItem({
+               id: subProductId,
+               favoriteState: favorite,
+            })
+         )
+            .unwrap()
+            .then(() => {
+               dispatch(getInfoPage({ productId, colour: color }))
+            })
+      } else {
+         setOpenModal(true)
+      }
+   }
+   const toggleModalHandler = () => {
+      setOpenModal(!openModal)
    }
    const handleColorClick = (el) => {
       setCount(1)
@@ -79,23 +87,28 @@ export const PhoneDeital = () => {
    }
 
    const postQuantityBasket = () => {
-      const data = {
-         subProductId,
-         quantity: count,
+      if (isAuthorization) {
+         const data = {
+            subProductId,
+            quantity: count,
+         }
+         setCount(1)
+
+         dispatch(
+            postBasketQuantity({
+               data,
+               snackbarHandler,
+            })
+         )
+            .unwrap()
+            .then(() => {
+               dispatch(getInfoPage({ productId, colours }))
+               dispatch(getBasket())
+            })
+         setChangePrice(price)
+      } else {
+         setOpenModal(true)
       }
-      setCount(1)
-      dispatch(
-         postBasketQuantity({
-            data,
-            snackbarHandler,
-         })
-      )
-         .unwrap()
-         .then(() => {
-            dispatch(getInfoPage({ productId, colours }))
-            dispatch(getBasket())
-         })
-      setChangePrice(price)
    }
 
    const discount = (discountOfProduct / 100) * changePrice
@@ -105,124 +118,133 @@ export const PhoneDeital = () => {
    const formattedRating = rating ? Math.round(rating * 2) / 2 : 0
 
    return (
-      <div>
-         <ProductName>{name}</ProductName>
-         <Line>
-            <Block1>
-               <Stock>В наличии ({quantity}шт)</Stock>
-               <ArticleContainer>
-                  <Article>
-                     <p>Артикул: {articleNumber}</p>
-                  </Article>
-               </ArticleContainer>
-               <RatingBlockParent>
-                  <RatingBlock>
-                     <Rating
-                        name="half-rating"
-                        value={formattedRating}
-                        readOnly
-                     />
-                     <p>({rating})</p>
-                  </RatingBlock>
-               </RatingBlockParent>
-            </Block1>
-         </Line>
-         <Block2>
-            <BlockColors>
-               <strong>Цвет товара:</strong>
-               <StyleColors>
-                  {colours?.map((el) => (
-                     <BorderColor
-                        key={el}
-                        border={color === el}
-                        onClick={() => handleColorClick(el)}
-                     >
-                        <Color bgcolor={el} />
-                     </BorderColor>
-                  ))}
-               </StyleColors>
-            </BlockColors>
-
-            <CounterContainer>
-               <BlockCounter>
-                  {role === 'USER' && (
-                     <>
-                        <strong>Количество:</strong>
-
-                        <Counter>
-                           <Button1 onClick={countMinus}>
-                              <RemoveIcon />
-                           </Button1>
-                           <p>{count}</p>
-                           <Button2 onClick={countPlus}>
-                              <AddIcon />
-                           </Button2>
-                        </Counter>
-                     </>
-                  )}
-               </BlockCounter>
-            </CounterContainer>
-
-            <ContainerChildren>
-               <BlockDiscount>
-                  <BlockPrice>
-                     {discountOfProduct === 0 ? (
-                        <strong>
-                           {changePrice} <span>c</span>
-                        </strong>
-                     ) : (
-                        <>
-                           <Discount>
-                              <p>-{discountOfProduct}%</p>
-                           </Discount>
-                           <strong>
-                              {resultPrice?.toLocaleString()}
-                              <span>c</span>
-                           </strong>
-                           <DiscountPrice>
-                              {changePrice?.toLocaleString()} с
-                           </DiscountPrice>
-                        </>
-                     )}
-                  </BlockPrice>
-               </BlockDiscount>
-               {role === 'USER' ? (
-                  <BlockUi>
-                     <HeartStyle onClick={postFavoriteHandler}>
-                        <FavoriteIcon
-                           className={favorite ? 'HeartIsRed' : 'HeartIsGray'}
+      <>
+         <AuthorizationModal
+            openModal={openModal}
+            toggleHandler={toggleModalHandler}
+         />
+         <Container>
+            <ProductName>{name}</ProductName>
+            <Line>
+               <Block1>
+                  <Stock>В наличии ({quantity}шт)</Stock>
+                  <ArticleContainer>
+                     <Article>
+                        <p>Артикул: {articleNumber}</p>
+                     </Article>
+                  </ArticleContainer>
+                  <RatingBlockParent>
+                     <RatingBlock>
+                        <Rating
+                           name="half-rating"
+                           value={formattedRating}
+                           readOnly
                         />
-                     </HeartStyle>
-                     {inBasket ? (
-                        <ButtonUiGreen
-                           onClick={() => navigate('/basket')}
-                           variant="contained"
+                        <p>({rating})</p>
+                     </RatingBlock>
+                  </RatingBlockParent>
+               </Block1>
+            </Line>
+            <Block2>
+               <BlockColors>
+                  <strong>Цвет товара:</strong>
+                  <StyleColors>
+                     {colours?.map((el) => (
+                        <BorderColor
+                           key={el}
+                           border={color === el}
+                           onClick={() => handleColorClick(el)}
                         >
-                           <BasketStyle />В корзине
-                        </ButtonUiGreen>
-                     ) : (
-                        <ButtonUi
-                           onClick={postQuantityBasket}
-                           variant="contained"
-                        >
-                           <BasketStyle />В корзину
+                           <Color bgcolor={el} />
+                        </BorderColor>
+                     ))}
+                  </StyleColors>
+               </BlockColors>
+
+               <CounterContainer>
+                  <BlockCounter>
+                     {role === 'USER' ||
+                        (role === 'GUEST' && (
+                           <>
+                              <strong>Количество:</strong>
+
+                              <Counter>
+                                 <Button1 onClick={countMinus}>
+                                    <RemoveIcon />
+                                 </Button1>
+                                 <p>{count}</p>
+                                 <Button2 onClick={countPlus}>
+                                    <AddIcon />
+                                 </Button2>
+                              </Counter>
+                           </>
+                        ))}
+                  </BlockCounter>
+               </CounterContainer>
+
+               <ContainerChildren>
+                  <BlockDiscount>
+                     <BlockPrice>
+                        {discountOfProduct === 0 ? (
+                           <strong>
+                              {changePrice} <span>c</span>
+                           </strong>
+                        ) : (
+                           <>
+                              <Discount>
+                                 <p>-{discountOfProduct}%</p>
+                              </Discount>
+                              <strong>
+                                 {resultPrice?.toLocaleString()}
+                                 <span>c</span>
+                              </strong>
+                              <DiscountPrice>
+                                 {changePrice?.toLocaleString()} с
+                              </DiscountPrice>
+                           </>
+                        )}
+                     </BlockPrice>
+                  </BlockDiscount>
+                  {role === 'USER' || role === 'GUEST' ? (
+                     <BlockUi>
+                        <HeartStyle onClick={postFavoriteHandler}>
+                           <FavoriteIcon
+                              className={
+                                 favorite ? 'HeartIsRed' : 'HeartIsGray'
+                              }
+                           />
+                        </HeartStyle>
+                        {inBasket ? (
+                           <ButtonUiGreen
+                              onClick={() => navigate('/basket')}
+                              variant="contained"
+                           >
+                              <BasketStyle />В корзине
+                           </ButtonUiGreen>
+                        ) : (
+                           <ButtonUi
+                              onClick={postQuantityBasket}
+                              variant="contained"
+                           >
+                              <BasketStyle />В корзину
+                           </ButtonUi>
+                        )}
+                     </BlockUi>
+                  ) : (
+                     <BlockUi>
+                        <HeartStyle>
+                           <DeleteIcon />
+                        </HeartStyle>
+                        <ButtonUi variant="contained">
+                           <p>Редактировать</p>
                         </ButtonUi>
-                     )}
-                  </BlockUi>
-               ) : (
-                  <BlockUi>
-                     <HeartStyle>
-                        <DeleteIcon />
-                     </HeartStyle>
-                     <ButtonUi variant="contained">
-                        <p>Редактировать</p>
-                     </ButtonUi>
-                  </BlockUi>
-               )}
-            </ContainerChildren>
-         </Block2>
-         <ProductChracteristics />
-      </div>
+                     </BlockUi>
+                  )}
+               </ContainerChildren>
+            </Block2>
+            <ProductChracteristics />
+         </Container>
+      </>
    )
 }
 
@@ -233,8 +255,14 @@ const Line = styled('div')`
 
 const Stock = styled('p')`
    color: #2fc509;
+   font-weight: 500;
 `
-
+const Container = styled('div')`
+   strong {
+      color: #292929;
+      font-family: Inter;
+   }
+`
 const Block1 = styled('div')`
    display: flex;
    width: 32rem;
@@ -245,6 +273,9 @@ const RatingBlock = styled('div')`
    position: relative;
    justify-content: space-between;
    align-items: center;
+   .MuiRating-root {
+      font-size: 18px;
+   }
 `
 
 const Block2 = styled('div')`
@@ -444,6 +475,9 @@ const Article = styled('div')`
    display: flex;
    width: 11rem;
    justify-content: flex-end;
+   p {
+      font-weight: 500;
+   }
 `
 
 const ArticleContainer = styled('div')``

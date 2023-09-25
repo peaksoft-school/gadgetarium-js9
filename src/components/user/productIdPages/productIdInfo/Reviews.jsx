@@ -51,6 +51,7 @@ export const Reviews = () => {
                   style={{
                      fontFamily: 'Ubuntu',
                      fontSize: '1.875rem',
+                     fontWeight: '500',
                   }}
                >
                   Отзывы

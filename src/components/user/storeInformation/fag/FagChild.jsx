@@ -1,5 +1,5 @@
 import React from 'react'
-import { styled } from '@mui/material'
+import { keyframes, styled } from '@mui/material'
 import { ReactComponent as Arrowsvg } from '../../../../assets/icons/fagArrow.svg'
 
 export const FagChild = ({ item, isSelected, onIconClick }) => {
@@ -17,11 +17,32 @@ export const FagChild = ({ item, isSelected, onIconClick }) => {
                className={isSelected ? 'rotated' : ''}
             />
          </ContentContainer>
-         {isSelected && <Description>{item.description}</Description>}
+         {isSelected && (
+            <Description selected={isSelected}>{item.description}</Description>
+         )}
       </Container>
    )
 }
-
+const slideIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`
+const slideOut = keyframes`
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+`
 const Container = styled('div')`
    width: 52.60416666666667vw;
    box-shadow: 0 0.125rem 0.625rem 0 rgba(48, 60, 51, 0.05);
@@ -68,9 +89,10 @@ const IdContainer = styled('p')(({ theme, isSelected }) => ({
    margin: '1.5rem',
 }))
 
-const Description = styled('p')(() => ({
+const Description = styled('p')((props) => ({
    margin: '-20px 1.25rem 1.25rem 6rem',
    fontSize: '1rem',
+   animation: `${props.selected ? slideIn : slideOut} 0.3s ease-in-out`,
    fontStyle: 'normal',
    fontWeight: '400',
    lineHeight: '150%',

@@ -21,7 +21,6 @@ export const BackgroundInForm = ({ children }) => {
                   <AdgetariumTitle>adgetarium</AdgetariumTitle>
                </Title>
             </Letter>
-            <Children>{children}</Children>
             <ChildrenContainer>{children}</ChildrenContainer>
          </Container>
          <CustomToast />
@@ -74,9 +73,4 @@ const GIcons = styled('p')`
    font-size: 2.0033rem;
    font-style: normal;
    font-weight: 700;
-`
-const Children = styled('div')`
-   display: flex;
-   justify-content: center;
-   align-items: center;
 `
