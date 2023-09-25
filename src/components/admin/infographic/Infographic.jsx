@@ -124,7 +124,7 @@ export const Infographic = () => {
 }
 
 const Container = styled('div')`
-   width: 21.3vw;
+   width: 19vw;
 
    p {
       margin: 0;

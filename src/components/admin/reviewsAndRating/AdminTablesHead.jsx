@@ -22,9 +22,9 @@ export const AdminTablesHead = () => {
       try {
          const response = await getAllRatingCountRequest()
 
-         setRatingData(response.data)
+         return setRatingData(response.data)
       } catch (error) {
-         console.log('error: ', error)
+         return new Error(error)
       }
    }
 
@@ -59,7 +59,6 @@ export const AdminTablesHead = () => {
                   anchorEl={anchorEl}
                   open={open}
                   onClose={handleClose}
-                  // TransitionComponent={Fade}
                >
                   <MenuItemStyle onClick={handleClose}>
                      <BoxRating>

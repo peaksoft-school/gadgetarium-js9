@@ -1,12 +1,17 @@
 import { Rating, keyframes, styled } from '@mui/material'
+import { useDispatch } from 'react-redux'
 import React, { useState } from 'react'
 import { ReactComponent as ArrowUp } from '../../../assets/icons/arrows/up-icon.svg'
 import { ReactComponent as UserIcon } from '../../../assets/icons/avatar/user-fill-icon.svg'
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/tools-for-site/delete-icon.svg'
 import { ReactComponent as ArrowDown } from '../../../assets/icons/arrows/down-icon.svg'
 import { Button } from '../../UI/Button'
+import {
+   deleteReviewsId,
+   putEditAnswerReviews,
+} from '../../../store/reviews/reviews.thunk'
 
-const imagesArray = [1, 2, 3, 4, 5]
+// const imagesArray = [1, 2, 3, 4, 5]
 
 const AdminFeedback = ({
    index,
@@ -14,7 +19,7 @@ const AdminFeedback = ({
    userText,
    userName,
    modelName,
-   images = imagesArray,
+   images,
    time,
    userEmail,
    art,
@@ -22,22 +27,39 @@ const AdminFeedback = ({
    productName,
    userAvatar,
    id,
+   viewed,
+   answer,
 }) => {
+   const dispatch = useDispatch()
    const [expanded, setExpanded] = useState(false)
    const [answerState, setAnswerState] = useState(false)
-   const [adminAnswer, setAdminAnswer] = useState('')
-   const [temporaryAnswer, setTemporaryAnswer] = useState('')
-   const [checked, setChecked] = useState(false)
+   const [adminAnswer, setAdminAnswer] = useState(answer)
+   const [temporaryAnswer, setTemporaryAnswer] = useState(answer)
+   const [checked, setChecked] = useState(viewed)
 
    const getAdminAnswer = (e) => {
       setTemporaryAnswer(e.target.value)
    }
 
-   const answerToggleHandler = () => {
+   const onToAnswerToggleHandler = () => {
+      setAnswerState((prev) => !prev)
+   }
+
+   const onEditAnswerToggleHandler = () => {
+      // setAdminAnswer(answer)
       setAnswerState((prev) => !prev)
    }
 
    const saveAnswerHandler = () => {
+      const data = {
+         reviewId: id,
+         replyToComment: temporaryAnswer,
+      }
+
+      if (answer !== '') {
+         dispatch(putEditAnswerReviews(data))
+      }
+
       setAdminAnswer(temporaryAnswer)
       setAnswerState(false)
    }
@@ -48,12 +70,10 @@ const AdminFeedback = ({
    }
 
    const deleteHandler = () => {
-      console.log(id)
+      dispatch(deleteReviewsId(id))
    }
 
    const text = `${userText}`
-
-   // чик! Эрсултан, красавчик! Эрсултан, красавчик!'
 
    const handleToggle = () => {
       if (!checked) {
@@ -67,6 +87,9 @@ const AdminFeedback = ({
    }
 
    const displayText = expanded ? text : text.slice(0, 123)
+
+   const imgValidOne = userAvatar === '' ? false : userAvatar
+   const imgValidTwo = imgValidOne === 'img' ? false : userAvatar
 
    return (
       <AdminReviewContainer>
@@ -93,7 +116,7 @@ const AdminFeedback = ({
 
                {expanded && (
                   <ImageContainer expanded={expanded}>
-                     {images.map((el) => (
+                     {images?.map((el) => (
                         <StyledImage key={el.id}>{el}</StyledImage>
                      ))}
                   </ImageContainer>
@@ -105,9 +128,9 @@ const AdminFeedback = ({
                <StyledRating name="read-only" value={stars} readOnly />
                <UserContainer>
                   <UserAvatar>
-                     {userAvatar !== '' && <img src={userAvatar} alt="" />}
+                     {imgValidTwo ? <img src={userAvatar} alt="" /> : null}
 
-                     {userAvatar === '' && <StyledUserIcon />}
+                     {!imgValidTwo ? <StyledUserIcon /> : null}
                   </UserAvatar>
                   <UserDescription>
                      <h5>{userName}</h5>
@@ -165,8 +188,8 @@ const AdminFeedback = ({
                            <Button
                               fontSize="0.8333vw"
                               padding="0.6019vh 3.223vw"
-                              backgroundHover="#CB11AB"
-                              backgroundActive="#E313BF"
+                              backgroundhover="#CB11AB"
+                              backgroundactive="#E313BF"
                               variant="outlined"
                               onClick={cancelAnswerHandler}
                            >
@@ -175,29 +198,40 @@ const AdminFeedback = ({
                            <Button
                               fontSize="0.8333vw"
                               padding="0.6019vh 3.223vw"
-                              backgroundHover="#E313BF"
-                              backgroundActive="#CB11AB"
+                              backgroundhover="#E313BF"
+                              backgroundactive="#CB11AB"
                               variant="contained"
                               onClick={saveAnswerHandler}
                            >
-                              Сохронить
+                              Сохранить
                            </Button>
                         </>
                      ) : (
-                        <Button
-                           fontSize="0.8333vw"
-                           padding={
-                              adminAnswer === ''
-                                 ? '1.2vh 3.49vw'
-                                 : '1.2vh 2.3vw'
-                           }
-                           backgroundHover="#E313BF"
-                           backgroundActive="#CB11AB"
-                           variant="contained"
-                           onClick={answerToggleHandler}
-                        >
-                           {adminAnswer === '' ? 'Ответить' : 'Редактировать'}
-                        </Button>
+                        <div>
+                           {adminAnswer === '' ? (
+                              <Button
+                                 fontSize="0.8333vw"
+                                 padding="1.2vh 3.49vw"
+                                 backgroundhover="#E313BF"
+                                 backgroundactive="#CB11AB"
+                                 variant="contained"
+                                 onClick={onToAnswerToggleHandler}
+                              >
+                                 Ответить
+                              </Button>
+                           ) : (
+                              <Button
+                                 fontSize="0.8333vw"
+                                 padding="1.2vh 2.3vw"
+                                 backgroundhover="#E313BF"
+                                 backgroundactive="#CB11AB"
+                                 variant="contained"
+                                 onClick={onEditAnswerToggleHandler}
+                              >
+                                 Редактировать
+                              </Button>
+                           )}
+                        </div>
                      )}
                   </ButtonContainer>
                </Form>

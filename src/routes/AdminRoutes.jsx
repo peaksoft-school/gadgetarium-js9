@@ -3,6 +3,7 @@ import { FinishingTouchAddingProduct } from '../components/admin/addingAProduct/
 import { QuantityOfGoodsAndPrice } from '../components/admin/addingAProduct/partTwo/QuantityOfGoodsAndPrice'
 import { AdminGoods } from '../components/admin/goods/AdminGoods'
 import { EditProduct } from '../components/admin/goods/edit-product/EditProduct'
+import { ReviewsAndRating } from '../components/admin/reviewsAndRating/ReviewsAndRating'
 
 export const adminRoutes = [
    {
@@ -24,5 +25,9 @@ export const adminRoutes = [
    {
       path: '/admin/add-products-part-3',
       element: <FinishingTouchAddingProduct />,
+   },
+   {
+      path: '/admin/reviewsAndRating',
+      element: <ReviewsAndRating />,
    },
 ]
