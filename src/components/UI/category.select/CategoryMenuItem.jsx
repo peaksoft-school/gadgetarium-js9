@@ -3,7 +3,7 @@ import React from 'react'
 
 const CategoryMenuItem = ({ onClick, id, children }) => {
    return (
-      <StyledMenuItem onClick={() => onClick(id)} key={id} id={id}>
+      <StyledMenuItem onClick={() => onClick(id)} id={id}>
          {children}
       </StyledMenuItem>
    )

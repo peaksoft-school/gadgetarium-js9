@@ -1,55 +1,19 @@
 import React from 'react'
 import { Button, styled } from '@mui/material'
+import { useDispatch, useSelector } from 'react-redux'
 import { ReactComponent as Arrow } from '../../../assets/icons/arrows/right-icon.svg'
 import { themes } from '../../../utils/common/styles/themes'
 import CategoryMenuItem from './CategoryMenuItem'
+import { getSubCatalogRequest } from '../../../store/cataog/categoryThunk'
 
-const smartphones = [
-   {
-      name: 'Айфон 11',
-      id: 1,
-   },
-   {
-      name: 'Айфон 11',
-      id: 2,
-   },
-   {
-      name: 'Айфон 11',
-      id: 3,
-   },
-   {
-      name: 'Айфон 11',
-      id: 4,
-   },
-   {
-      name: 'Айфон 11',
-      id: 5,
-   },
-   {
-      name: 'Айфон 11',
-      id: 6,
-   },
-   {
-      name: 'Айфон 11',
-      id: 7,
-   },
-   {
-      name: 'Айфон 12',
-      id: 8,
-   },
-   {
-      name: 'Айфон 11',
-      id: 9,
-   },
-]
 const Category = ({
    children,
    componentIcon: Icon,
-   products = smartphones,
    handleCategoryOpen,
    handleCategoryClose,
    open,
    index,
+   id,
 }) => {
    const StyledIcon = Icon
       ? styled(Icon)(({ open }) => ({
@@ -61,6 +25,9 @@ const Category = ({
            },
         }))
       : null
+   const subCatalog = useSelector((state) => state.category.subCategories)
+
+   const dispatch = useDispatch()
 
    return (
       <div
@@ -69,6 +36,7 @@ const Category = ({
       >
          <StyledSelectButton
             onClick={handleCategoryOpen}
+            onMouseEnter={() => dispatch(getSubCatalogRequest(id))}
             themes={themes}
             open={open}
             aria-controls="category-menu"
@@ -83,14 +51,14 @@ const Category = ({
          {open && (
             <Menu index={index}>
                {children}
-               {products.map((el) => {
+               {subCatalog?.map((el) => {
                   return (
                      <CategoryMenuItem
-                        onClick={handleCategoryClose}
+                        onClick={() => handleCategoryClose(el.id, el.title)}
                         id={el.id}
                         key={el.id}
                      >
-                        {el.name}
+                        {el.title}
                      </CategoryMenuItem>
                   )
                })}
@@ -148,17 +116,16 @@ const Menu = styled('div')`
    top: ${(props) => {
       switch (props.index) {
          case 2:
-            return '-53px'
+            return '-58px'
          case 3:
-            return '-93px'
+            return '-98px'
          case 4:
-            return '-133px'
+            return '-138px'
          default:
-            return '-13px'
+            return '-18px'
       }
    }};
    background-color: white;
-   /* box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); */
    padding: 1.125rem;
    z-index: 1000;
 `

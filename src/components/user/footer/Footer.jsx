@@ -8,6 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { navBarForHeader } from '../../../utils/common/constants/header'
 import { followMail } from '../../../store/main.page/main.page.thunk'
 import { AuthorizationModal } from '../AuthorizationModal'
+import { categoryActions } from '../../../store/cataog/catalogSlice'
 
 const schema = z.object({
    email: z.string().email('Заполните обязательные поля'),
@@ -58,6 +59,10 @@ export const Footer = () => {
          setMessageTimeout(newMessageTimeout)
       }
    }, [message])
+   const handleButtonClick = () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      dispatch(categoryActions.reset())
+   }
    return (
       <>
          <AuthorizationModal
@@ -70,11 +75,28 @@ export const Footer = () => {
                   <NavList>
                      <span>Каталог</span>
                      <Gadget>
-                        <NavLink to="/category/Phone">
-                           Смартфоны и Планшеты
+                        <NavLink
+                           onClick={handleButtonClick}
+                           to="/category/Phone"
+                        >
+                           Смартфоны
                         </NavLink>
-                        <NavLink to="/category/Laptop">Ноутбуки</NavLink>
-                        <NavLink to="/category/Smart Watch">
+                        <NavLink
+                           onClick={handleButtonClick}
+                           to="/category/Tablet"
+                        >
+                           Планшеты
+                        </NavLink>
+                        <NavLink
+                           onClick={handleButtonClick}
+                           to="/category/Laptop"
+                        >
+                           Ноутбуки
+                        </NavLink>
+                        <NavLink
+                           onClick={handleButtonClick}
+                           to="/category/Smart Watch"
+                        >
                            Смарт-часы и браслеты
                         </NavLink>
                      </Gadget>
