@@ -98,13 +98,12 @@ export const postFileImg = createAsyncThunk(
 
 export const postAddProduct = createAsyncThunk(
    'post/postAddProduct',
-   async (payload, { rejectWithValue }) => {
+   async ({ resultAddProductData, navigate }, { rejectWithValue }) => {
       try {
-         const response = await postAddProductRequest(payload)
-
-         return response.data
+         await postAddProductRequest(resultAddProductData)
+         navigate('/admin')
       } catch (error) {
-         return rejectWithValue(error)
+         rejectWithValue(error)
       }
    }
 )

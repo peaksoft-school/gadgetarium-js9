@@ -40,8 +40,6 @@ export const FinishingTouchAddingProduct = memo(() => {
       isSuccessAddProduct,
    } = useSelector((state) => state.addProduct)
    const navigate = useNavigate()
-   // const [PDFValues, setPDFValues] = useState()
-   // console.log('PDFValues: ', PDFValues)
    const [validPDF, setValidPDF] = useState(false)
 
    const formik = useFormik({
@@ -53,10 +51,6 @@ export const FinishingTouchAddingProduct = memo(() => {
       validateOnBlur: true,
       validationSchema: schema,
    })
-
-   // const pdfDataChangeHandler = (data) => {
-   //    setPDFValues(data)
-   // }
 
    const onBlurHandler = (e) => {
       formik.handleBlur(e)
@@ -93,7 +87,6 @@ export const FinishingTouchAddingProduct = memo(() => {
 
       formik.setFieldValue('pdf', file.name)
 
-      // pdfDataChangeHandler(file)
       dispatch(postFilePDF(file))
    }
 
@@ -153,7 +146,7 @@ export const FinishingTouchAddingProduct = memo(() => {
    }
 
    const postAddProductHandler = () => {
-      dispatch(postAddProduct(resultAddProductData))
+      dispatch(postAddProduct({ resultAddProductData, navigate }))
    }
 
    useEffect(() => {

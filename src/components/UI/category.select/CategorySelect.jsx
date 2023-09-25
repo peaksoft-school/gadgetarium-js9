@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ReactComponent as Arrow } from '../../../assets/icons/arrows/right-icon.svg'
 import { themes } from '../../../utils/common/styles/themes'
 import CategoryMenuItem from './CategoryMenuItem'
-import { getSubCatalogRequest } from '../../../store/informationPhone/infoPageThunk'
 import { getSubCatalogRequest } from '../../../store/cataog/categoryThunk'
 
 const Category = ({
@@ -26,7 +25,6 @@ const Category = ({
            },
         }))
       : null
-   const subCatalog = useSelector((state) => state.product.subCategories)
    const subCatalog = useSelector((state) => state.category.subCategories)
 
    const dispatch = useDispatch()
@@ -56,12 +54,9 @@ const Category = ({
                {subCatalog?.map((el) => {
                   return (
                      <CategoryMenuItem
-                        onClick={handleCategoryClose}
                         id={el.subCategoryId}
                         key={el.subCategoryId}
                         onClick={() => handleCategoryClose(el.id, el.title)}
-                        id={el.id}
-                        key={el.id}
                      >
                         {el.title}
                      </CategoryMenuItem>

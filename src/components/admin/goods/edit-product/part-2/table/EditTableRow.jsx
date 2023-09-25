@@ -21,6 +21,7 @@ const schema = Yup.object().shape({
 })
 
 export const EditTableRow = ({ rows, row, onChange, value }) => {
+   console.log('row: ', row)
    const dispatch = useDispatch()
    const { brandAll } = useSelector((state) => state.editProduct)
    const { values, setFieldValue } = useFormik({
