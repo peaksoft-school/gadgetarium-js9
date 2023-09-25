@@ -114,6 +114,26 @@ const itemTableArray = [
       ordering: 'PICKUP',
       status: 'delivered',
    },
+   {
+      id: '2',
+      orderId: '3',
+      fullName: 'Kasymbekov',
+      number: 'nknkjnk',
+      quantity: '9',
+      totalSum: '87897',
+      ordering: 'PICKUP',
+      status: 'delivered',
+   },
+   {
+      id: '3',
+      orderId: '4',
+      fullName: 'Kasymbekov',
+      number: 'nknkjnk',
+      quantity: '9',
+      totalSum: '87897',
+      ordering: 'PICKUP',
+      status: 'delivered',
+   },
 ]
 
 function a11yProps(index) {
@@ -129,6 +149,9 @@ export function AdminOrders() {
    const [dateEnd, setDateEnd] = useState()
    const [value, setValue] = useState(0)
    const [valueTab, setValueTab] = useState('В обработке')
+   const [currentPage, setCurrentPage] = useState(1)
+
+   const itemsPage = 3
 
    const { orderIsAdmin } = useSelector((state) => state.order)
    const { delivered } = useSelector((state) => state.order.orderIsAdmin)
@@ -144,6 +167,23 @@ export function AdminOrders() {
    }
    const handleChange = (event, newValue) => {
       setValue(newValue)
+   }
+   const handlePageChange = (event, newPage) => {
+      setCurrentPage(newPage)
+   }
+   const renderProductsOnPage = () => {
+      const startIndex = (currentPage - 1) * itemsPage
+      const endIndex = startIndex + itemsPage
+      return itemTableArray
+         .slice(startIndex, endIndex)
+         .map((item, index) => (
+            <AdminOrderItem
+               key={item.subProductId}
+               tables={tables}
+               index={index}
+               {...item}
+            />
+         ))
    }
 
    useEffect(() => {
@@ -163,8 +203,8 @@ export function AdminOrders() {
    useEffect(() => {
       const data = {
          status: valueTab,
-         pageSize: 3,
-         page: 1,
+         pageSize: itemsPage,
+         page: currentPage,
          startDate,
          endDate,
       }
@@ -232,20 +272,18 @@ export function AdminOrders() {
                   </StyledTableRow>
                </TableHead>
                <TableBody>
-                  {itemTableArray?.map((item, index) => (
-                     <AdminOrderItem
-                        key={item.subProductId}
-                        tables={tables}
-                        index={index}
-                        {...item}
-                     />
-                  ))}
+                  <div>{renderProductsOnPage()}</div>
                </TableBody>
             </StyledTable>
 
             <StackStyle>
                <Stack>
-                  <Pagination count={2} color="primary" />
+                  <Pagination
+                     count={Math.ceil(itemTableArray.length / itemsPage)}
+                     color="primary"
+                     page={currentPage}
+                     onChange={handlePageChange}
+                  />
                </Stack>
             </StackStyle>
          </ContainerChilde>
@@ -304,6 +342,7 @@ const Container = styled('div')`
 
 const StyledTable = styled(Table)(() => ({
    width: '67.969vw',
+   height: '43vh',
    marginTop: '4.62rem',
 }))
 
@@ -349,7 +388,6 @@ const TabsStyle = styled(Tabs)`
 `
 const StackStyle = styled('div')`
    display: flex;
-   height: 10vh;
    justify-content: center;
    align-items: flex-end;
 `
