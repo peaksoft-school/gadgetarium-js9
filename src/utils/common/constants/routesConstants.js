@@ -6,7 +6,6 @@ export const routes = {
       index: '/admin',
       addProductPartOne: '/admin/add-products-part-1',
       addProductPartTwo: '/admin/add-products-part-2',
-      orders: '/admin/orders',
    },
 
    USER: {

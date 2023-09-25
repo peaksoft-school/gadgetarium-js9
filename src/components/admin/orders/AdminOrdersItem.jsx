@@ -1,115 +1,154 @@
 import { TableCell, TableRow, styled } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/tools-for-site/delete-icon.svg'
 import { ReactComponent as ArrowDown } from '../../../assets/icons/arrows/down-icon.svg'
-import {
-   deleteIsAdminThunk,
-   orderIsAdminThunk,
-} from '../../../store/order/Order.thunk'
+// import {
+//    deleteIsAdminThunk,
+//    orderIsAdminThunk,
+// } from '../../../store/order/Order.thunk'
+import { Button } from '../../UI/Button'
+import { Modal } from '../../UI/Modal'
 
 export const AdminOrderItem = ({ tables, index, ...item }) => {
    const time = item.createdAt ? item.createdAt.split(' ')[1] : null
+   const [openModal, setOpenModal] = useState(false)
+
+   const toggleModalHandler = () => {
+      setOpenModal(!openModal)
+   }
 
    return (
-      <StyledTableRow key={item.key} sx={{ marginTop: '0.625rem' }}>
-         {tables.map((el) => {
-            if (el.name === 'ID') {
-               return (
-                  <StyledTableCell
-                     sx={{
-                        width: '3.438vw',
-                        paddingLeft: '1.042vw',
-                     }}
-                     key={el.name}
-                  >
-                     {index + 1}
-                  </StyledTableCell>
-               )
-            }
-            if (el.name === 'ФИО') {
-               return (
-                  <StyledTableCell sx={{ width: el.width }} key={el.name}>
-                     {item.fullName}
-                  </StyledTableCell>
-               )
-            }
-            if (el.name === 'Номер/Дата') {
-               return (
-                  <StyledTableCell
-                     sx={{
-                        width: el.width,
-                        color: '#2C68F5',
-                     }}
-                     key={el.name}
-                  >
-                     {item.number}
-                     <ModelName>{time}</ModelName>
-                  </StyledTableCell>
-               )
-            }
-            if (el.name === 'Кол-во') {
-               return (
-                  <StyledTableCell sx={{ width: el.width }} key={el.name}>
-                     {item.quantity} {el.width === '7.188vw' && 'шт.'}
-                  </StyledTableCell>
-               )
-            }
-            if (el.name === 'Общая сумма') {
-               return (
-                  <StyledTableCell sx={{ width: el.width }} key={el.name}>
-                     {item.totalSum}
-                  </StyledTableCell>
-               )
-            }
-            if (el.name === 'Оформление заказа') {
-               return (
-                  <StyledTableCell sx={{ width: el.width }} key={el.name}>
-                     {item.ordering}
-                  </StyledTableCell>
-               )
-            }
-            if (el.name === 'Статус') {
-               return (
-                  <StyledTableCell
-                     sx={{
-                        width: el.width,
-                        color: '#F99808',
-                        display: 'flex',
-                        alignItems: 'center',
-                     }}
-                     key={el.name}
-                  >
-                     {item.status} <StyledArrowDown />
-                  </StyledTableCell>
-               )
-            }
+      <>
+         <StyledTableRow key={item.key} sx={{ marginTop: '0.625rem' }}>
+            {tables.map((el) => {
+               if (el.name === 'ID') {
+                  return (
+                     <StyledTableCell
+                        sx={{
+                           width: '3.438vw',
+                           paddingLeft: '1.042vw',
+                        }}
+                        key={el.name}
+                     >
+                        {index + 1}
+                     </StyledTableCell>
+                  )
+               }
+               if (el.name === 'ФИО') {
+                  return (
+                     <StyledTableCell sx={{ width: el.width }} key={el.name}>
+                        {item.fullName}
+                     </StyledTableCell>
+                  )
+               }
+               if (el.name === 'Номер/Дата') {
+                  return (
+                     <StyledTableCell
+                        sx={{
+                           width: el.width,
+                           color: '#2C68F5',
+                        }}
+                        key={el.name}
+                     >
+                        {item.number}
+                        <ModelName>{time}</ModelName>
+                     </StyledTableCell>
+                  )
+               }
+               if (el.name === 'Кол-во') {
+                  return (
+                     <StyledTableCell sx={{ width: el.width }} key={el.name}>
+                        {item.quantity} {el.width === '7.188vw' && 'шт.'}
+                     </StyledTableCell>
+                  )
+               }
+               if (el.name === 'Общая сумма') {
+                  return (
+                     <StyledTableCell sx={{ width: el.width }} key={el.name}>
+                        {item.totalPrice}
+                     </StyledTableCell>
+                  )
+               }
+               if (el.name === 'Оформление заказа') {
+                  return (
+                     <StyledTableCell sx={{ width: el.width }} key={el.name}>
+                        {item.typeDelivery}
+                     </StyledTableCell>
+                  )
+               }
+               if (el.name === 'Статус') {
+                  return (
+                     <StyledTableCell
+                        sx={{
+                           width: el.width,
+                           color: '#F99808',
+                           display: 'flex',
+                           alignItems: 'center',
+                        }}
+                        key={el.name}
+                     >
+                        {item.status} <StyledArrowDown />
+                     </StyledTableCell>
+                  )
+               }
 
-            if (el.name === 'Действия') {
-               return (
-                  <StyledTableCell
-                     sx={{
-                        width: el.width,
-                        display: 'flex',
-                        justifyContent: 'center',
-                     }}
-                     key={el.name}
-                  >
-                     <StyledDeleteIcon
-                        onClick={() =>
-                           dispatch(deleteIsAdminThunk(row.orderId))
-                              .unwrap()
-                              .then(() => {
-                                 dispatch(orderIsAdminThunk())
-                              })
-                        }
-                        style={{ marginLeft: el.edit === false && '0' }}
-                     />
-                  </StyledTableCell>
-               )
-            }
-            return null
-         })}
-      </StyledTableRow>
+               if (el.name === 'Действия') {
+                  return (
+                     <StyledTableCell
+                        sx={{
+                           width: el.width,
+                           display: 'flex',
+                           justifyContent: 'center',
+                        }}
+                        key={el.name}
+                     >
+                        <StyledDeleteIcon
+                           onClick={() =>
+                              // dispatch(deleteIsAdminThunk(row.orderId))
+                              //    .unwrap()
+                              //    .then(() => {
+                              //       dispatch(orderIsAdminThunk())
+                              //    })
+                              setOpenModal(true)
+                           }
+                           style={{ marginLeft: el.edit === false && '0' }}
+                        />
+                     </StyledTableCell>
+                  )
+               }
+               return null
+            })}
+         </StyledTableRow>
+         <StyledModal
+            onClose={toggleModalHandler}
+            open={openModal}
+            padding="20px 90px"
+         >
+            <ModalTitle>
+               Вы уверены, что хотите удалить товар
+               <FullNameDelete> {item.fullName}</FullNameDelete>?
+            </ModalTitle>
+            <ButtonContainer>
+               <Button
+                  onClick={toggleModalHandler}
+                  padding="6px 24px"
+                  variant="outlined"
+                  backgroundhover="#CB11AB"
+                  backgroundactive="#E313BF"
+               >
+                  Отменить
+               </Button>
+               <Button
+                  variant="contained"
+                  padding="10px 24px"
+                  backgroundhover="#E313BF"
+                  backgroundactive="#C90EA9"
+               >
+                  Удалить
+               </Button>
+            </ButtonContainer>
+         </StyledModal>
+      </>
    )
 }
 const StyledTableRow = styled(TableRow)(() => ({
@@ -169,4 +208,33 @@ const StyledArrowDown = styled(ArrowDown)`
    width: 0.833vw;
    margin-left: 0.313vw;
    height: 0.833vw;
+`
+const StyledModal = styled(Modal)`
+   .MuiBox-root {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+   }
+`
+const ModalTitle = styled('p')`
+   width: 21.875rem;
+   color: #292929;
+   text-align: center;
+   font-family: Inter;
+   font-size: 18px;
+   font-style: normal;
+   font-weight: 400;
+   line-height: 140%;
+   margin: 0;
+`
+const ButtonContainer = styled('div')`
+   display: flex;
+   gap: 30px;
+`
+const FullNameDelete = styled('span')`
+   color: #000;
+   font-family: Inter;
+   font-size: 1.125rem;
+   font-weight: 600;
 `

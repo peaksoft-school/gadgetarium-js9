@@ -83,58 +83,58 @@ const tables = [
    { name: 'Действия', edit: false, width: '4.948vw' },
 ]
 
-const itemTableArray = [
-   {
-      id: '1',
-      orderId: '2',
-      fullName: 'Kasymbekov',
-      number: 'nknkjnk',
-      quantity: '9',
-      totalSum: '87897',
-      ordering: 'PICKUP',
-      status: 'delivered',
-   },
-   {
-      id: '2',
-      orderId: '3',
-      fullName: 'Kasymbekov',
-      number: 'nknkjnk',
-      quantity: '9',
-      totalSum: '87897',
-      ordering: 'PICKUP',
-      status: 'delivered',
-   },
-   {
-      id: '3',
-      orderId: '4',
-      fullName: 'Kasymbekov',
-      number: 'nknkjnk',
-      quantity: '9',
-      totalSum: '87897',
-      ordering: 'PICKUP',
-      status: 'delivered',
-   },
-   {
-      id: '2',
-      orderId: '3',
-      fullName: 'Kasymbekov',
-      number: 'nknkjnk',
-      quantity: '9',
-      totalSum: '87897',
-      ordering: 'PICKUP',
-      status: 'delivered',
-   },
-   {
-      id: '3',
-      orderId: '4',
-      fullName: 'Kasymbekov',
-      number: 'nknkjnk',
-      quantity: '9',
-      totalSum: '87897',
-      ordering: 'PICKUP',
-      status: 'delivered',
-   },
-]
+// const itemTableArray = [
+//    {
+//       id: '1',
+//       orderId: '2',
+//       fullName: 'Kasymbekov',
+//       number: 'nknkjnk',
+//       quantity: '9',
+//       totalSum: '87897',
+//       ordering: 'PICKUP',
+//       status: 'delivered',
+//    },
+//    {
+//       id: '2',
+//       orderId: '3',
+//       fullName: 'Kasymbekov',
+//       number: 'nknkjnk',
+//       quantity: '9',
+//       totalSum: '87897',
+//       ordering: 'PICKUP',
+//       status: 'delivered',
+//    },
+//    {
+//       id: '3',
+//       orderId: '4',
+//       fullName: 'Kasymbekov',
+//       number: 'nknkjnk',
+//       quantity: '9',
+//       totalSum: '87897',
+//       ordering: 'PICKUP',
+//       status: 'delivered',
+//    },
+//    {
+//       id: '2',
+//       orderId: '3',
+//       fullName: 'Kasymbekov',
+//       number: 'nknkjnk',
+//       quantity: '9',
+//       totalSum: '87897',
+//       ordering: 'PICKUP',
+//       status: 'delivered',
+//    },
+//    {
+//       id: '3',
+//       orderId: '4',
+//       fullName: 'Kasymbekov',
+//       number: 'nknkjnk',
+//       quantity: '9',
+//       totalSum: '87897',
+//       ordering: 'PICKUP',
+//       status: 'delivered',
+//    },
+// ]
 
 function a11yProps(index) {
    return {
@@ -149,12 +149,14 @@ export function AdminOrders() {
    const [dateEnd, setDateEnd] = useState()
    const [value, setValue] = useState(0)
    const [valueTab, setValueTab] = useState('В обработке')
-   const [currentPage, setCurrentPage] = useState(1)
+   // const [currentPage, setCurrentPage] = useState(1)
 
-   const itemsPage = 3
+   // const itemsPage = 3
 
    const { orderIsAdmin } = useSelector((state) => state.order)
-   const { delivered } = useSelector((state) => state.order.orderIsAdmin)
+   const { responseAdminList, delivered } = useSelector(
+      (state) => state.order.orderIsAdmin
+   )
 
    const startDate = dayjs(dateStart).format('YYYY-MM-DD')
    const endDate = dayjs(dateEnd).format('YYYY-MM-DD')
@@ -168,23 +170,23 @@ export function AdminOrders() {
    const handleChange = (event, newValue) => {
       setValue(newValue)
    }
-   const handlePageChange = (event, newPage) => {
-      setCurrentPage(newPage)
-   }
-   const renderProductsOnPage = () => {
-      const startIndex = (currentPage - 1) * itemsPage
-      const endIndex = startIndex + itemsPage
-      return itemTableArray
-         .slice(startIndex, endIndex)
-         .map((item, index) => (
-            <AdminOrderItem
-               key={item.subProductId}
-               tables={tables}
-               index={index}
-               {...item}
-            />
-         ))
-   }
+   // const handlePageChange = (event, newPage) => {
+   //    setCurrentPage(newPage)
+   // }
+   // const renderProductsOnPage = () => {
+   //    const startIndex = (currentPage - 1) * itemsPage
+   //    const endIndex = startIndex + itemsPage
+   //    return itemTableArray
+   //       .slice(startIndex, endIndex)
+   //       .map((item, index) => (
+   //          <AdminOrderItem
+   //             key={item.subProductId}
+   //             tables={tables}
+   //             index={index}
+   //             {...item}
+   //          />
+   //       ))
+   // }
 
    useEffect(() => {
       if (value === 0) {
@@ -203,8 +205,8 @@ export function AdminOrders() {
    useEffect(() => {
       const data = {
          status: valueTab,
-         pageSize: itemsPage,
-         page: currentPage,
+         pageSize: 3,
+         page: 1,
          startDate,
          endDate,
       }
@@ -272,17 +274,25 @@ export function AdminOrders() {
                   </StyledTableRow>
                </TableHead>
                <TableBody>
-                  <div>{renderProductsOnPage()}</div>
+                  {responseAdminList?.map((item, index) => (
+                     <AdminOrderItem
+                        key={item.subProductId}
+                        tables={tables}
+                        index={index}
+                        {...item}
+                     />
+                  ))}
                </TableBody>
             </StyledTable>
 
             <StackStyle>
                <Stack>
                   <Pagination
-                     count={Math.ceil(itemTableArray.length / itemsPage)}
+                     // count={Math.ceil(itemTableArray.length / itemsPage)}
+                     count={1}
                      color="primary"
-                     page={currentPage}
-                     onChange={handlePageChange}
+                     // page={currentPage}
+                     // onChange={handlePageChange}
                   />
                </Stack>
             </StackStyle>
