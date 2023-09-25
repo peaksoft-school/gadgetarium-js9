@@ -65,10 +65,10 @@ export const PhonePage = () => {
             </BreadCrumbsBlock>
          </BreadCrumbsContainer>
          <BrandNameBlock>
-            <BrandName>{infoPhone?.brandName?.toUpperCase()}</BrandName>
+            <BrandName>{infoPhone?.brandName}</BrandName>
          </BrandNameBlock>
 
-         {role === 'USER' ? (
+         {role === 'USER' || role === 'GUEST' ? (
             <ContainerProductId />
          ) : (
             <>
@@ -143,8 +143,12 @@ const BrandNameBlock = styled('div')`
 
 const BrandName = styled('h1')`
    width: 79.888vw;
-   color: blue;
+   color: #292929;
    font-family: Ubuntu;
+   font-size: 30px;
+   font-style: normal;
+   font-weight: 500;
+   line-height: 110%;
    padding-bottom: 20px;
    border-bottom: 1px solid #cdcdcd;
 `
