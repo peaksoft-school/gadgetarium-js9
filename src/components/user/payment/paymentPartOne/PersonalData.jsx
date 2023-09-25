@@ -104,8 +104,8 @@ export const PersonalData = ({ onNextHandler, formik, delivery }) => {
                            onChange={formik.handleChange}
                            type="text"
                            name="address"
+                           width="100%"
                            placeholder="ул.Московская 120, кв 4, дом 9"
-                           width="45vw"
                            error={address}
                         />
                      </Label>
@@ -114,14 +114,13 @@ export const PersonalData = ({ onNextHandler, formik, delivery }) => {
             </ContainerInput>
 
             <div>
-               <Button
+               <StyledButton
                   variant="contained"
-                  padding="0.75rem 20.2vw"
                   fontSize="1rem"
                   onClick={onNextHandler}
                >
                   Продолжить
-               </Button>
+               </StyledButton>
             </div>
          </Form>
       </Container>
@@ -143,7 +142,11 @@ const Container = styled('div')`
       line-height: 110%;
    }
 `
-
+const StyledButton = styled(Button)`
+   width: 100%;
+   height: 44px;
+   border-radius: 4px;
+`
 const ContainerInput = styled('div')`
    display: flex;
    flex-direction: column;
@@ -187,9 +190,9 @@ const Label = styled('div')`
 const Input = styled(InputUi)`
    padding: 0;
    background-color: #ffffff;
-   width: ${(props) => (props.width ? props.width : '22.1vw')};
-   border-radius: 0.375rem;
-
+   border-radius: 4px;
+   width: ${(props) => (props.width ? props.width : '338px')};
+   height: 48px;
    input {
       padding: 0.6rem 0.715rem;
       font-size: 1rem;

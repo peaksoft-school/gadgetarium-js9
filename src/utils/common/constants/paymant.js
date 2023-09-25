@@ -23,7 +23,7 @@ export const typeDelivery = {
 }
 
 export const typePaymentData = {
-   CASH: 'Наличные',
+   CASH: 'Наличными',
    CARD_ONLINE: 'Картой онлайн',
-   CARD_ON_RECEIPT: 'Картой при Получений',
+   CARD_ON_RECEIPT: 'Картой при Получении',
 }

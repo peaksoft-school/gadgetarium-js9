@@ -14,16 +14,9 @@ export const LayoutPartOnePayment = ({
    nextHandler,
 }) => {
    return (
-      <>
-         <ContainerStepper>
-            <StepPayment page={page} />
-
-            <ContainerMiniBasket>
-               <MiniBasketOrderPrice />
-            </ContainerMiniBasket>
-         </ContainerStepper>
-
+      <ContainerStepper>
          <div>
+            <StepPayment page={page} />
             <DeliveryOptions
                nextHandler={nextHandler}
                delivery={delivery}
@@ -34,16 +27,12 @@ export const LayoutPartOnePayment = ({
                page={page}
             />
          </div>
-      </>
+         <MiniBasketOrderPrice />
+      </ContainerStepper>
    )
 }
 
-const ContainerMiniBasket = styled('div')`
-   position: relative;
-`
-
 const ContainerStepper = styled('div')`
    display: flex;
-   width: 100%;
-   gap: 8vw;
+   justify-content: space-between;
 `
