@@ -35,7 +35,7 @@ export const AdminGoods = () => {
       useSelector((state) => state.adminGoods)
    const [tabValue, setTabValue] = useState(0)
    const [productType, setProductType] = useState('Все товары')
-   const [startDate, setStartDate] = useState()
+   const [startDate, setStartDate] = useState('2022-09-12')
    const [endDate, setEndDate] = useState(null)
    const [page, setPage] = useState()
    const { params, setParam, deleteParam } = useCustomSearchParams()
