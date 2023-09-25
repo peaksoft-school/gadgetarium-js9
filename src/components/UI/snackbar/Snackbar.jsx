@@ -8,11 +8,7 @@ export const Snackbar = ({ message, linkText, path, closeToast }) => {
    return (
       <Box>
          <Title>{message}</Title>
-         {linkText !== '' ? (
-            <StyledLink href={path}>{linkText}</StyledLink>
-         ) : (
-            ''
-         )}
+         {linkText !== '' ? <StyledLink to={path}>{linkText}</StyledLink> : ''}
          <CloseButton closeToast={closeToast} />
       </Box>
    )

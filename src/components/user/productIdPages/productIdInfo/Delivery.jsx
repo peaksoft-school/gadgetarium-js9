@@ -82,7 +82,6 @@ export const Delivery = () => {
 
 const Container = styled('div')`
    margin-top: 6.06rem;
-   height: 70vh;
 `
 
 const Deliver = styled('h3')`
@@ -121,10 +120,12 @@ const Сurrency = styled('span')`
    border-bottom: 2px solid black;
 `
 const Block2 = styled('div')`
-   display: flex;
-   width: 61.5rem;
-   justify-content: space-between;
-   align-items: center;
+   &:not(:first-child) {
+      display: flex;
+      width: 63rem;
+      justify-content: space-between;
+      align-items: center;
+   }
 `
 const WalletBlock = styled('div')`
    display: flex;
@@ -133,10 +134,12 @@ const WalletBlock = styled('div')`
    align-items: center;
 `
 const Block3 = styled('div')`
-   display: flex;
-   width: 54.5rem;
-   justify-content: space-between;
-   align-items: center;
+   &:not(:first-child) {
+      display: flex;
+      width: 56.5rem;
+      justify-content: space-between;
+      align-items: center;
+   }
 `
 const ByCardBlock = styled('div')`
    display: flex;

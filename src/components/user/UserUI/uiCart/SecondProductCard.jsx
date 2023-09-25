@@ -5,27 +5,40 @@ import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import Rating from '@mui/material/Rating'
 import { styled } from '@mui/material'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { postRecentlyViewedProduct } from '../../../../store/informationPhone/infoPageThunk'
 
 export const SecondProductCard = ({ el }) => {
+   const dispatch = useDispatch()
+
+   const navigate = useNavigate()
+
+   const addViwedProduct = () => {
+      dispatch(postRecentlyViewedProduct(el.subProductId))
+
+      navigate(`/product/${el.productId}/details`)
+   }
+
    return (
       <CardStyled>
          <CardMedia
-            onClick={() => console.log(el.subProductId)}
+            onClick={addViwedProduct}
             sx={{ width: 210, height: 210 }}
-            image={el?.image}
+            image={el.image}
          />
          <CardContent>
             <Typography variant="h5" component="div">
-               {el?.name}
-               {el?.productName}
+               {el.name}
+               {el.productName}
             </Typography>
             <BlockRating>
                <p>Рейтинг</p>
-               <Rating name="read-only" value={el?.rating} readOnly />
-               <p> ({el?.rating})</p>
+               <Rating name="read-only" value={el.rating} readOnly />
+               <p> ({el.rating})</p>
             </BlockRating>
             <Price>
-               {el?.price?.toLocaleString()} <Сurrency>c</Сurrency>
+               {el.price?.toLocaleString()} <Сurrency>c</Сurrency>
             </Price>
          </CardContent>
       </CardStyled>
@@ -34,10 +47,17 @@ export const SecondProductCard = ({ el }) => {
 
 const CardStyled = styled(Card)`
    width: 13.125rem;
+
    .MuiTypography-root {
       font-family: Inter;
       font-size: 0.875rem;
       font-weight: 500;
+   }
+   &:hover {
+      transform: scale(1.05);
+      transition: transform 0.3s ease;
+      box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
    }
 `
 

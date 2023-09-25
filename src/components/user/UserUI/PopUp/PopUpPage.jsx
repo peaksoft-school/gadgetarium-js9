@@ -1,23 +1,27 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { styled } from '@mui/material'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { Carousel } from 'react-responsive-carousel'
+import { useDispatch, useSelector } from 'react-redux'
+import { NavLink, useParams } from 'react-router-dom'
 import BackButton from '../../../UI/icon.button/back.forth.buttons/BackButton'
 import ForthButton from '../../../UI/icon.button/back.forth.buttons/ForthButton'
-
-const images = [
-   { id: 1, link: 'https://www.myphone.kg/files/media/17/17225.webp' },
-   { id: 2, link: 'https://www.myphone.kg/files/media/17/17226.webp' },
-   { id: 3, link: 'https://www.myphone.kg/files/media/17/17216.webp' },
-   { id: 4, link: 'https://www.myphone.kg/files/media/17/17217.webp' },
-   { id: 5, link: 'https://www.myphone.kg/files/media/17/17219.webp' },
-   { id: 6, link: 'https://www.myphone.kg/files/media/17/17220.webp' },
-   { id: 7, link: 'https://www.myphone.kg/files/media/17/17222.webp' },
-]
+import { ReactComponent as Cross } from '../../../../assets/icons/cross/big-cross-icon.svg'
+import { getInfoPage } from '../../../../store/informationPhone/infoPageThunk'
 
 export const PopUpPage = () => {
+   const infoPhone = useSelector((state) => state.product.infoPhone)
+   const { productId } = useParams()
+   const dispatch = useDispatch()
+
+   useEffect(() => {
+      dispatch(getInfoPage())
+   }, [])
    return (
-      <div>
+      <Container>
+         <BlockCross to={`/product/${productId}/details`}>
+            <Cross />
+         </BlockCross>
          <CarouselStyle
             infiniteLoop
             renderArrowPrev={(onClickHandler) => (
@@ -31,22 +35,31 @@ export const PopUpPage = () => {
                </ArrowNext>
             )}
          >
-            {images.map((image) => (
-               <div style={{ padding: '50px' }} key={image.id}>
-                  <img
-                     width="10vw"
-                     height="90px"
-                     src={image.link}
-                     alt="gadget"
-                  />
+            {infoPhone.images?.map((image) => (
+               <div key={image}>
+                  <img width="10vw" height="90px" src={image} alt="gadget" />
                </div>
             ))}
          </CarouselStyle>
-      </div>
+      </Container>
    )
 }
+
+const Container = styled('div')`
+   margin-top: 5rem;
+`
+
+const BlockCross = styled(NavLink)`
+   display: flex;
+   position: relative;
+   width: 98vw;
+   bottom: 3rem;
+   justify-content: flex-end;
+   cursor: pointer;
+`
 const CarouselStyle = styled(Carousel)(({ theme }) => ({
    textAlign: 'center',
+   paddingBottom: '10rem',
 
    '& .thumb.selected': {
       border: `1px solid ${theme.palette.primary.main}`,
@@ -72,6 +85,9 @@ const CarouselStyle = styled(Carousel)(({ theme }) => ({
 
    '& .carousel-status': {
       display: 'none',
+   },
+   '& .thumb': {
+      border: 'none',
    },
 }))
 

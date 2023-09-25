@@ -13,7 +13,6 @@ export const getAllCategory = createAsyncThunk(
    async (_, { rejectWithValue }) => {
       try {
          const response = await getAllCategoryRequest()
-
          return response.data
       } catch (error) {
          return rejectWithValue(error)

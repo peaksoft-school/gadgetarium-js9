@@ -5,11 +5,13 @@ import { routes } from '../utils/common/constants/routesConstants'
 import { AboutShop } from '../components/user/storeInformation/aboutShop/AboutShop'
 import { Favorite } from '../components/user/favorite/Favorite'
 import { MainPage } from '../components/user/main.page/MainPage'
+import { PopUpPage } from '../components/user/UserUI/PopUp/PopUpPage'
 import { Basket } from '../components/user/basket/Basket'
 import { Compare } from '../components/user/compare/Compare'
 import { Catalog } from '../components/user/catalog/Catalog'
 import { PersonalAreaContainer } from '../components/user/personalAreaPage/PersonalAreaContainer'
 import { HistoryDetailContainer } from '../components/user/personalAreaPage/historyPages/HistoryDetailContainer'
+import { PhonePage } from '../components/user/productIdPages/productIdDetail/PhonePage'
 import { PlacingAnOrder } from '../components/user/payment/PlacingAnOrder'
 
 export const userRoutes = [
@@ -63,6 +65,19 @@ export const userRoutes = [
    {
       path: routes.USER.compare,
       element: <Compare />,
+   },
+   {
+      path: routes.USER.phones.index,
+      element: (
+         <div>
+            <PhonePage />
+         </div>
+      ),
+   },
+
+   {
+      path: routes.USER.phones.fullPicture,
+      element: <PopUpPage />,
    },
    {
       path: routes.USER.payment,
