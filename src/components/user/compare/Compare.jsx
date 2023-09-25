@@ -195,6 +195,8 @@ export const Compare = () => {
                               image={el.image}
                               deleteHandler={deleteHandler}
                               index={index}
+                              color={el.color}
+                              productId={el.prId}
                            />
                         )
                      })}

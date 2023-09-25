@@ -1,32 +1,20 @@
 import { useState, useEffect } from 'react'
 import { styled, Rating as RatingMui } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
-import { RatingPhoto } from './RatingPhoto'
-import { Modal } from '../../components/UI/Modal'
-import { Button } from '../../components/UI/Button'
-import { SuccessModal } from './SuccessModal'
-import {
-   getInfoPage,
-   postReviewsPhone,
-} from '../../store/informationPhone/infoPageThunk'
-import { ErrorModal } from './ErrorModal'
-import { useSnackbar } from '../../hooks/useSnackbar'
+import { useParams } from 'react-router-dom'
+import { SuccessModal } from '../../../containers/rating/SuccessModal'
+import { Modal } from '../../UI/Modal'
+import { RatingPhoto } from '../../../containers/rating/RatingPhoto'
+import { Button } from '../../UI/Button'
+import { putReviesRequest } from '../../../store/informationPhone/infoPageThunk'
 
-export const LeaveYourFeedback = ({ rating, onClose, subProductId }) => {
-   const { colours, productId } = useSelector(
-      (state) => state.product.infoPhone
-   )
-
-   const [myStar, setMyStar] = useState(0)
-   const [comment, setComment] = useState('')
-   const [errorMessage, setErrorMessage] = useState('')
-
-   const [img, setImg] = useState('')
+export const EditModal = ({ open, onClose, reviewId }) => {
+   const { userComment, infoPhone } = useSelector((state) => state.product)
+   const [myStar, setMyStar] = useState(userComment.grade)
+   const [comment, setComment] = useState(userComment.comment)
+   const [img, setImg] = useState(userComment.imageLink)
    const [successModal, setSuccessModal] = useState(false)
-   const [errorModal, setErrorModal] = useState(false)
-
-   const { snackbarHandler } = useSnackbar()
-
+   const { productId } = useParams()
    const dispatch = useDispatch()
 
    const imgUrl = img && URL.createObjectURL(img)
@@ -35,36 +23,25 @@ export const LeaveYourFeedback = ({ rating, onClose, subProductId }) => {
       setSuccessModal(true)
    }
 
-   const onOpenErrorModal = (message) => {
-      setErrorMessage(message)
-      setErrorModal(true)
-   }
-
-   const onCreateReview = async () => {
-      if (myStar > 0) {
-         const data = {
-            subProductId,
-            grade: myStar,
-            comment,
-            img: imgUrl,
-         }
-         dispatch(
-            postReviewsPhone({ data, onOpenSuccessModal, onOpenErrorModal })
-         )
-            .unwrap()
-            .then(() => {
-               dispatch(getInfoPage({ productId, colours }))
-            })
-         onClose()
-         setMyStar(0)
-         setComment('')
-         setImg('')
-      } else {
-         snackbarHandler({
-            message: 'Оставьте свою оценку',
-            type: 'error',
-         })
+   const onCreateReview = () => {
+      const data = {
+         reviewId,
+         grade: myStar,
+         comment,
+         imageLink: imgUrl,
       }
+
+      dispatch(
+         putReviesRequest({
+            data,
+            getPayload: { productId, colour: infoPhone.color },
+         })
+      )
+      onClose()
+      onOpenSuccessModal()
+      setMyStar(0)
+      setComment('')
+      setImg('')
    }
 
    const handleFileChange = (event) => {
@@ -90,28 +67,22 @@ export const LeaveYourFeedback = ({ rating, onClose, subProductId }) => {
          time = setTimeout(() => {
             setSuccessModal(false)
          }, 3000)
-      } else if (errorModal) {
-         time = setTimeout(() => {
-            setErrorModal(false)
-         }, 3000)
       }
 
       return () => clearTimeout(time)
-   }, [successModal, errorModal])
+   }, [successModal])
 
    return (
       <>
          {successModal && <SuccessModal successModal={successModal} />}
-         {errorModal && (
-            <ErrorModal errorModal={errorModal} errorMessage={errorMessage} />
-         )}
-         <Modal open={rating} onClose={onClose} padding="1.5rem 1.8rem">
+         <Modal open={open} onClose={onClose} padding="1.5rem 1.8rem">
             <Container>
                <ContainerGrade>
-                  <p>Оставьте свой отзыв</p>
+                  <p>Редактировать свой отзыв</p>
 
                   <BoxGrade>
                      <p>Оценка</p>
+
                      <div>
                         <RatingMui
                            value={myStar}

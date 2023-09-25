@@ -63,6 +63,7 @@ export const FilteredProducts = ({ children, array }) => {
          return (
             <ProductCard
                id={el.subProductId}
+               productId={el.productId}
                key={el.subProductId}
                discount={el.discount}
                prodName={el.prodName}
@@ -74,6 +75,7 @@ export const FilteredProducts = ({ children, array }) => {
                favoriteState={el.favorite}
                comparisonState={el.comparison}
                pageSize={pageSize}
+               color={el.color}
                basketState={el.inBasket}
                newState={array === 'novelties'}
                recomendationState={array === 'recommend'}

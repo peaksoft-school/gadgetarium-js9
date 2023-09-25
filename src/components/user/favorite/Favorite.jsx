@@ -77,6 +77,7 @@ export const Favorite = React.memo(() => {
                                    countOfReviews={el.countOfReviews}
                                    price={el.price}
                                    rating={el.rating}
+                                   productId={el.productId}
                                 />
                              )
                           })}
