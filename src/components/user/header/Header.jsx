@@ -1,6 +1,6 @@
 import { styled, Button, Badge, keyframes } from '@mui/material'
 import { NavLink, useNavigate } from 'react-router-dom'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ReactComponent as Instagram } from '../../../assets/icons/messangers/instagram-icon.svg'
 import { ReactComponent as SearchIcon } from '../../../assets/icons/search-icon.svg'
@@ -17,6 +17,10 @@ import GeneralCategorySelectLayout from '../GeneralCategorySelectLayout'
 import { ProductsModalWhenIsHovered } from '../../UI/ProductsModalWhenIsHovered'
 import { logOut } from '../../../store/auth/authThunk'
 import { AuthorizationModal } from '../AuthorizationModal'
+import { getGlobalSearch } from '../../../store/globalSearch/global.search.thunk'
+import { GlobalSearch } from '../globalSearch/GlobalSearch'
+import { Modal } from '../../UI/Modal'
+import { formatPhoneNumber } from '../../../utils/helpers/functions'
 
 export const Header = ({ favorite, basket, compare }) => {
    const dispatch = useDispatch()
@@ -39,6 +43,9 @@ export const Header = ({ favorite, basket, compare }) => {
    const [catalogSelect, setCatalogSelect] = useState(false)
    const [inputValue, setInputValue] = useState('')
    const [openModal, setOpenModal] = useState(false)
+   const [exitModal, setExitModal] = useState(false)
+   const [debounceTimeout, setDebounceTimeout] = useState(null)
+   const [isInputFocused, setInputFocused] = useState(false)
    const changeHeader = () => {
       if (window.scrollY > 64) {
          setFixed(true)
@@ -50,7 +57,18 @@ export const Header = ({ favorite, basket, compare }) => {
 
    const handleChange = (event) => {
       setInputValue(event.target.value)
+      if (debounceTimeout) {
+         clearTimeout(debounceTimeout)
+      }
+      const newDebounceTimeout = setTimeout(() => {
+         dispatch(getGlobalSearch(event.target.value))
+      }, 500)
+
+      setDebounceTimeout(newDebounceTimeout)
    }
+   useEffect(() => {
+      dispatch(getGlobalSearch(inputValue))
+   }, [])
    function onComeBack() {
       navigate('./')
    }
@@ -61,6 +79,16 @@ export const Header = ({ favorite, basket, compare }) => {
          setOpenModal(true)
       }
    }
+   function openSelect() {
+      setOpen(true)
+   }
+   function closeSelect() {
+      setOpen(false)
+   }
+   const toggleExitModalHandler = () => {
+      closeSelect()
+      setExitModal(!exitModal)
+   }
    const navigateToCompare = () => {
       if (isAuthorization) {
          navigate('/compare')
@@ -70,17 +98,30 @@ export const Header = ({ favorite, basket, compare }) => {
    }
    const logOutHandler = () => {
       dispatch(logOut())
+      setExitModal(false)
+      setOpen(false)
+
       window.location.reload()
    }
-   function openSelect() {
-      setOpen((prev) => !prev)
+   const handleInputFocus = () => {
+      setInputFocused(true)
    }
 
+   const handleInputBlur = () => {
+      if (inputValue.length > 0) {
+         return setInputFocused(true)
+      }
+      return setInputFocused(false)
+   }
    const toggleCatalogSelect = () => {
       setCatalogSelect(!catalogSelect)
    }
    const navigateToBasket = () => {
-      navigate('/basket')
+      if (isAuthorization) {
+         navigate('/basket')
+      } else {
+         setOpenModal(true)
+      }
    }
    const toggleModalHandler = () => {
       setOpenModal(!openModal)
@@ -116,34 +157,28 @@ export const Header = ({ favorite, basket, compare }) => {
                      ))}
                   </NavBar>
                   <UserNumber>
-                     <p>{number}</p>
+                     <p>{number ? formatPhoneNumber(number) : ''}</p>
 
-                     <div onMouseLeave={openSelect} onMouseEnter={openSelect}>
+                     <div onMouseLeave={closeSelect} onClick={openSelect}>
                         {token !== '' && (
                            <div>
                               {open && (
                                  <div style={{ position: 'relative' }}>
                                     <Select2>
-                                       <NavLinkParagraph
-                                          onClick={openSelect}
-                                          to="/personalArea/history"
-                                       >
+                                       <NavLinkParagraph to="/personalArea/history">
                                           История заказов
                                        </NavLinkParagraph>
-                                       <NavLinkParagraph
-                                          onClick={openSelect}
-                                          to="/personalArea/favorites"
-                                       >
+                                       <NavLinkParagraph to="/personalArea/favorites">
                                           Избранное
                                        </NavLinkParagraph>
-                                       <NavLinkParagraph onClick={openSelect}>
+                                       <NavLinkParagraph>
                                           Профиль
                                        </NavLinkParagraph>
-                                       <div onClick={logOutHandler}>
-                                          <NavLinkParagraph>
-                                             Выйти
-                                          </NavLinkParagraph>
-                                       </div>
+                                       <NavLinkParagraph
+                                          onClick={toggleExitModalHandler}
+                                       >
+                                          Выйти
+                                       </NavLinkParagraph>
                                     </Select2>
                                  </div>
                               )}
@@ -176,6 +211,36 @@ export const Header = ({ favorite, basket, compare }) => {
                         ) : (
                            img
                         )}
+                        <StyledModal
+                           open={exitModal}
+                           onClose={toggleExitModalHandler}
+                           padding="16px 20px"
+                        >
+                           <ExitTitleContainer>
+                              <ExitTitle>Выйти</ExitTitle>
+                              <p>Вы уверены, что хотите выйти?</p>
+                           </ExitTitleContainer>
+                           <SecondButtonContainer>
+                              <StyledButton
+                                 onClick={toggleExitModalHandler}
+                                 padding="5px 24px"
+                                 variant="outlined"
+                                 backgroundhover="#CB11AB"
+                                 backgroundactive="#E313BF"
+                              >
+                                 Отменить
+                              </StyledButton>
+                              <StyledButton
+                                 variant="contained"
+                                 padding="5.8px 24px"
+                                 backgroundhover="#E313BF"
+                                 backgroundactive="#C90EA9"
+                                 onClick={logOutHandler}
+                              >
+                                 Выйти
+                              </StyledButton>
+                           </SecondButtonContainer>
+                        </StyledModal>
                      </div>
                   </UserNumber>
                </Caption>
@@ -206,18 +271,21 @@ export const Header = ({ favorite, basket, compare }) => {
                         )}
                      </CatalogButtonContainer>
                      <Border />
-                     <SearchForm>
-                        <button>
+                     <PositionContainerForInput>
+                        <SearchForm>
                            <Input
                               className={inputValue ? 'hasText' : ''}
                               value={inputValue}
                               onChange={handleChange}
                               placeholder="Поиск по каталогу магазина  "
                               type="text"
+                              onFocus={handleInputFocus}
+                              onBlur={handleInputBlur}
                            />
-                        </button>
-                        <StyledVector input={inputValue} />
-                     </SearchForm>
+                           <StyledVector input={inputValue} />
+                        </SearchForm>
+                        {isInputFocused && <GlobalSearch />}
+                     </PositionContainerForInput>
                   </ButtonInputContainer>
                   <Massage fixed={fixed}>
                      <NavLink>
@@ -299,11 +367,52 @@ const slideOut = keyframes`
     transform: translateY(-10px);
   }
 `
+const StyledModal = styled(Modal)`
+   .MuiBox-root {
+      width: 380px;
+   }
+`
+const StyledButton = styled(Button)`
+   padding: ${(props) => props.padding};
+   font-size: 16px;
+   text-transform: none;
+   font-family: Inter;
+   :hover {
+      background: ${(props) => props.backgroundhover};
+      color: white;
+   }
+   :active {
+      color: white;
+      background: ${(props) => props.backgroundactive};
+   }
+`
 const PositionContainer = styled('div')`
    p {
       color: #292929;
    }
    position: relative;
+`
+const ExitTitleContainer = styled('div')`
+   display: flex;
+   flex-direction: column;
+   gap: 8px;
+   margin-bottom: 16px;
+   p {
+      margin: 0;
+   }
+`
+const SecondButtonContainer = styled('div')`
+   display: flex;
+   gap: 12px;
+   justify-content: flex-end;
+`
+const ExitTitle = styled('p')`
+   color: #384255;
+   font-family: Manrope;
+   font-size: 16px;
+   font-style: normal;
+   font-weight: 600;
+   line-height: normal;
 `
 const Headers = styled('header')`
    width: 100%;
@@ -385,13 +494,6 @@ const SearchForm = styled('form')`
       border: 0;
       background: none;
    }
-
-   &.hasText {
-      input {
-         background-color: white;
-      }
-   }
-
    :hover {
       input {
          transition: background-color 0.4s ease;
@@ -403,6 +505,18 @@ const SearchForm = styled('form')`
 
       svg {
          path {
+            fill: gray;
+         }
+      }
+   }
+   input {
+      :focus {
+         transition: background-color 0.4s ease;
+         background-color: #fff;
+         ::placeholder {
+            color: gray;
+         }
+         ~ svg path {
             fill: gray;
          }
       }
@@ -474,7 +588,7 @@ const Input = styled('input')`
    height: 2.5rem;
    border-radius: 0.625rem;
    border: 1px solid #fff;
-   padding: 0.5rem 1.125rem 0.5rem 1.125rem;
+   padding: 0.5rem 2.7rem 0.5rem 1.125rem;
    background-color: #1a1a25;
    color: black;
    outline: none;
@@ -683,7 +797,7 @@ const Select2 = styled('div')`
    border-radius: 0.25rem;
    background: #fff;
    box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.1);
-   z-index: 99999;
+   z-index: 99;
    animation: fadeInOut 0.4s ease-in-out;
    display: flex;
    flex-direction: column;
@@ -709,6 +823,12 @@ const Select2 = styled('div')`
          transform: translateY(0);
       }
    }
+`
+const PositionContainerForInput = styled('div')`
+   position: relative;
+   display: flex;
+   flex-direction: column;
+   gap: 8px;
 `
 const NavLinkParagraph = styled(NavLink)`
    text-decoration: none;

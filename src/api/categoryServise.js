@@ -85,8 +85,12 @@ export const filterProductsByCategory = (payload) => {
             : payload.interfacesArray,
       hullShapes:
          payload.shapesArray.length === 0 ? ['string'] : payload.shapesArray,
-      waterproof: payload.waterProofArray,
+      waterproof: payload.waterProofString
+         ? payload.waterProofString
+         : 'string',
    }
+   console.log('payload: ', payload)
+   console.log('payload: ', requestData)
 
    return axiosInstance.post(
       `/v1/products/filter?pageSize=${payload.pageSize}&pageNumber=${payload.pageNumber}`,

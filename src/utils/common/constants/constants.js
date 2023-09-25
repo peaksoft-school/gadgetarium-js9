@@ -218,6 +218,6 @@ export const tabletBatteryCapacity = [
 ]
 
 export const smartWaterProof = [
-   { title: 'TRUE', id: 1, checked: false },
-   { title: 'FALSE', id: 2, checked: false },
+   { value: true, label: 'Да', id: 1 },
+   { value: false, label: 'Нет', id: 2 },
 ]

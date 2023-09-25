@@ -21,7 +21,7 @@ import { DisplayDiagonal } from './watch/DisplayDiagonal'
 import { Shapes } from './watch/Shapes'
 import { VideoMemory } from './laptop/VideoMemory'
 import { BatteryCapacity } from './tablet/BatteryCapacity'
-import { WaterProof } from './watch/WaterProof'
+import { RadioCatalog } from './watch/RadioCatalog'
 
 export const Options = () => {
    const dispatch = useDispatch()
@@ -91,7 +91,7 @@ export const Options = () => {
                <MemoryСapacity />
                <Floor />
                <Shapes />
-               <WaterProof />
+               <RadioCatalog />
                <DisplayDiagonal />
             </div>
          ) : null}
@@ -108,6 +108,7 @@ const Content = styled('div')`
    border-radius: 0.25rem 0rem 0rem 0.25rem;
    background-color: #ffffff;
 
+   max-height: 74vw;
    overflow-y: auto;
 
    &::-webkit-scrollbar {

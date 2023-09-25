@@ -1,108 +1,201 @@
-import { useDispatch } from 'react-redux'
-import { NavLink } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { z } from 'zod'
+import { useDispatch, useSelector } from 'react-redux'
+import { useEffect, useState } from 'react'
 import { Button, styled } from '@mui/material'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { navBarForHeader } from '../../../utils/common/constants/header'
+import { followMail } from '../../../store/main.page/main.page.thunk'
+import { AuthorizationModal } from '../AuthorizationModal'
 import { categoryActions } from '../../../store/cataog/catalogSlice'
 
+const schema = z.object({
+   email: z.string().email('Заполните обязательные поля'),
+})
 export const Footer = () => {
    const dispatch = useDispatch()
+   const [openModal, setOpenModal] = useState(false)
+   const [message, setMessage] = useState('')
+   const navigate = useNavigate()
+   const [messageTimeout, setMessageTimeout] = useState(null)
+   const { isAuthorization } = useSelector((state) => state.auth)
+   const { register, handleSubmit, reset, formState } = useForm({
+      defaultValues: {
+         email: '',
+      },
+      mode: 'onBlur',
+      resolver: zodResolver(schema),
+   })
+   const toggleMessageHandler = (value) => {
+      setMessage(value)
+   }
+   const scrollToTop = () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+   }
+   const scrollToTopMain = (top) => {
+      navigate('/')
+      window.scrollTo({ top, behavior: 'smooth' })
+   }
+   const onSubmit = (data) => {
+      if (isAuthorization) {
+         dispatch(followMail({ email: data.email, toggleMessageHandler }))
+         reset()
+      } else {
+         setOpenModal(!openModal)
+      }
+   }
+   const toggleHandler = () => {
+      setOpenModal(!openModal)
+   }
+   useEffect(() => {
+      if (message) {
+         if (messageTimeout) {
+            clearTimeout(messageTimeout)
+         }
+         const newMessageTimeout = setTimeout(() => {
+            setMessage('')
+         }, 3000)
+         setMessageTimeout(newMessageTimeout)
+      }
+   }, [message])
    const handleButtonClick = () => {
       window.scrollTo({ top: 0, behavior: 'smooth' })
       dispatch(categoryActions.reset())
    }
    return (
-      <Container>
-         <Block1>
-            <NavListContainer>
-               <NavList>
-                  <span>Каталог</span>
-                  <Gadget>
-                     <NavLink onClick={handleButtonClick} to="/category/Phone">
-                        Смартфоны
-                     </NavLink>
-                     <NavLink onClick={handleButtonClick} to="/category/Tablet">
-                        Планшеты
-                     </NavLink>
-                     <NavLink onClick={handleButtonClick} to="/category/Laptop">
-                        Ноутбуки
-                     </NavLink>
-                     <NavLink
-                        onClick={handleButtonClick}
-                        to="/category/Smart Watch"
-                     >
-                        Смарт-часы и браслеты
-                     </NavLink>
-                  </Gadget>
-               </NavList>
-               <NavList>
-                  <span>Будь с нами</span>
-                  <Stock>
-                     <a href="/акции">Акции</a>
-                     <a href="./новинки">Новинки</a>
-                     <a href="./популярные категории">Популярные категории </a>
-                  </Stock>
-               </NavList>
-               <NavList>
-                  <span>Помощь и сервисы</span>
-                  <Contact>
-                     {navBarForHeader.map((el) => (
-                        <Link
-                           key={el.title}
-                           to={el.path}
-                           className={({ isActive }) =>
-                              isActive ? 'active' : ''
-                           }
+      <>
+         <AuthorizationModal
+            openModal={openModal}
+            toggleHandler={toggleHandler}
+         />
+         <Container>
+            <Block1>
+               <NavListContainer>
+                  <NavList>
+                     <span>Каталог</span>
+                     <Gadget>
+                        <NavLink
+                           onClick={handleButtonClick}
+                           to="/category/Phone"
                         >
-                           {el.title}
-                        </Link>
-                     ))}
-                  </Contact>
-               </NavList>
-            </NavListContainer>
+                           Смартфоны
+                        </NavLink>
+                        <NavLink
+                           onClick={handleButtonClick}
+                           to="/category/Tablet"
+                        >
+                           Планшеты
+                        </NavLink>
+                        <NavLink
+                           onClick={handleButtonClick}
+                           to="/category/Laptop"
+                        >
+                           Ноутбуки
+                        </NavLink>
+                        <NavLink
+                           onClick={handleButtonClick}
+                           to="/category/Smart Watch"
+                        >
+                           Смарт-часы и браслеты
+                        </NavLink>
+                     </Gadget>
+                  </NavList>
+                  <NavList>
+                     <span>Будь с нами</span>
+                     <Stock>
+                        <p onClick={() => scrollToTopMain(450)}>Акции</p>
+                        <p onClick={() => scrollToTopMain(1050)}>Новинки</p>
+                        <p onClick={() => scrollToTopMain(1650)}>
+                           Мы рекомендуем
+                        </p>
+                     </Stock>
+                  </NavList>
+                  <NavList>
+                     <span>Помощь и сервисы</span>
+                     <Contact>
+                        {navBarForHeader.map((el) => (
+                           <Link
+                              key={el.title}
+                              to={el.path}
+                              onClick={scrollToTop}
+                              className={({ isActive }) =>
+                                 isActive ? 'active' : ''
+                              }
+                           >
+                              {el.title}
+                           </Link>
+                        ))}
+                     </Contact>
+                  </NavList>
+               </NavListContainer>
 
-            <PersonalInformation>
-               <div>
-                  <span>Расскажем oб акциях и скидках</span>
-                  <Form>
-                     <Input type="email" placeholder="Email" />
-                     <ButtonFooter variant="contained">
-                        Подписаться
-                     </ButtonFooter>
-                  </Form>
-                  <Description>
-                     Нажимая на кнопку «Подписаться» Вы соглашаетесь на
-                     обработку персональных данных
-                  </Description>
-               </div>
-               <Info>
-                  <p>+996 (400) 00 00 00</p>
-                  <p>Gadgetarium.kg</p>
-                  <p>г.Бишкек, ул. Гражданская 119</p>
-                  <p>C 10:00 до 21:00 (без выходных)</p>
-               </Info>
-            </PersonalInformation>
-         </Block1>
-         <Block2>
-            <Gadgetarium>
-               <GadgeteriumContainer>
-                  <GIcons>G</GIcons>
-               </GadgeteriumContainer>
+               <PersonalInformation>
+                  <div>
+                     <span>Расскажем oб акциях и скидках</span>
+                     <Form onSubmit={handleSubmit(onSubmit)}>
+                        <Input
+                           type="email"
+                           placeholder="Email"
+                           {...register('email')}
+                           error={!!formState.errors.email}
+                        />
+                        <ButtonFooter type="submit" variant="contained">
+                           Подписаться
+                        </ButtonFooter>
+                     </Form>
+                     <Description>
+                        Нажимая на кнопку «Подписаться» Вы соглашаетесь на
+                        обработку персональных данных
+                     </Description>
+                     {!message && formState.errors.email && (
+                        <Error>Введите корректный email</Error>
+                     )}
+                     {message === 'Subscription successful' && (
+                        <Success>Вы успешно подписались</Success>
+                     )}
+                     {message === 'Already subscribed' && (
+                        <Error>Вы уже подписаны</Error>
+                     )}
+                  </div>
+                  <Info>
+                     <p>+996 (400) 00 00 00</p>
+                     <p>Gadgetarium.kg</p>
+                     <p>г.Бишкек, ул. Гражданская 119</p>
+                     <p>C 10:00 до 21:00 (без выходных)</p>
+                  </Info>
+               </PersonalInformation>
+            </Block1>
+            <Block2>
+               <Gadgetarium>
+                  <GadgeteriumContainer>
+                     <GIcons>G</GIcons>
+                  </GadgeteriumContainer>
 
-               <h1>adgetarium</h1>
-            </Gadgetarium>
+                  <h1>adgetarium</h1>
+               </Gadgetarium>
 
-            <BoxMinInfo>
-               <p>© 2022 Gadgetarium. Интернет магазин </p>
-               <span>Bce права защищены.</span>
-            </BoxMinInfo>
-         </Block2>
-      </Container>
+               <BoxMinInfo>
+                  <p>© 2022 Gadgetarium. Интернет магазин </p>
+                  <span>Bce права защищены.</span>
+               </BoxMinInfo>
+            </Block2>
+         </Container>
+      </>
    )
 }
 const Form = styled('form')`
    display: flex;
    align-items: center;
    margin-top: 0.75rem;
+`
+const Error = styled('p')`
+   color: #f53b49;
+   margin: 0;
+`
+const Success = styled('p')`
+   color: #2fc509;
+   margin: 0;
 `
 const Container = styled('div')`
    margin: 0;
@@ -223,10 +316,6 @@ const Info = styled('div')`
    p {
       color: #858fa4;
       margin-top: 0.75rem;
-
-      &:hover {
-         color: #fff;
-      }
    }
 `
 const Stock = styled('div')`
@@ -234,9 +323,10 @@ const Stock = styled('div')`
    flex-direction: column;
    margin-top: 1.875rem;
 
-   a {
+   p {
       text-decoration: none;
       color: #858fa4;
+      margin: 0;
       margin-top: 0.75rem;
       cursor: pointer;
       &:hover {

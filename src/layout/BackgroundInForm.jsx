@@ -21,7 +21,7 @@ export const BackgroundInForm = ({ children }) => {
                   <AdgetariumTitle>adgetarium</AdgetariumTitle>
                </Title>
             </Letter>
-            {children}
+            <ChildrenContainer>{children}</ChildrenContainer>
          </Container>
          <CustomToast />
       </>
@@ -40,6 +40,13 @@ const Title = styled('div')`
    display: flex;
    align-items: center;
    cursor: pointer;
+`
+const ChildrenContainer = styled('div')`
+   height: 100%;
+   width: 100%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
 `
 const AdgetariumTitle = styled('p')`
    font-size: 28.49px;

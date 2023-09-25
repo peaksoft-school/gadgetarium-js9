@@ -83,8 +83,10 @@ const initialState = {
    floor: watchFloor,
    displayDiagonalArray: [],
    displayDiagonal: watchDisplayDiagonal,
-   waterProofArray: 'string',
+   waterProofString: '',
    waterProof: smartWaterProof,
+
+   // [{ title: 'TRUE', id: 1, checked: false }, { title: 'FALSE', id: 2, checked: false },]
 
    tabletBatteryCapacityArray: [],
    tabletBattery: tabletBatteryCapacity,
@@ -130,6 +132,7 @@ export const categorySlice = createSlice({
             displayDiagonalArray: [],
             tabletBatteryCapacityArray: [],
             subCategoriesId: [],
+            waterProofString: '',
          }
       },
       sort: (state, action) => {
@@ -326,10 +329,15 @@ export const categorySlice = createSlice({
             ...el,
             checked: false,
          }))
+         const resetWaterProof = state.waterProof.map((el) => ({
+            ...el,
+            checked: false,
+         }))
 
          return {
             ...state,
             items: resetItems,
+            waterProof: resetWaterProof,
             memoryRamArray: resetMemoryRam,
             memoryCapacity: resetMemory,
             simPhone: resetSim,
@@ -392,23 +400,9 @@ export const categorySlice = createSlice({
          })
          state.memoryRamArray = updatedMemory
       },
-      waterProof: (state) => {
-         state.memoryRamArray.map((el) => {
-            if (el.checked === true) {
-               // waterProofString: el.title
-               return { ...state, waterProofString: el.title }
-            }
-            return el
-         })
-      },
-      changeWaterProof: (state, action) => {
-         const updatedMemory = state.waterProof.map((el) => {
-            if (el.id === action.payload) {
-               return { ...el, checked: !el.checked }
-            }
-            return el
-         })
-         state.waterProof = updatedMemory
+
+      waterProof: (state, action) => {
+         state.waterProofString = action.payload
       },
 
       simPhoneThunk: (state) => {

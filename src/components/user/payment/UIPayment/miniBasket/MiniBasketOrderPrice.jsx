@@ -63,9 +63,6 @@ export const MiniBasketOrderPrice = () => {
 }
 
 const Container = styled('div')`
-   position: absolute;
-   width: 22.6vw;
-
    box {
       display: flex;
       flex-direction: column;

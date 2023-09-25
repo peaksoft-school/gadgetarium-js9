@@ -41,7 +41,7 @@ const StyledButton = styled(ButtonMui)(({ variant, ...props }) => {
          return {
             '&.MuiButtonBase-root': {
                padding: props.padding,
-               fontSize: props.fontsize,
+               fontSize: props.fontSize,
                display: 'flex',
                justifyContent: 'center',
                alignItems: 'center',
@@ -59,6 +59,7 @@ const StyledButton = styled(ButtonMui)(({ variant, ...props }) => {
 
                '&:active': {
                   background: props.backgroundactive,
+                  border: `1px solid ${props.backgroundactive}`,
                   color: 'white',
                },
             },

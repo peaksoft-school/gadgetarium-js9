@@ -66,81 +66,78 @@ export const OrderOverview = ({
    return (
       <>
          <ContainerStepper>
-            <StepPayment page={page} />
+            <div>
+               <StepPayment page={page} />
+               <Container>
+                  <p className="title">Обзор заказа</p>
 
-            <ContainerMiniBasket>
-               <MiniBasketOrderPrice />
-            </ContainerMiniBasket>
+                  <ContainerAllInfo>
+                     <ContainerInfoTotal>
+                        <div>
+                           <BoxTotalText>Итого</BoxTotalText>
+                        </div>
+
+                        <div>
+                           <BoxTotalNumber>
+                              {basket.toPay.toLocaleString()}{' '}
+                              <span className="c"> c</span>
+                           </BoxTotalNumber>
+                        </div>
+                     </ContainerInfoTotal>
+                     <ContainerInfo>
+                        <div>
+                           <p className="info-title">Доставка</p>
+                        </div>
+
+                        <div>
+                           <p className="info-text">{valueDelivery}</p>
+                        </div>
+
+                        <div onClick={onNavigatePartOne}>
+                           <p className="change">Изменить</p>
+                        </div>
+                     </ContainerInfo>
+                     <ContainerInfo>
+                        <div>
+                           <p className="info-title">Оплата</p>
+                        </div>
+
+                        <div>
+                           <p className="info-text">
+                              {typePaymentData[typePaymentConst]}
+                           </p>
+                        </div>
+
+                        <div onClick={onNavigatePartTwo}>
+                           <p className="change">Изменить</p>
+                        </div>
+                     </ContainerInfo>
+                  </ContainerAllInfo>
+
+                  <ContainerBtn onClick={onOrderOverviewHandler}>
+                     <ButtonStyle variant="contained">
+                        ОФОРМИТЬ ЗАКАЗ
+                     </ButtonStyle>
+                  </ContainerBtn>
+               </Container>
+            </div>
+
+            <MiniBasketOrderPrice />
          </ContainerStepper>
 
          {openSuccessModal && <FinishModal />}
-
-         <Container>
-            <p className="title">Обзор заказа</p>
-
-            <ContainerAllInfo>
-               <ContainerInfoTotal>
-                  <div>
-                     <BoxTotalText>Итого</BoxTotalText>
-                  </div>
-
-                  <div>
-                     <BoxTotalNumber>
-                        {basket.toPay.toLocaleString()}{' '}
-                        <span className="c"> c</span>
-                     </BoxTotalNumber>
-                  </div>
-               </ContainerInfoTotal>
-               <ContainerInfo>
-                  <div>
-                     <p className="info-title">Доставка</p>
-                  </div>
-
-                  <div>
-                     <p className="info-text-address">{valueDelivery}</p>
-                  </div>
-
-                  <div onClick={onNavigatePartOne}>
-                     <p className="change">Изменить</p>
-                  </div>
-               </ContainerInfo>
-               <ContainerInfo>
-                  <div>
-                     <p className="info-title">Оплата</p>
-                  </div>
-
-                  <div>
-                     <p className="info-text">
-                        {typePaymentData[typePaymentConst]}
-                     </p>
-                  </div>
-
-                  <div onClick={onNavigatePartTwo}>
-                     <p className="change">Изменить</p>
-                  </div>
-               </ContainerInfo>
-            </ContainerAllInfo>
-
-            <ContainerBtn onClick={onOrderOverviewHandler}>
-               <ButtonStyle variant="contained">ОФОРМИТЬ ЗАКАЗ</ButtonStyle>
-            </ContainerBtn>
-         </Container>
       </>
    )
 }
 
-const ContainerMiniBasket = styled('div')`
-   position: relative;
-`
-
 const ContainerStepper = styled('div')`
    display: flex;
-   width: 100%;
-   gap: 8vw;
+   justify-content: space-between;
 `
 
 const Container = styled('div')`
    margin-top: 2.375rem;
+   width: 409px;
 
    p {
       margin: 0;
@@ -157,36 +154,22 @@ const Container = styled('div')`
       line-height: 110%;
    }
 
-   .info-text-address {
-      color: #384255;
-      font-size: 1rem;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 150%;
-
-      width: 8vw;
-   }
-
-   .info-title {
-      color: #384255;
-      font-size: 1rem;
-      font-style: normal;
-      font-weight: 700;
-      line-height: 150%;
-
-      width: 4.2vw;
-   }
-
    .info-text {
       color: #384255;
       font-size: 1rem;
       font-style: normal;
       font-weight: 400;
       line-height: 150%;
-
-      width: 8vw;
+      width: 100px;
    }
-
+   .info-title {
+      color: #384255;
+      font-size: 1rem;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 150%;
+      width: 73px;
+   }
    .change {
       color: #4b7ee8;
       font-size: 0.875rem;
@@ -202,8 +185,6 @@ const ContainerAllInfo = styled('div')`
    display: flex;
    flex-direction: column;
    margin-top: 2.5rem;
-
-   width: 26.7vw;
    padding-bottom: 1.25rem;
 
    border-bottom: 1px solid #858fa433;
@@ -251,8 +232,8 @@ const ContainerBtn = styled('div')`
 `
 
 const ButtonStyle = styled(Button)`
-   padding: 1.25rem 10vw;
-
+   height: 57px;
+   width: 409px;
    color: #fff;
    font-size: 0.875rem;
    font-style: normal;
