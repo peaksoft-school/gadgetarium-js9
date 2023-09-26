@@ -1,11 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
-   getCatalogRequest,
    getDownloadPdfFiles,
    getInfoPage,
    getRecentlyViewedProduct,
    getReviwesProduct,
-   getSubCatalogRequest,
    putReviesRequest,
    putReviewsAdminAnswer,
 } from './infoPageThunk'
@@ -21,6 +19,7 @@ const initialState = {
    viewedProduct: [],
    updateAdminComment: [],
    getPdfFiles: [],
+   isLoading: true,
 }
 
 export const infoPageSlice = createSlice({
@@ -46,25 +45,48 @@ export const infoPageSlice = createSlice({
          return {
             ...state,
             infoPhone: action.payload,
+            isLoading: false,
          }
       })
+      builder.addCase(getInfoPage.pending, (state) => {
+         state.isLoading = true
+      })
+      builder.addCase(getInfoPage.rejected, (state) => {
+         state.isLoading = false
+      })
+
       builder.addCase(getReviwesProduct.fulfilled, (state, action) => {
          state.getReviews = action.payload
+         state.isLoading = false
       })
-      builder.addCase(getCatalogRequest.fulfilled, (state, action) => {
-         state.allCategory = action.payload
+      builder.addCase(getReviwesProduct.pending, (state) => {
+         state.isLoading = true
       })
-      builder.addCase(getSubCatalogRequest.fulfilled, (state, action) => {
-         state.subCategories = action.payload
+      builder.addCase(getReviwesProduct.rejected, (state) => {
+         state.isLoading = false
       })
       builder.addCase(putReviesRequest.fulfilled, (state, action) => {
          state.updateComment = action.payload
+         state.isLoading = false
+      })
+      builder.addCase(putReviesRequest.pending, (state) => {
+         state.isLoading = true
+      })
+      builder.addCase(putReviesRequest.rejected, (state) => {
+         state.isLoading = false
       })
       builder.addCase(getRecentlyViewedProduct.fulfilled, (state, action) => {
          state.viewedProduct = action.payload
       })
       builder.addCase(putReviewsAdminAnswer.fulfilled, (state, action) => {
          state.updateAdminComment = action.payload
+         state.isLoading = false
+      })
+      builder.addCase(putReviewsAdminAnswer.pending, (state) => {
+         state.isLoading = true
+      })
+      builder.addCase(putReviewsAdminAnswer.rejected, (state) => {
+         state.isLoading = false
       })
       builder.addCase(getDownloadPdfFiles.fulfilled, (state, action) => {
          state.getPdfFiles = action.payload

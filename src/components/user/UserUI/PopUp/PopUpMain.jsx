@@ -80,7 +80,8 @@ const CarouselStyle = styled(Carousel)(({ theme }) => ({
       margin: '0px',
    },
    '& .carousel .slide img': {
-      height: '56vh',
+      width: '304px',
+      height: '364px',
    },
 
    '& .thumb:hover': {
@@ -107,7 +108,7 @@ const CarouselStyle = styled(Carousel)(({ theme }) => ({
    '& .thumb': {
       border: 'none',
    },
-   '& .carousel.carousel-slider .control-arrow': {
+   '.control-arrow': {
       display: 'none',
    },
 }))
@@ -121,7 +122,7 @@ const ButtonBlock = styled('div')`
    display: flex;
    justify-content: center;
    position: relative;
-   bottom: 6rem;
+   bottom: 7.7rem;
 `
 
 const ButtonBlockChilde = styled('div')`
@@ -131,16 +132,16 @@ const ButtonBlockChilde = styled('div')`
 `
 
 const LeftBtn = styled(ArrowBackIosNewIcon)`
-   position: relative;
+   position: absolute;
    left: 5rem;
-   z-index: 2;
+   z-index: 0;
    cursor: pointer;
    color: #909cb5;
 `
 const RightBtn = styled(ArrowForwardIosIcon)`
-   position: relative;
+   position: absolute;
    right: 5rem;
-   z-index: 2;
+   z-index: 0;
    cursor: pointer;
    color: #909cb5;
 `

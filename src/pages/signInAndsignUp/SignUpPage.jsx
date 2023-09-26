@@ -141,7 +141,6 @@ const Title = styled('p')`
    margin-bottom: 1.5rem;
    margin-top: 0.9063rem;
 `
-
 const ButtonUi = styled(Button)`
    width: 29.5rem;
    height: 2.9375rem;

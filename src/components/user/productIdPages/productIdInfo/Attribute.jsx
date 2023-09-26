@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
-import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import styled from '@emotion/styled'
 import { useDispatch, useSelector } from 'react-redux'
@@ -23,11 +22,7 @@ function CustomTabPanel(props) {
          aria-labelledby={`simple-tab-${index}`}
          {...other}
       >
-         {value === index && (
-            <Box>
-               <Typography>{children}</Typography>
-            </Box>
-         )}
+         {value === index && <Box>{children}</Box>}
       </div>
    )
 }
@@ -60,75 +55,44 @@ export const Attribute = () => {
 
    return (
       <Container>
-         {role === 'USER' ? (
-            <div>
-               <Box sx={{ width: '100%' }}>
-                  <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                     <Tabs
-                        value={value}
-                        onChange={handleChange}
-                        aria-label="basic tabs example"
-                     >
-                        <Tab label="Описание" {...a11yProps(0)} />
-                        <Tab label="Характеристики" {...a11yProps(1)} />
-                        <Tab label="Отзывы" {...a11yProps(2)} />
-                        <Tab label="Доставка и оплата" {...a11yProps(3)} />
+         <div>
+            <Box sx={{ width: '100%' }}>
+               <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                  <Tabs
+                     value={value}
+                     onChange={handleChange}
+                     aria-label="basic tabs example"
+                  >
+                     <Tab label="Описание" {...a11yProps(0)} />
+                     <Tab label="Характеристики" {...a11yProps(1)} />
+                     <Tab label="Отзывы" {...a11yProps(2)} />
+                     {role === 'USER' ||
+                        (role === 'GUEST' && (
+                           <Tab label="Доставка и оплата" {...a11yProps(3)} />
+                        ))}
 
-                        <DownloadBlock onClick={onDownloadPadfFile}>
-                           <DownloadIcons />
-                           <a href="/" download={donwnload}>
-                              Скачать документ.pdf
-                           </a>
-                        </DownloadBlock>
-                     </Tabs>
-                  </Box>
-                  <CustomTabPanel value={value} index={0}>
-                     <Description />
-                  </CustomTabPanel>
-                  <CustomTabPanel value={value} index={1}>
-                     <Сharacteristics />
-                  </CustomTabPanel>
-                  <CustomTabPanel value={value} index={2}>
-                     <Reviews />
-                  </CustomTabPanel>
-                  <CustomTabPanel value={value} index={3}>
-                     <Delivery />
-                  </CustomTabPanel>
+                     <DownloadBlock onClick={onDownloadPadfFile}>
+                        <DownloadIcons />
+                        <a href="/" download={donwnload}>
+                           Скачать документ.pdf
+                        </a>
+                     </DownloadBlock>
+                  </Tabs>
                </Box>
-            </div>
-         ) : (
-            <div>
-               <Box sx={{ width: '100%' }}>
-                  <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                     <Tabs
-                        value={value}
-                        onChange={handleChange}
-                        aria-label="basic tabs example"
-                     >
-                        <Tab label="Описание" {...a11yProps(0)} />
-                        <Tab label="Характеристики" {...a11yProps(1)} />
-                        <Tab label="Отзывы" {...a11yProps(2)} />
-                        <DownloadBlock onClick={onDownloadPadfFile}>
-                           <DownloadIcons />
-                           <a href="/" download={donwnload}>
-                              <DownloadIcons />
-                              Скачать документ.pdf
-                           </a>
-                        </DownloadBlock>
-                     </Tabs>
-                  </Box>
-                  <CustomTabPanel value={value} index={0}>
-                     <Description />
-                  </CustomTabPanel>
-                  <CustomTabPanel value={value} index={1}>
-                     <Сharacteristics />
-                  </CustomTabPanel>
-                  <CustomTabPanel value={value} index={2}>
-                     <Reviews />
-                  </CustomTabPanel>
-               </Box>
-            </div>
-         )}
+               <CustomTabPanel value={value} index={0}>
+                  <Description />
+               </CustomTabPanel>
+               <CustomTabPanel value={value} index={1}>
+                  <Сharacteristics />
+               </CustomTabPanel>
+               <CustomTabPanel value={value} index={2}>
+                  <Reviews />
+               </CustomTabPanel>
+               <CustomTabPanel value={value} index={3}>
+                  <Delivery />
+               </CustomTabPanel>
+            </Box>
+         </div>
       </Container>
    )
 }
@@ -172,5 +136,6 @@ const DownloadBlock = styled('div')`
       font-size: 1rem;
       font-weight: 400;
       text-decoration: none;
+      margin-left: 12px;
    }
 `

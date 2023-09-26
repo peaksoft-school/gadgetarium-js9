@@ -288,15 +288,27 @@ export const Header = ({ favorite, basket, compare }) => {
                      </PositionContainerForInput>
                   </ButtonInputContainer>
                   <Massage fixed={fixed}>
-                     <NavLink>
+                     <a
+                        href="https://en-gb.facebook.com/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                     >
                         <StyledFaceBookIcon />
-                     </NavLink>
-                     <NavLink to="https://www.instagram.com/peaksoft.house/">
+                     </a>
+                     <a
+                        href="https://www.instagram.com/peaksoft.house/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                     >
                         <StyledInstagramIcon />
-                     </NavLink>
-                     <NavLink>
+                     </a>
+                     <a
+                        href="https://web.whatsapp.com/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                     >
                         <StyledWhatsAppIcon />
-                     </NavLink>
+                     </a>
                   </Massage>
                   <IconsForm>
                      <PositionContainer

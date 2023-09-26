@@ -44,9 +44,9 @@ export const ProductChracteristics = () => {
                </Key>
 
                <Value>
+                  <p>{brandName}</p>
+                  <p>{name}</p>
                   <p>
-                     <p>{brandName}</p>
-                     <p>{name}</p>
                      {screenResolution === null
                         ? ' 13-, 14- и 16-дюймовый экран.'
                         : screenResolution}
