@@ -16,9 +16,7 @@ export const Сharacteristics = () => {
       <Container>
          <Accordion>
             <AccordionSummary expandIcon={<ArrowStyle />}>
-               <Typography>
-                  <h4>Основные xарактеристики</h4>
-               </Typography>
+               <Title>Основные xарактеристики</Title>
             </AccordionSummary>
             <AccordionDetails>
                <Typography>
@@ -101,7 +99,7 @@ export const Сharacteristics = () => {
          </Accordion>
          <Accordion>
             <AccordionSummary expandIcon={<ArrowStyle />}>
-               <h4>Процессор</h4>
+               <Title>Процессор</Title>
             </AccordionSummary>
             <AccordionDetails>
                <Typography>
@@ -127,6 +125,9 @@ const Container = styled('div')`
       box-shadow: none;
       width: 58.125rem;
    }
+   .MuiButtonBase-root {
+      padding: 0 !important;
+   }
    .MuiTypography-root {
       line-height: 3rem;
    }
@@ -134,7 +135,11 @@ const Container = styled('div')`
       margin: 0;
    }
 `
-
+const Title = styled('h3')`
+   color: #384255;
+   font-family: Inter;
+   line-height: 120%;
+`
 const TypographyBlock = styled('div')`
    display: flex;
    width: 40rem;
