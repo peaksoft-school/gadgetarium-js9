@@ -22,7 +22,6 @@ export const subProductDataCategory = {
    'Proffessional Tablets': 'Профессиональные планшеты',
    'Educational Tablets': 'Образовательные планшеты',
 }
-console.log(subProductDataCategory['Camera Phones'])
 
 export const statusTranslate = {
    PENDING: 'В ожидании',

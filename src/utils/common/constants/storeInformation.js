@@ -43,6 +43,6 @@ export const infoDelivery = [
       id: '3',
       title: 'Доставка',
       text: 'По городу 200coм, по регионам Бесплатная доставка при покупках свыше — 10 000c.',
-      width: '35.2vw',
+      width: '20rem',
    },
 ]

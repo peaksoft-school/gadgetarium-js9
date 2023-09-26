@@ -157,7 +157,7 @@ const AdminFeedback = ({
                               variant="contained"
                               onClick={saveAnswerHandler}
                            >
-                              Сохронить
+                              Сохранить
                            </Button>
                         </>
                      ) : (

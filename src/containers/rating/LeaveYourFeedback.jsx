@@ -1,15 +1,33 @@
 import { useState, useEffect } from 'react'
 import { styled, Rating as RatingMui } from '@mui/material'
+import { useDispatch, useSelector } from 'react-redux'
 import { RatingPhoto } from './RatingPhoto'
 import { Modal } from '../../components/UI/Modal'
 import { Button } from '../../components/UI/Button'
 import { SuccessModal } from './SuccessModal'
+import {
+   getInfoPage,
+   postReviewsPhone,
+} from '../../store/informationPhone/infoPageThunk'
+import { ErrorModal } from './ErrorModal'
+import { useSnackbar } from '../../hooks/useSnackbar'
 
-export const LeaveYourFeedback = ({ rating, onClose }) => {
+export const LeaveYourFeedback = ({ rating, onClose, subProductId }) => {
+   const { colours, productId } = useSelector(
+      (state) => state.product.infoPhone
+   )
+
    const [myStar, setMyStar] = useState(0)
    const [comment, setComment] = useState('')
+   const [errorMessage, setErrorMessage] = useState('')
+
    const [img, setImg] = useState('')
    const [successModal, setSuccessModal] = useState(false)
+   const [errorModal, setErrorModal] = useState(false)
+
+   const { snackbarHandler } = useSnackbar()
+
+   const dispatch = useDispatch()
 
    const imgUrl = img && URL.createObjectURL(img)
 
@@ -17,20 +35,36 @@ export const LeaveYourFeedback = ({ rating, onClose }) => {
       setSuccessModal(true)
    }
 
-   const onCreateReview = () => {
-      const data = {
-         star: myStar,
-         comment,
-         img: imgUrl,
+   const onOpenErrorModal = (message) => {
+      setErrorMessage(message)
+      setErrorModal(true)
+   }
+
+   const onCreateReview = async () => {
+      if (myStar > 0) {
+         const data = {
+            subProductId,
+            grade: myStar,
+            comment,
+            img: imgUrl,
+         }
+         dispatch(
+            postReviewsPhone({ data, onOpenSuccessModal, onOpenErrorModal })
+         )
+            .unwrap()
+            .then(() => {
+               dispatch(getInfoPage({ productId, colours }))
+            })
+         onClose()
+         setMyStar(0)
+         setComment('')
+         setImg('')
+      } else {
+         snackbarHandler({
+            message: 'Оставьте свою оценку',
+            type: 'error',
+         })
       }
-
-      console.log('data: ', data)
-
-      onClose()
-      onOpenSuccessModal()
-      setMyStar(0)
-      setComment('')
-      setImg('')
    }
 
    const handleFileChange = (event) => {
@@ -56,14 +90,21 @@ export const LeaveYourFeedback = ({ rating, onClose }) => {
          time = setTimeout(() => {
             setSuccessModal(false)
          }, 3000)
+      } else if (errorModal) {
+         time = setTimeout(() => {
+            setErrorModal(false)
+         }, 3000)
       }
 
       return () => clearTimeout(time)
-   }, [successModal])
+   }, [successModal, errorModal])
 
    return (
       <>
          {successModal && <SuccessModal successModal={successModal} />}
+         {errorModal && (
+            <ErrorModal errorModal={errorModal} errorMessage={errorMessage} />
+         )}
          <Modal open={rating} onClose={onClose} padding="1.5rem 1.8rem">
             <Container>
                <ContainerGrade>
@@ -71,7 +112,6 @@ export const LeaveYourFeedback = ({ rating, onClose }) => {
 
                   <BoxGrade>
                      <p>Оценка</p>
-
                      <div>
                         <RatingMui
                            value={myStar}

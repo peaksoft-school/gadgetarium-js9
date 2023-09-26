@@ -6,6 +6,11 @@ export const routes = {
       index: '/admin',
       addProductPartOne: '/admin/add-products-part-1',
       addProductPartTwo: '/admin/add-products-part-2',
+      phones: {
+         index: '/admin/product/:productId',
+         productDetail: '/admin/product/:productId/details',
+      },
+      orderIsAdminPayment: '/admin/orders/payment',
    },
 
    USER: {
@@ -14,6 +19,10 @@ export const routes = {
       delivery: 'delivery',
       faq: 'faq',
       contacts: 'contacts',
+      phones: {
+         index: '/product/:productId/details',
+         fullPicture: '/product/:productId/details/fullPicture',
+      },
 
       category: {
          index: 'category/',

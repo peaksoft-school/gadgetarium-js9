@@ -1,6 +1,12 @@
 import { Box, Modal, styled } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Button } from '../../UI/Button'
+import {
+   getInfoPage,
+   postReviewsAdminAnswer,
+   putReviewsAdminAnswer,
+} from '../../../store/informationPhone/infoPageThunk'
 
 const FeedbackModal = ({
    open,
@@ -9,35 +15,77 @@ const FeedbackModal = ({
    getAdminText,
    adminReviewState,
    saveTextHandler,
+   reviewId,
+   isEditing,
+   setIsEditing,
 }) => {
+   const dispatch = useDispatch()
+   const [answer, setAnswer] = useState(modalText)
+   const { reviews, colours, productId } = useSelector(
+      (state) => state.product.infoPhone
+   )
+   const getAnswer = (e) => {
+      setAnswer(e.target.value)
+      getAdminText(e)
+   }
+   useEffect(() => {
+      reviews?.map((el) => {
+         if (el.reviewId === reviewId) {
+            setAnswer(el.answer)
+         }
+         return el
+      })
+   }, [reviewId])
+
+   const saveAdminAnswer = () => {
+      const data = {
+         reviewId,
+         replyToComment: answer,
+      }
+
+      if (isEditing) {
+         dispatch(putReviewsAdminAnswer(data))
+            .unwrap()
+            .then(() => {
+               dispatch(getInfoPage({ productId, colours }))
+            })
+      } else {
+         dispatch(postReviewsAdminAnswer(data))
+      }
+   }
+
    return (
       <Modal
-         open={open.has('openModal')}
+         open={open}
          onClose={handleClose}
          aria-labelledby="modal-modal-title"
          aria-describedby="modal-modal-description"
       >
          <StyledBox component="form" onSubmit={saveTextHandler}>
             <AnswerToComment>Ответ на комментарий</AnswerToComment>
-            <StyledTextarea value={modalText} onChange={getAdminText} />
+            <StyledTextarea value={answer} onChange={getAnswer} />
             <ButtonContainer>
                <Button
                   variant="outlined"
-                  textTransform="uppercase"
-                  backgroundHover="#CB11AB"
-                  backgroundActive="#CB11AB"
-                  padding="0.625rem 4.6825rem"
+                  texttransform="uppercase"
+                  backgroundhover="#CB11AB"
+                  backgroundactive="#CB11AB"
+                  padding="8px 4.6825rem"
                   onClick={handleClose}
                >
                   Отменить
                </Button>
                <Button
+                  onClick={() => {
+                     setIsEditing(true)
+                     saveAdminAnswer()
+                  }}
                   variant="contained"
-                  textTransform="uppercase"
-                  padding="0.625rem 4.6825rem"
+                  texttransform="uppercase"
+                  padding="8px 4.6825rem"
                   type="onSubmit"
                >
-                  {adminReviewState ? 'Сохронить' : 'Добавить'}
+                  {adminReviewState ? 'Сохранить' : 'Добавить'}
                </Button>
             </ButtonContainer>
          </StyledBox>
@@ -47,8 +95,8 @@ const FeedbackModal = ({
 
 export default FeedbackModal
 const StyledBox = styled(Box)(() => ({
-   width: '28%',
-   height: '32.5%',
+   width: '34rem',
+   height: ' 21.8125rem',
    padding: '2rem',
    display: 'flex',
    flexDirection: 'column',
@@ -73,6 +121,7 @@ const StyledTextarea = styled('textarea')`
 const ButtonContainer = styled('div')`
    width: 100%;
    margin-top: 2rem;
+   gap: 1.25rem;
    display: flex;
    justify-content: space-between;
 `

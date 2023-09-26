@@ -71,7 +71,7 @@ export const PlacingAnOrder = () => {
 
    return (
       <Container>
-         <div>
+         <WidthContainer>
             <BreadCrumbs breadcrumbs={breadcrumbs} />
             <BoxTitle>
                <p>Оформление заказа</p>
@@ -102,17 +102,20 @@ export const PlacingAnOrder = () => {
                   navigatePartTwoHandler={navigatePartTwoHandler}
                />
             )}
-         </div>
+         </WidthContainer>
       </Container>
    )
 }
 
 export const Container = styled('div')`
    /* background-color: #f4f4f4; */
-   padding: 0 12.1875rem;
-   padding-bottom: 7.5rem;
+   display: flex;
+   justify-content: center;
+   margin-bottom: 6.25vw;
 `
-
+const WidthContainer = styled('div')`
+   width: 79.688vw;
+`
 export const BoxTitle = styled('div')`
    margin: 1.875rem 0 3rem 0;
 

@@ -1,59 +1,3 @@
-// import {
-//    deleteIsAdminThunk,
-//    orderIsAdminThunk,
-// } from '../../../store/order/Order.thunk'
-// import { statusTranslate } from '../../../utils/common/constants/constantsAdminAddNewProduct'
-
-// export const AdminOrders = () => {
-// const dispatch = useDispatch()
-
-// const { responseAdminList, delivered } = useSelector(
-//    (state) => state.order.orderIsAdmin
-// )
-
-//    return (
-//       <Container>
-//          <ContainerChilde>
-
-//             <TableContainer>
-//                <Table>
-
-//                   <TableBody>
-//                      {responseAdminList?.map((row) => (
-//                         <TableRow key={row.orderId}>
-//                            <TableId>{row.orderId}</TableId>
-//                            <TableCellName>{row.fullName}</TableCellName>
-//                            <NumberTable>{row.orderNumber}</NumberTable>
-//                            <Quantity>{row.quantity}</Quantity>
-//                            <Total>{row.totalPrice}</Total>
-//                            <TableCell>{row.typeDelivery}</TableCell>
-//                            <TableCell>{statusTranslate[row.status]}</TableCell>
-//                            <TableDelete
-//                               onClick={() =>
-//                                  dispatch(deleteIsAdminThunk(row.orderId))
-//                                     .unwrap()
-//                                     .then(() => {
-//                                        dispatch(orderIsAdminThunk())
-//                                     })
-//                               }
-//                            >
-//                               <DeleteTable />
-//                            </TableDelete>
-//                         </TableRow>
-//                      ))}
-//                   </TableBody>
-//                </Table>
-//             </TableContainer>
-
-// </ContainerChilde>
-//       </Container>
-//    )
-// }
-
-// const ContainerChilde = styled('div')`
-//    width: 67.969vw;
-// `
-
 import React, { useEffect, useState } from 'react'
 import Table from '@mui/material/Table'
 import TableCell from '@mui/material/TableCell'
@@ -65,6 +9,7 @@ import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Pagination from '@mui/material/Pagination'
 import Stack from '@mui/material/Stack'
+// import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { AdminOrderItem } from './AdminOrdersItem'
 import { Calendar } from '../../UI/calendarFolder/Calendar'
@@ -83,59 +28,6 @@ const tables = [
    { name: 'Действия', edit: false, width: '4.948vw' },
 ]
 
-// const itemTableArray = [
-//    {
-//       id: '1',
-//       orderId: '2',
-//       fullName: 'Kasymbekov',
-//       number: 'nknkjnk',
-//       quantity: '9',
-//       totalSum: '87897',
-//       ordering: 'PICKUP',
-//       status: 'delivered',
-//    },
-//    {
-//       id: '2',
-//       orderId: '3',
-//       fullName: 'Kasymbekov',
-//       number: 'nknkjnk',
-//       quantity: '9',
-//       totalSum: '87897',
-//       ordering: 'PICKUP',
-//       status: 'delivered',
-//    },
-//    {
-//       id: '3',
-//       orderId: '4',
-//       fullName: 'Kasymbekov',
-//       number: 'nknkjnk',
-//       quantity: '9',
-//       totalSum: '87897',
-//       ordering: 'PICKUP',
-//       status: 'delivered',
-//    },
-//    {
-//       id: '2',
-//       orderId: '3',
-//       fullName: 'Kasymbekov',
-//       number: 'nknkjnk',
-//       quantity: '9',
-//       totalSum: '87897',
-//       ordering: 'PICKUP',
-//       status: 'delivered',
-//    },
-//    {
-//       id: '3',
-//       orderId: '4',
-//       fullName: 'Kasymbekov',
-//       number: 'nknkjnk',
-//       quantity: '9',
-//       totalSum: '87897',
-//       ordering: 'PICKUP',
-//       status: 'delivered',
-//    },
-// ]
-
 function a11yProps(index) {
    return {
       id: `simple-tab-${index}`,
@@ -145,13 +37,14 @@ function a11yProps(index) {
 
 export function AdminOrders() {
    const dispatch = useDispatch()
-   const [dateStart, setDateStart] = useState()
-   const [dateEnd, setDateEnd] = useState()
+   // const navigate = useNavigate()
    const [value, setValue] = useState(0)
-   const [valueTab, setValueTab] = useState('В обработке')
-   // const [currentPage, setCurrentPage] = useState(1)
+   const [dateStart, setDateStart] = useState('2009-10-12')
+   const [dateEnd, setDateEnd] = useState()
+   const [valueTab, setValueTab] = useState(value)
+   const [currentPage, setCurrentPage] = useState(1)
 
-   // const itemsPage = 3
+   const itemsPage = 4
 
    const { orderIsAdmin } = useSelector((state) => state.order)
    const { responseAdminList, delivered } = useSelector(
@@ -170,23 +63,29 @@ export function AdminOrders() {
    const handleChange = (event, newValue) => {
       setValue(newValue)
    }
-   // const handlePageChange = (event, newPage) => {
-   //    setCurrentPage(newPage)
+   // const navigateToPaymentPage = () => {
+   //    navigate('/admin/orders/payment')
    // }
-   // const renderProductsOnPage = () => {
-   //    const startIndex = (currentPage - 1) * itemsPage
-   //    const endIndex = startIndex + itemsPage
-   //    return itemTableArray
-   //       .slice(startIndex, endIndex)
-   //       .map((item, index) => (
-   //          <AdminOrderItem
-   //             key={item.subProductId}
-   //             tables={tables}
-   //             index={index}
-   //             {...item}
-   //          />
-   //       ))
-   // }
+   const handlePageChange = (event, newPage) => {
+      setCurrentPage(newPage)
+   }
+   const renderProductsOnPage = () => {
+      if (!responseAdminList) {
+         return []
+      }
+      const startIndex = (currentPage - 1) * itemsPage
+      const endIndex = startIndex + itemsPage
+      return responseAdminList
+         .slice(startIndex, endIndex)
+         .map((item, index) => (
+            <AdminOrderItem
+               key={item.subProductId}
+               tables={tables}
+               index={index}
+               {...item}
+            />
+         ))
+   }
 
    useEffect(() => {
       if (value === 0) {
@@ -205,8 +104,7 @@ export function AdminOrders() {
    useEffect(() => {
       const data = {
          status: valueTab,
-         pageSize: 3,
-         page: 1,
+         pageSize: itemsPage,
          startDate,
          endDate,
       }
@@ -243,59 +141,59 @@ export function AdminOrders() {
 
             <CalendarBlock>
                <Calendar
-                  value={dateStart === undefined ? null : dateStart}
+                  value={dateStart === undefined ? null : dayjs(dateStart)}
                   onChange={onChangeCalendar}
                   placeholder="от"
                />
                <Calendar
-                  value={dateEnd === undefined ? null : dateEnd}
+                  value={dateEnd === undefined ? null : dayjs(dateEnd)}
                   onChange={onChangeCalendarEnd}
                   placeholder="до"
                />
             </CalendarBlock>
-            <StyledTable aria-label="simple table">
-               <TableHead>
-                  <StyledTableRow>
-                     {tables.map((el) => {
-                        return (
-                           <StyledTableCell
-                              key={el.name}
-                              sx={{
-                                 width: el.width,
-                                 paddingLeft: el.paddingLeft
-                                    ? el.paddingLeft
-                                    : 0,
-                              }}
-                           >
-                              {el.name}
-                           </StyledTableCell>
-                        )
-                     })}
-                  </StyledTableRow>
-               </TableHead>
-               <TableBody>
-                  {responseAdminList?.map((item, index) => (
-                     <AdminOrderItem
-                        key={item.subProductId}
-                        tables={tables}
-                        index={index}
-                        {...item}
-                     />
-                  ))}
-               </TableBody>
-            </StyledTable>
+            <FindeOrders>Найдено 250 заказов</FindeOrders>
+            {responseAdminList?.length === 0 ? (
+               <NotProduct>Здесь нет товаров!</NotProduct>
+            ) : (
+               <>
+                  <StyledTable aria-label="simple table">
+                     <TableHead>
+                        <StyledTableRow>
+                           {tables.map((el) => {
+                              return (
+                                 <StyledTableCell
+                                    key={el.name}
+                                    sx={{
+                                       width: el.width,
+                                       paddingLeft: el.paddingLeft
+                                          ? el.paddingLeft
+                                          : 0,
+                                    }}
+                                 >
+                                    {el.name}
+                                 </StyledTableCell>
+                              )
+                           })}
+                        </StyledTableRow>
+                     </TableHead>
+                     <TableBody>
+                        <div>{renderProductsOnPage()}</div>
+                     </TableBody>
+                  </StyledTable>
 
-            <StackStyle>
-               <Stack>
-                  <Pagination
-                     // count={Math.ceil(itemTableArray.length / itemsPage)}
-                     count={1}
-                     color="primary"
-                     // page={currentPage}
-                     // onChange={handlePageChange}
-                  />
-               </Stack>
-            </StackStyle>
+                  <StackStyle>
+                     <Stack>
+                        <Pagination
+                           count={Math.ceil(
+                              (responseAdminList?.length || 0) / itemsPage
+                           )}
+                           color="primary"
+                           onChange={handlePageChange}
+                        />
+                     </Stack>
+                  </StackStyle>
+               </>
+            )}
          </ContainerChilde>
       </Container>
    )
@@ -352,8 +250,8 @@ const Container = styled('div')`
 
 const StyledTable = styled(Table)(() => ({
    width: '67.969vw',
-   height: '43vh',
-   marginTop: '4.62rem',
+   height: '48vh',
+   marginTop: '1rem',
 }))
 
 const StyledTableRow = styled(TableRow)`
@@ -403,4 +301,17 @@ const StackStyle = styled('div')`
 `
 const ContainerChilde = styled('div')`
    width: 67.969vw;
+`
+const NotProduct = styled('p')`
+   font-size: 20px;
+   font-family: Inter;
+   color: #384255;
+   text-align: center;
+`
+const FindeOrders = styled('p')`
+   color: #384255;
+   font-family: Inter;
+   font-size: 0.875rem;
+   font-weight: 400;
+   margin-top: 2.5rem;
 `

@@ -23,7 +23,33 @@ export const typeDelivery = {
 }
 
 export const typePaymentData = {
-   CASH: 'Наличные',
+   CASH: 'Наличными',
    CARD_ONLINE: 'Картой онлайн',
-   CARD_ON_RECEIPT: 'Картой при Получений',
+   CARD_ON_RECEIPT: 'Картой при Получении',
 }
+
+export const getByIdBreadcrumbs = [
+   { path: '/', label: 'Главная' },
+   {
+      path: '/category/Cмартфоны и Планшеты',
+      label: 'Смартфоны',
+   },
+   {
+      label: '',
+   },
+]
+export const userOrdersBreadcrumbs = [
+   { path: '/', label: 'Главная' },
+   {
+      label: 'Личный кабинет',
+   },
+   {
+      label: '',
+   },
+]
+export const userOrdersPaymentBreadcrumbs = [
+   { path: '/admin/orders', label: 'Заказы' },
+   {
+      label: '',
+   },
+]

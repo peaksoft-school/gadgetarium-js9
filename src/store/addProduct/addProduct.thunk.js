@@ -13,7 +13,6 @@ export const getAllCategory = createAsyncThunk(
    async (_, { rejectWithValue }) => {
       try {
          const response = await getAllCategoryRequest()
-
          return response.data
       } catch (error) {
          return rejectWithValue(error)
@@ -99,13 +98,12 @@ export const postFileImg = createAsyncThunk(
 
 export const postAddProduct = createAsyncThunk(
    'post/postAddProduct',
-   async (payload, { rejectWithValue }) => {
+   async ({ resultAddProductData, navigate }, { rejectWithValue }) => {
       try {
-         const response = await postAddProductRequest(payload)
-
-         return response.data
+         await postAddProductRequest(resultAddProductData)
+         navigate('/admin')
       } catch (error) {
-         return rejectWithValue(error)
+         rejectWithValue(error)
       }
    }
 )

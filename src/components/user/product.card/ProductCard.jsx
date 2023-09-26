@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Rating, styled } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
+import { Rating, styled } from '@mui/material'
 import { ReactComponent as Comparison } from '../../../assets/icons/comparison-icon.svg'
 import { ReactComponent as Favourite } from '../../../assets/icons/favourites-icon.svg'
 import { ReactComponent as BasketIcon } from '../../../assets/icons/basket-icon.svg'
@@ -12,6 +12,8 @@ import { postFavoriteItem } from '../../../store/favorite/favorite.thunk'
 import { postBasketById } from '../../../store/basket/basket.thunk'
 import { AuthorizationModal } from '../AuthorizationModal'
 import { postCompareProduct } from '../../../store/compare/compare.thunk'
+import { infoPageActions } from '../../../store/informationPhone/infoPageSlice'
+import { postRecentlyViewedProduct } from '../../../store/informationPhone/infoPageThunk'
 
 export const ProductCard = ({
    recomendationState = false,
@@ -27,14 +29,15 @@ export const ProductCard = ({
    comparisonState,
    basketState,
    pageSize,
+   color,
    id = '1',
+   productId,
    ...props
 }) => {
    const { isAuthorization } = useSelector((state) => state.auth)
-
+   const navigate = useNavigate()
    const [openModal, setOpenModal] = useState(false)
    const dispatch = useDispatch()
-   const navigate = useNavigate()
    const discountPrice = price - (price * discount) / 100
    const toggleFavoriteHandler = async () => {
       if (isAuthorization) {
@@ -62,8 +65,10 @@ export const ProductCard = ({
          setOpenModal(!openModal)
       }
    }
-   const cardHandler = (id) => {
-      console.log(id)
+   const cardHandler = () => {
+      navigate(`/product/${productId}/details`)
+      dispatch(infoPageActions.changeSubProductColor(color))
+      dispatch(postRecentlyViewedProduct(id))
    }
    const postProductToBasket = async () => {
       if (isAuthorization) {
@@ -76,7 +81,7 @@ export const ProductCard = ({
       setOpenModal(!openModal)
    }
    return (
-      <Card onClick={() => cardHandler(id)} {...props}>
+      <Card {...props}>
          {openModal && (
             <AuthorizationModal
                openModal={openModal}
@@ -109,11 +114,11 @@ export const ProductCard = ({
                )}
             </IconContainer>
          </ButtonContainer>
-         <Image src={image} />
+         <Image src={image} onClick={cardHandler} />
          <Container>
             <InStock>В наличии ({quantity})</InStock>
             <Title>
-               {prodName.length > 45 ? `${prodName.slice(0, 45)}...` : prodName}
+               {prodName.length > 45 ? `${prodName.slice(0, 20)}...` : prodName}
             </Title>
             <RatingContainer>
                Рейтинг <StyledRating readOnly value={rating} precision={0.5} />(
