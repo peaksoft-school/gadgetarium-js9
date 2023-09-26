@@ -5,6 +5,7 @@ import { Box } from '../UIPayment/Box'
 import { PersonalData } from './PersonalData'
 import {
    collectorDataPartOne,
+   collectorSubProductId,
    validForm,
 } from '../../../../store/payment/payment.slice'
 import { useSnackbar } from '../../../../hooks/useSnackbar'
@@ -19,6 +20,8 @@ export const DeliveryOptions = ({
    const dispatch = useDispatch()
    const check = delivery
    const { validBoolean } = useSelector((state) => state.payment)
+   const { basketResponses } = useSelector((state) => state.basket)
+   console.log('basketResponses: ', basketResponses)
    const navigate = useNavigate()
    const { snackbarHandler } = useSnackbar()
 
@@ -73,6 +76,8 @@ export const DeliveryOptions = ({
          navigate()
          nextHandler()
       }
+
+      dispatch(collectorSubProductId(basketResponses))
    }
 
    return (

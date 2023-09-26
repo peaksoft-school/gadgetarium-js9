@@ -52,7 +52,7 @@ export const Infographic = () => {
                   <BoughtForTheAmountContainer>
                      <div>
                         <p className="title">
-                           {infographicData?.waitingTotalPrice?.toLocaleString()}{' '}
+                           {infographicData?.deliveredTotalPrice?.toLocaleString()}{' '}
                            <span>c</span>
                         </p>
                      </div>
@@ -61,7 +61,7 @@ export const Infographic = () => {
                      </div>
                      <div>
                         <p className="things">
-                           {infographicData?.waitingQuantity?.toLocaleString()}{' '}
+                           {infographicData?.deliveredQuantity?.toLocaleString()}{' '}
                            шт
                         </p>
                      </div>
@@ -70,7 +70,7 @@ export const Infographic = () => {
                   <OrderedForTheAmountContainer>
                      <div>
                         <p className="title">
-                           {infographicData?.deliveredTotalPrice?.toLocaleString()}{' '}
+                           {infographicData?.waitingTotalPrice?.toLocaleString()}{' '}
                            <span> c</span>
                         </p>
                      </div>
@@ -79,7 +79,7 @@ export const Infographic = () => {
                      </div>
                      <div>
                         <p className="things">
-                           {infographicData?.deliveredQuantity?.toLocaleString()}{' '}
+                           {infographicData?.waitingQuantity?.toLocaleString()}{' '}
                            шт
                         </p>
                      </div>

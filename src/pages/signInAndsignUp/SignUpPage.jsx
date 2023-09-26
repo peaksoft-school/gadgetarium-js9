@@ -141,10 +141,6 @@ const Title = styled('p')`
    margin-bottom: 1.5rem;
    margin-top: 0.9063rem;
 `
-const ContainerChilde = styled('div')`
-   position: absolute;
-   bottom: 1.875rem;
-`
 
 const ButtonUi = styled(Button)`
    width: 29.5rem;

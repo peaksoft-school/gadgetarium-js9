@@ -11,12 +11,13 @@ import { StepPayment } from './StepPayment'
 import { PaymentMethod } from './paymentPartTwo/PaymentMethod'
 import { OrderOverview } from './paymentPartThree/OrderOverview'
 import { FinishModal } from './FinishModal'
+import { Loading } from '../../UI/loading/Loading'
 
 export const PlacingAnOrder = () => {
    const dispatch = useDispatch()
    const [page, setPage] = useState([0])
    const [delivery, setDelivery] = useState(true)
-   const { user } = useSelector((state) => state.payment)
+   const { user, isLoading } = useSelector((state) => state.payment)
 
    useEffect(() => {
       dispatch(getUserData())
@@ -70,40 +71,45 @@ export const PlacingAnOrder = () => {
    }
 
    return (
-      <Container>
-         <WidthContainer>
-            <BreadCrumbs breadcrumbs={breadcrumbs} />
-            <BoxTitle>
-               <p>Оформление заказа</p>
-            </BoxTitle>
+      <>
+         {isLoading && <Loading />}
+         <Container>
+            <WidthContainer>
+               <BreadCrumbs breadcrumbs={breadcrumbs} />
+               <BoxTitle>
+                  <p>Оформление заказа</p>
+               </BoxTitle>
 
-            <FinishModal />
+               <FinishModal />
 
-            {page.length === 2 && <StepPayment page={page} />}
+               {page.length === 2 && <StepPayment page={page} />}
 
-            {page.length === 1 && (
-               <LayoutPartOnePayment
-                  onPickupHandler={onPickupHandler}
-                  onDeliveryHandler={onDeliveryHandler}
-                  setPage={setPage}
-                  delivery={delivery}
-                  page={page}
-                  formik={formik}
-                  nextHandler={nextHandler}
-               />
-            )}
+               {page.length === 1 && (
+                  <LayoutPartOnePayment
+                     onPickupHandler={onPickupHandler}
+                     onDeliveryHandler={onDeliveryHandler}
+                     setPage={setPage}
+                     delivery={delivery}
+                     page={page}
+                     formik={formik}
+                     nextHandler={nextHandler}
+                  />
+               )}
 
-            {page.length === 2 && <PaymentMethod nextHandler={nextHandler} />}
+               {page.length === 2 && (
+                  <PaymentMethod nextHandler={nextHandler} />
+               )}
 
-            {page.length === 3 && (
-               <OrderOverview
-                  page={page}
-                  navigatePartOneHandler={navigatePartOneHandler}
-                  navigatePartTwoHandler={navigatePartTwoHandler}
-               />
-            )}
-         </WidthContainer>
-      </Container>
+               {page.length === 3 && (
+                  <OrderOverview
+                     page={page}
+                     navigatePartOneHandler={navigatePartOneHandler}
+                     navigatePartTwoHandler={navigatePartTwoHandler}
+                  />
+               )}
+            </WidthContainer>
+         </Container>
+      </>
    )
 }
 

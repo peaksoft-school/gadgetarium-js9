@@ -123,11 +123,16 @@ export const ReviewsAndRating = () => {
    const count = unanswered?.count !== 0
 
    const dataReviewsOne =
-      valueTabs === 0 ? allReviews : valueTabs === 2 && unanswered
+      valueTabs === 0 ? allReviews : valueTabs === 1 && unanswered
+   const dataReviewsTwo = valueTabs === 2 ? answered : dataReviewsOne
 
-   const dataReviewsTwo = valueTabs === 1 ? answered : dataReviewsOne
-   const mathRes = dataReviewsTwo?.count
+   const dataReviewsThree = valueTabs === 0 ? allReviews : answered
+   const dataReviewsFour = count ? dataReviewsTwo : dataReviewsThree
+
+   const mathRes = dataReviewsTwo?.count ? dataReviewsTwo?.count : 0
    const paginationCount = Math.ceil(mathRes / 4)
+
+   const a11yPropsValid = count ? 2 : 1
 
    return (
       <AllContainer>
@@ -154,7 +159,7 @@ export const ReviewsAndRating = () => {
                               )}
                               <Tab
                                  label="Отвеченные"
-                                 {...a11yProps(count ? 2 : 1)}
+                                 {...a11yProps(a11yPropsValid)}
                               />
                            </Tabs>
                         </Box>
@@ -165,7 +170,7 @@ export const ReviewsAndRating = () => {
                               </div>
 
                               <div>
-                                 {dataReviewsTwo?.reviews?.map((item, i) => {
+                                 {dataReviewsFour?.reviews?.map((item, i) => {
                                     const index = i + 1
 
                                     return (

@@ -8,7 +8,9 @@ import { ReactComponent as ArrowDown } from '../../../assets/icons/arrows/down-i
 import { Button } from '../../UI/Button'
 import {
    deleteReviewsId,
+   postAdminReplyCommentsReviews,
    putEditAnswerReviews,
+   updateViewReviewsId,
 } from '../../../store/reviews/reviews.thunk'
 
 // const imagesArray = [1, 2, 3, 4, 5]
@@ -30,11 +32,12 @@ const AdminFeedback = ({
    viewed,
    answer,
 }) => {
+   const value = answer === null || undefined ? '' : answer
    const dispatch = useDispatch()
    const [expanded, setExpanded] = useState(false)
    const [answerState, setAnswerState] = useState(false)
-   const [adminAnswer, setAdminAnswer] = useState(answer)
-   const [temporaryAnswer, setTemporaryAnswer] = useState(answer)
+   const [adminAnswer, setAdminAnswer] = useState(value)
+   const [temporaryAnswer, setTemporaryAnswer] = useState(value)
    const [checked, setChecked] = useState(viewed)
 
    const getAdminAnswer = (e) => {
@@ -46,7 +49,6 @@ const AdminFeedback = ({
    }
 
    const onEditAnswerToggleHandler = () => {
-      // setAdminAnswer(answer)
       setAnswerState((prev) => !prev)
    }
 
@@ -56,8 +58,12 @@ const AdminFeedback = ({
          replyToComment: temporaryAnswer,
       }
 
-      if (answer !== '') {
+      if (value !== '') {
          dispatch(putEditAnswerReviews(data))
+      }
+
+      if (value === '') {
+         dispatch(postAdminReplyCommentsReviews(data))
       }
 
       setAdminAnswer(temporaryAnswer)
@@ -76,9 +82,16 @@ const AdminFeedback = ({
    const text = `${userText}`
 
    const handleToggle = () => {
+      const data = {
+         reviewId: id,
+         view: true,
+      }
+
       if (!checked) {
          setChecked((prevState) => !prevState)
+         dispatch(updateViewReviewsId(data))
       }
+
       setExpanded(true)
    }
 
