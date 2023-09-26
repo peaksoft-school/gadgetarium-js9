@@ -19,7 +19,9 @@ export const DeliveryMethods = () => {
                      </div>
                      <BoxDeliveryText>
                         <p className="title">{item.title}</p>
-                        <p className="text">{item.text}</p>
+                        <Text className="text" width={item.width}>
+                           {item.text}
+                        </Text>
                      </BoxDeliveryText>
                   </BoxDelivery>
                   <BoxPayment>
@@ -43,12 +45,13 @@ const Container = styled('div')`
 
 const InfoDeliveryContainer = styled('div')`
    display: flex;
-   gap: 6.88rem;
+   gap: 6rem;
 `
 
 const Box = styled('div')`
    display: flex;
    flex-direction: column;
+   justify-content: space-between;
    gap: 0.75rem;
 `
 const BoxDelivery = styled('div')`
@@ -62,11 +65,7 @@ const BoxDeliveryText = styled('div')`
    gap: 0.3125rem;
 
    .title {
-      width: 15.5625rem;
-   }
-
-   .text {
-      width: 19.4375rem;
+      width: 15rem;
    }
 
    p {
@@ -75,10 +74,15 @@ const BoxDeliveryText = styled('div')`
    }
 `
 
+const Text = styled('p')(({ width }) => ({
+   width,
+}))
+
 const BoxPayment = styled('div')`
    display: flex;
    align-items: center;
    gap: 0.75rem;
+
    div {
       width: 1.625rem;
    }

@@ -16,125 +16,115 @@ import { ScreenSize } from './laptop/ScreenSize'
 import { Interfaces } from './watch/Interfaces'
 import { MaterialBracelets } from './watch/MaterialBracelets'
 import { MaterialHousing } from './watch/MaterialHousing'
-import { WaterProof } from './watch/WaterProof'
 import { Floor } from './watch/Floor'
 import { DisplayDiagonal } from './watch/DisplayDiagonal'
 import { Shapes } from './watch/Shapes'
 import { VideoMemory } from './laptop/VideoMemory'
 import { BatteryCapacity } from './tablet/BatteryCapacity'
+import { RadioCatalog } from './watch/RadioCatalog'
 
 export const Options = () => {
    const dispatch = useDispatch()
    const containerRef = useRef(null)
 
+   const params = useParams()
+   const paramsFilter = Object.values(params)[0]
    useEffect(() => {
       const container = containerRef.current
-      if (container) {
-         const hasScrollbar = container.scrollHeight > container.clientHeight
-         if (!hasScrollbar) {
-            container.style.paddingRight = '2.1rem'
-         } else {
-            container.style.paddingRight = '1.6rem'
-         }
+
+      const hasScrollbar = container.scrollHeight > container.clientHeight
+      if (!hasScrollbar) {
+         container.style.paddingRight = '2.1rem'
+      } else {
+         container.style.paddingRight = '1.6rem'
       }
-   }, [])
+   }, [paramsFilter])
+
    const resetAllFilters = () => {
       dispatch(categoryActions.resetChecked())
    }
 
-   const params = useParams()
-
    return (
-      <Content>
-         <div ref={containerRef} className="box-options">
-            <ButtonStyled onClick={resetAllFilters}>
-               Сбросить все фильтры
-            </ButtonStyled>
-            <Category />
-            <Price />
-            <Colors />
+      <Content ref={containerRef}>
+         {/* <div  className="box-options"> */}
+         <ButtonStyled onClick={resetAllFilters}>
+            Сбросить все фильтры
+         </ButtonStyled>
+         <Category />
+         <Price />
+         <Colors />
 
-            {Object.values(params)[0] === 'Phone' ? (
-               <div>
-                  <Sim />
-                  <MemoryСapacity />
-                  <RamMemory />
-               </div>
-            ) : null}
+         {paramsFilter === 'Phone' ? (
+            <div>
+               <Sim />
+               <MemoryСapacity />
+               <RamMemory />
+            </div>
+         ) : null}
 
-            {Object.values(params)[0] === 'Tablet' ? (
-               <div>
-                  <BatteryCapacity />
-                  <ScreenSize />
-                  <MemoryСapacity />
-                  <RamMemory />
-               </div>
-            ) : null}
+         {paramsFilter === 'Tablet' ? (
+            <div>
+               <BatteryCapacity />
+               <ScreenSize />
+               <ScreenResolution />
+               <MemoryСapacity />
+               <RamMemory />
+            </div>
+         ) : null}
 
-            {Object.values(params)[0] === 'Laptop' ? (
-               <div>
-                  <Processor />
-                  <ScreenResolution />
-                  <Puproses />
-                  <ScreenSize />
-                  <VideoMemory />
-                  <RamMemory />
-               </div>
-            ) : null}
+         {paramsFilter === 'Laptop' ? (
+            <div>
+               <Processor />
+               <ScreenResolution />
+               <Puproses />
+               <ScreenSize />
+               <VideoMemory />
+               <RamMemory />
+            </div>
+         ) : null}
 
-            {Object.values(params)[0] === 'Smart Watch' ? (
-               <div>
-                  <Interfaces />
-                  <MaterialBracelets />
-                  <MaterialHousing />
-                  <MemoryСapacity />
-                  <WaterProof />
-                  <Floor />
-                  <Shapes />
-                  <DisplayDiagonal />
-               </div>
-            ) : null}
-         </div>
+         {paramsFilter === 'Smart Watch' ? (
+            <div>
+               <Interfaces />
+               <MaterialBracelets />
+               <MaterialHousing />
+               <MemoryСapacity />
+               <Floor />
+               <Shapes />
+               <RadioCatalog />
+               <DisplayDiagonal />
+            </div>
+         ) : null}
+         {/* </div> */}
       </Content>
    )
 }
 
 const Content = styled('div')`
    flex-shrink: 0;
-   padding: 1.875rem;
+   padding: 1.875rem 0 1.875rem 1.875rem;
    padding-top: 0;
    width: 18.28125vw;
-   padding-right: 1.6rem;
    border-radius: 0.25rem 0rem 0rem 0.25rem;
    background-color: #ffffff;
-   position: relative;
 
-   height: 76vw;
+   max-height: 74vw;
+   overflow-y: auto;
 
-   .box-options {
-      max-height: 74vw;
-      overflow-y: auto;
+   &::-webkit-scrollbar {
+      width: 0.5rem;
+      margin-right: -1.6rem;
+   }
 
-      position: absolute;
-      z-index: 1;
-      right: -0.5rem;
-      padding-right: 1.6rem;
-      top: 0;
+   &::-webkit-scrollbar-thumb {
+      background-color: #91969e7f;
+      border-radius: 0.25rem;
+   }
 
-      &::-webkit-scrollbar {
-         width: 0.5rem;
-      }
-
-      &::-webkit-scrollbar-thumb {
-         background-color: #91969e7f;
-         border-radius: 0.25rem;
-      }
-
-      &::-webkit-scrollbar-track {
-         height: 20px;
-         background-color: #e8e8e8;
-         border-radius: 0.25rem;
-      }
+   &::-webkit-scrollbar-track {
+      height: 20px;
+      background-color: #e8e8e8;
+      border-radius: 0.25rem;
    }
 `
 

@@ -11,6 +11,17 @@ export const Interfaces = () => {
       dispatch(categoryActions.changeInterfaces(id))
    }
 
+   const transformInterfaces = {
+      BLUETOOTH: 'Bluetooth',
+      WIFI: 'Wi-Fi',
+      GPS: 'GPS',
+      NFC: 'NFC',
+   }
+
+   const update = interfaces.map((el) => {
+      return { ...el, title: transformInterfaces[el.title] }
+   })
+
    useEffect(() => {
       dispatch(categoryActions.watchInterfaces())
    }, [interfaces])
@@ -19,7 +30,7 @@ export const Interfaces = () => {
       <CatalogSelect
          title="Беспроводные интерфейсы"
          onToggleCheckbox={postTitle}
-         items={interfaces}
+         items={update}
       />
    )
 }

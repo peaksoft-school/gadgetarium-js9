@@ -1,5 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
+   categoryProduct,
+   subProductDataCategory,
+} from '../../utils/common/constants/constantsAdminAddNewProduct'
+
+import {
    memoryRamConstants,
    memoryCapacityConstants,
    simConstants,
@@ -12,16 +17,18 @@ import {
    watchMaterialBracelets,
    watchMaterialHousing,
    watchFloor,
-   watchWaterProof,
    watchDisplayDiagonal,
    laptopVideoMemory,
    tabletBatteryCapacity,
+   smartWaterProof,
 } from '../../utils/common/constants/constants'
 import {
    getCategory,
    getColorsCatalog,
    getColorsTransformationFunction,
    sendSelectedCategories,
+   getCatalogRequest,
+   getSubCatalogRequest,
 } from './categoryThunk'
 
 const initialState = {
@@ -74,21 +81,60 @@ const initialState = {
    materialHousing: watchMaterialHousing,
    floorArray: [],
    floor: watchFloor,
-   waterProofArray: [],
-   waterProof: watchWaterProof,
    displayDiagonalArray: [],
    displayDiagonal: watchDisplayDiagonal,
+   waterProofString: '',
+   waterProof: smartWaterProof,
+
+   // [{ title: 'TRUE', id: 1, checked: false }, { title: 'FALSE', id: 2, checked: false },]
 
    tabletBatteryCapacityArray: [],
    tabletBattery: tabletBatteryCapacity,
 
    allCate: true,
+
+   allCategory: [],
+   subCategories: [],
+
+   subCategoriesId: [],
 }
 
 export const categorySlice = createSlice({
    name: 'category',
    initialState,
    reducers: {
+      changeInfoPage: (state, action) => {
+         return { ...state, subCategoriesId: action.payload.id }
+      },
+      reset: (state) => {
+         return {
+            ...state,
+            itemsColorsId: [],
+            selectedCategories: [],
+            allCate: true,
+            brandsId: [],
+            sort: '',
+            minValue: 0,
+            maxValue: 250000,
+            memory: [],
+            memoryRam: [],
+            simPhoneArray: [],
+            processorArray: [],
+            videoMemoryArray: [],
+            screenArray: [],
+            puprosesArray: [],
+            screenSizeArray: [],
+            interfacesArray: [],
+            shapesArray: [],
+            materialBraceletsArray: [],
+            materialHousingArray: [],
+            floorArray: [],
+            displayDiagonalArray: [],
+            tabletBatteryCapacityArray: [],
+            subCategoriesId: [],
+            waterProofString: '',
+         }
+      },
       sort: (state, action) => {
          return { ...state, sort: action.payload }
       },
@@ -231,17 +277,90 @@ export const categorySlice = createSlice({
             ...el,
             checked: false,
          }))
+         const resetSim = state.simPhone.map((el) => ({
+            ...el,
+            checked: false,
+         }))
+         const resetProcessor = state.processor.map((el) => ({
+            ...el,
+            checked: false,
+         }))
+         const resetVideoMemory = state.videoMemory.map((el) => ({
+            ...el,
+            checked: false,
+         }))
+         const resetScreen = state.screen.map((el) => ({
+            ...el,
+            checked: false,
+         }))
+         const resetPuproses = state.puproses.map((el) => ({
+            ...el,
+            checked: false,
+         }))
+         const resetScreenSize = state.screenSize.map((el) => ({
+            ...el,
+            checked: false,
+         }))
+         const resetInterfaces = state.interfaces.map((el) => ({
+            ...el,
+            checked: false,
+         }))
+         const resetShapes = state.shapes.map((el) => ({
+            ...el,
+            checked: false,
+         }))
+         const resetMaterialBracelets = state.materialBracelets.map((el) => ({
+            ...el,
+            checked: false,
+         }))
+         const resetMaterialHousing = state.materialHousing.map((el) => ({
+            ...el,
+            checked: false,
+         }))
+         const resetFloor = state.floor.map((el) => ({
+            ...el,
+            checked: false,
+         }))
+         const resetDisplayDiagonal = state.displayDiagonal.map((el) => ({
+            ...el,
+            checked: false,
+         }))
+         const resetTabletBattery = state.tabletBattery.map((el) => ({
+            ...el,
+            checked: false,
+         }))
+         const resetWaterProof = state.waterProof.map((el) => ({
+            ...el,
+            checked: false,
+         }))
+
          return {
             ...state,
             items: resetItems,
+            waterProof: resetWaterProof,
             memoryRamArray: resetMemoryRam,
             memoryCapacity: resetMemory,
-            brandsId: [],
+            simPhone: resetSim,
+            processor: resetProcessor,
+            screen: resetScreen,
+            puproses: resetPuproses,
+            screenSize: resetScreenSize,
+            interfaces: resetInterfaces,
+            shapes: resetShapes,
+            materialBracelets: resetMaterialBracelets,
+            materialHousing: resetMaterialHousing,
+            floor: resetFloor,
+            displayDiagonal: resetDisplayDiagonal,
+            tabletBattery: resetTabletBattery,
+
+            videoMemory: resetVideoMemory,
+
+            itemsColorsId: [],
             selectedCategories: [],
 
-            minValue: 0,
-            maxValue: 250000,
-            allCate: !state.allCate,
+            brandsId: [],
+
+            allCate: false,
          }
       },
 
@@ -261,9 +380,7 @@ export const categorySlice = createSlice({
       setMaxValue: (state, action) => {
          return { ...state, maxValue: action.payload }
       },
-      changeAllCate: (state) => {
-         return { ...state, allCate: true }
-      },
+
       memoryRam: (state) => {
          const memoryRam = []
          state.memoryRamArray.map((el) => {
@@ -283,6 +400,11 @@ export const categorySlice = createSlice({
          })
          state.memoryRamArray = updatedMemory
       },
+
+      waterProof: (state, action) => {
+         state.waterProofString = action.payload
+      },
+
       simPhoneThunk: (state) => {
          const simPhoneArray = []
          state.simPhone.map((el) => {
@@ -403,14 +525,14 @@ export const categorySlice = createSlice({
       },
 
       watchInterfaces: (state) => {
-         const iunterfacesArray = []
+         const interfacesArray = []
          state.interfaces.map((el) => {
             if (el.checked === true) {
-               iunterfacesArray.push(el.title)
+               interfacesArray.push(el.title)
             }
             return el
          })
-         return { ...state, iunterfacesArray }
+         return { ...state, interfacesArray }
       },
       changeInterfaces: (state, action) => {
          const updatedMemory = state.interfaces.map((el) => {
@@ -442,7 +564,7 @@ export const categorySlice = createSlice({
       },
       watchMaterialBracelets: (state) => {
          const materialBraceletsArray = []
-         state.shapes.map((el) => {
+         state.materialBracelets.map((el) => {
             if (el.checked === true) {
                materialBraceletsArray.push(el.title)
             }
@@ -496,25 +618,6 @@ export const categorySlice = createSlice({
             return el
          })
          state.floor = updatedMemory
-      },
-      watchWaterProof: (state) => {
-         const waterProofArray = []
-         state.waterProof.map((el) => {
-            if (el.checked === true) {
-               waterProofArray.push(el.title)
-            }
-            return el
-         })
-         return { ...state, waterProofArray }
-      },
-      changeWaterProof: (state, action) => {
-         const updatedMemory = state.waterProof.map((el) => {
-            if (el.id === action.payload) {
-               return { ...el, checked: !el.checked }
-            }
-            return el
-         })
-         state.waterProof = updatedMemory
       },
       watchDisplayDiagonal: (state) => {
          const displayDiagonalArray = []
@@ -578,7 +681,7 @@ export const categorySlice = createSlice({
          .addCase(sendSelectedCategories.fulfilled, (state, action) => {
             return {
                ...state,
-               filteredProducts: action.payload.responseList,
+               filteredProducts: action.payload,
                isLoading: false,
             }
          })
@@ -604,6 +707,22 @@ export const categorySlice = createSlice({
                return { ...state, itemsColorsTransformation: action.payload }
             }
          )
+         .addCase(getCatalogRequest.fulfilled, (state, action) => {
+            const newSubCategoryData = action.payload?.map((item) => ({
+               id: item.id,
+               title: categoryProduct[item.title],
+            }))
+
+            state.allCategory = newSubCategoryData
+         })
+         .addCase(getSubCatalogRequest.fulfilled, (state, action) => {
+            const newSubCategoryData = action.payload?.map((item) => ({
+               id: item.subCategoryId,
+               title: subProductDataCategory[item.title],
+            }))
+
+            state.subCategories = newSubCategoryData
+         })
    },
 })
 

@@ -45,15 +45,36 @@ export const nestedContentFunction = (
    indexForTable,
    index,
    checkboxHandler,
-   id
+   id,
+   isChecked
 ) => {
    if (isHovered === true) {
       if (indexForTable === 2) {
          return null
       }
       return (
-         <CheckboxInput bgColor="black" onClick={() => checkboxHandler(id)} />
+         <StyledCheckboxInput
+            bgColor="black"
+            isChecked={isChecked}
+            onClick={() => checkboxHandler(id)}
+         />
       )
    }
    return index + 1
+}
+const StyledCheckboxInput = styled(CheckboxInput)`
+   .MuiSvgIcon-root {
+      width: 1.458vw;
+      height: 1.458vw;
+   }
+`
+export function formatPhoneNumber(phoneNumber) {
+   const cleaned = phoneNumber.replace(/\D/g, '')
+
+   const formatted = `+${cleaned.slice(0, 3)} (${cleaned.slice(
+      3,
+      6
+   )}) ${cleaned.slice(6, 8)}-${cleaned.slice(8, 10)}-${cleaned.slice(10)}`
+
+   return formatted
 }

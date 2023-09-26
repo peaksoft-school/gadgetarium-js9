@@ -11,6 +11,17 @@ export const Shapes = () => {
       dispatch(categoryActions.changeShapes(id))
    }
 
+   const transformShapes = {
+      SQUARE: 'Квадратный',
+      ROUND: 'Круглый',
+      OVAL: 'Овальный',
+      RECTANGULAR: 'Прямоугольный',
+   }
+
+   const update = shapes.map((el) => {
+      return { ...el, title: transformShapes[el.title] }
+   })
+
    useEffect(() => {
       dispatch(categoryActions.watchShapes())
    }, [shapes])
@@ -19,7 +30,7 @@ export const Shapes = () => {
       <CatalogSelect
          title="Форма корпуса"
          onToggleCheckbox={postTitle}
-         items={shapes}
+         items={update}
       />
    )
 }

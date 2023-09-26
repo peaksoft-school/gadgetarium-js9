@@ -11,6 +11,20 @@ export const MaterialBracelets = () => {
       dispatch(categoryActions.changeMaterialBracelets(id))
    }
 
+   const transfromMaterialBracelets = {
+      SILICONE: 'Силикон',
+      LEATHER: 'Кожа',
+      RUBBER: 'Резина',
+      PLASTIC: 'Пластик',
+      NYLON: 'Нейлон',
+      IMITATION_LEATHER: 'Из искуственной кожи',
+      CERAMIC_IMITATION: 'Имитация керамика',
+   }
+
+   const update = materialBracelets?.map((el) => {
+      return { ...el, title: transfromMaterialBracelets[el.title] }
+   })
+
    useEffect(() => {
       dispatch(categoryActions.watchMaterialBracelets())
    }, [materialBracelets])
@@ -19,7 +33,7 @@ export const MaterialBracelets = () => {
       <CatalogSelect
          title="Материал браслета/ремешка"
          onToggleCheckbox={postTitle}
-         items={materialBracelets}
+         items={update}
       />
    )
 }

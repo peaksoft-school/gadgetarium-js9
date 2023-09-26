@@ -6,6 +6,10 @@ export const routes = {
       index: '/admin',
       addProductPartOne: '/admin/add-products-part-1',
       addProductPartTwo: '/admin/add-products-part-2',
+      phones: {
+         index: '/admin/product/:productId',
+         productDetail: '/admin/product/:productId/details',
+      },
    },
 
    USER: {
@@ -14,6 +18,10 @@ export const routes = {
       delivery: 'delivery',
       faq: 'faq',
       contacts: 'contacts',
+      phones: {
+         index: '/product/:productId/details',
+         fullPicture: '/product/:productId/details/fullPicture',
+      },
 
       category: {
          index: 'category/',
@@ -29,7 +37,7 @@ export const routes = {
          index: 'personalArea/:tab',
          personalDetail: 'personalArea/:orderId/details',
       },
-      personalFavorites: '/personalArea/:tab',
+      payment: '/payment/placing-an-order',
    },
 }
 

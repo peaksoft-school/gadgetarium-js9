@@ -1,15 +1,14 @@
 import React, { useState } from 'react'
 import styled from '@emotion/styled'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { format } from 'date-fns'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Modal from '@mui/material/Modal'
-import { Button } from '../../UI/Button'
-import Feedback from '../reviews/Feedback'
-import { Rating } from '../../../containers/rating/Rating'
-import { InputUi } from '../../UI/Input'
-import ImageBaha from '../../../assets/images/IMG_1373.jpg'
+import { Button } from '../../../UI/Button'
+import Feedback from '../../reviews/Feedback'
+import { Rating } from '../../../../containers/rating/Rating'
+import { InputUi } from '../../../UI/Input'
 
 const formatDate = (dateString) => {
    const date = new Date(dateString)
@@ -17,20 +16,13 @@ const formatDate = (dateString) => {
 }
 
 export const Reviews = () => {
-   const dispatch = useDispatch()
-   const [inputText, setInputText] = useState()
-   const reviews = useSelector(
-      (state) => state.infoPhone.productGetById.reviews
+   const { reviews, subProductId } = useSelector(
+      (state) => state.product.infoPhone
    )
-
-   function handleSubmit() {
-      dispatch(postReviewsPhone({ comment: inputText }))
-   }
-   function handleOnChange(event) {
-      setInputText(event.target.value)
-   }
+   const reviewMy = reviews.map((el) => el.my)
 
    const [open, setOpen] = useState(false)
+
    const handleOpen = () => setOpen(true)
    const handleClose = () => setOpen(false)
 
@@ -50,6 +42,7 @@ export const Reviews = () => {
       left: '50%',
       transform: 'translate(-50%, -50%)',
    }
+
    return (
       <div>
          <Container>
@@ -58,35 +51,33 @@ export const Reviews = () => {
                   style={{
                      fontFamily: 'Ubuntu',
                      fontSize: '1.875rem',
+                     fontWeight: '500',
                   }}
                >
                   Отзывы
                </p>
                <FeedbackBlock>
-                  {reviews.map((review) => {
+                  {reviews?.map((review) => {
                      return (
                         <Feedback
+                           answer={review.answer}
                            key={review.reviewId}
-                           my={review.my}
                            handleOpen={handleOpen}
-                           userIcon={
-                              review.userAvatar === 'img'
-                                 ? ImageBaha
-                                 : review.userAvatar
-                           }
                            userName={review.userFullName}
-                           userText="Размер (разумный - достаточно большой для чтения/просмотра контента, но не чрезмерный).Камера (первое время режимом мультикадр был приятно удивлён  мегапикселей не пожалели на основную камеру,зум работает увереннее, чем у конкурентов)"
+                           userText={review.comment}
                            stars={review.grade}
-                           canUserEdit
                            timePublication={formatDate(review.dateOfCreatAd)}
                            reviewId={review.reviewId}
+                           canUserEdit={review.my}
+                           adminState
+                           subProductId={subProductId}
                         />
                      )
                   })}
                </FeedbackBlock>
             </div>
             <RaitingStyle>
-               <Rating />
+               <Rating my={reviewMy} subProductId={subProductId} />
             </RaitingStyle>
          </Container>
          <div>
@@ -105,8 +96,6 @@ export const Reviews = () => {
                         style={{ marginTop: '3rem' }}
                         width="20.8rem"
                         height="3rem"
-                        value={inputText}
-                        onChange={handleOnChange}
                      />
                      <ButtonBlock>
                         <Button
@@ -125,7 +114,6 @@ export const Reviews = () => {
                            backgroundHover="#CB11AB"
                            backgroundActive="#CB11AB"
                            padding="0.625rem 2.6825rem"
-                           onClick={handleSubmit}
                         >
                            Добавить
                         </Button>
@@ -140,6 +128,9 @@ export const Reviews = () => {
 
 const Container = styled('div')`
    display: flex;
+   width: 78.5vw;
+   margin-top: 2.5rem;
+   justify-content: space-between;
 `
 
 const FeedbackBlock = styled('div')`

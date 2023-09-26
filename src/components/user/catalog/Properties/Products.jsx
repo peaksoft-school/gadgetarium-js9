@@ -24,20 +24,22 @@ export const Products = () => {
       puprosesArray,
       screenSizeArray,
       itemsColorsId,
-      iunterfacesArray,
       shapesArray,
       materialBraceletsArray,
       materialHousingArray,
       floorArray,
-      waterProofArray,
+      waterProofString,
       displayDiagonalArray,
       interfacesArray,
       tabletBatteryCapacityArray,
       sort,
+      subCategoriesId,
    } = useSelector((state) => state.category)
 
    const category = useParams()
    const dispatch = useDispatch()
+
+   const filterProducts = filteredProducts?.responseList
 
    useEffect(() => {
       const dataCategory = {
@@ -60,11 +62,12 @@ export const Products = () => {
          materialBraceletsArray,
          materialHousingArray,
          floorArray,
-         waterProofArray,
+         waterProofString,
          displayDiagonalArray,
          videoMemoryArray,
          tabletBatteryCapacityArray,
          sort,
+         subCategoriesId,
       }
       dispatch(sendSelectedCategories(dataCategory))
    }, [
@@ -81,22 +84,22 @@ export const Products = () => {
       puprosesArray,
       screenSizeArray,
       itemsColorsId,
-      iunterfacesArray,
       shapesArray,
       materialBraceletsArray,
       materialHousingArray,
       floorArray,
-      waterProofArray,
+      waterProofString,
       displayDiagonalArray,
       interfacesArray,
       videoMemoryArray,
       tabletBatteryCapacityArray,
       sort,
+      subCategoriesId,
    ])
 
    return (
       <Container>
-         {filteredProducts?.map((product) => {
+         {filterProducts?.map((product) => {
             return isLoading ? (
                <CardStyled key={product.subProductId} />
             ) : (
@@ -107,7 +110,7 @@ export const Products = () => {
                />
             )
          })}
-         {filteredProducts.length === 0 && (
+         {filterProducts?.length === 0 && (
             <Warnings>
                Извините, на данный момент товаров нет в наличии. Мы работаем над
                обновлением ассортимента. Загляните позже!

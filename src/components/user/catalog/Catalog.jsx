@@ -38,6 +38,8 @@ export const Catalog = () => {
       return dispatch(categoryActions.sort(value))
    }
 
+   const filterProducts = filteredProducts?.responseList
+
    const openSort = () => {
       setCateSort((prev) => !prev)
    }
@@ -60,14 +62,14 @@ export const Catalog = () => {
       dispatch(categoryActions.setPageSize(pageSize - plusPageSize))
    }
    useEffect(() => {
-      if (pageSize > filteredProducts.length) {
+      if (pageSize > filterProducts?.length) {
          dispatch(categoryActions.setShowMore(false))
-      } else if (pageSize === filteredProducts.length) {
+      } else if (pageSize === filterProducts?.length) {
          dispatch(categoryActions.setShowMore(true))
-      } else if (pageSize < filteredProducts.length) {
+      } else if (pageSize < filterProducts?.length) {
          dispatch(categoryActions.setShowMore(true))
       }
-   }, [pageSize, filteredProducts])
+   }, [pageSize, filterProducts])
 
    return (
       <Conteiner>
@@ -77,7 +79,7 @@ export const Catalog = () => {
             <Container>
                <ToolContainer>
                   <HeaderTitle>
-                     Найдено {filteredProducts.length} товаров
+                     Найдено {filteredProducts?.quantity} товаров
                   </HeaderTitle>
 
                   <SortingContainer>
@@ -99,6 +101,7 @@ export const Catalog = () => {
                         </Sorting>
                         {cateSort && (
                            <Sort
+                              onClose={closeSort}
                               sort={sort}
                               getSortType={getSortType}
                               openSort={cateSort}
@@ -115,7 +118,7 @@ export const Catalog = () => {
                      <Products />
 
                      <ButtonContainer>
-                        {filteredProducts?.length >= 12 && showMore && (
+                        {filterProducts?.length >= 12 && showMore && (
                            <ButtonStyled
                               padding="0.78240740vh 4.983073vw"
                               variant="outlined"
@@ -127,7 +130,7 @@ export const Catalog = () => {
                            </ButtonStyled>
                         )}
 
-                        {filteredProducts?.length >= 12 && !showMore && (
+                        {filterProducts?.length >= 12 && !showMore && (
                            <ButtonStyled
                               padding="0.78240740vh 4.983073vw"
                               variant="outlined"
@@ -219,6 +222,7 @@ const Container = styled('div')(({ theme }) => ({
 const ProductContainer = styled('div')`
    display: flex;
    justify-content: space-between;
+   /* align-items: flex-start; */
 `
 
 const Title = styled('p')`

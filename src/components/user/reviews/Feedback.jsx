@@ -1,11 +1,18 @@
 import { styled } from '@mui/material'
-import { useSearchParams } from 'react-router-dom'
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { ReactComponent as EditIcon } from '../../../assets/icons/tools-for-site/edit-icon.svg'
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/tools-for-site/delete-icon.svg'
 import FeedbackStars from './FeedbackStars'
 import { ReactComponent as DefaultIcon } from '../../../assets/icons/avatar/default-avatar-icon.svg'
 import FeedbackModal from '../../admin/feedback/FeedbackModal'
+import {
+   deleteReviewsRequest,
+   getInfoPage,
+} from '../../../store/informationPhone/infoPageThunk'
+import { EditModal } from './EditModal'
+import { infoPageActions } from '../../../store/informationPhone/infoPageSlice'
+import { useSnackbar } from '../../../hooks/useSnackbar'
 
 const Feedback = ({
    userName,
@@ -14,15 +21,32 @@ const Feedback = ({
    timePublication,
    stars,
    canUserEdit,
-   adminState = true,
+   adminState,
+   reviewId,
+   subProductId,
+   answer,
 }) => {
-   const [openModal, setOpenModal] = useSearchParams()
-   const [adminText, setAdminText] = useState('')
-   const [modalText, setModalText] = useState('')
-   const [adminReviewState, setAdminReviewState] = useState(false)
+   const dispatch = useDispatch()
+
+   const { snackbarHandler } = useSnackbar()
+
+   const { role } = useSelector((state) => state.auth)
+
+   const { productId, colours } = useSelector(
+      (state) => state.product.infoPhone
+   )
+
+   const [openModal, setOpenModal] = useState()
+   const [adminText, setAdminText] = useState(answer)
+   const [modalText, setModalText] = useState(adminText)
+   const [adminReviewState, setAdminReviewState] = useState(!!answer)
+   const [open, setOpen] = useState(false)
+   const [isEditing, setIsEditing] = useState(false)
+
    const getAdminText = (e) => {
       setModalText(e.target.value)
    }
+
    const saveTextHandler = () => {
       if (modalText === '') {
          if (adminReviewState === true) {
@@ -38,14 +62,19 @@ const Feedback = ({
       setAdminText(modalText)
       return null
    }
+
+   const toggleUserHandler = () => {
+      dispatch(infoPageActions.getUserComment(reviewId))
+      setOpen(!open)
+   }
    const closeModalHandler = () => {
-      openModal.delete('openModal')
-      setOpenModal(openModal)
+      setOpenModal(false)
    }
    const openModalHandler = () => {
-      openModal.set('openModal', 'true')
-      setOpenModal(openModal)
+      setIsEditing(adminReviewState)
+      setOpenModal(true)
    }
+
    return (
       <Container>
          <UserContainer>
@@ -71,17 +100,32 @@ const Feedback = ({
          </UserReviewContainer>
          {canUserEdit && (
             <ToolContainer>
-               <EditIcon />
-               <DeleteIcon />
+               <EditIcon onClick={toggleUserHandler} />
+               <DeleteIcon
+                  onClick={() =>
+                     dispatch(deleteReviewsRequest(reviewId))
+                        .unwrap()
+                        .then(() => {
+                           snackbarHandler({
+                              message: 'Товар успешно удален',
+                           })
+                           dispatch(getInfoPage({ productId, colours }))
+                        })
+                  }
+               />
             </ToolContainer>
          )}
-         {adminState && (
+         {adminState && role === 'ADMIN' && (
             <AdminButtonContainer>
                <AdminButton onClick={openModalHandler}>
                   {adminReviewState ? 'Редактировать' : 'Ответить'}
                </AdminButton>
-               {openModal.has('openModal') && (
+               {openModal && (
                   <FeedbackModal
+                     isEditing={isEditing}
+                     setIsEditing={setIsEditing}
+                     subProductId={subProductId}
+                     reviewId={reviewId}
                      modalText={modalText}
                      getAdminText={getAdminText}
                      saveTextHandler={saveTextHandler}
@@ -92,13 +136,20 @@ const Feedback = ({
                )}
             </AdminButtonContainer>
          )}
+         {open && (
+            <EditModal
+               reviewId={reviewId}
+               open={open}
+               onClose={toggleUserHandler}
+            />
+         )}
       </Container>
    )
 }
 
 export default Feedback
 const Container = styled('div')`
-   width: 47%;
+   width: 40rem;
    border-bottom: 0.0625rem solid #e8e8e8;
 `
 const ToolContainer = styled('div')`
@@ -165,7 +216,7 @@ const UserReviewContainer = styled('div')`
 `
 const UserText = styled('p')`
    color: #384255;
-   width: 51.5625rem;
+   width: 38rem;
    line-height: 1.5rem;
    margin: 0;
 `

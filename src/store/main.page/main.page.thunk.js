@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import {
+   followMailRequest,
    getBannersRequest,
    getNoveltiesRequest,
    getRecommendRequest,
@@ -53,6 +54,18 @@ export const getBanners = createAsyncThunk(
          return response.data
       } catch (error) {
          return rejectWithValue(error)
+      }
+   }
+)
+
+export const followMail = createAsyncThunk(
+   'mainPage/getBanners',
+   async ({ email, toggleMessageHandler }, { rejectWithValue }) => {
+      try {
+         const response = await followMailRequest(email)
+         toggleMessageHandler(response.data.message)
+      } catch (error) {
+         rejectWithValue(error)
       }
    }
 )

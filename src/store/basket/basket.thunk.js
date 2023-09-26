@@ -1,4 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
+import { postBasketCounterProductRequest } from '../../api/getById.service'
 import {
    deleteAllBasketGoodsRequest,
    deleteBasketByIdRequest,
@@ -99,6 +100,27 @@ export const addAllFavoriteGoods = createAsyncThunk(
             type: 'error',
          })
          rejectWithValue(error)
+      }
+   }
+)
+export const postBasketQuantity = createAsyncThunk(
+   'product/postBasketQuantity',
+   async ({ data, snackbarHandler }, { rejectWithValue }) => {
+      try {
+         const responce = await postBasketCounterProductRequest(data)
+         snackbarHandler({
+            message: 'Товар успешно добавлен в корзину',
+            linkText: 'Перейти в корзину',
+            path: '/basket',
+         })
+
+         return responce.data
+      } catch (error) {
+         snackbarHandler({
+            message: 'Товар не добавлен в корзину',
+            type: 'error',
+         })
+         return rejectWithValue(error)
       }
    }
 )

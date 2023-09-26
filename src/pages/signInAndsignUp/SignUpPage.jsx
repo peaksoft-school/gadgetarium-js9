@@ -69,50 +69,48 @@ export const SignUp = () => {
 
    return (
       <BackgroundInForm>
-         <ContainerChilde>
-            <Container>
-               <MuiCloseIcon onClick={onCloseHandler} />
-               <Title>Регистрация</Title>
-               <Form onSubmit={handleSubmit(onSubmit)}>
-                  {signUpInputArray.map((el) => {
-                     const error = errors[el.key]?.message
-                     return (
-                        <div key={el.key}>
-                           <Input
-                              width="29.5rem"
-                              {...register(el.key)}
-                              placeholder={el.placeholder}
-                              type={el.type}
-                              error={!!error}
-                              onBlur={() => handleFieldBlur(el.key)}
-                           />
-                        </div>
-                     )
-                  })}
-                  {errorMessages.length > 0 && (
-                     <div>
-                        {errorMessages.map((errorMessage) => (
-                           <ErrorMessage key={errorMessage}>
-                              {errorMessage}
-                           </ErrorMessage>
-                        ))}
+         <Container>
+            <MuiCloseIcon onClick={onCloseHandler} />
+            <Title>Регистрация</Title>
+            <Form onSubmit={handleSubmit(onSubmit)}>
+               {signUpInputArray.map((el) => {
+                  const error = errors[el.key]?.message
+                  return (
+                     <div key={el.key}>
+                        <Input
+                           width="29.5rem"
+                           {...register(el.key)}
+                           placeholder={el.placeholder}
+                           type={el.type}
+                           error={!!error}
+                           onBlur={() => handleFieldBlur(el.key)}
+                        />
                      </div>
+                  )
+               })}
+               {errorMessages.length > 0 && (
+                  <div>
+                     {errorMessages.map((errorMessage) => (
+                        <ErrorMessage key={errorMessage}>
+                           {errorMessage}
+                        </ErrorMessage>
+                     ))}
+                  </div>
+               )}
+               <ButtonUi type="submit" variant="contained">
+                  {isLoading ? (
+                     <CircularProgress size={27} sx={{ color: 'white' }} />
+                  ) : (
+                     'Создать аккаунт'
                   )}
-                  <ButtonUi type="submit" variant="contained">
-                     {isLoading ? (
-                        <CircularProgress size={27} sx={{ color: 'white' }} />
-                     ) : (
-                        'Создать аккаунт'
-                     )}
-                  </ButtonUi>
-               </Form>
-               <Block>
-                  <p>
-                     У вас уже есть аккаунт? <Link to="/signin">Войти</Link>
-                  </p>
-               </Block>
-            </Container>
-         </ContainerChilde>
+               </ButtonUi>
+            </Form>
+            <Block>
+               <p>
+                  У вас уже есть аккаунт? <Link to="/signin">Войти</Link>
+               </p>
+            </Block>
+         </Container>
       </BackgroundInForm>
    )
 }
@@ -135,25 +133,20 @@ const Title = styled('p')`
    color: #292929;
    text-align: center;
    font-family: Inter;
-   font-size: 28px;
+   font-size: 1.75rem;
    font-style: normal;
    font-weight: 500;
    line-height: normal;
    margin: 0;
-   margin-bottom: 24px;
-   margin-top: 14.5px;
+   margin-bottom: 1.5rem;
+   margin-top: 0.9063rem;
 `
-const ContainerChilde = styled('div')`
-   position: absolute;
-   bottom: 30px;
-`
-
 const ButtonUi = styled(Button)`
    width: 29.5rem;
    height: 2.9375rem;
    color: #fff;
    font-family: Inter;
-   font-size: 16px;
+   font-size: 1rem;
    text-transform: none;
 `
 const Block = styled('div')`
