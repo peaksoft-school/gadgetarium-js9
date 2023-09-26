@@ -801,8 +801,8 @@ const SelectParagraph2 = styled('p')`
 `
 const Select2 = styled('div')`
    position: absolute;
-   top: 1.5rem;
    left: -10rem;
+   top: 1.3rem;
    width: 10.8125rem;
    border-radius: 0.25rem;
    background: #fff;

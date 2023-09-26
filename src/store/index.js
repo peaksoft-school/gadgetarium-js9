@@ -12,6 +12,7 @@ import { paymentSlice } from './payment/payment.slice'
 import { globalSearchSlice } from './globalSearch/global.search.slice'
 import { adminGoodsSlice } from './admin.goods/admin.goods.slice'
 import { editProductSlice } from './edit.product/edit.product.slice'
+import { profileSlice } from './profile/profile.slice'
 
 export const store = configureStore({
    reducer: {
@@ -28,5 +29,6 @@ export const store = configureStore({
       [editProductSlice.name]: editProductSlice.reducer,
       [orderSlice.name]: orderSlice.reducer,
       [paymentSlice.name]: paymentSlice.reducer,
+      [profileSlice.name]: profileSlice.reducer,
    },
 })
