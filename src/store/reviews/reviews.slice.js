@@ -21,10 +21,10 @@ export const reviewsSlice = createSlice({
       builder
          .addCase(getAllReviews.fulfilled, (state, action) => {
             state.allReviews = action.payload
-            state.isLoading = true
+            state.isLoading = false
          })
          .addCase(getAllReviews.pending, (state) => {
-            state.isLoading = false
+            state.isLoading = true
          })
          .addCase(getAllReviews.rejected, (state) => {
             state.isLoading = false
@@ -32,23 +32,23 @@ export const reviewsSlice = createSlice({
       builder
          .addCase(getUnansweredReviews.fulfilled, (state, action) => {
             state.unanswered = action.payload
-            state.isLoading = true
-         })
-         .addCase(getAllReviews.pending, (state) => {
             state.isLoading = false
          })
-         .addCase(getAllReviews.rejected, (state) => {
+         .addCase(getUnansweredReviews.pending, (state) => {
+            state.isLoading = true
+         })
+         .addCase(getUnansweredReviews.rejected, (state) => {
             state.isLoading = false
          })
       builder
          .addCase(getAnsweredReviews.fulfilled, (state, action) => {
             state.answered = action.payload
-            state.isLoading = true
-         })
-         .addCase(getAllReviews.pending, (state) => {
             state.isLoading = false
          })
-         .addCase(getAllReviews.rejected, (state) => {
+         .addCase(getAnsweredReviews.pending, (state) => {
+            state.isLoading = true
+         })
+         .addCase(getAnsweredReviews.rejected, (state) => {
             state.isLoading = false
          })
    },
