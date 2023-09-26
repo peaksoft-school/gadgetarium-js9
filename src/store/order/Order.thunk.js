@@ -9,6 +9,7 @@ import {
 import {
    deleteAdminOrderRequest,
    getAdminOrderRequest,
+   updateStatusRequest,
 } from '../../api/orderAdmin.service'
 
 export const orderRequest = createAsyncThunk(
@@ -78,6 +79,17 @@ export const deleteIsAdminThunk = createAsyncThunk(
    async (orderId, { rejectWithValue }) => {
       try {
          await deleteAdminOrderRequest(orderId)
+      } catch (error) {
+         rejectWithValue(error)
+      }
+   }
+)
+
+export const changeStatusOrder = createAsyncThunk(
+   'order/changeStatusOrder',
+   async (data, { rejectWithValue }) => {
+      try {
+         await updateStatusRequest(data)
       } catch (error) {
          rejectWithValue(error)
       }

@@ -63,6 +63,14 @@ const Feedback = ({
       return null
    }
 
+   const deleteUserReviwes = async () => {
+      dispatch(deleteReviewsRequest({ reviewId, snackbarHandler }))
+         .unwrap()
+         .then(() => {
+            dispatch(getInfoPage({ productId, colours }))
+         })
+   }
+
    const toggleUserHandler = () => {
       dispatch(infoPageActions.getUserComment(reviewId))
       setOpen(!open)
@@ -101,18 +109,7 @@ const Feedback = ({
          {canUserEdit && (
             <ToolContainer>
                <EditIcon onClick={toggleUserHandler} />
-               <DeleteIcon
-                  onClick={() =>
-                     dispatch(deleteReviewsRequest(reviewId))
-                        .unwrap()
-                        .then(() => {
-                           snackbarHandler({
-                              message: 'Товар успешно удален',
-                           })
-                           dispatch(getInfoPage({ productId, colours }))
-                        })
-                  }
-               />
+               <DeleteIcon onClick={deleteUserReviwes} />
             </ToolContainer>
          )}
          {adminState && role === 'ADMIN' && (

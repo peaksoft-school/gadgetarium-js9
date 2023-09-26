@@ -163,25 +163,36 @@ export const PhoneDeital = () => {
 
                <CounterContainer>
                   <BlockCounter>
-                     {role === 'USER' ||
-                        (role === 'GUEST' && (
-                           <>
-                              <strong>Количество:</strong>
-
-                              <Counter>
-                                 <Button1 onClick={countMinus}>
-                                    <RemoveIcon />
-                                 </Button1>
-                                 <p>{count}</p>
-                                 <Button2 onClick={countPlus}>
-                                    <AddIcon />
-                                 </Button2>
-                              </Counter>
-                           </>
-                        ))}
+                     {role === 'USER' && (
+                        <>
+                           <strong>Количество:</strong>
+                           <Counter>
+                              <Button1 onClick={countMinus}>
+                                 <RemoveIcon />
+                              </Button1>
+                              <p>{count}</p>
+                              <Button2 onClick={countPlus}>
+                                 <AddIcon />
+                              </Button2>
+                           </Counter>
+                        </>
+                     )}
+                     {role === 'GUEST' && (
+                        <>
+                           <strong>Количество:</strong>
+                           <Counter>
+                              <Button1 onClick={countMinus}>
+                                 <RemoveIcon />
+                              </Button1>
+                              <p>{count}</p>
+                              <Button2 onClick={countPlus}>
+                                 <AddIcon />
+                              </Button2>
+                           </Counter>
+                        </>
+                     )}
                   </BlockCounter>
                </CounterContainer>
-
                <ContainerChildren>
                   <BlockDiscount>
                      <BlockPrice>
@@ -447,7 +458,7 @@ const BlockCounter = styled('div')`
 
 const CounterContainer = styled('div')`
    display: flex;
-   width: 7.5rem;
+   width: 6.9rem;
    justify-content: flex-start;
 `
 

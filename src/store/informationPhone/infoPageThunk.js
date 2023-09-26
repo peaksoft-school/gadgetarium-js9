@@ -56,10 +56,19 @@ export const postReviewsPhone = createAsyncThunk(
 
 export const deleteReviewsRequest = createAsyncThunk(
    'product/deleteReviewsRequest',
-   async (id, { rejectWithValue }) => {
+   async ({ reviewId, snackbarHandler }, { rejectWithValue }) => {
       try {
-         await deleteReviewsProductRequest(id)
+         await deleteReviewsProductRequest(reviewId)
+         snackbarHandler({
+            message: 'Товар успешно удален!',
+            type: 'success',
+         })
       } catch (error) {
+         snackbarHandler({
+            message:
+               'Вы не можете удалить комментарий, потому что администратор на него уже ответил!',
+            type: 'error',
+         })
          rejectWithValue(error)
       }
    }
@@ -67,12 +76,20 @@ export const deleteReviewsRequest = createAsyncThunk(
 
 export const putReviesRequest = createAsyncThunk(
    'product/putReviesRequest',
-   async ({ data, getPayload }, { rejectWithValue, dispatch }) => {
+   async (
+      { data, getPayload, snackbarHandler },
+      { rejectWithValue, dispatch }
+   ) => {
       try {
          const response = await putReviewsProductRequest(data)
          dispatch(getInfoPage(getPayload))
          return response.data
       } catch (error) {
+         snackbarHandler({
+            message:
+               'Вы не можете редактировать комментарий, потому что администратор уже ответил на него!',
+            type: 'error',
+         })
          return rejectWithValue(error)
       }
    }

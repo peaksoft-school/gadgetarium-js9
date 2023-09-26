@@ -37,17 +37,13 @@ function a11yProps(index) {
 
 export function AdminOrders() {
    const dispatch = useDispatch()
-   // const navigate = useNavigate()
    const [value, setValue] = useState(0)
    const [dateStart, setDateStart] = useState('2009-10-12')
    const [dateEnd, setDateEnd] = useState()
    const [valueTab, setValueTab] = useState(value)
-   const [currentPage, setCurrentPage] = useState(1)
-
-   const itemsPage = 4
 
    const { orderIsAdmin } = useSelector((state) => state.order)
-   const { responseAdminList, delivered } = useSelector(
+   const { responseAdminList, delivered, quantity } = useSelector(
       (state) => state.order.orderIsAdmin
    )
 
@@ -63,28 +59,9 @@ export function AdminOrders() {
    const handleChange = (event, newValue) => {
       setValue(newValue)
    }
-   // const navigateToPaymentPage = () => {
-   //    navigate('/admin/orders/payment')
-   // }
+
    const handlePageChange = (event, newPage) => {
       setCurrentPage(newPage)
-   }
-   const renderProductsOnPage = () => {
-      if (!responseAdminList) {
-         return []
-      }
-      const startIndex = (currentPage - 1) * itemsPage
-      const endIndex = startIndex + itemsPage
-      return responseAdminList
-         .slice(startIndex, endIndex)
-         .map((item, index) => (
-            <AdminOrderItem
-               key={item.subProductId}
-               tables={tables}
-               index={index}
-               {...item}
-            />
-         ))
    }
 
    useEffect(() => {
@@ -104,7 +81,8 @@ export function AdminOrders() {
    useEffect(() => {
       const data = {
          status: valueTab,
-         pageSize: itemsPage,
+         pageSize: 5,
+         page: 1,
          startDate,
          endDate,
       }
@@ -151,7 +129,7 @@ export function AdminOrders() {
                   placeholder="до"
                />
             </CalendarBlock>
-            <FindeOrders>Найдено 250 заказов</FindeOrders>
+            <FindeOrders>Найдено {quantity} заказов</FindeOrders>
             {responseAdminList?.length === 0 ? (
                <NotProduct>Здесь нет товаров!</NotProduct>
             ) : (
@@ -177,16 +155,22 @@ export function AdminOrders() {
                         </StyledTableRow>
                      </TableHead>
                      <TableBody>
-                        <div>{renderProductsOnPage()}</div>
+                        {responseAdminList?.map((item, index) => (
+                           <AdminOrderItem
+                              key={item.subProductId}
+                              valueTab={valueTab}
+                              tables={tables}
+                              index={index}
+                              {...item}
+                           />
+                        ))}
                      </TableBody>
                   </StyledTable>
 
                   <StackStyle>
                      <Stack>
                         <Pagination
-                           count={Math.ceil(
-                              (responseAdminList?.length || 0) / itemsPage
-                           )}
+                           count={1}
                            color="primary"
                            onChange={handlePageChange}
                         />

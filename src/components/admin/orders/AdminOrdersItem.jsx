@@ -6,6 +6,7 @@ import MenuItem from '@mui/material/MenuItem'
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/tools-for-site/delete-icon.svg'
 import { ReactComponent as ArrowDown } from '../../../assets/icons/arrows/down-icon.svg'
 import {
+   changeStatusOrder,
    deleteIsAdminThunk,
    orderIsAdminThunk,
 } from '../../../store/order/Order.thunk'
@@ -20,7 +21,8 @@ import {
    PENDING,
 } from '../../../utils/common/constants/globalConstants'
 
-export const AdminOrderItem = ({ tables, index, ...item }) => {
+export const AdminOrderItem = ({ valueTab, tables, index, ...item }) => {
+   console.log(valueTab)
    const dispatch = useDispatch()
    const time = item.createdAt ? item.createdAt.split(' ')[1] : null
    const [openModal, setOpenModal] = useState(false)
@@ -35,6 +37,17 @@ export const AdminOrderItem = ({ tables, index, ...item }) => {
    }
    const handleClose = () => {
       setArrowIconFlipped(false)
+   }
+
+   const handleCloseMenuItem = () => {
+      const productId = item.orderId
+      const data = {
+         orderId: productId,
+         status: valueTab,
+      }
+
+      dispatch(changeStatusOrder(data))
+      handleClose()
    }
 
    return (
@@ -206,20 +219,20 @@ export const AdminOrderItem = ({ tables, index, ...item }) => {
 
          <Menu anchorEl={arrowIconFlipped} open={open} onClose={handleClose}>
             {item.typeDelivery === 'PICKUP' && (
-               <>
-                  <MenuTitle onClick={handleClose}>В ожидании</MenuTitle>
-                  <MenuTitle onClick={handleClose}>Готов к выдаче</MenuTitle>
-                  <MenuTitle onClick={handleClose}>Получен</MenuTitle>
-                  <MenuTitle onClick={handleClose}>Отменить</MenuTitle>
-               </>
+               <div onClick={handleCloseMenuItem}>
+                  <MenuTitle>В ожидании</MenuTitle>
+                  <MenuTitle>Готов к выдаче</MenuTitle>
+                  <MenuTitle>Получен</MenuTitle>
+                  <MenuTitle>Отменить</MenuTitle>
+               </div>
             )}
             {item.typeDelivery === 'DELIVERY' && (
                <>
-                  <MenuTitle onClick={handleClose}>В ожидании</MenuTitle>
-                  <MenuTitle onClick={handleClose}>Готов к выдаче</MenuTitle>
-                  <MenuTitle onClick={handleClose}>Курьер в пути</MenuTitle>
-                  <MenuTitle onClick={handleClose}>Доставлен</MenuTitle>
-                  <MenuTitle onClick={handleClose}>Отменить</MenuTitle>
+                  <MenuTitle>В ожидании</MenuTitle>
+                  <MenuTitle>Готов к выдаче</MenuTitle>
+                  <MenuTitle>Курьер в пути</MenuTitle>
+                  <MenuTitle>Доставлен</MenuTitle>
+                  <MenuTitle>Отменить</MenuTitle>
                </>
             )}
          </Menu>

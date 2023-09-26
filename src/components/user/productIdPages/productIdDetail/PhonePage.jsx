@@ -143,7 +143,7 @@ const BrandNameBlock = styled('div')`
 
 const BrandName = styled('h1')`
    width: 79.888vw;
-   color: #292929;
+   color: #0a0a92;
    font-family: Ubuntu;
    font-size: 30px;
    font-style: normal;

@@ -39,6 +39,8 @@ export const Attribute = () => {
 
    const { role } = useSelector((state) => state.auth)
 
+   console.log(role, 'role')
+
    const { productId } = useSelector((state) => state.product.infoPhone)
 
    const donwnload = useSelector((state) => state.product.getPdfFiles)
@@ -66,10 +68,12 @@ export const Attribute = () => {
                      <Tab label="Описание" {...a11yProps(0)} />
                      <Tab label="Характеристики" {...a11yProps(1)} />
                      <Tab label="Отзывы" {...a11yProps(2)} />
-                     {role === 'USER' ||
-                        (role === 'GUEST' && (
-                           <Tab label="Доставка и оплата" {...a11yProps(3)} />
-                        ))}
+                     {role === 'USER' && (
+                        <Tab label="Доставка и оплата" {...a11yProps(3)} />
+                     )}
+                     {role === 'GUEST' && (
+                        <Tab label="Доставка и оплата" {...a11yProps(3)} />
+                     )}
 
                      <DownloadBlock onClick={onDownloadPadfFile}>
                         <DownloadIcons />

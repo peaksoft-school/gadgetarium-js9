@@ -7,3 +7,7 @@ export const getAdminOrderRequest = (data) => {
 export const deleteAdminOrderRequest = (orderId) => {
    return axiosInstance.delete(`/order/single-delete/${orderId}`)
 }
+
+export const updateStatusRequest = (data) => {
+   return axiosInstance.post(`/order/${data.orderId}?status=${data.status}`)
+}

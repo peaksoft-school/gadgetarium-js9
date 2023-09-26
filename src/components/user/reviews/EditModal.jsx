@@ -7,8 +7,10 @@ import { Modal } from '../../UI/Modal'
 import { RatingPhoto } from '../../../containers/rating/RatingPhoto'
 import { Button } from '../../UI/Button'
 import { putReviesRequest } from '../../../store/informationPhone/infoPageThunk'
+import { useSnackbar } from '../../../hooks/useSnackbar'
 
 export const EditModal = ({ open, onClose, reviewId }) => {
+   const { snackbarHandler } = useSnackbar()
    const { userComment, infoPhone } = useSelector((state) => state.product)
    const [myStar, setMyStar] = useState(userComment.grade)
    const [comment, setComment] = useState(userComment.comment)
@@ -34,6 +36,7 @@ export const EditModal = ({ open, onClose, reviewId }) => {
       dispatch(
          putReviesRequest({
             data,
+            snackbarHandler,
             getPayload: { productId, colour: infoPhone.color },
          })
       )
