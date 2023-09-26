@@ -11,12 +11,13 @@ import {
    getAnsweredReviews,
    getUnansweredReviews,
 } from '../../../store/reviews/reviews.thunk'
+import { Loading } from '../../UI/loading/Loading'
 
 export const ReviewsAndRating = () => {
    const dispatch = useDispatch()
    const [valueTabs, setValueTabs] = useState(0)
    const [page, setPage] = useState(1)
-   const { allReviews, unanswered, answered } = useSelector(
+   const { allReviews, unanswered, answered, isLoading } = useSelector(
       (state) => state.reviews
    )
 
@@ -55,90 +56,99 @@ export const ReviewsAndRating = () => {
    }
 
    return (
-      <AllContainer>
-         <WidthContainer>
-            <Container>
-               <ContainerMyContent>
-                  <div>
-                     <BoxStyle sx={{ width: '100%' }}>
-                        <Box>
-                           <Tabs value={valueTabs} onChange={handleChange}>
-                              <Tab label="Bce отзывы" {...a11yProps(0)} />
-                              {count && (
-                                 <Tab
-                                    label={
-                                       <span>
-                                          Неотвеченные{' '}
-                                          <span className="count">
-                                             +{unanswered?.count}
+      <>
+         {isLoading && <Loading />}
+         <AllContainer>
+            <WidthContainer>
+               <Container>
+                  <ContainerMyContent>
+                     <div>
+                        <BoxStyle sx={{ width: '100%' }}>
+                           <Box>
+                              <Tabs value={valueTabs} onChange={handleChange}>
+                                 <Tab label="Bce отзывы" {...a11yProps(0)} />
+                                 {count && (
+                                    <Tab
+                                       label={
+                                          <span>
+                                             Неотвеченные{' '}
+                                             <span className="count">
+                                                +{unanswered?.count}
+                                             </span>
                                           </span>
-                                       </span>
-                                    }
-                                    {...a11yProps(1)}
+                                       }
+                                       {...a11yProps(1)}
+                                    />
+                                 )}
+                                 <Tab
+                                    label="Отвеченные"
+                                    {...a11yProps(a11yPropsValid)}
                                  />
-                              )}
-                              <Tab
-                                 label="Отвеченные"
-                                 {...a11yProps(a11yPropsValid)}
-                              />
-                           </Tabs>
-                        </Box>
-                        <CustomTabPanel value={valueTabs} index={valueTabs}>
-                           <ContainerTable>
-                              <div>
-                                 <AdminTablesHead />
-                              </div>
+                              </Tabs>
+                           </Box>
+                           <CustomTabPanel value={valueTabs} index={valueTabs}>
+                              <ContainerTable>
+                                 <div>
+                                    <AdminTablesHead />
+                                 </div>
 
-                              <div>
-                                 {dataReviewsFour?.reviews?.map((item, i) => {
-                                    const index = i + 1
+                                 <div>
+                                    {dataReviewsFour?.reviews?.map(
+                                       (item, i) => {
+                                          const index = i + 1
 
-                                    return (
-                                       <div key={item.reviewId}>
-                                          <AdminFeedback
-                                             index={index}
-                                             id={item.reviewId}
-                                             stars={item.grade}
-                                             userText={item.comment}
-                                             userName={item.userFullName}
-                                             modelName={item.brandName}
-                                             images={item.images}
-                                             time={item.dateOfCreatAd}
-                                             userEmail={item.userEmail}
-                                             art={item.articleNumber}
-                                             productImage={item.productImage}
-                                             productName={item.productName}
-                                             userAvatar={item.userAvatar}
-                                             imageLink={item.imageLink}
-                                             viewed={item.viewed}
-                                             answer={item.answer}
-                                             page={page}
-                                             getReviewsHandler={
-                                                getReviewsHandler
-                                             }
-                                          />
-                                       </div>
-                                    )
-                                 })}
-                              </div>
-                           </ContainerTable>
-                        </CustomTabPanel>
-                     </BoxStyle>
-                  </div>
-               </ContainerMyContent>
+                                          return (
+                                             <div key={item.reviewId}>
+                                                <AdminFeedback
+                                                   index={index}
+                                                   id={item.reviewId}
+                                                   stars={item.grade}
+                                                   userText={item.comment}
+                                                   userName={item.userFullName}
+                                                   modelName={item.brandName}
+                                                   images={item.images}
+                                                   time={item.dateOfCreatAd}
+                                                   userEmail={item.userEmail}
+                                                   art={item.articleNumber}
+                                                   productImage={
+                                                      item.productImage
+                                                   }
+                                                   productName={
+                                                      item.productName
+                                                   }
+                                                   userAvatar={item.userAvatar}
+                                                   imageLink={item.imageLink}
+                                                   viewed={item.viewed}
+                                                   answer={item.answer}
+                                                   page={page}
+                                                   getReviewsHandler={
+                                                      getReviewsHandler
+                                                   }
+                                                />
+                                             </div>
+                                          )
+                                       }
+                                    )}
+                                 </div>
+                              </ContainerTable>
+                           </CustomTabPanel>
+                        </BoxStyle>
+                     </div>
+                  </ContainerMyContent>
 
-               <Infographic />
-            </Container>
+                  <Infographic />
+               </Container>
 
-            <BoxPagination>
-               <Pagination
-                  count={paginationCount}
-                  onChange={getNumPage}
-                  color="primary"
-               />
-            </BoxPagination>
-         </WidthContainer>
-      </AllContainer>
+               <BoxPagination>
+                  <Pagination
+                     count={paginationCount}
+                     onChange={getNumPage}
+                     color="primary"
+                  />
+               </BoxPagination>
+            </WidthContainer>
+         </AllContainer>
+      </>
    )
 }
 
@@ -176,6 +186,7 @@ const BoxStyle = styled(Box)`
 
    .MuiTab-root.Mui-selected {
       background-color: #cb11ab;
+      font-family: Inter;
       color: #fff;
       font-size: 1rem;
    }
@@ -185,6 +196,7 @@ const BoxStyle = styled(Box)`
    }
 
    .MuiTab-root {
+      font-family: Inter;
       border-radius: 0.25rem;
       color: #384255;
       min-height: 0;

@@ -108,7 +108,6 @@ const Container = styled('div')`
       margin: 0;
 
       color: #384255;
-      /* font-feature-settings: 'clig' off, 'liga' off; */
       font-family: Inter;
       font-size: 14px;
       font-style: normal;
@@ -121,8 +120,6 @@ const BoxContent = styled('div')(({ width }) => ({
    width,
    display: 'flex',
    gap: '0.375rem',
-
-   //  border: '1px solid',
 }))
 
 const AllStar = styled('div')(() => ({
@@ -142,8 +139,8 @@ const ArrowDownStyle = styled(ArrowDown)`
 
 const MenuStyle = styled(Menu)`
    .MuiPaper-root {
-      width: 7vw;
-      padding: 0px;
+      /* width: 7vw; */
+      padding: 0;
 
       display: flex;
       flex-direction: column;
@@ -152,7 +149,7 @@ const MenuStyle = styled(Menu)`
 `
 
 const MenuItemStyle = styled(MenuItem)`
-   padding: 0.3125rem 0.3125rem;
+   padding: 0.3125rem 0.625rem;
 
    :focus {
       background-color: transparent;
