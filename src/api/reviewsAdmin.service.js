@@ -4,21 +4,21 @@ export const getAllRatingCountRequest = () => {
    return axiosInstance.get('/reviews/all-ratings-info')
 }
 
-export const getAllReviewsRequest = () => {
+export const getAllReviewsRequest = (numberPage) => {
    return axiosInstance.get(
-      `/reviews/get-all-reviews?filter=Все отзывы&pageSize=4&numberPage=${4}`
+      `/reviews/get-all-reviews?filter=Bce отзывы&pageSize=4&numberPage=${numberPage}`
    )
 }
 
-export const getUnansweredReviewsRequest = () => {
+export const getUnansweredReviewsRequest = (numberPage) => {
    return axiosInstance.get(
-      `/reviews/get-all-reviews?filter=Неотвеченные&pageSize=4&numberPage=${4}`
+      `/reviews/get-all-reviews?filter=Неотвеченные&pageSize=4&numberPage=${numberPage}`
    )
 }
 
-export const getAnsweredReviewsRequest = () => {
+export const getAnsweredReviewsRequest = (numberPage) => {
    return axiosInstance.get(
-      `/reviews/get-all-reviews?filter=Отвеченные&pageSize=4&numberPage=${4}`
+      `/reviews/get-all-reviews?filter=Отвеченные&pageSize=4&numberPage=${numberPage}`
    )
 }
 

@@ -20,6 +20,7 @@ import { categoryMappings } from '../../../utils/common/constants/compare.consta
 import { useSnackbar } from '../../../hooks/useSnackbar'
 import sammyFinance from '../../../assets/images/sammy-finance-image.png'
 import { useCustomSearchParams } from '../../../hooks/useCustomSearchParams'
+import { BreadCrumbs } from '../../UI/breadCrumbs/BreadCrumbs'
 
 export const Compare = () => {
    const { products, isLoadingComparison, countProducts, deleteAll } =
@@ -121,6 +122,13 @@ export const Compare = () => {
          {isLoadingComparison && <Loading />}
          <Container>
             <WidthContainer>
+               <BreadCrumbs
+                  breadcrumbs={[
+                     { path: '/', label: 'Главная' },
+                     { label: 'Сравнение' },
+                  ]}
+               />
+
                <Paragraph count={countProducts?.length}>
                   Сравнение товаров
                </Paragraph>

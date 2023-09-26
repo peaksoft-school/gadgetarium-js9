@@ -25,9 +25,6 @@ export const reviewsSlice = createSlice({
       builder.addCase(getAnsweredReviews.fulfilled, (state, action) => {
          state.answered = action.payload
       })
-      // builder.addCase(putEditAnswerReviews.fulfilled, (state, action) => {
-      //    state.answered = action.payload
-      // })
    },
 })
 

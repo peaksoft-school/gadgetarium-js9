@@ -12,92 +12,6 @@ import {
    getUnansweredReviews,
 } from '../../../store/reviews/reviews.thunk'
 
-export const arr = {
-   count: 6,
-   reviews: [
-      {
-         reviewId: '1',
-         grade: 3,
-         productImage: 'img',
-         comment: 'Suuu',
-         userFullName: 'Daniel',
-         productName: 'Phone',
-         brandName: 'Модель',
-         images: [],
-         dateOfCreatAd: '20.06.22 - 14:15',
-         userEmail: 'daniel@gmail.com',
-         art: '1212121212',
-         userAvatar: '',
-         imageLink: '',
-         viewed: true,
-      },
-      {
-         reviewId: '2',
-         grade: 3,
-         productImage: 'img',
-         comment: 'Suuu',
-         userFullName: 'Daniel',
-         productName: 'Phone',
-         brandName: 'Модель',
-         images: [],
-         dateOfCreatAd: '20.06.22 - 14:15',
-         userEmail: 'daniel@gmail.com',
-         art: '1212121212',
-         userAvatar: '',
-         imageLink: '',
-         viewed: true,
-      },
-      {
-         reviewId: '3',
-         grade: 3,
-         productImage: 'img',
-         comment: 'Suuu',
-         userFullName: 'Daniel',
-         productName: 'Phone',
-         brandName: 'Модель',
-         images: [],
-         dateOfCreatAd: '20.06.22 - 14:15',
-         userEmail: 'daniel@gmail.com',
-         art: '1212121212',
-         userAvatar: '',
-         imageLink: '',
-         viewed: true,
-      },
-      {
-         reviewId: '4',
-         grade: 3,
-         productImage: 'img',
-         comment: 'Suuu',
-         userFullName: 'Daniel',
-         productName: 'Phone',
-         brandName: 'Модель',
-         images: [],
-         dateOfCreatAd: '20.06.22 - 14:15',
-         userEmail: 'daniel@gmail.com',
-         art: '1212121212',
-         userAvatar: '',
-         imageLink: '',
-         viewed: true,
-      },
-      {
-         reviewId: '5',
-         grade: 3,
-         productImage: 'img',
-         comment: 'Suuu',
-         userFullName: 'Daniel',
-         productName: 'Phone',
-         brandName: 'Модель',
-         images: [],
-         dateOfCreatAd: '20.06.22 - 14:15',
-         userEmail: 'daniel@gmail.com',
-         art: '1212121212',
-         userAvatar: '',
-         imageLink: '',
-         viewed: true,
-      },
-   ],
-}
-
 export const ReviewsAndRating = () => {
    const dispatch = useDispatch()
    const [valueTabs, setValueTabs] = useState(0)
@@ -129,10 +43,16 @@ export const ReviewsAndRating = () => {
    const dataReviewsThree = valueTabs === 0 ? allReviews : answered
    const dataReviewsFour = count ? dataReviewsTwo : dataReviewsThree
 
-   const mathRes = dataReviewsTwo?.count ? dataReviewsTwo?.count : 0
+   const mathRes = dataReviewsFour?.count ? dataReviewsFour?.count : 0
    const paginationCount = Math.ceil(mathRes / 4)
 
    const a11yPropsValid = count ? 2 : 1
+
+   const getReviewsHandler = () => {
+      dispatch(getAllReviews(page))
+      dispatch(getUnansweredReviews(page))
+      dispatch(getAnsweredReviews(page))
+   }
 
    return (
       <AllContainer>
@@ -192,6 +112,10 @@ export const ReviewsAndRating = () => {
                                              imageLink={item.imageLink}
                                              viewed={item.viewed}
                                              answer={item.answer}
+                                             page={page}
+                                             getReviewsHandler={
+                                                getReviewsHandler
+                                             }
                                           />
                                        </div>
                                     )

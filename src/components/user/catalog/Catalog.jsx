@@ -9,6 +9,7 @@ import { Button } from '../../UI/Button'
 import { Options } from './Options'
 import { ArrowIcon } from '../../UI/Arrow'
 import { Sort } from './Sort'
+import { BreadCrumbs } from '../../UI/breadCrumbs/BreadCrumbs'
 
 export const Catalog = () => {
    const {
@@ -74,6 +75,15 @@ export const Catalog = () => {
    return (
       <Conteiner>
          <SecondContainer>
+            <BreadCrumbsBox>
+               <BreadCrumbs
+                  breadcrumbs={[
+                     { path: '/', label: 'Главная' },
+                     { label: categoryName[categoryValues] },
+                  ]}
+               />
+            </BreadCrumbsBox>
+
             <h1>{categoryName[categoryValues]}</h1>
 
             <Container>
@@ -157,6 +167,10 @@ const Conteiner = styled('div')`
    margin-bottom: 7.5rem;
 `
 
+const BreadCrumbsBox = styled('div')`
+   margin-bottom: 1.875rem;
+`
+
 const ButtonStyled = styled(Button)`
    margin-top: 3.7037vh;
 `
@@ -174,7 +188,6 @@ const ButtonContainer = styled('div')`
 
 const SecondContainer = styled('div')`
    width: 79.688vw;
-   margin-top: 1.88rem;
 
    h1 {
       margin: 0;

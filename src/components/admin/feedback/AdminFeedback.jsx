@@ -31,6 +31,7 @@ const AdminFeedback = ({
    id,
    viewed,
    answer,
+   getReviewsHandler,
 }) => {
    const value = answer === null || undefined ? '' : answer
    const dispatch = useDispatch()
@@ -60,10 +61,12 @@ const AdminFeedback = ({
 
       if (value !== '') {
          dispatch(putEditAnswerReviews(data))
+         getReviewsHandler()
       }
 
       if (value === '') {
          dispatch(postAdminReplyCommentsReviews(data))
+         getReviewsHandler()
       }
 
       setAdminAnswer(temporaryAnswer)
@@ -77,6 +80,7 @@ const AdminFeedback = ({
 
    const deleteHandler = () => {
       dispatch(deleteReviewsId(id))
+      getReviewsHandler()
    }
 
    const text = `${userText}`

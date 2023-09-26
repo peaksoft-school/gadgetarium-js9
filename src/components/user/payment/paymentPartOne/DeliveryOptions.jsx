@@ -21,7 +21,6 @@ export const DeliveryOptions = ({
    const check = delivery
    const { validBoolean } = useSelector((state) => state.payment)
    const { basketResponses } = useSelector((state) => state.basket)
-   console.log('basketResponses: ', basketResponses)
    const navigate = useNavigate()
    const { snackbarHandler } = useSnackbar()
 
@@ -43,11 +42,22 @@ export const DeliveryOptions = ({
       }
 
       if (valid) {
-         dispatch(collectorDataPartOne({ data, delivery }))
-
-         nextHandler()
-
-         dispatch(validForm(true))
+         if (!check) {
+            if (formik.values.address !== '') {
+               dispatch(collectorDataPartOne({ data, delivery }))
+               nextHandler()
+               dispatch(validForm(true))
+            } else {
+               snackbarHandler({
+                  message: 'Bce поле должны быть заполнены',
+                  type: 'error',
+               })
+            }
+         } else {
+            dispatch(collectorDataPartOne({ data, delivery }))
+            nextHandler()
+            dispatch(validForm(true))
+         }
       }
 
       if (valid === false) {
@@ -73,8 +83,20 @@ export const DeliveryOptions = ({
       }
 
       if (validBoolean) {
-         navigate()
-         nextHandler()
+         if (!check) {
+            if (formik.values.address !== '') {
+               navigate()
+               nextHandler()
+            } else {
+               snackbarHandler({
+                  message: 'Bce поле должны быть заполнены',
+                  type: 'error',
+               })
+            }
+         } else {
+            navigate()
+            nextHandler()
+         }
       }
 
       dispatch(collectorSubProductId(basketResponses))
