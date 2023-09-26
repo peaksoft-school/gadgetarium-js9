@@ -4,10 +4,20 @@ import { ShopGadgetariumInfo } from './ShopGadgetariumInfo'
 import { ReasonForSuccess } from './ReasonForSuccess'
 import { TodayWeAre } from './TodayWeAre'
 import { SliderStore } from './SliderStore'
+import { BreadCrumbs } from '../../../UI/breadCrumbs/BreadCrumbs'
 
 export const AboutShop = () => {
    return (
       <Main>
+         <BreadCrumbsBox>
+            <BreadCrumbs
+               breadcrumbs={[
+                  { path: '/', label: 'Главная' },
+                  { label: 'O магазине' },
+               ]}
+            />
+         </BreadCrumbsBox>
+
          <BoxInfo>
             <Text>O магазине</Text>
          </BoxInfo>
@@ -29,6 +39,10 @@ export const AboutShop = () => {
    )
 }
 
+const BreadCrumbsBox = styled('div')`
+   margin-left: 10.7rem;
+`
+
 const Text = styled('p')(({ theme }) => ({
    fontFamily: theme.typography.fontFamily,
    color: theme.palette.primary.mainContrastText,
@@ -49,6 +63,7 @@ const BoxInfo = styled('div')(() => ({
 
 const Main = styled('main')(({ theme }) => ({
    fontFamily: theme.typography.mainFontFamily,
+
    section: {
       display: 'flex',
       flexDirection: 'column',

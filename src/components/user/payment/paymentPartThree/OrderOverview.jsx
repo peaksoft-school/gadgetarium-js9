@@ -18,9 +18,15 @@ export const OrderOverview = ({
    navigatePartOneHandler,
 }) => {
    const dispatch = useDispatch()
-   const { orderData, token, user, openSuccessModal, isError } = useSelector(
-      (state) => state.payment
-   )
+   const {
+      orderData,
+      token,
+      user,
+      openSuccessModal,
+      isError,
+      dataSubProductId,
+   } = useSelector((state) => state.payment)
+
    const { basket } = useSelector((state) => state.basket)
    const { snackbarHandler } = useSnackbar()
 
@@ -37,13 +43,18 @@ export const OrderOverview = ({
    const onOrderOverviewHandler = () => {
       const tel = user.phoneNumber
       const cleanedText = tel.replace(/\D/g, '')
-      const userData = { ...orderData, phoneNumber: `+${cleanedText}` }
+      const userData = {
+         ...orderData,
+         phoneNumber: `+${cleanedText}`,
+         subProductIds: dataSubProductId,
+      }
 
       const data = {
          userData,
          paymentData: { token, amount: basket.toPay },
       }
 
+      console.log('data: ', data)
       if (token !== '') {
          dispatch(postOrderUserData(data.userData))
          dispatch(postPayment(data.paymentData))

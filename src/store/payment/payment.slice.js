@@ -11,6 +11,7 @@ const initialState = {
    token: '',
    orderNumber: '',
    openSuccessModal: false,
+   dataSubProductId: [],
 }
 
 export const paymentSlice = createSlice({
@@ -49,7 +50,18 @@ export const paymentSlice = createSlice({
 
          return { ...state, orderData: newData, token: payload.token }
       },
+
+      closeOpenSuccessModal(state) {
+         state.openSuccessModal = false
+      },
+
+      collectorSubProductId(state, { payload }) {
+         const res = payload.map((item) => item.subProductId)
+
+         return { ...state, dataSubProductId: res }
+      },
    },
+
    extraReducers: (builder) => {
       builder
          .addCase(getUserData.fulfilled, (state, action) => {
@@ -68,7 +80,7 @@ export const paymentSlice = createSlice({
       builder
          .addCase(postOrderUserData.fulfilled, (state, action) => {
             state.orderNumber = action.payload.orderNumber
-
+            state.isLoading = false
             state.openSuccessModal = true
          })
          .addCase(postOrderUserData.pending, (state) => {
@@ -82,5 +94,10 @@ export const paymentSlice = createSlice({
    },
 })
 
-export const { collectorDataPartOne, validForm, collectorDataPartTwo } =
-   paymentSlice.actions
+export const {
+   collectorDataPartOne,
+   validForm,
+   collectorDataPartTwo,
+   collectorSubProductId,
+   closeOpenSuccessModal,
+} = paymentSlice.actions

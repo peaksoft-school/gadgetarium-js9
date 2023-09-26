@@ -46,7 +46,6 @@ export const Options = () => {
 
    return (
       <Content ref={containerRef}>
-         {/* <div  className="box-options"> */}
          <ButtonStyled onClick={resetAllFilters}>
             Сбросить все фильтры
          </ButtonStyled>
@@ -95,7 +94,6 @@ export const Options = () => {
                <DisplayDiagonal />
             </div>
          ) : null}
-         {/* </div> */}
       </Content>
    )
 }
