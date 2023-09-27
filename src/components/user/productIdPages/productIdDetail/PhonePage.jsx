@@ -10,7 +10,6 @@ import { getInfoPage } from '../../../../store/informationPhone/infoPageThunk'
 import { ProductDetails } from '../ProductDetails'
 import { ContainerProductId } from '../Container'
 import { BreadCrumbs } from '../../../UI/breadCrumbs/BreadCrumbs'
-import { getByIdBreadcrumbs } from '../../../../utils/common/constants/paymant'
 
 function CustomTabPanel(props) {
    const { children, value, index, ...other } = props
@@ -56,12 +55,31 @@ export const PhonePage = () => {
       setValue(newValue)
    }
 
+   const labelBreadCrumbsData = {
+      Phone: 'Смартфоны',
+      Laptop: 'Ноутбуки',
+      'Smart Watch': 'Смарт-часы',
+      Tablet: 'Планшеты',
+   }
+
+   const pathBreadCrumbs = labelBreadCrumbsData[infoPhone?.category]
+
    return (
       <Container>
          <BreadCrumbsContainer>
             <BreadCrumbsBlock>
-               <BreadCrumbs breadcrumbs={getByIdBreadcrumbs} />
-               <Name>{infoPhone?.name}</Name>
+               <BreadCrumbs
+                  breadcrumbs={[
+                     { path: '/', label: 'Главная' },
+                     {
+                        path: `/category/${infoPhone?.category}`,
+                        label: pathBreadCrumbs,
+                     },
+                     {
+                        label: infoPhone?.name,
+                     },
+                  ]}
+               />
             </BreadCrumbsBlock>
          </BreadCrumbsContainer>
          <BrandNameBlock>
@@ -167,7 +185,4 @@ const BreadCrumbsBlock = styled('div')`
    display: flex;
    align-items: center;
    width: 79.888vw;
-`
-const Name = styled('p')`
-   margin-top: 4.8rem;
 `

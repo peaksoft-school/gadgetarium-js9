@@ -9,6 +9,7 @@ import { ProductCard } from '../product.card/ProductCard'
 import { Button } from '../../UI/Button'
 import { CardPhone } from '../card/CardPhone'
 import { Loading } from '../../UI/loading/Loading'
+import { BreadCrumbs } from '../../UI/breadCrumbs/BreadCrumbs'
 
 export const Favorite = React.memo(() => {
    const dispatch = useDispatch()
@@ -33,6 +34,17 @@ export const Favorite = React.memo(() => {
       <>
          {isLoadingFavorite && <Loading />}
          <Container>
+            <SecondContainer>
+               <BreadCrumbs
+                  breadcrumbs={[
+                     { path: '/', label: 'Главная' },
+                     { label: 'Избранное' },
+                  ]}
+               />
+
+               <Title>Избранное</Title>
+            </SecondContainer>
+
             {favoriteItems?.length === 0 ? (
                <VoidContainer>
                   <Image src={favoriteImage} alt="" />
@@ -54,7 +66,6 @@ export const Favorite = React.memo(() => {
                </VoidContainer>
             ) : (
                <SecondContainer>
-                  <Title>Избранное</Title>
                   <CleanButton onClick={deleteFavoriteItemsHandler}>
                      <StyledDeleteIcon />
                      Очистить список товаров
@@ -101,6 +112,7 @@ export const Favorite = React.memo(() => {
    )
 })
 Favorite.displayName = 'Favorite'
+
 const Title = styled('p')`
    color: #292929;
    font-family: Ubuntu;
@@ -114,6 +126,7 @@ const Title = styled('p')`
    padding-bottom: 1.25rem;
    border-bottom: 0.0625rem solid #cdcdcd;
 `
+
 const VoidContainer = styled('div')`
    display: flex;
    flex-direction: column;

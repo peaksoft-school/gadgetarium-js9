@@ -32,9 +32,7 @@ const Feedback = ({
 
    const { role } = useSelector((state) => state.auth)
 
-   const { productId, colours } = useSelector(
-      (state) => state.product.infoPhone
-   )
+   const { productId, color } = useSelector((state) => state.product.infoPhone)
 
    const [openModal, setOpenModal] = useState()
    const [adminText, setAdminText] = useState(answer)
@@ -67,7 +65,7 @@ const Feedback = ({
       dispatch(deleteReviewsRequest({ reviewId, snackbarHandler }))
          .unwrap()
          .then(() => {
-            dispatch(getInfoPage({ productId, colours }))
+            dispatch(getInfoPage({ productId, colour: color }))
          })
    }
 

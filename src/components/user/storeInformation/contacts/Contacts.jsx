@@ -3,10 +3,18 @@ import React from 'react'
 import { CourseInfo } from './courseInfo'
 import { MapComponent } from './Map'
 import { UserInfo } from './userInfo'
+import { BreadCrumbs } from '../../../UI/breadCrumbs/BreadCrumbs'
 
 export const Contacts = () => {
    return (
       <Container>
+         <BreadCrumbs
+            breadcrumbs={[
+               { path: '/', label: 'Главная' },
+               { label: 'Контакты' },
+            ]}
+         />
+
          <TextHeader>Контакты</TextHeader>
          <ContentContainer>
             <CourseInfo />
@@ -20,7 +28,6 @@ export const Contacts = () => {
 const Container = styled('div')`
    width: 79.688vw;
    margin: 0 auto;
-   padding-top: 1.88rem;
 `
 
 const ContentContainer = styled('div')`
@@ -38,4 +45,5 @@ const TextHeader = styled('h1')(({ theme }) => ({
    lineHeight: '110%',
    margin: '0 auto',
    paddingBottom: '1.25rem',
+   marginTop: '1.875rem',
 }))

@@ -10,7 +10,6 @@ export const routes = {
          index: '/admin/product/:productId',
          productDetail: '/admin/product/:productId/details',
       },
-      orderIsAdminPayment: '/admin/orders/payment',
    },
 
    USER: {

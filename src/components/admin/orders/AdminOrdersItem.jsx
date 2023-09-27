@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
+import { useNavigate } from 'react-router-dom'
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/tools-for-site/delete-icon.svg'
 import { ReactComponent as ArrowDown } from '../../../assets/icons/arrows/down-icon.svg'
 import {
@@ -21,13 +22,18 @@ import {
    PENDING,
 } from '../../../utils/common/constants/globalConstants'
 
-export const AdminOrderItem = ({ valueTab, tables, index, ...item }) => {
-   console.log(valueTab)
+export const AdminOrderItem = ({
+   dataFunc,
+   valueTab,
+   tables,
+   index,
+   ...item
+}) => {
    const dispatch = useDispatch()
+   const navigate = useNavigate()
    const time = item.createdAt ? item.createdAt.split(' ')[1] : null
    const [openModal, setOpenModal] = useState(false)
    const [arrowIconFlipped, setArrowIconFlipped] = useState(false)
-
    const open = Boolean(arrowIconFlipped)
    const toggleModalHandler = () => {
       setOpenModal(!openModal)
@@ -37,6 +43,9 @@ export const AdminOrderItem = ({ valueTab, tables, index, ...item }) => {
    }
    const handleClose = () => {
       setArrowIconFlipped(false)
+   }
+   const navigateToPaymentPage = () => {
+      navigate(`/admin/${item.orderId}/paymentIsOrder`)
    }
 
    const handleCloseMenuItem = () => {
@@ -52,7 +61,11 @@ export const AdminOrderItem = ({ valueTab, tables, index, ...item }) => {
 
    return (
       <>
-         <StyledTableRow key={item.key} sx={{ marginTop: '0.625rem' }}>
+         <StyledTableRow
+            onClick={navigateToPaymentPage}
+            key={item.key}
+            sx={{ marginTop: '0.625rem' }}
+         >
             {tables.map((el) => {
                if (el.name === 'ID') {
                   return (
@@ -204,7 +217,8 @@ export const AdminOrderItem = ({ valueTab, tables, index, ...item }) => {
                      dispatch(deleteIsAdminThunk(item.orderId))
                         .unwrap()
                         .then(() => {
-                           dispatch(orderIsAdminThunk())
+                           dispatch(orderIsAdminThunk(dataFunc))
+                           setOpenModal(false)
                         })
                   }
                   variant="contained"

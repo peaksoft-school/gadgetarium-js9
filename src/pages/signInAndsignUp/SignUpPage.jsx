@@ -116,7 +116,6 @@ export const SignUp = () => {
 }
 
 const Container = styled('div')`
-   position: relative;
    display: flex;
    flex-direction: column;
    align-items: center;
@@ -125,9 +124,6 @@ const Container = styled('div')`
    border-radius: 0.25rem;
    background: #fff;
    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-   h2 {
-      text-align: center;
-   }
 `
 const Title = styled('p')`
    color: #292929;
@@ -161,6 +157,7 @@ const Input = styled(InputUi)`
 `
 const Form = styled('form')`
    display: flex;
+   align-items: center;
    flex-direction: column;
    gap: 1.25rem;
 `

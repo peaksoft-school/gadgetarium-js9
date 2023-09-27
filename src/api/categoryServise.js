@@ -89,8 +89,6 @@ export const filterProductsByCategory = (payload) => {
          ? payload.waterProofString
          : 'string',
    }
-   console.log('payload: ', payload)
-   console.log('payload: ', requestData)
 
    return axiosInstance.post(
       `/v1/products/filter?pageSize=${payload.pageSize}&pageNumber=${payload.pageNumber}`,

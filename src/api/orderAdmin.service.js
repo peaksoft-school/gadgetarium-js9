@@ -11,3 +11,7 @@ export const deleteAdminOrderRequest = (orderId) => {
 export const updateStatusRequest = (data) => {
    return axiosInstance.post(`/order/${data.orderId}?status=${data.status}`)
 }
+
+export const getOrderAdminByIdRequest = (orderId) => {
+   return axiosInstance.get(`/order/${orderId}`)
+}

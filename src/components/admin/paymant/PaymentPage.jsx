@@ -1,24 +1,33 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { styled } from '@mui/material'
-import { useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import { InformationOrder } from './InformationOrder'
 import { userOrdersPaymentBreadcrumbs } from '../../../utils/common/constants/paymant'
 import { BreadCrumbs } from '../../UI/breadCrumbs/BreadCrumbs'
+import { getOrderById } from '../../../store/order/Order.thunk'
 
 export const PaymentPage = () => {
-   const { responseAdminList } = useSelector(
-      (state) => state.order.orderIsAdmin
+   const dispatch = useDispatch()
+   const param = useParams()
+   const { productResponseList } = useSelector(
+      (state) => state.order.orderAdminId
    )
+
+   useEffect(() => {
+      dispatch(getOrderById(param.orderId))
+   }, [])
    return (
       <Container>
          <ContainerChilde>
             <BreadCrumbsContainer>
                <BreadCrumbs breadcrumbs={userOrdersPaymentBreadcrumbs} />
-               {responseAdminList?.map((el) => (
-                  <Name key={el.name}>{el.fullName}</Name>
-               ))}
+               <Name>{param.fullName}</Name>
             </BreadCrumbsContainer>
-            <PaymentParagraph>Оплата заказа 000000-455247</PaymentParagraph>
+
+            <PaymentParagraph>
+               Оплата заказа {productResponseList?.orderNumber}
+            </PaymentParagraph>
             <InfoContainer>
                <div>
                   <InfoContainerChilde>
@@ -28,25 +37,32 @@ export const PaymentPage = () => {
                            <p>Кол-во товара:</p>
                            <p>Общая сумма заказа:</p>
                            <Discount>
-                              Скидка: <DiscountPrice>15%</DiscountPrice>
+                              Скидка: {productResponseList?.sale}%
                            </Discount>
+                           <TotalDiscount>Сумма скидки:</TotalDiscount>
                         </InfoName>
                         <div>
-                           <p>Samsung Galaxy S21 128gb синий 9(MLP3RU)</p>
-                           <p>1шт</p>
-                           <p>60 000 с</p>
+                           <p>{productResponseList?.names}</p>
+                           <p>{productResponseList?.quantity} шт</p>
+                           <p>
+                              {productResponseList?.totalPrice.toLocaleString()}{' '}
+                              с
+                           </p>
+                           <DiscountPrice>`</DiscountPrice>
+                           <p>
+                              {productResponseList?.sumOfDiscount.toLocaleString()}
+                              с
+                           </p>
                         </div>
                      </Info>
-                     <TotalSum>
-                        <TotalDiscount>Сумма скидки:</TotalDiscount>
-                        <p>9 000 с</p>
-                     </TotalSum>
                   </InfoContainerChilde>
 
                   <TotalContainer>
                      <Total>
                         <p>Итого:</p>
-                        <span>51 000 с</span>
+                        <span>
+                           {productResponseList?.allPrice.toLocaleString()} с
+                        </span>
                      </Total>
                   </TotalContainer>
                </div>
@@ -107,14 +123,13 @@ const TotalContainer = styled('div')`
 
 const Total = styled('div')`
    display: flex;
-   width: 9vw;
-   justify-content: space-between;
    align-items: center;
    p {
       color: #292929;
       font-family: Inter;
       font-size: 1rem;
       font-weight: 600;
+      margin-right: 0.88rem;
    }
 `
 
@@ -125,7 +140,7 @@ const Discount = styled('div')`
    font-weight: 600;
 `
 const DiscountPrice = styled('span')`
-   color: red;
+   color: #fff;
 `
 
 const BreadCrumbsContainer = styled('div')`
@@ -139,11 +154,7 @@ const Name = styled('p')`
    font-size: 0.875rem;
    font-weight: 400;
 `
-const TotalSum = styled('div')`
-   display: flex;
-   width: 20.3vw;
-   justify-content: space-between;
-`
+
 const TotalDiscount = styled('p')`
    color: #292929;
    font-family: Inter;

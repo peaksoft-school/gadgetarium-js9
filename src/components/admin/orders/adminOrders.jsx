@@ -41,6 +41,7 @@ export function AdminOrders() {
    const [dateStart, setDateStart] = useState('2009-10-12')
    const [dateEnd, setDateEnd] = useState()
    const [valueTab, setValueTab] = useState(value)
+   const [dataFunc, setDataFunc] = useState()
 
    const { orderIsAdmin } = useSelector((state) => state.order)
    const { responseAdminList, delivered, quantity } = useSelector(
@@ -86,6 +87,7 @@ export function AdminOrders() {
          startDate,
          endDate,
       }
+      setDataFunc(data)
       dispatch(orderIsAdminThunk(data))
    }, [startDate, endDate, valueTab])
 
@@ -157,8 +159,9 @@ export function AdminOrders() {
                      <TableBody>
                         {responseAdminList?.map((item, index) => (
                            <AdminOrderItem
-                              key={item.subProductId}
                               valueTab={valueTab}
+                              dataFunc={dataFunc}
+                              key={item.subProductId}
                               tables={tables}
                               index={index}
                               {...item}

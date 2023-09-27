@@ -9,6 +9,7 @@ import {
 import {
    deleteAdminOrderRequest,
    getAdminOrderRequest,
+   getOrderAdminByIdRequest,
    updateStatusRequest,
 } from '../../api/orderAdmin.service'
 
@@ -92,6 +93,18 @@ export const changeStatusOrder = createAsyncThunk(
          await updateStatusRequest(data)
       } catch (error) {
          rejectWithValue(error)
+      }
+   }
+)
+
+export const getOrderById = createAsyncThunk(
+   'order/getOrderById',
+   async (orderId, { rejectWithValue }) => {
+      try {
+         const responce = await getOrderAdminByIdRequest(orderId)
+         return responce.data
+      } catch (error) {
+         return rejectWithValue(error)
       }
    }
 )

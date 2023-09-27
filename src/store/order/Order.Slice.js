@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
    favorireRequest,
+   getOrderById,
    orderByIdRequest,
    orderIsAdminThunk,
    orderRequest,
@@ -13,6 +14,7 @@ const initialState = {
    productsViewed: [],
    isLoading: false,
    orderIsAdmin: [],
+   orderAdminId: [],
 }
 
 export const orderSlice = createSlice({
@@ -38,6 +40,9 @@ export const orderSlice = createSlice({
       })
       builder.addCase(orderIsAdminThunk.fulfilled, (state, action) => {
          state.orderIsAdmin = action.payload
+      })
+      builder.addCase(getOrderById.fulfilled, (state, action) => {
+         state.orderAdminId = action.payload
       })
    },
 })
