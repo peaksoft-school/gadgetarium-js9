@@ -64,9 +64,9 @@ export const postFileImg = createAsyncThunk(
    async (newProduct, { rejectWithValue }) => {
       try {
          const updatedSubProductRequests = await Promise.all(
-            newProduct.subProductRequests.map(async (subProduct) => {
+            newProduct?.subProductRequests?.map(async (subProduct) => {
                const updatedImages = await Promise.all(
-                  subProduct.images.map(async (image) => {
+                  subProduct?.images?.map(async (image) => {
                      try {
                         const response = await postFileImgRequest(image.imgObg)
                         return response.data

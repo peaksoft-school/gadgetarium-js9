@@ -50,11 +50,11 @@ export const SmartphoneAdvancedOptions = ({ errorCategory }) => {
       dispatch(addCodeColorSubProductRequests({ index: productNum, color }))
    }
 
-   const newProductFilterData = newProduct.subProductRequests[productNum]
+   const newProductFilterData = newProduct?.subProductRequests[productNum]
 
    const productIdValidator =
-      newProduct.subProductRequests.indexOf(
-         newProduct.subProductRequests[productNum]
+      newProduct?.subProductRequests.indexOf(
+         newProduct?.subProductRequests[productNum]
       ) === productNum
 
    return (

@@ -53,7 +53,7 @@ export const CategoryFilterSelect = ({
          <div>
             <StyledFormControl size="small">
                {name === 'brandId'
-                  ? selectData.map((item) => {
+                  ? selectData?.map((item) => {
                        return (
                           item.id === value && (
                              <BoxIconSelectBrand key={item.id}>
@@ -73,7 +73,7 @@ export const CategoryFilterSelect = ({
                   onFocus={handleSelectFocus}
                   onBlur={(event) => handleSelectBlur(event)}
                   renderValue={(selected) => {
-                     const selectedName = selectData.find(
+                     const selectedName = selectData?.find(
                         (item) => item.id === selected
                      )?.name
 
@@ -89,7 +89,7 @@ export const CategoryFilterSelect = ({
                      },
                   }}
                >
-                  {selectData.map((item) => {
+                  {selectData?.map((item) => {
                      return (
                         <StyledMenuItem
                            key={item.id}

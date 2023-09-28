@@ -41,7 +41,7 @@ export const FilterCategory = ({ onOpenModalAddNewBrand, errorCategory }) => {
 
    useEffect(() => {
       setFieldValue('subcategory', '')
-   }, [newProduct.categoryId])
+   }, [newProduct?.categoryId])
 
    useEffect(() => {
       if (errorCategory) {
