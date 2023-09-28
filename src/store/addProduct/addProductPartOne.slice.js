@@ -133,7 +133,7 @@ export const addProductSlice = createSlice({
       },
 
       deleteHandler(state, { payload }) {
-         const resDelete = state.newProduct.subProductRequests.filter(
+         const resDelete = state?.newProduct?.subProductRequests.filter(
             (item) => item.id !== payload
          )
 
@@ -168,7 +168,7 @@ export const addProductSlice = createSlice({
             ...state,
             newProduct: {
                ...state.newProduct,
-               subProductRequests: state.newProduct.subProductRequests.map(
+               subProductRequests: state?.newProduct?.subProductRequests?.map(
                   (subProduct, i) => {
                      if (i === index) {
                         return {
@@ -185,7 +185,7 @@ export const addProductSlice = createSlice({
 
       filterCategorySubProduct(state) {
          const newData = {
-            categoryId: state.newProduct.categoryId,
+            categoryId: state?.newProduct?.categoryId,
             subCategoryId: 0,
             brandId: 0,
             guarantee: '',
@@ -196,7 +196,7 @@ export const addProductSlice = createSlice({
 
          let data
 
-         if (state.newProduct.categoryId === 1) {
+         if (state?.newProduct?.categoryId === 1) {
             data = [
                {
                   id: 0,
@@ -219,7 +219,7 @@ export const addProductSlice = createSlice({
             }
          }
 
-         if (state.newProduct.categoryId === 3) {
+         if (state.newProduct?.categoryId === 3) {
             data = [
                {
                   id: 0,
@@ -247,7 +247,7 @@ export const addProductSlice = createSlice({
             }
          }
 
-         if (state.newProduct.categoryId === 2) {
+         if (state.newProduct?.categoryId === 2) {
             data = [
                {
                   id: 0,
@@ -273,7 +273,7 @@ export const addProductSlice = createSlice({
             }
          }
 
-         if (state.newProduct.categoryId === 4) {
+         if (state.newProduct?.categoryId === 4) {
             data = [
                {
                   id: 0,
@@ -306,7 +306,7 @@ export const addProductSlice = createSlice({
          const { index, color } = payload
 
          const updatedSubProductRequests =
-            state.newProduct.subProductRequests.map((subProduct, i) => {
+            state?.newProduct?.subProductRequests?.map((subProduct, i) => {
                if (i === index) {
                   return {
                      ...subProduct,
@@ -329,7 +329,7 @@ export const addProductSlice = createSlice({
          const { index, photoData } = payload
 
          const updatedSubProductRequests =
-            state.newProduct.subProductRequests.map((subProduct, i) => {
+            state?.newProduct?.subProductRequests?.map((subProduct, i) => {
                if (i === index) {
                   return {
                      ...subProduct,
@@ -432,7 +432,7 @@ export const addProductSlice = createSlice({
       // * AddProductPart - 2
 
       addAllPriceAndQuantity(state, { payload }) {
-         const addPriceAndQuantity = state.newProduct.subProductRequests.map(
+         const addPriceAndQuantity = state?.newProduct?.subProductRequests?.map(
             (item) => {
                return {
                   ...item,
@@ -452,7 +452,7 @@ export const addProductSlice = createSlice({
       },
 
       addAndEditPrice(state, { payload }) {
-         const addPrice = state.newProduct.subProductRequests.map((item) => {
+         const addPrice = state?.newProduct?.subProductRequests?.map((item) => {
             if (item.id === payload.id) {
                return {
                   ...item,
@@ -473,7 +473,7 @@ export const addProductSlice = createSlice({
       },
 
       addAndEditQuantity(state, { payload }) {
-         const addPrice = state.newProduct.subProductRequests.map((item) => {
+         const addPrice = state?.newProduct?.subProductRequests?.map((item) => {
             if (item.id === payload.id) {
                return {
                   ...item,
@@ -496,7 +496,7 @@ export const addProductSlice = createSlice({
       editNewProductAndReturnNewEditDataHandler(state, { payload }) {
          const { categoryId, subProductRequests, ...rest } = payload
 
-         const formattedSubProducts = subProductRequests.map((subProduct) => {
+         const formattedSubProducts = subProductRequests?.map((subProduct) => {
             let formattedSubProduct = {
                ...subProduct,
             }
@@ -574,7 +574,7 @@ export const addProductSlice = createSlice({
    },
    extraReducers: (builder) => {
       builder.addCase(getAllCategory.fulfilled, (state, { payload }) => {
-         const russianSelectData = payload.map((item) => ({
+         const russianSelectData = payload?.map((item) => ({
             id: item.id,
             name: categoryProduct[item.title],
          }))
@@ -582,7 +582,7 @@ export const addProductSlice = createSlice({
          state.allCategory = russianSelectData
       })
       builder.addCase(getSubCategory.fulfilled, (state, { payload }) => {
-         const newSubCategoryData = payload.map((item) => ({
+         const newSubCategoryData = payload?.map((item) => ({
             id: item.subCategoryId,
             name: subProductDataCategory[item.title],
          }))
@@ -609,7 +609,7 @@ export const addProductSlice = createSlice({
          })
          .addCase(postFileImg.fulfilled, (state, { payload }) => {
             const updatePayloadSubProductRequests =
-               payload.subProductRequests.map((subProduct) => {
+               payload?.subProductRequests?.map((subProduct) => {
                   const { id, ...rest } = subProduct
                   return rest
                })

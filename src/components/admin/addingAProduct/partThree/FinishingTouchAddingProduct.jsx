@@ -41,6 +41,7 @@ export const FinishingTouchAddingProduct = memo(() => {
    } = useSelector((state) => state.addProduct)
    const navigate = useNavigate()
    const [validPDF, setValidPDF] = useState(false)
+   const [validData, setValidData] = useState(false)
 
    const formik = useFormik({
       initialValues: {
@@ -51,6 +52,8 @@ export const FinishingTouchAddingProduct = memo(() => {
       validateOnBlur: true,
       validationSchema: schema,
    })
+
+   const validFormik = Object.keys(formik.errors).length > 0
 
    const onBlurHandler = (e) => {
       formik.handleBlur(e)
@@ -68,7 +71,7 @@ export const FinishingTouchAddingProduct = memo(() => {
             addDescriptionAndOverview({
                videoLink: formik.values.videoLink,
                pdf: formik.values.pdf,
-               description: newProduct.description,
+               description: newProduct?.description,
             })
          )
       }
@@ -91,7 +94,11 @@ export const FinishingTouchAddingProduct = memo(() => {
    }
 
    useEffect(() => {
-      if (pathPdf === '') {
+      setValidData(true)
+   }, [validData])
+
+   useEffect(() => {
+      if (validData) {
          dispatch(
             addDescriptionAndOverview({
                videoLink: formik.values.videoLink,
@@ -112,7 +119,7 @@ export const FinishingTouchAddingProduct = memo(() => {
             description: formik.values.description,
          })
       )
-   }, [pathPdf])
+   }, [pathPdf, validData])
 
    useEffect(() => {
       if (validPDF === true) {
@@ -120,23 +127,36 @@ export const FinishingTouchAddingProduct = memo(() => {
       }
    }, [validPDF])
 
+   const postAddProductHandler = () => {
+      dispatch(postAddProduct({ resultAddProductData, navigate }))
+   }
+
+   const descriptionValid = formik.values.description !== '<p></p>'
+
    const finishedPartThree = async () => {
       const valid =
-         newProduct.pdf !== '' && newProduct.description !== '<p></p>'
+         newProduct?.pdf === '' && newProduct?.description === '<p></p>'
+      const validVideo = newProduct?.videoLink?.includes('http')
 
       if (valid) {
-         if (!newProduct.videoLink.includes('http')) {
-            snackbarHandler({
-               message:
-                  'Загрузите видеообзор должен быть действительным URL-адресом',
-               type: 'error',
-            })
-         }
-      } else {
          snackbarHandler({
             message: 'Bce поле должны быть обязательно заполнены',
             type: 'error',
          })
+      }
+
+      if (validVideo === false) {
+         snackbarHandler({
+            message:
+               'Загрузите видеообзор должен быть действительным URL-адресом',
+            type: 'error',
+         })
+      }
+
+      if (validFormik === false) {
+         if (descriptionValid) {
+            postAddProductHandler()
+         }
       }
    }
 
@@ -144,16 +164,6 @@ export const FinishingTouchAddingProduct = memo(() => {
       navigate('/admin/add-products-part-1')
       dispatch(closeNavigatePartOne())
    }
-
-   const postAddProductHandler = () => {
-      dispatch(postAddProduct({ resultAddProductData, navigate }))
-   }
-
-   useEffect(() => {
-      if (resultAddProductData.categoryId) {
-         postAddProductHandler()
-      }
-   }, [resultAddProductData])
 
    useEffect(() => {
       if (isSuccessAddProduct !== '') {

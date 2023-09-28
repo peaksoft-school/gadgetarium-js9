@@ -14,7 +14,7 @@ export const QuantityOfProducts = ({
    return (
       <Container>
          <Box>
-            {newProduct.subProductRequests.map((item, index) => (
+            {newProduct?.subProductRequests?.map((item, index) => (
                <QuantityOfProductsButton
                   key={item.id}
                   id={item.id}

@@ -10,7 +10,7 @@ import { TabletOptions } from '../../components/admin/goods/edit-product/part-1/
 export const filterResComponent = (value, errorCategory) => {
    let resComponent
 
-   switch (value.categoryId) {
+   switch (value?.categoryId) {
       case 1:
          resComponent = (
             <SmartphoneAdvancedOptions errorCategory={errorCategory} />
