@@ -12,3 +12,6 @@ export const getOrderByIdRequest = (params) => {
 export const deleteOrderInfoRequest = (orderById) => {
    return axiosInstance.delete(`/order/single-delete/${orderById}`)
 }
+export const putUserInfoRequest = (payload) => {
+   return axiosInstance.put(`/v1/user`, payload)
+}

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getUserInfo } from './profile.thunk'
+import { getUserInfo, putUserInfo } from './profile.thunk'
 
 const initialState = {
    user: {},
@@ -16,10 +16,19 @@ export const profileSlice = createSlice({
          state.isLoading = false
       })
       builder.addCase(getUserInfo.pending, (state) => {
-         state.isLoading = false
+         state.isLoading = true
       })
       builder.addCase(getUserInfo.rejected, (state) => {
          state.isLoading = false
+      })
+      builder.addCase(putUserInfo.fulfilled, (state) => {
+         state.isLoading = false
+      })
+      builder.addCase(putUserInfo.rejected, (state) => {
+         state.isLoading = false
+      })
+      builder.addCase(putUserInfo.pending, (state) => {
+         state.isLoading = true
       })
    },
 })

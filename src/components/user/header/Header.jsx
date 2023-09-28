@@ -71,6 +71,7 @@ export const Header = ({ favorite, basket, compare }) => {
    }, [])
    function onComeBack() {
       navigate('./')
+      console.log('hi')
    }
    const navigateToFavorite = () => {
       if (isAuthorization) {
@@ -171,14 +172,12 @@ export const Header = ({ favorite, basket, compare }) => {
                                        <NavLinkParagraph to="/personalArea/favorites">
                                           Избранное
                                        </NavLinkParagraph>
-                                       <NavLinkParagraph>
+                                       <NavLinkParagraph to="/personalArea/profile">
                                           Профиль
                                        </NavLinkParagraph>
-                                       <NavLinkParagraph
-                                          onClick={toggleExitModalHandler}
-                                       >
+                                       <p onClick={toggleExitModalHandler}>
                                           Выйти
-                                       </NavLinkParagraph>
+                                       </p>
                                     </Select2>
                                  </div>
                               )}

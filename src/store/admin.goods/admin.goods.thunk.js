@@ -23,7 +23,13 @@ export const getAllFilteredProducts = createAsyncThunk(
 export const postS3File = createAsyncThunk(
    'adminGoods/postS3File',
    async (
-      { data, field, handleFileChangeFromDrop, getSmartphonePhoto },
+      {
+         data,
+         field,
+         handleFileChangeFromDrop,
+         getSmartphonePhoto,
+         setFieldValue,
+      },
       { rejectWithValue }
    ) => {
       try {
@@ -36,6 +42,9 @@ export const postS3File = createAsyncThunk(
          }
          if (getSmartphonePhoto) {
             getSmartphonePhoto(response.data)
+         }
+         if (setFieldValue) {
+            setFieldValue('imageLink', response.data)
          }
          return null
       } catch (error) {

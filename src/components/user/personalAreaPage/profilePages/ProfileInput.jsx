@@ -9,6 +9,9 @@ export const ProfileInput = ({
    value,
    name,
    width,
+   readOnly,
+   left,
+   ...props
 }) => {
    return (
       <Container>
@@ -24,8 +27,11 @@ export const ProfileInput = ({
             width={width || '338px'}
             value={value}
             name={name}
+            readOnly={readOnly}
             onChange={onChange}
             error={error}
+            left={left}
+            {...props}
          />
       </Container>
    )
@@ -52,6 +58,7 @@ const StyledInputUi = styled(InputUi)`
    color: #292929;
    font-weight: 400;
    font-size: 1rem;
+   background-color: white;
    line-height: 1.4375em;
    input {
       ::placeholder {

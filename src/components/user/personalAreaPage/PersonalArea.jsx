@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
-import Typography from '@mui/material/Typography'
 import { styled } from '@mui/material'
 import Box from '@mui/material/Box'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -21,11 +20,7 @@ function CustomTabPanel(props) {
 
    return (
       <div id={`simple-tabpanel-${index}`} {...other}>
-         {value === index && (
-            <Box sx={{ p: 3 }}>
-               <Typography>{children}</Typography>
-            </Box>
-         )}
+         {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
       </div>
    )
 }
@@ -196,12 +191,41 @@ const Delete = styled('div')`
    }
 `
 const TabsHeader = styled('div')`
-   width: 100%;
    display: flex;
    align-items: center;
-   justify-content: space-between;
    border-top: 2px solid #e0e2e7;
    padding-top: 2.5rem;
+   .MuiTab-root.Mui-selected {
+      background-color: #384255;
+      color: #fff;
+   }
+   .MuiTab-root {
+      height: 2.25rem;
+      border-radius: 4px;
+      color: #fff;
+      font-family: Inter;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+      color: #384255;
+      min-height: 0;
+      background-color: #e0e2e7;
+      padding: 0px 20px 0px 20px;
+      text-transform: none;
+   }
+   .MuiTabs-root {
+      min-height: auto;
+   }
+
+   .MuiTabs-indicator {
+      display: none;
+   }
+
+   .MuiTabs-flexContainer {
+      display: flex;
+      gap: 0.625vw;
+   }
 `
 const BreadCrumbsBlock = styled('div')`
    display: flex;
