@@ -95,7 +95,7 @@ const ArrowBack = styled('div')`
    position: absolute;
    z-index: 2;
    top: 15rem;
-   left: 12.5rem;
+   left: 23rem;
    cursor: pointer;
 `
 const ArrowNext = styled('div')`

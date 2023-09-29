@@ -11,7 +11,7 @@ import { PaymentPage } from '../components/admin/paymant/PaymentPage'
 
 export const adminRoutes = [
    {
-      path: '/admin',
+      path: '/admin/goods',
       element: <AdminGoods />,
    },
    {

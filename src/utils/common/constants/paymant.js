@@ -37,6 +37,12 @@ export const userOrdersBreadcrumbs = [
       label: '',
    },
 ]
+export const userOrdersBreadcrumbsDetail = [
+   { path: '/personalArea/:tab', label: 'Личный кабинет' },
+   {
+      label: 'История заказов',
+   },
+]
 export const userOrdersPaymentBreadcrumbs = [
    { path: '/admin/orders', label: 'Заказы' },
    {

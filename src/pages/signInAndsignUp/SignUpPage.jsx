@@ -40,7 +40,7 @@ export const SignUp = () => {
    const onSubmit = async (data) => {
       try {
          reset()
-         await dispatch(signUpRequest(data)).unwrap()
+         await dispatch(signUpRequest({ data, snackbarHandler })).unwrap()
          snackbarHandler({
             message: 'Регистрация успешно выполнена',
             type: 'success',
@@ -49,7 +49,8 @@ export const SignUp = () => {
          navigate('/')
       } catch (error) {
          snackbarHandler({
-            message: error.response.data.message,
+            message:
+               'Пользователь с таким адресом электронной почты уже существует.',
             type: 'error',
          })
       }

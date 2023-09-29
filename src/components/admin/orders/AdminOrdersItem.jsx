@@ -9,7 +9,7 @@ import { ReactComponent as ArrowDown } from '../../../assets/icons/arrows/down-i
 import {
    changeStatusOrder,
    deleteIsAdminThunk,
-   orderIsAdminThunk,
+   getSearchUserOrder,
 } from '../../../store/order/Order.thunk'
 import { Button } from '../../UI/Button'
 import { Modal } from '../../UI/Modal'
@@ -20,20 +20,18 @@ import {
    DELIVERED,
    IN_PROCESSING,
    PENDING,
+   READY_FOR_DELIVERY,
 } from '../../../utils/common/constants/globalConstants'
+import { useSnackbar } from '../../../hooks/useSnackbar'
 
-export const AdminOrderItem = ({
-   dataFunc,
-   valueTab,
-   tables,
-   index,
-   ...item
-}) => {
+export const AdminOrderItem = ({ dataFunc, tables, index, ...item }) => {
    const dispatch = useDispatch()
    const navigate = useNavigate()
    const time = item.createdAt ? item.createdAt.split(' ')[1] : null
    const [openModal, setOpenModal] = useState(false)
    const [arrowIconFlipped, setArrowIconFlipped] = useState(false)
+   const { snackbarHandler } = useSnackbar()
+
    const open = Boolean(arrowIconFlipped)
    const toggleModalHandler = () => {
       setOpenModal(!openModal)
@@ -52,81 +50,81 @@ export const AdminOrderItem = ({
       const productId = item.orderId
       const data = {
          orderId: productId,
-         status: valueTab,
       }
-
       dispatch(changeStatusOrder(data))
       handleClose()
    }
 
    return (
       <>
-         <StyledTableRow
-            onClick={navigateToPaymentPage}
-            key={item.key}
-            sx={{ marginTop: '0.625rem' }}
-         >
+         <StyledTableRow key={item.key} sx={{ marginTop: '0.625rem' }}>
+            <TablesContainer onClick={navigateToPaymentPage}>
+               {tables.map((el) => {
+                  if (el.name === 'ID') {
+                     return (
+                        <StyledTableCell
+                           sx={{
+                              width: '3.438vw',
+                              paddingLeft: '1.042vw',
+                           }}
+                           key={el.name}
+                        >
+                           {index + 1}
+                        </StyledTableCell>
+                     )
+                  }
+                  if (el.name === 'ФИО') {
+                     return (
+                        <StyledTableCell sx={{ width: el.width }} key={el.name}>
+                           {item.userFullName}
+                        </StyledTableCell>
+                     )
+                  }
+                  if (el.name === 'Номер/Дата') {
+                     return (
+                        <StyledTableCell
+                           sx={{
+                              width: el.width,
+                              color: '#2C68F5',
+                           }}
+                           key={el.name}
+                        >
+                           {item.orderNumber}
+                           <ModelName>{time}</ModelName>
+                        </StyledTableCell>
+                     )
+                  }
+                  if (el.name === 'Кол-во') {
+                     return (
+                        <StyledTableCell sx={{ width: el.width }} key={el.name}>
+                           {item.quantity} {el.width === '7.188vw' && 'шт.'}
+                        </StyledTableCell>
+                     )
+                  }
+                  if (el.name === 'Общая сумма') {
+                     return (
+                        <StyledTableCell sx={{ width: el.width }} key={el.name}>
+                           {item.totalPrice}
+                        </StyledTableCell>
+                     )
+                  }
+                  if (el.name === 'Оформление заказа') {
+                     return (
+                        <StyledTableCell sx={{ width: el.width }} key={el.name}>
+                           {item.typeDelivery === 'PICKUP' && (
+                              <TypeDelivery>Самовывоз</TypeDelivery>
+                           )}
+                           {item.typeDelivery === 'DELIVERY' && (
+                              <TypeDelivery>Доставка</TypeDelivery>
+                           )}
+                        </StyledTableCell>
+                     )
+                  }
+
+                  return null
+               })}
+            </TablesContainer>
             {tables.map((el) => {
-               if (el.name === 'ID') {
-                  return (
-                     <StyledTableCell
-                        sx={{
-                           width: '3.438vw',
-                           paddingLeft: '1.042vw',
-                        }}
-                        key={el.name}
-                     >
-                        {index + 1}
-                     </StyledTableCell>
-                  )
-               }
-               if (el.name === 'ФИО') {
-                  return (
-                     <StyledTableCell sx={{ width: el.width }} key={el.name}>
-                        {item.fullName}
-                     </StyledTableCell>
-                  )
-               }
-               if (el.name === 'Номер/Дата') {
-                  return (
-                     <StyledTableCell
-                        sx={{
-                           width: el.width,
-                           color: '#2C68F5',
-                        }}
-                        key={el.name}
-                     >
-                        {item.orderNumber}
-                        <ModelName>{time}</ModelName>
-                     </StyledTableCell>
-                  )
-               }
-               if (el.name === 'Кол-во') {
-                  return (
-                     <StyledTableCell sx={{ width: el.width }} key={el.name}>
-                        {item.quantity} {el.width === '7.188vw' && 'шт.'}
-                     </StyledTableCell>
-                  )
-               }
-               if (el.name === 'Общая сумма') {
-                  return (
-                     <StyledTableCell sx={{ width: el.width }} key={el.name}>
-                        {item.totalPrice}
-                     </StyledTableCell>
-                  )
-               }
-               if (el.name === 'Оформление заказа') {
-                  return (
-                     <StyledTableCell sx={{ width: el.width }} key={el.name}>
-                        {item.typeDelivery === 'PICKUP' && (
-                           <TypeDelivery>Самовывоз</TypeDelivery>
-                        )}
-                        {item.typeDelivery === 'DELIVERY' && (
-                           <TypeDelivery>Доставка</TypeDelivery>
-                        )}
-                     </StyledTableCell>
-                  )
-               }
                if (el.name === 'Статус') {
                   return (
                      <StyledTableCell
@@ -160,6 +158,11 @@ export const AdminOrderItem = ({
                               {statusTranslate[item.status]}
                            </Cancellation>
                         )}
+                        {item.status === READY_FOR_DELIVERY && (
+                           <DeliverStyle>
+                              {statusTranslate[item.status]}
+                           </DeliverStyle>
+                        )}
                         <StyledArrowDown
                            onClick={(event) => {
                               setArrowIconFlipped(!arrowIconFlipped)
@@ -167,12 +170,10 @@ export const AdminOrderItem = ({
                                  handleClick(event)
                               }
                            }}
-                           flipped={arrowIconFlipped}
                         />
                      </StyledTableCell>
                   )
                }
-
                if (el.name === 'Действия') {
                   return (
                      <StyledTableCell
@@ -200,7 +201,7 @@ export const AdminOrderItem = ({
          >
             <ModalTitle>
                Вы уверены, что хотите удалить товар
-               <FullNameDelete> {item.fullName}</FullNameDelete>?
+               <FullNameDelete> {item.userFullName}</FullNameDelete>?
             </ModalTitle>
             <ButtonContainer>
                <Button
@@ -217,8 +218,12 @@ export const AdminOrderItem = ({
                      dispatch(deleteIsAdminThunk(item.orderId))
                         .unwrap()
                         .then(() => {
-                           dispatch(orderIsAdminThunk(dataFunc))
+                           dispatch(getSearchUserOrder(dataFunc))
                            setOpenModal(false)
+                           snackbarHandler({
+                              message: 'Заказ успешно удален!',
+                              type: 'success',
+                           })
                         })
                   }
                   variant="contained"
@@ -233,11 +238,19 @@ export const AdminOrderItem = ({
 
          <Menu anchorEl={arrowIconFlipped} open={open} onClose={handleClose}>
             {item.typeDelivery === 'PICKUP' && (
-               <div onClick={handleCloseMenuItem}>
-                  <MenuTitle>В ожидании</MenuTitle>
-                  <MenuTitle>Готов к выдаче</MenuTitle>
-                  <MenuTitle>Получен</MenuTitle>
-                  <MenuTitle>Отменить</MenuTitle>
+               <div>
+                  <MenuTitle onClick={() => handleCloseMenuItem(0)}>
+                     В ожидании
+                  </MenuTitle>
+                  <MenuTitle onClick={() => handleCloseMenuItem(1)}>
+                     Готов к выдаче
+                  </MenuTitle>
+                  <MenuTitle onClick={() => handleCloseMenuItem(2)}>
+                     Получен
+                  </MenuTitle>
+                  <MenuTitle onClick={() => handleCloseMenuItem(3)}>
+                     Отменить
+                  </MenuTitle>
                </div>
             )}
             {item.typeDelivery === 'DELIVERY' && (
@@ -365,4 +378,7 @@ const Cancellation = styled('p')`
 `
 const OnMyWay = styled('p')`
    color: #0812a5;
+`
+const TablesContainer = styled('div')`
+   margin-top: 1.1rem;
 `

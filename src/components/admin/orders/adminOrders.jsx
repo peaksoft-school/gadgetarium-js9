@@ -15,7 +15,7 @@ import { AdminOrderItem } from './AdminOrdersItem'
 import { Calendar } from '../../UI/calendarFolder/Calendar'
 import { InputUi } from '../../UI/Input'
 import { ReactComponent as SearchIcon } from '../../../assets/icons/search-icon.svg'
-import { orderIsAdminThunk } from '../../../store/order/Order.thunk'
+import { getSearchUserOrder } from '../../../store/order/Order.thunk'
 
 const tables = [
    { name: 'ID', width: '3.438vw', paddingLeft: '1.042vw' },
@@ -39,18 +39,21 @@ export function AdminOrders() {
    const dispatch = useDispatch()
    const [value, setValue] = useState(0)
    const [dateStart, setDateStart] = useState('2009-10-12')
-   const [dateEnd, setDateEnd] = useState()
-   const [valueTab, setValueTab] = useState(value)
+   const [dateEnd, setDateEnd] = useState('10-19-2023')
+   const [valueTab, setValueTab] = useState('В ожидании')
    const [dataFunc, setDataFunc] = useState()
-
-   const { orderIsAdmin } = useSelector((state) => state.order)
-   const { responseAdminList, delivered, quantity } = useSelector(
-      (state) => state.order.orderIsAdmin
+   const [valueInput, setValueInput] = useState('')
+   const [page, setPage] = useState()
+   const { adminOrderSearches, countOfProducts } = useSelector(
+      (state) => state.order.orderSearch
    )
 
    const startDate = dayjs(dateStart).format('YYYY-MM-DD')
    const endDate = dayjs(dateEnd).format('YYYY-MM-DD')
 
+   const getPage = (event, page) => {
+      setPage(page)
+   }
    const onChangeCalendar = (newValue) => {
       setDateStart(newValue)
    }
@@ -60,9 +63,8 @@ export function AdminOrders() {
    const handleChange = (event, newValue) => {
       setValue(newValue)
    }
-
-   const handlePageChange = (event, newPage) => {
-      setCurrentPage(newPage)
+   const onChangeValueInput = (event) => {
+      setValueInput(event.target.value)
    }
 
    useEffect(() => {
@@ -73,23 +75,37 @@ export function AdminOrders() {
       } else if (value === 2) {
          setValueTab('Курьер в пути')
       } else if (value === 3) {
-         setValueTab('Доставлен')
+         setValueTab('Доставлены')
       } else if (value === 4) {
-         setValueTab('Отменить')
+         setValueTab('Отменены')
       }
    }, [value])
 
    useEffect(() => {
+      if (valueInput) {
+         const data = {
+            keyword: valueInput,
+            sort: valueTab,
+            pageSize: 4,
+            pageNumber: page,
+            startDate,
+            endDate,
+         }
+         setDataFunc(data)
+         dispatch(getSearchUserOrder(data))
+      }
+
       const data = {
-         status: valueTab,
-         pageSize: 5,
-         page: 1,
+         keyword: valueInput,
+         sort: valueTab,
+         pageSize: 4,
+         pageNumber: page,
          startDate,
          endDate,
       }
       setDataFunc(data)
-      dispatch(orderIsAdminThunk(data))
-   }, [startDate, endDate, valueTab])
+      dispatch(getSearchUserOrder(data))
+   }, [startDate, endDate, valueInput, valueTab, page])
 
    return (
       <Container>
@@ -97,25 +113,18 @@ export function AdminOrders() {
             <SearchBlock>
                <InputUi
                   width="34.9375rem"
+                  value={valueInput}
+                  onChange={onChangeValueInput}
                   height="2.4375rem"
                   placeholder="Поиск по артикулу или ..."
                />
                <SearchIconStyle />
             </SearchBlock>
-
             <TabsStyle value={value} onChange={handleChange}>
                <Tab label="В ожидании" {...a11yProps(0)} />
-               <Tab
-                  label={<p>В обработке ({orderIsAdmin.in_PROCESSING})</p>}
-                  {...a11yProps(1)}
-               />
-               <Tab
-                  label={
-                     <p>Курьер в пути ({orderIsAdmin.ready_FOR_DELIVERY})</p>
-                  }
-                  {...a11yProps(2)}
-               />
-               <Tab label={<p>Доставлены ({delivered})</p>} {...a11yProps(3)} />
+               <Tab label="В обработке " {...a11yProps(1)} />
+               <Tab label="Курьер в пути" {...a11yProps(2)} />
+               <Tab label="Доставлены" {...a11yProps(3)} />
                <Tab label="Отменены" {...a11yProps(4)} />
             </TabsStyle>
 
@@ -131,9 +140,9 @@ export function AdminOrders() {
                   placeholder="до"
                />
             </CalendarBlock>
-            <FindeOrders>Найдено {quantity} заказов</FindeOrders>
-            {responseAdminList?.length === 0 ? (
-               <NotProduct>Здесь нет товаров!</NotProduct>
+            <FindeOrders>Найдено {countOfProducts} заказов</FindeOrders>
+            {adminOrderSearches?.length === 0 ? (
+               <NotProduct>Здесь нет заказов!</NotProduct>
             ) : (
                <>
                   <StyledTable aria-label="simple table">
@@ -157,10 +166,10 @@ export function AdminOrders() {
                         </StyledTableRow>
                      </TableHead>
                      <TableBody>
-                        {responseAdminList?.map((item, index) => (
+                        {adminOrderSearches?.map((item, index) => (
                            <AdminOrderItem
-                              valueTab={valueTab}
                               dataFunc={dataFunc}
+                              valueInput={valueInput}
                               key={item.subProductId}
                               tables={tables}
                               index={index}
@@ -173,9 +182,9 @@ export function AdminOrders() {
                   <StackStyle>
                      <Stack>
                         <Pagination
-                           count={1}
                            color="primary"
-                           onChange={handlePageChange}
+                           onChange={getPage}
+                           count={Math.ceil(countOfProducts / 7)}
                         />
                      </Stack>
                   </StackStyle>
