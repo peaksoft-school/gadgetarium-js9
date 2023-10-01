@@ -41,7 +41,7 @@ export const StateAfterAddingOnePhoto = ({
                )}
                {containerImg.length >= 4 && (
                   <SecondContainerForImg>
-                     {containerImg.map((item, index) => {
+                     {containerImg?.map((item, index) => {
                         if (
                            (containerImg.length === 4 && index >= 2) ||
                            (containerImg.length === 5 && index >= 3) ||
@@ -84,9 +84,9 @@ export const StateAfterAddingOnePhoto = ({
             </ContainerPhoto>
             <FirstContainerForImg containerImg={containerImg.length}>
                {containerImg
-                  .slice()
-                  .reverse()
-                  .map((item, index) => {
+                  ?.slice()
+                  ?.reverse()
+                  ?.map((item, index) => {
                      if (
                         containerImg.length === 4 &&
                         (index === 0 || index === 1)

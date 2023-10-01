@@ -30,14 +30,14 @@ export const AddingAProduct = memo(() => {
    }, [])
 
    useEffect(() => {
-      dispatch(getSubCategory(newProduct.categoryId))
-   }, [newProduct.categoryId])
+      dispatch(getSubCategory(newProduct?.categoryId))
+   }, [newProduct?.categoryId])
 
    useEffect(() => {
-      if (newProduct.categoryId) {
+      if (newProduct?.categoryId) {
          dispatch(filterCategorySubProduct())
       }
-   }, [newProduct.categoryId])
+   }, [newProduct?.categoryId])
 
    const onCloseModalAddNewBrand = () => {
       openModalAddNewBrand.delete('AddingAProduct')
@@ -77,10 +77,10 @@ export const AddingAProduct = memo(() => {
       if (
          resultValidSubProductRequests &&
          isEmptyOrNull &&
-         newProduct.guarantee <= 120
+         newProduct?.guarantee <= 120
       ) {
          navigate('/admin/add-products-part-2')
-      } else if (newProduct.guarantee > 120) {
+      } else if (newProduct?.guarantee > 120) {
          snackbarHandler({
             message:
                'Гарантия (месяцев) Должно быть не более 120 месяцев или меньше',
@@ -132,7 +132,7 @@ export const AddingAProduct = memo(() => {
 
             <div>{filterResComponent(newProduct, errorCategory)}</div>
 
-            {newProduct.categoryId && newProduct.categoryId !== '' && (
+            {newProduct?.categoryId && newProduct?.categoryId !== '' && (
                <ContainerButton>
                   <Button
                      variant="outlined"

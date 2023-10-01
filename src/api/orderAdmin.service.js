@@ -15,3 +15,7 @@ export const getOrderAdminByIdRequest = (orderId) => {
 export const getSearchUserOrdersRequest = (data) => {
    return axiosInstance.get(`/order/order-admin-search`, { params: data })
 }
+
+export const postChangeStatusRequest = (data) => {
+   return axiosInstance.post(`/order/${data.orderId}?status=${data.status}`)
+}

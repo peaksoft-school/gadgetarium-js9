@@ -10,7 +10,7 @@ import {
    deleteAdminOrderRequest,
    getOrderAdminByIdRequest,
    getSearchUserOrdersRequest,
-   updateStatusRequest,
+   postChangeStatusRequest,
 } from '../../api/orderAdmin.service'
 
 export const orderRequest = createAsyncThunk(
@@ -89,17 +89,6 @@ export const deleteIsAdminThunk = createAsyncThunk(
    }
 )
 
-export const changeStatusOrder = createAsyncThunk(
-   'order/changeStatusOrder',
-   async (data, { rejectWithValue }) => {
-      try {
-         await updateStatusRequest(data)
-      } catch (error) {
-         rejectWithValue(error)
-      }
-   }
-)
-
 export const getOrderById = createAsyncThunk(
    'order/getOrderById',
    async (orderId, { rejectWithValue }) => {
@@ -120,6 +109,17 @@ export const getSearchUserOrder = createAsyncThunk(
          return responce.data
       } catch (error) {
          return rejectWithValue(error)
+      }
+   }
+)
+
+export const changeStatusOrder = createAsyncThunk(
+   'order/changeStatusOrder',
+   async (data, { rejectWithValue }) => {
+      try {
+         await postChangeStatusRequest(data)
+      } catch (error) {
+         rejectWithValue(error)
       }
    }
 )

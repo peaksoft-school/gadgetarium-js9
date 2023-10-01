@@ -23,7 +23,7 @@ export const TablesPartTwo = ({
       <Table>
          <TablesHeadPartTwo subProduct={dataRows} newProduct={newProduct} />
          <TableBodyStyle>
-            {rows.subProductRequests.map((row) => (
+            {rows?.subProductRequests?.map((row) => (
                <TablesRow
                   collectorRowsDataHandler={collectorRowsDataHandler}
                   key={row.id}

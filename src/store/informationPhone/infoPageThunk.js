@@ -1,8 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import {
    deleteReviewsProductRequest,
+   deleteTableDetailProductRequest,
    getByIdPhoneRequest,
    getDownloadPdfFilesRequest,
+   getProductDetailRequest,
    getReviwesProductRequest,
    getViewedProductRequest,
    postAdminReviewsRequest,
@@ -148,6 +150,29 @@ export const postRecentlyViewedProduct = createAsyncThunk(
    async (subProductId, { rejectWithValue }) => {
       try {
          await postViewedProductRequest(subProductId)
+      } catch (error) {
+         rejectWithValue(error)
+      }
+   }
+)
+
+export const getByIdProductDetail = createAsyncThunk(
+   'product/getByIdProductDetail',
+   async (productId, { rejectWithValue }) => {
+      try {
+         const responce = await getProductDetailRequest(productId)
+         return responce.data
+      } catch (error) {
+         return rejectWithValue(error)
+      }
+   }
+)
+
+export const deleteIsCheckedProduct = createAsyncThunk(
+   'product/deleteIsCheckedProduct',
+   async (deleteIsCheck, { rejectWithValue }) => {
+      try {
+         await deleteTableDetailProductRequest(deleteIsCheck)
       } catch (error) {
          rejectWithValue(error)
       }

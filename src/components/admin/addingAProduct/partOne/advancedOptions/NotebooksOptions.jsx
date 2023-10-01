@@ -52,11 +52,11 @@ export const NotebooksOptions = ({ errorCategory }) => {
       setProductNum(index)
    }
 
-   const newProductFilterData = newProduct.subProductRequests[productNum]
+   const newProductFilterData = newProduct?.subProductRequests[productNum]
 
    const productIdValidator =
-      newProduct.subProductRequests.indexOf(
-         newProduct.subProductRequests[productNum]
+      newProduct?.subProductRequests.indexOf(
+         newProduct?.subProductRequests[productNum]
       ) === productNum
 
    return (

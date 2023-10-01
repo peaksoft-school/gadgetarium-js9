@@ -43,6 +43,7 @@ const tables = [
 export function AdminTable({ indexForTable, itemTableArray }) {
    const textInCenter =
       indexForTable === 1 || indexForTable === 3 ? 'true' : 'false'
+
    return (
       <StyledTable index={indexForTable} aria-label="simple table">
          <TableHead>

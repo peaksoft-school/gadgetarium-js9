@@ -60,11 +60,11 @@ export const WatchAdvancedOptions = ({ errorCategory }) => {
       setProductNum(0)
    }
 
-   const newProductFilterData = newProduct.subProductRequests[productNum]
+   const newProductFilterData = newProduct?.subProductRequests[productNum]
 
    const productIdValidator =
-      newProduct.subProductRequests.indexOf(
-         newProduct.subProductRequests[productNum]
+      newProduct?.subProductRequests.indexOf(
+         newProduct?.subProductRequests[productNum]
       ) === productNum
 
    return (

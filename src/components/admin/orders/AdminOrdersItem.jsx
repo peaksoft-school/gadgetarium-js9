@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import { useNavigate } from 'react-router-dom'
-import { ReactComponent as DeleteIcon } from '../../../assets/icons/tools-for-site/delete-icon.svg'
+
 import { ReactComponent as ArrowDown } from '../../../assets/icons/arrows/down-icon.svg'
 import {
    changeStatusOrder,
@@ -23,6 +23,48 @@ import {
    READY_FOR_DELIVERY,
 } from '../../../utils/common/constants/globalConstants'
 import { useSnackbar } from '../../../hooks/useSnackbar'
+import { ReactComponent as DeleteIcon } from '../../../assets/icons/tools-for-site/delete-icon.svg'
+
+const tabArray = [
+   {
+      id: '1',
+      status: 'В ожидании',
+   },
+   {
+      id: '2',
+      status: 'Готов к выдаче',
+   },
+   {
+      id: '3',
+      status: 'Доставлен',
+   },
+   {
+      id: '4',
+      status: 'Отменить',
+   },
+]
+const tabArray2 = [
+   {
+      id: '1',
+      status: 'В ожидании',
+   },
+   {
+      id: '2',
+      status: 'Готов к выдаче',
+   },
+   {
+      id: '3',
+      status: ' Курьер в пути',
+   },
+   {
+      id: '4',
+      status: 'Доставлен',
+   },
+   {
+      id: '5',
+      status: 'Отменить',
+   },
+]
 
 export const AdminOrderItem = ({ dataFunc, tables, index, ...item }) => {
    const dispatch = useDispatch()
@@ -31,7 +73,6 @@ export const AdminOrderItem = ({ dataFunc, tables, index, ...item }) => {
    const [openModal, setOpenModal] = useState(false)
    const [arrowIconFlipped, setArrowIconFlipped] = useState(false)
    const { snackbarHandler } = useSnackbar()
-
    const open = Boolean(arrowIconFlipped)
    const toggleModalHandler = () => {
       setOpenModal(!openModal)
@@ -43,15 +84,23 @@ export const AdminOrderItem = ({ dataFunc, tables, index, ...item }) => {
       setArrowIconFlipped(false)
    }
    const navigateToPaymentPage = () => {
-      navigate(`/admin/${item.orderId}/paymentIsOrder`)
+      navigate(`/admin/${item.orderId}/paymentIsOrder/${item.names}`)
    }
 
-   const handleCloseMenuItem = () => {
-      const productId = item.orderId
+   const handleCloseMenuItem = (statusTab) => {
       const data = {
-         orderId: productId,
+         orderId: item.orderId,
+         status: statusTab,
       }
       dispatch(changeStatusOrder(data))
+         .unwrap()
+         .then(() => {
+            dispatch(getSearchUserOrder(dataFunc))
+            snackbarHandler({
+               message: 'Статус товара успешно изменен',
+               type: 'success',
+            })
+         })
       handleClose()
    }
 
@@ -128,6 +177,12 @@ export const AdminOrderItem = ({ dataFunc, tables, index, ...item }) => {
                if (el.name === 'Статус') {
                   return (
                      <StyledTableCell
+                        onClick={(event) => {
+                           setArrowIconFlipped(!arrowIconFlipped)
+                           if (!arrowIconFlipped) {
+                              handleClick(event)
+                           }
+                        }}
                         sx={{
                            width: el.width,
                            display: 'flex',
@@ -154,9 +209,9 @@ export const AdminOrderItem = ({ dataFunc, tables, index, ...item }) => {
                            <OnMyWay>{statusTranslate[item.status]}</OnMyWay>
                         )}
                         {item.status === CANCEL && (
-                           <Cancellation>
+                           <CancellTab>
                               {statusTranslate[item.status]}
-                           </Cancellation>
+                           </CancellTab>
                         )}
                         {item.status === READY_FOR_DELIVERY && (
                            <DeliverStyle>
@@ -164,6 +219,7 @@ export const AdminOrderItem = ({ dataFunc, tables, index, ...item }) => {
                            </DeliverStyle>
                         )}
                         <StyledArrowDown
+                           flipped={arrowIconFlipped}
                            onClick={(event) => {
                               setArrowIconFlipped(!arrowIconFlipped)
                               if (!arrowIconFlipped) {
@@ -237,31 +293,24 @@ export const AdminOrderItem = ({ dataFunc, tables, index, ...item }) => {
          </StyledModal>
 
          <Menu anchorEl={arrowIconFlipped} open={open} onClose={handleClose}>
-            {item.typeDelivery === 'PICKUP' && (
-               <div>
-                  <MenuTitle onClick={() => handleCloseMenuItem(0)}>
-                     В ожидании
-                  </MenuTitle>
-                  <MenuTitle onClick={() => handleCloseMenuItem(1)}>
-                     Готов к выдаче
-                  </MenuTitle>
-                  <MenuTitle onClick={() => handleCloseMenuItem(2)}>
-                     Получен
-                  </MenuTitle>
-                  <MenuTitle onClick={() => handleCloseMenuItem(3)}>
-                     Отменить
-                  </MenuTitle>
+            {tabArray.map((el) => (
+               <div key={el.id}>
+                  {item.typeDelivery === 'PICKUP' && (
+                     <MenuTitle onClick={() => handleCloseMenuItem(el.status)}>
+                        {el.status}
+                     </MenuTitle>
+                  )}
                </div>
-            )}
-            {item.typeDelivery === 'DELIVERY' && (
-               <>
-                  <MenuTitle>В ожидании</MenuTitle>
-                  <MenuTitle>Готов к выдаче</MenuTitle>
-                  <MenuTitle>Курьер в пути</MenuTitle>
-                  <MenuTitle>Доставлен</MenuTitle>
-                  <MenuTitle>Отменить</MenuTitle>
-               </>
-            )}
+            ))}
+            {tabArray2.map((el) => (
+               <div key={el.id}>
+                  {item.typeDelivery === 'DELIVERY' && (
+                     <MenuTitle onClick={() => handleCloseMenuItem(el.status)}>
+                        {el.status}
+                     </MenuTitle>
+                  )}
+               </div>
+            ))}
          </Menu>
       </>
    )
@@ -294,6 +343,7 @@ const StyledTableCell = styled(TableCell)(() => ({
    flex: '1 1 auto',
    minWidth: 0,
    maxWidth: 'none',
+   cursor: 'pointer',
 }))
 
 const ModelName = styled('p')`
@@ -319,13 +369,13 @@ const StyledDeleteIcon = styled(DeleteIcon)`
    }
 `
 
-const StyledArrowDown = styled(ArrowDown)`
-   width: 0.833vw;
-   margin-left: 0.313vw;
-   height: 0.833vw;
-   cursor: pointer;
-   transform: ${(props) => (props.flipped ? 'rotate(0deg)' : 'rotate(180deg)')};
-`
+const StyledArrowDown = styled(ArrowDown)(({ flipped }) => ({
+   width: '0.833vw',
+   marginLeft: '0.313vw',
+   height: '0.833vw',
+   cursor: 'pointer',
+   transform: flipped ? 'rotate(0deg)' : 'rotate(180deg)',
+}))
 const StyledModal = styled(Modal)`
    .MuiBox-root {
       display: flex;
@@ -373,10 +423,10 @@ const StatusStyle = styled('span')`
 const DeliverStyle = styled('span')`
    color: green;
 `
-const Cancellation = styled('p')`
+const CancellTab = styled('span')`
    color: red;
 `
-const OnMyWay = styled('p')`
+const OnMyWay = styled('span')`
    color: #0812a5;
 `
 const TablesContainer = styled('div')`

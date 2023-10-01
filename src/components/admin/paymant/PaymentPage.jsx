@@ -22,7 +22,7 @@ export const PaymentPage = () => {
          <ContainerChilde>
             <BreadCrumbsContainer>
                <BreadCrumbs breadcrumbs={userOrdersPaymentBreadcrumbs} />
-               <Name>{param.fullName}</Name>
+               <Name>{param.names}</Name>
             </BreadCrumbsContainer>
 
             <PaymentParagraph>

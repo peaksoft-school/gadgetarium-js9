@@ -72,23 +72,23 @@ export const TablesRow = ({
    }
 
    const housingMaterial = row.housingMaterial
-      ? dataProductWatch.housingMaterial.find(
+      ? dataProductWatch?.housingMaterial?.find(
            (item) => item.id === row?.housingMaterial
         )
       : ''
 
    const materialBracelet = row.materialBracelet
-      ? dataProductWatch.bracelet.find(
+      ? dataProductWatch?.bracelet?.find(
            (item) => item.id === row?.materialBracelet
         )
       : ''
 
    const gender =
       row.gender &&
-      radioData.genderRadioData.find((item) => item.value === row?.gender)
+      radioData?.genderRadioData?.find((item) => item.value === row?.gender)
 
    const color = row.codeColor
-      ? backgroundColors.find((item) => item.color === row?.codeColor)
+      ? backgroundColors?.find((item) => item.color === row?.codeColor)
       : ''
 
    const brand = rows.brandId
@@ -96,7 +96,7 @@ export const TablesRow = ({
       : ''
    const processor =
       row.processor &&
-      dataProductNotebooks.processorNotebooks.find(
+      dataProductNotebooks?.processorNotebooks?.find(
          (item) => item.id === row.processor
       )
    return (

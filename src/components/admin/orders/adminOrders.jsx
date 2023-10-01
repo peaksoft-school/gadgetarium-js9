@@ -9,11 +9,9 @@ import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Pagination from '@mui/material/Pagination'
 import Stack from '@mui/material/Stack'
-// import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { AdminOrderItem } from './AdminOrdersItem'
 import { Calendar } from '../../UI/calendarFolder/Calendar'
-import { InputUi } from '../../UI/Input'
 import { ReactComponent as SearchIcon } from '../../../assets/icons/search-icon.svg'
 import { getSearchUserOrder } from '../../../store/order/Order.thunk'
 
@@ -110,16 +108,15 @@ export function AdminOrders() {
    return (
       <Container>
          <ContainerChilde>
-            <SearchBlock>
-               <InputUi
-                  width="34.9375rem"
+            <SearchForm>
+               <Input
                   value={valueInput}
                   onChange={onChangeValueInput}
-                  height="2.4375rem"
                   placeholder="Поиск по артикулу или ..."
+                  type="text"
                />
-               <SearchIconStyle />
-            </SearchBlock>
+               <StyledVector input={valueInput} />
+            </SearchForm>
             <TabsStyle value={value} onChange={handleChange}>
                <Tab label="В ожидании" {...a11yProps(0)} />
                <Tab label="В обработке " {...a11yProps(1)} />
@@ -178,7 +175,6 @@ export function AdminOrders() {
                         ))}
                      </TableBody>
                   </StyledTable>
-
                   <StackStyle>
                      <Stack>
                         <Pagination
@@ -196,7 +192,7 @@ export function AdminOrders() {
 }
 
 const Container = styled('div')`
-   width: 89.583vw;
+   width: 67.969vw;
 
    .MuiTableCell-root {
       border-bottom: none;
@@ -245,8 +241,6 @@ const Container = styled('div')`
 `
 
 const StyledTable = styled(Table)(() => ({
-   width: '67.969vw',
-   height: '48vh',
    marginTop: '1rem',
 }))
 
@@ -272,28 +266,15 @@ const CalendarBlock = styled('div')`
    gap: 1.25rem;
    margin-top: 1.25rem;
 `
-const SearchBlock = styled('div')`
-   display: flex;
-   position: relative;
-   align-items: center;
-`
 
-const SearchIconStyle = styled(SearchIcon)`
-   position: absolute;
-   left: 33rem;
-   path {
-      fill: #91969e;
-   }
-   cursor: pointer;
-`
 const TabsStyle = styled(Tabs)`
-   margin-top: 3.16rem;
+   margin-top: 2.083vw;
    border-bottom: 1px solid #d4d4d4;
 `
 const StackStyle = styled('div')`
    display: flex;
    justify-content: center;
-   align-items: flex-end;
+   padding-top: 0.5rem;
 `
 const ContainerChilde = styled('div')`
    width: 67.969vw;
@@ -310,4 +291,69 @@ const FindeOrders = styled('p')`
    font-size: 0.875rem;
    font-weight: 400;
    margin-top: 2.5rem;
+`
+const SearchForm = styled('form')`
+   width: 29.115vw;
+   display: flex;
+   position: relative;
+   align-items: center;
+
+   button {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      background: none;
+   }
+   :hover {
+      input {
+         transition: background-color 0.4s ease;
+         background-color: #fff;
+         ::placeholder {
+            color: gray;
+         }
+      }
+
+      svg {
+         path {
+            fill: gray;
+         }
+      }
+   }
+   input {
+      :focus {
+         transition: background-color 0.4s ease;
+         background-color: #fff;
+         ::placeholder {
+            color: gray;
+         }
+         ~ svg path {
+            fill: gray;
+         }
+      }
+   }
+`
+const Input = styled('input')`
+   width: 29.115vw;
+   height: 2.5rem;
+   border-radius: 0.375rem;
+   border: 1px solid var(--Gray-Input, #cdcdcd);
+   padding: 0.59375rem 2.2rem 0.5625rem 1.125rem;
+   color: black;
+   outline: none;
+
+   ::placeholder {
+      color: #91969e;
+   }
+`
+const StyledVector = styled(SearchIcon)`
+   position: absolute;
+   right: 18px;
+   width: 1.042vw;
+   height: 1.042vw;
+   fill: gray;
+   path {
+      fill: ${(props) =>
+         props.input === '' ? '#91969e !important' : '#cb11ab !important'};
+   }
+   cursor: pointer;
 `
