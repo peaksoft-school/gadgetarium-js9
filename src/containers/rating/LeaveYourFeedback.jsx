@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { styled, Rating as RatingMui } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
-import { RatingPhoto } from './RatingPhoto'
 import { Modal } from '../../components/UI/Modal'
 import { Button } from '../../components/UI/Button'
 import { SuccessModal } from './SuccessModal'
@@ -13,23 +12,18 @@ import { ErrorModal } from './ErrorModal'
 import { useSnackbar } from '../../hooks/useSnackbar'
 
 export const LeaveYourFeedback = ({ rating, onClose, subProductId }) => {
-   const { colours, productId } = useSelector(
-      (state) => state.product.infoPhone
-   )
+   const { color, productId } = useSelector((state) => state.product.infoPhone)
 
    const [myStar, setMyStar] = useState(0)
    const [comment, setComment] = useState('')
    const [errorMessage, setErrorMessage] = useState('')
 
-   const [img, setImg] = useState('')
    const [successModal, setSuccessModal] = useState(false)
    const [errorModal, setErrorModal] = useState(false)
 
    const { snackbarHandler } = useSnackbar()
 
    const dispatch = useDispatch()
-
-   const imgUrl = img && URL.createObjectURL(img)
 
    const onOpenSuccessModal = () => {
       setSuccessModal(true)
@@ -46,38 +40,23 @@ export const LeaveYourFeedback = ({ rating, onClose, subProductId }) => {
             subProductId,
             grade: myStar,
             comment,
-            img: imgUrl,
          }
          dispatch(
             postReviewsPhone({ data, onOpenSuccessModal, onOpenErrorModal })
          )
             .unwrap()
             .then(() => {
-               dispatch(getInfoPage({ productId, colours }))
+               dispatch(getInfoPage({ productId, colour: color }))
             })
          onClose()
          setMyStar(0)
          setComment('')
-         setImg('')
       } else {
          snackbarHandler({
             message: 'Оставьте свою оценку',
             type: 'error',
          })
       }
-   }
-
-   const handleFileChange = (event) => {
-      const file = event.target.files[0]
-
-      setImg(file)
-   }
-
-   const handleDrop = (e) => {
-      e.preventDefault()
-      const file = e.dataTransfer.files[0]
-
-      setImg(file)
    }
 
    const handleRatingChange = (event, newValue) => {
@@ -133,22 +112,13 @@ export const LeaveYourFeedback = ({ rating, onClose, subProductId }) => {
                      />
                   </ContainerDescription>
                </div>
-
-               <div>
-                  <RatingPhoto
-                     handleDrop={handleDrop}
-                     handleFileChange={handleFileChange}
-                     img={imgUrl}
-                  />
-               </div>
-
-               <Button
+               <ButtonStyle
                   variant="contained"
                   padding="0.75rem"
                   onClick={onCreateReview}
                >
                   Отправить отзыв
-               </Button>
+               </ButtonStyle>
             </Container>
          </Modal>
       </>
@@ -158,7 +128,8 @@ export const LeaveYourFeedback = ({ rating, onClose, subProductId }) => {
 const Container = styled('div')(({ theme }) => ({
    display: 'flex',
    flexDirection: 'column',
-
+   width: '39.3125rem',
+   height: '20rem',
    fontFamily: theme.typography.mainFontFamily,
 }))
 
@@ -183,8 +154,8 @@ const ContainerDescription = styled('div')`
    margin-top: 1rem;
 
    textarea {
+      width: 100%;
       padding: 0.88rem 0.63rem;
-      max-width: 35.5625rem;
       min-height: 7rem;
       border-radius: 0.375rem;
       resize: none;
@@ -201,3 +172,7 @@ const BoxGrade = styled('div')(() => ({
       fontSize: '1rem',
    },
 }))
+
+const ButtonStyle = styled(Button)`
+   margin-top: 2rem;
+`

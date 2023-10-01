@@ -9,7 +9,6 @@ import { Loading } from '../../UI/loading/Loading'
 export const ContainerProductId = () => {
    const { role } = useSelector((state) => state.auth)
    const { isLoading } = useSelector((state) => state.product)
-   console.log('isLoading: ', isLoading)
    return (
       <Container>
          {isLoading && <Loading />}

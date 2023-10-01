@@ -26,6 +26,7 @@ export const TableItem = ({
    const [isHovered, setIsHovered] = useState(false)
    const navigate = useNavigate()
    const dispatch = useDispatch()
+
    const [productPriceInput, setProductPriceInput] = useState(item.productPrice)
    const getProductPrice = (e) => {
       if (Number(e.target.value) < 0) {
@@ -51,10 +52,16 @@ export const TableItem = ({
       navigate(`/admin/edit-product/${id}`)
       return id
    }
+
    const checkboxHandler = (id) => {
       dispatch(adminGoodsActions.changeChecked(id))
       setIsHovered(true)
    }
+
+   const onNavigateToProduct = () => {
+      navigate(`/admin/product/${item.productId}`)
+   }
+
    const StyledPhoto = item.image
       ? styled('img')`
            width: 4rem;
@@ -102,6 +109,7 @@ export const TableItem = ({
             if (el.name === 'Фото') {
                return (
                   <StyledTableCell
+                     onClick={onNavigateToProduct}
                      center={textInCenter}
                      sx={{
                         width: el.width,
@@ -116,6 +124,7 @@ export const TableItem = ({
             if (el.name === 'Артикул') {
                return (
                   <StyledTableCell
+                     onClick={onNavigateToProduct}
                      sx={{ width: el.width }}
                      center={textInCenter}
                      key={el.name}
@@ -127,6 +136,7 @@ export const TableItem = ({
             if (el.name === 'Наименование товара') {
                return (
                   <StyledTableCell
+                     onClick={onNavigateToProduct}
                      sx={{
                         width: el.width,
                      }}
@@ -145,6 +155,7 @@ export const TableItem = ({
             if (el.name === 'Дата создания') {
                return (
                   <StyledTableCell
+                     onClick={onNavigateToProduct}
                      sx={{ width: el.width }}
                      center={textInCenter}
                      key={el.name}
@@ -157,6 +168,7 @@ export const TableItem = ({
             if (el.name === 'Цена товара') {
                return (
                   <StyledTableCell
+                     onClick={onNavigateToProduct}
                      sx={{
                         width: el.width,
                         color: '#2C68F5',
@@ -174,6 +186,7 @@ export const TableItem = ({
             if (el.name === 'Текущея цена') {
                return (
                   <StyledTableCell
+                     onClick={onNavigateToProduct}
                      sx={{ width: el.width, color: '#2C68F5' }}
                      center={textInCenter}
                      key={el.name}
@@ -214,6 +227,7 @@ export const TableItem = ({
             if (el.name === 'Кол-во') {
                return (
                   <StyledTableCell
+                     onClick={onNavigateToProduct}
                      sx={{ width: el.width }}
                      center={textInCenter}
                      key={el.name}

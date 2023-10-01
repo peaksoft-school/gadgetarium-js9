@@ -34,7 +34,7 @@ export const router = createBrowserRouter([
       element: (
          <PrivateRoute
             roles={[USER_ROLE.GUEST, USER_ROLE.USER]}
-            fallBacPath="/admin"
+            fallBacPath="/admin/goods"
             component={<App />}
          />
       ),

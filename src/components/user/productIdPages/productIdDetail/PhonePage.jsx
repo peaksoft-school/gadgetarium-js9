@@ -7,9 +7,9 @@ import Tab from '@mui/material/Tab'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { getInfoPage } from '../../../../store/informationPhone/infoPageThunk'
-import { ProductDetails } from '../ProductDetails'
 import { ContainerProductId } from '../Container'
 import { BreadCrumbs } from '../../../UI/breadCrumbs/BreadCrumbs'
+import { ProductDetailIsAdmin } from '../productDetailAdmin/ProductDetailadmin'
 
 function CustomTabPanel(props) {
    const { children, value, index, ...other } = props
@@ -112,7 +112,7 @@ export const PhonePage = () => {
                   <ContainerProductId />
                </CustomTabPanel>
                <CustomTabPanel value={value} index={1}>
-                  <ProductDetails />
+                  <ProductDetailIsAdmin productId={productId} />
                </CustomTabPanel>
             </>
          )}
@@ -161,7 +161,7 @@ const BrandNameBlock = styled('div')`
 
 const BrandName = styled('h1')`
    width: 79.888vw;
-   color: #292929;
+   color: #0a0a92;
    font-family: Ubuntu;
    font-size: 30px;
    font-style: normal;
@@ -174,6 +174,7 @@ const BrandName = styled('h1')`
 const BoxBlock = styled('div')`
    display: flex;
    justify-content: center;
+   padding-bottom: 2.5rem;
 `
 
 const BreadCrumbsContainer = styled('div')`
