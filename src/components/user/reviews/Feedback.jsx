@@ -32,9 +32,7 @@ const Feedback = ({
 
    const { role } = useSelector((state) => state.auth)
 
-   const { productId, colours } = useSelector(
-      (state) => state.product.infoPhone
-   )
+   const { productId, color } = useSelector((state) => state.product.infoPhone)
 
    const [openModal, setOpenModal] = useState()
    const [adminText, setAdminText] = useState(answer)
@@ -61,6 +59,14 @@ const Feedback = ({
       setOpenModal(false)
       setAdminText(modalText)
       return null
+   }
+
+   const deleteUserReviwes = async () => {
+      dispatch(deleteReviewsRequest({ reviewId, snackbarHandler }))
+         .unwrap()
+         .then(() => {
+            dispatch(getInfoPage({ productId, colour: color }))
+         })
    }
 
    const toggleUserHandler = () => {
@@ -101,18 +107,7 @@ const Feedback = ({
          {canUserEdit && (
             <ToolContainer>
                <EditIcon onClick={toggleUserHandler} />
-               <DeleteIcon
-                  onClick={() =>
-                     dispatch(deleteReviewsRequest(reviewId))
-                        .unwrap()
-                        .then(() => {
-                           snackbarHandler({
-                              message: 'Товар успешно удален',
-                           })
-                           dispatch(getInfoPage({ productId, colours }))
-                        })
-                  }
-               />
+               <DeleteIcon onClick={deleteUserReviwes} />
             </ToolContainer>
          )}
          {adminState && role === 'ADMIN' && (

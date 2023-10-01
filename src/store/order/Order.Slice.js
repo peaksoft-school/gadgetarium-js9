@@ -1,5 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { favorireRequest, orderByIdRequest, orderRequest } from './Order.thunk'
+import {
+   favorireRequest,
+   getOrderById,
+   getSearchUserOrder,
+   orderByIdRequest,
+   orderIsAdminThunk,
+   orderRequest,
+} from './Order.thunk'
 
 const initialState = {
    productOrder: [],
@@ -7,12 +14,22 @@ const initialState = {
    orders: {},
    productsViewed: [],
    isLoading: false,
+   orderIsAdmin: [],
+   orderAdminId: [],
+   orderSearch: [],
+   deleteAll: [],
 }
 
 export const orderSlice = createSlice({
    name: 'order',
    initialState,
-   reducers: {},
+   reducers: {
+      changeDelete: (state) => {
+         const deleteAllConst = []
+         state.productOrder.map((el) => deleteAllConst.push(el.orderId))
+         state.deleteAll = deleteAllConst
+      },
+   },
    extraReducers: (builder) => {
       builder.addCase(orderRequest.fulfilled, (state, action) => {
          state.productOrder = action.payload
@@ -30,5 +47,16 @@ export const orderSlice = createSlice({
       builder.addCase(orderByIdRequest.rejected, (state) => {
          state.isLoading = false
       })
+      builder.addCase(orderIsAdminThunk.fulfilled, (state, action) => {
+         state.orderIsAdmin = action.payload
+      })
+      builder.addCase(getOrderById.fulfilled, (state, action) => {
+         state.orderAdminId = action.payload
+      })
+      builder.addCase(getSearchUserOrder.fulfilled, (state, action) => {
+         state.orderSearch = action.payload
+      })
    },
 })
+
+export const compareActions = orderSlice.actions

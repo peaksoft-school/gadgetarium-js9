@@ -14,6 +14,8 @@ import {
 import { orderByIdRequest } from '../../../../store/order/Order.thunk'
 import { SecondProductCard } from '../../UserUI/uiCart/SecondProductCard'
 import { Loading } from '../../../UI/loading/Loading'
+import { userOrdersBreadcrumbsDetail } from '../../../../utils/common/constants/paymant'
+import { BreadCrumbs } from '../../../UI/breadCrumbs/BreadCrumbs'
 
 export const HistoryDetail = () => {
    const param = useParams()
@@ -32,7 +34,8 @@ export const HistoryDetail = () => {
       <>
          {isLoading && <Loading />}
          <Container>
-            <h1>История заказов</h1>
+            <BreadCrumbs breadcrumbs={userOrdersBreadcrumbsDetail} />
+            <OrdersHistoryTitle>История заказов</OrdersHistoryTitle>
             <Line />
             <BlockContainer>
                <h2>№ {orders.orderNumber}</h2>
@@ -123,7 +126,6 @@ export const HistoryDetail = () => {
 
 const Container = styled('div')`
    width: 79.888vw;
-   margin-top: 6rem;
    height: 94rem;
    p {
       font-family: Inter;
@@ -243,4 +245,11 @@ const OnMyWay = styled('p')`
    ${generalStyle}
    color: #0812a5;
    font-size: 1rem;
+`
+const OrdersHistoryTitle = styled('h1')`
+   color: #292929;
+   font-family: Ubuntu;
+   font-size: 1.875rem;
+   font-weight: 500;
+   margin-top: 1.88rem;
 `

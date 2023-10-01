@@ -1,98 +1,163 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { styled } from '@mui/material'
+import { useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import { InformationOrder } from './InformationOrder'
+import { userOrdersPaymentBreadcrumbs } from '../../../utils/common/constants/paymant'
+import { BreadCrumbs } from '../../UI/breadCrumbs/BreadCrumbs'
+import { getOrderById } from '../../../store/order/Order.thunk'
 
 export const PaymentPage = () => {
-   const total = 12000
+   const dispatch = useDispatch()
+   const param = useParams()
+   const { productResponseList } = useSelector(
+      (state) => state.order.orderAdminId
+   )
 
+   useEffect(() => {
+      dispatch(getOrderById(param.orderId))
+   }, [])
    return (
       <Container>
-         <h2>Оплата заказа 000000-455247</h2>
-         <Info>
-            <ContainerChild>
-               <Line>
-                  <Block>
-                     <div>
-                        <p>
-                           <b>Наименование:</b>
-                        </p>
-                        <p>
-                           <b>Кол-во товара:</b>
-                        </p>
-                        <p>
-                           <b>Общая сумма заказа:</b>
-                        </p>
+         <ContainerChilde>
+            <BreadCrumbsContainer>
+               <BreadCrumbs breadcrumbs={userOrdersPaymentBreadcrumbs} />
+               <Name>{param.names}</Name>
+            </BreadCrumbsContainer>
 
-                        <BlockParagraph>
-                           <b>Скидка:</b> 15%
-                        </BlockParagraph>
-                        <Discount>
-                           <b>Сумма скидки:</b>
-                           <p>9 000 c</p>
-                        </Discount>
-                     </div>
-                     <BlockChilde>
-                        <p>Samsung Galaxy S21 128gb синий 9(MLP3RU)</p>
-                        <p>1шт</p>
-                        <p>60 000 с</p>
-                     </BlockChilde>
-                  </Block>
-               </Line>
-               <p>
-                  <b>Итого:</b> {total.toLocaleString()} с
-               </p>
-            </ContainerChild>
-            <InformationOrder />
-         </Info>
+            <PaymentParagraph>
+               Оплата заказа {productResponseList?.orderNumber}
+            </PaymentParagraph>
+            <InfoContainer>
+               <div>
+                  <InfoContainerChilde>
+                     <Info>
+                        <InfoName>
+                           <p>Наименование:</p>
+                           <p>Кол-во товара:</p>
+                           <p>Общая сумма заказа:</p>
+                           <Discount>
+                              Скидка: {productResponseList?.sale}%
+                           </Discount>
+                           <TotalDiscount>Сумма скидки:</TotalDiscount>
+                        </InfoName>
+                        <div>
+                           <p>{productResponseList?.names}</p>
+                           <p>{productResponseList?.quantity} шт</p>
+                           <p>
+                              {productResponseList?.totalPrice.toLocaleString()}{' '}
+                              с
+                           </p>
+                           <DiscountPrice>`</DiscountPrice>
+                           <p>
+                              {productResponseList?.sumOfDiscount.toLocaleString()}
+                              с
+                           </p>
+                        </div>
+                     </Info>
+                  </InfoContainerChilde>
+
+                  <TotalContainer>
+                     <Total>
+                        <p>Итого:</p>
+                        <span>
+                           {productResponseList?.allPrice.toLocaleString()} с
+                        </span>
+                     </Total>
+                  </TotalContainer>
+               </div>
+               <InformationOrder />
+            </InfoContainer>
+         </ContainerChilde>
       </Container>
    )
 }
 const Container = styled('div')`
-   padding: 0 6.25rem 0;
+   display: flex;
+   justify-content: center;
+`
+const ContainerChilde = styled('div')`
    display: flex;
    flex-direction: column;
-   margin-top: 6.88rem;
-
-   h2 {
-      padding-bottom: 1.25rem;
-      border-bottom: 1px solid black;
-   }
+   width: 89.583vw;
 `
+
+const PaymentParagraph = styled('p')`
+   color: #292929;
+   font-family: Ubuntu;
+   font-size: 1.875rem;
+   font-weight: 500;
+   padding-bottom: 1.25rem;
+   border-bottom: 1px solid black;
+`
+
+const InfoContainer = styled('div')`
+   display: flex;
+`
+
+const InfoContainerChilde = styled('div')`
+   padding-bottom: 1.25rem;
+   border-bottom: 1px solid #cdcdcd;
+`
+
 const Info = styled('div')`
    display: flex;
-   margin-top: 2.5rem;
+   width: 38vw;
+   justify-content: space-between;
 `
-const Block = styled('div')`
-   display: flex;
-   justify-content: flex-start;
-   gap: 2.88rem;
-   width: 100%;
+
+const InfoName = styled('div')`
    p {
-      margin-top: 0;
+      color: #292929;
+      font-family: Inter;
+      font-size: 1rem;
+      font-weight: 600;
    }
 `
-const ContainerChild = styled('div')`
+
+const TotalContainer = styled('div')`
    display: flex;
-   flex-direction: column;
-   align-items: flex-end;
+   width: 38vw;
+   justify-content: flex-end;
 `
-const Line = styled('div')`
-   border-bottom: 1px solid black;
-   padding-bottom: 0.5rem;
-   width: 100%;
-`
-const BlockChilde = styled('div')`
+
+const Total = styled('div')`
+   display: flex;
+   align-items: center;
    p {
-      margin-top: 0;
+      color: #292929;
+      font-family: Inter;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-right: 0.88rem;
    }
 `
-const BlockParagraph = styled('p')`
-   color: red;
-`
+
 const Discount = styled('div')`
+   color: red;
+   font-family: Inter;
+   font-size: 1rem;
+   font-weight: 600;
+`
+const DiscountPrice = styled('span')`
+   color: #fff;
+`
+
+const BreadCrumbsContainer = styled('div')`
    display: flex;
-   p {
-      position: relative;
-      left: 6.4rem;
-   }
+   align-items: center;
+`
+const Name = styled('p')`
+   position: relative;
+   top: 1.8rem;
+   font-family: Inter;
+   font-size: 0.875rem;
+   font-weight: 400;
+`
+
+const TotalDiscount = styled('p')`
+   color: #292929;
+   font-family: Inter;
+   font-size: 1rem;
+   font-weight: 600;
 `

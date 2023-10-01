@@ -40,7 +40,7 @@ export const SignUp = () => {
    const onSubmit = async (data) => {
       try {
          reset()
-         await dispatch(signUpRequest(data)).unwrap()
+         await dispatch(signUpRequest({ data, snackbarHandler })).unwrap()
          snackbarHandler({
             message: 'Регистрация успешно выполнена',
             type: 'success',
@@ -49,7 +49,8 @@ export const SignUp = () => {
          navigate('/')
       } catch (error) {
          snackbarHandler({
-            message: error.response.data.message,
+            message:
+               'Пользователь с таким адресом электронной почты уже существует.',
             type: 'error',
          })
       }
@@ -116,7 +117,6 @@ export const SignUp = () => {
 }
 
 const Container = styled('div')`
-   position: relative;
    display: flex;
    flex-direction: column;
    align-items: center;
@@ -125,9 +125,6 @@ const Container = styled('div')`
    border-radius: 0.25rem;
    background: #fff;
    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-   h2 {
-      text-align: center;
-   }
 `
 const Title = styled('p')`
    color: #292929;
@@ -161,6 +158,7 @@ const Input = styled(InputUi)`
 `
 const Form = styled('form')`
    display: flex;
+   align-items: center;
    flex-direction: column;
    gap: 1.25rem;
 `

@@ -4,20 +4,18 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { SuccessModal } from '../../../containers/rating/SuccessModal'
 import { Modal } from '../../UI/Modal'
-import { RatingPhoto } from '../../../containers/rating/RatingPhoto'
 import { Button } from '../../UI/Button'
 import { putReviesRequest } from '../../../store/informationPhone/infoPageThunk'
+import { useSnackbar } from '../../../hooks/useSnackbar'
 
 export const EditModal = ({ open, onClose, reviewId }) => {
+   const { snackbarHandler } = useSnackbar()
    const { userComment, infoPhone } = useSelector((state) => state.product)
    const [myStar, setMyStar] = useState(userComment.grade)
    const [comment, setComment] = useState(userComment.comment)
-   const [img, setImg] = useState(userComment.imageLink)
    const [successModal, setSuccessModal] = useState(false)
    const { productId } = useParams()
    const dispatch = useDispatch()
-
-   const imgUrl = img && URL.createObjectURL(img)
 
    const onOpenSuccessModal = () => {
       setSuccessModal(true)
@@ -28,12 +26,12 @@ export const EditModal = ({ open, onClose, reviewId }) => {
          reviewId,
          grade: myStar,
          comment,
-         imageLink: imgUrl,
       }
 
       dispatch(
          putReviesRequest({
             data,
+            snackbarHandler,
             getPayload: { productId, colour: infoPhone.color },
          })
       )
@@ -41,20 +39,6 @@ export const EditModal = ({ open, onClose, reviewId }) => {
       onOpenSuccessModal()
       setMyStar(0)
       setComment('')
-      setImg('')
-   }
-
-   const handleFileChange = (event) => {
-      const file = event.target.files[0]
-
-      setImg(file)
-   }
-
-   const handleDrop = (e) => {
-      e.preventDefault()
-      const file = e.dataTransfer.files[0]
-
-      setImg(file)
    }
 
    const handleRatingChange = (event, newValue) => {
@@ -104,22 +88,13 @@ export const EditModal = ({ open, onClose, reviewId }) => {
                      />
                   </ContainerDescription>
                </div>
-
-               <div>
-                  <RatingPhoto
-                     handleDrop={handleDrop}
-                     handleFileChange={handleFileChange}
-                     img={imgUrl}
-                  />
-               </div>
-
-               <Button
+               <ButtonStyle
                   variant="contained"
                   padding="0.75rem"
                   onClick={onCreateReview}
                >
                   Отправить отзыв
-               </Button>
+               </ButtonStyle>
             </Container>
          </Modal>
       </>
@@ -129,6 +104,8 @@ export const EditModal = ({ open, onClose, reviewId }) => {
 const Container = styled('div')(({ theme }) => ({
    display: 'flex',
    flexDirection: 'column',
+   width: '39.3125rem',
+   height: '20rem',
 
    fontFamily: theme.typography.mainFontFamily,
 }))
@@ -148,14 +125,15 @@ const ContainerGrade = styled('div')(({ theme }) => ({
 
 const ContainerDescription = styled('div')`
    display: flex;
+
    flex-direction: column;
    gap: 0.38rem;
    font-size: 1rem;
    margin-top: 1rem;
 
    textarea {
+      width: 100%;
       padding: 0.88rem 0.63rem;
-      max-width: 35.5625rem;
       min-height: 7rem;
       border-radius: 0.375rem;
       resize: none;
@@ -172,3 +150,7 @@ const BoxGrade = styled('div')(() => ({
       fontSize: '1rem',
    },
 }))
+
+const ButtonStyle = styled(Button)`
+   margin-top: 2rem;
+`

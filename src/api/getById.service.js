@@ -49,3 +49,15 @@ export const getDownloadPdfFilesRequest = (productId) => {
 export const postViewedProductRequest = (subProductIdId) => {
    return axiosInstance.post(`/v1/products/get-product/${subProductIdId}`)
 }
+
+export const getProductDetailRequest = (productId) => {
+   return axiosInstance.get(
+      `/v1/products/product-details?productId=${productId}`
+   )
+}
+
+export const deleteTableDetailProductRequest = (deleteIsCheck) => {
+   return axiosInstance.delete(`/v1/products/multi-delete`, {
+      data: deleteIsCheck,
+   })
+}

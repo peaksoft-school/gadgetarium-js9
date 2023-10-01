@@ -16,7 +16,7 @@ export const AdminHeader = () => {
    const [openModal, setOpenModal] = useState(false)
    const dispatch = useDispatch()
    const onComeBack = () => {
-      navigate('/admin')
+      navigate('/admin/goods')
    }
    const location = useLocation()
    const { isLoading } = useSelector((state) => state.adminGoods)
@@ -42,13 +42,13 @@ export const AdminHeader = () => {
                </Title>
                <NavBar>
                   {navBarForAdminHeader.map((el) => (
-                     <StyledNavLink
+                     <Link
                         key={el.title}
                         to={el.path}
                         className={({ isActive }) => (isActive ? 'active' : '')}
                      >
                         {el.title}
-                     </StyledNavLink>
+                     </Link>
                   ))}
                </NavBar>
                <AvatarAndMailContainer>
@@ -217,7 +217,7 @@ const GIcons = styled('p')`
    font-style: normal;
    font-weight: 600;
 `
-const StyledNavLink = styled(NavLink)`
+const Link = styled(NavLink)`
    padding: 10px 14px 12px 14px;
    cursor: pointer;
    text-decoration: none;

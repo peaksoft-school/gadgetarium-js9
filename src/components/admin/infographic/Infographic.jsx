@@ -79,7 +79,7 @@ export const Infographic = () => {
                      </div>
                      <div>
                         <p className="things">
-                           {infographicData?.waitingQuantity?.toLocaleString()}{' '}
+                           {infographicData?.waitingQuantity?.toLocaleString()}
                            шт
                         </p>
                      </div>
@@ -97,7 +97,6 @@ export const Infographic = () => {
                   </InADayBox>
                </InADayContainer>
             </InfoAmountContainer>
-
             <DeliveredGoodsInQuantityContainer>
                <Title>Доставлено товаров на сумму</Title>
 

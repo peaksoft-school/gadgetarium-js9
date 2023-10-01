@@ -39,9 +39,10 @@ export const navBarForHeader = [
       title: 'Контакты',
    },
 ]
+
 export const navBarForAdminHeader = [
    {
-      path: '/admin',
+      path: '/admin/goods',
       title: 'Товары',
    },
    {
