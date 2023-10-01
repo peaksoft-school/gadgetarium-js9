@@ -6,7 +6,7 @@ import {
 } from '../FinishingTouchAddingProduct'
 import { ReactComponent as DownloadIcon } from '../../../../../assets/icons/tools-for-site/download-icon.svg'
 
-export const InputPDF = ({ formik, onDrop }) => {
+export const InputPDF = ({ formik, onDrop, validForm }) => {
    const { getRootProps } = useDropzone({
       onDrop,
       accept: ['.pdf', 'application/pdf'],
@@ -25,6 +25,7 @@ export const InputPDF = ({ formik, onDrop }) => {
                   onBlur={formik.handleBlur}
                   name="pdf"
                   type="text"
+                  error={validForm && formik.values.pdf === ''}
                   accept=".pdf"
                   InputProps={{
                      startAdornment: (

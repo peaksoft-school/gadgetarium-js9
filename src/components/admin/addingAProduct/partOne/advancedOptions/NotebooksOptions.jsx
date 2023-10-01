@@ -52,19 +52,21 @@ export const NotebooksOptions = ({ errorCategory }) => {
       setProductNum(index)
    }
 
-   const newProductFilterData = newProduct?.subProductRequests[productNum]
+   const num = productNum || 0
+
+   const newProductFilterData = newProduct?.subProductRequests[num]
 
    const productIdValidator =
       newProduct?.subProductRequests.indexOf(
-         newProduct?.subProductRequests[productNum]
-      ) === productNum
+         newProduct?.subProductRequests[num]
+      ) === num
 
    return (
       <div>
          <QuantityOfProducts
             onCreateNewProduct={onCollectorNotebooksOptionsParameters}
             onProductNumRenderMap={onProductNumRenderMap}
-            productNum={productNum}
+            productNum={num}
             deleteHandler={deleteAndNavigateProductOneHandler}
          />
 

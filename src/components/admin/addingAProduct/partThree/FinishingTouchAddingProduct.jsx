@@ -42,6 +42,8 @@ export const FinishingTouchAddingProduct = memo(() => {
    const navigate = useNavigate()
    const [validPDF, setValidPDF] = useState(false)
    const [validData, setValidData] = useState(false)
+   const [validForm, setValidForm] = useState(false)
+   const [videoValid, setVideoValid] = useState(false)
 
    const formik = useFormik({
       initialValues: {
@@ -64,6 +66,8 @@ export const FinishingTouchAddingProduct = memo(() => {
                'Загрузите видеообзор должен быть действительным URL-адресом',
             type: 'error',
          })
+
+         setValidForm(false)
       }
 
       if (!formik.errors.videoLink) {
@@ -74,6 +78,8 @@ export const FinishingTouchAddingProduct = memo(() => {
                description: newProduct?.description,
             })
          )
+
+         setValidForm(false)
       }
    }
 
@@ -84,6 +90,8 @@ export const FinishingTouchAddingProduct = memo(() => {
             message: 'Выберите файл в формате PDF',
             type: 'error',
          })
+
+         setValidForm(true)
 
          return
       }
@@ -128,21 +136,32 @@ export const FinishingTouchAddingProduct = memo(() => {
    }, [validPDF])
 
    const postAddProductHandler = () => {
-      dispatch(postAddProduct({ resultAddProductData, navigate }))
+      dispatch(
+         postAddProduct({
+            resultAddProductData,
+            navigate,
+            clear: closeNavigatePartOne,
+         })
+      )
    }
 
    const descriptionValid = formik.values.description !== '<p></p>'
 
    const finishedPartThree = async () => {
-      const valid =
-         newProduct?.pdf === '' && newProduct?.description === '<p></p>'
+      const validDescription =
+         newProduct?.description === '<p></p>' || newProduct?.description === ''
+
+      const valid = newProduct?.pdf === '' && validDescription === true
+
       const validVideo = newProduct?.videoLink?.includes('http')
 
       if (valid) {
          snackbarHandler({
-            message: 'Bce поле должны быть обязательно заполнены',
+            message: 'Bce поле должны быть правильно заполнены',
             type: 'error',
          })
+
+         setValidForm(true)
       }
 
       if (validVideo === false) {
@@ -151,18 +170,25 @@ export const FinishingTouchAddingProduct = memo(() => {
                'Загрузите видеообзор должен быть действительным URL-адресом',
             type: 'error',
          })
+
+         setValidForm(true)
       }
 
       if (validFormik === false) {
          if (descriptionValid) {
             postAddProductHandler()
+
+            setValidForm(false)
          }
       }
+
+      setVideoValid(true)
    }
 
    const onClose = () => {
       navigate('/admin/add-products-part-1')
       dispatch(closeNavigatePartOne())
+      setValidForm(false)
    }
 
    useEffect(() => {
@@ -171,6 +197,8 @@ export const FinishingTouchAddingProduct = memo(() => {
             message: 'Товар успешно добавлен',
             type: 'success',
          })
+
+         setValidForm(false)
       }
    }, [isSuccessAddProduct])
 
@@ -180,8 +208,18 @@ export const FinishingTouchAddingProduct = memo(() => {
             message: 'Что то произошло не так',
             type: 'error',
          })
+
+         setValidForm(false)
       }
    }, [isError])
+
+   const errorIsVideoLink = Boolean(formik.errors.videoLink)
+   const finedBoolean = validForm && errorIsVideoLink
+   const errorIsVideoLinkReturnBool = validForm
+      ? finedBoolean
+      : errorIsVideoLink
+
+   const finishValidVideoLink = videoValid && errorIsVideoLinkReturnBool
 
    return (
       <>
@@ -212,6 +250,7 @@ export const FinishingTouchAddingProduct = memo(() => {
                            onChange={formik.handleChange}
                            onBlur={(e) => onBlurHandler(e)}
                            name="videoLink"
+                           error={finishValidVideoLink}
                            InputProps={{
                               startAdornment: (
                                  <InputAdornmentStyle position="start">
@@ -224,11 +263,15 @@ export const FinishingTouchAddingProduct = memo(() => {
                         />
                      </label>
 
-                     <InputPDF formik={formik} onDrop={onDrop} />
+                     <InputPDF
+                        formik={formik}
+                        onDrop={onDrop}
+                        validForm={validForm}
+                     />
                   </ContainerInputAddVideoAndPDF>
 
                   <div>
-                     <InputDescription formik={formik} />
+                     <InputDescription formik={formik} validForm={validForm} />
                   </div>
 
                   <ContainerButton>
