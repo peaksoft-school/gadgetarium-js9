@@ -21,6 +21,7 @@ import { SortPopUp } from './sort.popup/SortPopUp'
 import { useSnackbar } from '../../../hooks/useSnackbar'
 import { adminGoodsActions } from '../../../store/admin.goods/admin.goods.slice'
 import { Loading } from '../../UI/loading/Loading'
+import { Infographic } from '../infographic/Infographic'
 
 function a11yProps(index) {
    return {
@@ -288,6 +289,7 @@ export const AdminGoods = () => {
                      )}
                   </TableContainer>
                </ProductsToolContainer>
+               <Infographic />
             </WidthContainer>
          </Container>
       </>
@@ -408,6 +410,8 @@ const BannerButton = styled('button')`
 `
 const WidthContainer = styled('div')`
    width: 89.583vw;
+   display: flex;
+   justify-content: space-between;
 `
 const ProductsToolContainer = styled('div')`
    width: 67.969vw;

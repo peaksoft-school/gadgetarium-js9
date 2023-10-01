@@ -33,6 +33,7 @@ export const Compare = () => {
       open: false,
       count: 0,
    })
+
    const [isChecked, setIsChecked] = useState(false)
    const { setParam } = useCustomSearchParams()
    const dispatch = useDispatch()

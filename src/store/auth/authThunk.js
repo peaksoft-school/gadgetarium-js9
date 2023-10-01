@@ -30,13 +30,26 @@ export const signInRequest = createAsyncThunk(
 
 export const signUpRequest = createAsyncThunk(
    'auth/signUp',
-   async (data, { rejectWithValue }) => {
+   async ({ data, snackbarHandler }, { rejectWithValue }) => {
       try {
          const response = await signUp(data)
 
          localStorage.setItem(LOGIN_USER_KEY, JSON.stringify(response.data))
          return response.data
       } catch (error) {
+         const updatedError = error.response.data.message.slice(0, 22)
+         console.log(updatedError, 'updatedError')
+         if (updatedError === 'User with phone number') {
+            snackbarHandler({
+               message: 'Пользователь с таким номером уже существует!',
+               type: 'error',
+            })
+         } else if (updatedError === '[Wrong format phone nu') {
+            snackbarHandler({
+               message: 'Неправильный формат номера телефона!',
+               type: 'error',
+            })
+         }
          return rejectWithValue(error)
       }
    }

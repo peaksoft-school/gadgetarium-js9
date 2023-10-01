@@ -14,6 +14,8 @@ import { Favorites } from './favoritesPages/Favorites'
 import { deleteOrderRequest } from '../../../store/order/Order.thunk'
 import { userOrdersBreadcrumbs } from '../../../utils/common/constants/paymant'
 import { BreadCrumbs } from '../../UI/breadCrumbs/BreadCrumbs'
+import { compareActions } from '../../../store/order/Order.Slice'
+import { useSnackbar } from '../../../hooks/useSnackbar'
 
 function CustomTabPanel(props) {
    const { children, value, index, ...other } = props
@@ -27,18 +29,19 @@ function CustomTabPanel(props) {
 
 export const PersonalArea = () => {
    const dispatch = useDispatch()
-   const { productOrder } = useSelector((state) => state.order)
+   const { productOrder, deleteAll } = useSelector((state) => state.order)
    const favoritesOrders = useSelector((state) => state.order.favorite)
+   const { snackbarHandler } = useSnackbar()
 
-   const subProductById = favoritesOrders?.map((el) => el.subProductId)
-
-   const orderById = productOrder.length > 0 ? productOrder[0].orderId : null
+   useEffect(() => {
+      dispatch(compareActions.changeDelete())
+   }, [productOrder])
 
    const navigate = useNavigate()
    const [value, setValue] = useState(0)
 
    const deleteOrder = () => {
-      dispatch(deleteOrderRequest(orderById))
+      dispatch(deleteOrderRequest({ snackbarHandler, deleteAll }))
    }
 
    const handleChange = (event, newValue) => {
@@ -109,16 +112,17 @@ export const PersonalArea = () => {
             </TabsHeader>
             {value === 0 && (
                <div value={value}>
-                  {productOrder.length === 0 ? <EmptyHistory /> : <History />}
+                  {productOrder.length > 0 ? <History /> : <EmptyHistory />}
+                  <History />
                </div>
             )}
 
             {value === 1 && (
                <div value={value}>
-                  {subProductById.length === 0 ? (
-                     <EmptyFavorites />
-                  ) : (
+                  {favoritesOrders.length > 0 ? (
                      <Favorites />
+                  ) : (
+                     <EmptyFavorites />
                   )}
                </div>
             )}

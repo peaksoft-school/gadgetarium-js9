@@ -260,7 +260,7 @@ export const Header = ({ favorite, basket, compare }) => {
                         </GadgeteriumContainer>
                         <AdgetariumTitle>adgetarium</AdgetariumTitle>
                      </TitleFixed>
-                     <CatalogButtonContainer
+                     <div
                         onMouseEnter={toggleCatalogSelect}
                         onMouseLeave={toggleCatalogSelect}
                      >
@@ -275,7 +275,7 @@ export const Header = ({ favorite, basket, compare }) => {
                               />
                            </CatalogSelect>
                         )}
-                     </CatalogButtonContainer>
+                     </div>
                      <Border />
                      <PositionContainerForInput>
                         <SearchForm>
@@ -453,7 +453,6 @@ const FavoriteContainer = styled('div')`
    right: -37px;
    top: 36px;
 `
-const CatalogButtonContainer = styled('div')``
 const Link = styled(NavLink)`
    padding: 10px 14px 12px 14px;
    cursor: pointer;

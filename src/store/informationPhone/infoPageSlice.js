@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
+   getByIdProductDetail,
    getDownloadPdfFiles,
    getInfoPage,
    getRecentlyViewedProduct,
@@ -20,6 +21,7 @@ const initialState = {
    updateAdminComment: [],
    getPdfFiles: [],
    isLoading: true,
+   getByIdDetail: [],
 }
 
 export const infoPageSlice = createSlice({
@@ -90,6 +92,9 @@ export const infoPageSlice = createSlice({
       })
       builder.addCase(getDownloadPdfFiles.fulfilled, (state, action) => {
          state.getPdfFiles = action.payload
+      })
+      builder.addCase(getByIdProductDetail.fulfilled, (state, action) => {
+         state.getByIdDetail = action.payload
       })
    },
 })

@@ -9,8 +9,12 @@ export const getFavoriteRequest = () => {
 export const getOrderByIdRequest = (params) => {
    return axiosInstance.get(`/v1/user/user_order/${+params.orderId}`)
 }
-export const deleteOrderInfoRequest = (orderById) => {
-   return axiosInstance.delete(`/order/single-delete/${orderById}`)
+export const deleteOrderInfoRequest = (deleteAll) => {
+   return axiosInstance.delete('/order/multi-delete', { data: deleteAll })
+}
+
+export const getOrderAdminRequest = () => {
+   return axiosInstance.get('/order')
 }
 export const putUserInfoRequest = (payload) => {
    return axiosInstance.put(`/v1/user`, payload)

@@ -41,7 +41,7 @@ export const Rating = ({ subProductId }) => {
             <BoxInfoRating>
                <ContainerGeneralRating>
                   <BoxGeneralRating>
-                     <h1>{rating}</h1>
+                     <RaitingHeader>{rating?.toFixed(1)}</RaitingHeader>
                      <RatingMuiStyle
                         value={rating || 0}
                         readOnly
@@ -150,4 +150,10 @@ const RatingMuiStyle = styled(RatingMui)`
    .MuiRating-icon {
       color: #faaf00;
    }
+`
+const RaitingHeader = styled('p')`
+   color: #292929;
+   font-family: Inter;
+   font-size: 1.875rem;
+   font-weight: 700;
 `

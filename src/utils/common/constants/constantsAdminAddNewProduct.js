@@ -19,8 +19,18 @@ export const subProductDataCategory = {
    'Sports Watches': 'Спортивные часы',
    'Children Smart Watches': 'Детские смарт-часы',
    'Entertainment Tablets': 'Планшеты для развлечений',
-   'Professional Tablets': 'Профессиональные планшеты',
+   'Proffessional Tablets': 'Профессиональные планшеты',
    'Educational Tablets': 'Образовательные планшеты',
+}
+
+export const statusTranslate = {
+   PENDING: 'В ожидании',
+   IN_PROCESSING: 'В обработке',
+   READY_FOR_DELIVERY: 'Готов к выдаче',
+   RECEIVED: 'Получен',
+   CANCEL: 'Отменить',
+   COURIER_ON_THE_WAY: 'Курьер в пути',
+   DELIVERED: 'Доставлен',
 }
 
 export const dataProductWatch = {
