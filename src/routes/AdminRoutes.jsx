@@ -14,7 +14,7 @@ export const adminRoutes = [
       element: <AdminGoods />,
    },
    {
-      path: '/admin/edit-product/:subProductId',
+      path: '/admin/goods/edit-product/:subProductId',
       element: <EditProduct />,
    },
    {
@@ -34,7 +34,7 @@ export const adminRoutes = [
       element: <ReviewsAndRating />,
    },
    {
-      path: '/admin/product/:productId',
+      path: '/admin/goods/product/:productId',
       element: <PhonePage />,
    },
    {
@@ -42,7 +42,7 @@ export const adminRoutes = [
       element: <AdminOrdersContainer />,
    },
    {
-      path: '/admin/:orderId/paymentIsOrder/:name',
+      path: '/admin/orders/:orderId/paymentIsOrder/:name',
       element: <PaymentPage />,
    },
 ]

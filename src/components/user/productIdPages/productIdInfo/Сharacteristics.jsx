@@ -120,6 +120,7 @@ export const Сharacteristics = () => {
 
 const Container = styled('div')`
    margin-top: 4.56rem;
+   width: 100%;
 
    .MuiAccordion-root {
       box-shadow: none;
@@ -142,7 +143,6 @@ const Title = styled('h3')`
 `
 const TypographyBlock = styled('div')`
    display: flex;
-   width: 40rem;
    justify-content: space-between;
 `
 const ArrowStyle = styled(Arrow)`

@@ -188,7 +188,6 @@ const BoxStyle = styled(Box)`
       background-color: #cb11ab;
       font-family: Inter;
       color: #fff;
-      font-size: 1rem;
    }
 
    .count {
@@ -200,10 +199,11 @@ const BoxStyle = styled(Box)`
       border-radius: 0.25rem;
       color: #384255;
       min-height: 0;
+      font-weight: 600;
       background-color: #e0e2e7;
       padding: 0.5rem 1.25rem 0.5rem 1.25rem;
       text-transform: none;
-      font-size: 1rem;
+      font-size: 0.833vw;
    }
 
    .MuiTabs-root {

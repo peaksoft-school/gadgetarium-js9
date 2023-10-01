@@ -81,7 +81,7 @@ export const putProduct = createAsyncThunk(
       try {
          await putProductRequest({ product, subProductId })
          snackbarHandler({ message: 'Товар успешно изменен' })
-         navigate('/admin')
+         navigate('/admin/goods')
       } catch (error) {
          snackbarHandler({ message: 'Товар не изменен', typeError })
 

@@ -225,7 +225,7 @@ export const AdminGoods = () => {
                         fontSize="14px"
                         height="35px"
                         placeholder="От"
-                        width="100%"
+                        width="139px"
                      />
                      <Calendar
                         onChange={getEndDate}
@@ -235,7 +235,7 @@ export const AdminGoods = () => {
                         marginTop="-9px"
                         height="35px"
                         placeholder="До"
-                        width="100%"
+                        width="139px"
                      />
                      <Tools onClick={deleteAllHandler}>
                         <StyledDeleteButton />
@@ -383,7 +383,6 @@ const TableContainer = styled('div')`
 const CalendarContainer = styled('div')`
    display: flex;
    gap: 1.042vw;
-   width: 388px;
    margin-bottom: 3.125vw;
 `
 const StyledArrowBottom = styled(ArrowBottom)`

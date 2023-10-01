@@ -1,19 +1,16 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { styled } from '@mui/material'
-import { useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Attribute } from './Attribute'
-import { getInfoPage } from '../../../../store/informationPhone/infoPageThunk'
 
 export const InfoProductId = () => {
-   const dispatch = useDispatch()
-
-   useEffect(() => {
-      dispatch(getInfoPage())
-   }, [])
+   const { role } = useSelector((state) => state.auth)
 
    return (
       <Container>
-         <Attribute />
+         <WidthContainer roleadmin={role}>
+            <Attribute />
+         </WidthContainer>
       </Container>
    )
 }
@@ -22,4 +19,7 @@ const Container = styled('div')`
    display: flex;
    justify-content: center;
    background-color: #fff;
+`
+const WidthContainer = styled('div')`
+   width: ${(props) => (props.roleadmin === 'ADMIN' ? '89.583vw' : '79.888vw')};
 `

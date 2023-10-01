@@ -158,9 +158,12 @@ export const postRecentlyViewedProduct = createAsyncThunk(
 
 export const getByIdProductDetail = createAsyncThunk(
    'product/getByIdProductDetail',
-   async (productId, { rejectWithValue }) => {
+   async ({ productId, navigate }, { rejectWithValue }) => {
       try {
          const responce = await getProductDetailRequest(productId)
+         if (responce.data.length === 0) {
+            navigate('/admin/goods')
+         }
          return responce.data
       } catch (error) {
          return rejectWithValue(error)

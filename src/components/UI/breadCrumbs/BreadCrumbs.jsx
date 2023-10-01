@@ -8,10 +8,10 @@ export const BreadCrumbs = ({ breadcrumbs }) => {
             {breadcrumbs.map((breadcrumb, index) => {
                const isLast = index === breadcrumbs.length - 1
                const { path, label } = breadcrumb
-
+               const key = index + 1
                if (isLast) {
                   return (
-                     <StyledTypography key={label} color="text.primary">
+                     <StyledTypography key={key} color="text.primary">
                         {label}
                      </StyledTypography>
                   )
@@ -20,7 +20,7 @@ export const BreadCrumbs = ({ breadcrumbs }) => {
                return (
                   <StyledLink
                      underline="hover"
-                     key={label}
+                     key={key}
                      color="inherit"
                      component={RouterLink}
                      to={path}

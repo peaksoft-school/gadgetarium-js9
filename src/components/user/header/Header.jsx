@@ -27,7 +27,6 @@ export const Header = ({ favorite, basket, compare }) => {
    const { number, img, token, isAuthorization } = useSelector(
       (state) => state.auth
    )
-   console.log('img: ', img)
    const [hoverCompare, setHoverCompare] = useState(false)
    const [hoverFavorite, setHoverFavorite] = useState(false)
    const navigate = useNavigate()
@@ -72,7 +71,6 @@ export const Header = ({ favorite, basket, compare }) => {
    }, [])
    function onComeBack() {
       navigate('./')
-      console.log('hi')
    }
    const scrollToTop = () => {
       window.scrollTo({ top: 0, behavior: 'smooth' })

@@ -33,7 +33,7 @@ export const SignIn = () => {
                navigate('/')
                dispatch(getPhoneNumber(data))
             } else {
-               navigate('admin')
+               navigate('/admin/goods')
             }
          })
          .catch((error) => console.error(error))

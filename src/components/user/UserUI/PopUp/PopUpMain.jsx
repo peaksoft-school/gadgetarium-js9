@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { styled } from '@mui/material'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { Carousel } from 'react-responsive-carousel'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
-import { getInfoPage } from '../../../../store/informationPhone/infoPageThunk'
 import { PopUpPage } from './PopUpPage'
 import { useCustomSearchParams } from '../../../../hooks/useCustomSearchParams'
 
@@ -26,12 +25,6 @@ const style = {
 
 export const PopUpMain = () => {
    const infoPhone = useSelector((state) => state.product.infoPhone)
-
-   const dispatch = useDispatch()
-
-   useEffect(() => {
-      dispatch(getInfoPage())
-   }, [])
 
    const [currentIndex, setCurrentIndex] = useState(0)
 

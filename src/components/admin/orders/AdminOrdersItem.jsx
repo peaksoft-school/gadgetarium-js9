@@ -84,7 +84,7 @@ export const AdminOrderItem = ({ dataFunc, tables, index, ...item }) => {
       setArrowIconFlipped(false)
    }
    const navigateToPaymentPage = () => {
-      navigate(`/admin/${item.orderId}/paymentIsOrder/${item.names}`)
+      navigate(`/admin/orders/${item.orderId}/paymentIsOrder/${item.names}`)
    }
 
    const handleCloseMenuItem = (statusTab) => {
