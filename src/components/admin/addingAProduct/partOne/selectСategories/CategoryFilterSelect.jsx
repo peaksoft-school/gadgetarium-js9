@@ -111,10 +111,7 @@ export const CategoryFilterSelect = ({
                      )
                   })}
                   {newBrand && (
-                     <StyledMenuItem
-                        onClick={onSelectValue}
-                        value="addNewBrand"
-                     >
+                     <StyledMenuItem onClick={onSelectValue} value="">
                         <NewBrandContainer className={isFocused && 'hover'}>
                            <p>
                               <span>+</span> Создать новый бренд

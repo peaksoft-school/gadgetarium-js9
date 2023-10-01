@@ -4,6 +4,7 @@ import {
    getBrandAllRequest,
    getSubCategoryRequest,
    postAddProductRequest,
+   postBrandRequest,
    postFileImgRequest,
    postFilePDFRequest,
 } from '../../api/addProduct.service'
@@ -38,6 +39,35 @@ export const getBrandAll = createAsyncThunk(
    async (_, { rejectWithValue }) => {
       try {
          const response = await getBrandAllRequest()
+
+         return response.data
+      } catch (error) {
+         return rejectWithValue(error)
+      }
+   }
+)
+
+export const postBrand = createAsyncThunk(
+   'post/postBrand',
+   async (payload, { dispatch, rejectWithValue }) => {
+      try {
+         const response = await postBrandRequest(payload.data)
+         dispatch(getBrandAll())
+
+         payload.snackbarHandler({ message: 'Бренд успешно добавлен' })
+
+         return response.data
+      } catch (error) {
+         return rejectWithValue(error)
+      }
+   }
+)
+
+export const postBrandImg = createAsyncThunk(
+   'post/postBrand',
+   async (payload, { rejectWithValue }) => {
+      try {
+         const response = await postFileImgRequest(payload)
 
          return response.data
       } catch (error) {
@@ -98,10 +128,15 @@ export const postFileImg = createAsyncThunk(
 
 export const postAddProduct = createAsyncThunk(
    'post/postAddProduct',
-   async ({ resultAddProductData, navigate }, { rejectWithValue }) => {
+   async (
+      { resultAddProductData, navigate, clear },
+      { dispatch, rejectWithValue }
+   ) => {
       try {
          await postAddProductRequest(resultAddProductData)
          navigate('/admin')
+
+         dispatch(clear())
       } catch (error) {
          rejectWithValue(error)
       }

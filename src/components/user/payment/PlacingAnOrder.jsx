@@ -10,7 +10,6 @@ import { LayoutPartOnePayment } from './paymentPartOne/LayoutPartOnePayment'
 import { StepPayment } from './StepPayment'
 import { PaymentMethod } from './paymentPartTwo/PaymentMethod'
 import { OrderOverview } from './paymentPartThree/OrderOverview'
-import { FinishModal } from './FinishModal'
 import { Loading } from '../../UI/loading/Loading'
 
 export const PlacingAnOrder = () => {
@@ -55,11 +54,17 @@ export const PlacingAnOrder = () => {
       dispatch(getBasket())
    }, [])
 
+   const scrollTopNavigate = () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+   }
+
    const nextHandler = () => {
       const newPage = page.length
       if (page.length !== 0 && page.length !== 3) {
          setPage([...page, newPage])
       }
+
+      scrollTopNavigate()
    }
 
    const navigatePartOneHandler = () => {
@@ -73,14 +78,13 @@ export const PlacingAnOrder = () => {
    return (
       <>
          {isLoading && <Loading />}
+
          <Container>
             <WidthContainer>
                <BreadCrumbs breadcrumbs={breadcrumbs} />
                <BoxTitle>
                   <p>Оформление заказа</p>
                </BoxTitle>
-
-               <FinishModal />
 
                {page.length === 2 && <StepPayment page={page} />}
 
@@ -93,6 +97,7 @@ export const PlacingAnOrder = () => {
                      page={page}
                      formik={formik}
                      nextHandler={nextHandler}
+                     scrollTopNavigate={scrollTopNavigate}
                   />
                )}
 

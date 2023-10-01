@@ -1,8 +1,11 @@
-import { memo, useState } from 'react'
+import { useState, useEffect } from 'react'
 import { styled } from '@mui/material'
+import { useDispatch } from 'react-redux'
 import { ReactComponent as AddPhotoIcon } from '../../../../../assets/icons/photo-add/add-photo-icon.svg'
+import { postBrandImg } from '../../../../../store/addProduct/addProduct.thunk'
 
-const PhotoUploader = memo(() => {
+const PhotoUploader = ({ error }) => {
+   const dispatch = useDispatch()
    const [selectedFile, setSelectedFile] = useState(null)
 
    const handleFileChange = (event) => {
@@ -10,9 +13,15 @@ const PhotoUploader = memo(() => {
       setSelectedFile(file)
    }
 
+   useEffect(() => {
+      if (selectedFile) {
+         dispatch(postBrandImg(selectedFile))
+      }
+   }, [selectedFile])
+
    return (
       <label>
-         <BoxAddImg>
+         <BoxAddImg error={error ? 'true' : 'false'}>
             <input
                id="upload-button"
                type="file"
@@ -42,16 +51,15 @@ const PhotoUploader = memo(() => {
          </BoxAddImg>
       </label>
    )
-})
-
-PhotoUploader.displayName = 'PhotoUploader'
+}
 
 export default PhotoUploader
 
-const BoxAddImg = styled('div')(() => ({
+const BoxAddImg = styled('div')(({ error }) => ({
    width: '13.5625rem',
    height: '13.5625rem',
    background: 'rgba(144, 156, 181, 0.20)',
+   border: `1px solid ${error === 'true' ? '#ff0000' : '#909cb533'}`,
 
    '.img-wrapper': {
       display: 'flex',

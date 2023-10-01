@@ -5,6 +5,7 @@ import {
    getBrandAll,
    getSubCategory,
    postAddProduct,
+   postBrandImg,
    postFileImg,
    postFilePDF,
 } from './addProduct.thunk'
@@ -22,6 +23,7 @@ const initialState = {
    isLoading: false,
    isError: '',
    isSuccessAddProduct: '',
+   brandImg: '',
 
    initialStateAddProduct: {
       categoryId: 0,
@@ -58,6 +60,7 @@ const initialState = {
       sim: '',
       images: [],
       price: 0,
+      valid: false,
    },
 
    productTablets: {
@@ -72,6 +75,7 @@ const initialState = {
       batteryCapacity: '',
       images: [],
       price: 0,
+      valid: false,
    },
 
    productWatch: {
@@ -88,6 +92,7 @@ const initialState = {
       hullShape: '',
       price: 0,
       images: [],
+      valid: false,
    },
 
    productNotebooks: {
@@ -102,8 +107,10 @@ const initialState = {
       screenSize: '',
       images: [],
       price: 0,
+      valid: false,
    },
 
+   rowTableValidBool: [],
    transformedProduct: {},
 }
 
@@ -207,6 +214,7 @@ export const addProductSlice = createSlice({
                   images: [],
                   quantity: 0,
                   price: 0,
+                  valid: false,
                },
             ]
 
@@ -235,6 +243,7 @@ export const addProductSlice = createSlice({
                   quantity: 0,
                   price: 0,
                   images: [],
+                  valid: false,
                },
             ]
 
@@ -261,6 +270,7 @@ export const addProductSlice = createSlice({
                   images: [],
                   quantity: 0,
                   price: 0,
+                  valid: false,
                },
             ]
 
@@ -287,6 +297,7 @@ export const addProductSlice = createSlice({
                   images: [],
                   quantity: 0,
                   price: 0,
+                  valid: false,
                },
             ]
 
@@ -360,6 +371,7 @@ export const addProductSlice = createSlice({
                images: [],
                price: 0,
                quantity: 0,
+               valid: false,
             },
          }
       },
@@ -381,6 +393,7 @@ export const addProductSlice = createSlice({
                batteryCapacity: '',
                images: [],
                price: 0,
+               valid: false,
             },
          }
       },
@@ -404,6 +417,7 @@ export const addProductSlice = createSlice({
                hullShape: '',
                price: 0,
                images: [],
+               valid: false,
             },
          }
       },
@@ -425,6 +439,7 @@ export const addProductSlice = createSlice({
                screenSize: '',
                images: [],
                price: 0,
+               valid: false,
             },
          }
       },
@@ -571,6 +586,37 @@ export const addProductSlice = createSlice({
             },
          }
       },
+
+      setRowValidation(state, { payload }) {
+         return {
+            ...state,
+            newProduct: {
+               ...state.newProduct,
+               subProductRequests: state.newProduct.subProductRequests.map(
+                  (subProduct) => {
+                     if (subProduct.id === payload.id) {
+                        return {
+                           ...subProduct,
+                           valid: payload.bool,
+                        }
+                     }
+                     return subProduct
+                  }
+               ),
+            },
+         }
+      },
+
+      rowTableValidBoolean(state) {
+         return {
+            ...state,
+            rowTableValidBool: state.newProduct.subProductRequests.map(
+               (item) => {
+                  return item.valid
+               }
+            ),
+         }
+      },
    },
    extraReducers: (builder) => {
       builder.addCase(getAllCategory.fulfilled, (state, { payload }) => {
@@ -639,6 +685,9 @@ export const addProductSlice = createSlice({
             state.isLoading = false
             state.isError = 'Что то произошло не так'
          })
+         .addCase(postBrandImg.fulfilled, (state, { payload }) => {
+            state.brandImg = payload
+         })
    },
 })
 
@@ -669,4 +718,7 @@ export const {
    addDescriptionAndOverview,
 
    closeNavigatePartOne,
+
+   setRowValidation,
+   rowTableValidBoolean,
 } = addProductSlice.actions
