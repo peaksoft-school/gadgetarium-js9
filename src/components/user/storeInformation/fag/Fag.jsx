@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { styled } from '@mui/material'
 import { FagChild } from './FagChild'
 import { FagData } from '../../../../utils/common/constants/Fag'
+import { BreadCrumbs } from '../../../UI/breadCrumbs/BreadCrumbs'
 
 export const FAQ = () => {
    const [selectedId, setSelectedId] = useState(null)
@@ -12,6 +13,11 @@ export const FAQ = () => {
 
    return (
       <Container>
+         <BreadCrumbsBox>
+            <BreadCrumbs
+               breadcrumbs={[{ path: '/', label: 'Главная' }, { label: 'FAQ' }]}
+            />
+         </BreadCrumbsBox>
          <Text>FAQ</Text>
          <h3>Часто задаваемые вопросы</h3>
          {FagData.map((item) => (
@@ -25,6 +31,10 @@ export const FAQ = () => {
       </Container>
    )
 }
+
+const BreadCrumbsBox = styled('div')`
+   width: 79.688vw;
+`
 
 const Container = styled('div')`
    display: flex;

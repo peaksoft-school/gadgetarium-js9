@@ -22,7 +22,7 @@ const ColumnTable = ({ table, isChecked, productName }) => {
       (column) =>
          (productName === 'Laptop' && column.name !== 'SIM-карты') ||
          (productName === 'Smart Watch' && column.name !== 'SIM-карты') ||
-         productName === 'Phone' ||
+         (productName === 'Phone' && column.name !== 'Экран') ||
          productName === 'Tablet'
    )
 

@@ -36,6 +36,9 @@ export const PaymentMethod = ({ nextHandler }) => {
       nextHandler()
    }
 
+   const validTypePayment =
+      typePayment !== 'CASH' && typePayment !== 'CARD_ON_RECEIPT'
+
    return (
       <Container>
          <HeadTitle>Способ оплаты</HeadTitle>
@@ -100,7 +103,7 @@ export const PaymentMethod = ({ nextHandler }) => {
             </Box>
          </ContainerBox>
 
-         {typePayment !== 'CASH' && (
+         {validTypePayment && (
             <ContainerCheckout>
                <div>
                   <Elements stripe={stripePromise}>
@@ -121,7 +124,7 @@ export const PaymentMethod = ({ nextHandler }) => {
             </ContainerCheckout>
          )}
 
-         {typePayment === 'CASH' && (
+         {!validTypePayment && (
             <BoxBtn>
                <Btn variant="contained" onClick={onNavigatePartThreeHandler}>
                   Продолжить

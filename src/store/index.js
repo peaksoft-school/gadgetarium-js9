@@ -13,6 +13,8 @@ import { globalSearchSlice } from './globalSearch/global.search.slice'
 import { adminGoodsSlice } from './admin.goods/admin.goods.slice'
 import { editProductSlice } from './edit.product/edit.product.slice'
 import { profileSlice } from './profile/profile.slice'
+import { infographicSlice } from './infographic/Infographic.slice'
+import { reviewsSlice } from './reviews/reviews.slice'
 
 export const store = configureStore({
    reducer: {
@@ -30,5 +32,7 @@ export const store = configureStore({
       [orderSlice.name]: orderSlice.reducer,
       [paymentSlice.name]: paymentSlice.reducer,
       [profileSlice.name]: profileSlice.reducer,
+      [infographicSlice.name]: infographicSlice.reducer,
+      [reviewsSlice.name]: reviewsSlice.reducer,
    },
 })

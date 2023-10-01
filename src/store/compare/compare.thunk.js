@@ -12,6 +12,7 @@ import {
    getRecommend,
    getStock,
 } from '../main.page/main.page.thunk'
+import { getFavoriteItems } from '../favorite/favorite.thunk'
 
 const { snackbarHandler } = useSnackbar()
 export const getAllCompareGoods = createAsyncThunk(
@@ -63,6 +64,7 @@ export const postCompareProduct = createAsyncThunk(
             dispatch(getCompare(productName))
          }
          dispatch(getAllCompareGoods())
+         dispatch(getFavoriteItems())
          if (pageSize !== 0) {
             dispatch(getNovelities({ page: 1, pageSize }))
             dispatch(getRecommend({ page: 1, pageSize }))

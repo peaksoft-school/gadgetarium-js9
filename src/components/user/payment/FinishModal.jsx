@@ -1,10 +1,11 @@
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { IconButton, styled } from '@mui/material'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Modal } from '../../UI/Modal'
 import { Button } from '../../UI/Button'
 import { ReactComponent as Cross } from '../../../assets/icons/cross/big-cross-icon.svg'
+import { closeOpenSuccessModal } from '../../../store/payment/payment.slice'
 
 function getCurrentDate() {
    const today = new Date()
@@ -15,6 +16,7 @@ function getCurrentDate() {
 }
 
 export const FinishModal = () => {
+   const dispatch = useDispatch()
    const { openSuccessModal, orderNumber, orderData } = useSelector(
       (state) => state.payment
    )
@@ -24,13 +26,14 @@ export const FinishModal = () => {
 
    const onHandlerClose = () => {
       setOpen(false)
+      dispatch(closeOpenSuccessModal())
    }
 
    const date = getCurrentDate()
 
    const onFinishClickHandler = () => {
       navigate('/')
-      setOpen(false)
+      onHandlerClose()
    }
 
    return (

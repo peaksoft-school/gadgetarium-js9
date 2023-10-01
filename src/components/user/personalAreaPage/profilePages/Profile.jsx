@@ -9,9 +9,11 @@ import { Button } from '../../../UI/Button'
 import { ReactComponent as DefaultUserIcon } from '../../../../assets/icons/avatar/user-fill-icon.svg'
 import {
    getUserInfo,
+   postS3FileProfile,
    putUserInfo,
 } from '../../../../store/profile/profile.thunk'
-import { postS3File } from '../../../../store/admin.goods/admin.goods.thunk'
+import { Loading } from '../../../UI/loading/Loading'
+import { useSnackbar } from '../../../../hooks/useSnackbar'
 
 const inputArray = [
    {
@@ -42,12 +44,17 @@ const inputArray = [
    },
 ]
 export const Profile = () => {
-   const { user } = useSelector((state) => state.profile)
+   const { user, isLoading } = useSelector((state) => state.profile)
    const dispatch = useDispatch()
+   const { snackbarHandler } = useSnackbar()
    const [readOnly, setReadOnly] = useState(true)
    const [changePassword, setChangePassword] = useState(false)
-   const onSubmit = (data) => {
-      dispatch(putUserInfo(data))
+   const toggleReadOnly = () => {
+      setReadOnly(!readOnly)
+      setChangePassword(false)
+   }
+   const changePasswordHandler = () => {
+      setChangePassword(!changePassword)
    }
    const validationSchema = () => {
       let schema = Yup.object().shape({
@@ -127,15 +134,17 @@ export const Profile = () => {
          },
          validateOnBlur: true,
          validationSchema: validationSchema(),
-         onSubmit,
+         onSubmit: (data) => {
+            dispatch(
+               putUserInfo({
+                  data,
+                  snackbarHandler,
+                  toggleReadOnly,
+                  setFieldValue,
+               })
+            )
+         },
       })
-   const toggleReadOnly = () => {
-      setReadOnly(!readOnly)
-      setChangePassword(false)
-   }
-   const changePasswordHandler = () => {
-      setChangePassword(!changePassword)
-   }
    useEffect(() => {
       dispatch(getUserInfo())
    }, [])
@@ -146,113 +155,158 @@ export const Profile = () => {
          if (user.email) setFieldValue('email', user.email)
          if (user.phoneNumber) setFieldValue('phoneNumber', user.phoneNumber)
          if (user.address) setFieldValue('address', user.address)
+         if (user.image) setFieldValue('imageLink', user.image)
       }
    }, [user])
-   return (
-      <Container>
-         {readOnly ? (
-            <WidthContainer>
-               <UserIconContainer>
-                  <DefaultUserIcon />
-               </UserIconContainer>
-            </WidthContainer>
-         ) : (
-            <Avatar>
-               {values.imageLink ? (
-                  <>
-                     <Image />
-                     <ImageStyledButton>Сменить фото</ImageStyledButton>
-                  </>
-               ) : (
-                  <>
-                     <FileInputLabel>
-                        <Input
-                           type="file"
-                           onChange={(e) => {
-                              const formData = new FormData()
-                              formData.append('file', e.target.files[0])
-                              dispatch(
-                                 postS3File({ data: formData, setFieldValue })
-                              )
-                           }}
-                           name="imageLink"
-                        />
-                        <StyledAddPhotoIcon />
-                     </FileInputLabel>
-                     <Title>Нажмите для добавления фотографии</Title>
-                  </>
-               )}
-            </Avatar>
-         )}
+   let imageContent
 
-         <UserInformation>
-            <UserTitle>Личные данные</UserTitle>
-            <Form onSubmit={handleSubmit}>
-               {inputArray.map((el) => {
-                  return (
-                     <ProfileInput
-                        key={el.key}
-                        type={el.type}
-                        name={el.key}
-                        onChange={handleChange}
-                        label={el.label}
-                        value={values[el.key]}
-                        width={el.width}
-                        readOnly={readOnly}
-                        error={!readOnly && !!errors[el.key]}
-                     />
-                  )
-               })}
-               {!readOnly && !changePassword && (
-                  <ButtonContainer>
-                     <StyledButton onClick={changePasswordHandler}>
-                        Сменить пароль
-                     </StyledButton>
-                  </ButtonContainer>
-               )}
-               {!readOnly && changePassword && (
-                  <InputContainer>
-                     <ProfileInput
-                        label="Старый пароль"
-                        onChange={handleChange}
-                        value={values.oldPassword}
-                        error={!!errors.oldPassword}
-                        type="password"
-                        name="oldPassword"
-                        left="18.5rem"
-                     />
-                     <ProfileInput
-                        label="Новый пароль"
-                        onChange={handleChange}
-                        value={values.newPassword}
-                        error={!!errors.newPassword}
-                        name="newPassword"
-                        type="password"
-                        left="18.5rem"
-                     />
-                     <ProfileInput
-                        label="Подтвердите новый пароль"
-                        onChange={handleChange}
-                        name="confirmPassword"
-                        error={!!errors.confirmPassword}
-                        type="password"
-                        left="18.5rem"
-                     />
-                  </InputContainer>
-               )}
-               {!readOnly && (
-                  <UiStyledButton
-                     variant="outlined"
-                     fontSize="16px"
-                     backgroundhover="#cb11ab"
-                     backgroundactive="#E313BF"
-                     onClick={toggleReadOnly}
-                     change={changePassword ? 'true' : 'false'}
-                  >
-                     Назад
-                  </UiStyledButton>
-               )}
-               {readOnly ? (
+   if (values.imageLink) {
+      imageContent = (
+         <ImageContainer>
+            <Image src={values.imageLink} />
+            {!readOnly && (
+               <ImageStyledLabel>
+                  Сменить фото
+                  <Input
+                     type="file"
+                     onChange={(e) => {
+                        const formData = new FormData()
+                        formData.append('file', e.target.files[0])
+                        dispatch(
+                           postS3FileProfile({ data: formData, setFieldValue })
+                        )
+                     }}
+                     name="imageLink"
+                  />
+               </ImageStyledLabel>
+            )}
+         </ImageContainer>
+      )
+   } else if (readOnly) {
+      imageContent = (
+         <WidthContainer>
+            <UserIconContainer>
+               <DefaultUserIcon />
+            </UserIconContainer>
+         </WidthContainer>
+      )
+   } else {
+      imageContent = (
+         <>
+            <FileInputLabel>
+               <Input
+                  type="file"
+                  onChange={(e) => {
+                     const formData = new FormData()
+                     formData.append('file', e.target.files[0])
+                     dispatch(
+                        postS3FileProfile({
+                           data: formData,
+                           setFieldValue,
+                        })
+                     )
+                  }}
+                  name="imageLink"
+               />
+               <StyledAddPhotoIcon />
+            </FileInputLabel>
+            <Title>Нажмите для добавления фотографии</Title>
+         </>
+      )
+   }
+   return (
+      <>
+         {isLoading && <Loading />}
+         <Container>
+            <Avatar>{imageContent}</Avatar>
+            <UserInformation>
+               <UserTitle>Личные данные</UserTitle>
+               <Form onSubmit={handleSubmit}>
+                  {inputArray.map((el) => {
+                     return (
+                        <ProfileInput
+                           key={el.key}
+                           type={el.type}
+                           name={el.key}
+                           onChange={handleChange}
+                           label={el.label}
+                           value={values[el.key]}
+                           width={el.width}
+                           readOnly={readOnly}
+                           error={!readOnly && !!errors[el.key]}
+                        />
+                     )
+                  })}
+                  {!readOnly && !changePassword && (
+                     <ButtonContainer>
+                        <StyledButton onClick={changePasswordHandler}>
+                           Сменить пароль
+                        </StyledButton>
+                     </ButtonContainer>
+                  )}
+                  {!readOnly && changePassword && (
+                     <InputContainer>
+                        <ProfileInput
+                           label="Старый пароль"
+                           onChange={handleChange}
+                           value={values.oldPassword}
+                           error={!!errors.oldPassword}
+                           type="password"
+                           name="oldPassword"
+                           left="18.5rem"
+                        />
+                        <ProfileInput
+                           label="Новый пароль"
+                           onChange={handleChange}
+                           value={values.newPassword}
+                           error={!!errors.newPassword}
+                           name="newPassword"
+                           type="password"
+                           left="18.5rem"
+                        />
+                        <ProfileInput
+                           label="Подтвердите новый пароль"
+                           onChange={handleChange}
+                           name="confirmPassword"
+                           error={!!errors.confirmPassword}
+                           type="password"
+                           left="18.5rem"
+                        />
+                        {errors.newPassword && (
+                           <Error>{errors.newPassword}</Error>
+                        )}
+                        {!errors.newPassword && errors.confirmPassword && (
+                           <Error>{errors.confirmPassword}</Error>
+                        )}
+                     </InputContainer>
+                  )}
+                  {!readOnly && (
+                     <>
+                        <UiStyledButton
+                           variant="outlined"
+                           fontSize="16px"
+                           backgroundhover="#cb11ab"
+                           backgroundactive="#E313BF"
+                           onClick={toggleReadOnly}
+                           change={changePassword ? 'true' : 'false'}
+                        >
+                           Назад
+                        </UiStyledButton>
+
+                        <UiStyledButton
+                           variant="contained"
+                           fontSize="16px"
+                           backgroundhover="#E313BF"
+                           backgroundactive="#C90EA9"
+                           type="submit"
+                           change={changePassword ? 'true' : 'false'}
+                        >
+                           Подтвердить
+                        </UiStyledButton>
+                     </>
+                  )}
+               </Form>
+               {readOnly && (
                   <UiStyledButton
                      variant="contained"
                      fontSize="16px"
@@ -263,21 +317,10 @@ export const Profile = () => {
                   >
                      Редактировать
                   </UiStyledButton>
-               ) : (
-                  <UiStyledButton
-                     variant="contained"
-                     fontSize="16px"
-                     backgroundhover="#E313BF"
-                     backgroundactive="#C90EA9"
-                     type="submit"
-                     change={changePassword ? 'true' : 'false'}
-                  >
-                     Подтвердить
-                  </UiStyledButton>
                )}
-            </Form>
-         </UserInformation>
-      </Container>
+            </UserInformation>
+         </Container>
+      </>
    )
 }
 const Container = styled('div')`
@@ -285,6 +328,14 @@ const Container = styled('div')`
    display: flex;
    gap: 112px;
    margin-bottom: 120px;
+   font-family: Inter;
+`
+const ImageContainer = styled('div')`
+   width: 148px;
+   display: flex;
+   align-items: center;
+   flex-direction: column;
+   gap: 8px;
 `
 const InputContainer = styled('div')`
    display: flex;
@@ -301,17 +352,20 @@ const Image = styled('img')`
    width: 90px;
    height: 90px;
    border-radius: 100%;
-   object-fit: contain;
+   object-fit: cover;
+   background: white;
+`
+const Error = styled('p')`
+   margin: 0;
+   color: #d63838;
 `
 const WidthContainer = styled('div')`
    width: 148px;
    display: flex;
    justify-content: center;
 `
-const ImageStyledButton = styled('button')`
-   background: none;
+const ImageStyledLabel = styled('label')`
    cursor: pointer;
-   border: none;
    color: #2c68f5;
    text-align: center;
    font-family: Inter;
@@ -354,6 +408,7 @@ const FileInputLabel = styled('label')`
    display: flex;
    align-items: center;
    justify-content: center;
+   cursor: pointer;
 `
 const UserIconContainer = styled('div')`
    width: 90px;
@@ -389,7 +444,7 @@ const StyledAddPhotoIcon = styled(AddPhotoIcon)`
 const UserInformation = styled('div')`
    display: flex;
    flex-direction: column;
-   gap: 30px;
+   gap: 8px;
 `
 const UserTitle = styled('p')`
    color: #292929;
@@ -399,6 +454,7 @@ const UserTitle = styled('p')`
    font-weight: 700;
    margin: 0;
    line-height: 110%;
+   margin-bottom: 22px;
 `
 const Form = styled('form')`
    width: 688px;

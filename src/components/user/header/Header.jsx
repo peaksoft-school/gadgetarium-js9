@@ -27,6 +27,7 @@ export const Header = ({ favorite, basket, compare }) => {
    const { number, img, token, isAuthorization } = useSelector(
       (state) => state.auth
    )
+   console.log('img: ', img)
    const [hoverCompare, setHoverCompare] = useState(false)
    const [hoverFavorite, setHoverFavorite] = useState(false)
    const navigate = useNavigate()
@@ -73,8 +74,12 @@ export const Header = ({ favorite, basket, compare }) => {
       navigate('./')
       console.log('hi')
    }
+   const scrollToTop = () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+   }
    const navigateToFavorite = () => {
       if (isAuthorization) {
+         scrollToTop()
          navigate('/favorite')
       } else {
          setOpenModal(true)
@@ -92,6 +97,7 @@ export const Header = ({ favorite, basket, compare }) => {
    }
    const navigateToCompare = () => {
       if (isAuthorization) {
+         scrollToTop()
          navigate('/compare')
       } else {
          setOpenModal(true)
@@ -119,6 +125,7 @@ export const Header = ({ favorite, basket, compare }) => {
    }
    const navigateToBasket = () => {
       if (isAuthorization) {
+         scrollToTop()
          navigate('/basket')
       } else {
          setOpenModal(true)
@@ -203,12 +210,12 @@ export const Header = ({ favorite, basket, compare }) => {
                               </Select>
                            </div>
                         )}
-                        {img !== undefined ? (
+                        {!img ? (
                            <button>
                               <User />
                            </button>
                         ) : (
-                           img
+                           <AvatarImage src={img} />
                         )}
                         <StyledModal
                            open={exitModal}
@@ -302,7 +309,7 @@ export const Header = ({ favorite, basket, compare }) => {
                         <StyledInstagramIcon />
                      </a>
                      <a
-                        href="https://web.whatsapp.com/"
+                        href="https://api.whatsapp.com/send/?phone=996500344433&text&type=phone_number&app_absent=0"
                         target="_blank"
                         rel="noopener noreferrer"
                      >
@@ -396,6 +403,12 @@ const StyledButton = styled(Button)`
       color: white;
       background: ${(props) => props.backgroundactive};
    }
+`
+const AvatarImage = styled('img')`
+   width: 24px;
+   height: 24px;
+   border-radius: 100%;
+   cursor: pointer;
 `
 const PositionContainer = styled('div')`
    p {

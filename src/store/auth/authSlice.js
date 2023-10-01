@@ -16,15 +16,14 @@ const getInitialState = () => {
       : null
    if (json) {
       const userData = JSON.parse(json)
-      const keys = phoneNumber ? Object.keys(phoneNumber) : ''
-      const firstkey = keys[0]
-      const secondKey = keys[1] || ''
+      const number = phoneNumber ? Object.keys(phoneNumber) : ''
+      const img = phoneNumber ? Object.values(phoneNumber) : ''
       return {
          isAuthorization: true,
          token: userData.token,
          role: userData.role,
-         number: firstkey,
-         img: secondKey,
+         number: number[0],
+         img: img[0],
          isLoading: false,
       }
    }
@@ -73,18 +72,13 @@ export const authSlice = createSlice({
             state.isLoading = false
          })
          .addCase(getPhoneNumber.fulfilled, (state, action) => {
-            const keys = Object.keys(action.payload)
-            if (keys.length > 0) {
-               const firstKey = keys[0]
-               const secondKey = keys[1] || ''
-               return {
-                  ...state,
-                  number: firstKey,
-                  img: secondKey,
-               }
+            const number = action.payload ? Object.keys(action.payload) : ''
+            const img = action.payload ? Object.values(action.payload) : ''
+            return {
+               ...state,
+               number: number[0],
+               img: img[0],
             }
-
-            return state
          })
          .addCase(logOut.fulfilled, (state) => {
             return {

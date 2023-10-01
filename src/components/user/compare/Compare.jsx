@@ -20,10 +20,12 @@ import { categoryMappings } from '../../../utils/common/constants/compare.consta
 import { useSnackbar } from '../../../hooks/useSnackbar'
 import sammyFinance from '../../../assets/images/sammy-finance-image.png'
 import { useCustomSearchParams } from '../../../hooks/useCustomSearchParams'
+import { BreadCrumbs } from '../../UI/breadCrumbs/BreadCrumbs'
 
 export const Compare = () => {
    const { products, isLoadingComparison, countProducts, deleteAll } =
       useSelector((state) => state.compare)
+   const { isLoading } = useSelector((state) => state.basket)
    const { snackbarHandler } = useSnackbar()
    const [startPosition, setStartPosition] = useState(0)
    const [productName, setProductName] = useState('Laptop')
@@ -119,8 +121,16 @@ export const Compare = () => {
    return (
       <>
          {isLoadingComparison && <Loading />}
+         {isLoading && <Loading />}
          <Container>
             <WidthContainer>
+               <BreadCrumbs
+                  breadcrumbs={[
+                     { path: '/', label: 'Главная' },
+                     { label: 'Сравнение' },
+                  ]}
+               />
+
                <Paragraph count={countProducts?.length}>
                   Сравнение товаров
                </Paragraph>
@@ -191,12 +201,14 @@ export const Compare = () => {
                               key={el.subProductId}
                               id={el.subProductId}
                               prodName={el.prodName}
+                              productName={productName}
                               price={el.price}
                               image={el.image}
                               deleteHandler={deleteHandler}
                               index={index}
                               color={el.color}
                               productId={el.prId}
+                              inBasket={el.in_basket}
                            />
                         )
                      })}

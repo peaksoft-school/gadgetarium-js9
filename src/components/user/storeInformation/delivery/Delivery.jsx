@@ -2,10 +2,19 @@ import { styled } from '@mui/material'
 import React from 'react'
 import { DeliveryMethods } from './DeliveryMethods'
 import { PaymentMethods } from './PaymentMethods'
+import { BreadCrumbs } from '../../../UI/breadCrumbs/BreadCrumbs'
 
 export const Delivery = () => {
    return (
       <Main>
+         <BreadCrumbsBox>
+            <BreadCrumbs
+               breadcrumbs={[
+                  { path: '/', label: 'Главная' },
+                  { label: 'Доставка' },
+               ]}
+            />
+         </BreadCrumbsBox>
          <Text>Доставка</Text>
 
          <section>
@@ -15,6 +24,10 @@ export const Delivery = () => {
       </Main>
    )
 }
+
+const BreadCrumbsBox = styled('div')`
+   width: 79.688vw;
+`
 
 const Text = styled('p')(({ theme }) => ({
    fontFamily: theme.typography.fontFamily,

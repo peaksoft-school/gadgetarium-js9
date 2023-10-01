@@ -241,49 +241,52 @@ export const AdminGoods = () => {
                         Удалить
                      </Tools>
                   </CalendarContainer>
-                  {countOfProducts === 0 ? (
-                     <NoGoods>Здесь нет товаров!</NoGoods>
-                  ) : (
-                     <TableContainer>
-                        <SortAndCountOfProductsContainer>
-                           <CountOfProducts>
-                              Найдено {countOfProducts} товаров
-                           </CountOfProducts>
-                           <PositionContainer onMouseLeave={closeSortHandler}>
-                              <Sort onClick={toggleSortHandler}>
-                                 Сортировать
-                                 <StyledArrowBottom
-                                    style={{
-                                       transform: openSort
-                                          ? 'rotate(180deg)'
-                                          : 'rotate(0deg)',
-                                    }}
-                                 />
-                              </Sort>
-                              {openSort && (
-                                 <SortPopUp
-                                    sort={sort}
-                                    filter={filter}
-                                    getFilterType={getFilterType}
-                                    getSortType={getSortType}
-                                    onClick={toggleSortHandler}
-                                    openSort={openSort}
-                                 />
-                              )}
-                           </PositionContainer>
-                        </SortAndCountOfProductsContainer>
-                        <AdminTable
-                           indexForTable={0}
-                           itemTableArray={filteredProducts}
-                        />
-                        <PaginationContainer>
-                           <Pagination
-                              count={Math.ceil(countOfProducts / 7)}
-                              onChange={getPage}
+
+                  <TableContainer>
+                     <SortAndCountOfProductsContainer>
+                        <CountOfProducts>
+                           Найдено {countOfProducts} товаров
+                        </CountOfProducts>
+                        <PositionContainer onMouseLeave={closeSortHandler}>
+                           <Sort onClick={toggleSortHandler}>
+                              Сортировать
+                              <StyledArrowBottom
+                                 style={{
+                                    transform: openSort
+                                       ? 'rotate(180deg)'
+                                       : 'rotate(0deg)',
+                                 }}
+                              />
+                           </Sort>
+                           {openSort && (
+                              <SortPopUp
+                                 sort={sort}
+                                 filter={filter}
+                                 getFilterType={getFilterType}
+                                 getSortType={getSortType}
+                                 onClick={toggleSortHandler}
+                                 openSort={openSort}
+                              />
+                           )}
+                        </PositionContainer>
+                     </SortAndCountOfProductsContainer>
+                     {countOfProducts === 0 ? (
+                        <NoGoods>Здесь нет товаров!</NoGoods>
+                     ) : (
+                        <>
+                           <AdminTable
+                              indexForTable={0}
+                              itemTableArray={filteredProducts}
                            />
-                        </PaginationContainer>
-                     </TableContainer>
-                  )}
+                           <PaginationContainer>
+                              <Pagination
+                                 count={Math.ceil(countOfProducts / 7)}
+                                 onChange={getPage}
+                              />
+                           </PaginationContainer>
+                        </>
+                     )}
+                  </TableContainer>
                </ProductsToolContainer>
             </WidthContainer>
          </Container>

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getUserInfo, putUserInfo } from './profile.thunk'
+import { getUserInfo, postS3FileProfile, putUserInfo } from './profile.thunk'
 
 const initialState = {
    user: {},
@@ -28,6 +28,15 @@ export const profileSlice = createSlice({
          state.isLoading = false
       })
       builder.addCase(putUserInfo.pending, (state) => {
+         state.isLoading = true
+      })
+      builder.addCase(postS3FileProfile.fulfilled, (state) => {
+         state.isLoading = false
+      })
+      builder.addCase(postS3FileProfile.rejected, (state) => {
+         state.isLoading = false
+      })
+      builder.addCase(postS3FileProfile.pending, (state) => {
          state.isLoading = true
       })
    },
