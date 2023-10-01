@@ -18,15 +18,15 @@ export const adminRoutes = [
       element: <EditProduct />,
    },
    {
-      path: '/admin/add-products-part-1',
+      path: '/admin/goods/add-products-part-1',
       element: <AddingAProduct />,
    },
    {
-      path: '/admin/add-products-part-2',
+      path: '/admin/goods/add-products-part-2',
       element: <QuantityOfGoodsAndPrice />,
    },
    {
-      path: '/admin/add-products-part-3',
+      path: '/admin/goods/add-products-part-3',
       element: <FinishingTouchAddingProduct />,
    },
    {

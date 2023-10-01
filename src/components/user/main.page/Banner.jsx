@@ -12,6 +12,7 @@ export const BannerCarousel = React.memo(() => {
    useEffect(() => {
       dispatch(getBanners())
    }, [])
+
    return (
       <StyledCarousel
          autoPlay
@@ -21,23 +22,41 @@ export const BannerCarousel = React.memo(() => {
          showThumbs={false}
       >
          {banner?.map((banner, index) => (
-            <div key={banner.id}>
+            <ImgContainer key={banner.id}>
                <Image src={banner.images[0]} alt={`Banner ${index + 1}`} />
-            </div>
+            </ImgContainer>
          ))}
       </StyledCarousel>
    )
 })
 BannerCarousel.displayName = 'Banner'
-const Image = styled('img')`
+
+const ImgContainer = styled('div')`
+   /* width: 100vw !important;
+   height: 46.2963vh; */
+
    width: 100vw !important;
-   height: 46.2963vh;
+   max-height: 500px; /* Установите максимальную высоту, чтобы избежать изменения соотношения сторон */
+   overflow: hidden;
+`
+
+const Image = styled('img')`
+   /* width: 100%; */
+   /* height: 100%; */
+   /* object-fit: scale-down; */
+   width: 100%;
+   height: auto; /* Автоматический расчет высоты, чтобы сохранить соотношение сторон */
+   object-fit: cover; /* Масштабирование изображения с сохранением соотношения сторон и обрезкой до максимально возможных размеров */
+   max-height: 500px; /* Установите максимальную высоту, чтобы избежать изменения соотношения сторон */
+
    button {
       display: none;
    }
 `
 const StyledCarousel = styled(Carousel)`
    width: 100%;
+   margin-top: 1.875rem;
+
    .carousel.carousel-slider .control-arrow {
       display: none !important;
    }

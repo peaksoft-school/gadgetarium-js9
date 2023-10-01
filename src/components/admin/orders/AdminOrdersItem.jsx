@@ -84,7 +84,9 @@ export const AdminOrderItem = ({ dataFunc, tables, index, ...item }) => {
       setArrowIconFlipped(false)
    }
    const navigateToPaymentPage = () => {
-      navigate(`/admin/orders/${item.orderId}/paymentIsOrder/${item.names}`)
+      navigate(
+         `/admin/orders/${item.orderId}/paymentIsOrder/${item.userFullName}`
+      )
    }
 
    const handleCloseMenuItem = (statusTab) => {
@@ -430,5 +432,7 @@ const OnMyWay = styled('span')`
    color: #0812a5;
 `
 const TablesContainer = styled('div')`
-   margin-top: 1.1rem;
+   padding-top: 1.125rem;
+   box-sizing: border-box;
+   height: 100%;
 `

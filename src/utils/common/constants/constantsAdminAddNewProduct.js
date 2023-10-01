@@ -409,4 +409,12 @@ export const backgroundColors = [
    { name: 'Светло-фиолетовый', color: '#C29ED7' },
    { name: 'Фиолетовый', color: '#AA66CD' },
    { name: 'Фиолетовый', color: '#704489' },
+   { name: 'Светло-розовый', color: '#FFBEE8' },
+   { name: 'Ярко-розовым', color: '#FF73DF' },
+   { name: 'Ярко-розовый', color: '#FF00C5' },
+   { name: 'Темно-фиолетовый', color: '#A80084' },
+   { name: 'Темно-фиолетовым', color: '#73004C' },
+   { name: 'Светло-оранжевый', color: '#D69DBC' },
+   { name: 'Светло-коралловый', color: '#CD6699' },
+   { name: 'Темно-коричневый', color: '#894465' },
 ]

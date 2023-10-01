@@ -176,7 +176,7 @@ export const AdminGoods = () => {
                            backgroundhover="#CB11AB"
                            backgroundactive="#E313BF"
                            onClick={() =>
-                              navigate('/admin/add-products-part-1')
+                              navigate('/admin/goods/add-products-part-1')
                            }
                         >
                            Добавить товар

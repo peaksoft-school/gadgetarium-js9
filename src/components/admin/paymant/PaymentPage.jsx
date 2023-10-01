@@ -3,7 +3,6 @@ import { styled } from '@mui/material'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { InformationOrder } from './InformationOrder'
-import { userOrdersPaymentBreadcrumbs } from '../../../utils/common/constants/paymant'
 import { BreadCrumbs } from '../../UI/breadCrumbs/BreadCrumbs'
 import { getOrderById } from '../../../store/order/Order.thunk'
 
@@ -21,7 +20,14 @@ export const PaymentPage = () => {
       <Container>
          <ContainerChilde>
             <BreadCrumbsContainer>
-               <BreadCrumbs breadcrumbs={userOrdersPaymentBreadcrumbs} />
+               <BreadCrumbs
+                  breadcrumbs={[
+                     { path: '/admin/orders', label: 'Заказы' },
+                     {
+                        label: param.name,
+                     },
+                  ]}
+               />
                <Name>{param.names}</Name>
             </BreadCrumbsContainer>
 
@@ -41,7 +47,7 @@ export const PaymentPage = () => {
                            </Discount>
                            <TotalDiscount>Сумма скидки:</TotalDiscount>
                         </InfoName>
-                        <div>
+                        <InfoNameTwo>
                            <p>{productResponseList?.names}</p>
                            <p>{productResponseList?.quantity} шт</p>
                            <p>
@@ -53,7 +59,7 @@ export const PaymentPage = () => {
                               {productResponseList?.sumOfDiscount.toLocaleString()}
                               с
                            </p>
-                        </div>
+                        </InfoNameTwo>
                      </Info>
                   </InfoContainerChilde>
 
@@ -88,7 +94,7 @@ const PaymentParagraph = styled('p')`
    font-size: 1.875rem;
    font-weight: 500;
    padding-bottom: 1.25rem;
-   border-bottom: 1px solid black;
+   border-bottom: 1px solid #cdcdcd;
 `
 
 const InfoContainer = styled('div')`
@@ -102,22 +108,37 @@ const InfoContainerChilde = styled('div')`
 
 const Info = styled('div')`
    display: flex;
-   width: 38vw;
+   width: 571px;
    justify-content: space-between;
 `
 
 const InfoName = styled('div')`
+   display: flex;
+   flex-direction: column;
+   gap: 10px;
    p {
       color: #292929;
       font-family: Inter;
       font-size: 1rem;
       font-weight: 600;
+      margin: 0;
+   }
+`
+const InfoNameTwo = styled('div')`
+   display: flex;
+   flex-direction: column;
+   gap: 10px;
+   p {
+      color: #292929;
+      font-family: Inter;
+      font-size: 1rem;
+      margin: 0;
    }
 `
 
 const TotalContainer = styled('div')`
    display: flex;
-   width: 38vw;
+   width: 571px;
    justify-content: flex-end;
 `
 

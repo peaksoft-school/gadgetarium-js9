@@ -9,7 +9,7 @@ const content = '<div></div>'
 
 const extensions = [StarterKit, Underline]
 
-export const InputDescription = ({ formik }) => {
+export const InputDescription = ({ formik, validForm }) => {
    const [placeholder, setPlaceholder] = useState(false)
    const [value, setValue] = useState('')
 
@@ -27,8 +27,10 @@ export const InputDescription = ({ formik }) => {
 
    const returnBoolHandler = placeholder === false && value === ''
 
+   const validDescription = validForm && value === ''
+
    return (
-      <Container>
+      <Container validForm={validDescription}>
          {returnBoolHandler && (
             <span className="placeholder">Введите описание o товаре</span>
          )}
@@ -51,6 +53,7 @@ const Container = styled('div')`
    height: 22.1875rem;
    margin: 0;
    border: 1px solid #cdcdcd;
+   border: 1px solid ${(props) => (props.validForm ? '#ff0000' : '#cdcdcd')};
    border-radius: 0.25rem;
    position: relative;
 

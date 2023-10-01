@@ -9,6 +9,7 @@ export const TablesPartTwo = ({
    onChangeBooleanValueQuantity,
    onChangeBooleanValuePrice,
    changeBooleanValue,
+   isErrorValid,
 }) => {
    const { newProduct } = useSelector((state) => state.addProduct)
    const [dataRows, setDataRows] = useState({})
@@ -33,6 +34,7 @@ export const TablesPartTwo = ({
                   onChangeBooleanValuePrice={onChangeBooleanValuePrice}
                   allPriceAndQuantity={allPriceAndQuantity}
                   changeBooleanValue={changeBooleanValue}
+                  isErrorValid={isErrorValid}
                />
             ))}
          </TableBodyStyle>

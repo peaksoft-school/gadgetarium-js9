@@ -13,6 +13,10 @@ export const getBrandAllRequest = () => {
    return axiosInstance.get('/v1/brand/get-all')
 }
 
+export const postBrandRequest = (data) => {
+   return axiosInstance.post('/v1/brand/save', data)
+}
+
 export const postFileImgRequest = (imgData) => {
    const file = {
       file: imgData,

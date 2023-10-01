@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { StepPayment } from '../StepPayment'
 import { MiniBasketOrderPrice } from '../UIPayment/miniBasket/MiniBasketOrderPrice'
 import { Button } from '../../../UI/Button'
@@ -9,7 +10,6 @@ import {
    postOrderUserData,
    postPayment,
 } from '../../../../store/payment/payment.thunk'
-import { FinishModal } from '../FinishModal'
 import { useSnackbar } from '../../../../hooks/useSnackbar'
 
 export const OrderOverview = ({
@@ -18,15 +18,11 @@ export const OrderOverview = ({
    navigatePartOneHandler,
 }) => {
    const dispatch = useDispatch()
-   const {
-      orderData,
-      token,
-      user,
-      openSuccessModal,
-      isError,
-      dataSubProductId,
-   } = useSelector((state) => state.payment)
+   const { orderData, token, user, isError, dataSubProductId } = useSelector(
+      (state) => state.payment
+   )
 
+   const navigate = useNavigate()
    const { basket } = useSelector((state) => state.basket)
    const { snackbarHandler } = useSnackbar()
 
@@ -54,7 +50,6 @@ export const OrderOverview = ({
          paymentData: { token, amount: basket.toPay },
       }
 
-      console.log('data: ', data)
       if (token !== '') {
          dispatch(postOrderUserData(data.userData))
          dispatch(postPayment(data.paymentData))
@@ -63,6 +58,8 @@ export const OrderOverview = ({
       if (token === '') {
          dispatch(postOrderUserData(data.userData))
       }
+
+      navigate('/basket')
    }
 
    const valueDelivery =
@@ -75,69 +72,63 @@ export const OrderOverview = ({
    }, [isError])
 
    return (
-      <>
-         <ContainerStepper>
-            <div>
-               <StepPayment page={page} />
-               <Container>
-                  <p className="title">Обзор заказа</p>
+      <ContainerStepper>
+         <div>
+            <StepPayment page={page} />
+            <Container>
+               <p className="title">Обзор заказа</p>
 
-                  <ContainerAllInfo>
-                     <ContainerInfoTotal>
-                        <div>
-                           <BoxTotalText>Итого</BoxTotalText>
-                        </div>
+               <ContainerAllInfo>
+                  <ContainerInfoTotal>
+                     <div>
+                        <BoxTotalText>Итого</BoxTotalText>
+                     </div>
 
-                        <div>
-                           <BoxTotalNumber>
-                              {basket.toPay.toLocaleString()}{' '}
-                              <span className="c"> c</span>
-                           </BoxTotalNumber>
-                        </div>
-                     </ContainerInfoTotal>
-                     <ContainerInfo>
-                        <div>
-                           <p className="info-title">Доставка</p>
-                        </div>
+                     <div>
+                        <BoxTotalNumber>
+                           {basket.toPay.toLocaleString()}{' '}
+                           <span className="c"> c</span>
+                        </BoxTotalNumber>
+                     </div>
+                  </ContainerInfoTotal>
+                  <ContainerInfo>
+                     <div>
+                        <p className="info-title">Доставка</p>
+                     </div>
 
-                        <div>
-                           <p className="info-text">{valueDelivery}</p>
-                        </div>
+                     <div>
+                        <p className="info-text">{valueDelivery}</p>
+                     </div>
 
-                        <div onClick={onNavigatePartOne}>
-                           <p className="change">Изменить</p>
-                        </div>
-                     </ContainerInfo>
-                     <ContainerInfo>
-                        <div>
-                           <p className="info-title">Оплата</p>
-                        </div>
+                     <div onClick={onNavigatePartOne}>
+                        <p className="change">Изменить</p>
+                     </div>
+                  </ContainerInfo>
+                  <ContainerInfo>
+                     <div>
+                        <p className="info-title">Оплата</p>
+                     </div>
 
-                        <div>
-                           <p className="info-text">
-                              {typePaymentData[typePaymentConst]}
-                           </p>
-                        </div>
+                     <div>
+                        <p className="info-text">
+                           {typePaymentData[typePaymentConst]}
+                        </p>
+                     </div>
 
-                        <div onClick={onNavigatePartTwo}>
-                           <p className="change">Изменить</p>
-                        </div>
-                     </ContainerInfo>
-                  </ContainerAllInfo>
+                     <div onClick={onNavigatePartTwo}>
+                        <p className="change">Изменить</p>
+                     </div>
+                  </ContainerInfo>
+               </ContainerAllInfo>
 
-                  <ContainerBtn onClick={onOrderOverviewHandler}>
-                     <ButtonStyle variant="contained">
-                        ОФОРМИТЬ ЗАКАЗ
-                     </ButtonStyle>
-                  </ContainerBtn>
-               </Container>
-            </div>
+               <ContainerBtn onClick={onOrderOverviewHandler}>
+                  <ButtonStyle variant="contained">ОФОРМИТЬ ЗАКАЗ</ButtonStyle>
+               </ContainerBtn>
+            </Container>
+         </div>
 
-            <MiniBasketOrderPrice />
-         </ContainerStepper>
-
-         {openSuccessModal && <FinishModal />}
-      </>
+         <MiniBasketOrderPrice />
+      </ContainerStepper>
    )
 }
 

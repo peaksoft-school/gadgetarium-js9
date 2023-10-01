@@ -9,7 +9,7 @@ export const InformationOrder = () => {
    )
    return (
       <Container>
-         <h3>Информация о заказе</h3>
+         <Title>Информация о заказе</Title>
          <Block>
             <div>
                <b>Заказ №</b> {orderNumber}
@@ -34,17 +34,28 @@ export const InformationOrder = () => {
    )
 }
 const Container = styled('div')`
-   border: 1px solid gray;
+   border: 1px solid #cdcdcd;
    padding: 1.875rem;
    border-radius: 0.25rem;
-   margin-left: 18rem;
+   margin-left: 22.083vw;
    width: 30rem;
+   font-family: Inter;
 
    h3 {
-      border-bottom: 1px solid black;
       width: 100%;
       padding-bottom: 1.25rem;
    }
+`
+const Title = styled('p')`
+   color: #292929;
+   font-family: Inter;
+   font-size: 20px;
+   font-style: normal;
+   font-weight: 500;
+   line-height: 120%;
+   border-bottom: 1px solid #cdcdcd;
+   padding-bottom: 1rem;
+   margin-top: 0;
 `
 
 const Block = styled('div')`
@@ -54,6 +65,6 @@ const Block = styled('div')`
    gap: 1rem;
    width: 100%;
    p {
-      margin: 0px;
+      margin: 2px 0 0 0;
    }
 `
