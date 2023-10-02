@@ -21,6 +21,7 @@ export const GlobalSearch = ({ toggleInputFocused }) => {
    }
    const subProductHandler = (value) => {
       console.log('value: ', value)
+      console.log('value: ', value)
    }
    const length =
       globalSearch.brandList.length +
