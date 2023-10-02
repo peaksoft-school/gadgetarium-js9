@@ -1,9 +1,14 @@
+import { backgroundColors } from './constantsAdminAddNewProduct'
+
 export const columns = [
    { name: 'Бренд', field: 'brandName' },
    { name: 'Экран', render: (item) => `53* (${item.screen}) IPS` },
-   { name: 'Цвет', field: 'color' },
+   {
+      name: 'Цвет',
+      render: (item) =>
+         backgroundColors.find((el) => el.color === item.color).name,
+   },
    { name: 'Цена', render: (item) => `${item.price.toLocaleString()} с` },
-   { name: 'Операционная система', field: 'operationalSystems' },
    { name: 'Память', render: (item) => `${item.rom}ГБ` },
    { name: 'SIM-карты', render: (item) => `${item.simCard} (nano SIM)` },
 ]
@@ -12,7 +17,6 @@ export const columnDataInfo = [
    { columnName: 'screen' },
    { columnName: 'color' },
    { columnName: 'price' },
-   { columnName: 'operationalSystems' },
    { columnName: 'rom' },
    { columnName: 'simCard' },
 ]

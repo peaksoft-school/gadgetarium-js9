@@ -1,8 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import {
    deleteReviewsProductRequest,
+   deleteTableDetailProductRequest,
    getByIdPhoneRequest,
    getDownloadPdfFilesRequest,
+   getProductDetailRequest,
    getReviwesProductRequest,
    getViewedProductRequest,
    postAdminReviewsRequest,
@@ -56,10 +58,19 @@ export const postReviewsPhone = createAsyncThunk(
 
 export const deleteReviewsRequest = createAsyncThunk(
    'product/deleteReviewsRequest',
-   async (id, { rejectWithValue }) => {
+   async ({ reviewId, snackbarHandler }, { rejectWithValue }) => {
       try {
-         await deleteReviewsProductRequest(id)
+         await deleteReviewsProductRequest(reviewId)
+         snackbarHandler({
+            message: 'Товар успешно удален!',
+            type: 'success',
+         })
       } catch (error) {
+         snackbarHandler({
+            message:
+               'Вы не можете удалить комментарий, потому что администратор на него уже ответил!',
+            type: 'error',
+         })
          rejectWithValue(error)
       }
    }
@@ -67,12 +78,20 @@ export const deleteReviewsRequest = createAsyncThunk(
 
 export const putReviesRequest = createAsyncThunk(
    'product/putReviesRequest',
-   async ({ data, getPayload }, { rejectWithValue, dispatch }) => {
+   async (
+      { data, getPayload, snackbarHandler },
+      { rejectWithValue, dispatch }
+   ) => {
       try {
          const response = await putReviewsProductRequest(data)
          dispatch(getInfoPage(getPayload))
          return response.data
       } catch (error) {
+         snackbarHandler({
+            message:
+               'Вы не можете редактировать комментарий, потому что администратор уже ответил на него!',
+            type: 'error',
+         })
          return rejectWithValue(error)
       }
    }
@@ -131,6 +150,32 @@ export const postRecentlyViewedProduct = createAsyncThunk(
    async (subProductId, { rejectWithValue }) => {
       try {
          await postViewedProductRequest(subProductId)
+      } catch (error) {
+         rejectWithValue(error)
+      }
+   }
+)
+
+export const getByIdProductDetail = createAsyncThunk(
+   'product/getByIdProductDetail',
+   async ({ productId, navigate }, { rejectWithValue }) => {
+      try {
+         const responce = await getProductDetailRequest(productId)
+         if (responce.data.length === 0) {
+            navigate('/admin/goods')
+         }
+         return responce.data
+      } catch (error) {
+         return rejectWithValue(error)
+      }
+   }
+)
+
+export const deleteIsCheckedProduct = createAsyncThunk(
+   'product/deleteIsCheckedProduct',
+   async (deleteIsCheck, { rejectWithValue }) => {
+      try {
+         await deleteTableDetailProductRequest(deleteIsCheck)
       } catch (error) {
          rejectWithValue(error)
       }

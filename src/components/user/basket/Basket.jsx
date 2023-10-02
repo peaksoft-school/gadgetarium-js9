@@ -16,6 +16,7 @@ import { useSnackbar } from '../../../hooks/useSnackbar'
 import { Loading } from '../../UI/loading/Loading'
 import sammyShopping from '../../../assets/images/sammy-shopping.png'
 import { BreadCrumbs } from '../../UI/breadCrumbs/BreadCrumbs'
+import { FinishModal } from '../payment/FinishModal'
 
 const breadcrumbs = [{ path: '/', label: 'Главная' }, { label: 'Корзина' }]
 
@@ -24,6 +25,7 @@ export const Basket = React.memo(() => {
    const { basket, basketResponses, isCheckedAll, basketIdsArray, isLoading } =
       useSelector((state) => state.basket)
    const { isLoadingFavorite } = useSelector((state) => state.favorite)
+   const paymentData = useSelector((state) => state.payment)
    const { snackbarHandler } = useSnackbar()
    const navigate = useNavigate()
    useEffect(() => {
@@ -72,7 +74,9 @@ export const Basket = React.memo(() => {
    return (
       <>
          {isLoading && <Loading />}
+         {paymentData.isLoading && <Loading />}
          {isLoadingFavorite && <Loading />}
+         {paymentData.openSuccessModal && <FinishModal />}
 
          <Container>
             <WidthContaniner>

@@ -19,8 +19,18 @@ export const subProductDataCategory = {
    'Sports Watches': 'Спортивные часы',
    'Children Smart Watches': 'Детские смарт-часы',
    'Entertainment Tablets': 'Планшеты для развлечений',
-   'Professional Tablets': 'Профессиональные планшеты',
+   'Proffessional Tablets': 'Профессиональные планшеты',
    'Educational Tablets': 'Образовательные планшеты',
+}
+
+export const statusTranslate = {
+   PENDING: 'В ожидании',
+   IN_PROCESSING: 'В обработке',
+   READY_FOR_DELIVERY: 'Готов к выдаче',
+   RECEIVED: 'Получен',
+   CANCEL: 'Отменить',
+   COURIER_ON_THE_WAY: 'Курьер в пути',
+   DELIVERED: 'Доставлен',
 }
 
 export const dataProductWatch = {
@@ -399,4 +409,12 @@ export const backgroundColors = [
    { name: 'Светло-фиолетовый', color: '#C29ED7' },
    { name: 'Фиолетовый', color: '#AA66CD' },
    { name: 'Фиолетовый', color: '#704489' },
+   { name: 'Светло-розовый', color: '#FFBEE8' },
+   { name: 'Ярко-розовым', color: '#FF73DF' },
+   { name: 'Ярко-розовый', color: '#FF00C5' },
+   { name: 'Темно-фиолетовый', color: '#A80084' },
+   { name: 'Темно-фиолетовым', color: '#73004C' },
+   { name: 'Светло-оранжевый', color: '#D69DBC' },
+   { name: 'Светло-коралловый', color: '#CD6699' },
+   { name: 'Темно-коричневый', color: '#894465' },
 ]

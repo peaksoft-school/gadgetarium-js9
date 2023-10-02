@@ -72,8 +72,12 @@ export const Header = ({ favorite, basket, compare }) => {
    function onComeBack() {
       navigate('./')
    }
+   const scrollToTop = () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+   }
    const navigateToFavorite = () => {
       if (isAuthorization) {
+         scrollToTop()
          navigate('/favorite')
       } else {
          setOpenModal(true)
@@ -91,6 +95,7 @@ export const Header = ({ favorite, basket, compare }) => {
    }
    const navigateToCompare = () => {
       if (isAuthorization) {
+         scrollToTop()
          navigate('/compare')
       } else {
          setOpenModal(true)
@@ -121,6 +126,7 @@ export const Header = ({ favorite, basket, compare }) => {
    }
    const navigateToBasket = () => {
       if (isAuthorization) {
+         scrollToTop()
          navigate('/basket')
       } else {
          setOpenModal(true)
@@ -174,14 +180,12 @@ export const Header = ({ favorite, basket, compare }) => {
                                        <NavLinkParagraph to="/personalArea/favorites">
                                           Избранное
                                        </NavLinkParagraph>
-                                       <NavLinkParagraph>
+                                       <NavLinkParagraph to="/personalArea/profile">
                                           Профиль
                                        </NavLinkParagraph>
-                                       <NavLinkParagraph
-                                          onClick={toggleExitModalHandler}
-                                       >
+                                       <p onClick={toggleExitModalHandler}>
                                           Выйти
-                                       </NavLinkParagraph>
+                                       </p>
                                     </Select2>
                                  </div>
                               )}
@@ -207,12 +211,12 @@ export const Header = ({ favorite, basket, compare }) => {
                               </Select>
                            </div>
                         )}
-                        {img !== undefined ? (
+                        {!img ? (
                            <button>
                               <User />
                            </button>
                         ) : (
-                           img
+                           <AvatarImage src={img} />
                         )}
                         <StyledModal
                            open={exitModal}
@@ -257,7 +261,7 @@ export const Header = ({ favorite, basket, compare }) => {
                         </GadgeteriumContainer>
                         <AdgetariumTitle>adgetarium</AdgetariumTitle>
                      </TitleFixed>
-                     <CatalogButtonContainer
+                     <div
                         onMouseEnter={toggleCatalogSelect}
                         onMouseLeave={toggleCatalogSelect}
                      >
@@ -272,7 +276,7 @@ export const Header = ({ favorite, basket, compare }) => {
                               />
                            </CatalogSelect>
                         )}
-                     </CatalogButtonContainer>
+                     </div>
                      <Border />
                      <PositionContainerForInput>
                         <SearchForm>
@@ -405,6 +409,12 @@ const StyledButton = styled(Button)`
       background: ${(props) => props.backgroundactive};
    }
 `
+const AvatarImage = styled('img')`
+   width: 24px;
+   height: 24px;
+   border-radius: 100%;
+   cursor: pointer;
+`
 const PositionContainer = styled('div')`
    p {
       color: #292929;
@@ -448,7 +458,6 @@ const FavoriteContainer = styled('div')`
    right: -37px;
    top: 36px;
 `
-const CatalogButtonContainer = styled('div')``
 const Link = styled(NavLink)`
    padding: 10px 14px 12px 14px;
    cursor: pointer;
@@ -808,8 +817,8 @@ const SelectParagraph2 = styled('p')`
 `
 const Select2 = styled('div')`
    position: absolute;
-   top: 1.5rem;
    left: -10rem;
+   top: 1.3rem;
    width: 10.8125rem;
    border-radius: 0.25rem;
    background: #fff;

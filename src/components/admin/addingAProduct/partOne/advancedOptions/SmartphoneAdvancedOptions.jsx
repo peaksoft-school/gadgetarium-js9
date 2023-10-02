@@ -50,19 +50,21 @@ export const SmartphoneAdvancedOptions = ({ errorCategory }) => {
       dispatch(addCodeColorSubProductRequests({ index: productNum, color }))
    }
 
-   const newProductFilterData = newProduct?.subProductRequests[productNum]
+   const num = productNum || 0
+
+   const newProductFilterData = newProduct?.subProductRequests[num]
 
    const productIdValidator =
       newProduct?.subProductRequests.indexOf(
-         newProduct?.subProductRequests[productNum]
-      ) === productNum
+         newProduct?.subProductRequests[num]
+      ) === num
 
    return (
       <div>
          <QuantityOfProducts
             onCreateNewProduct={onCollectorSmartphoneParameters}
             onProductNumRenderMap={onProductNumRenderMap}
-            productNum={productNum}
+            productNum={num}
             deleteHandler={deleteAndNavigateProductOneHandler}
          />
 

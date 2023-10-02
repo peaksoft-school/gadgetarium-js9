@@ -44,9 +44,9 @@ export const Reviews = () => {
    }
 
    return (
-      <div>
+      <>
          <Container>
-            <div style={{ width: '64%' }} key={1}>
+            <div>
                <p
                   style={{
                      fontFamily: 'Ubuntu',
@@ -80,55 +80,52 @@ export const Reviews = () => {
                <Rating my={reviewMy} subProductId={subProductId} />
             </RaitingStyle>
          </Container>
-         <div>
-            <Modal
-               open={open}
-               onClose={handleClose}
-               aria-labelledby="modal-modal-title"
-               aria-describedby="modal-modal-description"
-            >
-               <Box sx={style}>
-                  <Typography variant="h6" component="h2">
-                     Редактировать свой ответ
-                  </Typography>
-                  <form>
-                     <InputUi
-                        style={{ marginTop: '3rem' }}
-                        width="20.8rem"
-                        height="3rem"
-                     />
-                     <ButtonBlock>
-                        <Button
-                           variant="outlined"
-                           textTransform="uppercase"
-                           backgroundHover="#CB11AB"
-                           backgroundActive="#CB11AB"
-                           padding="0.625rem 2.6825rem"
-                           onClick={handleClose}
-                        >
-                           Отменить
-                        </Button>
-                        <Button
-                           variant="contained"
-                           textTransform="uppercase"
-                           backgroundHover="#CB11AB"
-                           backgroundActive="#CB11AB"
-                           padding="0.625rem 2.6825rem"
-                        >
-                           Добавить
-                        </Button>
-                     </ButtonBlock>
-                  </form>
-               </Box>
-            </Modal>
-         </div>
-      </div>
+         <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+         >
+            <Box sx={style}>
+               <Typography variant="h6" component="h2">
+                  Редактировать свой ответ
+               </Typography>
+               <form>
+                  <InputUi
+                     style={{ marginTop: '3rem' }}
+                     width="20.8rem"
+                     height="3rem"
+                  />
+                  <ButtonBlock>
+                     <Button
+                        variant="outlined"
+                        textTransform="uppercase"
+                        backgroundHover="#CB11AB"
+                        backgroundActive="#CB11AB"
+                        padding="0.625rem 2.6825rem"
+                        onClick={handleClose}
+                     >
+                        Отменить
+                     </Button>
+                     <Button
+                        variant="contained"
+                        textTransform="uppercase"
+                        backgroundHover="#CB11AB"
+                        backgroundActive="#CB11AB"
+                        padding="0.625rem 2.6825rem"
+                     >
+                        Добавить
+                     </Button>
+                  </ButtonBlock>
+               </form>
+            </Box>
+         </Modal>
+      </>
    )
 }
 
 const Container = styled('div')`
    display: flex;
-   width: 78.5vw;
    margin-top: 2.5rem;
    justify-content: space-between;
 `

@@ -116,7 +116,7 @@ export const DiscountModal = ({ open, handleClose, onClick }) => {
                      fontSize="0.83333vw"
                      placeholder="0%"
                      error={!!formState.errors.amountOfDiscount}
-                     classpadding="true"
+                     classpadding="3px 14px"
                      onChange={handleamountOfDiscountChange}
                      onKeyDown={handleKeyDown}
                   />

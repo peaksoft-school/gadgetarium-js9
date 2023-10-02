@@ -159,7 +159,7 @@ export const Footer = () => {
                      )}
                   </div>
                   <Info>
-                     <p>+996 (400) 00 00 00</p>
+                     <p>+996 (500) 34 44 33</p>
                      <p>Gadgetarium.kg</p>
                      <p>г.Бишкек, ул. Гражданская 119</p>
                      <p>C 10:00 до 21:00 (без выходных)</p>
@@ -176,7 +176,7 @@ export const Footer = () => {
                </Gadgetarium>
 
                <BoxMinInfo>
-                  <p>© 2022 Gadgetarium. Интернет магазин </p>
+                  <p>© 2023 Gadgetarium. Интернет магазин </p>
                   <span>Bce права защищены.</span>
                </BoxMinInfo>
             </Block2>

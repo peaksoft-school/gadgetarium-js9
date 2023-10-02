@@ -11,8 +11,10 @@ import { TablesPartTwo } from './table/TablesPartTwo'
 import {
    addAllPriceAndQuantity,
    editNewProductAndReturnNewEditDataHandler,
+   rowTableValidBoolean,
 } from '../../../../store/addProduct/addProductPartOne.slice'
 import { BreadCrumbs } from '../../../UI/breadCrumbs/BreadCrumbs'
+import { useSnackbar } from '../../../../hooks/useSnackbar'
 
 const schema = Yup.object().shape({
    price: Yup.number().required('Обязательное поле'),
@@ -21,12 +23,35 @@ const schema = Yup.object().shape({
 
 export const QuantityOfGoodsAndPrice = memo(() => {
    const dispatch = useDispatch()
-   const { newProduct } = useSelector((state) => state.addProduct)
+   const { newProduct, rowTableValidBool } = useSelector(
+      (state) => state.addProduct
+   )
    const [changeBooleanValue, setChangeBooleanValue] = useState(false)
    const navigate = useNavigate()
+   const [isErrorValid, setIsErrorValid] = useState(false)
+   const { snackbarHandler } = useSnackbar()
 
    const title = changeBooleanValue ? 'Общая цена' : 'Общая количество'
    const titleBtn = changeBooleanValue ? 'цену' : 'количество'
+
+   const finishedAddPriceAndQuantity = () => {
+      const containsFalse = rowTableValidBool.includes(false)
+
+      if (!containsFalse) {
+         navigate('/admin/goods/add-products-part-3')
+         setIsErrorValid(false)
+      } else {
+         setIsErrorValid(true)
+         snackbarHandler({
+            message: 'Bce поле должны быть запонены',
+            type: 'error',
+         })
+      }
+   }
+
+   useEffect(() => {
+      dispatch(rowTableValidBoolean())
+   }, [newProduct.subProductRequests])
 
    const onCollectorPriceAndQuantity = (values) => {
       dispatch(
@@ -45,7 +70,7 @@ export const QuantityOfGoodsAndPrice = memo(() => {
       setChangeBooleanValue(false)
    }
 
-   const { values, handleSubmit, errors, setFieldValue } = useFormik({
+   const { values, handleSubmit, setFieldValue } = useFormik({
       initialValues: {
          price: 0,
          quantity: 0,
@@ -67,18 +92,12 @@ export const QuantityOfGoodsAndPrice = memo(() => {
       dispatch(editNewProductAndReturnNewEditDataHandler(newProduct))
    }, [])
 
-   const finishedAddPriceAndQuantity = () => {
-      if (!errors.price && !errors.quantity) {
-         navigate('/admin/add-products-part-3')
-      }
-   }
-
    return (
       <Container>
          <WidthContainer>
             <BreadCrumbs
                breadcrumbs={[
-                  { path: '/admin', label: 'Товары' },
+                  { path: '/admin/goods', label: 'Товары' },
 
                   { label: 'Установление цены и количества' },
                ]}
@@ -124,6 +143,7 @@ export const QuantityOfGoodsAndPrice = memo(() => {
                   onChangeBooleanValuePrice={onChangeBooleanValuePrice}
                   onChangeBooleanValueQuantity={onChangeBooleanValueQuantity}
                   changeBooleanValue={changeBooleanValue}
+                  isErrorValid={isErrorValid}
                />
 
                <ContainerButton>

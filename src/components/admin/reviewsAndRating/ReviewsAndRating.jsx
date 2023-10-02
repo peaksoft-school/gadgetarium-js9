@@ -88,48 +88,72 @@ export const ReviewsAndRating = () => {
                            </Box>
                            <CustomTabPanel value={valueTabs} index={valueTabs}>
                               <ContainerTable>
-                                 <div>
-                                    <AdminTablesHead />
-                                 </div>
+                                 {dataReviewsFour.reviews?.length > 0 ? (
+                                    <>
+                                       <AdminTablesHead />
+                                       <div>
+                                          {dataReviewsFour?.reviews?.map(
+                                             (item, i) => {
+                                                const index = i + 1
 
-                                 <div>
-                                    {dataReviewsFour?.reviews?.map(
-                                       (item, i) => {
-                                          const index = i + 1
-
-                                          return (
-                                             <div key={item.reviewId}>
-                                                <AdminFeedback
-                                                   index={index}
-                                                   id={item.reviewId}
-                                                   stars={item.grade}
-                                                   userText={item.comment}
-                                                   userName={item.userFullName}
-                                                   modelName={item.brandName}
-                                                   images={item.images}
-                                                   time={item.dateOfCreatAd}
-                                                   userEmail={item.userEmail}
-                                                   art={item.articleNumber}
-                                                   productImage={
-                                                      item.productImage
-                                                   }
-                                                   productName={
-                                                      item.productName
-                                                   }
-                                                   userAvatar={item.userAvatar}
-                                                   imageLink={item.imageLink}
-                                                   viewed={item.viewed}
-                                                   answer={item.answer}
-                                                   page={page}
-                                                   getReviewsHandler={
-                                                      getReviewsHandler
-                                                   }
-                                                />
-                                             </div>
-                                          )
-                                       }
-                                    )}
-                                 </div>
+                                                return (
+                                                   <div key={item.reviewId}>
+                                                      <AdminFeedback
+                                                         index={index}
+                                                         id={item.reviewId}
+                                                         stars={item.grade}
+                                                         userText={item.comment}
+                                                         userName={
+                                                            item.userFullName
+                                                         }
+                                                         modelName={
+                                                            item.brandName
+                                                         }
+                                                         images={item.images}
+                                                         time={
+                                                            item.dateOfCreatAd
+                                                         }
+                                                         userEmail={
+                                                            item.userEmail
+                                                         }
+                                                         art={
+                                                            item.articleNumber
+                                                         }
+                                                         productImage={
+                                                            item.productImage
+                                                         }
+                                                         productName={
+                                                            item.productName
+                                                         }
+                                                         userAvatar={
+                                                            item.userAvatar
+                                                         }
+                                                         imageLink={
+                                                            item.imageLink
+                                                         }
+                                                         viewed={item.viewed}
+                                                         answer={item.answer}
+                                                         page={page}
+                                                         getReviewsHandler={
+                                                            getReviewsHandler
+                                                         }
+                                                      />
+                                                   </div>
+                                                )
+                                             }
+                                          )}
+                                       </div>
+                                       <BoxPagination>
+                                          <Pagination
+                                             count={paginationCount}
+                                             onChange={getNumPage}
+                                             color="primary"
+                                          />
+                                       </BoxPagination>
+                                    </>
+                                 ) : (
+                                    <Title>Здесь нет отзывов!</Title>
+                                 )}
                               </ContainerTable>
                            </CustomTabPanel>
                         </BoxStyle>
@@ -138,14 +162,6 @@ export const ReviewsAndRating = () => {
 
                   <Infographic />
                </Container>
-
-               <BoxPagination>
-                  <Pagination
-                     count={paginationCount}
-                     onChange={getNumPage}
-                     color="primary"
-                  />
-               </BoxPagination>
             </WidthContainer>
          </AllContainer>
       </>
@@ -157,6 +173,14 @@ const AllContainer = styled('div')`
    display: flex;
    justify-content: center;
    margin-bottom: 14rem;
+`
+const Title = styled('p')`
+   font-size: 20px;
+   width: 66.927vw;
+   font-family: Inter;
+   color: #384255;
+   text-align: center;
+   margin: 0;
 `
 const WidthContainer = styled('div')`
    width: 89.583vw;
@@ -188,7 +212,6 @@ const BoxStyle = styled(Box)`
       background-color: #cb11ab;
       font-family: Inter;
       color: #fff;
-      font-size: 1rem;
    }
 
    .count {
@@ -200,10 +223,11 @@ const BoxStyle = styled(Box)`
       border-radius: 0.25rem;
       color: #384255;
       min-height: 0;
+      font-weight: 600;
       background-color: #e0e2e7;
       padding: 0.5rem 1.25rem 0.5rem 1.25rem;
       text-transform: none;
-      font-size: 1rem;
+      font-size: 0.833vw;
    }
 
    .MuiTabs-root {
@@ -230,5 +254,4 @@ const BoxStyle = styled(Box)`
 const BoxPagination = styled('div')`
    display: flex;
    justify-content: center;
-   margin-left: -6rem;
 `

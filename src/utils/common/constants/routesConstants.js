@@ -8,7 +8,6 @@ export const routes = {
       addProductPartTwo: '/admin/add-products-part-2',
       phones: {
          index: '/admin/product/:productId',
-         productDetail: '/admin/product/:productId/details',
       },
    },
 

@@ -1,9 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
+   deleteIsCheckedProduct,
+   getByIdProductDetail,
    getDownloadPdfFiles,
    getInfoPage,
    getRecentlyViewedProduct,
    getReviwesProduct,
+   postReviewsPhone,
    putReviesRequest,
    putReviewsAdminAnswer,
 } from './infoPageThunk'
@@ -19,7 +22,8 @@ const initialState = {
    viewedProduct: [],
    updateAdminComment: [],
    getPdfFiles: [],
-   isLoading: true,
+   isLoading: false,
+   getByIdDetail: [],
 }
 
 export const infoPageSlice = createSlice({
@@ -54,7 +58,6 @@ export const infoPageSlice = createSlice({
       builder.addCase(getInfoPage.rejected, (state) => {
          state.isLoading = false
       })
-
       builder.addCase(getReviwesProduct.fulfilled, (state, action) => {
          state.getReviews = action.payload
          state.isLoading = false
@@ -77,6 +80,13 @@ export const infoPageSlice = createSlice({
       })
       builder.addCase(getRecentlyViewedProduct.fulfilled, (state, action) => {
          state.viewedProduct = action.payload
+         state.isLoading = false
+      })
+      builder.addCase(getRecentlyViewedProduct.pending, (state) => {
+         state.isLoading = true
+      })
+      builder.addCase(getRecentlyViewedProduct.rejected, (state) => {
+         state.isLoading = false
       })
       builder.addCase(putReviewsAdminAnswer.fulfilled, (state, action) => {
          state.updateAdminComment = action.payload
@@ -88,8 +98,43 @@ export const infoPageSlice = createSlice({
       builder.addCase(putReviewsAdminAnswer.rejected, (state) => {
          state.isLoading = false
       })
+      builder.addCase(postReviewsPhone.pending, (state) => {
+         state.isLoading = true
+      })
+      builder.addCase(postReviewsPhone.rejected, (state) => {
+         state.isLoading = false
+      })
+      builder.addCase(postReviewsPhone.fulfilled, (state) => {
+         state.isLoading = false
+      })
       builder.addCase(getDownloadPdfFiles.fulfilled, (state, action) => {
          state.getPdfFiles = action.payload
+         state.isLoading = true
+      })
+      builder.addCase(getDownloadPdfFiles.pending, (state) => {
+         state.isLoading = true
+      })
+      builder.addCase(getDownloadPdfFiles.rejected, (state) => {
+         state.isLoading = false
+      })
+      builder.addCase(getByIdProductDetail.fulfilled, (state, action) => {
+         state.getByIdDetail = action.payload
+         state.isLoading = false
+      })
+      builder.addCase(getByIdProductDetail.pending, (state) => {
+         state.isLoading = true
+      })
+      builder.addCase(getByIdProductDetail.rejected, (state) => {
+         state.isLoading = false
+      })
+      builder.addCase(deleteIsCheckedProduct.fulfilled, (state) => {
+         state.isLoading = false
+      })
+      builder.addCase(deleteIsCheckedProduct.pending, (state) => {
+         state.isLoading = true
+      })
+      builder.addCase(deleteIsCheckedProduct.rejected, (state) => {
+         state.isLoading = false
       })
    },
 })

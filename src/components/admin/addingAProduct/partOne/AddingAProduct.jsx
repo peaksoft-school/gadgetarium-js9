@@ -79,7 +79,7 @@ export const AddingAProduct = memo(() => {
          isEmptyOrNull &&
          newProduct?.guarantee <= 120
       ) {
-         navigate('/admin/add-products-part-2')
+         navigate('/admin/goods/add-products-part-2')
       } else if (newProduct?.guarantee > 120) {
          snackbarHandler({
             message:
@@ -115,7 +115,7 @@ export const AddingAProduct = memo(() => {
             )}
             <BreadCrumbs
                breadcrumbs={[
-                  { path: '/admin', label: 'Товары' },
+                  { path: '/admin/goods', label: 'Товары' },
 
                   { label: 'Добавление товара' },
                ]}

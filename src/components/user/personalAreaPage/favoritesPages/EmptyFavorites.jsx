@@ -1,7 +1,8 @@
 import React from 'react'
-import { Button, styled } from '@mui/material'
+import { styled } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import ImageGirle from '../../../../assets/images/sammy-order-completed-by-a-delivery-girl 1.png'
+import { Button } from '../../../UI/Button'
 
 export const EmptyFavorites = () => {
    const navigate = useNavigate()
@@ -11,64 +12,58 @@ export const EmptyFavorites = () => {
    }
    return (
       <Conatiner>
-         <div>
-            <BlockChilde>
-               <Image src={ImageGirle} alt="menImage" />
-            </BlockChilde>
-            <Paragraph>
-               <p>Здесь пока пусто</p>
-               <span> Воспользуйтесь поиском или каталогом,</span>
-               <span> выберите нужные товары и добавьте их в избранное!</span>
-            </Paragraph>
+         <Image src={ImageGirle} alt="menImage" />
+         <SecondTitle>В избранном пока пусто</SecondTitle>
+         <Paragraph>
+            Воспользуйтесь поиском или каталогом, выберите нужные товары и
+            добавьте их в избранное!
+         </Paragraph>
 
-            <BlockButton onClick={homePage}>
-               <ButtonUi variant="outlined" padding="20px">
-                  К покупкам
-               </ButtonUi>
-            </BlockButton>
-         </div>
+         <Button
+            variant="contained"
+            fontSize="1rem"
+            padding="11px 21px"
+            backgroundhover="#E313BF"
+            backgroundactive="#C90EA9"
+            onClick={homePage}
+         >
+            К покупкам
+         </Button>
       </Conatiner>
    )
 }
 
 const Conatiner = styled('div')`
    display: flex;
-   justify-content: center;
+   flex-direction: column;
+   align-items: center;
    margin-top: 3rem;
    padding-bottom: 7.5rem;
 `
 
-const BlockChilde = styled('div')`
-   display: flex;
-   flex-direction: column;
-   align-items: center;
+const SecondTitle = styled('p')`
+   color: #292929;
+   font-family: Inter;
+   font-size: 1.25vw;
+   font-style: normal;
+   font-weight: 500;
+   line-height: 110%;
+   margin: 0;
+   margin-top: 2.7778vh;
+   margin-bottom: 1.8519vh;
 `
-const Paragraph = styled('div')`
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   font-family: 'Inter';
+const Paragraph = styled('p')`
+   text-align: center;
+   font-family: Inter;
+   font-size: 0.938vw;
+   font-style: normal;
    font-weight: 400;
-   font-size: 1rem;
-   p {
-      font-family: 'Inter';
-      font-size: 1.5rem;
-      font-weight: 500;
-   }
+   line-height: 130%;
+   width: 24.792vw;
+   margin: 0;
+   margin-bottom: 2.2222vh;
 `
-
 const Image = styled('img')`
-   width: 13.75rem;
-   height: 13.75rem;
-`
-const BlockButton = styled('div')`
-   display: flex;
-   justify-content: center;
-`
-const ButtonUi = styled(Button)`
-   margin-top: 1rem;
-   &:hover {
-      color: #fff;
-      background-color: #cb11ab;
-   }
+   width: 15.625vw;
+   height: 15.625vw;
 `

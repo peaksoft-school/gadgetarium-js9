@@ -13,8 +13,6 @@ import {
    updateViewReviewsId,
 } from '../../../store/reviews/reviews.thunk'
 
-// const imagesArray = [1, 2, 3, 4, 5]
-
 const AdminFeedback = ({
    index,
    stars,
@@ -80,7 +78,11 @@ const AdminFeedback = ({
 
    const deleteHandler = () => {
       dispatch(deleteReviewsId(id))
-      getReviewsHandler()
+         .unwrap()
+         .then(() => {
+            getReviewsHandler()
+         })
+         .catch((prop) => new Error(prop))
    }
 
    const text = `${userText}`
@@ -405,6 +407,7 @@ const ModelDescription = styled('div')(({ theme }) => ({
       fontStyle: 'normal',
       fontWeight: 600,
       lineHeight: '1.25rem',
+      width: '8vw',
    },
    p: {
       fontFamily: 'Inter',
@@ -438,7 +441,7 @@ const BoxPhotoProduct = styled('div')(({ theme }) => ({
 }))
 
 const UserReviewContainer = styled('div')`
-   margin-left: 3.28125vw;
+   margin-left: 0.7vw;
    width: 60.2%;
 `
 const InfoAboutUserContainer = styled('div')`

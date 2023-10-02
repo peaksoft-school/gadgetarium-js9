@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
-import Typography from '@mui/material/Typography'
 import { styled } from '@mui/material'
 import Box from '@mui/material/Box'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -15,35 +14,34 @@ import { Favorites } from './favoritesPages/Favorites'
 import { deleteOrderRequest } from '../../../store/order/Order.thunk'
 import { userOrdersBreadcrumbs } from '../../../utils/common/constants/paymant'
 import { BreadCrumbs } from '../../UI/breadCrumbs/BreadCrumbs'
+import { compareActions } from '../../../store/order/Order.Slice'
+import { useSnackbar } from '../../../hooks/useSnackbar'
 
 function CustomTabPanel(props) {
    const { children, value, index, ...other } = props
 
    return (
       <div id={`simple-tabpanel-${index}`} {...other}>
-         {value === index && (
-            <Box sx={{ p: 3 }}>
-               <Typography>{children}</Typography>
-            </Box>
-         )}
+         {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
       </div>
    )
 }
 
 export const PersonalArea = () => {
    const dispatch = useDispatch()
-   const { productOrder } = useSelector((state) => state.order)
+   const { productOrder, deleteAll } = useSelector((state) => state.order)
    const favoritesOrders = useSelector((state) => state.order.favorite)
+   const { snackbarHandler } = useSnackbar()
 
-   const subProductById = favoritesOrders?.map((el) => el.subProductId)
-
-   const orderById = productOrder.length > 0 ? productOrder[0].orderId : null
+   useEffect(() => {
+      dispatch(compareActions.changeDelete())
+   }, [productOrder])
 
    const navigate = useNavigate()
    const [value, setValue] = useState(0)
 
    const deleteOrder = () => {
-      dispatch(deleteOrderRequest(orderById))
+      dispatch(deleteOrderRequest({ snackbarHandler, deleteAll }))
    }
 
    const handleChange = (event, newValue) => {
@@ -96,7 +94,11 @@ export const PersonalArea = () => {
                      label="Избранное"
                      {...a11yProps(1)}
                   />
-                  <Tab label="Профиль" {...a11yProps(2)} />
+                  <Tab
+                     onClick={() => navigate('/personalArea/profile')}
+                     label="Профиль"
+                     {...a11yProps(2)}
+                  />
                </Tabs>
 
                {value === 0 && productOrder.length > 0 ? (
@@ -110,16 +112,17 @@ export const PersonalArea = () => {
             </TabsHeader>
             {value === 0 && (
                <div value={value}>
-                  {productOrder.length === 0 ? <EmptyHistory /> : <History />}
+                  {productOrder.length > 0 ? <History /> : <EmptyHistory />}
+                  <History />
                </div>
             )}
 
             {value === 1 && (
                <div value={value}>
-                  {subProductById.length === 0 ? (
-                     <EmptyFavorites />
-                  ) : (
+                  {favoritesOrders.length > 0 ? (
                      <Favorites />
+                  ) : (
+                     <EmptyFavorites />
                   )}
                </div>
             )}
@@ -192,12 +195,41 @@ const Delete = styled('div')`
    }
 `
 const TabsHeader = styled('div')`
-   width: 100%;
    display: flex;
    align-items: center;
-   justify-content: space-between;
    border-top: 2px solid #e0e2e7;
    padding-top: 2.5rem;
+   .MuiTab-root.Mui-selected {
+      background-color: #384255;
+      color: #fff;
+   }
+   .MuiTab-root {
+      height: 2.25rem;
+      border-radius: 4px;
+      color: #fff;
+      font-family: Inter;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+      color: #384255;
+      min-height: 0;
+      background-color: #e0e2e7;
+      padding: 0px 20px 0px 20px;
+      text-transform: none;
+   }
+   .MuiTabs-root {
+      min-height: auto;
+   }
+
+   .MuiTabs-indicator {
+      display: none;
+   }
+
+   .MuiTabs-flexContainer {
+      display: flex;
+      gap: 0.625vw;
+   }
 `
 const BreadCrumbsBlock = styled('div')`
    display: flex;

@@ -11,7 +11,7 @@ import { ReactComponent as MendingIcon } from '../../../assets/icons/warranty-ic
 export const arrayForTools = [
    {
       id: 1,
-      name: 'firstCard',
+      name: 'firstCa rd',
       component: WarrantlyIcon,
       text: 'Официальный дистрибьютер',
    },

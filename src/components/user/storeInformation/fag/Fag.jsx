@@ -12,31 +12,28 @@ export const FAQ = () => {
    }
 
    return (
-      <>
+      <Container>
          <BreadCrumbsBox>
             <BreadCrumbs
                breadcrumbs={[{ path: '/', label: 'Главная' }, { label: 'FAQ' }]}
             />
          </BreadCrumbsBox>
-
-         <Container>
-            <Text>FAQ</Text>
-            <h3>Часто задаваемые вопросы</h3>
-            {FagData.map((item) => (
-               <FagChild
-                  key={item.id}
-                  item={item}
-                  isSelected={selectedId === item.id}
-                  onIconClick={handleIconClick}
-               />
-            ))}
-         </Container>
-      </>
+         <Text>FAQ</Text>
+         <h3>Часто задаваемые вопросы</h3>
+         {FagData.map((item) => (
+            <FagChild
+               key={item.id}
+               item={item}
+               isSelected={selectedId === item.id}
+               onIconClick={handleIconClick}
+            />
+         ))}
+      </Container>
    )
 }
 
 const BreadCrumbsBox = styled('div')`
-   margin-left: 10.7rem;
+   width: 79.688vw;
 `
 
 const Container = styled('div')`

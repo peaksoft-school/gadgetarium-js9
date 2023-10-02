@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
    addAndEditPrice,
    addAndEditQuantity,
+   setRowValidation,
 } from '../../../../../store/addProduct/addProductPartOne.slice'
 import {
    backgroundColors,
@@ -25,6 +26,7 @@ export const TablesRow = ({
    onChangeBooleanValueQuantity,
    onChangeBooleanValuePrice,
    changeBooleanValue,
+   isErrorValid,
 }) => {
    const dispatch = useDispatch()
    const { brandAll } = useSelector((state) => state.addProduct)
@@ -70,6 +72,17 @@ export const TablesRow = ({
    const onAddAndEditQuantityHandler = () => {
       dispatch(addAndEditQuantity({ id: row.id, quantity: +values.quantity }))
    }
+
+   useEffect(() => {
+      if (row.price !== 0 && row.quantity !== 0) {
+         dispatch(setRowValidation({ id: row.id, bool: true }))
+      } else {
+         dispatch(setRowValidation({ id: row.id, bool: false }))
+      }
+   }, [row.price, row.quantity])
+
+   const priceError = isErrorValid ? values.price === 0 : false
+   const quantityError = isErrorValid ? values.quantity === 0 : false
 
    const housingMaterial = row.housingMaterial
       ? dataProductWatch?.housingMaterial?.find(
@@ -147,8 +160,10 @@ export const TablesRow = ({
          <TableCellStyle
             width="8.333vw"
             sx={{
-               background: 'rgba(203, 17, 171, 0.10)',
+               background: '#cb11ab19',
                paddingLeft: '1.042vw',
+               border: quantityError ? '1px solid red' : 'none',
+               borderRight: `1px solid ${quantityError ? 'red' : '#CDCDCD'}`,
             }}
          >
             <StyledInput
@@ -164,7 +179,8 @@ export const TablesRow = ({
          <TableCellStyle
             width="8.594vw"
             sx={{
-               background: 'rgba(203, 17, 171, 0.10)',
+               background: '#cb11ab19',
+               border: priceError ? '1px solid red' : 'none',
                paddingLeft: '1.042vw',
             }}
          >
@@ -209,6 +225,7 @@ const StyledInput = styled('input')`
    font-weight: 500;
    font-style: normal;
    letter-spacing: 0.0625rem;
+
    :focus {
       outline: none;
    }

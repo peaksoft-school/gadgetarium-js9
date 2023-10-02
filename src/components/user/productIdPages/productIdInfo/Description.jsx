@@ -1,6 +1,6 @@
+/* eslint-disable react/no-danger */
 import { styled } from '@mui/material'
 import React from 'react'
-// eslint-disable-next-line import/no-extraneous-dependencies
 import ReactPlayer from 'react-player'
 import { useSelector } from 'react-redux'
 

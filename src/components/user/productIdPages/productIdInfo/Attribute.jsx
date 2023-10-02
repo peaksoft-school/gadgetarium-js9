@@ -16,13 +16,14 @@ function CustomTabPanel(props) {
 
    return (
       <div
+         width="100%"
          role="tabpanel"
          hidden={value !== index}
          id={`simple-tabpanel-${index}`}
          aria-labelledby={`simple-tab-${index}`}
          {...other}
       >
-         {value === index && <Box>{children}</Box>}
+         {value === index && children}
       </div>
    )
 }
@@ -55,53 +56,50 @@ export const Attribute = () => {
 
    return (
       <Container>
-         <div>
-            <Box sx={{ width: '100%' }}>
-               <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                  <Tabs
-                     value={value}
-                     onChange={handleChange}
-                     aria-label="basic tabs example"
-                  >
-                     <Tab label="Описание" {...a11yProps(0)} />
-                     <Tab label="Характеристики" {...a11yProps(1)} />
-                     <Tab label="Отзывы" {...a11yProps(2)} />
-                     {role === 'USER' ||
-                        (role === 'GUEST' && (
-                           <Tab label="Доставка и оплата" {...a11yProps(3)} />
-                        ))}
+         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Tabs
+               value={value}
+               onChange={handleChange}
+               aria-label="basic tabs example"
+            >
+               <Tab label="Описание" {...a11yProps(0)} />
+               <Tab label="Характеристики" {...a11yProps(1)} />
+               <Tab label="Отзывы" {...a11yProps(2)} />
+               {role === 'USER' && (
+                  <Tab label="Доставка и оплата" {...a11yProps(3)} />
+               )}
+               {role === 'GUEST' && (
+                  <Tab label="Доставка и оплата" {...a11yProps(3)} />
+               )}
 
-                     <DownloadBlock onClick={onDownloadPadfFile}>
-                        <DownloadIcons />
-                        <a href="/" download={donwnload}>
-                           Скачать документ.pdf
-                        </a>
-                     </DownloadBlock>
-                  </Tabs>
-               </Box>
-               <CustomTabPanel value={value} index={0}>
-                  <Description />
-               </CustomTabPanel>
-               <CustomTabPanel value={value} index={1}>
-                  <Сharacteristics />
-               </CustomTabPanel>
-               <CustomTabPanel value={value} index={2}>
-                  <Reviews />
-               </CustomTabPanel>
-               <CustomTabPanel value={value} index={3}>
-                  <Delivery />
-               </CustomTabPanel>
-            </Box>
-         </div>
+               <DownloadBlock onClick={onDownloadPadfFile}>
+                  <DownloadIcons />
+                  <a href="/" download={donwnload}>
+                     Скачать документ.pdf
+                  </a>
+               </DownloadBlock>
+            </Tabs>
+         </Box>
+         <CustomTabPanel value={value} index={0}>
+            <Description />
+         </CustomTabPanel>
+         <CustomTabPanel value={value} index={1}>
+            <Сharacteristics />
+         </CustomTabPanel>
+         <CustomTabPanel value={value} index={2}>
+            <Reviews />
+         </CustomTabPanel>
+         <CustomTabPanel value={value} index={3}>
+            <Delivery />
+         </CustomTabPanel>
       </Container>
    )
 }
 
 const Container = styled('div')`
-   width: 79.888vw;
    padding-bottom: 10rem;
    margin-top: 4.75rem;
-
+   width: 100%;
    .MuiTabs-flexContainer {
       display: flex;
       gap: 3rem;
