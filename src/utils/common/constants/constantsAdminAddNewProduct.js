@@ -19,7 +19,7 @@ export const subProductDataCategory = {
    'Sports Watches': 'Спортивные часы',
    'Children Smart Watches': 'Детские смарт-часы',
    'Entertainment Tablets': 'Планшеты для развлечений',
-   'Proffessional Tablets': 'Профессиональные планшеты',
+   'Professional Tablets': 'Профессиональные планшеты',
    'Educational Tablets': 'Образовательные планшеты',
 }
 

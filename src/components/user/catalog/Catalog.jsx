@@ -19,6 +19,7 @@ export const Catalog = () => {
       showMore,
       plusPageSize,
       sort,
+      items,
    } = useSelector((state) => state.category)
 
    const [cateSort, setCateSort] = useState(false)
@@ -47,7 +48,9 @@ export const Catalog = () => {
    const closeSort = () => {
       setCateSort(false)
    }
-
+   useEffect(() => {
+      dispatch(categoryActions.addBrandsId())
+   }, [items])
    const deleteCancel = (id) => {
       dispatch(categoryActions.deleteItem(id))
    }
