@@ -7,6 +7,7 @@ import { Footer } from '../../components/user/footer/Footer'
 import { getFavoriteItems } from '../../store/favorite/favorite.thunk'
 import { getBasket } from '../../store/basket/basket.thunk'
 import { getAllCompareGoods } from '../../store/compare/compare.thunk'
+import { getCategory } from '../../store/cataog/categoryThunk'
 
 export const UserLayout = () => {
    const { favoriteItems } = useSelector((state) => state.favorite)
@@ -20,6 +21,7 @@ export const UserLayout = () => {
          dispatch(getFavoriteItems())
          dispatch(getBasket())
          dispatch(getAllCompareGoods())
+         dispatch(getCategory())
       }
    }, [])
    return (

@@ -390,16 +390,6 @@ export const categorySlice = createSlice({
          }
       },
 
-      resetItemById: (state, action) => {
-         const resetItems = state.items.map((el) => {
-            if (el.id === action.payload) {
-               return { ...el, checked: false }
-            }
-            return el
-         })
-         return { ...state, items: resetItems }
-      },
-
       setMinValue: (state, action) => {
          return { ...state, minValue: action.payload }
       },
@@ -692,6 +682,9 @@ export const categorySlice = createSlice({
             return { ...state, isLoading: true }
          })
          .addCase(getCategory.fulfilled, (state, action) => {
+            if (state.items.length > 0) {
+               return state
+            }
             const updatedItems = action.payload.map((el) => {
                return { ...el, checked: false }
             })

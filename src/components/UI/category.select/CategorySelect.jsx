@@ -56,8 +56,8 @@ const Category = ({
                {subCatalog?.map((el) => {
                   return (
                      <CategoryMenuItem
-                        id={el.subCategoryId}
-                        key={el.subCategoryId}
+                        id={el.id}
+                        key={el.id}
                         onClick={() => handleCategoryClose(el.id, el.title)}
                      >
                         {el.title}
