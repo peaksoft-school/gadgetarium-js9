@@ -81,6 +81,8 @@ const Feedback = ({
       setOpenModal(true)
    }
 
+   const disabledAction = answer === null ? canUserEdit : false
+
    return (
       <Container>
          <UserContainer>
@@ -104,7 +106,7 @@ const Feedback = ({
                </AdminText>
             )}
          </UserReviewContainer>
-         {canUserEdit && (
+         {disabledAction && (
             <ToolContainer>
                <EditIcon onClick={toggleUserHandler} />
                <DeleteIcon onClick={deleteUserReviwes} />

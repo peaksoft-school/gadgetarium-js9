@@ -8,6 +8,9 @@ import { ReactComponent as ArrowDown } from '../../../assets/icons/arrows/down-i
 import { Button } from '../../UI/Button'
 import {
    deleteReviewsId,
+   getAllReviews,
+   getAnsweredReviews,
+   getUnansweredReviews,
    postAdminReplyCommentsReviews,
    putEditAnswerReviews,
    updateViewReviewsId,
@@ -29,7 +32,7 @@ const AdminFeedback = ({
    id,
    viewed,
    answer,
-   getReviewsHandler,
+   page,
 }) => {
    const value = answer === null || undefined ? '' : answer
    const dispatch = useDispatch()
@@ -38,6 +41,12 @@ const AdminFeedback = ({
    const [adminAnswer, setAdminAnswer] = useState(value)
    const [temporaryAnswer, setTemporaryAnswer] = useState(value)
    const [checked, setChecked] = useState(viewed)
+
+   const getReviewsHandler = () => {
+      dispatch(getAllReviews(page))
+      dispatch(getUnansweredReviews(page))
+      dispatch(getAnsweredReviews(page))
+   }
 
    const getAdminAnswer = (e) => {
       setTemporaryAnswer(e.target.value)

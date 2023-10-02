@@ -68,11 +68,11 @@ export const LeaveYourFeedback = ({ rating, onClose, subProductId }) => {
       if (successModal) {
          time = setTimeout(() => {
             setSuccessModal(false)
-         }, 3000)
+         }, 1500)
       } else if (errorModal) {
          time = setTimeout(() => {
             setErrorModal(false)
-         }, 3000)
+         }, 1500)
       }
 
       return () => clearTimeout(time)

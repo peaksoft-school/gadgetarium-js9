@@ -36,12 +36,16 @@ export const FinishModal = () => {
       onHandlerClose()
    }
 
+   const onClosCrossHandler = () => {
+      onHandlerClose()
+   }
+
    return (
       <div>
          <Modal open={open} onClose={onHandlerClose} padding="1.875rem">
             <Container>
                <BoxCross>
-                  <IconButton onClick={onFinishClickHandler}>
+                  <IconButton onClick={onClosCrossHandler}>
                      <Cross />
                   </IconButton>
                </BoxCross>

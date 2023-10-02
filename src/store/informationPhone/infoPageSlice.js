@@ -109,7 +109,7 @@ export const infoPageSlice = createSlice({
       })
       builder.addCase(getDownloadPdfFiles.fulfilled, (state, action) => {
          state.getPdfFiles = action.payload
-         state.isLoading = true
+         state.isLoading = false
       })
       builder.addCase(getDownloadPdfFiles.pending, (state) => {
          state.isLoading = true

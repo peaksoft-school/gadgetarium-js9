@@ -37,18 +37,14 @@ function a11yProps(index) {
 
 export const Attribute = () => {
    const dispatch = useDispatch()
-
    const { role } = useSelector((state) => state.auth)
-
-   const { productId } = useSelector((state) => state.product.infoPhone)
-
-   const donwnload = useSelector((state) => state.product.getPdfFiles)
+   const [value, setValue] = useState(0)
+   const { subProductId } = useSelector((state) => state.product.infoPhone)
+   const download = useSelector((state) => state.product.getPdfFiles)
 
    const onDownloadPadfFile = () => {
-      dispatch(getDownloadPdfFiles(productId))
+      dispatch(getDownloadPdfFiles(subProductId))
    }
-
-   const [value, setValue] = useState(0)
 
    const handleChange = (event, newValue) => {
       setValue(newValue)
@@ -74,7 +70,7 @@ export const Attribute = () => {
 
                <DownloadBlock onClick={onDownloadPadfFile}>
                   <DownloadIcons />
-                  <a href="/" download={donwnload}>
+                  <a href="/" download={download} target="_blank">
                      Скачать документ.pdf
                   </a>
                </DownloadBlock>

@@ -65,6 +65,7 @@ export const Reviews = () => {
                            handleOpen={handleOpen}
                            userName={review.userFullName}
                            userText={review.comment}
+                           userIcon={review.userAvatar}
                            stars={review.grade}
                            timePublication={formatDate(review.dateOfCreatAd)}
                            reviewId={review.reviewId}
