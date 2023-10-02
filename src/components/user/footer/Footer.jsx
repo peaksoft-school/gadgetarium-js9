@@ -60,8 +60,8 @@ export const Footer = () => {
       }
    }, [message])
    const handleButtonClick = () => {
+      dispatch(categoryActions.resetAll())
       window.scrollTo({ top: 0, behavior: 'smooth' })
-      dispatch(categoryActions.reset())
    }
    return (
       <>

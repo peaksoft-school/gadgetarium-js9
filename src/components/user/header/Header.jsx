@@ -106,6 +106,9 @@ export const Header = ({ favorite, basket, compare }) => {
    const handleInputFocus = () => {
       setInputFocused(true)
    }
+   const toggleInputFocused = (value) => {
+      setInputFocused(value)
+   }
 
    const handleInputBlur = () => {
       if (inputValue.length > 0) {
@@ -284,7 +287,11 @@ export const Header = ({ favorite, basket, compare }) => {
                            />
                            <StyledVector input={inputValue} />
                         </SearchForm>
-                        {isInputFocused && <GlobalSearch />}
+                        {isInputFocused && (
+                           <GlobalSearch
+                              toggleInputFocused={toggleInputFocused}
+                           />
+                        )}
                      </PositionContainerForInput>
                   </ButtonInputContainer>
                   <Massage fixed={fixed}>

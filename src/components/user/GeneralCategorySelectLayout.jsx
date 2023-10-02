@@ -88,9 +88,10 @@ const GeneralCategorySelectLayout = ({ toggleCatalogSelect }) => {
                         key={title.id}
                         id={title.id}
                         index={index + 1}
-                        componentIcon={Desktop}
+                        componentIcon={Smartphone}
                         open={categoryStates.tablet}
                         handleCategoryOpen={() => handleCategoryOpen('tablet')}
+                        tablet
                         handleCategoryClose={handleCategoryClose}
                      >
                         {title.title}

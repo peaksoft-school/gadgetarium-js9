@@ -1,5 +1,6 @@
 import { styled } from '@mui/material'
 import React, { useState } from 'react'
+import { useSnackbar } from '../../../../hooks/useSnackbar'
 import { Button } from '../../../UI/Button'
 import { InputUi } from '../../../UI/Input'
 
@@ -11,6 +12,8 @@ export const UserInfo = () => {
       tel: '',
       message: '',
    })
+   const { snackbarHandler } = useSnackbar()
+
    const onChangePhone = (event) => {
       const { value } = event.target
 
@@ -32,6 +35,7 @@ export const UserInfo = () => {
 
    const onAllResetHandler = (e) => {
       e.preventDefault()
+      snackbarHandler({ message: 'Сообщение успешно отправлено' })
       setAll({ name: '', surname: '', email: '', tel: '', message: '' })
    }
 
@@ -114,6 +118,13 @@ export const UserInfo = () => {
                variant="contained"
                padding="0.88rem 0 1rem 0"
                texttransform="uppercase"
+               disabled={
+                  !all.message ||
+                  !all.tel ||
+                  !all.email ||
+                  !all.name ||
+                  !all.surname
+               }
                onClick={onAllResetHandler}
             >
                Отправить

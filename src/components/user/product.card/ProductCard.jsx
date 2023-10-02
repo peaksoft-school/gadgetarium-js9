@@ -32,6 +32,7 @@ export const ProductCard = ({
    color,
    id = '1',
    productId,
+   sendSelectedCategoriesHandler,
    ...props
 }) => {
    const { isAuthorization } = useSelector((state) => state.auth)
@@ -46,6 +47,7 @@ export const ProductCard = ({
                id,
                favoriteState,
                pageSize,
+               sendSelectedCategoriesHandler,
             })
          )
       } else {
@@ -59,6 +61,7 @@ export const ProductCard = ({
                id,
                addOrDelete: !comparisonState,
                pageSize,
+               sendSelectedCategoriesHandler,
             })
          )
       } else {
@@ -72,7 +75,14 @@ export const ProductCard = ({
    }
    const postProductToBasket = async () => {
       if (isAuthorization) {
-         dispatch(postBasketById({ id, needSnackbar: true, pageSize: 100 }))
+         dispatch(
+            postBasketById({
+               id,
+               needSnackbar: true,
+               pageSize: 100,
+               sendSelectedCategoriesHandler,
+            })
+         )
       } else {
          setOpenModal(!openModal)
       }

@@ -1,8 +1,28 @@
 import { styled } from '@mui/material'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { categoryActions } from '../../../store/cataog/catalogSlice'
 
-export const GlobalSearch = () => {
+export const GlobalSearch = ({ toggleInputFocused }) => {
    const globalSearch = useSelector((state) => state.globalSearch.globalSearch)
+   const navigate = useNavigate()
+   const dispatch = useDispatch()
+
+   const brandHandler = (category) => {
+      dispatch(categoryActions.addSelectedCategoriesTrue(category))
+      dispatch(categoryActions.itemsCheckedHandler(category.id))
+      navigate('/category/Phone')
+      toggleInputFocused(false)
+   }
+   const categoryHandler = (value) => {
+      navigate(`/category/${value}`)
+      toggleInputFocused(false)
+   }
+   // const subProductHandler = (value) => {}
+   const length =
+      globalSearch.brandList.length +
+      globalSearch.categoryList.length +
+      globalSearch.subProductResponses.length
    if (
       globalSearch.brandList.length +
          globalSearch.categoryList.length +
@@ -11,29 +31,11 @@ export const GlobalSearch = () => {
    ) {
       return null
    }
-   const brandHandler = (value) => {
-      console.log('value: ', value)
-   }
-   const categoryHandler = (value) => {
-      console.log('value: ', value)
-   }
-   const subProductHandler = (value) => {
-      console.log('value: ', value)
-   }
    return (
-      <Container
-         length={
-            globalSearch.brandList.length +
-            globalSearch.categoryList.length +
-            globalSearch.subProductResponses.length
-         }
-      >
+      <Container length={length}>
          {globalSearch.brandList?.map((el) => {
             return (
-               <GlobalSearchItem
-                  onClick={() => brandHandler(el.id)}
-                  key={el.id}
-               >
+               <GlobalSearchItem onClick={() => brandHandler(el)} key={el.id}>
                   {el.name}
                </GlobalSearchItem>
             )
@@ -41,7 +43,7 @@ export const GlobalSearch = () => {
          {globalSearch.categoryList?.map((el) => {
             return (
                <GlobalSearchItem
-                  onClick={() => categoryHandler(el.categoryId)}
+                  onClick={() => categoryHandler(el.title)}
                   key={el.categoryId}
                >
                   {el.title}
@@ -51,7 +53,7 @@ export const GlobalSearch = () => {
          {globalSearch.subProductResponses?.map((el) => {
             return (
                <GlobalSearchItem
-                  onClick={() => subProductHandler(el.subProductId)}
+                  // onClick={() => subProductHandler(el.subProductId)}
                   key={el.subProductId}
                >
                   <ImageTitleContainer>
@@ -111,8 +113,10 @@ const GlobalSearchItem = styled('div')`
    line-height: normal;
    margin: 0;
    cursor: pointer;
+
    :hover {
       color: #cb11ab !important;
+
       p {
          color: #cb11ab !important;
          span {
