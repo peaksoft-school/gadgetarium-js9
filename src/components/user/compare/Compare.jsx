@@ -25,6 +25,7 @@ import { BreadCrumbs } from '../../UI/breadCrumbs/BreadCrumbs'
 export const Compare = () => {
    const { products, isLoadingComparison, countProducts, deleteAll } =
       useSelector((state) => state.compare)
+   const { isLoading } = useSelector((state) => state.basket)
    const { snackbarHandler } = useSnackbar()
    const [startPosition, setStartPosition] = useState(0)
    const [productName, setProductName] = useState('Laptop')
@@ -121,6 +122,7 @@ export const Compare = () => {
    return (
       <>
          {isLoadingComparison && <Loading />}
+         {isLoading && <Loading />}
          <Container>
             <WidthContainer>
                <BreadCrumbs
@@ -200,12 +202,14 @@ export const Compare = () => {
                               key={el.subProductId}
                               id={el.subProductId}
                               prodName={el.prodName}
+                              productName={productName}
                               price={el.price}
                               image={el.image}
                               deleteHandler={deleteHandler}
                               index={index}
                               color={el.color}
                               productId={el.prId}
+                              inBasket={el.in_basket}
                            />
                         )
                      })}

@@ -87,7 +87,9 @@ const GIcons = styled('p')`
    font-size: 2.08333vw;
    width: 2.60416666vw;
    height: 2.60416666vw;
-   text-align: center;
+   display: flex;
+   align-items: center;
+   justify-content: center;
    font-weight: 700;
    font-family: Outfit;
    color: #fff;

@@ -134,7 +134,7 @@ export const postAddProduct = createAsyncThunk(
    ) => {
       try {
          await postAddProductRequest(resultAddProductData)
-         navigate('/admin')
+         navigate('/admin/goods')
 
          dispatch(clear())
       } catch (error) {

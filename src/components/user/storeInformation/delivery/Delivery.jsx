@@ -6,7 +6,7 @@ import { BreadCrumbs } from '../../../UI/breadCrumbs/BreadCrumbs'
 
 export const Delivery = () => {
    return (
-      <>
+      <Main>
          <BreadCrumbsBox>
             <BreadCrumbs
                breadcrumbs={[
@@ -15,21 +15,18 @@ export const Delivery = () => {
                ]}
             />
          </BreadCrumbsBox>
+         <Text>Доставка</Text>
 
-         <Main>
-            <Text>Доставка</Text>
-
-            <section>
-               <DeliveryMethods />
-               <PaymentMethods />
-            </section>
-         </Main>
-      </>
+         <section>
+            <DeliveryMethods />
+            <PaymentMethods />
+         </section>
+      </Main>
    )
 }
 
 const BreadCrumbsBox = styled('div')`
-   margin-left: 10.7rem;
+   width: 79.688vw;
 `
 
 const Text = styled('p')(({ theme }) => ({

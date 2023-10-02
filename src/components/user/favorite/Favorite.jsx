@@ -79,6 +79,8 @@ export const Favorite = React.memo(() => {
                              return (
                                 <ProductCard
                                    favoriteState
+                                   basketState={el.basket}
+                                   comparisonState={el.comparison}
                                    id={el.subProductId}
                                    key={el.subProductId}
                                    discount={el.discount}

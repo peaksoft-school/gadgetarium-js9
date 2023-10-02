@@ -7,6 +7,7 @@ import { ReactComponent as BasketIcon } from '../../../assets/icons/basket-icon.
 import { postBasketById } from '../../../store/basket/basket.thunk'
 import { useSnackbar } from '../../../hooks/useSnackbar'
 import { infoPageActions } from '../../../store/informationPhone/infoPageSlice'
+import { getCompare } from '../../../store/compare/compare.thunk'
 
 export const CompareProductCard = ({
    prodName,
@@ -16,6 +17,8 @@ export const CompareProductCard = ({
    deleteHandler,
    productId,
    color,
+   inBasket,
+   productName,
    ...props
 }) => {
    const dispatch = useDispatch()
@@ -24,6 +27,13 @@ export const CompareProductCard = ({
    const cardHandler = () => {
       navigate(`/product/${productId}/details`)
       dispatch(infoPageActions.changeSubProductColor(color))
+   }
+   const postBasketHandler = () => {
+      dispatch(postBasketById({ id, snackbarHandler }))
+         .unwrap()
+         .then(() => {
+            dispatch(getCompare(productName))
+         })
    }
    return (
       <Container {...props}>
@@ -35,15 +45,27 @@ export const CompareProductCard = ({
          <Price>
             {price.toLocaleString()} <span>с</span>
          </Price>
-         <Button
-            padding="1.1111vh 1.875vw"
-            variant="contained"
-            texttransform="uppercase"
-            fontSize="0.729vw"
-            onClick={() => dispatch(postBasketById({ id, snackbarHandler }))}
-         >
-            <StyledBasketIcon /> В корзину
-         </Button>
+         {inBasket ? (
+            <StyledButton
+               padding="1.1111vh 1.875vw"
+               variant="contained"
+               texttransform="uppercase"
+               fontSize="0.729vw"
+               onClick={() => navigate('/basket')}
+            >
+               <StyledBasketIcon /> В корзинe
+            </StyledButton>
+         ) : (
+            <Button
+               padding="1.1111vh 1.875vw"
+               variant="contained"
+               texttransform="uppercase"
+               fontSize="0.729vw"
+               onClick={postBasketHandler}
+            >
+               <StyledBasketIcon /> В корзину
+            </Button>
+         )}
       </Container>
    )
 }
@@ -68,6 +90,15 @@ const DeleteContainer = styled('div')`
    display: flex;
    justify-content: flex-end;
    width: 100%;
+`
+const StyledButton = styled(Button)`
+   background: #2fc509;
+   :hover {
+      background: #2fc509;
+   }
+   :active {
+      background: #2fc509;
+   }
 `
 const Title = styled('p')`
    color: #292929;

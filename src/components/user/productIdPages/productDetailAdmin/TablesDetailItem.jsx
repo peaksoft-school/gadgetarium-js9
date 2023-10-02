@@ -1,6 +1,7 @@
 import { TableCell, TableRow, styled } from '@mui/material'
 import React, { useState } from 'react'
 import CheckboxInput from '../../../UI/icon.input/CheckboxInput'
+import { backgroundColors } from '../../../../utils/common/constants/constantsAdminAddNewProduct'
 
 export const TablesDetailItem = ({
    selectedItems,
@@ -13,9 +14,10 @@ export const TablesDetailItem = ({
    const [isHovered, setIsHovered] = useState(false)
 
    const closeHoveredHandler = () => {
-      if (!selectedItems.includes(item.subProductId)) {
-         setIsHovered(false)
+      if (selectedItems.includes(item.subProductId)) {
+         return null
       }
+      return setIsHovered(false)
    }
    const openHoveredHandler = () => {
       setIsHovered(true)
@@ -30,12 +32,16 @@ export const TablesDetailItem = ({
       } else {
          setSelectedItems([...selectedItems, item.subProductId])
       }
+      setIsHovered(true)
    }
-
+   const color =
+      item.codeColor &&
+      backgroundColors.find((el) => el.color === item?.codeColor)
    return (
       <StyledTableRow
          key={item.key}
          sx={{ marginTop: '0.625rem' }}
+         hovered={isHovered ? 'true' : 'false'}
          onMouseEnter={openHoveredHandler}
          onMouseLeave={closeHoveredHandler}
       >
@@ -93,7 +99,7 @@ export const TablesDetailItem = ({
             if (el.name === 'Цвет') {
                return (
                   <StyledTableCell sx={{ width: el.width }} key={el.name}>
-                     {item.codeColor}
+                     {color.name}
                   </StyledTableCell>
                )
             }
@@ -144,7 +150,7 @@ export const TablesDetailItem = ({
                      }}
                      key={el.name}
                   >
-                     {item.price}
+                     {item.price.toLocaleString()}
                   </StyledTableCell>
                )
             }
@@ -153,25 +159,21 @@ export const TablesDetailItem = ({
       </StyledTableRow>
    )
 }
-const StyledTableRow = styled(TableRow)(() => ({
+const StyledTableRow = styled(TableRow)(({ hovered }) => ({
    width: '67.969vw',
    height: '4.75rem',
-   background: 'none',
    borderRadius: '0.375rem',
    transition: 'background 0.3s',
    boxSizing: 'border-box',
    display: 'flex',
-   alignItems: 'flex-start',
-   ': hover': {
-      background: 'rgba(144, 156, 181, 0.20)',
-   },
+   alignItems: 'center',
+   background: hovered === 'true' && 'rgba(144, 156, 181, 0.20)',
 }))
 const StyledTableCell = styled(TableCell)(() => ({
    fontFamily: 'Inter',
    fontStyle: 'normal',
    fontSize: '0.833vw',
    fontWeight: 500,
-   marginTop: '18px',
    lineHeight: 'normal',
    borderBottom: 'none',
    letterSpacing: '0.0625rem',
@@ -194,4 +196,5 @@ const ModelName = styled('p')`
 const Image = styled('img')`
    width: 4rem;
    height: 4rem;
+   object-fit: cover;
 `

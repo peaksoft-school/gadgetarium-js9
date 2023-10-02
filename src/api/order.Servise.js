@@ -16,3 +16,6 @@ export const deleteOrderInfoRequest = (deleteAll) => {
 export const getOrderAdminRequest = () => {
    return axiosInstance.get('/order')
 }
+export const putUserInfoRequest = (payload) => {
+   return axiosInstance.put(`/v1/user`, payload)
+}

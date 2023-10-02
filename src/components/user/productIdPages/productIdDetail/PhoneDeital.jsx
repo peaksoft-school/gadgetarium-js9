@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
 import { useNavigate } from 'react-router-dom'
-import FavoriteIcon from '@mui/icons-material/Favorite'
+import { ReactComponent as FavoriteIcon } from '../../../../assets/icons/favourites-icon.svg'
+import { ReactComponent as FilledFavoriteIcon } from '../../../../assets/icons/filled-favorite-icon.svg'
 import { ProductChracteristics } from './ProductChracter'
 import { ReactComponent as Delete } from '../../../../assets/icons/tools-for-site/delete-icon.svg'
 import { ReactComponent as Basket } from '../../../../assets/icons/basket-icon.svg'
@@ -17,6 +18,7 @@ import {
 import { useSnackbar } from '../../../../hooks/useSnackbar'
 import { getInfoPage } from '../../../../store/informationPhone/infoPageThunk'
 import { AuthorizationModal } from '../../AuthorizationModal'
+import { deleteProduct } from '../../../../store/admin.goods/admin.goods.thunk'
 
 export const PhoneDeital = () => {
    const {
@@ -85,7 +87,13 @@ export const PhoneDeital = () => {
          setChangePrice((prevChangePrice) => prevChangePrice + price)
       }
    }
-
+   const deleteHandler = () => {
+      dispatch(deleteProduct(subProductId))
+         .unwrap()
+         .then(() => {
+            navigate('/admin/goods')
+         })
+   }
    const postQuantityBasket = () => {
       if (isAuthorization) {
          const data = {
@@ -218,12 +226,15 @@ export const PhoneDeital = () => {
                   </BlockDiscount>
                   {role === 'USER' || role === 'GUEST' ? (
                      <BlockUi>
-                        <HeartStyle onClick={postFavoriteHandler}>
-                           <FavoriteIcon
-                              className={
-                                 favorite ? 'HeartIsRed' : 'HeartIsGray'
-                              }
-                           />
+                        <HeartStyle
+                           onClick={postFavoriteHandler}
+                           favorite={favorite}
+                        >
+                           {favorite ? (
+                              <FilledFavoriteIcon />
+                           ) : (
+                              <StyledFavoriteIcon />
+                           )}
                         </HeartStyle>
                         {inBasket ? (
                            <ButtonUiGreen
@@ -243,11 +254,18 @@ export const PhoneDeital = () => {
                      </BlockUi>
                   ) : (
                      <BlockUi>
-                        <HeartStyle>
+                        <HeartStyle onClick={deleteHandler}>
                            <DeleteIcon />
                         </HeartStyle>
-                        <ButtonUi variant="contained">
-                           <p>Редактировать</p>
+                        <ButtonUi
+                           variant="contained"
+                           onClick={() =>
+                              navigate(
+                                 `/admin/goods/edit-product/${subProductId}`
+                              )
+                           }
+                        >
+                           Редактировать
                         </ButtonUi>
                      </BlockUi>
                   )}
@@ -316,6 +334,7 @@ const Discount = styled('div')`
    justify-content: center;
    align-items: center;
    width: 2.25rem;
+   font-family: Inter;
    height: 2.25rem;
    border-radius: 100%;
    background-color: red;
@@ -387,14 +406,17 @@ const BlockUi = styled('div')`
    align-items: center;
    padding-top: 1.25rem;
 `
-const HeartStyle = styled('div')`
-   width: 48px;
+const HeartStyle = styled('button')`
+   width: 64px;
    height: 45px;
+   cursor: pointer;
    display: flex;
    justify-content: center;
    align-items: center;
-   border: 1px solid #909cb5;
-   border-radius: 10px;
+   background: none;
+   border: 1px solid
+      ${(props) => (props.favorite ? 'rgb(241, 0, 0)' : '#909cb5')};
+   border-radius: 4px;
 
    .HeartIsRed {
       color: red;
@@ -405,7 +427,11 @@ const HeartStyle = styled('div')`
       cursor: pointer;
    }
 `
-
+const StyledFavoriteIcon = styled(FavoriteIcon)`
+   path {
+      stroke: #909cb5;
+   }
+`
 const BasketStyle = styled(Basket)`
    position: relative;
    right: 0.5rem;
@@ -415,6 +441,7 @@ const BasketStyle = styled(Basket)`
 const ButtonUi = styled(Button)`
    width: 12.25rem;
    height: 2.8125rem;
+   font-family: Inter;
 `
 
 const ButtonUiGreen = styled(Button)`
@@ -484,7 +511,6 @@ const RatingBlockParent = styled('div')`
 `
 const Article = styled('div')`
    display: flex;
-   width: 11rem;
    justify-content: flex-end;
    p {
       font-weight: 500;

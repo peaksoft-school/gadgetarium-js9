@@ -4,12 +4,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
-import Typography from '@mui/material/Typography'
-import Box from '@mui/material/Box'
 import { getInfoPage } from '../../../../store/informationPhone/infoPageThunk'
 import { ContainerProductId } from '../Container'
 import { BreadCrumbs } from '../../../UI/breadCrumbs/BreadCrumbs'
 import { ProductDetailIsAdmin } from '../productDetailAdmin/ProductDetailadmin'
+import { Loading } from '../../../UI/loading/Loading'
 
 function CustomTabPanel(props) {
    const { children, value, index, ...other } = props
@@ -22,11 +21,7 @@ function CustomTabPanel(props) {
          aria-labelledby={`simple-tab-${index}`}
          {...other}
       >
-         {value === index && (
-            <Box sx={{ p: 3 }}>
-               <Typography>{children}</Typography>
-            </Box>
-         )}
+         {value === index && children}
       </div>
    )
 }
@@ -39,7 +34,9 @@ function a11yProps(index) {
 }
 
 export const PhonePage = () => {
-   const { infoPhone, subProductColor } = useSelector((state) => state.product)
+   const { infoPhone, subProductColor, isLoading } = useSelector(
+      (state) => state.product
+   )
    const { role } = useSelector((state) => state.auth)
 
    const { productId } = useParams()
@@ -63,10 +60,10 @@ export const PhonePage = () => {
    }
 
    const pathBreadCrumbs = labelBreadCrumbsData[infoPhone?.category]
-
    return (
       <Container>
-         <BreadCrumbsContainer>
+         {isLoading && <Loading />}
+         <WidthContainer roleadmin={role}>
             <BreadCrumbsBlock>
                <BreadCrumbs
                   breadcrumbs={[
@@ -81,10 +78,8 @@ export const PhonePage = () => {
                   ]}
                />
             </BreadCrumbsBlock>
-         </BreadCrumbsContainer>
-         <BrandNameBlock>
             <BrandName>{infoPhone?.brandName}</BrandName>
-         </BrandNameBlock>
+         </WidthContainer>
 
          {role === 'USER' || role === 'GUEST' ? (
             <ContainerProductId />
@@ -121,26 +116,18 @@ export const PhonePage = () => {
 }
 
 const Container = styled('div')`
-   .MuiBox-root {
-      padding: 0;
-   }
-   .MuiTab-root.Mui-selected.Mui-selected-style {
-      background-color: #384255;
-      color: #fff;
-   }
-
-   .MuiTabs-indicator {
-      display: none;
-   }
-
-   .MuiTabs-flexContainer {
-      display: flex;
-      gap: 0.75rem;
-   }
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   margin-bottom: 6.25vw;
+`
+const WidthContainer = styled('div')`
+   display: flex;
+   flex-direction: column;
+   width: ${(props) => (props.roleadmin === 'ADMIN' ? '89.583vw' : '79.888vw')};
 `
 
 const TabsStyle = styled(Tabs)`
-   width: 79.888vw;
    min-height: auto;
 `
 
@@ -154,14 +141,8 @@ const TabStyle = styled(Tab)`
    text-transform: none;
 `
 
-const BrandNameBlock = styled('div')`
-   display: flex;
-   justify-content: center;
-`
-
 const BrandName = styled('h1')`
-   width: 79.888vw;
-   color: #0a0a92;
+   color: #292929;
    font-family: Ubuntu;
    font-size: 30px;
    font-style: normal;
@@ -172,18 +153,41 @@ const BrandName = styled('h1')`
 `
 
 const BoxBlock = styled('div')`
-   display: flex;
-   justify-content: center;
    padding-bottom: 2.5rem;
-`
+   width: 89.583vw;
+   .MuiTab-root.Mui-selected {
+      background-color: #384255;
+      color: #fff;
+   }
+   .MuiTab-root {
+      height: 2.25rem;
+      border-radius: 4px;
+      color: #fff;
+      font-family: Inter;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+      color: #384255;
+      min-height: 0;
+      background-color: #e0e2e7;
+      padding: 0px 20px 0px 20px;
+      text-transform: none;
+   }
+   .MuiTabs-root {
+      min-height: auto;
+   }
 
-const BreadCrumbsContainer = styled('div')`
-   display: flex;
-   justify-content: center;
-   align-items: center;
+   .MuiTabs-indicator {
+      display: none;
+   }
+
+   .MuiTabs-flexContainer {
+      display: flex;
+      gap: 0.625vw;
+   }
 `
 const BreadCrumbsBlock = styled('div')`
    display: flex;
    align-items: center;
-   width: 79.888vw;
 `

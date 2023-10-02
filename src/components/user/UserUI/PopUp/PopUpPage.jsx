@@ -1,21 +1,16 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { styled } from '@mui/material'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { Carousel } from 'react-responsive-carousel'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import BackButton from '../../../UI/icon.button/back.forth.buttons/BackButton'
 import ForthButton from '../../../UI/icon.button/back.forth.buttons/ForthButton'
 import { ReactComponent as Cross } from '../../../../assets/icons/cross/big-cross-icon.svg'
-import { getInfoPage } from '../../../../store/informationPhone/infoPageThunk'
 
 export const PopUpPage = ({ handleClose }) => {
    const infoPhone = useSelector((state) => state.product.infoPhone)
-   const dispatch = useDispatch()
 
-   useEffect(() => {
-      dispatch(getInfoPage())
-   }, [])
    return (
       <>
          <BlockCross onClick={handleClose}>

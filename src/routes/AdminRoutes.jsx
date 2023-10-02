@@ -14,19 +14,19 @@ export const adminRoutes = [
       element: <AdminGoods />,
    },
    {
-      path: '/admin/edit-product/:subProductId',
+      path: '/admin/goods/edit-product/:subProductId',
       element: <EditProduct />,
    },
    {
-      path: '/admin/add-products-part-1',
+      path: '/admin/goods/add-products-part-1',
       element: <AddingAProduct />,
    },
    {
-      path: '/admin/add-products-part-2',
+      path: '/admin/goods/add-products-part-2',
       element: <QuantityOfGoodsAndPrice />,
    },
    {
-      path: '/admin/add-products-part-3',
+      path: '/admin/goods/add-products-part-3',
       element: <FinishingTouchAddingProduct />,
    },
    {
@@ -34,7 +34,7 @@ export const adminRoutes = [
       element: <ReviewsAndRating />,
    },
    {
-      path: '/admin/product/:productId',
+      path: '/admin/goods/product/:productId',
       element: <PhonePage />,
    },
    {
@@ -42,7 +42,7 @@ export const adminRoutes = [
       element: <AdminOrdersContainer />,
    },
    {
-      path: '/admin/:orderId/paymentIsOrder/:name',
+      path: '/admin/orders/:orderId/paymentIsOrder/:name',
       element: <PaymentPage />,
    },
 ]

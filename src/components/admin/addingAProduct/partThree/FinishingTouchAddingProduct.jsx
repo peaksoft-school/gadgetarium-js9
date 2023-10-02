@@ -186,7 +186,7 @@ export const FinishingTouchAddingProduct = memo(() => {
    }
 
    const onClose = () => {
-      navigate('/admin/add-products-part-1')
+      navigate('/admin/goods/add-products-part-1')
       dispatch(closeNavigatePartOne())
       setValidForm(false)
    }
@@ -229,7 +229,7 @@ export const FinishingTouchAddingProduct = memo(() => {
                <div className="bread">
                   <BreadCrumbs
                      breadcrumbs={[
-                        { path: '/admin', label: 'Товары' },
+                        { path: '/admin/goods', label: 'Товары' },
 
                         { label: 'Описание и обзор' },
                      ]}

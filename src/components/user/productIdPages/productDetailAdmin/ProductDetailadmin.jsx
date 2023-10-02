@@ -7,7 +7,7 @@ import { getByIdProductDetail } from '../../../../store/informationPhone/infoPag
 export const ProductDetailIsAdmin = ({ productId }) => {
    const dispatch = useDispatch()
    useEffect(() => {
-      dispatch(getByIdProductDetail(productId))
+      dispatch(getByIdProductDetail({ productId }))
    }, [])
    return (
       <Container>
@@ -24,5 +24,5 @@ const Container = styled('div')`
    justify-content: center;
 `
 const ContainerChilde = styled('div')`
-   width: 79.888vw;
+   width: 89.583vw;
 `

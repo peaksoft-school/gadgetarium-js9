@@ -41,7 +41,7 @@ export const Rating = ({ subProductId }) => {
             <BoxInfoRating>
                <ContainerGeneralRating>
                   <BoxGeneralRating>
-                     <RaitingHeader>{rating?.toFixed(1)}</RaitingHeader>
+                     <RaitingHeader>{rating?.toFixed(0)}</RaitingHeader>
                      <RatingMuiStyle
                         value={rating || 0}
                         readOnly

@@ -72,8 +72,12 @@ export const Header = ({ favorite, basket, compare }) => {
    function onComeBack() {
       navigate('./')
    }
+   const scrollToTop = () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+   }
    const navigateToFavorite = () => {
       if (isAuthorization) {
+         scrollToTop()
          navigate('/favorite')
       } else {
          setOpenModal(true)
@@ -91,6 +95,7 @@ export const Header = ({ favorite, basket, compare }) => {
    }
    const navigateToCompare = () => {
       if (isAuthorization) {
+         scrollToTop()
          navigate('/compare')
       } else {
          setOpenModal(true)
@@ -118,6 +123,7 @@ export const Header = ({ favorite, basket, compare }) => {
    }
    const navigateToBasket = () => {
       if (isAuthorization) {
+         scrollToTop()
          navigate('/basket')
       } else {
          setOpenModal(true)
@@ -171,14 +177,12 @@ export const Header = ({ favorite, basket, compare }) => {
                                        <NavLinkParagraph to="/personalArea/favorites">
                                           Избранное
                                        </NavLinkParagraph>
-                                       <NavLinkParagraph>
+                                       <NavLinkParagraph to="/personalArea/profile">
                                           Профиль
                                        </NavLinkParagraph>
-                                       <NavLinkParagraph
-                                          onClick={toggleExitModalHandler}
-                                       >
+                                       <p onClick={toggleExitModalHandler}>
                                           Выйти
-                                       </NavLinkParagraph>
+                                       </p>
                                     </Select2>
                                  </div>
                               )}
@@ -204,12 +208,12 @@ export const Header = ({ favorite, basket, compare }) => {
                               </Select>
                            </div>
                         )}
-                        {img !== undefined ? (
+                        {!img ? (
                            <button>
                               <User />
                            </button>
                         ) : (
-                           img
+                           <AvatarImage src={img} />
                         )}
                         <StyledModal
                            open={exitModal}
@@ -397,6 +401,12 @@ const StyledButton = styled(Button)`
       color: white;
       background: ${(props) => props.backgroundactive};
    }
+`
+const AvatarImage = styled('img')`
+   width: 24px;
+   height: 24px;
+   border-radius: 100%;
+   cursor: pointer;
 `
 const PositionContainer = styled('div')`
    p {
@@ -800,8 +810,8 @@ const SelectParagraph2 = styled('p')`
 `
 const Select2 = styled('div')`
    position: absolute;
-   top: 1.5rem;
    left: -10rem;
+   top: 1.3rem;
    width: 10.8125rem;
    border-radius: 0.25rem;
    background: #fff;

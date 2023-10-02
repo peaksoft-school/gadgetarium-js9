@@ -9,16 +9,15 @@ import { BreadCrumbs } from '../../../UI/breadCrumbs/BreadCrumbs'
 export const AboutShop = () => {
    return (
       <Main>
-         <BreadCrumbsBox>
-            <BreadCrumbs
-               breadcrumbs={[
-                  { path: '/', label: 'Главная' },
-                  { label: 'O магазине' },
-               ]}
-            />
-         </BreadCrumbsBox>
-
          <BoxInfo>
+            <BreadCrumbsContainer>
+               <BreadCrumbs
+                  breadcrumbs={[
+                     { path: '/', label: 'Главная' },
+                     { label: 'O магазине' },
+                  ]}
+               />
+            </BreadCrumbsContainer>
             <Text>O магазине</Text>
          </BoxInfo>
          <div>
@@ -39,10 +38,6 @@ export const AboutShop = () => {
    )
 }
 
-const BreadCrumbsBox = styled('div')`
-   margin-left: 10.7rem;
-`
-
 const Text = styled('p')(({ theme }) => ({
    fontFamily: theme.typography.fontFamily,
    color: theme.palette.primary.mainContrastText,
@@ -60,7 +55,9 @@ const BoxInfo = styled('div')(() => ({
    flexDirection: 'column',
    alignItems: 'center',
 }))
-
+const BreadCrumbsContainer = styled('div')`
+   width: 79.688vw;
+`
 const Main = styled('main')(({ theme }) => ({
    fontFamily: theme.typography.mainFontFamily,
 

@@ -38,7 +38,7 @@ export const QuantityOfGoodsAndPrice = memo(() => {
       const containsFalse = rowTableValidBool.includes(false)
 
       if (!containsFalse) {
-         navigate('/admin/add-products-part-3')
+         navigate('/admin/goods/add-products-part-3')
          setIsErrorValid(false)
       } else {
          setIsErrorValid(true)
@@ -97,7 +97,7 @@ export const QuantityOfGoodsAndPrice = memo(() => {
          <WidthContainer>
             <BreadCrumbs
                breadcrumbs={[
-                  { path: '/admin', label: 'Товары' },
+                  { path: '/admin/goods', label: 'Товары' },
 
                   { label: 'Установление цены и количества' },
                ]}

@@ -129,12 +129,20 @@ export function AdminOrders() {
                <Calendar
                   value={dateStart === undefined ? null : dayjs(dateStart)}
                   onChange={onChangeCalendar}
-                  placeholder="от"
+                  fontSize="14px"
+                  marginTop="-9px"
+                  height="35px"
+                  placeholder="От"
+                  width="139px"
                />
                <Calendar
                   value={dateEnd === undefined ? null : dayjs(dateEnd)}
                   onChange={onChangeCalendarEnd}
-                  placeholder="до"
+                  fontSize="14px"
+                  marginTop="-9px"
+                  height="35px"
+                  placeholder="До"
+                  width="139px"
                />
             </CalendarBlock>
             <FindeOrders>Найдено {countOfProducts} заказов</FindeOrders>
@@ -180,7 +188,11 @@ export function AdminOrders() {
                         <Pagination
                            color="primary"
                            onChange={getPage}
-                           count={Math.ceil(countOfProducts / 7)}
+                           count={
+                              countOfProducts
+                                 ? Math.ceil(countOfProducts / 7)
+                                 : 0
+                           }
                         />
                      </Stack>
                   </StackStyle>
@@ -206,13 +218,15 @@ const Container = styled('div')`
       color: #fff;
    }
    .MuiTab-root {
-      height: 2.125rem;
+      height: 2.25rem;
       border-radius: 4px;
       color: #384255;
+      font-family: Inter;
       min-height: 0;
       background-color: #e0e2e7;
       padding: 0px 20px 0px 20px;
       text-transform: none;
+      font-weight: 600;
    }
    .MuiTabs-root {
       min-height: auto;
@@ -290,7 +304,7 @@ const FindeOrders = styled('p')`
    font-family: Inter;
    font-size: 0.875rem;
    font-weight: 400;
-   margin-top: 2.5rem;
+   margin-top: 3.125vw;
 `
 const SearchForm = styled('form')`
    width: 29.115vw;

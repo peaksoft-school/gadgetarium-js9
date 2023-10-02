@@ -1,10 +1,10 @@
 import { Rating, styled } from '@mui/material'
 import { Add, Remove } from '@mui/icons-material'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import CheckboxInput from '../../UI/icon.input/CheckboxInput'
 import { ReactComponent as FavoriteButton } from '../../../assets/icons/favourites-icon.svg'
 import { ReactComponent as FilledFavoriteButton } from '../../../assets/icons/filled-favorite-icon.svg'
-
 import { ReactComponent as CrossButton } from '../../../assets/icons/cross/small-cross-icon.svg'
 import { basketActions } from '../../../store/basket/basket.slice'
 import {
@@ -28,7 +28,7 @@ export const BasketCard = ({
    favorite,
 }) => {
    const dispatch = useDispatch()
-
+   const navigate = useNavigate()
    return (
       <Container>
          <StyledCheckboxInput
@@ -67,7 +67,9 @@ export const BasketCard = ({
                   <GoodCode>Код товара: {articleNumber}</GoodCode>
                   <FavoriteDeleteContainer>
                      {favorite ? (
-                        <ToolFavoriteAndDelete cursor="false">
+                        <ToolFavoriteAndDelete
+                           onClick={() => navigate('/favorite')}
+                        >
                            <StyledFilledFavoriteButton />В избранном
                         </ToolFavoriteAndDelete>
                      ) : (
@@ -125,7 +127,7 @@ const ToolFavoriteAndDelete = styled('p')`
    line-height: 140%;
    display: flex;
    align-items: center;
-   cursor: ${(props) => props.cursor === 'true' && 'pointer'};
+   cursor: pointer;
    margin: 0;
 `
 const GoodCode = styled('div')`

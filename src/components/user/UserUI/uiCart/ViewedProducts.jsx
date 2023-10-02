@@ -22,7 +22,7 @@ export const ViewedProducts = () => {
       const endIndex = startIndex + itemsPerPage
       return productViewed
          .slice(startIndex, endIndex)
-         .map((el) => <SecondProductCard key={el} el={el} />)
+         .map((el) => <SecondProductCard key={el.subProductId} el={el} />)
    }
 
    const handlePageChange = (event, newPage) => {

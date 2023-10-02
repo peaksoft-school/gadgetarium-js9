@@ -176,7 +176,7 @@ export const AdminGoods = () => {
                            backgroundhover="#CB11AB"
                            backgroundactive="#E313BF"
                            onClick={() =>
-                              navigate('/admin/add-products-part-1')
+                              navigate('/admin/goods/add-products-part-1')
                            }
                         >
                            Добавить товар
@@ -225,7 +225,7 @@ export const AdminGoods = () => {
                         fontSize="14px"
                         height="35px"
                         placeholder="От"
-                        width="100%"
+                        width="139px"
                      />
                      <Calendar
                         onChange={getEndDate}
@@ -235,56 +235,59 @@ export const AdminGoods = () => {
                         marginTop="-9px"
                         height="35px"
                         placeholder="До"
-                        width="100%"
+                        width="139px"
                      />
                      <Tools onClick={deleteAllHandler}>
                         <StyledDeleteButton />
                         Удалить
                      </Tools>
                   </CalendarContainer>
-                  {countOfProducts === 0 ? (
-                     <NoGoods>Здесь нет товаров!</NoGoods>
-                  ) : (
-                     <TableContainer>
-                        <SortAndCountOfProductsContainer>
-                           <CountOfProducts>
-                              Найдено {countOfProducts} товаров
-                           </CountOfProducts>
-                           <PositionContainer onMouseLeave={closeSortHandler}>
-                              <Sort onClick={toggleSortHandler}>
-                                 Сортировать
-                                 <StyledArrowBottom
-                                    style={{
-                                       transform: openSort
-                                          ? 'rotate(180deg)'
-                                          : 'rotate(0deg)',
-                                    }}
-                                 />
-                              </Sort>
-                              {openSort && (
-                                 <SortPopUp
-                                    sort={sort}
-                                    filter={filter}
-                                    getFilterType={getFilterType}
-                                    getSortType={getSortType}
-                                    onClick={toggleSortHandler}
-                                    openSort={openSort}
-                                 />
-                              )}
-                           </PositionContainer>
-                        </SortAndCountOfProductsContainer>
-                        <AdminTable
-                           indexForTable={0}
-                           itemTableArray={filteredProducts}
-                        />
-                        <PaginationContainer>
-                           <Pagination
-                              count={Math.ceil(countOfProducts / 7)}
-                              onChange={getPage}
+
+                  <TableContainer>
+                     <SortAndCountOfProductsContainer>
+                        <CountOfProducts>
+                           Найдено {countOfProducts} товаров
+                        </CountOfProducts>
+                        <PositionContainer onMouseLeave={closeSortHandler}>
+                           <Sort onClick={toggleSortHandler}>
+                              Сортировать
+                              <StyledArrowBottom
+                                 style={{
+                                    transform: openSort
+                                       ? 'rotate(180deg)'
+                                       : 'rotate(0deg)',
+                                 }}
+                              />
+                           </Sort>
+                           {openSort && (
+                              <SortPopUp
+                                 sort={sort}
+                                 filter={filter}
+                                 getFilterType={getFilterType}
+                                 getSortType={getSortType}
+                                 onClick={toggleSortHandler}
+                                 openSort={openSort}
+                              />
+                           )}
+                        </PositionContainer>
+                     </SortAndCountOfProductsContainer>
+                     {countOfProducts === 0 ? (
+                        <NoGoods>Здесь нет товаров!</NoGoods>
+                     ) : (
+                        <>
+                           <AdminTable
+                              indexForTable={0}
+                              itemTableArray={filteredProducts}
                            />
-                        </PaginationContainer>
-                     </TableContainer>
-                  )}
+                           <PaginationContainer>
+                              <Pagination
+                                 count={Math.ceil(countOfProducts / 7)}
+                                 onChange={getPage}
+                              />
+                           </PaginationContainer>
+                        </>
+                     )}
+                  </TableContainer>
                </ProductsToolContainer>
                <Infographic />
             </WidthContainer>
@@ -380,7 +383,6 @@ const TableContainer = styled('div')`
 const CalendarContainer = styled('div')`
    display: flex;
    gap: 1.042vw;
-   width: 388px;
    margin-bottom: 3.125vw;
 `
 const StyledArrowBottom = styled(ArrowBottom)`

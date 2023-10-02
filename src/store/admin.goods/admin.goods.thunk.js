@@ -37,6 +37,7 @@ export const postS3File = createAsyncThunk(
          if (getSmartphonePhoto) {
             getSmartphonePhoto(response.data)
          }
+
          return null
       } catch (error) {
          return rejectWithValue(error)
