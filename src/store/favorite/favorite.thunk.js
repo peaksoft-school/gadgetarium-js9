@@ -39,7 +39,10 @@ export const deleteFavoriteItems = createAsyncThunk(
 )
 export const postFavoriteItem = createAsyncThunk(
    'favorite/postFavoriteItems',
-   async ({ id, favoriteState, pageSize }, { rejectWithValue, dispatch }) => {
+   async (
+      { id, favoriteState, pageSize, sendSelectedCategoriesHandler },
+      { rejectWithValue, dispatch }
+   ) => {
       try {
          await postFavoriteItemRequest(id)
          if (pageSize) {
@@ -54,6 +57,9 @@ export const postFavoriteItem = createAsyncThunk(
          }
          dispatch(getFavoriteItems())
          dispatch(getBasket())
+         if (sendSelectedCategoriesHandler) {
+            sendSelectedCategoriesHandler()
+         }
          if (favoriteState) {
             snackbarHandler({
                message: 'Товар удален из избранных',

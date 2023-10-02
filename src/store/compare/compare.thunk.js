@@ -54,7 +54,7 @@ export const getCountProduct = createAsyncThunk(
 export const postCompareProduct = createAsyncThunk(
    'compare/postCompareProduct',
    async (
-      { id, addOrDelete, pageSize, productName },
+      { id, addOrDelete, pageSize, productName, sendSelectedCategoriesHandler },
       { rejectWithValue, dispatch }
    ) => {
       try {
@@ -69,6 +69,9 @@ export const postCompareProduct = createAsyncThunk(
             dispatch(getNovelities({ page: 1, pageSize }))
             dispatch(getRecommend({ page: 1, pageSize }))
             dispatch(getStock({ page: 1, pageSize }))
+         }
+         if (sendSelectedCategoriesHandler) {
+            sendSelectedCategoriesHandler()
          }
          if (!addOrDelete) {
             snackbarHandler({

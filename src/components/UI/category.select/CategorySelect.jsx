@@ -14,9 +14,11 @@ const Category = ({
    open,
    index,
    id,
+   tablet = false,
 }) => {
    const StyledIcon = Icon
-      ? styled(Icon)(({ open }) => ({
+      ? styled(Icon)(({ open, tablet }) => ({
+           transform: tablet ? 'rotate(90deg)' : null,
            path: {
               transition: 'fill 0.3s, stroke 0.3s',
               fill: open ? 'white' : '#91969E',
@@ -42,7 +44,7 @@ const Category = ({
             aria-controls="category-menu"
             aria-haspopup="true"
          >
-            {Icon && <StyledIcon open={open} />}
+            {Icon && <StyledIcon open={open} tablet={tablet} />}
             <Container>
                {children}
                <StyledArrow open={open} />

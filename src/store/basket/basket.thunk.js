@@ -28,7 +28,10 @@ export const getBasket = createAsyncThunk(
 )
 export const postBasketById = createAsyncThunk(
    'basket/postBasketById',
-   async ({ id, needSnackbar, pageSize }, { rejectWithValue, dispatch }) => {
+   async (
+      { id, needSnackbar, pageSize, sendSelectedCategoriesHandler },
+      { rejectWithValue, dispatch }
+   ) => {
       try {
          await postBasketByIdRequest(id)
          if (pageSize) {
@@ -40,6 +43,9 @@ export const postBasketById = createAsyncThunk(
             )
             dispatch(getRecommend({ page: 1, pageSize }))
             dispatch(getStock({ page: 1, pageSize }))
+         }
+         if (sendSelectedCategoriesHandler) {
+            sendSelectedCategoriesHandler()
          }
          if (needSnackbar) {
             snackbarHandler({

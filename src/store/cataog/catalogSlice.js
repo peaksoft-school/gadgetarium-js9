@@ -86,8 +86,6 @@ const initialState = {
    waterProofString: '',
    waterProof: smartWaterProof,
 
-   // [{ title: 'TRUE', id: 1, checked: false }, { title: 'FALSE', id: 2, checked: false },]
-
    tabletBatteryCapacityArray: [],
    tabletBattery: tabletBatteryCapacity,
 
@@ -106,9 +104,11 @@ export const categorySlice = createSlice({
       changeInfoPage: (state, action) => {
          return { ...state, subCategoriesId: action.payload.id }
       },
-      reset: (state) => {
+      resetAll: (state) => {
+         const update = state?.items?.map((el) => ({ ...el, checked: false }))
          return {
             ...state,
+            items: update,
             itemsColorsId: [],
             selectedCategories: [],
             allCate: true,
@@ -159,7 +159,25 @@ export const categorySlice = createSlice({
          })
          state.itemsColorsId = itemsColorsId
       },
-
+      addSelectedCategoriesTrue: (state, action) => {
+         if (
+            state.selectedCategories.some((el) => el.id === action.payload.id)
+         ) {
+            return state
+         }
+         if (
+            !state.selectedCategories.some((el) => el.id === action.payload.id)
+         ) {
+            return {
+               ...state,
+               selectedCategories: [
+                  ...state.selectedCategories,
+                  action.payload,
+               ],
+            }
+         }
+         return state
+      },
       addSelectedCategories: (state, action) => {
          if (
             state.selectedCategories.some((el) => el.id === action.payload.id)
@@ -196,7 +214,6 @@ export const categorySlice = createSlice({
       setShowMore: (state, action) => {
          return { ...state, showMore: action.payload }
       },
-
       toggleCheckedHandler: (state, action) => {
          const updatedItems = state.items.map((el) => {
             if (el.id === action.payload) {
@@ -207,6 +224,15 @@ export const categorySlice = createSlice({
          return { ...state, items: updatedItems }
       },
 
+      itemsCheckedHandler: (state, action) => {
+         const updatedItems = state.items.map((el) => {
+            if (el.id === action.payload) {
+               return { ...el, checked: true }
+            }
+            return el
+         })
+         return { ...state, items: updatedItems }
+      },
       memoryPhone: (state) => {
          const memory = []
          state.memoryCapacity.map((el) => {

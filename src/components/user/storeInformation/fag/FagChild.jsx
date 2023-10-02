@@ -49,7 +49,7 @@ const Container = styled('div')`
    border-radius: 0.125rem;
    margin-top: 1.25rem;
    background-color: white;
-
+   transition: transform 0.3s ease;
    .ul {
       display: flex;
       flex-direction: column;
