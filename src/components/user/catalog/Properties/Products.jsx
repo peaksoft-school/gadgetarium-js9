@@ -6,6 +6,7 @@ import { sendSelectedCategories } from '../../../../store/cataog/categoryThunk'
 import { CardPhone } from '../../card/CardPhone'
 import sammyShopping from '../../../../assets/images/sammy-shopping.png'
 import { ProductCard } from '../../product.card/ProductCard'
+// import { categoryActions } from '../../../../store/cataog/catalogSlice'
 
 export const Products = () => {
    const {
@@ -71,35 +72,9 @@ export const Products = () => {
       }
       dispatch(sendSelectedCategories(dataCategory))
    }
+
    useEffect(() => {
-      const dataCategory = {
-         id: brandsId,
-         pageSize,
-         pageNumber: 1,
-         gadgetType: Object.values(category),
-         minValue,
-         maxValue,
-         memory,
-         memoryRam,
-         simPhoneArray,
-         processorArray,
-         screenArray,
-         puprosesArray,
-         screenSizeArray,
-         itemsColorsId,
-         interfacesArray,
-         shapesArray,
-         materialBraceletsArray,
-         materialHousingArray,
-         floorArray,
-         waterProofString,
-         displayDiagonalArray,
-         videoMemoryArray,
-         tabletBatteryCapacityArray,
-         sort,
-         subCategoriesId,
-      }
-      dispatch(sendSelectedCategories(dataCategory))
+      sendSelectedCategoriesHandler()
    }, [
       items,
       category,

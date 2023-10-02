@@ -1,6 +1,5 @@
-import React, { memo, useEffect } from 'react'
+import React, { memo } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getCategory } from '../../../../store/cataog/categoryThunk'
 import { categoryActions } from '../../../../store/cataog/catalogSlice'
 import { CatalogSelect } from '../../../UI/CatalogSelect'
 
@@ -10,14 +9,8 @@ export const Category = memo(() => {
 
    const toggleCheckedHandler = (categoryId, category) => {
       dispatch(categoryActions.toggleCheckedHandler(categoryId))
-      dispatch(categoryActions.addBrandsId())
       dispatch(categoryActions.addSelectedCategories(category))
    }
-
-   useEffect(() => {
-      dispatch(getCategory())
-   }, [])
-
    return (
       <CatalogSelect
          title="Категория"

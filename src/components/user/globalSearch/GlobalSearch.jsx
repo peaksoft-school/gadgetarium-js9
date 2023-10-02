@@ -16,9 +16,12 @@ export const GlobalSearch = ({ toggleInputFocused }) => {
    }
    const categoryHandler = (value) => {
       navigate(`/category/${value}`)
+      dispatch(categoryActions.resetAll())
       toggleInputFocused(false)
    }
-   // const subProductHandler = (value) => {}
+   const subProductHandler = (value) => {
+      console.log('value: ', value)
+   }
    const length =
       globalSearch.brandList.length +
       globalSearch.categoryList.length +
@@ -53,7 +56,7 @@ export const GlobalSearch = ({ toggleInputFocused }) => {
          {globalSearch.subProductResponses?.map((el) => {
             return (
                <GlobalSearchItem
-                  // onClick={() => subProductHandler(el.subProductId)}
+                  onClick={() => subProductHandler(el.subProductId)}
                   key={el.subProductId}
                >
                   <ImageTitleContainer>
