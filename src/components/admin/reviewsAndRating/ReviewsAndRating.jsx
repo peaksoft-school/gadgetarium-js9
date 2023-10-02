@@ -49,12 +49,6 @@ export const ReviewsAndRating = () => {
 
    const a11yPropsValid = count ? 2 : 1
 
-   const getReviewsHandler = () => {
-      dispatch(getAllReviews(page))
-      dispatch(getUnansweredReviews(page))
-      dispatch(getAnsweredReviews(page))
-   }
-
    return (
       <>
          {isLoading && <Loading />}
@@ -134,9 +128,6 @@ export const ReviewsAndRating = () => {
                                                          viewed={item.viewed}
                                                          answer={item.answer}
                                                          page={page}
-                                                         getReviewsHandler={
-                                                            getReviewsHandler
-                                                         }
                                                       />
                                                    </div>
                                                 )

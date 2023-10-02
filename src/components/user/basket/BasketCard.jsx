@@ -13,6 +13,7 @@ import {
    postBasketById,
 } from '../../../store/basket/basket.thunk'
 import { postFavoriteItem } from '../../../store/favorite/favorite.thunk'
+import { useSnackbar } from '../../../hooks/useSnackbar'
 
 export const BasketCard = ({
    image,
@@ -29,6 +30,19 @@ export const BasketCard = ({
 }) => {
    const dispatch = useDispatch()
    const navigate = useNavigate()
+   const { snackbarHandler } = useSnackbar()
+
+   const onPostBasketByIdHandler = () => {
+      if (theNumberOfOrders <= quantity - 1) {
+         dispatch(postBasketById({ id, needSnackbar: false }))
+      } else {
+         snackbarHandler({
+            message: `В наличии только ${quantity} штук`,
+            type: 'error',
+         })
+      }
+   }
+
    return (
       <Container>
          <StyledCheckboxInput
@@ -53,11 +67,7 @@ export const BasketCard = ({
                         <Remove />
                      </ToolButton>
                      <Count>{theNumberOfOrders}</Count>
-                     <ToolButton
-                        onClick={() =>
-                           dispatch(postBasketById({ id, needSnackbar: false }))
-                        }
-                     >
+                     <ToolButton onClick={onPostBasketByIdHandler}>
                         <Add />
                      </ToolButton>
                   </DecrementAndIncrementContainer>

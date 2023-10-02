@@ -127,7 +127,7 @@ export const FinishingTouchAddingProduct = memo(() => {
             description: formik.values.description,
          })
       )
-   }, [pathPdf, validData])
+   }, [pathPdf, validData, formik.values.description])
 
    useEffect(() => {
       if (validPDF === true) {

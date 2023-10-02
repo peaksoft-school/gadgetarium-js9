@@ -22,9 +22,9 @@ const breadcrumbs = [{ path: '/', label: 'Главная' }, { label: 'Корз�
 
 export const Basket = React.memo(() => {
    const dispatch = useDispatch()
-   const { basket, basketResponses, isCheckedAll, basketIdsArray, isLoading } =
+   const { basket, basketResponses, isCheckedAll, basketIdsArray } =
       useSelector((state) => state.basket)
-   const { isLoadingFavorite } = useSelector((state) => state.favorite)
+   // const { isLoadingFavorite } = useSelector((state) => state.favorite)
    const paymentData = useSelector((state) => state.payment)
    const { snackbarHandler } = useSnackbar()
    const navigate = useNavigate()
@@ -73,9 +73,8 @@ export const Basket = React.memo(() => {
 
    return (
       <>
-         {isLoading && <Loading />}
+         {/* {isLoading && <Loading />} */}
          {paymentData.isLoading && <Loading />}
-         {isLoadingFavorite && <Loading />}
          {paymentData.openSuccessModal && <FinishModal />}
 
          <Container>

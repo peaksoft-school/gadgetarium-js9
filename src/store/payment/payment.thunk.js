@@ -4,6 +4,7 @@ import {
    postOrderUserDataRequest,
    postPaymentRequest,
 } from '../../api/payment.service'
+import { deleteAllBasketGoods } from '../basket/basket.thunk'
 
 export const getUserData = createAsyncThunk(
    'get/getUserData',
@@ -20,9 +21,11 @@ export const getUserData = createAsyncThunk(
 
 export const postOrderUserData = createAsyncThunk(
    'post/postOrderUserData',
-   async (payload, { rejectWithValue }) => {
+   async (payload, { dispatch, rejectWithValue }) => {
       try {
          const response = await postOrderUserDataRequest(payload)
+
+         dispatch(deleteAllBasketGoods(payload.subProductIds))
 
          return response.data
       } catch (error) {

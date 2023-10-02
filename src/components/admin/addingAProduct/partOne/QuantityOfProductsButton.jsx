@@ -49,9 +49,9 @@ export const QuantityOfProductsButton = ({
                title={
                   <Button
                      variant="outlined"
-                     backgroundColor="#fff"
+                     backgroundcolor="#fff"
                      padding="0"
-                     backgroundHover="#CB11AB"
+                     backgroundhover="#CB11AB"
                      onClick={onDeleteSubProductHandler}
                   >
                      Delete

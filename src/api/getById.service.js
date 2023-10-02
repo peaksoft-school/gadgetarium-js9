@@ -43,7 +43,9 @@ export const putAdminReviewsRequest = (data) => {
 }
 
 export const getDownloadPdfFilesRequest = (productId) => {
-   return axiosInstance.get(`/v1/products/downloadPdf/${productId}`)
+   return axiosInstance.get(`/v1/products/downloadPdf/${productId}`, {
+      responseType: 'blob',
+   })
 }
 
 export const postViewedProductRequest = (subProductIdId) => {
