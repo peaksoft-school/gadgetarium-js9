@@ -89,9 +89,11 @@ export const updateViewReviewsId = createAsyncThunk(
 
 export const postAdminReplyCommentsReviews = createAsyncThunk(
    'post/postAdminReplyCommentsReviews',
-   async (payload, { rejectWithValue }) => {
+   async ({ data, page }, { dispatch, rejectWithValue }) => {
       try {
-         const response = await postAdminReplyCommentsReviewsRequest(payload)
+         const response = await postAdminReplyCommentsReviewsRequest(data)
+
+         dispatch(getUnansweredReviews(page))
 
          return response.data
       } catch (error) {

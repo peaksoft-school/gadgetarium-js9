@@ -617,6 +617,16 @@ export const addProductSlice = createSlice({
             ),
          }
       },
+
+      collectorFinishingProductData(state, { payload }) {
+         return {
+            ...state,
+            resultAddProductData: {
+               ...state.resultAddProductData,
+               description: payload,
+            },
+         }
+      },
    },
    extraReducers: (builder) => {
       builder.addCase(getAllCategory.fulfilled, (state, { payload }) => {
@@ -656,7 +666,7 @@ export const addProductSlice = createSlice({
          .addCase(postFileImg.fulfilled, (state, { payload }) => {
             const updatePayloadSubProductRequests =
                payload?.subProductRequests?.map((subProduct) => {
-                  const { id, ...rest } = subProduct
+                  const { id, valid, ...rest } = subProduct
                   return rest
                })
 
@@ -721,4 +731,6 @@ export const {
 
    setRowValidation,
    rowTableValidBoolean,
+
+   collectorFinishingProductData,
 } = addProductSlice.actions

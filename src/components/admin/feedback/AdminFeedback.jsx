@@ -72,8 +72,7 @@ const AdminFeedback = ({
       }
 
       if (value === '') {
-         dispatch(postAdminReplyCommentsReviews(data))
-         getReviewsHandler()
+         dispatch(postAdminReplyCommentsReviews({ data, page }))
       }
 
       setAdminAnswer(temporaryAnswer)

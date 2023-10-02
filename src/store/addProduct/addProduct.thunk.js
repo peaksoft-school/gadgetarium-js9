@@ -133,12 +133,14 @@ export const postAddProduct = createAsyncThunk(
       { dispatch, rejectWithValue }
    ) => {
       try {
-         await postAddProductRequest(resultAddProductData)
+         const response = await postAddProductRequest(resultAddProductData)
          navigate('/admin/goods')
 
          dispatch(clear())
+
+         return response.data
       } catch (error) {
-         rejectWithValue(error)
+         return rejectWithValue(error)
       }
    }
 )

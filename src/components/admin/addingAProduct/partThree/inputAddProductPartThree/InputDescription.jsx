@@ -1,17 +1,21 @@
 import { EditorProvider } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { styled } from '@mui/material'
 import Underline from '@tiptap/extension-underline'
 import { MenuBar } from './MenuBarInputDescription'
+import { collectorFinishingProductData } from '../../../../../store/addProduct/addProductPartOne.slice'
 
 const content = '<div></div>'
 
 const extensions = [StarterKit, Underline]
 
 export const InputDescription = ({ formik, validForm }) => {
+   const dispatch = useDispatch()
    const [placeholder, setPlaceholder] = useState(false)
    const [value, setValue] = useState('')
+   const { newProduct } = useSelector((state) => state.addProduct)
 
    const onCollectorValue = (e) => {
       setValue(e)
@@ -23,6 +27,8 @@ export const InputDescription = ({ formik, validForm }) => {
 
    const onBlurHandler = () => {
       setPlaceholder(false)
+
+      dispatch(collectorFinishingProductData(newProduct.description))
    }
 
    const returnBoolHandler = placeholder === false && value === ''
