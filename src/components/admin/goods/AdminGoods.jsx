@@ -276,6 +276,7 @@ export const AdminGoods = () => {
                      ) : (
                         <>
                            <AdminTable
+                              onClick={getAllFilteredProductsHandler}
                               indexForTable={0}
                               itemTableArray={filteredProducts}
                            />

@@ -18,7 +18,7 @@ export const EditProduct = () => {
    const { subProductId } = useParams()
    const { isLoading } = useSelector((state) => state.editProduct)
    const [breadcrumbs, setBreadCrumbs] = useState([
-      { path: '/admin', label: 'Товары' },
+      { path: '/admin/goods', label: 'Товары' },
 
       { label: 'Редактирование товара' },
    ])

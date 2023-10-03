@@ -95,7 +95,7 @@ export const dataProductSmartphones = {
 export const dataProductNotebooks = {
    processorNotebooks: [
       { id: 'INTEL_CORE_I3', name: 'Intel Core i3' },
-      { id: 'INTEL_ddd_CORE I5', name: 'Intel Core i5' },
+      { id: 'INTEL_CORE_I5', name: 'Intel Core i5' },
       { id: 'INTEL_CORE_I7', name: 'Intel Core i7' },
       { id: 'INTEL_CORE_I9', name: 'Intel Core I9' },
       { id: 'INTEL_CELERON', name: 'Intel Celeron' },
@@ -104,7 +104,7 @@ export const dataProductNotebooks = {
       { id: 'INTEL_QUAD_CORE', name: 'Intel Quad Core' },
       { id: 'INTEL_DUAL_CORE', name: 'Intel Dual Core' },
       { id: 'AMD_RYZEN_3_3250U', name: 'AMD Ryzen 3 3250U' },
-      { id: 'INTEL_CORE_I7-8565U', name: 'Intel Core i7-8565U' },
+      { id: 'INTEL_CORE_I7_8565U', name: 'Intel Core i7-8565U' },
       { id: 'AMD_RYZEN_7_4700U', name: 'AMD Ryzen 7 4700U' },
    ],
    screenResolutionNotebooks: [

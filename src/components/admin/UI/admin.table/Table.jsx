@@ -40,7 +40,7 @@ const tables = [
       { name: 'Действия', edit: false, width: '4.948vw' },
    ],
 ]
-export function AdminTable({ indexForTable, itemTableArray }) {
+export function AdminTable({ indexForTable, itemTableArray, onClick }) {
    const textInCenter =
       indexForTable === 1 || indexForTable === 3 ? 'true' : 'false'
 
@@ -71,6 +71,7 @@ export function AdminTable({ indexForTable, itemTableArray }) {
                   textInCenter={textInCenter}
                   indexForTable={indexForTable}
                   index={index}
+                  onClick={onClick}
                   {...item}
                />
             ))}
