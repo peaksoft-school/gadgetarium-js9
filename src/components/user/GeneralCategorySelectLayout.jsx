@@ -44,7 +44,8 @@ const GeneralCategorySelectLayout = ({ toggleCatalogSelect }) => {
       } else if (id >= 13 && id <= 15) {
          navigate('/category/Tablet')
       }
-
+      dispatch(categoryActions.resetAll())
+      dispatch(categoryActions.addBrandsId())
       toggleCatalogSelect()
 
       dispatch(categoryActions.changeInfoPage({ id }))

@@ -2,6 +2,7 @@ import { styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { categoryActions } from '../../../store/cataog/catalogSlice'
+import { infoPageActions } from '../../../store/informationPhone/infoPageSlice'
 
 export const GlobalSearch = ({ toggleInputFocused }) => {
    const globalSearch = useSelector((state) => state.globalSearch.globalSearch)
@@ -9,20 +10,25 @@ export const GlobalSearch = ({ toggleInputFocused }) => {
    const dispatch = useDispatch()
 
    const brandHandler = (category) => {
+      navigate('/category/Phone')
       dispatch(categoryActions.addSelectedCategoriesTrue(category))
       dispatch(categoryActions.itemsCheckedHandler(category.id))
-      navigate('/category/Phone')
+      dispatch(categoryActions.addBrandsId())
       toggleInputFocused(false)
    }
+
    const categoryHandler = (value) => {
       navigate(`/category/${value}`)
       dispatch(categoryActions.resetAll())
       toggleInputFocused(false)
    }
-   const subProductHandler = (value) => {
-      console.log('value: ', value)
-      console.log('value: ', value)
+
+   const subProductHandler = (value, color) => {
+      navigate(`/product/${value}/details`)
+      dispatch(infoPageActions.changeSubProductColor(color))
+      toggleInputFocused(false)
    }
+
    const length =
       globalSearch.brandList.length +
       globalSearch.categoryList.length +
@@ -57,8 +63,8 @@ export const GlobalSearch = ({ toggleInputFocused }) => {
          {globalSearch.subProductResponses?.map((el) => {
             return (
                <GlobalSearchItem
-                  onClick={() => subProductHandler(el.subProductId)}
-                  key={el.subProductId}
+                  onClick={() => subProductHandler(el.productId, el.color)}
+                  key={el.productId}
                >
                   <ImageTitleContainer>
                      <Image src={el.image} />
