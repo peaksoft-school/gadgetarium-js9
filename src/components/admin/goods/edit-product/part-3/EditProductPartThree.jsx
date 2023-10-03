@@ -94,7 +94,7 @@ export const EditProductPartThree = memo(() => {
    }
 
    const onClose = () => {
-      navigate('/admin')
+      navigate('/admin/goods')
    }
    useEffect(() => {
       dispatch(editActions.getVideoLink(formik.values.videoLink))

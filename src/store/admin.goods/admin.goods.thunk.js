@@ -86,9 +86,10 @@ export const postBanners = createAsyncThunk(
 )
 export const deleteProduct = createAsyncThunk(
    'adminGoods/deleteProduct',
-   async (id, { rejectWithValue }) => {
+   async ({ id, onClick }, { rejectWithValue }) => {
       try {
          await deleteProductRequest(id)
+         onClick()
       } catch (error) {
          rejectWithValue(error)
       }

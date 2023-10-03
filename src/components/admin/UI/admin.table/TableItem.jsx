@@ -15,6 +15,7 @@ export const TableItem = ({
    tables,
    textInCenter,
    indexForTable,
+   onClick,
    index,
    ...item
 }) => {
@@ -35,7 +36,7 @@ export const TableItem = ({
       setIsHovered(true)
    }
    const deleteHandler = (id) => {
-      dispatch(deleteProduct(id))
+      dispatch(deleteProduct({ id, onClick }))
       return id
    }
    const editHandler = (id) => {
