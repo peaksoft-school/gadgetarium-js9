@@ -11,6 +11,7 @@ import {
 import {
    backgroundColors,
    dataProductNotebooks,
+   dataProductWatch,
    radioData,
 } from '../../../../../utils/common/constants/constantsAdminAddNewProduct'
 

@@ -131,6 +131,9 @@ const Container = styled('div')`
 `
 
 const FeedbackBlock = styled('div')`
+   display: flex;
+   flex-direction: column;
+   gap: 2.5rem;
    margin-top: 3.75rem;
 `
 const RaitingStyle = styled('div')`

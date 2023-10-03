@@ -21,7 +21,7 @@ export const ProductCard = ({
    price = 100000,
    image = 'https://www.myphone.kg/files/media/17/17378.webp',
    prodName = 'Смартфон Apple iPhone 13 256gb синий 9(MLP3RU00RE)',
-   quantity = 12,
+   quantity,
    rating = 1,
    discount = 20,
    countOfReviews = 56,
@@ -150,7 +150,8 @@ export const ProductCard = ({
                      </DiscountPrice>
                   )}
                </PriceContainer>
-               {basketState ? (
+               {quantity === 0 && <Error>Нет в наличии</Error>}
+               {basketState && quantity !== 0 && (
                   <StyledButton
                      padding="1.1111vh 0.99vw"
                      variant="contained"
@@ -160,7 +161,8 @@ export const ProductCard = ({
                   >
                      <StyledBasketIcon /> В корзинe
                   </StyledButton>
-               ) : (
+               )}
+               {!basketState && quantity !== 0 && (
                   <Button
                      padding="1.1111vh 0.99vw"
                      variant="contained"
@@ -179,6 +181,12 @@ export const ProductCard = ({
 const MarginDiv = styled('div')`
    width: 1.891vw;
    height: 1.891vw;
+`
+const Error = styled('p')`
+   margin: 0;
+   color: red;
+   font-size: 1.042vw;
+   margin-top: 4px;
 `
 const StyledBasketIcon = styled(BasketIcon)`
    width: 1.25vw;

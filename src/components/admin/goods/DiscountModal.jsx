@@ -58,7 +58,7 @@ export const DiscountModal = ({ open, handleClose, onClick }) => {
       if (checkedProducts.length === 0) {
          snackbarHandler({
             type: 'error',
-            message: 'Выберите товар чтобы добвить скидку!',
+            message: 'Выберите товар чтобы добавить скидку!',
          })
       } else {
          dispatch(postDiscount({ data: updatedData, snackbarHandler, onClick }))

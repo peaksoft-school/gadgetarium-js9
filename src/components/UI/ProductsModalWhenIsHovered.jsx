@@ -59,9 +59,10 @@ export const ProductsModalWhenIsHovered = ({
                            <Price>{el.price.toLocaleString()} с</Price>
                         </ProductContainer>
                         <StyledDeleteIcon
-                           onClick={() =>
+                           onClick={(e) => {
+                              e.stopPropagation()
                               deleteFavoriteHandler(el.subProductId)
-                           }
+                           }}
                         />
                      </Product>
                   )
@@ -152,6 +153,8 @@ const Price = styled('p')`
 `
 const Product = styled('div')`
    display: flex;
+   position: relative;
+   z-index: 19;
    justify-content: space-between;
    cursor: pointer;
    width: 100%;
@@ -180,4 +183,5 @@ const StyledDeleteIcon = styled(DeleteIcon)`
    width: 0.521vw;
    height: 0.521vw;
    margin-top: 4px;
+   z-index: 22;
 `
