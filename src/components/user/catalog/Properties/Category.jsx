@@ -9,6 +9,7 @@ export const Category = memo(() => {
 
    const toggleCheckedHandler = (categoryId, category) => {
       dispatch(categoryActions.toggleCheckedHandler(categoryId))
+      dispatch(categoryActions.addBrandsId())
       dispatch(categoryActions.addSelectedCategories(category))
    }
    return (
