@@ -10,7 +10,7 @@ export const Rating = ({ subProductId }) => {
    const { rating, totalReviews, five, four, three, two, one } = useSelector(
       (state) => state.product.getReviews
    )
-
+   const { reviews } = useSelector((state) => state.product.infoPhone)
    const { isAuthorization, role } = useSelector((state) => state.auth)
 
    const [authorizationModalOpen, setAuthorizationModalOpen] = useState(false)
@@ -34,6 +34,7 @@ export const Rating = ({ subProductId }) => {
    const onClose = () => {
       setRating(false)
    }
+   const addedComment = reviews?.some((el) => el.my === true)
 
    return (
       <div>
@@ -74,7 +75,7 @@ export const Rating = ({ subProductId }) => {
                </ContainerInfoStar>
             </BoxInfoRating>
 
-            {role === 'USER' ? (
+            {role === 'USER' && !addedComment ? (
                <Button
                   variant="contained"
                   padding="0.75rem"

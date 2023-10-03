@@ -40,6 +40,11 @@ export const TablesHeadPartTwo = ({ subProduct, newProduct }) => {
             ) : (
                ''
             )}
+            {subProduct.gender ? (
+               <TableCellStyle width="10vw">Пол</TableCellStyle>
+            ) : (
+               ''
+            )}
             <TableCellStyle
                width={newProduct.categoryId === 1 ? '19.063vw' : '10vw'}
             >

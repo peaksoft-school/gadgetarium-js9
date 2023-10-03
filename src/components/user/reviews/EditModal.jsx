@@ -32,6 +32,7 @@ export const EditModal = ({ open, onClose, reviewId }) => {
          putReviesRequest({
             data,
             snackbarHandler,
+            subProductId: infoPhone.subProductId,
             getPayload: { productId, colour: infoPhone.color },
          })
       )
@@ -93,7 +94,7 @@ export const EditModal = ({ open, onClose, reviewId }) => {
                   padding="0.75rem"
                   onClick={onCreateReview}
                >
-                  Отправить отзыв
+                  Изменить отзыв
                </ButtonStyle>
             </Container>
          </Modal>

@@ -172,7 +172,7 @@ export const EditProductPartThree = memo(() => {
                      padding="6px 20px"
                      fontSize="16px"
                   >
-                     Добавить
+                     Изменить
                   </Button>
                </ContainerButton>
             </ContainerInput>

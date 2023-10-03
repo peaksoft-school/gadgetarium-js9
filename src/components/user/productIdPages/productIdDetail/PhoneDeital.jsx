@@ -236,14 +236,16 @@ export const PhoneDeital = () => {
                               <StyledFavoriteIcon />
                            )}
                         </HeartStyle>
-                        {inBasket ? (
+                        {quantity === 0 && <Error>Нет в наличии</Error>}
+                        {inBasket && quantity !== 0 && (
                            <ButtonUiGreen
                               onClick={() => navigate('/basket')}
                               variant="contained"
                            >
                               <BasketStyle />В корзине
                            </ButtonUiGreen>
-                        ) : (
+                        )}
+                        {!inBasket && quantity !== 0 && (
                            <ButtonUi
                               onClick={postQuantityBasket}
                               variant="contained"
@@ -306,7 +308,11 @@ const RatingBlock = styled('div')`
       font-size: 18px;
    }
 `
-
+const Error = styled('p')`
+   margin: 0;
+   color: red;
+   font-size: 22px;
+`
 const Block2 = styled('div')`
    display: flex;
    /* width: 40.5vw; */

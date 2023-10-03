@@ -79,12 +79,14 @@ export const deleteReviewsRequest = createAsyncThunk(
 export const putReviesRequest = createAsyncThunk(
    'product/putReviesRequest',
    async (
-      { data, getPayload, snackbarHandler },
+      { data, getPayload, subProductId, snackbarHandler },
       { rejectWithValue, dispatch }
    ) => {
       try {
          const response = await putReviewsProductRequest(data)
          dispatch(getInfoPage(getPayload))
+         console.log('subProductId: ', subProductId)
+         dispatch(getReviwesProduct(subProductId))
          return response.data
       } catch (error) {
          snackbarHandler({
